@@ -1,0 +1,110 @@
+;---------------------------------------
+; CellAO NSIS Installer Common Header
+;
+; Copyright (c) 2005-2008, CellAO Team
+;
+; All rights reserved.
+;
+; Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+;
+;     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+;     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+;     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+;
+; THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+; "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+; LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+; A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+; CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+; EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+; PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+; LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+;---------------------------------------
+
+!define LAUNCHER_NAME "CellAO Launcher"
+!define LAUNCHER_VERSION "1.0"
+
+!define SERVER_NAME "CellAO"
+!define SERVER_VERSION "1.3.2.$WCREV$"
+
+!define PUBLISHER "CellAO"
+!define WEB_SITE "http://www.aocell.info/"
+!define UNINST_ROOT_KEY "HKLM"
+!define STARTMENU_REGVAL "NSIS:StartMenuDir"
+
+!define LAUNCHER_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\CellAOLauncher.exe"
+!define LAUNCHER_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${LAUNCHER_NAME}"
+
+!define SERVER_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${LAUNCHER_NAME}"
+
+!define INSTALL_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install-blue.ico"
+!define UNINSTALL_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall-blue.ico"
+
+!define SERVER_SVN_DIRECTORY "CellAO"
+
+!define MYSQL_VERSION "5.5.9"
+!define MYSQL_FILENAME_WIN32 "mysql-${MYSQL_VERSION}-win32.msi"
+!define MYSQL_FILENAME_WIN64 "mysql-${MYSQL_VERSION}-winx64.msi"
+!define MYSQL_URL_WIN32 "http://dev.mysql.com/get/Downloads/MySQL-5.5/${MYSQL_FILENAME_WIN32}/from/http://sunsite.informatik.rwth-aachen.de/mysql/"
+!define MYSQL_URL_WIN64 "http://dev.mysql.com/get/Downloads/MySQL-5.5/${MYSQL_FILENAME_WIN64}/from/http://sunsite.informatik.rwth-aachen.de/mysql/"
+
+
+!macro MutexCheck
+  BringToFront
+; Check if already running
+; If so don't open another but bring to front
+  System::Call "kernel32::CreateMutexA(i 0, i 0, t '$(^Name) Setup') i .r0 ?e"
+  Pop $0
+  StrCmp $0 0 launch
+   StrLen $0 "$(^Name)"
+   IntOp $0 $0 + 1
+  loop:
+    FindWindow $1 '#32770' '' 0 $1
+    IntCmp $1 0 +4
+    System::Call "user32::GetWindowText(i r1, t .r2, i r0) i."
+    StrCmp $2 "$(^Name)" 0 loop
+    System::Call "user32::ShowWindow(i r1,i 9) i."         ; If minimized then maximize
+    System::Call "user32::SetForegroundWindow(i r1) i."    ; Bring to front
+    Abort
+  launch:
+!macroend
+
+!macro CheckNoAo
+  IfFileExists "$INSTDIR\Anarchy.exe" "" noao
+  IfFileExists "$INSTDIR\Client.exe" "" noao
+  IfFileExists "$INSTDIR\version.id" "" noao
+  IfFileExists "$INSTDIR\cd_image\data\launcher" "" noao
+!macroend
+
+!macro FindMySQL MySQL_Path MySQL_Version
+    Push $0
+    Push $1
+    Push $2
+    Push $R0
+    StrCpy $0 0
+    loopSqlReg:
+        ClearErrors
+        EnumRegKey $1 HKLM "Software\MYSQL AB" $0
+        StrCmp $1 "" doneSqlReg
+        IntOp $0 $0 + 1
+        StrCpy $2 $1 12
+        StrCmp $2 "MySQL Server" foundSqlReg 0
+        Goto loopSqlReg
+    foundSqlReg:
+        ReadRegStr $R0 HKLM "Software\MYSQL AB\$1" "Location"
+        IfFileExists "$R0\bin\mysql.exe" 0 doneSqlReg
+        StrCpy ${MySQL_Path} "$R0"
+        ReadRegStr $R0 HKLM "Software\MYSQL AB\$1" "Version"
+        StrCpy ${MySQL_Version} "$R0"
+    doneSqlReg:
+    Pop $R0
+    Pop $2
+    Pop $1
+    Pop $0
+!macroend
+
+
+

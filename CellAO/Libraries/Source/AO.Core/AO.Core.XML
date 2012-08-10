@@ -1,0 +1,5249 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AO.Core</name>
+    </assembly>
+    <members>
+        <member name="T:AO.Core.Identity">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Identity.Type">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Identity.Instance">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AO.Core.Header">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Header.Start">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Header.Type">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Header.Unknown">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Header.Size">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Header.Sender">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Header.Receiver">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Header.ID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Header.AffectedId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AO.Core.ACGItem">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.ACGItem.LID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.ACGItem.HID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.ACGItem.QL">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AO.Core.PacketWriter">
+            <summary>
+            Class for writing packets
+            </summary>
+        </member>
+        <member name="T:AO.Core.PacketReader">
+            <summary>
+            Class for reading packets
+            </summary>
+        </member>
+        <member name="M:AO.Core.PacketReader.#ctor(System.Byte[]@)">
+            <summary>
+            Initializes new packet reader
+            </summary>
+            <param name="packet">byte array to read from</param>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopByte">
+            <summary>
+            Reads byte from packet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopShort">
+            <summary>
+            Reads short (Int16) from packet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopInt">
+            <summary>
+            Reads int (Int32) from packet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopUInt">
+            <summary>
+            Reads uint (UInt32) from packet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopLong">
+            <summary>
+            Reads long (Int64) from packet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopFloat">
+            <summary>
+            Reads float (single) from packet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopCoord">
+            <summary>
+            Reads set of coordinates (3 floats) from packet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopQuat">
+            <summary>
+            Reads Quaternion (4 floats) from packet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopString(System.Int32)">
+            <summary>
+            Reads string from packet
+            </summary>
+            <param name="length">Length of string to read</param>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.Pop3F1Count">
+            <summary>
+            Reads 3F1 count and converts it to normal int
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopIdentity">
+            <summary>
+            Reads identity (int32 Type, int32 Instance) from packet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.SkipBytes(System.Int32)">
+            <summary>
+            Skips specified number of bytes
+            </summary>
+            <param name="count">Number of bytes to skip</param>
+        </member>
+        <member name="M:AO.Core.PacketReader.ReadBytes(System.Int32)">
+            <summary>
+            Reads specified number of bytes
+            </summary>
+            <param name="count">Number of bytes to read</param>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopHeader">
+            <summary>
+            Reads packet header. Use only for zone server packets
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.PopACGItem">
+            <summary>
+            Reads ACGItem (Uint32 LID, Uint32 HID, Uint32 QL) from packet.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.Finish">
+            <summary>
+            Closes and disposes used stream/reader
+            </summary>
+        </member>
+        <member name="M:AO.Core.PacketReader.Position">
+            <summary>
+            Returns position of Reader
+            </summary>
+            <returns>position</returns>
+        </member>
+        <member name="M:AO.Core.PacketReader.Length">
+            <summary>
+            Returns length of Reader
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:AO.Core.Debughelpers">
+            <summary>
+            Debughelpers
+            </summary>
+        </member>
+        <member name="M:AO.Core.Debughelpers.PacketToHex(System.Byte[])">
+            <summary>
+            Convert byte[] to readable Hex dump
+            </summary>
+            <param name="packet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.Debughelpers.ShowStackTrace">
+            <summary>
+            Print the stack trace
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOUploadedNanos">
+            <summary>
+            Uploaded nano class
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOUploadedNanos.Nano">
+            <summary>
+            Nano ID
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOCoord">
+            <summary>
+            AO Coordinates Class
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOCoord.coordinate">
+            <summary>
+            Vector representation of Coordinates
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOCoord.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOCoord.#ctor(AO.Core.AOCoord)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="aoCoord">AOCoord coordinate is at</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.#ctor(AO.Core.Vector3)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="coordinate">Vector coordinate is at</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="x">x component of the Coordinate</param>
+            <param name="y">y component of the Coordinate</param>
+            <param name="z">z component of the Coordinate</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.update(System.Single,System.Single,System.Single)">
+            <summary>
+            Update the Coordinate using components
+            </summary>
+            <param name="x">x component of the Coordinate</param>
+            <param name="y">y component of the Coordinate</param>
+            <param name="z">z component of the Coordinate</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.update(AO.Core.Vector3)">
+            <summary>
+            Update the Coordinate using a Vector
+            </summary>
+            <param name="coordinate">Vector coordinate is at</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.update(AO.Core.AOCoord)">
+            <summary>
+            Update the Coordinate using a AOCoord
+            </summary>
+            <param name="aoCoord">AOCoord coordinate is at</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.distance3D(AO.Core.AOCoord,AO.Core.AOCoord)">
+            <summary>
+            Calculate the Distance between two Coordinates in 3 Dimensions
+            </summary>
+            <param name="c1">Coordinate 1</param>
+            <param name="c2">Coordinate 2</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.distance3D(AO.Core.AOCoord)">
+            <summary>
+            Calculate the Distance between two Coordinates in 3 Dimensions
+            </summary>
+            <param name="c1">Other Coordinate</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.distance2D(AO.Core.AOCoord,AO.Core.AOCoord)">
+            <summary>
+            Calculate the Distance between two Coordinates in 2 Dimensions
+            </summary>
+            <param name="c1">Coordinate 1</param>
+            <param name="c2">Coordinate 2</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.distance2D(AO.Core.AOCoord)">
+            <summary>
+            Calculate the Distance between two Coordinates in 2 Dimensions
+            </summary>
+            <param name="c1">Other Coordinate</param>
+        </member>
+        <member name="M:AO.Core.AOCoord.ToString">
+            <summary>
+            Converts the coordinates to a string representation
+            </summary>
+        </member>
+        <member name="P:AO.Core.AOCoord.quatCoordinate">
+            <summary>
+            Quaterion representation of Coordinates (w is 0)
+            </summary>
+        </member>
+        <member name="P:AO.Core.AOCoord.x">
+            <summary>
+            Component representation of X Coordinate
+            </summary>
+        </member>
+        <member name="P:AO.Core.AOCoord.y">
+            <summary>
+            Component representation of Y Coordinate
+            </summary>
+        </member>
+        <member name="P:AO.Core.AOCoord.z">
+            <summary>
+            Component representation of Z Coordinate
+            </summary>
+        </member>
+        <member name="T:AO.Core.ConsoleText">
+            <summary>
+            Test? this is for Console Text Translation...
+            </summary>
+        </member>
+        <member name="M:AO.Core.ConsoleText.TextRead(System.String)">
+            <summary>
+            Please do not include language_  in the file name example:  main.txt"
+            </summary>
+            <param name="FileName"></param>
+        </member>
+        <member name="T:AO.Core.Scripting.AssemblyExecutor">
+            <summary>
+            Executes "public static void Main(..)" of assembly in a separate domain.
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.RemoteExecutor">
+            <summary>
+            Invokes static method 'Main' from the assembly.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.RemoteExecutor.ResolveEventHandler(System.Object,System.ResolveEventArgs)">
+            <summary>
+            AppDomain evant handler. This handler will be called if CLR cannot resolve 
+            referenced local assemblies 
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOItem">
+            <summary>
+            AOItem
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.flags">
+            <summary>
+            Item Flags
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.lowID">
+            <summary>
+            Item low ID
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.highID">
+            <summary>
+            Item high ID
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.Quality">
+            <summary>
+            Quality level
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.multiplecount">
+            <summary>
+            Stacked item count
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.Type">
+            <summary>
+            Type of instanced item
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.Instance">
+            <summary>
+            Instance of instanced item
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.Nothing">
+            <summary>
+            dunno yet
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.ItemType">
+            <summary>
+            Item type
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.Stats">
+            <summary>
+            Item attributes
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.Attack">
+            <summary>
+            List of Attack attributes
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.Defend">
+            <summary>
+            List of defensive attributes
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItem.Events">
+            <summary>
+            List of Item events
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOItem.ShallowCopy">
+            Methods to do:
+            Read Item
+            Write Item
+            Return Dynel Item (placing on the ground)
+        </member>
+        <member name="M:AO.Core.AOItem.#ctor">
+            <summary>
+            Empty
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOItem.isInstanced">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.AOItem.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Deserialize AOItem, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AOItem.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialize AOItem, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AOItem.GetWeaponStyle">
+            <summary>
+            Get WeaponStyle (Stat 274)
+            </summary>
+            <returns>Value of Stat 274 or 0</returns>
+        </member>
+        <member name="M:AO.Core.AOItem.GetOverrideTexture">
+            <summary>
+            Get override texture number
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.AOItem.getItemAttribute(System.Int32)">
+            <summary>
+            Get item attribute
+            </summary>
+            <param name="number">number of attribute</param>
+            <returns>Value of item attribute</returns>
+        </member>
+        <member name="M:AO.Core.AOItem.isUseable">
+            <summary>
+            Is item useable?
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.AOItem.isConsumable">
+            <summary>
+            Is item consumable
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.AOItem.isStackable">
+            <summary>
+            Is item stackable
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.AOItem.isWearable">
+            <summary>
+            Can item be worn
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:AO.Core.AOItemAttribute">
+            <summary>
+            AOItemAttribute
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItemAttribute.Stat">
+            <summary>
+            Stat number of attribute
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOItemAttribute.Value">
+            <summary>
+            Value of attribute
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOItemAttribute.#ctor">
+            <summary>
+            Create a empty AOItemAttribute
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOItemAttribute.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AOItemAttribute.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Deserialization, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:AO.Core.Quaternion">
+            <summary>
+            Quaternion Class
+            </summary>
+        </member>
+        <member name="F:AO.Core.Quaternion.x">
+            <summary>
+            x component of the Quaternion
+            </summary>
+        </member>
+        <member name="F:AO.Core.Quaternion.y">
+            <summary>
+            y component of the Quaternion
+            </summary>
+        </member>
+        <member name="F:AO.Core.Quaternion.z">
+            <summary>
+            z component of the Quaternion
+            </summary>
+        </member>
+        <member name="F:AO.Core.Quaternion.w">
+            <summary>
+            w component of the Quaternion
+            </summary>
+        </member>
+        <member name="M:AO.Core.Quaternion.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Create a Quaternion from its Components
+            </summary>
+            <param name="x">x component of the Quaternion</param>
+            <param name="y">y component of the Quaternion</param>
+            <param name="z">z component of the Quaternion</param>
+            <param name="w">w component of the Quaternion</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.#ctor(AO.Core.Vector3,System.Double)">
+            <summary>
+            Create a Quaternion from a Vector3 and an angle
+            </summary>
+            <param name="v">Vector of Rotation</param>
+            <param name="angle">Angle of Rotation</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.#ctor(AO.Core.Vector3)">
+            <summary>
+            Create a Quaternion representation from a Vector3 (w is 0)
+            </summary>
+            <param name="v">Vector of Rotation</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.update(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Update a Quaternion to a new value using its Components
+            </summary>
+            <param name="x">x component of the Quaternion</param>
+            <param name="y">y component of the Quaternion</param>
+            <param name="z">z component of the Quaternion</param>
+            <param name="w">w component of the Quaternion</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.Conjugate(AO.Core.Quaternion)">
+            <summary>
+            Return the Conjugate of the Quaternion
+            </summary>
+            <param name="q1">Quaternion</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.Conjugate">
+            <summary>
+            Return the Conjugate (Spacial Inverse) of the Quaternion
+            </summary>
+        </member>
+        <member name="M:AO.Core.Quaternion.Hamilton(AO.Core.Quaternion,AO.Core.Quaternion)">
+            <summary>
+            Returns the Hamilton Product of two Quaternions
+            </summary>
+            <param name="vLeft">Quaternion 1</param>
+            <param name="vRight">Quaternion 2</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.Hamilton(AO.Core.Quaternion)">
+            <summary>
+            Returns the Hamilton Product of two Quaternions
+            </summary>
+            <param name="vRight">Other Quaternion</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.Normalize(AO.Core.Quaternion)">
+            <summary>
+            Return a Normalized Quaternion
+            </summary>
+            <param name="q1">Quaternion</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.Normalize">
+            <summary>
+            Return a Normalized Quaternion
+            </summary>
+        </member>
+        <member name="M:AO.Core.Quaternion.RotateVector3(AO.Core.Quaternion,AO.Core.Vector3)">
+            <summary>
+            Return a Vector rotated around the Quaternion
+            </summary>
+            <param name="q1">Quaternion</param>
+            <param name="v2">Vector</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.RotateVector3(AO.Core.Vector3)">
+            <summary>
+            Return a Vector rotated around the Quaternion
+            Note: Only works for Unit Quaternions at present due to lazyness (AO-provided Quaternions are all Unit Quaternions)
+            </summary>
+            <param name="v1">Vector</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.VectorRepresentation(AO.Core.Quaternion)">
+            <summary>
+            Return a Vector representation of a Quaternion (w is dropped)
+            </summary>
+            <param name="q1">Quaternion</param>
+        </member>
+        <member name="M:AO.Core.Quaternion.VectorRepresentation">
+            <summary>
+            Return a Vector representation of a Quaternion (w is dropped)
+            </summary>
+        </member>
+        <member name="P:AO.Core.Quaternion.xf">
+            <summary>
+            x component of the Quaternion
+            </summary>
+        </member>
+        <member name="P:AO.Core.Quaternion.yf">
+            <summary>
+            y component of the Quaternion
+            </summary>
+        </member>
+        <member name="P:AO.Core.Quaternion.zf">
+            <summary>
+            z component of the Quaternion
+            </summary>
+        </member>
+        <member name="P:AO.Core.Quaternion.wf">
+            <summary>
+            w component of the Quaternion
+            </summary>
+        </member>
+        <member name="P:AO.Core.Quaternion.yaw">
+            <summary>
+            Return the yaw/heading of the Quaternion (flight dynamics style). Value 0 - 2pi Radians or 0 to 360 if converted to degrees (North turning clockwise to a complete revolution)
+            </summary>
+        </member>
+        <member name="P:AO.Core.Quaternion.pitch">
+            <summary>
+            Return the pitch/attitude of the Quaternion (flight dynamics style). Value pi/2 through -pi/2 or 90 to -90 if converted to degrees (90 is nose in the air, 0 is level, -90 is nose to the ground)
+            </summary>
+        </member>
+        <member name="P:AO.Core.Quaternion.roll">
+            <summary>
+            Return the roll/bank of the Quaternion (flight dynamics style). Value range unknown, but should always be 0 really (give or take floating point errors)
+            </summary>
+        </member>
+        <member name="P:AO.Core.Quaternion.magnitude">
+            <summary>
+            Return the Magnitude of the Quaternion
+            </summary>
+        </member>
+        <member name="T:AO.Core.SqlWrapper">
+            <summary>
+            MySQL wrapper for CellAO database
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.Sqltype">
+            <summary>
+            Sqltye is set in the config.xml and can be 'MySql', 'MsSql' or 'PostgreSQL' as for now those are the 3 database types supported by cellao at this time.
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.ismysql">
+            <summary>
+            shortcuts for checking sql type
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.ismssql">
+            <summary>
+            shortcuts for checking sql type
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.isnpgsql">
+            <summary>
+            shortcuts for checking sql type
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.myreader">
+            <summary>
+            Opens a Public MySql Datareader named 'myreader' to be used in any class that has AO.Core in the using
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.mcc">
+            <summary>
+            Opens a Public Mysql Connection named 'mcc' to be used in any class that has AO.Core in the using.
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.mcom">
+            <summary>
+            Opens a Public Mysql Command named 'mcom' to be used in any class that has AO.Core in using.
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.sqlreader">
+            <summary>
+            Opens a Public MsSql Datareader named 'sqlreader' to be used in any class that has AO.Core in the using.
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.sqlcc">
+            <summary>
+            Opens a Public MsSql Connection named 'sqlcc' to be used in any class that has AO.Core in the using.
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.sqlcom">
+            <summary>
+            Opens a Public MsSql Command named 'sqlcom' to be used in any class that has AO.Core in the using.
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.npgreader">
+            <summary>
+            Opens a public PostgreSQL Datareader named 'npgreader' to be used in any class that has AO.Core in the using.
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.npgcc">
+            <summary>
+            Opens a public PostgreSQL Connection named 'npgcc' to be used in any class that has AO.Core in the using.
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.npgcom">
+            <summary>
+            Opens a Public PostgreSQL Command named ' npgcom' to be used in any class that has AO.Core in the using.
+            </summary>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.#ctor">
+            <summary>
+            setting ismysql, ismssql and isnpgsql shortcut variables, so no more typos should occur in strings to check
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.ConnectionString_MySQL">
+            <summary>
+            only needed once to read this
+            </summary>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.SqlCount(System.String)">
+            <summary>
+            Read Data into a DataTable object
+            </summary>
+            <param name="SqlQuery">Insert SQL Query here</param>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.SqlRead(System.String)">
+            <summary>
+            Reads SQL Table. 
+            Be sure to call sqlclose() after done reading!
+            </summary>
+            <param name="SqlQuery">Reads data from SQL DB, SqlQuery =  string SqlQuery = "SELECT * FROM `table` WHERE ID = "+ "'"+charID+"'";</param>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.SqlUpdate(System.String)">
+            <summary>
+            Updates Data in SQL Table
+            </summary>
+            <param name="SqlQuery">Updates data in SQL DB, SqlQuery = string SqlQuery = "UPDATE `table` SET `collum` = "+data+" WHERE ID = "'"+charID+"'";</param>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.SqlInsert(System.String)">
+            <summary>
+            Inserts data to SQL DB
+            </summary>
+            <param name="SqlQuery">Insert data into the SQL db, SqlQuery = INSERT INTO `dbname`  VALUES (`item1_value`, `item2_value`, `etc`)  </param>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.SqlDelete(System.String)">
+            <summary>
+            Deletes data from the SQL Table
+            </summary>
+            <param name="SqlQuery">SQL Query to execute DELETE from SQL DB, SqlQuery = DELETE FROM `database` WHERE (`Field` = {value})</param>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.ReadDT(System.String)">
+            <summary>
+            Read Data into a DataTable object
+            </summary>
+            <param name="SqlQuery">Insert SQL Query here</param>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.sqlclose">
+            <summary>
+            sqlclose
+            </summary>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.Dispose">
+            <summary>
+            Disposer
+            </summary>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.SQLCheck">
+            <summary>
+            Tests SQL Connection/Database setup/Rights to create tables
+            </summary>
+            <returns>DBCheckCodes</returns>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.lasterrormessage">
+            <summary>
+            Last error message from failed sql query
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.lasterrorcode">
+            <summary>
+            Last error code from failed sql query
+            </summary>
+        </member>
+        <member name="M:AO.Core.SqlWrapper.CheckDBs">
+            <summary>
+            Check our tables and create/fill them if they don't exist
+            </summary>
+        </member>
+        <member name="T:AO.Core.SqlWrapper.DBCheckCodes">
+            <summary>
+            Our Database Check Codes
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.DBCheckCodes.DBC_ok">
+            <summary>
+            All fine
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.DBCheckCodes.DBC_DatabaseDoesNotExist">
+            <summary>
+            Database does not exists
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.DBCheckCodes.DBC_NoRightsToAccessDatabase">
+            <summary>
+            No rights to use the database
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.DBCheckCodes.DBC_NotEnoughRightsForTableAction">
+            <summary>
+            User has no rights to create a table
+            </summary>
+        </member>
+        <member name="F:AO.Core.SqlWrapper.DBCheckCodes.DBC_Somethingwentwrong">
+            <summary>
+            All other errors
+            </summary>
+        </member>
+        <member name="T:AO.Core.Vector3">
+            <summary>
+            Vector3 Class
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.x">
+            <summary>
+            X coordinate of the Vector
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.y">
+            <summary>
+            Y coordinate of the Vector
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.z">
+            <summary>
+            Z coordinate of the Vector
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.floatingPointTolerance">
+            <summary>
+            Tolerance used in Equals calculations to allow for floating point errors
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.Origin">
+            <summary>
+            Vector at the Origin
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.AxisX">
+            <summary>
+            Vector running along the X Axis
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.AxisY">
+            <summary>
+            Vector running along the Y Axis
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.AxisZ">
+            <summary>
+            Vector running along the Z Axis
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.MinValue">
+            <summary>
+            Smallest possible Vector
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.MaxValue">
+            <summary>
+            Largest possible Vector
+            </summary>
+        </member>
+        <member name="F:AO.Core.Vector3.Epsilon">
+            <summary>
+            Smallest possible positive Vector
+            </summary>
+        </member>
+        <member name="M:AO.Core.Vector3.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            Creates a new Vector3 from its components
+            </summary>
+            <param name="x">x component of the Vector</param>
+            <param name="y">y component of the Vector</param>
+            <param name="z">z component of the Vector</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Abs(AO.Core.Vector3)">
+            <summary>
+            Returns the Absolute value of the Vector
+            </summary>
+            <param name="v1">Vector</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Abs">
+            <summary>
+            Returns the Absolute value of the Vector
+            </summary>
+        </member>
+        <member name="M:AO.Core.Vector3.Min(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Returns the smaller of two Vectors
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Min(AO.Core.Vector3)">
+            <summary>
+            Returns the smaller of two Vectors
+            </summary>
+            <param name="v1">Other Vector</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Max(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Returns the larger of two Vectors
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Max(AO.Core.Vector3)">
+            <summary>
+            Returns the larger of two Vectors
+            </summary>
+            <param name="v1">Other Vector</param>
+        </member>
+        <member name="M:AO.Core.Vector3.IsUnitVector(AO.Core.Vector3)">
+            <summary>
+            Returns true if the Vector is a Unit Vector (ie, is of magnitude 1)
+            </summary>
+            <param name="v1">Vector</param>
+        </member>
+        <member name="M:AO.Core.Vector3.IsUnitVector">
+            <summary>
+            Returns true if the Vector is a Unit Vector (ie, is of magnitude 1)
+            </summary>
+        </member>
+        <member name="M:AO.Core.Vector3.Normalize(AO.Core.Vector3)">
+            <summary>
+            Returns the Normalized Vector
+            </summary>
+            <param name="v1">Vector</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Normalize">
+            <summary>
+            Returns the Normalized Vector
+            </summary>
+        </member>
+        <member name="M:AO.Core.Vector3.Cross(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Returns the Cross Product of two Vectors
+            </summary>
+            <param name="vLeft">Vector 1</param>
+            <param name="vRight">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Cross(AO.Core.Vector3)">
+            <summary>
+            Returns the Cross Product of two Vectors
+            </summary>
+            <param name="vRight">Other Vector</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Dot(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Returns the Dot Product of two Vectors
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Dot(AO.Core.Vector3)">
+            <summary>
+            Returns the Dot Product of two Vectors
+            </summary>
+            <param name="v1">Other Vector</param>
+        </member>
+        <member name="M:AO.Core.Vector3.Equals(System.Object)">
+            <summary>
+            Determines if Object is the same as this instance
+            </summary>
+            <param name="o">Object</param>
+        </member>
+        <member name="M:AO.Core.Vector3.GetHashCode">
+            <summary>
+            Returns the hash code for this instance
+            </summary>
+        </member>
+        <member name="M:AO.Core.Vector3.ToString">
+            <summary>
+            Converts the Vector3 to a string representation
+            </summary>
+        </member>
+        <member name="M:AO.Core.Vector3.op_Addition(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Operator +
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_UnaryPlus(AO.Core.Vector3)">
+            <summary>
+            Operator +
+            </summary>
+            <param name="v1">Vector 1</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_Subtraction(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Operator -
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_UnaryNegation(AO.Core.Vector3)">
+            <summary>
+            Operator +
+            </summary>
+            <param name="v1">Vector 1</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_LessThan(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Operator Less Than
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_GreaterThan(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Operator Greater Than
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_LessThanOrEqual(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Operator Less Than or Equal
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_GreaterThanOrEqual(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Operator Greater Than or Equal
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_Equality(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Operator ==
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_Inequality(AO.Core.Vector3,AO.Core.Vector3)">
+            <summary>
+            Operator !=
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_Division(AO.Core.Vector3,System.Double)">
+            <summary>
+            Operator /
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="n2">Number 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_Multiply(AO.Core.Vector3,System.Double)">
+            <summary>
+            Operator *
+            </summary>
+            <param name="v1">Vector 1</param>
+            <param name="n2">Number 2</param>
+        </member>
+        <member name="M:AO.Core.Vector3.op_Multiply(System.Double,AO.Core.Vector3)">
+            <summary>
+            Operator *
+            </summary>
+            <param name="n1">Number 1</param>
+            <param name="v2">Vector 2</param>
+        </member>
+        <member name="P:AO.Core.Vector3.xf">
+            <summary>
+            X coordinate of the Vector
+            </summary>
+        </member>
+        <member name="P:AO.Core.Vector3.yf">
+            <summary>
+            Y coordinate of the Vector
+            </summary>
+        </member>
+        <member name="P:AO.Core.Vector3.zf">
+            <summary>
+            Z coordinate of the Vector
+            </summary>
+        </member>
+        <member name="P:AO.Core.Vector3.Magnitude">
+            <summary>
+            Absolute value of the Vector
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.AssemblyResolver">
+            <summary>
+            Class for resolving assembly name to assembly file
+            </summary>
+        </member>
+        <member name="F:AO.Core.Scripting.AssemblyResolver.ignoreFileName">
+            <summary>
+            File to be excluded from assembly search
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.AssemblyResolver.ResolveAssembly(System.String,System.String)">
+            <summary>
+            Resolves assembly name to assembly file
+            </summary>
+            <param name="assemblyName">The name of assembly</param>
+            <param name="workingDir">The name of directory where local assemblies are expected to be</param>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.Scripting.AssemblyResolver.FindAssembly(System.String,System.String)">
+            <summary>
+            Resolves namespace into array of assembly locations (local and GAC ones).
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.AssemblyResolver.FindLocalAssembly(System.String,System.String)">
+            <summary>
+            Resolves namespace into array of local assembly locations.
+            (Currently it returns only one assembly location but in future 
+            it can be extended to collect all assemblies with the same namespace)
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.AssemblyResolver.FindGlobalAssembly(System.String)">
+            <summary>
+            Resolves namespace into array of global assembly (GAC) locations.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.AssemblyResolver.IsNamespaceDefinedInAssembly(System.String,System.String)">
+            <summary>
+            Search for namespace into local assembly file.
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOAddMeshs">
+            <summary>
+            Additional mesh class
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOAddMeshs.position">
+            <summary>
+            Position of the mesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOAddMeshs.meshvalue1">
+            <summary>
+            Mesh value 1
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOAddMeshs.meshvalue2">
+            <summary>
+            Mesh value 2
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOAddMeshs.priority">
+            <summary>
+            Prioroty (layer?)
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOTextures">
+            <summary>
+            AO Texture class
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOTextures.place">
+            <summary>
+            Position
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOTextures.Texture">
+            <summary>
+            Texture ID
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOTextures.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Create AOTexture
+            </summary>
+            <param name="pl">Position</param>
+            <param name="tex">Texture ID</param>
+        </member>
+        <member name="T:AO.Core.AONanos">
+            <summary>
+            AONano class
+            </summary>
+        </member>
+        <member name="F:AO.Core.AONanos.NanoStrain">
+            <summary>
+            Nano strain
+            </summary>
+        </member>
+        <member name="F:AO.Core.AONanos.ID">
+            <summary>
+            Nano ID
+            </summary>
+        </member>
+        <member name="F:AO.Core.AONanos.Nanotype">
+            <summary>
+            Nano type
+            </summary>
+        </member>
+        <member name="F:AO.Core.AONanos.Time1">
+            <summary>
+            Time 1 (Tickcounter?)
+            </summary>
+        </member>
+        <member name="F:AO.Core.AONanos.Time2">
+            <summary>
+            Time 2 (Tickinterval?)
+            </summary>
+        </member>
+        <member name="F:AO.Core.AONanos.Instance">
+            <summary>
+            Instance
+            </summary>
+        </member>
+        <member name="F:AO.Core.AONanos.Value3">
+            <summary>
+            unknown
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOFunctions">
+            <summary>
+            AOFunctions
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOFunctions.FunctionType">
+            <summary>
+            Type of function (constants in ItemHandler)
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOFunctions.Arguments">
+            <summary>
+            List of Arguments
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOFunctions.TickCount">
+            <summary>
+            TickCount (for timers)
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOFunctions.TickInterval">
+            <summary>
+            TickInterval (for timers)
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOFunctions.Target">
+            <summary>
+            TargetType (constants in ItemHandler)
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOFunctions.Requirements">
+            <summary>
+            Requirements to execute this function
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOFunctions.dolocalstats">
+            <summary>
+            process local stats (not serialized)
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOFunctions.ShallowCopy">
+            <summary>
+            Copy Function
+            </summary>
+            <returns>new copy</returns>
+        </member>
+        <member name="M:AO.Core.AOFunctions.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Deserialize AOFunction, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AOFunctions.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialize AOFunction, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AOFunctions.#ctor">
+            <summary>
+            Empty
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOFunctions.ReadFunctionfromBlob(System.Byte[]@,System.Int32)">
+            <summary>
+            Old blob read, do not delete yet
+            </summary>
+            <param name="blob"></param>
+            <param name="offset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.AOFunctions.ToBlob">
+            <summary>
+            Serialize Function to hex-string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.AOFunctions.Apply(System.Boolean)">
+            <summary>
+            Apply function on target
+            </summary>
+            <param name="dolocalstats">Should local stats be processed?</param>
+        </member>
+        <member name="T:AO.Core.GuildEntry">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AO.Core.GuildEntry.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.guildID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.creation">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.Name">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.LeaderID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.GovernmentForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.Description">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.Objective">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.History">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.Tax">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.Bank">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.Comission">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.ContractsID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.CityID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.GuildEntry.TowerFieldID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOActions">
+            <summary>
+            AOActions covers all action types, with their reqs
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOActions.ActionType">
+            <summary>
+            Type of Action (constants in ItemHandler)
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOActions.Requirements">
+            <summary>
+            List of Requirements for this action
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOActions.readActionfromBlob(System.Byte[]@,System.Int32)">
+            Methods to do:
+            Read Action
+            
+        </member>
+        <member name="T:AO.Core.Scripting.CSScript">
+            <summary>
+            Class CSScript which is implements class library for CSExecutor.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSScript.#ctor">
+            <summary>
+            Main creator
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSScript.Execute(AO.Core.Scripting.PrintDelegate,System.String[])">
+            <summary>
+            Invokes CSExecutor (C# script engine)
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSScript.Execute(AO.Core.Scripting.PrintDelegate,System.String[],System.Boolean)">
+            <summary>
+            Invokes CSExecutor (C# script engine)
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSScript.Compile(System.String,System.String,System.Boolean)">
+            <summary>
+            Compiles script into assembly with CSExecutor
+            </summary>
+            <param name="scriptFile">The name of script file to be compiled.</param>
+            <param name="assemblyFile">The name of compiled assembly. If set to null a temnporary file name will be used.</param>
+            <param name="debugBuild">true if debug information should be included in assembly; otherwise, false.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.Scripting.CSScript.Load(System.String,System.String,System.Boolean)">
+            <summary>
+            Compiles script into assembly with CSExecutor and loads it in current AppDomain
+            </summary>
+            <param name="scriptFile">The name of script file to be compiled.</param>
+            <param name="assemblyFile">The name of compiled assembly. If set to null a temnporary file name will be used.</param>
+            <param name="debugBuild">true if debug information should be included in assembly; otherwise, false.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.Scripting.CSScript.DefaultPrint(System.String)">
+            <summary>
+            Default implementation of displaying application messages.
+            </summary>
+        </member>
+        <member name="P:AO.Core.Scripting.CSScript.Rethrow">
+            <summary>
+            Force caught exceptions to be rethrown.
+            </summary>
+        </member>
+        <member name="T:csscript.AppInfo">
+            <summary>
+            Repository for application specific data
+            </summary>
+        </member>
+        <member name="T:AO.Core.MobBase">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.MobBase.mySql">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AO.Core.MobBase.#ctor(System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="mobId">Mob ID</param>
+        </member>
+        <member name="M:AO.Core.MobBase.ReadName">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.MobBase.WriteName">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:AO.Core.MobBase.mobId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.MobBase.mobName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AO.Core.Config.ConfigReadWrite">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AO.Core.Config.ConfigReadWrite.SaveConfig">
+            <summary>
+            Saves the current config back to the file
+            </summary>
+            <returns>true, if successful</returns>
+        </member>
+        <member name="P:AO.Core.Config.ConfigReadWrite.Instance">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.ConfigReadWrite.CurrentConfig">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:AO.Core.AORequirements">
+            <summary>
+            AORequirements
+            </summary>
+        </member>
+        <member name="F:AO.Core.AORequirements.Target">
+            <summary>
+            Target, from constants
+            </summary>
+        </member>
+        <member name="F:AO.Core.AORequirements.Statnumber">
+            <summary>
+            Stat to check against
+            </summary>
+        </member>
+        <member name="F:AO.Core.AORequirements.Operator">
+            <summary>
+            Operator
+            </summary>
+        </member>
+        <member name="F:AO.Core.AORequirements.Value">
+            <summary>
+            Value to check against
+            </summary>
+        </member>
+        <member name="F:AO.Core.AORequirements.ChildOperator">
+            <summary>
+            Child operator
+            </summary>
+        </member>
+        <member name="M:AO.Core.AORequirements.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Deserialization, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AORequirements.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AORequirements.#ctor">
+            <summary>
+            Empty
+            </summary>
+        </member>
+        <member name="M:AO.Core.AORequirements.ToBlob">
+            <summary>
+            Old, do not delete yet
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.AORequirements.readRequirementfromBlob(System.Byte[]@,System.Int32)">
+            <summary>
+            Old read, do not delete yet
+            </summary>
+            <param name="_p"></param>
+            <param name="offset"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AO.Core.AOMeshs">
+            <summary>
+            AOMesh class
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOMeshs.Position">
+            <summary>
+            Position of the mesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOMeshs.Mesh">
+            <summary>
+            Mesh id
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOMeshs.OverrideTexture">
+            <summary>
+            Override texture id
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOMeshs.Layer">
+            <summary>
+            Layer
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.ParsingParams">
+            <summary>
+            ParsingParams is an class that holds parsing parameters. 
+            At this moment they are namespace renaming rules only.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.ParsingParams.Compare(AO.Core.Scripting.ParsingParams,AO.Core.Scripting.ParsingParams)">
+            <summary>
+            Compare() is to be used to help with implementation of IComparer for sorting operations.
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.ParserBase">
+            <summary>
+            ParserBase is a base class that implements some ReularExtressions functionality.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.ParserBase.RegexGetMatches(System.String,System.String,AO.Core.Scripting.ParserBase.ParseStatement)">
+            <summary>
+            Returns array of matches; Optionally every match can be processed with delegate ParseStatement.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.ParserBase.GetStatements(System.String,System.String,AO.Core.Scripting.ParserBase.ParseStatement)">
+            <summary> 
+            Returns array of matches for a statement (word(s) ended with ';'); Optionally every match can be processed with delegate ParseStatement. 
+            </summary> 
+        </member>
+        <member name="M:AO.Core.Scripting.ParserBase.RegexReplace(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Replaces all search matches; Optionally replacing can be done repeatedly until no replacement can be done.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.ParserBase.RegexFind(System.String,System.String)">
+            <summary>
+            Retruns position of the first match.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.ParserBase.RegexFind(System.String,System.String,System.String@)">
+            <summary>
+            Retruns position of the first match and populates out paramater with the matchins result. 
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.ScriptInfo">
+            <summary>
+            Class which is a placeholder for general infoirmation of the script file
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.ScriptInfo.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="statement">'Import' statement from the script file to be parsed</param>
+        </member>
+        <member name="T:AO.Core.Scripting.FileParser">
+            <summary>
+            Class that implements parsing the single C# Script file
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.FileParser.ResolveFile(System.String,System.String[])">
+            <summary>
+            Searches for script file by ginven script name. Search order:
+            1. Current directory
+            2. extraDirs (some arbitrary directories usually location of the imported scripts)
+            3. CSSCRIPT_DIR + \Lib
+            4. PATH
+            Also fixes file name if user did not provide extension for script file (assuming .cs extension)
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.FileParserComparer">
+            <summary>
+            Class that implements parsing the single C# Script file
+            </summary>
+            <summary>
+            Implementation of the IComparer for sorting operations of collections of FileParser instances
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.ScriptParser">
+            <summary>
+            Class that manages parsing the main and all imported (if any) C# Script files
+            </summary>
+        </member>
+        <member name="F:AO.Core.Scripting.ScriptParser.apartmentState">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.ScriptParser.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:AO.Core.Scripting.ScriptParser.ProcessFile(AO.Core.Scripting.ScriptInfo)">
+            <summary>
+            
+            </summary>
+            <param name="fileInfo"></param>
+        </member>
+        <member name="M:AO.Core.Scripting.ScriptParser.SaveImportedScripts">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AO.Core.Scripting.ScriptParser.DeleteImportedFiles">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Scripting.ScriptParser.FilesToCompile">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Scripting.ScriptParser.ReferencedNamespaces">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Scripting.ScriptParser.ReferencedAssemblies">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AO.Core.Constants">
+            <summary>
+            Static class with constants
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtype_Misc">
+            <summary>
+            Misc item type
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtype_Weapon">
+            <summary>
+            Weapon
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtype_Armor">
+            <summary>
+            Armor
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtype_Implant">
+            <summary>
+            Implant
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtype_NPC">
+            <summary>
+            NPC (or only for NPC's?)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtype_Spirit">
+            <summary>
+            Spirit
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtype_Utility">
+            <summary>
+            Utility
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtype_Tower">
+            <summary>
+            Tower
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_neck">
+            <summary>
+            Neck slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_head">
+            <summary>
+            Head slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_back">
+            <summary>
+            Back slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_rightshoulder">
+            <summary>
+            Right shoulder slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_chest">
+            <summary>
+            Chest slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_leftshoulder">
+            <summary>
+            Left shoulder slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_rightarm">
+            <summary>
+            Right arm slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_hands">
+            <summary>
+            Hand slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_leftarm">
+            <summary>
+            Left arm slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_rightwrist">
+            <summary>
+            Right wrist slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_legs">
+            <summary>
+            Leg slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_leftwrist">
+            <summary>
+            Left wrist slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_rightfinger">
+            <summary>
+            Right finger slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_feet">
+            <summary>
+            Feet slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.armorslot_leftfinger">
+            <summary>
+            Left finger slot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_eyes">
+            <summary>
+            Implant slot eyes
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_head">
+            <summary>
+            Implant slot head
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_ears">
+            <summary>
+            Implant slot ears
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_rightarm">
+            <summary>
+            Implant slot right arm
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_chest">
+            <summary>
+            Implant slot chest
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_leftarm">
+            <summary>
+            Implant slot left arm
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_rightwrist">
+            <summary>
+            Implant slot right wrist
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_waist">
+            <summary>
+            Implant slot waist
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_leftwrist">
+            <summary>
+            Implant slot left wrist
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_righthand">
+            <summary>
+            Implant slot right hand
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_legs">
+            <summary>
+            Implant slot legs
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_lefthand">
+            <summary>
+            Implant slot left hand
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.implantslot_feet">
+            <summary>
+            Implant slot feet
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_hud1">
+            <summary>
+            Weaponslot hud1
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_hud3">
+            <summary>
+            Weaponslot hud3
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_util1">
+            <summary>
+            Weaponslot utility 1
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_util2">
+            <summary>
+            Weaponslot uilitiy 2
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_util3">
+            <summary>
+            Weaponslot utility 3
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_righthand">
+            <summary>
+            Weaponslot right hand
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_belt">
+            <summary>
+            Weaponslot belt
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_left_hand">
+            <summary>
+            Weaponslot left hand
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_ncu1">
+            <summary>
+            Weaponslot NCU 1
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_ncu2">
+            <summary>
+            Weaponslot NCU 2
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_ncu3">
+            <summary>
+            Weaponslot NCU 3
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_ncu4">
+            <summary>
+            Weaponslot NCU 4
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_ncu5">
+            <summary>
+            Weaponslot NCU 5
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_ncu6">
+            <summary>
+            Weaponslot NCU 6
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.weaponslot_hud2">
+            <summary>
+            Weaponslot hud 2
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtarget_user">
+            <summary>
+            Itemtarget user
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtarget_wearer">
+            <summary>
+            Itemtarget wearer
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtarget_target">
+            <summary>
+            Itemtarget target ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtarget_fightingtarget">
+            <summary>
+            Itemtarget fighting target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtarget_self">
+            <summary>
+            Itemtarget self
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemtarget_selectedtarget">
+            <summary>
+            Itemtarget selected target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.expansion_NW">
+            <summary>
+            Expansion Notum wars
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.expansion_SL">
+            <summary>
+            Expansion Shadowlands
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.expansion_SLP">
+            <summary>
+            Expansion Shadowlands preorder
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.expansion_AI">
+            <summary>
+            Expansion Alien invasion
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.expansion_AIP">
+            <summary>
+            Expansion Alien invasion preorder
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.expansion_LE">
+            <summary>
+            Expansion Lost eden
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.expansion_LEP">
+            <summary>
+            Expansion Lost eden preorder
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.expansion_LOX">
+            <summary>
+            Expansion Legacy of the Xan
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.expansion_LOXP">
+            <summary>
+            Expansion Legacy of the Xan preorder
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_any">
+            <summary>
+            Action any
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_get">
+            <summary>
+            Action get
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_drop">
+            <summary>
+            Action drop
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_touse">
+            <summary>
+            Action touse
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_repair">
+            <summary>
+            Action repair
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_useitemonitem">
+            <summary>
+            Action use item on item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_towear">
+            <summary>
+            Action to wear
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_toremove">
+            <summary>
+            Action to remove
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_towield">
+            <summary>
+            Action to wield
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_tounwield">
+            <summary>
+            Action to unwield
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_split">
+            <summary>
+            Action split
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_attack">
+            <summary>
+            Action attack
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_ams">
+            <summary>
+            Action AMS
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_dms">
+            <summary>
+            Action DMS
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_doubleattack">
+            <summary>
+            Action double attack
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_idle">
+            <summary>
+            Action idle
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_combatidle">
+            <summary>
+            Action combat idle
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_walk">
+            <summary>
+            Action walk
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_run">
+            <summary>
+            Action run
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_sneak">
+            <summary>
+            Action sneak
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_crawl">
+            <summary>
+            Action crawl
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_aimedshot">
+            <summary>
+            Action aimed shot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_burst">
+            <summary>
+            Action burst
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_fullauto">
+            <summary>
+            Action full auto
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_leftattack">
+            <summary>
+            Action left attack ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_fastattack">
+            <summary>
+            Action fast attack
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_combatidlestart">
+            <summary>
+            Action combat idle start
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_combatidleend">
+            <summary>
+            Action combat idle end
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_flingshot">
+            <summary>
+            Action fling shot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_sneakattack">
+            <summary>
+            Action sneak attack
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_terminate">
+            <summary>
+            Action terminate
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_impact">
+            <summary>
+            Action impact
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_useitemoncharacter">
+            <summary>
+            Action use item on character
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_leftfoot">
+            <summary>
+            Action left foot ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_rightfoot">
+            <summary>
+            Action right foot ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_open">
+            <summary>
+            Action open
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_close">
+            <summary>
+            Action close
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_totriggertargetinvicinity">
+            <summary>
+            Action trigger target in vicinity
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.actiontype_playshiftrequirements">
+            <summary>
+            Action playshift reqs
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_carry">
+            <summary>
+            Item can be carried
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_sit">
+            <summary>
+            Character/NPC can sit?
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_wear">
+            <summary>
+            Item can be worn
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_use">
+            <summary>
+            Item/Dynel/Statel can be used
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_confirmuse">
+            <summary>
+            Use of item has to be confirmed
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_consume">
+            <summary>
+            Item is consumed on use
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_tutorchip">
+            <summary>
+            Is tutorchip
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_tutordevice">
+            <summary>
+            Is Tutordevice
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_breakandenter">
+            <summary>
+            Can be 'breakandentered'
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_stackable">
+            <summary>
+            Stackable
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_noammo">
+            <summary>
+            No Ammo used
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_burst">
+            <summary>
+            Burst available
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_flingshot">
+            <summary>
+            Flingshot available
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_fullauto">
+            <summary>
+            FullAuto available
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_aimedshot">
+            <summary>
+            Aimed Shot available
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_bow">
+            <summary>
+            Bow Attack
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_throwattack">
+            <summary>
+            Throw Attack
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_sneakattack">
+            <summary>
+            Sneak attack available
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_fastattack">
+            <summary>
+            Fast attack available
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_disarmtraps">
+            <summary>
+            Can disarm traps
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_autoselect">
+            <summary>
+            Dunno
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_applyonfriendly">
+            <summary>
+            Can be applied on friendlies
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_applyonhostile">
+            <summary>
+            Can be applied on hostiles
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_applyonself">
+            <summary>
+            Can be applied on self
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_cantsplit">
+            <summary>
+            Can't be split
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_brawl">
+            <summary>
+            Brawl available
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_dimach">
+            <summary>
+            Dimach available
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_enablehandattractors">
+            <summary>
+            Enable Hand attractors
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_canbewornwithsocialarmor">
+            <summary>
+            Can be worn with social armor
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_canparryriposte">
+            <summary>
+            Parry/Riposte available
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_canbeparriedriposted">
+            <summary>
+            Can be parried/riposted
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.canflag_applyonfightingtarget">
+            <summary>
+            Can be applied on fighting target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onuse">
+            <summary>
+            Event type on use
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onrepair">
+            <summary>
+            Event type on repair
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onwield">
+            <summary>
+            Event type on wield
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_ontargetinvicinity">
+            <summary>
+            Event type on target in vicinity
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onuseitemon">
+            <summary>
+            Event type use item on
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onhit">
+            <summary>
+            Event type on hit
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_oncreate">
+            <summary>
+            Event type on create
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_oneffects">
+            <summary>
+            Event type on effects
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onrun">
+            <summary>
+            Event type on run
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onactivate">
+            <summary>
+            Event type on activate
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onstarteffect">
+            <summary>
+            Event type on start effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onendeffect">
+            <summary>
+            Event type on endeffect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onwear">
+            <summary>
+            Event type on wear
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onusefailed">
+            <summary>
+            Event type on use failed
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onenter">
+            <summary>
+            Event type on enter
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onopen">
+            <summary>
+            Event type on open
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onclose">
+            <summary>
+            Event type on close
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onterminate">
+            <summary>
+            Event type on terminate
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_oncollide">
+            <summary>
+            Event type on collide
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onendcollide">
+            <summary>
+            Event type on end collide
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onfriendlyinvicinity">
+            <summary>
+            Event type on friendly in vicinity
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onenemyinvicinity">
+            <summary>
+            Event type on enemy in vicinity
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_personalmodifier">
+            <summary>
+            Event type on personal modifier
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_onfailure">
+            <summary>
+            Event type on failure
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.eventtype_ontrade">
+            <summary>
+            Event type on trade
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_shophash">
+            <summary>
+            Function Type shophash (our own)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_hit">
+            <summary>
+            Function Type hit (stat)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_animeffect">
+            <summary>
+            Function Type animation effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_mesh">
+            <summary>
+            Function Type set mesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_creation">
+            <summary>
+            Function Type creation
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_poison">
+            <summary>
+            Function Type poison
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_radius">
+            <summary>
+            Function Type radius
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_remove">
+            <summary>
+            Function Type remove
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_texteffect">
+            <summary>
+            Function Type text effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_visualeffect">
+            <summary>
+            Function Type visual effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_audioeffect">
+            <summary>
+            Function Type audio effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_skill">
+            <summary>
+            Function Type skill
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_poisonremove">
+            <summary>
+            Function Type poison remove
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_timedeffect">
+            <summary>
+            Function Type timed effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_criteria">
+            <summary>
+            Function Type criteria ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_teleport">
+            <summary>
+            Function Type teleport
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_playmusic">
+            <summary>
+            Function Type play music
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_stopmusic">
+            <summary>
+            Function Type stop music
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_uploadnano">
+            <summary>
+            Function Type upload nano
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_catmesh">
+            <summary>
+            Function Type cat mesh ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_expression">
+            <summary>
+            Function Type expression
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_anim">
+            <summary>
+            Function Type animation
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_set">
+            <summary>
+            Function Type set
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_createstat">
+            <summary>
+            Function Type createstat ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_addskill">
+            <summary>
+            Function Type add skill
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_adddifficulty">
+            <summary>
+            Function Type add difficulty
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_gfxeffect">
+            <summary>
+            Function Type gfx effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_itemanimeffect">
+            <summary>
+            Function Type item animation effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_savechar">
+            <summary>
+            Function Type save character
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_lockskill">
+            <summary>
+            Function Type lock skill
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_directitemanimeffect">
+            <summary>
+            Function Type direct item animation effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_headmesh">
+            <summary>
+            Function Type head mesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_hairmesh">
+            <summary>
+            Function Type hair mesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_backmesh">
+            <summary>
+            Function Type back mesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_shouldermesh">
+            <summary>
+            Function Type shoulder mesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_texture">
+            <summary>
+            Function Type texture
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_starteffect">
+            <summary>
+            Function Type start effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_endeffect">
+            <summary>
+            Function Type end effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_weaponeffectcolor">
+            <summary>
+            Function Type weapon effect color
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_addshopitem">
+            <summary>
+            Function Type add shop item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_systemtext">
+            <summary>
+            Function Type system text
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_modify">
+            <summary>
+            Function Type modify (stats)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_animaction">
+            <summary>
+            Function Type animation
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_name">
+            <summary>
+            Function Type name (set?)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_spawnmonster">
+            <summary>
+            Function Type spawn moster
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_removebuffs">
+            <summary>
+            Function Type remove buffs
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_castnano">
+            <summary>
+            Function Type cast nano
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_strtexture">
+            <summary>
+            Function Type strtexture
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_strmesh">
+            <summary>
+            Function Type strmesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_changebodymesh">
+            <summary>
+            Function Type change body mesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_attractormesh">
+            <summary>
+            Function Type attractor mesh
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_waypoint">
+            <summary>
+            Function Type waypoint
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_headtext">
+            <summary>
+            Function Type head text output
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_setstate">
+            <summary>
+            Function Type set state ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_lineteleport">
+            <summary>
+            Function Type line teleportation
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_monstershape">
+            <summary>
+            Function Type monster shape ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_addshopitem2">
+            <summary>
+            Function Type add shop item 2
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcselecttarget">
+            <summary>
+            Function Type npc select target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_spawnmonster2">
+            <summary>
+            Function Type spawn monster 2
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_spawnitem">
+            <summary>
+            Function Type spawn item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_attractoreffect">
+            <summary>
+            Function Type attractor effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_teamcastnano">
+            <summary>
+            Function Type team cast nano
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_changeactionrestriction">
+            <summary>
+            Function Type change action restriction ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_restrictaction">
+            <summary>
+            Function Type restrict action
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_nexthead">
+            <summary>
+            Function Type next head (char creation)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_prevhead">
+            <summary>
+            Function Type previous head (char creation)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_areahit">
+            <summary>
+            Function Type area hit (AOE damage or heals)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_makevendorshop">
+            <summary>
+            Function Type make vendor shop
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_attractoreffect1">
+            <summary>
+            Function Type attractor effect 1
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_attractoreffect2">
+            <summary>
+            Function Type attractor effect 2
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcfightselected">
+            <summary>
+            Function Type npc fight selected target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsocialanim">
+            <summary>
+            Function Type npc social animation
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_changeeffect">
+            <summary>
+            Function Type change effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcturntotarget">
+            <summary>
+            Function Type npc turn to target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npchatelisttarget">
+            <summary>
+            Function Type npc hate list target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_teleportproxy">
+            <summary>
+            Function Type teleport by proxy
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_teleportproxy2">
+            <summary>
+            Function Type teleport by proxy 2
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_refreshmodel">
+            <summary>
+            Function Type refresh model
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_areacastnano">
+            <summary>
+            Function Type area cast nano
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_caststunnano">
+            <summary>
+            Function Type cast stun nano
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcgettargethatelist">
+            <summary>
+            Function Type npc get target hate list
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsetmaster">
+            <summary>
+            Function Type npc set master (pets)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_openbank">
+            <summary>
+            Function Type open bank
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcfollowselected">
+            <summary>
+            Function Type npc follow selected
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcmoveforward">
+            <summary>
+            Function Type npc move forward
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsendplaysync">
+            <summary>
+            Function Type npc send playsync
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npctrygroupform">
+            <summary>
+            Function Type npc try group form
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_equipmonsterweapon">
+            <summary>
+            Function Type equip monster weapon
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcapplynanoformula">
+            <summary>
+            Function Type npc apply nano formula
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsendcommand">
+            <summary>
+            Function Type npc send command
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsayrobotspeech">
+            <summary>
+            Function Type npc say robot speech
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_removenanoeffects">
+            <summary>
+            Function Type remove nano effects
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcpushscript">
+            <summary>
+            Function Type npc push script
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcpopscript">
+            <summary>
+            Function Type npc pop script
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_enterapartment">
+            <summary>
+            Function Type enter apartment
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_changevariable">
+            <summary>
+            Function Type change variable
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcstartsurrender">
+            <summary>
+            Function Type npc start surrender
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcstopsurrender">
+            <summary>
+            Function Type npc stop surrender
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_inputbox">
+            <summary>
+            Function Type input box
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcstopmoving">
+            <summary>
+            Function Type npc stop moving
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_tauntnpc">
+            <summary>
+            Function Type taunt npc
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_pacify">
+            <summary>
+            Function Type pacify
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcclearsignal">
+            <summary>
+            Function Type npc clear signal
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npccallforhelp">
+            <summary>
+            Function Type npc call for help
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_fear">
+            <summary>
+            Function Type fear
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_stun">
+            <summary>
+            Function Type stun
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_rndspawnitem">
+            <summary>
+            Function Type random span item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_rndspawnmonster">
+            <summary>
+            Function Type random spawn monster
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcwipehatelist">
+            <summary>
+            Function Type npc wipe hate list
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_charmnpc">
+            <summary>
+            Function Type charm npc
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_daze">
+            <summary>
+            Function Type daze
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npccreatepet">
+            <summary>
+            Function Type npc create pet
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_destroyitem">
+            <summary>
+            Function Type destroy item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npckilltarget">
+            <summary>
+            Function Type npc kill target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_generatename">
+            <summary>
+            Function Type generate name
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_setgovernmenttype">
+            <summary>
+            Function Type set government type
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_text">
+            <summary>
+            Function Type text
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_createapartment">
+            <summary>
+            Function Type create apartment
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_canfly">
+            <summary>
+            Function Type can fly
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_setflag">
+            <summary>
+            Function Type set flag
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_clearflag">
+            <summary>
+            Function Type clear flag
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_toggleflag">
+            <summary>
+            Function Type toggle flag
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcteleporttospawnpoint">
+            <summary>
+            Function Type npc teleport to spawnpoint
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_gotolastsavepoint">
+            <summary>
+            Function Type go to last savepoint
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcfakeattackontarget">
+            <summary>
+            Function Type npc fake attack on target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcenabledieofboredom">
+            <summary>
+            Function Type npc enable die of boredom
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npchatelisttargetaggroers">
+            <summary>
+            Function Type npc hate list target aggroers
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcdisablemovement">
+            <summary>
+            Function Type npc disable movement
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_areatrigger">
+            <summary>
+            Function Type area trigger
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_mezz">
+            <summary>
+            Function Type mezz
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_summonplayer">
+            <summary>
+            Function Type summon player
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_summonteammates">
+            <summary>
+            Function Type summon teammates
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_remoteareatrigger">
+            <summary>
+            Function Type remote area trigger
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_clone">
+            <summary>
+            Function Type clone
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcclonetarget">
+            <summary>
+            Function Type npc clone target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_resistnanostrain">
+            <summary>
+            Function Type resist nano strain
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsummonenemy">
+            <summary>
+            Function Type npc summon enemy
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_savehere">
+            <summary>
+            Function Type save here
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_proxyteleport_withpethandling">
+            <summary>
+            Function Type proxy teleport with pet handling
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_combonamegen">
+            <summary>
+            Function Type combo name generation
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_summonpet">
+            <summary>
+            Function Type summon pet
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_opennpcdialog">
+            <summary>
+            Function Type open npc dialog
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_closenpcdialog">
+            <summary>
+            Function Type close npc dialog
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcenablegroundtoaircombat">
+            <summary>
+            Function Type npc enable ground to air combat
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsetstuckdetectscheme">
+            <summary>
+            Function Type npc set stuck detect scheme
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcenablepvprules">
+            <summary>
+            Function Type npc enable pvp rules
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_landcontrolcreate">
+            <summary>
+            Function Type land control create
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_removetrigger">
+            <summary>
+            Function Type remove trigger
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_scalingmodify">
+            <summary>
+            Function Type scaling modify
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_organizationgrid">
+            <summary>
+            Function Type org grid
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_reducenanostrainduration">
+            <summary>
+            Function Type reduce nano strain duration
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_disabledefenseshield">
+            <summary>
+            Function Type disable defense shield (NW)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npctogglefightmoderegenrate">
+            <summary>
+            Function Type npc toggle fight mode regenerate
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_tracer">
+            <summary>
+            Function Type tracer
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_summonpets">
+            <summary>
+            Function Type summon pets
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_addaction">
+            <summary>
+            Function Type add action
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npctogglefov">
+            <summary>
+            Function Type npc toggle fov
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_modifypercentage">
+            <summary>
+            Function Type modify by % (stats)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_drainhit">
+            <summary>
+            Function Type drain hit
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_lockperk">
+            <summary>
+            Function Type lock perk
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_dialogfeedback">
+            <summary>
+            Function Type dialog feedback
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_faction">
+            <summary>
+            Function Type faction
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsetsneakmode">
+            <summary>
+            Function Type npc set sneak mode
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcmovementaction">
+            <summary>
+            Function Type npc movement action
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_spawnmonsterrot">
+            <summary>
+            Function Type spawn monster rot
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_polymorphattack">
+            <summary>
+            Function Type polymorph attack
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcusespecialattackitem">
+            <summary>
+            Function Type npc uses special attack item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcfreezehatelist">
+            <summary>
+            Function Type npc freeze hate list
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_specialhit">
+            <summary>
+            Function Type special hit
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsetconfigstats">
+            <summary>
+            Function Type npc set config stats
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsetmovetotarget">
+            <summary>
+            Function Type npc set move to target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsetwanderingmode">
+            <summary>
+            Function Type npc set wandering mode
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_removenano">
+            <summary>
+            Function Type remove nano 
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcuniqueplayersinhatelist">
+            <summary>
+            Function Type npc unique players in hate list
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_attractorgfxeffect">
+            <summary>
+            Function Type attractor gfx effect
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_castnanoifpossible">
+            <summary>
+            Function Type cast nano if possible
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_setanchor">
+            <summary>
+            Function Type set anchor
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_recalltoanchor">
+            <summary>
+            Function Type recall to anchor
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_talk">
+            <summary>
+            Function Type talk
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_setscriptconfig">
+            <summary>
+            Function Type set script config
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_castnanoifpossibleonfighttarget">
+            <summary>
+            Function Type cast nano if possible on fight target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_controlhate">
+            <summary>
+            Function Type control hate
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcsendpetstatus">
+            <summary>
+            Function Type npc send pet status
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npccastnanoifpossible">
+            <summary>
+            Function Type npc cast nano if possible
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npccastnanoifpossibleonfighttarget">
+            <summary>
+            Function Type npc cast nano if possible on fight target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npctargethasitem">
+            <summary>
+            Function Type npc target has item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_cityhouseenter">
+            <summary>
+            Function Type city house enter
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_npcstoppetduel">
+            <summary>
+            Function Type npc stop pet duel
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_delayedspawnnpc">
+            <summary>
+            Function Type delayed spawn npc
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_runscript">
+            <summary>
+            Function Type runscript
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_addbattlestationqueue">
+            <summary>
+            Function Type add battle station queue
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_registercontrolpoint">
+            <summary>
+            Function Type register control point
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_adddefproc">
+            <summary>
+            Function Type add defensive proc
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_destroyallhumans">
+            <summary>
+            Function Type destroy all humans, ARMAGEDDON
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_spawnquest">
+            <summary>
+            Function Type spawn quest
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_addoffproc">
+            <summary>
+            Function Type add offensive proc
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_playfieldnano">
+            <summary>
+            Function Type playfield nano
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_solvequest">
+            <summary>
+            Function Type solve quest
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_knockback">
+            <summary>
+            Function Type knock back
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_instancelock">
+            <summary>
+            Function Type instance lock
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_mindcontrol">
+            <summary>
+            Function Type mind control
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_instancedplayercity">
+            <summary>
+            Function Type instanced player city
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_resetallperks">
+            <summary>
+            Function Type reset all perks
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_createcityguestkey">
+            <summary>
+            Function Type create city guest key
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_removenanostrain">
+            <summary>
+            Function Type remove nano strain
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_undefined">
+            <summary>
+            Function Type undefined
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.functiontype_cast_nano2">
+            <summary>
+            Function Type cast nano 2
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_equalto">
+            <summary>
+            Operator equals to
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_lessthan">
+            <summary>
+            Operator less than
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_greaterthan">
+            <summary>
+            Operator greater than
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_or">
+            <summary>
+            Operator or
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_and">
+            <summary>
+            Operator and
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_time_less">
+            <summary>
+            Operator time less (timers til next trigger)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_time_larger">
+            <summary>
+            Operator time larger
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_item_has">
+            <summary>
+            Operator item has (have it in inventory or item has stat value??)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_item_hasnot">
+            <summary>
+            Operator item has not
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_id">
+            <summary>
+            Operator id (equals i guess)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_targetid">
+            <summary>
+            Operator target id (equals i guess)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_targetsignal">
+            <summary>
+            Operator target signal 
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_targetstat">
+            <summary>
+            Operator target stat
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_primary_item">
+            <summary>
+            Operator primary item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_secondary_item">
+            <summary>
+            Operator secondary item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_area_zminmax">
+            <summary>
+            Operator area zminmax
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_user">
+            <summary>
+            Operator user
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_itemanim">
+            <summary>
+            Operator item anim
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_ontarget">
+            <summary>
+            Operator on target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_onself">
+            <summary>
+            Operator on self
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_signal">
+            <summary>
+            Operator signal
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_onsecondaryitem">
+            <summary>
+            Operator on secondary item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_bitand">
+            <summary>
+            Operator bitwise and
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_bitor">
+            <summary>
+            Operator bitwise or
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_unequal">
+            <summary>
+            Operator unequal
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_illegal">
+            <summary>
+            Operator illegal ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_onuser">
+            <summary>
+            Operator on user
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_onvalidtarget">
+            <summary>
+            Operator on valid target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_oninvalidtarget">
+            <summary>
+            Operator on invalid target ??
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_onvaliduser">
+            <summary>
+            Operator on valid user
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_oninvaliduser">
+            <summary>
+            Operator on invalid user
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_haswornitem">
+            <summary>
+            Operator has worn item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasnotwornitem">
+            <summary>
+            Operator has not worn item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_haswieldeditem">
+            <summary>
+            Operator has wielded item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasnotwieldeditem">
+            <summary>
+            Operator has not wielded item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasformula">
+            <summary>
+            Operator has formula
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasnotformula">
+            <summary>
+            Operator has not formula
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_ongeneralbeholder">
+            <summary>
+            Operator on general beholder
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isvalid">
+            <summary>
+            Operator is valid
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isinvalid">
+            <summary>
+            Operator is invalid
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isalive">
+            <summary>
+            Operator is alive
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_iswithinvicinity">
+            <summary>
+            Operator is within vicinity
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_not">
+            <summary>
+            Operator not
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_iswithinweaponrange">
+            <summary>
+            Operator is within weapon range
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isnpc">
+            <summary>
+            Operator is npc
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isfighting">
+            <summary>
+            Operator is fighting
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isattacked">
+            <summary>
+            Operator is attacked
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isanyonelooking">
+            <summary>
+            Operator is anyone looking
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isfoe">
+            <summary>
+            Operator is foe
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isindungeon">
+            <summary>
+            Operator is in dungeon
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_issameas">
+            <summary>
+            Operator is same as
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_distanceto">
+            <summary>
+            Operator distance to
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isinnofightingarea">
+            <summary>
+            Operator is in no-fighting area
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_template_compare">
+            <summary>
+            Operator template compare
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_min_max_level_compare">
+            <summary>
+            Operator min max level compare
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_monstertemplate">
+            <summary>
+            Operator monster template
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasmaster">
+            <summary>
+            Operator has master
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_canexecuteformulaontarget">
+            <summary>
+            Operator can execute formula on target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_area_targetinvicinity">
+            <summary>
+            Operator area target in vicinity
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isunderheavyattack">
+            <summary>
+            Operator is under heavy attack
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_islocationok">
+            <summary>
+            Operator is location ok
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isnottoohighlevel">
+            <summary>
+            Operator is not too high level
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_haschangedroomwhilefighting">
+            <summary>
+            Operator has changed room while fighting
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_kullnumberof">
+            <summary>
+            Operator kull number of ???
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_testnumpets">
+            <summary>
+            Operator test num pets
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_numberofitems">
+            <summary>
+            Operator number of items
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_primarytemplate">
+            <summary>
+            Operator primary template
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isteleporting">
+            <summary>
+            Operator is teleporting
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isflying">
+            <summary>
+            Operator is flying
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_scanforstat">
+            <summary>
+            Operator scan for stat
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasmeonpetlist">
+            <summary>
+            Operator has me on pet list
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_trickledownlarger">
+            <summary>
+            Operator trickle down larget
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_trickledownless">
+            <summary>
+            Operator trickle down less
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_ispetoverequipped">
+            <summary>
+            Operator is pet overequipped
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_haspetpendingnanoformula">
+            <summary>
+            Operator has pet pending nano formula
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_ispet">
+            <summary>
+            Operator is pet?
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_canattackchar">
+            <summary>
+            Operator can attack character
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_istowercreateallowed">
+            <summary>
+            Operator is tower create allowed
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_inventoryslotisfull">
+            <summary>
+            Operator inventory slot is full
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_inventoryslotisempty">
+            <summary>
+            Operator inventory slot is empty
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_candisabledefenseshield">
+            <summary>
+            Operator can disble defense shield
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isnpcornpccontrolledpet">
+            <summary>
+            Operator is npc or npc controlled pet
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_sameasselectedtarget">
+            <summary>
+            Operator same as selected target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isplayerorplayercontrolledpet">
+            <summary>
+            Operator is player or player controlled pet
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasenterednonpvpzone">
+            <summary>
+            Operator has entered non pvp zone
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_uselocation">
+            <summary>
+            Operator use location
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isfalling">
+            <summary>
+            Operator is falling
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isondifferentplayfield">
+            <summary>
+            Operator is on different playfield
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasrunningnano">
+            <summary>
+            Operator has running nano
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasrunningnanoline">
+            <summary>
+            Operator has running nano line
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasperk">
+            <summary>
+            Operator has perk
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isperklocked">
+            <summary>
+            Operator is perk locked
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isfactionreactionset">
+            <summary>
+            Operator is faction reaction set
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasmovetotarget">
+            <summary>
+            Operator has move to target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_isperkunlocked">
+            <summary>
+            Operator is perk unlocked
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_true">
+            <summary>
+            Operator true
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_false">
+            <summary>
+            Operator false
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_oncaster">
+            <summary>
+            Operator on caster
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasnotrunningnano">
+            <summary>
+            Operator has not running nano
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasnotrunningnanoline">
+            <summary>
+            Operator has not running nano line
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_hasnotperk">
+            <summary>
+            Operator has not perk
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_notbitand">
+            <summary>
+            Operator not bit and
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.operator_obtaineditem">
+            <summary>
+            Operator obtained item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_visible">
+            <summary>
+            Item Flag visible
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_modifieddescription">
+            <summary>
+            Item Flag modified description
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_modifiedname">
+            <summary>
+            Item Flag modified name
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_canbetemplateitem">
+            <summary>
+            Item Flag can be template item
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_turnonuse">
+            <summary>
+            Item Flag turn on use
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_hasmultiplecount">
+            <summary>
+            Item Flag has multiple count
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_locked">
+            <summary>
+            Item Flag locked
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_open">
+            <summary>
+            Item Flag open
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_itemsocialarmour">
+            <summary>
+            Item Flag item social armor
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_tellcollision">
+            <summary>
+            Item Flag tell collision
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_noselectionindicator">
+            <summary>
+            Item Flag no selection indicator
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_useemptydestruct">
+            <summary>
+            Item Flag use empty destruct
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_stationary">
+            <summary>
+            Item Flag stationary
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_repulsive">
+            <summary>
+            Item Flag repulsive
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_defaulttarget">
+            <summary>
+            Item Flag default target
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_itemtextureoverride">
+            <summary>
+            Item Flag item texture override
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_null">
+            <summary>
+            Item Flag null
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_hasanimation">
+            <summary>
+            Item Flag has animation
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_hasrotation">
+            <summary>
+            Item Flag has rotation
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_wantcollision">
+            <summary>
+            Item Flag wants collision
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_wantsignals">
+            <summary>
+            Item Flag wants signals
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_hassentfirstiir">
+            <summary>
+            Item Flag has sent first IIR
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_hasenergy">
+            <summary>
+            Item Flag has energy
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_mirrorinlefthand">
+            <summary>
+            Item Flag mirror in left hand (two handed weapons?)
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_illegalclan">
+            <summary>
+            Item Flag illegal for clan
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_illegalomni">
+            <summary>
+            Item Flag illegal for omni
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_nodrop">
+            <summary>
+            Item Flag nodrop
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_unique">
+            <summary>
+            Item Flag unique
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_canbeattacked">
+            <summary>
+            Item Flag can be attacked
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_disablefalling">
+            <summary>
+            Item Flag disable falling
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_hasdamage">
+            <summary>
+            Item Flag has damage
+            </summary>
+        </member>
+        <member name="F:AO.Core.Constants.itemflag_disablestatelcollision">
+            <summary>
+            Item Flag disable statel collision
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.PrintDelegate">
+            <summary>
+            PrintDelegate
+            </summary>
+            <param name="msg">String to print</param>
+        </member>
+        <member name="T:AO.Core.Scripting.AOScriptExecuter">
+            <summary>
+            Wrapper class that runs CSExecutor within console application context.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.AOScriptExecuter.Main(System.String[])">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.AOScriptExecuter.Print(System.String)">
+            <summary>
+            Implementation of displaying application messages.
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.AppInfo">
+            <summary>
+            Repository for application specific data
+            </summary>
+        </member>
+        <member name="T:AO.Core.LoginEncryption">
+            <summary>
+            Anarchy Online Encrypted Login Validator
+            </summary>
+        </member>
+        <member name="F:AO.Core.LoginEncryption.i_Enable">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AO.Core.LoginEncryption.IsValidLogin(System.String,System.String,System.String,System.String)">
+            <summary>
+            Verifies if given login is valid
+            </summary>
+            <param name="LoginKey">Login Key from Client</param>
+            <param name="ServerSalt">Authentication Salt server sent the Client</param>
+            <param name="UserName">Username to be Validated</param>
+            <param name="passwordHash">Stored password associated with UserName</param>
+        </member>
+        <member name="M:AO.Core.LoginEncryption.IsValidLogin(System.String,System.String,System.String)">
+            <summary>
+            Verifies if given login key is valid
+            </summary>
+            <param name="LoginKey">Login Key from Client</param>
+            <param name="ServerSalt">Authentication Salt server sent the Client</param>
+            <param name="UserName">Username to be Validated</param>
+        </member>
+        <member name="M:AO.Core.LoginEncryption.IsCharacterOnAccount(System.String,System.UInt32)">
+            <summary>
+            Check if a certain character is on the clients authenticated account
+            </summary>
+            <param name="UserName">Client Username</param>
+            <param name="CharacterID">Client CharacterId</param>
+        </member>
+        <member name="M:AO.Core.LoginEncryption.DecryptLoginKey(System.String,System.String@,System.String@,System.String@)">
+            <summary>
+            Decrypts Login Key from Client
+            </summary>
+            <param name="LoginKey">Login Key from Client</param>
+            <param name="UserName">Username stored in Login Key</param>
+            <param name="ServerSalt">Server Salt stored in Login Key</param>
+            <param name="Password">Password stored in Login Key</param>
+        </member>
+        <member name="M:AO.Core.LoginEncryption.GeneratePasswordHash(System.String)">
+            <summary>
+            Generates a salted password hash for use in the DB
+            </summary>
+            <param name="clearPassword">Cleartext password to hash</param>
+        </member>
+        <member name="T:AO.Core.Config.Information">
+            <summary>
+            This is the Enums for the Config File..
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.ListenIP">
+            <summary>
+            IP to listen
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.ChatIP">
+            <summary>
+            Chat Server IP
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.ZoneIP">
+            <summary>
+            Zone Server IP
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.CommPort">
+            <summary>
+            Communication Port between Zone and Chat Engines..
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.LoginPort">
+            <summary>
+            Login Port Number
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.ZonePort">
+            <summary>
+            Zone Port Number
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.ChatPort">
+            <summary>
+            Chat Port Number
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Motd">
+            <summary>
+            Chat Server's Motd
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.UsePassword">
+            <summary>
+            This is for the LoginEncryption to turn it on and off
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.SqlLog">
+            <summary>
+            This enables or Disables SQL Logging
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.LogChat">
+            <summary>
+            This is for turning the chat logging on and off
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.connectionString">
+            <summary>
+            This is the Sql Connection String
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.WestAthen">
+            <summary>
+            Comp. Lit. Check to access the West Athen Grid
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.OldAthen">
+            <summary>
+            Comp. Lit. check to access the Old Athen Grid
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Tir_Inside">
+            <summary>
+            Comp. Lit. check to access the Tir Grid
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Tir_Outside">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Borealis">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Meetmedeere">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Newland">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Omni_One_Trade">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Rome_Red">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Omni_One_Entertainment_North">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Omni_One_Entertainment_South">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Lush_Hills">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Clondyke">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Galway_County">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Broken_Shores">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.four_holes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.twoho">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Harrys">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Omni_One_HQ">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Camelot">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Sentinels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Teleport_Tower_noob_right">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Teleport_Tower_noob_middle">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Teleport_Tower_noob_left">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.ISCommLocalIP">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.SQLType">
+            <summary>
+            This is for the SQL Choices
+            </summary>
+        </member>
+        <member name="F:AO.Core.Config.Information.Locale">
+            <summary>
+            Locale language selection for you, en = english , gr = german, more languages as we go
+            </summary>
+        </member>
+        <member name="T:AO.Core.Config.Config">
+            <summary>
+            This here Sets up the Gets and Sets for the Config System.
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.MysqlConnection">
+            <summary>
+            Gets or Sets the Mysql Connection String...
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.MsSqlConnection">
+            <summery>
+            Gets or sets the MsSQL Connection String...
+            </summery>
+        </member>
+        <member name="P:AO.Core.Config.Config.PostgreConnection">
+            <summery>
+            Gets or sets the  PostgreSQL Connection String..
+            </summery>
+        </member>
+        <member name="P:AO.Core.Config.Config.LoginPort">
+            <summary>
+            Gets or Sets the Login Port
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.CommPort">
+            <summary>
+            Gets or Sets Communication Port for Communicating between Zone and Chat Engines.
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.ListenIP">
+            <summary>
+            Gets or Sets IP to listen
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.ChatIP">
+            <summary>
+            Gets or Sets Chat server IP
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.ZoneIP">
+            <summary>
+            Gets or Sets Zone server IP
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Motd">
+            <summary>
+            Gets or Sets the Motd for Chat Server
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.ZonePort">
+            <summary>
+            Gets or Sets the Zone Port
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.ChatPort">
+            <summary>
+            Gets or Sets the Chat Port
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.SqlLog">
+            <summary>
+            Turns on or off Sql Logging
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.LogChat">
+            <summary>
+            turns on or off the chat logging
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.UsePassword">
+            <summary>
+            Gets or Sets the UsePassword
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.WestAthen">
+            <summary>
+            Gets or Sets the West Athen Comp. Lit. Check Number
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.OldAthen">
+            <summary>
+            Gets or Sets the Old Athen Comp. Lit. Check Number
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Tir_Inside">
+            <summary>
+            Gets or Sets the Tir Inside Comp. Lit. Check Number
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Tir_Outside">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Borealis">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Meetmedeere">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Newland">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Omni_One_Trade">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Rome_Red">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Omni_One_Entertainment_North">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Omni_One_Entertainment_South">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Lush_Hills">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Clondyke">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Galway_County">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Broken_Shores">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.four_holes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.twoho">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Harrys">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Omni_One_HQ">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Camelot">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Sentinels">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.ISCommLocalIP">
+            <summary>
+            Local ISComm IP address
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.SQLType">
+            <summary>
+            Gets or Sets Your SQL Type
+            </summary>
+        </member>
+        <member name="P:AO.Core.Config.Config.Locale">
+            <summary>
+            Gets or Sets your Locale language
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOInventory">
+            <summary>
+            Core Inventory Class
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOInventory.Pages">
+            <summary>
+            List of Inventory pages (Weaponpage, Armorpage etc)
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOInventory.GetInventoryEntryAt(System.Int32,System.Int32)">
+            <summary>
+            Returns InventoryEntry in container at place
+            </summary>
+            <param name="container">Container number</param>
+            <param name="place">Placement</param>
+            <returns>InventoryEntry or null (not found)</returns>
+        </member>
+        <member name="M:AO.Core.AOInventory.GetPage(System.Int32)">
+            <summary>
+            Returns a InventoryPage
+            </summary>
+            <param name="num">Container number</param>
+            <returns>InventoryPage or null (not found)</returns>
+        </member>
+        <member name="M:AO.Core.AOInventory.AddItem(AO.Core.AOItem)">
+            <summary>
+            Add item to main inventory
+            </summary>
+            <param name="it">AOItem to add to inventory</param>
+            <returns>Resulting InventoryEntry</returns>
+        </member>
+        <member name="M:AO.Core.AOInventory.AddItem(System.Int32,System.Int32,AO.Core.AOItem)">
+            <summary>
+            Add a Item to a Inventory page/place
+            </summary>
+            <param name="container">Number of Inventory page</param>
+            <param name="place">Desired place</param>
+            <param name="item">item to add</param>
+            <returns>Success</returns>
+        </member>
+        <member name="M:AO.Core.AOInventory.Remove(System.Int32,System.Int32)">
+            <summary>
+            Remove a item from inventory
+            </summary>
+            <param name="container">Container</param>
+            <param name="place">Place</param>
+        </member>
+        <member name="T:AO.Core.AOInventoryPage">
+            <summary>
+            Inventory Page class
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOInventoryPage.Entries">
+            <summary>
+            List of InventoryEntries
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOInventoryPage.Container">
+            <summary>
+            Container number
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOInventoryPage.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a inventory page
+            </summary>
+            <param name="container">Container number</param>
+            <param name="min">Starting index</param>
+            <param name="numberofspots">Number of spots in this page</param>
+        </member>
+        <member name="T:AO.Core.InventoryEntry">
+            <summary>
+            Inventory Entry, holding Item and placement inside its container
+            </summary>
+        </member>
+        <member name="F:AO.Core.InventoryEntry.Placement">
+            <summary>
+            Placement number
+            </summary>
+        </member>
+        <member name="F:AO.Core.InventoryEntry.Item">
+            <summary>
+            Item
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.COM">
+            <summary>
+            COM HR checker: just to make code more compact;
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.IAssemblyCache">
+            <summary>
+            IAssemblyCache; COM import
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.IAssemblyName">
+            <summary>
+            IAssemblyName; COM import
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.IAssemblyEnum">
+            <summary>
+            IAssemblyEnum; COM import
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.AssemblyCommitFlags">
+            <summary>
+            AssemblyCommitFlags; Used by COM imported calls 
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.AssemblyCacheFlags">
+            <summary>
+            AssemblyCacheFlags; Used by COM imported calls
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.AssemblyCacheUninstallDisposition">
+            <summary>
+            AssemblyCacheUninstallDisposition; Used by COM imported calls
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.CreateAssemblyNameObjectFlags">
+            <summary>
+            CreateAssemblyNameObjectFlags; Used by COM imported calls
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.AssemblyNameDisplayFlags">
+            <summary>
+            AssemblyNameDisplayFlags; Used by COM imported calls
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.InstallReference">
+            <summary>
+            InstallReference + struct initialization; Used by COM imported calls
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.AssemblyInfo">
+            <summary>
+            AssemblyInfo; Used by COM imported calls
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.InstallReferenceGuid">
+            <summary>
+            InstallReferenceGuid; Used by COM imported calls
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.AssemblyCache">
+            <summary>
+             Helper calss for IAssemblyCache
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.AssemblyEnum">
+            <summary>
+            Helper calss for IAssemblyEnum
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.CSExecutor">
+            <summary>
+            CSExecutor is an class that implements execution of *.cs files. TODO: Rewrite this for .Net 4.0
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSExecutor.Execute(System.String[],AO.Core.Scripting.PrintDelegate)">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSExecutor.Compile(System.String,System.String,System.Boolean)">
+            <summary>
+            Compiles C# script file into assembly.
+            </summary>
+        </member>
+        <member name="F:AO.Core.Scripting.CSExecutor.scriptArgs">
+            <summary>
+            C# Script arguments array (sub array of application arguments array).
+            </summary>
+        </member>
+        <member name="F:AO.Core.Scripting.CSExecutor.print">
+            <summary>
+            Callback to print application messages to appropriate output.
+            </summary>
+        </member>
+        <member name="F:AO.Core.Scripting.CSExecutor.options">
+            <summary>
+            Container for paresed command line parguments
+            </summary>
+        </member>
+        <member name="F:AO.Core.Scripting.CSExecutor.rethrow">
+            <summary>
+            Flag to force to rethrow critical exceptions
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSExecutor.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSExecutor.GetAvailableAssembly(System.String)">
+            <summary>
+            Checks/returns if compiled C# script file (ScriptName + "c") available and valid.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSExecutor.Compile(System.String)">
+            <summary>
+            Compiles C# script file.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSExecutor.ExecuteAssembly(System.String)">
+            <summary>
+            Executes compiled C# script file.
+            Invokes static method 'Main' from the assembly.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSExecutor.ShowHelp">
+            <summary>
+            Prints Help info.
+            </summary>
+        </member>
+        <member name="M:AO.Core.Scripting.CSExecutor.ShowSample">
+            <summary>
+            Show sample C# scrip file.
+            </summary>
+        </member>
+        <member name="P:AO.Core.Scripting.CSExecutor.Rethrow">
+            <summary>
+            Force caught exceptions to be rethrown.
+            </summary>
+        </member>
+        <member name="T:AO.Core.Scripting.CSExecutor.ExecuteOptions">
+            <summary>
+            Application specific version of Hashtable
+            </summary>
+        </member>
+        <member name="T:AO.Core.ItemHandler">
+            <summary>
+            Item handler class
+            </summary>
+        </member>
+        <member name="F:AO.Core.ItemHandler.ItemList">
+            <summary>
+            Cache of all item templates
+            </summary>
+        </member>
+        <member name="M:AO.Core.ItemHandler.CacheAllItems">
+            <summary>
+            Cache all item templates
+            </summary>
+            <returns>number of cached items</returns>
+        </member>
+        <member name="M:AO.Core.ItemHandler.GetItemTemplate(System.Int32)">
+            <summary>
+            Get new object of item template with specified ID
+            </summary>
+            <param name="ID">AOID</param>
+            <returns>copied AOItem</returns>
+        </member>
+        <member name="M:AO.Core.ItemHandler.interpolate(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Returns a interpolated version of the items
+            </summary>
+            <param name="lowID">low ID</param>
+            <param name="highID">high ID</param>
+            <param name="_QL">Quality level</param>
+            <returns>interpolated AOItem</returns>
+        </member>
+        <member name="T:AO.Core.ItemHandler.FunctionPack">
+            <summary>
+            Function Pack will be moved soon
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOEvents">
+            <summary>
+            AOEvent
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOEvents.EventType">
+            <summary>
+            Type of the Event (constants in ItemHandler)
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOEvents.Functions">
+            <summary>
+            List of Functions of the Event
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOEvents.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Deserialize AOEvent, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AOEvents.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AOEvents.#ctor">
+            <summary>
+            Empty, not used
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOEvents.readEventfromBlob(System.Byte[]@,System.Int32)">
+            <summary>
+            read from blob, only in there for converting
+            </summary>
+            <param name="blob"></param>
+            <param name="offset"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AO.Core.GuildInfo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AO.Core.GuildInfo.GetGuildInfo(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="guildID"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AO.Core.AOTimers">
+            <summary>
+            AOTimers
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOTimers.Function">
+            <summary>
+            Function triggered by the timer
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOTimers.Timestamp">
+            <summary>
+            Timestamp of next trigger
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOTimers.Strain">
+            <summary>
+            Nano-Strain
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOTimers.#ctor">
+            <summary>
+            Empty
+            </summary>
+        </member>
+        <member name="M:AO.Core.AOTimers.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Deserialization, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:AO.Core.AOTimers.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Serialization, internal use only
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:AO.Core.AOWeaponpairs">
+            <summary>
+            AO Weapon pairs
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOWeaponpairs.value1">
+            <summary>
+            unknown
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOWeaponpairs.value2">
+            <summary>
+            unknown
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOWeaponpairs.value3">
+            <summary>
+            unknown
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOWeaponpairs.value4">
+            <summary>
+            unknown
+            </summary>
+        </member>
+        <member name="T:AO.Core.AOContainer">
+            <summary>
+            AO Container
+            </summary>
+        </member>
+        <member name="F:AO.Core.AOContainer.Items">
+            <summary>
+            List of Items
+            </summary>
+        </member>
+        <member name="T:AO.Core.CharacterBase">
+            <summary>
+            Base Character Class
+            </summary>
+        </member>
+        <member name="F:AO.Core.CharacterBase.mySql">
+            <summary>
+            MySQL Wrapper
+            </summary>
+        </member>
+        <member name="M:AO.Core.CharacterBase.#ctor(System.UInt32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="characterId">Character ID</param>
+        </member>
+        <member name="M:AO.Core.CharacterBase.ReadNames">
+            <summary>
+            Read org and character names from DB
+            </summary>
+        </member>
+        <member name="M:AO.Core.CharacterBase.WriteNames">
+            <summary>
+            Writes names to DB after a name change
+            </summary>
+        </member>
+        <member name="F:AO.Core.CharacterBase.characterId">
+            <summary>
+            Character ID
+            </summary>
+        </member>
+        <member name="F:AO.Core.CharacterBase.characterName">
+            <summary>
+            Character Name
+            </summary>
+        </member>
+        <member name="F:AO.Core.CharacterBase.characterFirstName">
+            <summary>
+            Character First Name
+            </summary>
+        </member>
+        <member name="F:AO.Core.CharacterBase.characterLastName">
+            <summary>
+            Character Last Name
+            </summary>
+        </member>
+        <member name="F:AO.Core.CharacterBase.orgName">
+            <summary>
+            Organisation Name
+            </summary>
+        </member>
+        <member name="P:AO.Core.CharacterBase.orgId">
+            <summary>
+            Organisation ID
+            </summary>
+        </member>
+    </members>
+</doc>

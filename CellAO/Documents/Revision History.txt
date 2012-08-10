@@ -1,0 +1,135 @@
+
+History of changes to Project CellAO
+
+=============================================================================
+Revision 4 (07. Aug. 2010)
+
+- redone the item function handler and items.sql
+- added support for attractor meshs (Sunglasses/Visors)
+
+
+=============================================================================
+Revision 5 (07. Aug. 2010)
+
+- added follow target
+
+
+=============================================================================
+Revision 6 (07. Aug. 2010)
+
+- added IP distribution (ToDo: Health and Nano calculation)
+
+
+=============================================================================
+Revision 7 (07. Aug. 2010)
+
+- vicinity chat fix (thx for the tip Suiv)
+
+ 
+=============================================================================
+Revision 8 (07 Aug. 2010)
+
+- itemhandler fix (blackmanes statbuffer fix)
+
+=============================================================================
+Revision 9 (07 Aug. 2010)
+
+- Updated the Thankyou.txt
+
+=============================================================================
+Revision 20
+
+- class structure update: created a main dynel class, subclasses (Character/NPC/Pet), so NPCs and Pets have now their own inventory, stats/statsmodifiers, nanos and timers
+- moved a few packets into own packet classes instead of hardcoded inside the methods (each dynel will soon be able to call each packet)
+- changed some SQL column names to match each other (H1->HeadingX etc)
+- changed all occurences of getstat("<name>") to their respective numbers (speed fix)
+- added >all< item attributes/events/functions/actions to the db
+- changed the giveitem command (now case insensitive and looking for the first free spot in inventory), but with a optional placement argument
+
+=============================================================================
+Revision 21-22
+
+- mobspawn.sql fixes
+
+=============================================================================
+Revision 23
+
+- added nanos.sql (with all functions/modifiers etc)
+
+=============================================================================
+Revision 24
+
+- fixed buffer size in ItemHandler
+
+=============================================================================
+Revision 25
+
+- nanos.sql fix (items->nanos)
+
+=============================================================================
+Revision 26
+
+- added InventoryEntries class
+
+=============================================================================
+Revision 27
+
+- SCFU packet fix
+- Fix for GetFreshID
+
+=============================================================================
+Revision 28
+
+Small SCFU fix (announces whole playfield now)
+
+=============================================================================
+Revision 29
+
+SCFU headmesh fix (dirty hack, need a better solution)
+SCFU runspeed flag
+
+=============================================================================
+Revision 30
+
+License update
+
+=============================================================================
+Revision 32
+
+Changed Itemhandler - Item Function calling (aligning it to the new class structure)
+
+=============================================================================
+Revision 35
+
+Fixed SCFU additional Meshs part
+
+=============================================================================
+Revision 41
+
+Added Delete Item
+
+=============================================================================
+Revision 42
+
+Added Split and Join Item
+
+=============================================================================
+Revision 43
+
+NPC spawn/remove/despawn working fine again
+
+=============================================================================
+Revision 44
+
+SQL Changes for rev43
+
+=============================================================================
+Revision 45
+
+small fixes and added slashes for mob names (sql fix)
+
+=============================================================================
+Revision 46
+
+changed most tables to InnoDB except items and nanos (no write operations there)
+

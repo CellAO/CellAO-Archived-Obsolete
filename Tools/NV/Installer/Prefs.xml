@@ -1,0 +1,28 @@
+<Root>
+    <Value name="ChatFontName" value='&quot;Verdana&quot;' />
+    <Value name="ChatFontSize" value="140" />
+    <Value name="ChatFontStyle" value='&quot;Regular&quot;' />
+    <Value name="DisplayBitsPerPixel" value="32" />
+    <Value name="DisplayCompressedTextures" value="false" />
+    <Value name="DisplayDeviceGUID" value='&quot;00000000-0000-0000-0000-000000000000&quot;' />
+    <Value name="DisplayDriverGUID" value='&quot;00000000-0000-0000-0000-000000000000&quot;' />
+    <Value name="DisplayFullscreen" value="true" />
+    <Value name="DisplayHeight" value="768" />
+    <Value name="DisplayOtherTextureQuality" value="2" />
+    <Value name="DisplayTextureResolution" value="1" />
+    <Value name="DisplayWBuffer" value="false" />
+    <Value name="DisplayWidth" value="1024" />
+    <Value name="ExpansionFlags" value="0" />
+    <Value name="GUISkin" value='&quot;textures\\archives_ep1\\guigfx_ep1.uvgi&quot;' />
+    <Value name="GroundTextureQuality" value="2" />
+    <Archive name="LauncherConfig" code="0">
+        <Bool name="PlayIntro" value="false" />
+        <Int16 name="SelectedCharacter" value="0" />
+        <String name="SelectedDimension" value='&quot;&quot;' />
+        <Int16 name="NumAccounts" value="0" />
+        <Int16 name="SelectedAccount" value="0" />
+        <Bool name="FirstLaunch" value="false" />
+    </Archive>
+    <Value name="SendDisconnectInfo" value="false" />
+    <Value name="SoundOnOff" value="true" />
+</Root>

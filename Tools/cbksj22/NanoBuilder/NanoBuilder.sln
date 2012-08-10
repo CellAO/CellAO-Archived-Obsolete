@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NanoBuilder", "NanoBuilder\NanoBuilder.csproj", "{28D23BD7-7975-4E0A-BC46-8839F5993FEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28D23BD7-7975-4E0A-BC46-8839F5993FEF}.Debug|x86.ActiveCfg = Debug|x86
+		{28D23BD7-7975-4E0A-BC46-8839F5993FEF}.Debug|x86.Build.0 = Debug|x86
+		{28D23BD7-7975-4E0A-BC46-8839F5993FEF}.Release|x86.ActiveCfg = Release|x86
+		{28D23BD7-7975-4E0A-BC46-8839F5993FEF}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

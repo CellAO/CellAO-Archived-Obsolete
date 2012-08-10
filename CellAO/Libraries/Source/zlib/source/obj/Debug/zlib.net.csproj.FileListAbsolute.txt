@@ -1,0 +1,15 @@
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\bin\Debug\zlib.net.dll
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\bin\Debug\zlib.net.pdb
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\obj\Debug\ResolveAssemblyReference.cache
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\obj\Debug\zlib.net.dll
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\obj\Debug\zlib.net.pdb
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\bin\Debug\zlib.net.dll
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\bin\Debug\zlib.net.pdb
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\obj\Debug\ResolveAssemblyReference.cache
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\obj\Debug\zlib.net.dll
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\zlib\source\obj\Debug\zlib.net.pdb
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\zlib\source\bin\Debug\zlib.net.dll
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\zlib\source\bin\Debug\zlib.net.pdb
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\zlib\source\obj\Debug\ResolveAssemblyReference.cache
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\zlib\source\obj\Debug\zlib.net.dll
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\zlib\source\obj\Debug\zlib.net.pdb

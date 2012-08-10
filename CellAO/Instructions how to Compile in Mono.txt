@@ -1,0 +1,32 @@
+
+Requirements:
+- Mono 2.10 and MonoDevelop (tested with v2.8.6.5), other IDE's should work too
+- a texteditor
+- subversion client to download the source
+
+Step 1: Changes
+
+There are 3 files we have to copy and change to get it running (at least until i can come up with a better solution):
+Move CellAO/AO.Servers/ZoneEngine/Properties/AssemblyInfo.cs.template to CellAO/AO.Servers/ZoneEngine/Properties/AssemblyInfo.cs
+Move CellAO/AO.Servers/LoginEngine/Properties/AssemblyInfo.cs.template to CellAO/AO.Servers/LoginEngine/Properties/AssemblyInfo.cs
+Move CellAO/AO.Servers/ChatEngine/Properties/AssemblyInfo.cs.template to CellAO/AO.Servers/ChatEngine/Properties/AssemblyInfo.cs
+
+Now open the files in your favorite Editor and Search/Replace the following things:
+[assembly: AssemblyDescription("Yalm$WCMODS? *modified*:$")] with [assembly: AssemblyDescription("Yalm")]
+[assembly: AssemblyTrademark("$WCMIXED?1:0$;$WCMODS?1:0$")]  with [assembly: AssemblyTrademark("0;0")]
+[assembly: AssemblyVersion("1.4.0.$WCREV$")]                 with [assembly: AssemblyVersion("1.4.0.0")]
+[assembly: AssemblyFileVersion("1.4.0.$WCREV$")]             with [assembly: AssemblyFileVersion("1.4.0.0")]
+
+Do this for all 3 files and then open up MonoDevelop.
+Open the CellAO.sln and change into the Libraries project folder.
+Edit the Project options for NLog.netfx40, and change to Build->Compiler. Add the Symbol MONO_2_10. Do this twice for Release and Debug.
+
+Step 2: Compile
+
+Ignore the warnings and start ChatEngine, LoginEngine and ZoneEngine after you adjusted the Config.xml.
+
+Thats it.
+
+Suggestions how to add the revision number to the AssemblyInfo.cs again are very welcome.
+
+Tested with Linux 2.6.32 Debian, Mono 2.10, MonoDevelop 2.8.6.5, CellAO rev 524

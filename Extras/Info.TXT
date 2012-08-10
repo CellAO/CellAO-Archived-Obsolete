@@ -1,0 +1,2 @@
+Gender: Uni = 1, Male = 2, Female = 3
+Breed: Solitus = 1, Opifex = 2, Nanomage = 3, Atrox = 4

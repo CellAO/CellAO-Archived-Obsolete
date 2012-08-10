@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ConfigData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <statel_dir>D:\CELLAO\AllData\1000026</statel_dir>
+  <item_dir>D:\CELLAO\AllData\1000020</item_dir>
+  <connectstring>server=127.0.0.1;userid=root;password=InsertPasswordHere;database=cellao</connectstring>
+  <ao_dir>C:\AO</ao_dir>
+</ConfigData>

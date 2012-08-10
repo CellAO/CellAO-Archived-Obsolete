@@ -1,0 +1,172 @@
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_chat_consolecmdsdefault.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_chat_consolecommands.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_helpstart.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_helpstop.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_ip_config_pharse_error.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_logincmdhelp.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_logincmdadduserhelp.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_logincmdhelpsetpass.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_loginhelpcmdrunning.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_login_consolecmdsdefault.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_login_consolecommands.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_main.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_zone_consolecmdsdefault.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_zone_consolecommands.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_autostart.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_loginisnotrunning.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_loginisrunning.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_helpstart.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_helpstop.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_logincmdhelpsetpass.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_loginisnotrunning.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_loginisrunning.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_autostart.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_zone_consolecmdsdefault.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_zone_consolecommands.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_chat_consolecmdsdefault.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_chat_consolecommands.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_logincmdhelp.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_loginhelpcmdrunning.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_logincmdadduserhelp.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_login_consolecmdsdefault.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_login_consolecommands.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_ip_config_pharse_error.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_main.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_autostart.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_chat_consolecmdsdefault.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_chat_consolecommands.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_helpstart.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_helpstop.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_ip_config_pharse_error.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_logincmdadduserhelp.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_logincmdhelp.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_logincmdhelpsetpass.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_loginhelpcmdrunning.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_loginisnotrunning.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_loginisrunning.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_login_consolecmdsdefault.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_login_consolecommands.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_main.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_zone_consolecmdsdefault.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_zone_consolecommands.txt
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\Scripts\main.lua
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\AO.Core.dll
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\AO.Core.pdb
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\AO.Core.XML
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\AO.Core\obj\Release\ResolveAssemblyReference.cache
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\AO.Core\obj\Release\AO.Core.dll
+D:\CELLAO\AbsolutAktuell\CellAO\Libraries\Source\AO.Core\obj\Release\AO.Core.pdb
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_chat_consolecmdsdefault.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_chat_consolecommands.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_helpstart.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_helpstop.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_ip_config_pharse_error.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_logincmdhelp.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_logincmdadduserhelp.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_logincmdhelpsetpass.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_loginhelpcmdrunning.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_login_consolecmdsdefault.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_login_consolecommands.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_main.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_zone_consolecmdsdefault.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_zone_consolecommands.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_autostart.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_loginisnotrunning.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\en\en_loginisrunning.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_helpstart.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_helpstop.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_logincmdhelpsetpass.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_loginisnotrunning.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_loginisrunning.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_autostart.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_zone_consolecmdsdefault.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_zone_consolecommands.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_chat_consolecmdsdefault.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_chat_consolecommands.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_logincmdhelp.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_loginhelpcmdrunning.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_logincmdadduserhelp.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_login_consolecmdsdefault.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_login_consolecommands.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_ip_config_pharse_error.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\gr\gr_main.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_autostart.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_chat_consolecmdsdefault.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_chat_consolecommands.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_helpstart.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_helpstop.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_ip_config_pharse_error.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_logincmdadduserhelp.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_logincmdhelp.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_logincmdhelpsetpass.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_loginhelpcmdrunning.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_loginisnotrunning.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_loginisrunning.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_login_consolecmdsdefault.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_login_consolecommands.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_main.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_zone_consolecmdsdefault.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\locale\ro\ro_zone_consolecommands.txt
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\AO.Core.dll
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\AO.Core.pdb
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\Built\Release\AO.Core.XML
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\AO.Core\obj\Release\ResolveAssemblyReference.cache
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\AO.Core\obj\Release\AO.Core.dll
+D:\CellAORamBACKUP\AbsolutAktuell\CellAO\Libraries\Source\AO.Core\obj\Release\AO.Core.pdb
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_chat_consolecmdsdefault.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_chat_consolecommands.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_helpstart.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_helpstop.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_ip_config_pharse_error.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_logincmdhelp.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_logincmdadduserhelp.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_logincmdhelpsetpass.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_loginhelpcmdrunning.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_login_consolecmdsdefault.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_login_consolecommands.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_main.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_zone_consolecmdsdefault.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_zone_consolecommands.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_autostart.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_loginisnotrunning.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\en\en_loginisrunning.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_helpstart.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_helpstop.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_logincmdhelpsetpass.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_loginisnotrunning.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_loginisrunning.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_autostart.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_zone_consolecmdsdefault.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_zone_consolecommands.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_chat_consolecmdsdefault.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_chat_consolecommands.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_logincmdhelp.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_loginhelpcmdrunning.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_logincmdadduserhelp.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_login_consolecmdsdefault.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_login_consolecommands.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_ip_config_pharse_error.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\gr\gr_main.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_autostart.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_chat_consolecmdsdefault.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_chat_consolecommands.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_helpstart.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_helpstop.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_ip_config_pharse_error.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_logincmdadduserhelp.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_logincmdhelp.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_logincmdhelpsetpass.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_loginhelpcmdrunning.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_loginisnotrunning.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_loginisrunning.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_login_consolecmdsdefault.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_login_consolecommands.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_main.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_zone_consolecmdsdefault.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\locale\ro\ro_zone_consolecommands.txt
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\AO.Core.dll
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\AO.Core.pdb
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\Built\Release\AO.Core.XML
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\AO.Core\obj\Release\ResolveAssemblyReference.cache
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\AO.Core\obj\Release\AO.Core.dll
+D:\CellAORamBACKUP\Dauert noch\CellAO\Libraries\Source\AO.Core\obj\Release\AO.Core.pdb
