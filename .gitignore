@@ -23,3 +23,7 @@ CellAO/_ReSharper.CellAO
 /CellAO/Libraries/Source/CellCore/obj
 /CellAO/Libraries/Source/zlib/source/obj
 /CellAO/Libraries/Source/zlib/source/bin
+/CellAO/AO.Servers/ChatEngine/Properties/AssemblyInfo.cs
+/cellao/ao.servers/LoginEngine/Properties/AssemblyInfo.cs
+/cellao/ao.servers/ZoneEngine/Properties/AssemblyInfo.cs
+/cellao/CellAO.suo
