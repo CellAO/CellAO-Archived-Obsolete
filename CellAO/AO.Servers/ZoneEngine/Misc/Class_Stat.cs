@@ -112,7 +112,7 @@ namespace ZoneEngine.Misc
         public int StatModifier; // From Items/Perks/Nanos
         public int Trickle; // From Attributes (Strength, Stamina, Sense, Agility, Intelligence, Psychic)
         public bool AnnounceToPlayfield = true;
-        public bool DontWriteToSQL;
+        public bool DoNotDontWriteToSql;
         public bool SendBaseValue = true;
         public bool changed;
         public List<int> Affects = new List<int>();
@@ -121,13 +121,13 @@ namespace ZoneEngine.Misc
 
         public Class_Stat(int Number, uint Default, string name, bool sendbase, bool dontwrite, bool announcetoplayfield)
         {
-            DontWriteToSQL = true;
+            this.DoNotDontWriteToSql = true;
             StatNumber = Number;
             StatDefault = Default;
             Value = (int) Default;
             StatDefault = Default;
             SendBaseValue = sendbase;
-            DontWriteToSQL = dontwrite;
+            this.DoNotDontWriteToSql = dontwrite;
             AnnounceToPlayfield = announcetoplayfield;
             // Obsolete            StatName = name;
         }
@@ -192,7 +192,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         public void WriteStatToSQL()
         {
-            if (DontWriteToSQL)
+            if (this.DoNotDontWriteToSql)
             {
                 return;
             }
@@ -223,7 +223,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         public void WriteStatToSQL(bool doit)
         {
-            if (DontWriteToSQL)
+            if (this.DoNotDontWriteToSql)
             {
                 return;
             }
@@ -254,7 +254,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         public void ReadStatFromSQL()
         {
-            if (DontWriteToSQL)
+            if (this.DoNotDontWriteToSql)
             {
                 return;
             }
@@ -2630,13 +2630,13 @@ namespace ZoneEngine.Misc
             }
 
             #region Setting our special stats to 'dontwriteme'-mode
-            Expansion.DontWriteToSQL = true;
-            AccountFlags.DontWriteToSQL = true;
-            PlayerID.DontWriteToSQL = true;
-            ProfessionLevel.DontWriteToSQL = true;
-            GmLevel.DontWriteToSQL = true;
-            Type.DontWriteToSQL = true;
-            Instance.DontWriteToSQL = true;
+            Expansion.DoNotDontWriteToSql = true;
+            AccountFlags.DoNotDontWriteToSql = true;
+            PlayerID.DoNotDontWriteToSql = true;
+            ProfessionLevel.DoNotDontWriteToSql = true;
+            GmLevel.DoNotDontWriteToSql = true;
+            Type.DoNotDontWriteToSql = true;
+            Instance.DoNotDontWriteToSql = true;
             #endregion
         }
         #endregion
@@ -2822,7 +2822,7 @@ namespace ZoneEngine.Misc
         {
             foreach (Class_Stat c in all)
             {
-                if (c.DontWriteToSQL) continue;
+                if (c.DoNotDontWriteToSql) continue;
                 c.WriteStatToSQL(true);
             }
         }

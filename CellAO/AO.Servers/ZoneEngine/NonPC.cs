@@ -599,9 +599,9 @@ namespace ZoneEngine
             }
         }
 
-        public void KnuBotFinishTrade(Character character, int flag)
+        public void KnuBotFinishTrade(Character character, int decline)
         {
-            if (flag == 1)
+            if (decline == 1)
             {
                 KnuBotDeclineTrade(character);
             }

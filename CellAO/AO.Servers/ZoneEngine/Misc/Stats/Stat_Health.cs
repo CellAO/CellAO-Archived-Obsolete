@@ -38,7 +38,7 @@ namespace ZoneEngine.Misc
 
             Value = (int) StatDefault;
             SendBaseValue = sendbase;
-            DontWriteToSQL = dontwrite;
+            this.DoNotDontWriteToSql = dontwrite;
             AnnounceToPlayfield = announce;
         }
 
