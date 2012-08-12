@@ -19,3 +19,7 @@ CellAO/_ReSharper.CellAO
 /cellao/libraries/out
 /cellao/Built
 /cellao/Libraries/Source/AO.Core/AO.Core.XML
+/.svn
+/CellAO/Libraries/Source/CellCore/obj
+/CellAO/Libraries/Source/zlib/source/obj
+/CellAO/Libraries/Source/zlib/source/bin
