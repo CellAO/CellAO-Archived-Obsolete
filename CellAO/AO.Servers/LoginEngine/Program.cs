@@ -1,46 +1,51 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Diagnostics;
-using System.Net;
-using System.Threading.Tasks;
-using AO.Core;
-using Cell.Core;
-using MySql.Data.MySqlClient;
-using NBug;
-using NLog;
-using NLog.Config;
-using NLog.Targets;
 using Config = AO.Core.Config.ConfigReadWrite;
+
 #endregion
 
 namespace LoginEngine
 {
+    using System;
+    using System.Diagnostics;
+    using System.Net;
+    using System.Threading.Tasks;
+
+    using AO.Core;
+
+    using Cell.Core;
+
+    using MySql.Data.MySqlClient;
+
+    using NBug;
+
+    using NLog;
+    using NLog.Config;
+    using NLog.Targets;
+
     public class Program
     {
         public static Server LoginServer;
@@ -60,8 +65,8 @@ namespace LoginEngine
         private static void Main(string[] args)
         {
             #region Console Texts...
-            Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description +
-                            " " + AssemblyInfoclass.AssemblyVersion;
+            Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description
+                            + " " + AssemblyInfoclass.AssemblyVersion;
             ConsoleText ct = new ConsoleText();
             ct.TextRead("main.txt");
             Console.WriteLine("Loading " + AssemblyInfoclass.Title + "...");
@@ -239,7 +244,9 @@ namespace LoginEngine
                             {
                                 expansions = int.Parse(parts[4]);
                                 if (expansions < 0 || expansions > 2047)
+                                {
                                     throw new Exception();
+                                }
                             }
                             catch
                             {
@@ -261,7 +268,9 @@ namespace LoginEngine
                             try
                             {
                                 if (email == null)
+                                {
                                     throw new Exception();
+                                }
                             }
                             catch
                             {
@@ -272,7 +281,9 @@ namespace LoginEngine
                             try
                             {
                                 if (firstname == null)
+                                {
                                     throw new Exception();
+                                }
                             }
                             catch
                             {
@@ -283,7 +294,9 @@ namespace LoginEngine
                             try
                             {
                                 if (lastname == null)
+                                {
                                     throw new Exception();
+                                }
                             }
                             catch
                             {
@@ -293,17 +306,23 @@ namespace LoginEngine
 
                             string formatString;
                             formatString =
-                                "INSERT INTO `login` (`CreationDate`, `Flags`,`AccountFlags`,`Username`,`Password`,`Allowed_Characters`,`Expansions`, `GM`, `Email`, `FirstName`, `LastName`) VALUES " +
-                                "(NOW(), '0', '0', '{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}');";
+                                "INSERT INTO `login` (`CreationDate`, `Flags`,`AccountFlags`,`Username`,`Password`,`Allowed_Characters`,`Expansions`, `GM`, `Email`, `FirstName`, `LastName`) VALUES "
+                                + "(NOW(), '0', '0', '{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}');";
 
                             LoginEncryption le = new LoginEncryption();
 
                             string hashedPassword = le.GeneratePasswordHash(password);
 
-                            string sql =
-                                String.Format(formatString,
-                                              username, hashedPassword, numChars, expansions, gm, email, firstname,
-                                              lastname);
+                            string sql = String.Format(
+                                formatString,
+                                username,
+                                hashedPassword,
+                                numChars,
+                                expansions,
+                                gm,
+                                email,
+                                firstname,
+                                lastname);
                             SqlWrapper wrp = new SqlWrapper();
                             try
                             {
@@ -369,8 +388,7 @@ namespace LoginEngine
                             string formatString;
                             formatString = "UPDATE `login` SET Password = '{0}' WHERE login.Username = '{1}'";
 
-                            string sql =
-                                String.Format(formatString, hashed, username);
+                            string sql = String.Format(formatString, hashed, username);
 
                             SqlWrapper updt = new SqlWrapper();
                             try

@@ -1,39 +1,40 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using AO.Core;
+
 #endregion
 
 namespace ZoneEngine
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+
+    using AO.Core;
+
     // Addition can be performed on DropHashes as follows:
 
     // DropHashes:  "NANITM+HTHITM, INSTDC+NANORK, SHOPFD"
@@ -53,27 +54,34 @@ namespace ZoneEngine
         public class LootItem
         {
             public string Hash;
+
             public int LowID;
+
             public int HighID;
+
             public int MinQL;
+
             public int MaxQL;
+
             public bool RangeCheck;
 
             public LootItem(string hash, string lowid, string highid, string minql, string maxql, string rangecheck)
             {
-                Hash = hash;
-                LowID = Convert.ToInt32(lowid);
-                HighID = Convert.ToInt32(highid);
-                MinQL = Convert.ToInt32(minql);
-                MaxQL = Convert.ToInt32(maxql);
-                RangeCheck = Convert.ToBoolean(Convert.ToByte(rangecheck));
+                this.Hash = hash;
+                this.LowID = Convert.ToInt32(lowid);
+                this.HighID = Convert.ToInt32(highid);
+                this.MinQL = Convert.ToInt32(minql);
+                this.MaxQL = Convert.ToInt32(maxql);
+                this.RangeCheck = Convert.ToBoolean(Convert.ToByte(rangecheck));
             }
         }
 
         public class PartialSlot
         {
             public List<string> HashList;
+
             public int Slot;
+
             public int Chance;
 
             public PartialSlot(string hash, string slot, string chance)
@@ -81,10 +89,10 @@ namespace ZoneEngine
                 string[] hasharray = hash.Split('+');
                 foreach (string h in hasharray)
                 {
-                    HashList.Add(h.Trim());
+                    this.HashList.Add(h.Trim());
                 }
-                Slot = Convert.ToInt32(slot);
-                Chance = Convert.ToInt32(chance);
+                this.Slot = Convert.ToInt32(slot);
+                this.Chance = Convert.ToInt32(chance);
             }
         }
 
@@ -98,8 +106,14 @@ namespace ZoneEngine
             DataRowCollection drc = dt.Rows;
             foreach (DataRow row in drc)
             {
-                FullDropList.Add(new LootItem(row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(),
-                                              row[4].ToString(), row[5].ToString()));
+                FullDropList.Add(
+                    new LootItem(
+                        row[0].ToString(),
+                        row[1].ToString(),
+                        row[2].ToString(),
+                        row[3].ToString(),
+                        row[4].ToString(),
+                        row[5].ToString()));
             }
         }
 
@@ -107,12 +121,12 @@ namespace ZoneEngine
         {
             List<AOItem> drops = new List<AOItem>();
 
-            int minql = (int) Math.Ceiling(npc.Stats.Level.Value - 0.2*npc.Stats.Level.Value);
-            int maxql = (int) Math.Floor(npc.Stats.Level.Value + 0.2*npc.Stats.Level.Value);
+            int minql = (int)Math.Ceiling(npc.Stats.Level.Value - 0.2 * npc.Stats.Level.Value);
+            int maxql = (int)Math.Floor(npc.Stats.Level.Value + 0.2 * npc.Stats.Level.Value);
 
             var lootinfo =
-                new SqlWrapper().ReadDT("SELECT drophashes, dropslots, droppercents FROM mobtemplate WHERE hash = " +
-                                        npc.Hash + ";").Rows;
+                new SqlWrapper().ReadDT(
+                    "SELECT drophashes, dropslots, droppercents FROM mobtemplate WHERE hash = " + npc.Hash + ";").Rows;
 
             int numberofslots = 0;
 
@@ -121,9 +135,13 @@ namespace ZoneEngine
             string[] percents = lootinfo[0][2].ToString().ToLower().Split(',');
 
             if (hashes.Count() == 0)
+            {
                 return null;
+            }
             if (hashes[0] == string.Empty)
+            {
                 return null;
+            }
 
             foreach (string s in slots)
             {
@@ -147,7 +165,7 @@ namespace ZoneEngine
                 double chance = 0;
                 foreach (PartialSlot slot in fullSlot)
                 {
-                    chance = chance + (slot.Chance/(double) 10000);
+                    chance = chance + (slot.Chance / (double)10000);
                     if (num <= chance)
                     {
                         List<LootItem> union = new List<LootItem>();
@@ -157,11 +175,11 @@ namespace ZoneEngine
                             var matches =
                                 FullDropList.Where(
                                     match =>
-                                    ((match.MinQL <= minql && match.MaxQL >= maxql) ||
-                                     (match.MinQL < maxql && match.MaxQL >= maxql) ||
-                                     (match.MinQL <= minql && match.MaxQL > minql) ||
-                                     (match.MinQL >= minql && match.MaxQL <= maxql) || !match.RangeCheck) &&
-                                    match.Hash == hash).Select(match => match);
+                                    ((match.MinQL <= minql && match.MaxQL >= maxql)
+                                     || (match.MinQL < maxql && match.MaxQL >= maxql)
+                                     || (match.MinQL <= minql && match.MaxQL > minql)
+                                     || (match.MinQL >= minql && match.MaxQL <= maxql) || !match.RangeCheck)
+                                    && match.Hash == hash).Select(match => match);
                             foreach (LootItem li in matches)
                             {
                                 if (
@@ -179,8 +197,8 @@ namespace ZoneEngine
                         {
                             int select = rand.Next(-1, union.Count());
 
-                            AOItem item = ItemHandler.interpolate(union.ElementAt(@select).LowID,
-                                                                  union.ElementAt(@select).HighID, ql);
+                            AOItem item = ItemHandler.interpolate(
+                                union.ElementAt(@select).LowID, union.ElementAt(@select).HighID, ql);
 
                             if (item.ItemType != 1)
                             {
@@ -192,7 +210,9 @@ namespace ZoneEngine
                                 foreach (AOItemAttribute a in item.Stats)
                                 {
                                     if (a.Stat != 212)
+                                    {
                                         continue;
+                                    }
                                     found = true;
                                     a.Value = Math.Max(1, item.getItemAttribute(212));
                                     break;

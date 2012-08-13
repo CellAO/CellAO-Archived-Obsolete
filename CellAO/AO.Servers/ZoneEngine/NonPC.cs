@@ -1,43 +1,45 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 //region Bandit strikes again!!!!
 
 #region Usings...
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
-using AO.Core;
-using ZoneEngine.Misc;
-using ZoneEngine.Packets;
+
 #endregion
 
 namespace ZoneEngine
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Globalization;
+
+    using AO.Core;
+
+    using ZoneEngine.Misc;
+    using ZoneEngine.Packets;
+
     public class NonPC : Character
     {
         /// <summary>
@@ -72,17 +74,17 @@ namespace ZoneEngine
         public NonPC(int _id, int _playfield)
             : base(_id, _playfield)
         {
-            ID = _id;
-            PlayField = _playfield;
-            Type = 50000;
-            ourType = 1;
-            Meshs = new List<AOMeshs>();
-            AdditionalMeshs = new List<AOAddMeshs>();
-            Weaponpairs = new List<AOWeaponpairs>();
-            Stats = new Character_Stats(this);
-            startup = false;
-            addHPNPtick();
-            dontdotimers = false;
+            this.ID = _id;
+            this.PlayField = _playfield;
+            this.Type = 50000;
+            this.ourType = 1;
+            this.Meshs = new List<AOMeshs>();
+            this.AdditionalMeshs = new List<AOAddMeshs>();
+            this.Weaponpairs = new List<AOWeaponpairs>();
+            this.Stats = new Character_Stats(this);
+            this.startup = false;
+            this.addHPNPtick();
+            this.dontdotimers = false;
         }
 
         public NonPC()
@@ -100,12 +102,13 @@ namespace ZoneEngine
             AOCoord m_wp;
 
             DataTable dt =
-                ms.ReadDT("SELECT * FROM " + getSQLTablefromDynelType() + "waypoints WHERE ID=" + ID.ToString());
+                ms.ReadDT(
+                    "SELECT * FROM " + this.getSQLTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString());
 
             foreach (DataRow row in dt.Rows)
             {
-                m_wp = new AOCoord((Single) row["X"], (Single) row["Y"], (Single) row["Z"]);
-                Waypoints.Add(m_wp);
+                m_wp = new AOCoord((Single)row["X"], (Single)row["Y"], (Single)row["Z"]);
+                this.Waypoints.Add(m_wp);
             }
         }
 
@@ -118,17 +121,18 @@ namespace ZoneEngine
             SqlWrapper ms = new SqlWrapper();
             int count;
 
-            ms.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "waypoints WHERE ID=" + ID.ToString());
+            ms.SqlDelete("DELETE FROM " + this.getSQLTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString());
 
-            for (count = 0; count < Waypoints.Count; count++)
+            for (count = 0; count < this.Waypoints.Count; count++)
             {
-                ms.SqlInsert("INSERT INTO " + getSQLTablefromDynelType() + "waypoints VALUES (" + ID.ToString() + "," +
-                             PlayField.ToString() + ","
-                             + String.Format(CultureInfo.InvariantCulture, "'{0}'", Waypoints[count].x) + ","
-                             + String.Format(CultureInfo.InvariantCulture, "'{0}'", Waypoints[count].y) + ","
-                             + String.Format(CultureInfo.InvariantCulture, "'{0}'", Waypoints[count].z) + ")");
+                ms.SqlInsert(
+                    "INSERT INTO " + this.getSQLTablefromDynelType() + "waypoints VALUES (" + this.ID.ToString() + ","
+                    + this.PlayField.ToString() + ","
+                    + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Waypoints[count].x) + ","
+                    + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Waypoints[count].y) + ","
+                    + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Waypoints[count].z) + ")");
             }
-            if (Waypoints.Count > 0)
+            if (this.Waypoints.Count > 0)
             {
             }
         }
@@ -142,15 +146,17 @@ namespace ZoneEngine
         public void writeWeaponpairstoSQL()
         {
             SqlWrapper Sql = new SqlWrapper();
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + ID.ToString() +
-                          " AND playfield=" + PlayField.ToString() + ";");
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
+                + " AND playfield=" + this.PlayField.ToString() + ";");
             int c;
-            for (c = 0; c < Weaponpairs.Count; c++)
+            for (c = 0; c < this.Weaponpairs.Count; c++)
             {
-                Sql.SqlInsert("INSERT INTO " + getSQLTablefromDynelType() + "weaponpairs VALUES (" + ID.ToString() + "," +
-                              PlayField.ToString() + "," + Weaponpairs[c].value1.ToString() + "," +
-                              Weaponpairs[c].value2.ToString() + "," + Weaponpairs[c].value3.ToString() + "," +
-                              Weaponpairs[c].value4.ToString() + ");");
+                Sql.SqlInsert(
+                    "INSERT INTO " + this.getSQLTablefromDynelType() + "weaponpairs VALUES (" + this.ID.ToString() + ","
+                    + this.PlayField.ToString() + "," + this.Weaponpairs[c].value1.ToString() + ","
+                    + this.Weaponpairs[c].value2.ToString() + "," + this.Weaponpairs[c].value3.ToString() + ","
+                    + this.Weaponpairs[c].value4.ToString() + ");");
             }
         }
 
@@ -162,19 +168,20 @@ namespace ZoneEngine
         {
             AOWeaponpairs m_wp;
             SqlWrapper Sql = new SqlWrapper();
-            Weaponpairs.Clear();
+            this.Weaponpairs.Clear();
             DataTable dt =
-                Sql.ReadDT("SELECT * FROM " + getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + ID.ToString() +
-                           " AND playfield=" + PlayField.ToString());
+                Sql.ReadDT(
+                    "SELECT * FROM " + this.getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
+                    + " AND playfield=" + this.PlayField.ToString());
 
             foreach (DataRow row in dt.Rows)
             {
                 m_wp = new AOWeaponpairs();
-                m_wp.value1 = (Int32) row["value1"];
-                m_wp.value2 = (Int32) row["value2"];
-                m_wp.value3 = (Int32) row["value3"];
-                m_wp.value4 = (Int32) row["value4"];
-                Weaponpairs.Add(m_wp);
+                m_wp.value1 = (Int32)row["value1"];
+                m_wp.value2 = (Int32)row["value2"];
+                m_wp.value3 = (Int32)row["value3"];
+                m_wp.value4 = (Int32)row["value4"];
+                this.Weaponpairs.Add(m_wp);
             }
         }
         #endregion
@@ -187,14 +194,16 @@ namespace ZoneEngine
         public void writeMeshstoSQL()
         {
             SqlWrapper Sql = new SqlWrapper();
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "meshs WHERE ID=" + ID.ToString() +
-                          " AND playfield=" + PlayField.ToString());
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
+                + " AND playfield=" + this.PlayField.ToString());
             int c;
-            for (c = 0; c < Meshs.Count; c++)
+            for (c = 0; c < this.Meshs.Count; c++)
             {
-                Sql.SqlInsert("INSERT INTO " + getSQLTablefromDynelType() + "meshs VALUES (" + ID.ToString() + "," +
-                              PlayField.ToString() + "," + Meshs[c].Position.ToString() + "," + Meshs[c].Mesh.ToString() +
-                              "," + Meshs[c].OverrideTexture.ToString() + ")");
+                Sql.SqlInsert(
+                    "INSERT INTO " + this.getSQLTablefromDynelType() + "meshs VALUES (" + this.ID.ToString() + ","
+                    + this.PlayField.ToString() + "," + this.Meshs[c].Position.ToString() + ","
+                    + this.Meshs[c].Mesh.ToString() + "," + this.Meshs[c].OverrideTexture.ToString() + ")");
             }
         }
 
@@ -205,18 +214,19 @@ namespace ZoneEngine
         public void readMeshsfromSQL()
         {
             SqlWrapper Sql = new SqlWrapper();
-            Meshs.Clear();
+            this.Meshs.Clear();
             AOMeshs m_m;
             DataTable dt =
-                Sql.ReadDT("SELECT * from " + getSQLTablefromDynelType() + "meshs WHERE ID=" + ID.ToString() +
-                           " AND playfield=" + PlayField.ToString());
+                Sql.ReadDT(
+                    "SELECT * from " + this.getSQLTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
+                    + " AND playfield=" + this.PlayField.ToString());
 
             foreach (DataRow row in dt.Rows)
             {
                 m_m = new AOMeshs();
-                m_m.Position = (Int32) row["meshvalue1"];
-                m_m.Mesh = (Int32) row["meshvalue2"];
-                m_m.OverrideTexture = (Int32) row["meshvalue3"];
+                m_m.Position = (Int32)row["meshvalue1"];
+                m_m.Mesh = (Int32)row["meshvalue2"];
+                m_m.OverrideTexture = (Int32)row["meshvalue3"];
             }
         }
         #endregion
@@ -228,12 +238,12 @@ namespace ZoneEngine
         /// </summary>
         public void writeMainStatstoSQL()
         {
-            string sqlquery = "UPDATE " + getSQLTablefromDynelType() + " SET Name='" + AddSlashes(Name) + "'";
-            foreach (AOTextures at in Textures)
+            string sqlquery = "UPDATE " + this.getSQLTablefromDynelType() + " SET Name='" + AddSlashes(this.Name) + "'";
+            foreach (AOTextures at in this.Textures)
             {
                 sqlquery += ",Textures" + at.place.ToString() + "=" + at.Texture.ToString();
             }
-            sqlquery += " WHERE ID=" + ID.ToString();
+            sqlquery += " WHERE ID=" + this.ID.ToString();
 
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlUpdate(sqlquery);
@@ -247,18 +257,19 @@ namespace ZoneEngine
         public void AddToDB()
         {
             SqlWrapper Sql = new SqlWrapper();
-            Sql.SqlInsert("INSERT INTO " + getSQLTablefromDynelType() + " (ID, Playfield) VALUES (" + ID.ToString() +
-                          "," + PlayField.ToString() + ")");
-            writeCoordinatestoSQL();
-            writeHeadingtoSQL();
-            writeMainStatstoSQL();
+            Sql.SqlInsert(
+                "INSERT INTO " + this.getSQLTablefromDynelType() + " (ID, Playfield) VALUES (" + this.ID.ToString()
+                + "," + this.PlayField.ToString() + ")");
+            this.writeCoordinatestoSQL();
+            this.writeHeadingtoSQL();
+            this.writeMainStatstoSQL();
 
-            WriteStats();
-            writeInventorytoSQL();
-            writeNanostoSQL();
-            writeWaypointstoSQL();
-            writeWeaponpairstoSQL();
-            writeMeshstoSQL();
+            this.WriteStats();
+            this.writeInventorytoSQL();
+            this.writeNanostoSQL();
+            this.writeWaypointstoSQL();
+            this.writeWeaponpairstoSQL();
+            this.writeMeshstoSQL();
         }
         #endregion
 
@@ -280,22 +291,30 @@ namespace ZoneEngine
         public void RemoveFromDB()
         {
             SqlWrapper Sql = new SqlWrapper();
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + " WHERE ID=" + ID.ToString() + " AND playfield=" +
-                          PlayField.ToString());
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "inventory WHERE ID=" + ID.ToString() +
-                          " AND playfield=" + PlayField.ToString());
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "activenanos WHERE ID=" + ID.ToString() +
-                          " AND playfield=" + PlayField.ToString());
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "meshs WHERE ID=" + ID.ToString() +
-                          " AND playfield=" + PlayField.ToString());
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "timers WHERE ID=" + ID.ToString() +
-                          " AND playfield=" + PlayField.ToString());
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "waypoints WHERE ID=" + ID.ToString() +
-                          " AND playfield=" + PlayField.ToString());
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + ID.ToString() +
-                          " AND playfield=" + PlayField.ToString());
-            Sql.SqlDelete("DELETE FROM " + getSQLTablefromDynelType() + "_stats WHERE ID=" + ID.ToString() +
-                          " AND playfield=" + PlayField.ToString());
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + " AND playfield="
+                + this.PlayField.ToString());
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + "inventory WHERE ID=" + this.ID.ToString()
+                + " AND playfield=" + this.PlayField.ToString());
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + "activenanos WHERE ID=" + this.ID.ToString()
+                + " AND playfield=" + this.PlayField.ToString());
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
+                + " AND playfield=" + this.PlayField.ToString());
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString()
+                + " AND playfield=" + this.PlayField.ToString());
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString()
+                + " AND playfield=" + this.PlayField.ToString());
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
+                + " AND playfield=" + this.PlayField.ToString());
+            Sql.SqlDelete(
+                "DELETE FROM " + this.getSQLTablefromDynelType() + "_stats WHERE ID=" + this.ID.ToString()
+                + " AND playfield=" + this.PlayField.ToString());
         }
         #endregion
 
@@ -305,7 +324,7 @@ namespace ZoneEngine
         /// </summary>
         public void Despawn()
         {
-            Packets.Despawn.DespawnPacket(ID);
+            Packets.Despawn.DespawnPacket(this.ID);
         }
         #endregion
 
@@ -349,11 +368,12 @@ namespace ZoneEngine
         public new void writeCoordinatestoSQL()
         {
             SqlWrapper Sql = new SqlWrapper();
-            Sql.SqlUpdate("UPDATE " + getSQLTablefromDynelType() + " SET playfield=" + PlayField.ToString() + ", X=" +
-                          String.Format(CultureInfo.InvariantCulture, "'{0}'", Coordinates.x) + ", Y=" +
-                          String.Format(CultureInfo.InvariantCulture, "'{0}'", Coordinates.y) + ", Z=" +
-                          String.Format(CultureInfo.InvariantCulture, "'{0}'", Coordinates.z) + " WHERE ID=" +
-                          ID.ToString() + ";");
+            Sql.SqlUpdate(
+                "UPDATE " + this.getSQLTablefromDynelType() + " SET playfield=" + this.PlayField.ToString() + ", X="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.x) + ", Y="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.y) + ", Z="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.z) + " WHERE ID="
+                + this.ID.ToString() + ";");
         }
         #endregion
 
@@ -366,28 +386,29 @@ namespace ZoneEngine
         {
             SqlWrapper ms = new SqlWrapper();
             AOTextures m_tex;
-            Textures.Clear();
+            this.Textures.Clear();
 
             DataTable dt =
-                ms.ReadDT("SELECT textures0, textures1, textures2, textures3, textures4 from " +
-                          getSQLTablefromDynelType() + " WHERE ID=" + ID.ToString() + " AND playfield=" +
-                          PlayField.ToString());
+                ms.ReadDT(
+                    "SELECT textures0, textures1, textures2, textures3, textures4 from "
+                    + this.getSQLTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + " AND playfield="
+                    + this.PlayField.ToString());
             if (dt.Rows.Count > 0)
             {
-                m_tex = new AOTextures(0, (Int32) dt.Rows[0]["textures0"]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(0, (Int32)dt.Rows[0]["textures0"]);
+                this.Textures.Add(m_tex);
 
-                m_tex = new AOTextures(1, (Int32) dt.Rows[0]["textures1"]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(1, (Int32)dt.Rows[0]["textures1"]);
+                this.Textures.Add(m_tex);
 
-                m_tex = new AOTextures(2, (Int32) dt.Rows[0]["textures2"]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(2, (Int32)dt.Rows[0]["textures2"]);
+                this.Textures.Add(m_tex);
 
-                m_tex = new AOTextures(3, (Int32) dt.Rows[0]["textures3"]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(3, (Int32)dt.Rows[0]["textures3"]);
+                this.Textures.Add(m_tex);
 
-                m_tex = new AOTextures(4, (Int32) dt.Rows[0]["textures4"]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(4, (Int32)dt.Rows[0]["textures4"]);
+                this.Textures.Add(m_tex);
             }
         }
         #endregion
@@ -400,22 +421,22 @@ namespace ZoneEngine
         /// <param name="row">database row</param>
         public void readTexturesfromSQLfast(DataRow row)
         {
-            Textures.Clear();
+            this.Textures.Clear();
             AOTextures m_tex;
-            m_tex = new AOTextures(0, (Int32) row["textures0"]);
-            Textures.Add(m_tex);
+            m_tex = new AOTextures(0, (Int32)row["textures0"]);
+            this.Textures.Add(m_tex);
 
-            m_tex = new AOTextures(1, (Int32) row["textures1"]);
-            Textures.Add(m_tex);
+            m_tex = new AOTextures(1, (Int32)row["textures1"]);
+            this.Textures.Add(m_tex);
 
-            m_tex = new AOTextures(2, (Int32) row["textures2"]);
-            Textures.Add(m_tex);
+            m_tex = new AOTextures(2, (Int32)row["textures2"]);
+            this.Textures.Add(m_tex);
 
-            m_tex = new AOTextures(3, (Int32) row["textures3"]);
-            Textures.Add(m_tex);
+            m_tex = new AOTextures(3, (Int32)row["textures3"]);
+            this.Textures.Add(m_tex);
 
-            m_tex = new AOTextures(4, (Int32) row["textures4"]);
-            Textures.Add(m_tex);
+            m_tex = new AOTextures(4, (Int32)row["textures4"]);
+            this.Textures.Add(m_tex);
         }
         #endregion
 
@@ -426,14 +447,14 @@ namespace ZoneEngine
         /// <param name="row">database row</param>
         public void readcoordsheadingfast(DataRow row)
         {
-            Coordinates.x = (Single) row["X"];
-            Coordinates.y = (Single) row["Y"];
-            Coordinates.z = (Single) row["Z"];
-            PlayField = (Int32) row["Playfield"];
-            Heading.x = (Single) row["HeadingX"];
-            Heading.y = (Single) row["HeadingY"];
-            Heading.z = (Single) row["HeadingZ"];
-            Heading.w = (Single) row["HeadingW"];
+            this.Coordinates.x = (Single)row["X"];
+            this.Coordinates.y = (Single)row["Y"];
+            this.Coordinates.z = (Single)row["Z"];
+            this.PlayField = (Int32)row["Playfield"];
+            this.Heading.x = (Single)row["HeadingX"];
+            this.Heading.y = (Single)row["HeadingY"];
+            this.Heading.z = (Single)row["HeadingZ"];
+            this.Heading.w = (Single)row["HeadingW"];
         }
         #endregion
 
@@ -450,38 +471,38 @@ namespace ZoneEngine
             DataTable dt = ms.ReadDT("SELECT * FROM mobtemplate where hash='" + hash + "'");
             if (dt.Rows.Count > 0)
             {
-                startup = true;
-                level = (UInt32) Math.Min(Math.Max(level, (Int32) dt.Rows[0]["MinLvl"]), (Int32) dt.Rows[0]["MaxLvl"]);
-                Stats.Level.Set(level);
-                Stats.Side.Set((Int32) dt.Rows[0]["Side"]);
-                Stats.Breed.Set((Int32) dt.Rows[0]["Breed"]);
-                Stats.Fatness.Set((Int32) dt.Rows[0]["Fatness"]);
-                Stats.Sex.Set((Int32) dt.Rows[0]["Sex"]);
-                Stats.Race.Set((Int32) dt.Rows[0]["Race"]);
-                Name = (string) dt.Rows[0]["Name"];
-                Stats.Flags.Set((Int32) dt.Rows[0]["Flags"]);
-                Stats.NPCFamily.Set((Int32) dt.Rows[0]["NPCFamily"]);
-                Stats.Health.Set((Int32) dt.Rows[0]["Health"]);
-                Stats.Life.Set((Int32) dt.Rows[0]["Health"]);
-                Stats.MonsterData.Set((Int32) dt.Rows[0]["Monsterdata"]);
-                Stats.MonsterScale.Set((Int32) dt.Rows[0]["MonsterScale"]);
-                Hash = hash;
+                this.startup = true;
+                level = (UInt32)Math.Min(Math.Max(level, (Int32)dt.Rows[0]["MinLvl"]), (Int32)dt.Rows[0]["MaxLvl"]);
+                this.Stats.Level.Set(level);
+                this.Stats.Side.Set((Int32)dt.Rows[0]["Side"]);
+                this.Stats.Breed.Set((Int32)dt.Rows[0]["Breed"]);
+                this.Stats.Fatness.Set((Int32)dt.Rows[0]["Fatness"]);
+                this.Stats.Sex.Set((Int32)dt.Rows[0]["Sex"]);
+                this.Stats.Race.Set((Int32)dt.Rows[0]["Race"]);
+                this.Name = (string)dt.Rows[0]["Name"];
+                this.Stats.Flags.Set((Int32)dt.Rows[0]["Flags"]);
+                this.Stats.NPCFamily.Set((Int32)dt.Rows[0]["NPCFamily"]);
+                this.Stats.Health.Set((Int32)dt.Rows[0]["Health"]);
+                this.Stats.Life.Set((Int32)dt.Rows[0]["Health"]);
+                this.Stats.MonsterData.Set((Int32)dt.Rows[0]["Monsterdata"]);
+                this.Stats.MonsterScale.Set((Int32)dt.Rows[0]["MonsterScale"]);
+                this.Hash = hash;
 
-                AOTextures m_t = new AOTextures(0, (Int32) dt.Rows[0]["TextureHands"]);
-                Textures.Add(m_t);
+                AOTextures m_t = new AOTextures(0, (Int32)dt.Rows[0]["TextureHands"]);
+                this.Textures.Add(m_t);
 
-                m_t = new AOTextures(1, (Int32) dt.Rows[0]["TextureBody"]);
-                Textures.Add(m_t);
+                m_t = new AOTextures(1, (Int32)dt.Rows[0]["TextureBody"]);
+                this.Textures.Add(m_t);
 
-                m_t = new AOTextures(2, (Int32) dt.Rows[0]["TextureFeet"]);
-                Textures.Add(m_t);
+                m_t = new AOTextures(2, (Int32)dt.Rows[0]["TextureFeet"]);
+                this.Textures.Add(m_t);
 
-                m_t = new AOTextures(3, (Int32) dt.Rows[0]["TextureArms"]);
-                Textures.Add(m_t);
+                m_t = new AOTextures(3, (Int32)dt.Rows[0]["TextureArms"]);
+                this.Textures.Add(m_t);
 
-                m_t = new AOTextures(4, (Int32) dt.Rows[0]["TextureLegs"]);
-                Textures.Add(m_t);
-                startup = false;
+                m_t = new AOTextures(4, (Int32)dt.Rows[0]["TextureLegs"]);
+                this.Textures.Add(m_t);
+                this.startup = false;
             }
         }
         #endregion
@@ -493,8 +514,8 @@ namespace ZoneEngine
         /// <param name="coord"></param>
         public void AddWaypoint(AOCoord coord)
         {
-            Waypoints.Add(coord);
-            writeWaypointstoSQL();
+            this.Waypoints.Add(coord);
+            this.writeWaypointstoSQL();
         }
         #endregion
 
@@ -512,11 +533,11 @@ namespace ZoneEngine
 
             foreach (Character child in Clients)
             {
-                recvers[index] = (UInt32) child.ID;
+                recvers[index] = (UInt32)child.ID;
                 index++;
             }
 
-            ChatCom.SendVicinity((UInt32) ID, 0, recvers, message);
+            ChatCom.SendVicinity((UInt32)this.ID, 0, recvers, message);
         }
         #endregion
 
@@ -530,9 +551,9 @@ namespace ZoneEngine
         public int ReadStatsfast(DataTable dt, int startcount)
         {
             int count = startcount;
-            while ((count < dt.Rows.Count) && ((Int32) dt.Rows[count][0] == ID))
+            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.ID))
             {
-                Stats.Set((Int32) dt.Rows[count][2], (UInt32) (Int32) dt.Rows[count][3]);
+                this.Stats.Set((Int32)dt.Rows[count][2], (UInt32)(Int32)dt.Rows[count][3]);
                 count++;
             }
             return count;
@@ -550,7 +571,7 @@ namespace ZoneEngine
         public int readInventoryfromSQLfast(DataTable dt, int startcount)
         {
             int count = startcount;
-            while ((count < dt.Rows.Count) && ((Int32) dt.Rows[count][0] == ID))
+            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.ID))
             {
                 count++;
             }
@@ -561,41 +582,41 @@ namespace ZoneEngine
         #region KnuBot Stuff
         public void KnuBotAnswer(Character ch, Int32 answer)
         {
-            if (KnuBot != null)
+            if (this.KnuBot != null)
             {
-                KnuBot.KnuBotAnswer(ch, answer);
+                this.KnuBot.KnuBotAnswer(ch, answer);
             }
         }
 
         public void KnuBotOpenChatWindow(Character character)
         {
-            if (KnuBot != null)
+            if (this.KnuBot != null)
             {
-                KnuBot.KnuBotOpenChatWindow(character);
+                this.KnuBot.KnuBotOpenChatWindow(character);
             }
         }
 
         public void KnuBotCloseChatWindow(Character character)
         {
-            if (KnuBot != null)
+            if (this.KnuBot != null)
             {
-                KnuBot.KnuBotCloseChatWindow(character);
+                this.KnuBot.KnuBotCloseChatWindow(character);
             }
         }
 
         public void KnuBotDeclineTrade(Character character)
         {
-            if (KnuBot != null)
+            if (this.KnuBot != null)
             {
-                KnuBot.KnuBotDeclineTrade(character);
+                this.KnuBot.KnuBotDeclineTrade(character);
             }
         }
 
         public void KnuBotAcceptTrade(Character character)
         {
-            if (KnuBot != null)
+            if (this.KnuBot != null)
             {
-                KnuBot.KnuBotAcceptTrade(character);
+                this.KnuBot.KnuBotAcceptTrade(character);
             }
         }
 
@@ -603,27 +624,27 @@ namespace ZoneEngine
         {
             if (decline == 1)
             {
-                KnuBotDeclineTrade(character);
+                this.KnuBotDeclineTrade(character);
             }
             else
             {
-                KnuBotAcceptTrade(character);
+                this.KnuBotAcceptTrade(character);
             }
         }
 
         public void KnuBotStartTrade(Character character)
         {
-            if (KnuBot != null)
+            if (this.KnuBot != null)
             {
-                KnuBot.KnuBotStartTrade(character);
+                this.KnuBot.KnuBotStartTrade(character);
             }
         }
 
         public void KnuBotTrade(Character character, AOItem item)
         {
-            if (KnuBot != null)
+            if (this.KnuBot != null)
             {
-                KnuBot.KnuBotTrade(character, item);
+                this.KnuBot.KnuBotTrade(character, item);
             }
         }
         #endregion

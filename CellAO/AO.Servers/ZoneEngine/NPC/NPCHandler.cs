@@ -1,37 +1,38 @@
-﻿#region License...
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+﻿#region License
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Data;
-using AO.Core;
+
 #endregion
 
 namespace ZoneEngine.NPC
 {
+    using System;
+    using System.Data;
+
+    using AO.Core;
+
     public static class NPCHandler
     {
         /// <summary>
@@ -53,7 +54,10 @@ namespace ZoneEngine.NPC
             mMonster.rawHeading = cli.Character.rawHeading;
             mMonster.PlayField = cli.Character.PlayField;
             mMonster.addHPNPtick();
-            if (String.IsNullOrEmpty(mMonster.Name)) return;
+            if (String.IsNullOrEmpty(mMonster.Name))
+            {
+                return;
+            }
             mMonster.CalculateSkills();
             mMonster.AddToCache();
             mMonster.SpawnToPlayfield(mMonster.PlayField);
@@ -69,7 +73,10 @@ namespace ZoneEngine.NPC
         {
             foreach (NonPC mMonster in Program.zoneServer.Monsters)
             {
-                if (mMonster.PlayField != playfield) continue;
+                if (mMonster.PlayField != playfield)
+                {
+                    continue;
+                }
                 mMonster.SpawnToClient(cli);
             }
         }
@@ -93,10 +100,16 @@ namespace ZoneEngine.NPC
         /// <returns></returns>
         public static void DespawnMonster(Identity monster)
         {
-            if (monster.Type != 50000) return;
+            if (monster.Type != 50000)
+            {
+                return;
+            }
             foreach (NonPC mMonster in Program.zoneServer.Monsters)
             {
-                if (mMonster.ID != monster.Instance) continue;
+                if (mMonster.ID != monster.Instance)
+                {
+                    continue;
+                }
                 mMonster.Despawn();
                 mMonster.RemoveFromCache();
                 break;
@@ -139,12 +152,12 @@ namespace ZoneEngine.NPC
             {
                 mMonster = new NonPC(0, 0);
                 mMonster.startup = true;
-                mMonster.ID = (Int32) row["ID"];
+                mMonster.ID = (Int32)row["ID"];
 
-                mMonster.PlayField = (Int32) row["Playfield"];
-                mMonster.Name = (string) row["Name"]
+                mMonster.PlayField = (Int32)row["Playfield"];
+                mMonster.Name = (string)row["Name"]
 #if DEBUG
- + " " + mMonster.ID.ToString() // ID is for debug purpose only
+                                + " " + mMonster.ID.ToString() // ID is for debug purpose only
 #endif
                     ;
                 mMonster.readcoordsheadingfast(row);
@@ -160,16 +173,16 @@ namespace ZoneEngine.NPC
                 byte[] tempb;
                 if (!(row[15] is DBNull))
                 {
-                    tempb = (byte[]) row[15]; // Waypoints
+                    tempb = (byte[])row[15]; // Waypoints
                     counter = 0;
                     while (counter < tempb.Length)
                     {
                         coord = new AOCoord();
-                        coord.x = BitConverter.ToSingle(tempb, (int) counter);
+                        coord.x = BitConverter.ToSingle(tempb, (int)counter);
                         counter += 4;
-                        coord.y = BitConverter.ToSingle(tempb, (int) counter);
+                        coord.y = BitConverter.ToSingle(tempb, (int)counter);
                         counter += 4;
-                        coord.z = BitConverter.ToSingle(tempb, (int) counter);
+                        coord.z = BitConverter.ToSingle(tempb, (int)counter);
                         counter += 4;
                         mMonster.Waypoints.Add(coord);
                     }
@@ -177,18 +190,18 @@ namespace ZoneEngine.NPC
 
                 if (!(row[16] is DBNull))
                 {
-                    tempb = (byte[]) row[16]; // Weaponpairs
+                    tempb = (byte[])row[16]; // Weaponpairs
                     counter = 0;
                     while (counter < tempb.Length)
                     {
                         tempwp = new AOWeaponpairs();
-                        tempwp.value1 = BitConverter.ToInt32(tempb, (int) counter);
+                        tempwp.value1 = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        tempwp.value2 = BitConverter.ToInt32(tempb, (int) counter);
+                        tempwp.value2 = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        tempwp.value3 = BitConverter.ToInt32(tempb, (int) counter);
+                        tempwp.value3 = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        tempwp.value4 = BitConverter.ToInt32(tempb, (int) counter);
+                        tempwp.value4 = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
                         mMonster.Weaponpairs.Add(tempwp);
                     }
@@ -196,21 +209,21 @@ namespace ZoneEngine.NPC
 
                 if (!(row[17] is DBNull))
                 {
-                    tempb = (byte[]) row[17]; // Running Nanos
+                    tempb = (byte[])row[17]; // Running Nanos
                     counter = 0;
                     while (counter < tempb.Length)
                     {
                         temprn = new AONano();
 
-                        temprn.Nanotype = BitConverter.ToInt32(tempb, (int) counter);
+                        temprn.Nanotype = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        temprn.Instance = BitConverter.ToInt32(tempb, (int) counter);
+                        temprn.Instance = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        temprn.Value3 = BitConverter.ToInt32(tempb, (int) counter);
+                        temprn.Value3 = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        temprn.Time1 = BitConverter.ToInt32(tempb, (int) counter);
+                        temprn.Time1 = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        temprn.Time2 = BitConverter.ToInt32(tempb, (int) counter);
+                        temprn.Time2 = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
                         mMonster.ActiveNanos.Add(temprn);
                     }
@@ -219,15 +232,15 @@ namespace ZoneEngine.NPC
                 if (!(row[18] is DBNull))
                 {
                     counter = 0;
-                    tempb = (byte[]) row[18]; // Meshs
+                    tempb = (byte[])row[18]; // Meshs
                     while (counter < tempb.Length)
                     {
                         tempm = new AOMeshs();
-                        tempm.Position = BitConverter.ToInt32(tempb, (int) counter);
+                        tempm.Position = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        tempm.Mesh = BitConverter.ToInt32(tempb, (int) counter);
+                        tempm.Mesh = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        tempm.OverrideTexture = BitConverter.ToInt32(tempb, (int) counter);
+                        tempm.OverrideTexture = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
 
                         mMonster.Meshs.Add(tempm);
@@ -238,14 +251,14 @@ namespace ZoneEngine.NPC
                 if (!(row[19] is DBNull))
                 {
                     counter = 0;
-                    tempb = (byte[]) row[19]; // Additional Meshs
+                    tempb = (byte[])row[19]; // Additional Meshs
                     while (counter < tempb.Length)
                     {
                         tempa = new AOAddMeshs();
                         tempa.position = tempb[counter++];
-                        tempa.meshvalue1 = BitConverter.ToInt32(tempb, (int) counter);
+                        tempa.meshvalue1 = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
-                        tempa.meshvalue2 = BitConverter.ToInt32(tempb, (int) counter);
+                        tempa.meshvalue2 = BitConverter.ToInt32(tempb, (int)counter);
                         counter += 4;
                         tempa.priority = tempb[counter++];
 
@@ -257,7 +270,7 @@ namespace ZoneEngine.NPC
 
                 Program.zoneServer.Monsters.Add(mMonster);
                 npcCount += 1;
-                if ((npcCount%100) == 0)
+                if ((npcCount % 100) == 0)
                 {
                     Console.Write("\rReading spawns: " + npcCount.ToString() + "/" + npcall.ToString());
                 }

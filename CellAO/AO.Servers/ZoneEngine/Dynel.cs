@@ -1,41 +1,42 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using AO.Core;
-using ZoneEngine.Misc;
 #endregion
 
 namespace ZoneEngine
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Globalization;
+    using System.Text.RegularExpressions;
+
+    using AO.Core;
+
+    using ZoneEngine.Misc;
+
     /// <summary>
     /// Main Dynamic Element Class
     /// </summary>
@@ -121,8 +122,7 @@ namespace ZoneEngine
         /// </summary>
         public bool startup = true;
 
-//        public AOKnuBot KnuBot;     // TODO: Create a proper class for KnuBot contents
-
+        //        public AOKnuBot KnuBot;     // TODO: Create a proper class for KnuBot contents
 
         /// <summary>
         /// Create a Dynel
@@ -133,16 +133,16 @@ namespace ZoneEngine
         {
             lock (this)
             {
-                ID = _id;
-                Type = 0; // empty Dynel has no type, subclasses are setting it
-                ourType = 0; // our type to identify the subclasses
-                PlayField = _playfield;
-                rawCoord = new AOCoord();
-                rawHeading = new Quaternion(0, 0, 0, 0);
-                Events = new List<AOEvents>();
-                Actions = new List<AOActions>();
-                Textures = new List<AOTextures>();
-                SocialTab = new Dictionary<int, int>();
+                this.ID = _id;
+                this.Type = 0; // empty Dynel has no type, subclasses are setting it
+                this.ourType = 0; // our type to identify the subclasses
+                this.PlayField = _playfield;
+                this.rawCoord = new AOCoord();
+                this.rawHeading = new Quaternion(0, 0, 0, 0);
+                this.Events = new List<AOEvents>();
+                this.Actions = new List<AOActions>();
+                this.Textures = new List<AOTextures>();
+                this.SocialTab = new Dictionary<int, int>();
             }
         }
 
@@ -158,7 +158,7 @@ namespace ZoneEngine
         public string getSQLTablefromDynelType()
         {
             /// maybe we should do this as a List, then new classes could self-register their tables
-            switch (ourType)
+            switch (this.ourType)
             {
                 case 0:
                     return "characters";
@@ -214,7 +214,10 @@ namespace ZoneEngine
         /// </summary>
         public Quaternion Heading
         {
-            get { return rawHeading; }
+            get
+            {
+                return this.rawHeading;
+            }
         }
 
         /// <summary>
@@ -222,7 +225,10 @@ namespace ZoneEngine
         /// </summary>
         public AOCoord Coordinates
         {
-            get { return rawCoord; }
+            get
+            {
+                return this.rawCoord;
+            }
         }
         #endregion
 
@@ -233,7 +239,7 @@ namespace ZoneEngine
         /// <param name="packet">Packetreader ref</param>
         public void readCoordsfromPacket(ref PacketReader packet)
         {
-            rawCoord = packet.PopCoord();
+            this.rawCoord = packet.PopCoord();
         }
 
         /// <summary>
@@ -243,19 +249,20 @@ namespace ZoneEngine
         {
             SqlWrapper ms = new SqlWrapper();
 
-            if (Type == 0)
+            if (this.Type == 0)
             {
                 return;
             }
-            string SQLTable = getSQLTablefromDynelType();
-            DataTable dt = ms.ReadDT("SELECT Playfield, X,Y,Z from " + SQLTable + " WHERE ID=" + ID.ToString() + ";");
+            string SQLTable = this.getSQLTablefromDynelType();
+            DataTable dt =
+                ms.ReadDT("SELECT Playfield, X,Y,Z from " + SQLTable + " WHERE ID=" + this.ID.ToString() + ";");
 
             if (dt.Rows.Count > 0)
             {
-                PlayField = (Int32) dt.Rows[0][0];
-                Coordinates.x = (Single) dt.Rows[0][1];
-                Coordinates.y = (Single) dt.Rows[0][2];
-                Coordinates.z = (Single) dt.Rows[0][3];
+                this.PlayField = (Int32)dt.Rows[0][0];
+                this.Coordinates.x = (Single)dt.Rows[0][1];
+                this.Coordinates.y = (Single)dt.Rows[0][2];
+                this.Coordinates.z = (Single)dt.Rows[0][3];
             }
         }
 
@@ -265,7 +272,7 @@ namespace ZoneEngine
         /// <param name="packet">Packet ref to write to</param>
         public void writeCoordinatestoPacket(ref PacketWriter packet)
         {
-            packet.PushCoord(Coordinates);
+            packet.PushCoord(this.Coordinates);
         }
 
         /// <summary>
@@ -275,11 +282,12 @@ namespace ZoneEngine
         {
             SqlWrapper ms = new SqlWrapper();
 
-            ms.SqlUpdate("UPDATE " + getSQLTablefromDynelType() + " SET playfield=" + PlayField.ToString() + ", X=" +
-                         String.Format(CultureInfo.InvariantCulture, "'{0}'", Coordinates.x) + ", Y=" +
-                         String.Format(CultureInfo.InvariantCulture, "'{0}'", Coordinates.y) + ", Z=" +
-                         String.Format(CultureInfo.InvariantCulture, "'{0}'", Coordinates.z) + " WHERE ID=" +
-                         ID.ToString() + ";");
+            ms.SqlUpdate(
+                "UPDATE " + this.getSQLTablefromDynelType() + " SET playfield=" + this.PlayField.ToString() + ", X="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.x) + ", Y="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.y) + ", Z="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.z) + " WHERE ID="
+                + this.ID.ToString() + ";");
         }
         #endregion
 
@@ -290,10 +298,10 @@ namespace ZoneEngine
         /// <param name="packet">Packetreader ref</param>
         public void readHeadingfromPacket(ref PacketReader packet)
         {
-            Heading.x = packet.PopFloat();
-            Heading.y = packet.PopFloat();
-            Heading.z = packet.PopFloat();
-            Heading.w = packet.PopFloat();
+            this.Heading.x = packet.PopFloat();
+            this.Heading.y = packet.PopFloat();
+            this.Heading.z = packet.PopFloat();
+            this.Heading.w = packet.PopFloat();
         }
 
         /// <summary>
@@ -303,21 +311,22 @@ namespace ZoneEngine
         {
             SqlWrapper ms = new SqlWrapper();
 
-            if (Type == 0)
+            if (this.Type == 0)
             {
                 return;
             }
-            string SQLTable = getSQLTablefromDynelType();
+            string SQLTable = this.getSQLTablefromDynelType();
             DataTable dt =
-                ms.ReadDT("SELECT HeadingX,HeadingY,HeadingZ,HeadingW from " + SQLTable + " WHERE ID=" + ID.ToString() +
-                          ";");
+                ms.ReadDT(
+                    "SELECT HeadingX,HeadingY,HeadingZ,HeadingW from " + SQLTable + " WHERE ID=" + this.ID.ToString()
+                    + ";");
 
             if (dt.Rows.Count > 0)
             {
-                Heading.x = (Single) dt.Rows[0][0];
-                Heading.y = (Single) dt.Rows[0][1];
-                Heading.z = (Single) dt.Rows[0][2];
-                Heading.w = (Single) dt.Rows[0][3];
+                this.Heading.x = (Single)dt.Rows[0][0];
+                this.Heading.y = (Single)dt.Rows[0][1];
+                this.Heading.z = (Single)dt.Rows[0][2];
+                this.Heading.w = (Single)dt.Rows[0][3];
             }
         }
 
@@ -327,10 +336,10 @@ namespace ZoneEngine
         /// <param name="packet">Packetwriter ref</param>
         public void writeHeadingtoPacket(ref PacketWriter packet)
         {
-            packet.PushFloat((float) Heading.x);
-            packet.PushFloat((float) Heading.y);
-            packet.PushFloat((float) Heading.z);
-            packet.PushFloat((float) Heading.w);
+            packet.PushFloat((float)this.Heading.x);
+            packet.PushFloat((float)this.Heading.y);
+            packet.PushFloat((float)this.Heading.z);
+            packet.PushFloat((float)this.Heading.w);
         }
 
         /// <summary>
@@ -339,12 +348,13 @@ namespace ZoneEngine
         public void writeHeadingtoSQL()
         {
             SqlWrapper ms = new SqlWrapper();
-            ms.SqlUpdate("UPDATE " + getSQLTablefromDynelType() + " SET HeadingX=" +
-                         String.Format(CultureInfo.InvariantCulture, "'{0}'", Heading.x) + ", HeadingY=" +
-                         String.Format(CultureInfo.InvariantCulture, "'{0}'", Heading.y) + ", HeadingZ=" +
-                         String.Format(CultureInfo.InvariantCulture, "'{0}'", Heading.z) + ", HeadingW=" +
-                         String.Format(CultureInfo.InvariantCulture, "'{0}'", Heading.w) + " WHERE ID=" + ID.ToString() +
-                         ";");
+            ms.SqlUpdate(
+                "UPDATE " + this.getSQLTablefromDynelType() + " SET HeadingX="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.x) + ", HeadingY="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.y) + ", HeadingZ="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.z) + ", HeadingW="
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.w) + " WHERE ID="
+                + this.ID.ToString() + ";");
         }
         #endregion
 
@@ -371,27 +381,28 @@ namespace ZoneEngine
         {
             SqlWrapper ms = new SqlWrapper();
             AOTextures m_tex;
-            Textures.Clear();
+            this.Textures.Clear();
 
             DataTable dt =
-                ms.ReadDT("SELECT textures0, textures1, textures2, textures3, textures4 from " +
-                          getSQLTablefromDynelType() + " WHERE ID=" + ID.ToString() + ";");
+                ms.ReadDT(
+                    "SELECT textures0, textures1, textures2, textures3, textures4 from "
+                    + this.getSQLTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + ";");
             if (dt.Rows.Count > 0)
             {
-                m_tex = new AOTextures(0, (Int32) dt.Rows[0][0]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(0, (Int32)dt.Rows[0][0]);
+                this.Textures.Add(m_tex);
 
-                m_tex = new AOTextures(1, (Int32) dt.Rows[0][1]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(1, (Int32)dt.Rows[0][1]);
+                this.Textures.Add(m_tex);
 
-                m_tex = new AOTextures(2, (Int32) dt.Rows[0][2]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(2, (Int32)dt.Rows[0][2]);
+                this.Textures.Add(m_tex);
 
-                m_tex = new AOTextures(3, (Int32) dt.Rows[0][3]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(3, (Int32)dt.Rows[0][3]);
+                this.Textures.Add(m_tex);
 
-                m_tex = new AOTextures(4, (Int32) dt.Rows[0][4]);
-                Textures.Add(m_tex);
+                m_tex = new AOTextures(4, (Int32)dt.Rows[0][4]);
+                this.Textures.Add(m_tex);
             }
         }
 
@@ -401,12 +412,12 @@ namespace ZoneEngine
         /// <param name="packet">PacketWriter ref</param>
         public void writeTexturestoPacket(ref PacketWriter packet)
         {
-            packet.Push3F1Count(Textures.Count);
+            packet.Push3F1Count(this.Textures.Count);
             int count;
-            for (count = 0; count < Textures.Count; count++)
+            for (count = 0; count < this.Textures.Count; count++)
             {
-                packet.PushInt(Textures[count].place);
-                packet.PushInt(Textures[count].Texture);
+                packet.PushInt(this.Textures[count].place);
+                packet.PushInt(this.Textures[count].Texture);
                 packet.PushInt(0);
             }
         }
@@ -419,15 +430,17 @@ namespace ZoneEngine
             SqlWrapper ms = new SqlWrapper();
             int count;
             string upd = "";
-            for (count = 0; count < Textures.Count; count++)
+            for (count = 0; count < this.Textures.Count; count++)
             {
-                upd += "textures" + Textures[count].place.ToString() + "=" + Textures[count].Texture.ToString();
-                if (count < Textures.Count - 1)
+                upd += "textures" + this.Textures[count].place.ToString() + "="
+                       + this.Textures[count].Texture.ToString();
+                if (count < this.Textures.Count - 1)
                 {
                     upd += ", ";
                 }
             }
-            ms.SqlUpdate("UPDATE " + getSQLTablefromDynelType() + " SET " + upd + " WHERE ID=" + ID.ToString() + ";");
+            ms.SqlUpdate(
+                "UPDATE " + this.getSQLTablefromDynelType() + " SET " + upd + " WHERE ID=" + this.ID.ToString() + ";");
         }
         #endregion
 
@@ -445,11 +458,11 @@ namespace ZoneEngine
 
             foreach (Character child in Clients)
             {
-                recvers[index] = (UInt32) child.ID;
+                recvers[index] = (UInt32)child.ID;
                 index++;
             }
 
-            ChatCom.SendVicinity((UInt32) ID, 0, recvers, message);
+            ChatCom.SendVicinity((UInt32)this.ID, 0, recvers, message);
         }
         #endregion
     }

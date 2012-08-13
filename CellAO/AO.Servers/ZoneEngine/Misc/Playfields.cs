@@ -1,40 +1,39 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Using
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
+
 #endregion
 
 namespace ZoneEngine.Misc
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+    using System.Xml;
+    using System.Xml.Serialization;
 
     #region DistrictInfo Class
     public class DistrictInfo
@@ -46,9 +45,9 @@ namespace ZoneEngine.Misc
         // Generally this shouldn't be used outside of the static constructor
         public static List<DistrictInfo> LoadXML(string fileName)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof (List<DistrictInfo>), new XmlRootAttribute("Districts"));
+            XmlSerializer serializer = new XmlSerializer(typeof(List<DistrictInfo>), new XmlRootAttribute("Districts"));
             TextReader reader = new StreamReader(fileName);
-            List<DistrictInfo> data = (List<DistrictInfo>) serializer.Deserialize(reader);
+            List<DistrictInfo> data = (List<DistrictInfo>)serializer.Deserialize(reader);
             reader.Close();
             return data;
         }
@@ -56,7 +55,7 @@ namespace ZoneEngine.Misc
         // This really should only be used for development. Included for completeness.
         public static void DumpXML(string fileName, PlayfieldInfo pfInfo)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof (List<DistrictInfo>), new XmlRootAttribute("Districts"));
+            XmlSerializer serializer = new XmlSerializer(typeof(List<DistrictInfo>), new XmlRootAttribute("Districts"));
             XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
             xsn.Add(String.Empty, String.Empty);
             MemoryStream stream = new MemoryStream();
@@ -83,13 +82,17 @@ namespace ZoneEngine.Misc
         }
         #endregion
 
-        [XmlElement("Name")] public string districtName = "Nameless District";
+        [XmlElement("Name")]
+        public string districtName = "Nameless District";
 
-        [XmlAttribute("MinLevel")] public int minLevel;
+        [XmlAttribute("MinLevel")]
+        public int minLevel;
 
-        [XmlAttribute("MaxLevel")] public int maxLevel;
+        [XmlAttribute("MaxLevel")]
+        public int maxLevel;
 
-        [XmlAttribute("SuppressionGas")] public int suppressionGas = 100;
+        [XmlAttribute("SuppressionGas")]
+        public int suppressionGas = 100;
     }
     #endregion
 
@@ -115,12 +118,15 @@ namespace ZoneEngine.Misc
         [XmlAttribute("id")]
         public int id
         {
-            get { return _id; }
+            get
+            {
+                return this._id;
+            }
             set
             {
-                _id = value;
+                this._id = value;
 
-                districts = DistrictInfo.LoadDistricts(_id);
+                this.districts = DistrictInfo.LoadDistricts(this._id);
             }
         }
 
@@ -129,44 +135,52 @@ namespace ZoneEngine.Misc
         /// <summary>
         /// Name of playfield
         /// </summary>
-        [XmlElement("Name")] public string name = string.Empty;
+        [XmlElement("Name")]
+        public string name = string.Empty;
 
         /// <summary>
         /// What expansion(s) are required to be in this Playfield.
         /// Bits have the same meaning as the Expansions stat. More than one can be set.
         /// </summary>
-        [XmlAttribute("expansion")] public int expansion;
+        [XmlAttribute("expansion")]
+        public int expansion;
 
         /// <summary>
         /// If the Playfield is disabled or not
         /// </summary>
-        [XmlAttribute("disabled")] public bool disabled;
+        [XmlAttribute("disabled")]
+        public bool disabled;
 
         /// <summary>
         /// Playfield X coordinate
         /// </summary>
-        [XmlAttribute("x")] public int x = 100000;
+        [XmlAttribute("x")]
+        public int x = 100000;
 
         /// <summary>
         /// Scale X
         /// </summary>
-        [XmlAttribute("xscale")] public Single xscale = 1.0f;
+        [XmlAttribute("xscale")]
+        public Single xscale = 1.0f;
 
         /// <summary>
         /// Playfield Z coordinate
         /// </summary>
-        [XmlAttribute("z")] public int z = 100000;
+        [XmlAttribute("z")]
+        public int z = 100000;
 
         /// <summary>
         /// Scale Z
         /// </summary>
-        [XmlAttribute("zscale")] public Single zscale = 1.0f;
+        [XmlAttribute("zscale")]
+        public Single zscale = 1.0f;
 
         /// <summary>
         /// DistrictInfo
         /// </summary>
         //[XmlElement("District")]
-        [XmlIgnore] public List<DistrictInfo> districts;
+        [XmlIgnore]
+        public List<DistrictInfo> districts;
     }
     #endregion
 
@@ -177,7 +191,8 @@ namespace ZoneEngine.Misc
     [XmlRoot("Playfields")]
     public class Playfields
     {
-        [XmlIgnore] public static readonly Playfields Instance;
+        [XmlIgnore]
+        public static readonly Playfields Instance;
 
         #region Constructors
         private Playfields()
@@ -194,9 +209,9 @@ namespace ZoneEngine.Misc
         // Generally this shouldn't be used outside of the static constructor
         public static Playfields LoadXML(string fileName)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof (Playfields));
+            XmlSerializer serializer = new XmlSerializer(typeof(Playfields));
             TextReader reader = new StreamReader(fileName);
-            Playfields data = (Playfields) serializer.Deserialize(reader);
+            Playfields data = (Playfields)serializer.Deserialize(reader);
             reader.Close();
             return data;
         }
@@ -204,7 +219,7 @@ namespace ZoneEngine.Misc
         // This really should only be used for development. Included for completeness.
         public static void DumpXML(string fileName)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof (Playfields));
+            XmlSerializer serializer = new XmlSerializer(typeof(Playfields));
             XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
             xsn.Add(String.Empty, String.Empty);
             TextWriter writer = new StreamWriter(fileName);
@@ -216,7 +231,8 @@ namespace ZoneEngine.Misc
         /// <summary>
         /// 
         /// </summary>
-        [XmlElement("Playfield")] public List<PlayfieldInfo> playfields;
+        [XmlElement("Playfield")]
+        public List<PlayfieldInfo> playfields;
 
         /// <summary>
         /// 
@@ -228,7 +244,9 @@ namespace ZoneEngine.Misc
             foreach (PlayfieldInfo pfInfo in Instance.playfields)
             {
                 if (pfInfo.name == playfieldName)
+                {
                     return pfInfo.id;
+                }
             }
 
             return 0;
@@ -244,7 +262,9 @@ namespace ZoneEngine.Misc
             foreach (PlayfieldInfo pfInfo in Instance.playfields)
             {
                 if (pfInfo.id == playfieldId)
+                {
                     return pfInfo.name;
+                }
             }
 
             return string.Empty;
@@ -292,7 +312,9 @@ namespace ZoneEngine.Misc
             foreach (PlayfieldInfo pfInfo in Instance.playfields)
             {
                 if (pfInfo.id == playfieldNumber)
+                {
                     return pfInfo.x;
+                }
             }
 
             return 100000;
@@ -303,7 +325,9 @@ namespace ZoneEngine.Misc
             foreach (PlayfieldInfo pfInfo in Instance.playfields)
             {
                 if (pfInfo.id == playfieldNumber)
+                {
                     return pfInfo.z;
+                }
             }
 
             return 100000;

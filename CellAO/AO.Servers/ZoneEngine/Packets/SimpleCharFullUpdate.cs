@@ -1,40 +1,42 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Collections.Generic;
-using System.Text;
-using AO.Core;
-using ZoneEngine.Database;
-using ZoneEngine.Misc;
+
 #endregion
 
 namespace ZoneEngine.Packets
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using AO.Core;
+
+    using ZoneEngine.Database;
+    using ZoneEngine.Misc;
+
     /// <summary>
     /// 
     /// </summary>
@@ -146,7 +148,6 @@ namespace ZoneEngine.Packets
             int HealthValue;
             int LOSHeight;
 
-
             int MonsterData;
             int MonsterScale;
             int VisualFlags;
@@ -177,7 +178,6 @@ namespace ZoneEngine.Packets
             //NPC Values
 
             int NPCFamily;
-
 
             Dictionary<int, int> SocialTab = new Dictionary<int, int>();
 
@@ -323,17 +323,18 @@ namespace ZoneEngine.Packets
             packetFlags |= 0x200; // Has Heading Data Flag
             _writer.PushQuat(CharHeading);
 
-            uint m_appearance = SideValue + (FatValue*8) + (BreedValue*32) + (SexValue*256) + (RaceValue*1024); // Race
+            uint m_appearance = SideValue + (FatValue * 8) + (BreedValue * 32) + (SexValue * 256) + (RaceValue * 1024);
+                // Race
             _writer.PushUInt(m_appearance); // appearance
 
             // Name
-            _writer.PushByte((byte) (NameLength + 1));
+            _writer.PushByte((byte)(NameLength + 1));
             _writer.PushBytes(Encoding.ASCII.GetBytes(CharName));
             _writer.PushByte(0); // 0 terminator for name
 
             _writer.PushUInt(CharFlagsValue); // Flags
-            _writer.PushShort((short) AccFlagsValue);
-            _writer.PushShort((short) ExpansionValue);
+            _writer.PushShort((short)AccFlagsValue);
+            _writer.PushShort((short)ExpansionValue);
 
             if (character is NonPC)
             {
@@ -347,24 +348,23 @@ namespace ZoneEngine.Packets
 
                 if (NPCFamily < 256)
                 {
-                    _writer.PushByte((byte) NPCFamily);
+                    _writer.PushByte((byte)NPCFamily);
                 }
                 else
                 {
                     packetFlags |= 0x20000;
-                    _writer.PushShort((Int16) NPCFamily);
+                    _writer.PushShort((Int16)NPCFamily);
                 }
 
                 if (LOSHeight < 256)
                 {
-                    _writer.PushByte((byte) LOSHeight);
+                    _writer.PushByte((byte)LOSHeight);
                 }
                 else
                 {
                     packetFlags |= 0x80000;
-                    _writer.PushShort((Int16) LOSHeight);
+                    _writer.PushShort((Int16)LOSHeight);
                 }
-
 
                 //if (packetFlags & 0x2000000)
                 //{
@@ -396,7 +396,7 @@ namespace ZoneEngine.Packets
                 }
                 else
                 {
-                    _writer.PushShort((short) StrengthBaseValue);
+                    _writer.PushShort((short)StrengthBaseValue);
                 }
                 if (AgilityBaseValue > 32767) // Agility
                 {
@@ -404,7 +404,7 @@ namespace ZoneEngine.Packets
                 }
                 else
                 {
-                    _writer.PushShort((short) AgilityBaseValue);
+                    _writer.PushShort((short)AgilityBaseValue);
                 }
                 if (StaminaBaseValue > 32767) //  Stamina
                 {
@@ -412,7 +412,7 @@ namespace ZoneEngine.Packets
                 }
                 else
                 {
-                    _writer.PushShort((short) StaminaBaseValue);
+                    _writer.PushShort((short)StaminaBaseValue);
                 }
                 if (IntelligenceBaseValue > 32767) // Intelligence
                 {
@@ -420,7 +420,7 @@ namespace ZoneEngine.Packets
                 }
                 else
                 {
-                    _writer.PushShort((short) IntelligenceBaseValue);
+                    _writer.PushShort((short)IntelligenceBaseValue);
                 }
                 if (SenseBaseValue > 32767) // Sense
                 {
@@ -428,7 +428,7 @@ namespace ZoneEngine.Packets
                 }
                 else
                 {
-                    _writer.PushShort((short) SenseBaseValue);
+                    _writer.PushShort((short)SenseBaseValue);
                 }
                 if (PsychicBaseValue > 32767) // Psychic
                 {
@@ -436,14 +436,14 @@ namespace ZoneEngine.Packets
                 }
                 else
                 {
-                    _writer.PushShort((short) PsychicBaseValue);
+                    _writer.PushShort((short)PsychicBaseValue);
                 }
 
                 if ((CharFlagsValue & 0x400000) != 0) // has visible names? (Flags)
                 {
-                    _writer.PushShort((short) FirstNameLength);
+                    _writer.PushShort((short)FirstNameLength);
                     _writer.PushBytes(Encoding.ASCII.GetBytes(FirstName));
-                    _writer.PushShort((short) LastNameLength);
+                    _writer.PushShort((short)LastNameLength);
                     _writer.PushBytes(Encoding.ASCII.GetBytes(LastName));
                 }
 
@@ -451,7 +451,7 @@ namespace ZoneEngine.Packets
                 {
                     packetFlags |= 0x4000000; // Has org name data
 
-                    _writer.PushShort((short) OrgNameLength);
+                    _writer.PushShort((short)OrgNameLength);
                     _writer.PushBytes(Encoding.ASCII.GetBytes(OrgName));
                 }
                 else
@@ -463,12 +463,12 @@ namespace ZoneEngine.Packets
             if (LevelValue > 127) // Level
             {
                 packetFlags |= 0x1000; // Has Extended Level
-                _writer.PushShort((short) LevelValue);
+                _writer.PushShort((short)LevelValue);
             }
             else
             {
                 packetFlags &= ~0x1000; // Has Small Level
-                _writer.PushByte((byte) LevelValue);
+                _writer.PushByte((byte)LevelValue);
             }
 
             if (HealthValue > 32767) // Health
@@ -479,27 +479,26 @@ namespace ZoneEngine.Packets
             else
             {
                 packetFlags |= 0x800; // Has Small Health
-                _writer.PushShort((short) HealthValue);
+                _writer.PushShort((short)HealthValue);
             }
             int healthdamage = HealthValue - CurrentHealth;
             if (healthdamage < 256)
             {
                 packetFlags |= 0x4000;
-                _writer.PushByte((byte) healthdamage);
+                _writer.PushByte((byte)healthdamage);
             }
             else
             {
                 packetFlags &= ~0x4000;
                 if ((packetFlags & 0x800) == 0x800)
                 {
-                    _writer.PushShort((Int16) healthdamage);
+                    _writer.PushShort((Int16)healthdamage);
                 }
                 else
                 {
                     _writer.PushInt(healthdamage);
                 }
             }
-
 
             // If player is in grid or fixer grid
             // make him/her/it a nice upside down pyramid
@@ -511,19 +510,14 @@ namespace ZoneEngine.Packets
             {
                 _writer.PushUInt(MonsterData); // Monsterdata
             }
-            _writer.PushShort((short) MonsterScale); // Monsterscale
-            _writer.PushShort((short) VisualFlags); // VisualFlags
+            _writer.PushShort((short)MonsterScale); // Monsterscale
+            _writer.PushShort((short)VisualFlags); // VisualFlags
             _writer.PushByte(0); // visible title?
 
             _writer.PushInt(42); // 'skipdata' length
             // Start 'skipdata'
-            _writer.PushBytes(new Byte[]
-                                  {
-                                      0x80, 0x00, 0x00, 0x00,
-                                      0x00, 0x00, 0x00, 0x00,
-                                      0x80, 0x00, 0x00, 0x00
-                                  });
-            _writer.PushByte((byte) CurrentMovementMode); // CurrentMovementMode
+            _writer.PushBytes(new Byte[] { 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00 });
+            _writer.PushByte((byte)CurrentMovementMode); // CurrentMovementMode
             _writer.PushByte(1); // don't change
             _writer.PushShort(1); // ?
             _writer.PushShort(1); // ?
@@ -546,12 +540,12 @@ namespace ZoneEngine.Packets
             if ((RunSpeedBaseValue > 127)) // Runspeed
             {
                 packetFlags |= 0x2000;
-                _writer.PushShort((short) RunSpeedBaseValue);
+                _writer.PushShort((short)RunSpeedBaseValue);
             }
             else
             {
                 packetFlags &= ~0x2000;
-                _writer.PushByte((byte) RunSpeedBaseValue);
+                _writer.PushByte((byte)RunSpeedBaseValue);
             }
 
             //if (packetFlags & 0x400)
@@ -671,10 +665,10 @@ namespace ZoneEngine.Packets
             _writer.Push3F1Count(c);
             foreach (AOMeshs m2 in mh)
             {
-                _writer.PushByte((byte) m2.Position);
+                _writer.PushByte((byte)m2.Position);
                 _writer.PushUInt(m2.Mesh);
                 _writer.PushInt(m2.OverrideTexture); // Override Texture!!!!!!
-                _writer.PushByte((byte) m2.Layer);
+                _writer.PushByte((byte)m2.Layer);
             }
             // End Meshs
 

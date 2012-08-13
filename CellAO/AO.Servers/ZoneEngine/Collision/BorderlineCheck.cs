@@ -1,39 +1,40 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml.Serialization;
-using AO.Core;
+
 #endregion
 
 namespace ZoneEngine.Collision
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Xml.Serialization;
+
+    using AO.Core;
+
     /// <summary>
     /// Class contains a list of line segments and functions to test a client against them
     /// </summary>
@@ -49,8 +50,8 @@ namespace ZoneEngine.Collision
             /// </summary>
             public Vector2()
             {
-                X = 0.0f;
-                Z = 0.0f;
+                this.X = 0.0f;
+                this.Z = 0.0f;
             }
 
             /// <summary>
@@ -58,8 +59,8 @@ namespace ZoneEngine.Collision
             /// </summary>
             public Vector2(Single VX, Single VZ)
             {
-                X = VX;
-                Z = VZ;
+                this.X = VX;
+                this.Z = VZ;
             }
 
             /// <summary>
@@ -67,8 +68,8 @@ namespace ZoneEngine.Collision
             /// </summary>
             public Vector2(Vector2 V)
             {
-                X = V.X;
-                Z = V.Z;
+                this.X = V.X;
+                this.Z = V.Z;
             }
 
             /// <summary>
@@ -103,19 +104,19 @@ namespace ZoneEngine.Collision
             /// </summary>
             public LineSegment(Point PA, Point PB, Int32 DestPF, Int32 DestIDX, Int32 DestFlags)
             {
-                A = new Vector2(PA.X, PA.Z);
-                B = new Vector2(PB.X, PB.Z);
+                this.A = new Vector2(PA.X, PA.Z);
+                this.B = new Vector2(PB.X, PB.Z);
                 if (PA.Y > PB.Y)
                 {
-                    Y = PB.Y;
+                    this.Y = PB.Y;
                 }
                 else
                 {
-                    Y = PA.Y;
+                    this.Y = PA.Y;
                 }
-                ZoneToPF = DestPF;
-                ZoneToIDX = DestIDX;
-                Flags = DestFlags;
+                this.ZoneToPF = DestPF;
+                this.ZoneToIDX = DestIDX;
+                this.Flags = DestFlags;
             }
 
             /// <summary>
@@ -123,19 +124,19 @@ namespace ZoneEngine.Collision
             /// </summary>
             public LineSegment(Point PA, Point PB, Int32 DestPF, Int32 DestIDX)
             {
-                A = new Vector2(PA.X, PA.Z);
-                B = new Vector2(PB.X, PB.Z);
+                this.A = new Vector2(PA.X, PA.Z);
+                this.B = new Vector2(PB.X, PB.Z);
                 if (PA.Y > PB.Y)
                 {
-                    Y = PB.Y;
+                    this.Y = PB.Y;
                 }
                 else
                 {
-                    Y = PA.Y;
+                    this.Y = PA.Y;
                 }
-                ZoneToPF = DestPF;
-                ZoneToIDX = DestIDX;
-                Flags = PA.Flags;
+                this.ZoneToPF = DestPF;
+                this.ZoneToIDX = DestIDX;
+                this.Flags = PA.Flags;
             }
 
             /// <summary>
@@ -143,19 +144,19 @@ namespace ZoneEngine.Collision
             /// </summary>
             public LineSegment(Point PA, Point PB)
             {
-                A = new Vector2(PA.X, PA.Z);
-                B = new Vector2(PB.X, PB.Z);
+                this.A = new Vector2(PA.X, PA.Z);
+                this.B = new Vector2(PB.X, PB.Z);
                 if (PA.Y > PB.Y)
                 {
-                    Y = PB.Y;
+                    this.Y = PB.Y;
                 }
                 else
                 {
-                    Y = PA.Y;
+                    this.Y = PA.Y;
                 }
-                ZoneToPF = PA.DestPF;
-                ZoneToIDX = PA.DestIdx;
-                Flags = PA.Flags;
+                this.ZoneToPF = PA.DestPF;
+                this.ZoneToIDX = PA.DestIdx;
+                this.Flags = PA.Flags;
             }
 
             /// <summary>
@@ -163,12 +164,12 @@ namespace ZoneEngine.Collision
             /// </summary>
             public LineSegment(Vector2 VA, Vector2 VB)
             {
-                A = new Vector2(VA);
-                B = new Vector2(VB);
-                Y = 0;
-                ZoneToPF = 0;
-                ZoneToIDX = 0;
-                Flags = 0;
+                this.A = new Vector2(VA);
+                this.B = new Vector2(VB);
+                this.Y = 0;
+                this.ZoneToPF = 0;
+                this.ZoneToIDX = 0;
+                this.Flags = 0;
             }
 
             /// <summary>
@@ -176,12 +177,12 @@ namespace ZoneEngine.Collision
             /// </summary>
             public LineSegment()
             {
-                A = new Vector2();
-                B = new Vector2();
-                Y = 0;
-                ZoneToPF = 0;
-                ZoneToIDX = 0;
-                Flags = 0;
+                this.A = new Vector2();
+                this.B = new Vector2();
+                this.Y = 0;
+                this.ZoneToPF = 0;
+                this.ZoneToIDX = 0;
+                this.Flags = 0;
             }
 
             /// <summary>
@@ -265,7 +266,8 @@ namespace ZoneEngine.Collision
             /// <summary>
             /// 
             /// </summary>
-            [XmlElement("Point")] public List<Point> points;
+            [XmlElement("Point")]
+            public List<Point> points;
 
             /// <summary>
             ///
@@ -283,7 +285,8 @@ namespace ZoneEngine.Collision
             /// <summary>
             /// 
             /// </summary>
-            [XmlElement("Wall")] public List<Wall> walls;
+            [XmlElement("Wall")]
+            public List<Wall> walls;
 
             /// <summary>
             ///
@@ -339,9 +342,11 @@ namespace ZoneEngine.Collision
             /// <summary>
             /// 
             /// </summary>
-            [XmlElement("Start")] public Start start;
+            [XmlElement("Start")]
+            public Start start;
 
-            [XmlElement("End")] public End end;
+            [XmlElement("End")]
+            public End end;
 
             /// <summary>
             ///
@@ -355,7 +360,8 @@ namespace ZoneEngine.Collision
             /// <summary>
             /// 
             /// </summary>
-            [XmlElement("Line")] public List<Line> lines;
+            [XmlElement("Line")]
+            public List<Line> lines;
 
             /// <summary>
             ///
@@ -370,7 +376,8 @@ namespace ZoneEngine.Collision
             /// <summary>
             /// 
             /// </summary>
-            [XmlElement("PlayField")] public PlayField playfield;
+            [XmlElement("PlayField")]
+            public PlayField playfield;
         };
 
         /// <summary>
@@ -407,9 +414,9 @@ namespace ZoneEngine.Collision
             segments = new Dictionary<Int32, List<LineSegment>>();
             destinations = new Dictionary<Int32, Root>();
 
-            LoadWalls();
-            LoadDestinations();
-            BuildLineSegments();
+            this.LoadWalls();
+            this.LoadDestinations();
+            this.BuildLineSegments();
         }
 
         /// <summary>
@@ -422,7 +429,7 @@ namespace ZoneEngine.Collision
             foreach (FileInfo fi in fiArr)
             {
                 Int32 id = Convert.ToInt32(Path.GetFileNameWithoutExtension(fi.Name));
-                walls.Add(id, WallsLoadXML(fi.FullName));
+                walls.Add(id, this.WallsLoadXML(fi.FullName));
                 segments.Add(id, new List<LineSegment>(walls[id].NumWalls));
             }
         }
@@ -434,7 +441,7 @@ namespace ZoneEngine.Collision
             foreach (FileInfo fi in fiArr)
             {
                 Int32 id = Convert.ToInt32(Path.GetFileNameWithoutExtension(fi.Name));
-                destinations.Add(id, PlayFieldsLoadXML(fi.FullName));
+                destinations.Add(id, this.PlayFieldsLoadXML(fi.FullName));
             }
         }
 
@@ -443,18 +450,18 @@ namespace ZoneEngine.Collision
         /// </summary>
         public Walls WallsLoadXML(String fileName)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof (Walls));
+            XmlSerializer serializer = new XmlSerializer(typeof(Walls));
             TextReader reader = new StreamReader(fileName);
-            Walls data = (Walls) serializer.Deserialize(reader);
+            Walls data = (Walls)serializer.Deserialize(reader);
             reader.Close();
             return data;
         }
 
         public Root PlayFieldsLoadXML(String fileName)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof (Root));
+            XmlSerializer serializer = new XmlSerializer(typeof(Root));
             TextReader reader = new StreamReader(fileName);
-            Root data = (Root) serializer.Deserialize(reader);
+            Root data = (Root)serializer.Deserialize(reader);
             reader.Close();
             return data;
         }
@@ -482,7 +489,6 @@ namespace ZoneEngine.Collision
             }
         }
 
-
         /// <summary>
         /// Test of two line segments intersect
         /// </summary>
@@ -491,15 +497,15 @@ namespace ZoneEngine.Collision
         /// <param name="PFID">Playfield client is currently active in</param>
         public LineSegment Test(Single X, Single Z, Int32 PFID)
         {
-            Vector2 A = new Vector2(X - threshold, Z - threshold);
-            Vector2 B = new Vector2(X + threshold, Z + threshold);
+            Vector2 A = new Vector2(X - this.threshold, Z - this.threshold);
+            Vector2 B = new Vector2(X + this.threshold, Z + this.threshold);
 
             LineSegment clientLS = new LineSegment(A, B);
             try
             {
                 foreach (LineSegment zoneLS in segments[PFID])
                 {
-                    if (Intersect(clientLS, zoneLS))
+                    if (this.Intersect(clientLS, zoneLS))
                     {
                         return zoneLS;
                     }
@@ -521,12 +527,12 @@ namespace ZoneEngine.Collision
             Vector2 A2 = A.B;
             Vector2 B1 = B.A;
             Vector2 B2 = B.B;
-            Int32 IA1 = Cross2D(Vector2.Subtract(B2, A1), Vector2.Subtract(B1, A1));
-            Int32 IB1 = Cross2D(Vector2.Subtract(A1, B1), Vector2.Subtract(A2, B1));
-            Int32 IA2 = Cross2D(Vector2.Subtract(B1, A2), Vector2.Subtract(B2, A2));
-            Int32 IB2 = Cross2D(Vector2.Subtract(A2, B2), Vector2.Subtract(A1, B2));
-            if (((IA1 <= 0 && IA2 <= 0 && IB1 <= 0 && IB2 <= 0) || (IA1 >= 0 && IA2 >= 0 && IB1 >= 0 && IB2 >= 0)) &&
-                !(IA1 == 0 && IA2 == 0 && IB1 == 0 && IB2 == 0))
+            Int32 IA1 = this.Cross2D(Vector2.Subtract(B2, A1), Vector2.Subtract(B1, A1));
+            Int32 IB1 = this.Cross2D(Vector2.Subtract(A1, B1), Vector2.Subtract(A2, B1));
+            Int32 IA2 = this.Cross2D(Vector2.Subtract(B1, A2), Vector2.Subtract(B2, A2));
+            Int32 IB2 = this.Cross2D(Vector2.Subtract(A2, B2), Vector2.Subtract(A1, B2));
+            if (((IA1 <= 0 && IA2 <= 0 && IB1 <= 0 && IB2 <= 0) || (IA1 >= 0 && IA2 >= 0 && IB1 >= 0 && IB2 >= 0))
+                && !(IA1 == 0 && IA2 == 0 && IB1 == 0 && IB2 == 0))
             {
                 return true;
             }
@@ -538,7 +544,7 @@ namespace ZoneEngine.Collision
         /// </summary>
         public Int32 Cross2D(Vector2 A, Vector2 B)
         {
-            return (Int32) (A.X*B.Z - A.Z*B.X);
+            return (Int32)(A.X * B.Z - A.Z * B.X);
         }
 
         public static LineSegment WallCollisionCheck(float x, float z, int PF)
@@ -558,10 +564,9 @@ namespace ZoneEngine.Collision
 
                     Vector3 temp = new Vector3(line.end.X - line.start.X, 0, line.end.Z - line.start.Z);
 
-                    double factor = 1.0/Math.Sqrt(Math.Pow(temp.x, 2) + Math.Pow(temp.z, 2));
-                    temp.x = temp.x*factor;
-                    temp.z = temp.z*factor;
-
+                    double factor = 1.0 / Math.Sqrt(Math.Pow(temp.x, 2) + Math.Pow(temp.z, 2));
+                    temp.x = temp.x * factor;
+                    temp.z = temp.z * factor;
 
                     if (line.start.X >= line.end.X)
                     {
@@ -570,14 +575,14 @@ namespace ZoneEngine.Collision
                         {
                             if (LS.A.X > LS.B.X)
                             {
-                                coord.x += Math.Abs(line.end.X - line.start.X)*
-                                           (Math.Abs(x - LS.B.X)/Math.Abs(LS.A.X - LS.B.X));
+                                coord.x += Math.Abs(line.end.X - line.start.X)
+                                           * (Math.Abs(x - LS.B.X) / Math.Abs(LS.A.X - LS.B.X));
                                 incz = 1;
                             }
                             else
                             {
-                                coord.x += Math.Abs(line.end.X - line.start.X)*
-                                           (Math.Abs(x - LS.A.X)/Math.Abs(LS.A.X - LS.B.X));
+                                coord.x += Math.Abs(line.end.X - line.start.X)
+                                           * (Math.Abs(x - LS.A.X) / Math.Abs(LS.A.X - LS.B.X));
                                 incz = -1;
                             }
                         }
@@ -589,14 +594,14 @@ namespace ZoneEngine.Collision
                         {
                             if (LS.A.X > LS.B.X)
                             {
-                                coord.x += Math.Abs(line.end.X - line.start.X)*
-                                           (Math.Abs(x - LS.B.X)/Math.Abs(LS.A.X - LS.B.X));
+                                coord.x += Math.Abs(line.end.X - line.start.X)
+                                           * (Math.Abs(x - LS.B.X) / Math.Abs(LS.A.X - LS.B.X));
                                 incz = -1;
                             }
                             else
                             {
-                                coord.x += Math.Abs(line.end.X - line.start.X)*
-                                           (Math.Abs(x - LS.A.X)/Math.Abs(LS.A.X - LS.B.X));
+                                coord.x += Math.Abs(line.end.X - line.start.X)
+                                           * (Math.Abs(x - LS.A.X) / Math.Abs(LS.A.X - LS.B.X));
                                 incz = 1;
                             }
                         }
@@ -608,14 +613,14 @@ namespace ZoneEngine.Collision
                         {
                             if (LS.A.Z > LS.B.Z)
                             {
-                                coord.z += Math.Abs(line.start.Z - line.end.Z)*
-                                           (Math.Abs(z - LS.B.Z)/Math.Abs(LS.A.Z - LS.B.Z));
+                                coord.z += Math.Abs(line.start.Z - line.end.Z)
+                                           * (Math.Abs(z - LS.B.Z) / Math.Abs(LS.A.Z - LS.B.Z));
                                 incx = -1;
                             }
                             else
                             {
-                                coord.z += Math.Abs(line.start.Z - line.end.Z)*
-                                           (Math.Abs(z - LS.A.Z)/Math.Abs(LS.A.Z - LS.B.Z));
+                                coord.z += Math.Abs(line.start.Z - line.end.Z)
+                                           * (Math.Abs(z - LS.A.Z) / Math.Abs(LS.A.Z - LS.B.Z));
                                 incx = 1;
                             }
                         }
@@ -627,14 +632,14 @@ namespace ZoneEngine.Collision
                         {
                             if (LS.A.Z > LS.B.Z)
                             {
-                                coord.z += Math.Abs(line.start.Z - line.end.Z)*
-                                           (Math.Abs(z - LS.B.Z)/Math.Abs(LS.A.Z - LS.B.Z));
+                                coord.z += Math.Abs(line.start.Z - line.end.Z)
+                                           * (Math.Abs(z - LS.B.Z) / Math.Abs(LS.A.Z - LS.B.Z));
                                 incx = 1;
                             }
                             else
                             {
-                                coord.z += Math.Abs(line.start.Z - line.end.Z)*
-                                           (Math.Abs(z - LS.A.Z)/Math.Abs(LS.A.Z - LS.B.Z));
+                                coord.z += Math.Abs(line.start.Z - line.end.Z)
+                                           * (Math.Abs(z - LS.A.Z) / Math.Abs(LS.A.Z - LS.B.Z));
                                 incx = -1;
                             }
                         }
@@ -642,12 +647,16 @@ namespace ZoneEngine.Collision
                     if ((coord.y < line.start.Y) || (coord.y < line.end.Y))
                     {
                         if (line.start.Y >= line.end.Y)
+                        {
                             coord.y = line.start.Y;
+                        }
                         else
+                        {
                             coord.y = line.end.Y;
+                        }
                     }
-                    temp.x = temp.x*incz*4;
-                    temp.z = temp.z*incx*4;
+                    temp.x = temp.x * incz * 4;
+                    temp.z = temp.z * incx * 4;
 
                     coord.x += Convert.ToSingle(temp.z);
                     coord.z += Convert.ToSingle(temp.x);

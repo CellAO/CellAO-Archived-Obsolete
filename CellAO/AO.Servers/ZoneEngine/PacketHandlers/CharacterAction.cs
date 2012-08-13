@@ -1,40 +1,42 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Data;
-using System.Text;
-using AO.Core;
-using ZoneEngine.Misc;
-using ZoneEngine.Packets;
+
 #endregion
 
 namespace ZoneEngine.PacketHandlers
 {
+    using System;
+    using System.Data;
+    using System.Text;
+
+    using AO.Core;
+
+    using ZoneEngine.Misc;
+    using ZoneEngine.Packets;
+
     public static class CharacterAction
     {
         public static void Read(ref byte[] packet, Client client)
@@ -196,16 +198,16 @@ namespace ZoneEngine.PacketHandlers
                             int orgGoverningForm = 0;
                             SqlWrapper ms = new SqlWrapper();
                             DataTable dt =
-                                ms.ReadDT("SELECT `GovernmentForm` FROM organizations WHERE ID=" +
-                                          tPlayer.Character.orgId);
+                                ms.ReadDT(
+                                    "SELECT `GovernmentForm` FROM organizations WHERE ID=" + tPlayer.Character.orgId);
 
                             if (dt.Rows.Count > 0)
                             {
-                                orgGoverningForm = (Int32) dt.Rows[0][0];
+                                orgGoverningForm = (Int32)dt.Rows[0][0];
                             }
 
-                            string orgRank = OrgClient.GetRank(orgGoverningForm,
-                                                               tPlayer.Character.Stats.ClanLevel.StatBaseValue);
+                            string orgRank = OrgClient.GetRank(
+                                orgGoverningForm, tPlayer.Character.Stats.ClanLevel.StatBaseValue);
                             // Uses methods in ZoneEngine\PacketHandlers\OrgClient.cs
                             /* Known packetFlags--
                              * 0x40 - No org | 0x41 - Org | 0x43 - Org and towers | 0x47 - Org, towers, player has personal towers | 0x50 - No pvp data shown
@@ -234,28 +236,28 @@ namespace ZoneEngine.PacketHandlers
 
                             infoPacket.PushByte(packetFlags); // Based on flags above
                             infoPacket.PushByte(1); // esi_001?
-                            infoPacket.PushByte((byte) tPlayer.Character.Stats.Profession.Value); // Profession
-                            infoPacket.PushByte((byte) tPlayer.Character.Stats.Level.Value); // Level
-                            infoPacket.PushByte((byte) tPlayer.Character.Stats.TitleLevel.Value); // Titlelevel
-                            infoPacket.PushByte((byte) tPlayer.Character.Stats.VisualProfession.Value);
+                            infoPacket.PushByte((byte)tPlayer.Character.Stats.Profession.Value); // Profession
+                            infoPacket.PushByte((byte)tPlayer.Character.Stats.Level.Value); // Level
+                            infoPacket.PushByte((byte)tPlayer.Character.Stats.TitleLevel.Value); // Titlelevel
+                            infoPacket.PushByte((byte)tPlayer.Character.Stats.VisualProfession.Value);
                             // Visual Profession
                             infoPacket.PushShort(0); // Side XP Bonus
                             infoPacket.PushUInt(tPlayer.Character.Stats.Health.Value); // Current Health (Health)
                             infoPacket.PushUInt(tPlayer.Character.Stats.Life.Value); // Max Health (Life)
                             infoPacket.PushInt(0); // BreedHostility?
                             infoPacket.PushUInt(tPlayer.Character.orgId); // org ID
-                            infoPacket.PushShort((short) tPlayer.Character.FirstName.Length);
+                            infoPacket.PushShort((short)tPlayer.Character.FirstName.Length);
                             infoPacket.PushBytes(Encoding.ASCII.GetBytes(tPlayer.Character.FirstName));
-                            infoPacket.PushShort((short) tPlayer.Character.LastName.Length);
+                            infoPacket.PushShort((short)tPlayer.Character.LastName.Length);
                             infoPacket.PushBytes(Encoding.ASCII.GetBytes(tPlayer.Character.LastName));
-                            infoPacket.PushShort((short) LegacyTitle.Length);
+                            infoPacket.PushShort((short)LegacyTitle.Length);
                             infoPacket.PushBytes(Encoding.ASCII.GetBytes(LegacyTitle));
                             infoPacket.PushShort(0); // Title 2
 
                             // If receiver is in the same org as affected identity, whom is not orgless, send org rank and city playfield
                             if ((client.Character.orgId == tPlayer.Character.orgId) && (tPlayer.Character.orgId != 0))
                             {
-                                infoPacket.PushShort((short) orgRank.Length);
+                                infoPacket.PushShort((short)orgRank.Length);
                                 infoPacket.PushBytes(Encoding.ASCII.GetBytes(orgRank));
                                 infoPacket.PushInt(0);
                                 //infoPacket.PushIdentity(0, 0); // City (50201, Playfield) // Pushed 1 zero to much and screwed info for characters in orgs, but I´ll leave it for later just incase.
@@ -279,7 +281,7 @@ namespace ZoneEngine.PacketHandlers
                         }
                         else
                         {
-                            NonPC npc = (NonPC) FindDynel.FindDynelByID(m_ident.Type, m_ident.Instance);
+                            NonPC npc = (NonPC)FindDynel.FindDynelByID(m_ident.Type, m_ident.Instance);
                             if (npc != null)
                             {
                                 PacketWriter infoPacket = new PacketWriter();
@@ -299,10 +301,10 @@ namespace ZoneEngine.PacketHandlers
 
                                 infoPacket.PushByte(0x50); // npc's just have 0x50
                                 infoPacket.PushByte(1); // esi_001?
-                                infoPacket.PushByte((byte) npc.Stats.Profession.Value); // Profession
-                                infoPacket.PushByte((byte) npc.Stats.Level.Value); // Level
-                                infoPacket.PushByte((byte) npc.Stats.TitleLevel.Value); // Titlelevel
-                                infoPacket.PushByte((byte) npc.Stats.VisualProfession.Value); // Visual Profession
+                                infoPacket.PushByte((byte)npc.Stats.Profession.Value); // Profession
+                                infoPacket.PushByte((byte)npc.Stats.Level.Value); // Level
+                                infoPacket.PushByte((byte)npc.Stats.TitleLevel.Value); // Titlelevel
+                                infoPacket.PushByte((byte)npc.Stats.VisualProfession.Value); // Visual Profession
 
                                 infoPacket.PushShort(0); // no idea for npc's
                                 infoPacket.PushUInt(npc.Stats.Health.Value); // Current Health (Health)
@@ -341,7 +343,7 @@ namespace ZoneEngine.PacketHandlers
                 case 121: // If action == Stop Logout
                     {
                         //Stop current logout timer and send stop logout packet
-                        client.Character.updateMoveType((byte) client.Character.prevMoveMode);
+                        client.Character.updateMoveType((byte)client.Character.prevMoveMode);
                         client.CancelLogOut();
                     }
                     break;
@@ -421,9 +423,9 @@ namespace ZoneEngine.PacketHandlers
 
                     #region Delete Item
                 case 0x70:
-                    mys.SqlDelete("DELETE FROM " + client.Character.getSQLTablefromDynelType() +
-                                  "inventory WHERE placement=" + m_ident.Instance.ToString() + " AND container=" +
-                                  m_ident.Type.ToString());
+                    mys.SqlDelete(
+                        "DELETE FROM " + client.Character.getSQLTablefromDynelType() + "inventory WHERE placement="
+                        + m_ident.Instance.ToString() + " AND container=" + m_ident.Type.ToString());
                     InventoryEntries i_del = client.Character.getInventoryAt(m_ident.Instance);
                     client.Character.Inventory.Remove(i_del);
                     byte[] action2 = new byte[0x37];

@@ -1,38 +1,40 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings
-using System;
-using AO.Core;
-using ZoneEngine.Misc;
-using ZoneEngine.Packets;
+
 #endregion
 
 namespace ZoneEngine.PacketHandlers
 {
+    using System;
+
+    using AO.Core;
+
+    using ZoneEngine.Misc;
+    using ZoneEngine.Packets;
+
     public static class OnTrade
     {
         public static void read(ref byte[] packet, Client client, Dynel dyn)
@@ -47,18 +49,18 @@ namespace ZoneEngine.PacketHandlers
             int _container = reader.PopInt();
             int _place = reader.PopInt();
 
-            Character ch = (Character) FindDynel.FindDynelByID(ident.Type, ident.Instance);
+            Character ch = (Character)FindDynel.FindDynelByID(ident.Type, ident.Instance);
             Character chaffected =
-                (Character) FindDynel.FindDynelByID(_header.AffectedId.Type, _header.AffectedId.Instance);
+                (Character)FindDynel.FindDynelByID(_header.AffectedId.Type, _header.AffectedId.Instance);
 
             // If target is a NPC, call its Action 0
             if ((ch is NonPC) && (action == 0))
             {
-                if (((NonPC) ch).KnuBot != null)
+                if (((NonPC)ch).KnuBot != null)
                 {
                     ch.KnuBotTarget = ch;
-                    ((NonPC) ch).KnuBot.TalkingTo = chaffected;
-                    ((NonPC) ch).KnuBot.Action(0);
+                    ((NonPC)ch).KnuBot.TalkingTo = chaffected;
+                    ((NonPC)ch).KnuBot.Action(0);
                 }
                 return;
             }
@@ -90,11 +92,12 @@ namespace ZoneEngine.PacketHandlers
                             }
                             // Deduct Cash (ie.item.multiplecount) div mult * price
                             cashdeduct +=
-                                Convert.ToInt32(mult*Price*
-                                                (100 -
-                                                 Math.Floor(
-                                                     Math.Min(1500, client.Character.Stats.ComputerLiteracy.Value)/40.0))/
-                                                2500);
+                                Convert.ToInt32(
+                                    mult * Price
+                                    *
+                                    (100
+                                     - Math.Floor(Math.Min(1500, client.Character.Stats.ComputerLiteracy.Value) / 40.0))
+                                    / 2500);
                             // Add the Shop modificator and exchange the CompLit for skill form vendortemplate table
                             ie.Placement = nextfree;
                             ie.Container = 104;
@@ -124,21 +127,22 @@ namespace ZoneEngine.PacketHandlers
                             }
                             else
                             {
-                                mult = ie.Item.multiplecount/mult;
+                                mult = ie.Item.multiplecount / mult;
                             }
                             cashdeduct -=
-                                Convert.ToInt32(mult*Price*
-                                                (100 +
-                                                 Math.Floor(
-                                                     Math.Min(1500, client.Character.Stats.ComputerLiteracy.Value)/40.0))/
-                                                2500);
+                                Convert.ToInt32(
+                                    mult * Price
+                                    *
+                                    (100
+                                     + Math.Floor(Math.Min(1500, client.Character.Stats.ComputerLiteracy.Value) / 40.0))
+                                    / 2500);
                             // Add the Shop modificator and exchange the CompLit for skill form vendortemplate table
                             client.Character.Inventory.Remove(ie);
                         }
                         c--;
                     }
 
-                    client.Character.Stats.Cash.Set((uint) (client.Character.Stats.Cash.Value - cashdeduct));
+                    client.Character.Stats.Cash.Set((uint)(client.Character.Stats.Cash.Value - cashdeduct));
                     //                    Packets.Stat.Set(client, 61, client.Character.Stats.Cash.StatValue - cashdeduct, false);
                     byte[] reply0 = new byte[32];
                     Array.Copy(packet, reply0, 32);
@@ -150,10 +154,10 @@ namespace ZoneEngine.PacketHandlers
                     reply0[11] = 14;
 
                     // pushing in Client ID
-                    reply0[12] = (byte) (client.Character.ID >> 24);
-                    reply0[13] = (byte) (client.Character.ID >> 16);
-                    reply0[14] = (byte) (client.Character.ID >> 8);
-                    reply0[15] = (byte) (client.Character.ID);
+                    reply0[12] = (byte)(client.Character.ID >> 24);
+                    reply0[13] = (byte)(client.Character.ID >> 16);
+                    reply0[14] = (byte)(client.Character.ID >> 8);
+                    reply0[15] = (byte)(client.Character.ID);
 
                     pw.PushBytes(reply0);
                     pw.PushByte(1);
@@ -196,10 +200,10 @@ namespace ZoneEngine.PacketHandlers
                     reply1[11] = 14;
 
                     // pushing in Client ID
-                    reply1[12] = (byte) (client.Character.ID >> 24);
-                    reply1[13] = (byte) (client.Character.ID >> 16);
-                    reply1[14] = (byte) (client.Character.ID >> 8);
-                    reply1[15] = (byte) (client.Character.ID);
+                    reply1[12] = (byte)(client.Character.ID >> 24);
+                    reply1[13] = (byte)(client.Character.ID >> 16);
+                    reply1[14] = (byte)(client.Character.ID >> 8);
+                    reply1[15] = (byte)(client.Character.ID);
 
                     pw.PushBytes(reply1);
                     byte[] rep1 = pw.Finish();
@@ -216,7 +220,7 @@ namespace ZoneEngine.PacketHandlers
                     Array.Copy(packet, reply, 50);
                     if (ch.Inventory.Count == 0)
                     {
-                        ((VendingMachine) ch).LoadTemplate(((VendingMachine) ch).TemplateID);
+                        ((VendingMachine)ch).LoadTemplate(((VendingMachine)ch).TemplateID);
                     }
 
                     // pushing in server ID
@@ -226,10 +230,10 @@ namespace ZoneEngine.PacketHandlers
                     reply[11] = 14;
 
                     // pushing in Client ID
-                    reply[12] = (byte) (client.Character.ID >> 24);
-                    reply[13] = (byte) (client.Character.ID >> 16);
-                    reply[14] = (byte) (client.Character.ID >> 8);
-                    reply[15] = (byte) (client.Character.ID);
+                    reply[12] = (byte)(client.Character.ID >> 24);
+                    reply[13] = (byte)(client.Character.ID >> 16);
+                    reply[14] = (byte)(client.Character.ID >> 8);
+                    reply[15] = (byte)(client.Character.ID);
 
                     //PacketWriter pw = new PacketWriter();
                     pw.PushBytes(reply);

@@ -1,36 +1,37 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using AO.Core;
+
 #endregion
 
 namespace ZoneEngine.Packets
 {
+    using System;
+
+    using AO.Core;
+
     public static class FormatFeedbackMessage
     {
         public static void Send(Client client, int category, int instance, object[] args)
@@ -54,24 +55,24 @@ namespace ZoneEngine.Packets
             {
                 if (arg is Int32)
                 {
-                    message = message + "i" + b85_5((Int32) arg);
+                    message = message + "i" + b85_5((Int32)arg);
                 }
                 if (arg is string)
                 {
-                    if (((string) arg).Length > 255)
+                    if (((string)arg).Length > 255)
                     {
                         message = message + "S";
-                        Int16 len = (Int16) ((string) arg).Length;
-                        message = message + shorttochar(len) + (string) arg;
+                        Int16 len = (Int16)((string)arg).Length;
+                        message = message + shorttochar(len) + (string)arg;
                     }
                     else
                     {
-                        message = message + "s" + bytetochar((byte) (((string) arg).Length));
+                        message = message + "s" + bytetochar((byte)(((string)arg).Length));
                     }
                 }
             }
 
-            Int16 mlen = (Int16) (message.Length);
+            Int16 mlen = (Int16)(message.Length);
             FFM.PushShort(mlen);
             FFM.PushString(message);
             FFM.PushInt(1);
@@ -89,7 +90,7 @@ namespace ZoneEngine.Packets
 
         public static string shorttochar(Int16 value)
         {
-            return bytetochar((byte) ((Int16) (value >> 8))) + "" + bytetochar((byte) ((Int16) (value & 0xff)));
+            return bytetochar((byte)((Int16)(value >> 8))) + "" + bytetochar((byte)((Int16)(value & 0xff)));
         }
 
         public static string b85(int value)
@@ -99,9 +100,9 @@ namespace ZoneEngine.Packets
             byte[] n85 = new byte[1];
             while (i < 4)
             {
-                n85[0] = (byte) ((value%85) + 33);
+                n85[0] = (byte)((value % 85) + 33);
                 b85conv = BitConverter.ToChar(n85, 0) + b85conv;
-                value = (value - (value%85))/85;
+                value = (value - (value % 85)) / 85;
             }
             return b85conv;
         }
@@ -113,9 +114,9 @@ namespace ZoneEngine.Packets
             byte[] n85 = new byte[1];
             while (i < 5)
             {
-                n85[0] = (byte) ((value%85) + 33);
+                n85[0] = (byte)((value % 85) + 33);
                 b85conv = BitConverter.ToChar(n85, 0) + b85conv;
-                value = (value - (value%85))/85;
+                value = (value - (value % 85)) / 85;
             }
             return b85conv;
         }

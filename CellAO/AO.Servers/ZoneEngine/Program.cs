@@ -1,58 +1,67 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-using AO.Core;
-using Cell.Core;
-using MySql.Data.MySqlClient;
-using NBug;
-using NBug.Properties;
-using NLog;
-using NLog.Config;
-using NLog.Targets;
-using ZoneEngine.Functions;
-using ZoneEngine.Misc;
-using ZoneEngine.NPC;
-using ZoneEngine.Script;
 using Config = AO.Core.Config.ConfigReadWrite;
+
 #endregion
 
 namespace ZoneEngine
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Net;
+    using System.Threading.Tasks;
+
+    using AO.Core;
+
+    using Cell.Core;
+
+    using MySql.Data.MySqlClient;
+
+    using NBug;
+    using NBug.Properties;
+
+    using NLog;
+    using NLog.Config;
+    using NLog.Targets;
+
+    using ZoneEngine.Functions;
+    using ZoneEngine.Misc;
+    using ZoneEngine.NPC;
+    using ZoneEngine.Script;
+
     public class Program
     {
         public static ScriptAPI Script;
+
         public static Server zoneServer;
+
         public static CScriptCompiler csc;
+
         public static FunctionCollection FunctionC = new FunctionCollection();
 
         private static void Main(string[] args)
@@ -67,8 +76,8 @@ namespace ZoneEngine
             //Misc.DistrictInfo.DumpXML(@"C:\list.xml", Misc.Playfields.Instance.playfields[0]);
 
             #region Console Text...
-            Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description +
-                            " " + AssemblyInfoclass.AssemblyVersion;
+            Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description
+                            + " " + AssemblyInfoclass.AssemblyVersion;
             ConsoleText ct = new ConsoleText();
             ct.TextRead("main.txt");
             Console.WriteLine("Loading " + AssemblyInfoclass.Title + "...");
@@ -100,7 +109,7 @@ namespace ZoneEngine
             //System.Console.WriteLine("[ISComm] Linked Successfully! :D");
             #endregion
 
-            zoneServer = new Server {EnableTCP = true, EnableUDP = false};
+            zoneServer = new Server { EnableTCP = true, EnableUDP = false };
 
             #region Script Loading Code Area..
             csc = new CScriptCompiler();
@@ -187,7 +196,6 @@ namespace ZoneEngine
                             break;
                         }
 
-
                         //TODO: Add SQL Check.
                         csc.Compile(false);
                         StartTheServer();
@@ -200,7 +208,6 @@ namespace ZoneEngine
                             Console.ResetColor();
                             break;
                         }
-
 
                         //TODO: Add SQL Check.
                         csc.Compile(true);
@@ -293,13 +300,21 @@ namespace ZoneEngine
         public class lintel
         {
             public int ID;
+
             public Single X;
+
             public Single Y;
+
             public Single Z;
+
             public Single HZ;
+
             public int frompf;
+
             public int topf;
+
             public int toid;
+
             public int proxy;
         }
 
@@ -393,15 +408,15 @@ namespace ZoneEngine
                             {
                                 found = true;
                                 l1.toid = l2.ID;
-                                ms.SqlUpdate("UPDATE doors set toid=" + l2.ID.ToString() + " where id=" +
-                                             l1.ID.ToString());
+                                ms.SqlUpdate(
+                                    "UPDATE doors set toid=" + l2.ID.ToString() + " where id=" + l1.ID.ToString());
                                 Console.WriteLine(l1.ID.ToString());
                             }
                             else if ((l1.topf == l2.frompf) && (l2.topf == 0))
                             {
                                 l1.toid = l2.ID;
-                                ms.SqlUpdate("UPDATE doors set toid=" + l2.ID.ToString() + " where id=" +
-                                             l1.ID.ToString());
+                                ms.SqlUpdate(
+                                    "UPDATE doors set toid=" + l2.ID.ToString() + " where id=" + l1.ID.ToString());
                                 Console.WriteLine(l1.ID.ToString());
                             }
                         }
@@ -437,7 +452,6 @@ namespace ZoneEngine
                     sqltester.CheckDBs();
                 }
 
-
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Loaded {0} items", ItemHandler.CacheAllItems());
                 Console.WriteLine("Loaded {0} nanos", NanoHandler.CacheAllNanos());
@@ -470,7 +484,6 @@ namespace ZoneEngine
                 Process.GetCurrentProcess().Kill();
             }
         }
-
 
         public static bool ismodified()
         {
