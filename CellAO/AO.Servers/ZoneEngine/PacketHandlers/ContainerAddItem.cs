@@ -1,37 +1,39 @@
 #region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System.Threading;
-using AO.Core;
-using ZoneEngine.Packets;
+
 #endregion
 
 namespace ZoneEngine.PacketHandlers
 {
+    using System.Threading;
+
+    using AO.Core;
+
+    using ZoneEngine.Packets;
+
     internal class ContainerAddItem
     {
         public static int getpage(int placement)
@@ -91,14 +93,16 @@ namespace ZoneEngine.PacketHandlers
             c350 = to_identity.Type;
             int toplacement = m_reader.PopInt();
 
-
             int c_from = 0;
             if ((fromcontainerid <= 0x68) || (fromcontainerid == 0x73)) // Inventory or Equipmentpages?
             {
                 for (c_from = 0;
-                     (c_from < cli.Character.Inventory.Count) &&
-                     (fromplacement != cli.Character.Inventory[c_from].Placement);
-                     c_from++) ;
+                     (c_from < cli.Character.Inventory.Count)
+                     && (fromplacement != cli.Character.Inventory[c_from].Placement);
+                     c_from++)
+                {
+                    ;
+                }
             }
             else
             {
@@ -106,7 +110,10 @@ namespace ZoneEngine.PacketHandlers
                 {
                     for (c_from = 0;
                          (c_from < cli.Character.Bank.Count) && (fromplacement != cli.Character.Bank[c_from].flags);
-                         c_from++) ;
+                         c_from++)
+                    {
+                        ;
+                    }
                 }
                 else
                 {
@@ -129,23 +136,28 @@ namespace ZoneEngine.PacketHandlers
             {
                 for (c_to = 0;
                      (c_to < cli.Character.Inventory.Count) && (toplacement != cli.Character.Inventory[c_to].Placement);
-                     c_to++) ;
+                     c_to++)
+                {
+                    ;
+                }
             }
 
             AOItem m_from = null;
             if (c_from < cli.Character.Inventory.Count)
             {
-                m_from = ItemHandler.interpolate(cli.Character.Inventory[c_from].Item.lowID,
-                                                 cli.Character.Inventory[c_from].Item.highID,
-                                                 cli.Character.Inventory[c_from].Item.Quality);
+                m_from = ItemHandler.interpolate(
+                    cli.Character.Inventory[c_from].Item.lowID,
+                    cli.Character.Inventory[c_from].Item.highID,
+                    cli.Character.Inventory[c_from].Item.Quality);
             }
 
             AOItem m_to = null;
             if (c_to < cli.Character.Inventory.Count)
             {
-                m_to = ItemHandler.interpolate(cli.Character.Inventory[c_to].Item.lowID,
-                                               cli.Character.Inventory[c_to].Item.highID,
-                                               cli.Character.Inventory[c_to].Item.Quality);
+                m_to = ItemHandler.interpolate(
+                    cli.Character.Inventory[c_to].Item.lowID,
+                    cli.Character.Inventory[c_to].Item.highID,
+                    cli.Character.Inventory[c_to].Item.Quality);
             }
 
             // Calculating delay for equip/unequip/switch gear
@@ -160,10 +172,11 @@ namespace ZoneEngine.PacketHandlers
                 delay += m_to.getItemAttribute(211);
             }
             if (delay == 0)
+            {
                 delay = 200;
+            }
             int c;
-            if (toplacement == 0x6f)
-                // 0x6f = next free inventory place, we need to send back the actual spot where the item goes
+            if (toplacement == 0x6f) // 0x6f = next free inventory place, we need to send back the actual spot where the item goes
                 // something has to be free, client checks for full inventory
             {
                 c = 0;

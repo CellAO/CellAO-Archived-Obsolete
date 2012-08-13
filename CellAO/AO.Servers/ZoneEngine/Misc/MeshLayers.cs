@@ -1,80 +1,82 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System.Collections.Generic;
-using System.Linq;
-using AO.Core;
+
 #endregion
 
 namespace ZoneEngine.Misc
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using AO.Core;
+
     public class MeshLayers
     {
         public SortedList<int, int> Mesh = new SortedList<int, int>();
+
         public SortedList<int, int> Override = new SortedList<int, int>();
 
         public int Count()
         {
-            return Mesh.Count;
+            return this.Mesh.Count;
         }
 
         public int GetMesh(int number)
         {
-            return Mesh.ElementAt(number).Value;
+            return this.Mesh.ElementAt(number).Value;
         }
 
         public int GetOverride(int number)
         {
-            return Override.ElementAt(number).Value;
+            return this.Override.ElementAt(number).Value;
         }
 
         public int GetKey(int number)
         {
-            return Mesh.ElementAt(number).Key;
+            return this.Mesh.ElementAt(number).Key;
         }
 
         public void AddMesh(int position, int mesh, int overridetexture, int layer)
         {
             int key = (position << 16) + layer;
-            if (Mesh.ContainsKey(key))
+            if (this.Mesh.ContainsKey(key))
             {
-                Mesh[key] = mesh;
+                this.Mesh[key] = mesh;
             }
             else
             {
-                Mesh.Add(key, mesh);
+                this.Mesh.Add(key, mesh);
             }
-            if (Override.ContainsKey(key))
+            if (this.Override.ContainsKey(key))
             {
-                Override[key] = overridetexture;
+                this.Override[key] = overridetexture;
             }
             else
             {
-                Override.Add(key, overridetexture);
+                this.Override.Add(key, overridetexture);
             }
         }
 
@@ -83,8 +85,8 @@ namespace ZoneEngine.Misc
             int key = (position << 16) + layer;
             try
             {
-                Mesh.Remove(key);
-                Override.Remove(key);
+                this.Mesh.Remove(key);
+                this.Override.Remove(key);
             }
             catch
             {
@@ -95,13 +97,13 @@ namespace ZoneEngine.Misc
         {
             List<AOMeshs> am = new List<AOMeshs>();
             int c = 0;
-            for (c = 0; c < Mesh.Count; c++)
+            for (c = 0; c < this.Mesh.Count; c++)
             {
                 AOMeshs _am = new AOMeshs();
-                _am.Position = Mesh.ElementAt(c).Key >> 16;
-                _am.Mesh = Mesh.ElementAt(c).Value;
-                _am.OverrideTexture = Override.ElementAt(c).Value;
-                _am.Layer = Mesh.ElementAt(c).Key & 0xffff;
+                _am.Position = this.Mesh.ElementAt(c).Key >> 16;
+                _am.Mesh = this.Mesh.ElementAt(c).Value;
+                _am.OverrideTexture = this.Override.ElementAt(c).Value;
+                _am.Layer = this.Mesh.ElementAt(c).Key & 0xffff;
                 am.Add(_am);
             }
             return am;
@@ -109,7 +111,7 @@ namespace ZoneEngine.Misc
 
         public AOMeshs GetMeshAtPosition(int pos)
         {
-            foreach (int key in Mesh.Keys)
+            foreach (int key in this.Mesh.Keys)
             {
                 if ((key >> 16) == pos)
                 {
@@ -117,8 +119,8 @@ namespace ZoneEngine.Misc
                     AOMeshs ma = new AOMeshs();
                     ma.Layer = key & 0xffff;
                     ma.Position = key >> 16;
-                    ma.Mesh = Mesh[key];
-                    ma.OverrideTexture = Override[key];
+                    ma.Mesh = this.Mesh[key];
+                    ma.OverrideTexture = this.Override[key];
                     return ma;
                 }
             }
@@ -126,13 +128,11 @@ namespace ZoneEngine.Misc
             return null;
         }
 
-
         public static List<AOMeshs> GetMeshs(Character character, bool showsocial, bool socialonly)
         {
             List<AOMeshs> _meshs;
             List<AOMeshs> _socials;
             List<AOMeshs> output = new List<AOMeshs>();
-
 
             bool LeftPadVisible;
             bool RightPadVisible;
@@ -157,8 +157,7 @@ namespace ZoneEngine.Misc
                     if (_meshs.ElementAt(0).Position == 0) // Helmet there?
                         // This probably needs to be looked at (glasses/visors)
                     {
-                        if (_meshs.ElementAt(0).Mesh != character.Stats.HeadMesh.StatBaseValue)
-                            // Dont remove the head :)
+                        if (_meshs.ElementAt(0).Mesh != character.Stats.HeadMesh.StatBaseValue) // Dont remove the head :)
                         {
                             _meshs.RemoveAt(0);
                         }
@@ -167,8 +166,7 @@ namespace ZoneEngine.Misc
                     if (_socials.ElementAt(0).Position == 0) // Helmet there?
                         // This probably needs to be looked at (glasses/visors)
                     {
-                        if (_socials.ElementAt(0).Mesh != character.Stats.HeadMesh.StatBaseValue)
-                            // Dont remove the head :)
+                        if (_socials.ElementAt(0).Mesh != character.Stats.HeadMesh.StatBaseValue) // Dont remove the head :)
                         {
                             _socials.RemoveAt(0);
                         }
@@ -194,7 +192,6 @@ namespace ZoneEngine.Misc
             AOMeshs rightshoulder = null;
             int rightshouldernum = -1;
             int leftshouldernum = -1;
-
 
             for (int c1 = 0; c1 < _meshs.Count; c1++)
             {

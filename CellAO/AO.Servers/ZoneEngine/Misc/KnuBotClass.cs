@@ -1,44 +1,50 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
-
-using System;
-using System.Collections.Generic;
-using AO.Core;
-using ZoneEngine.Packets;
 
 namespace ZoneEngine.Misc
 {
+    using System;
+    using System.Collections.Generic;
+
+    using AO.Core;
+
+    using ZoneEngine.Packets;
+
     public class KnuBotClass
     {
         protected Character _talkingto;
 
         public Character TalkingTo
         {
-            get { return _talkingto; }
-            set { _talkingto = value; }
+            get
+            {
+                return this._talkingto;
+            }
+            set
+            {
+                this._talkingto = value;
+            }
         }
 
         public NonPC parent;
@@ -51,22 +57,22 @@ namespace ZoneEngine.Misc
 
         public KnuBotClass(Character target, NonPC _parent)
         {
-            TalkingTo = target;
-            parent = _parent;
+            this.TalkingTo = target;
+            this.parent = _parent;
         }
 
         public KnuBotClass(NonPC _parent)
         {
-            TalkingTo = null;
-            parent = _parent;
+            this.TalkingTo = null;
+            this.parent = _parent;
 
-            CallKnuBotAcceptTrade += OnKnuBotAcceptTrade;
-            CallKnuBotAnswer += OnKnuBotAnswer;
-            CallKnuBotCloseChatWindow += OnKnuBotCloseChatWindow;
-            CallKnuBotDeclineTrade += OnKnuBotDeclineTrade;
-            CallKnuBotOpenChatWindow += OnKnuBotOpenChatWindow;
-            CallKnuBotStartTrade += OnKnuBotStartTrade;
-            CallKnuBotTrade += OnKnuBotTrade;
+            this.CallKnuBotAcceptTrade += this.OnKnuBotAcceptTrade;
+            this.CallKnuBotAnswer += this.OnKnuBotAnswer;
+            this.CallKnuBotCloseChatWindow += this.OnKnuBotCloseChatWindow;
+            this.CallKnuBotDeclineTrade += this.OnKnuBotDeclineTrade;
+            this.CallKnuBotOpenChatWindow += this.OnKnuBotOpenChatWindow;
+            this.CallKnuBotStartTrade += this.OnKnuBotStartTrade;
+            this.CallKnuBotTrade += this.OnKnuBotTrade;
         }
 
         public virtual void OnKnuBotAnswer(object sender, KnuBotAnswerEventArgs e)
@@ -75,10 +81,10 @@ namespace ZoneEngine.Misc
 
         public virtual void OnKnuBotCloseChatWindow(object sender, KnuBotEventArgs e)
         {
-            if (TradedItems.Count > 0)
+            if (this.TradedItems.Count > 0)
             {
-                KnuBotRejectedItems.Send(TalkingTo.client, parent, TradedItems.ToArray());
-                TradedItems.Clear();
+                KnuBotRejectedItems.Send(this.TalkingTo.client, this.parent, this.TradedItems.ToArray());
+                this.TradedItems.Clear();
             }
         }
 
@@ -88,32 +94,32 @@ namespace ZoneEngine.Misc
 
         public virtual void OnKnuBotAcceptTrade(object sender, KnuBotEventArgs e)
         {
-            InTrade = false;
+            this.InTrade = false;
         }
 
         public virtual void OnKnuBotDeclineTrade(object sender, KnuBotEventArgs e)
         {
-            KnuBotRejectedItems.Send(TalkingTo.client, parent, TradedItems.ToArray());
-            foreach (AOItem item in TradedItems)
+            KnuBotRejectedItems.Send(this.TalkingTo.client, this.parent, this.TradedItems.ToArray());
+            foreach (AOItem item in this.TradedItems)
             {
-                TalkingTo.AddItemToInventory(item);
+                this.TalkingTo.AddItemToInventory(item);
             }
-            TradedItems.Clear();
-            InTrade = false;
+            this.TradedItems.Clear();
+            this.InTrade = false;
         }
 
         public virtual void OnKnuBotStartTrade(object sender, KnuBotEventArgs e)
         {
-            if (WantsTrade && !InTrade)
+            if (this.WantsTrade && !this.InTrade)
             {
-                TradedItems.Clear();
-                InTrade = true;
+                this.TradedItems.Clear();
+                this.InTrade = true;
             }
         }
 
         public virtual void OnKnuBotTrade(object sender, KnuBotTradeEventArgs e)
         {
-            TradedItems.Add(e._item);
+            this.TradedItems.Add(e._item);
         }
 
         public virtual void Action(Int32 actionnumber)
@@ -122,34 +128,36 @@ namespace ZoneEngine.Misc
 
         public void KnuBotNextAction(int ActionNumber, uint delay)
         {
-            parent.AddTimer(20000, DateTime.Now + TimeSpan.FromMilliseconds(delay), CreateKnuBotFunction(ActionNumber),
-                            false);
+            this.parent.AddTimer(
+                20000, DateTime.Now + TimeSpan.FromMilliseconds(delay), this.CreateKnuBotFunction(ActionNumber), false);
         }
 
         public void AppendText(string message)
         {
-            KnuBotAppendText.Send(TalkingTo.client, parent,
-                                  message.Replace("%name", TalkingTo.Name).Replace("%myname", parent.Name) + "\n");
+            KnuBotAppendText.Send(
+                this.TalkingTo.client,
+                this.parent,
+                message.Replace("%name", this.TalkingTo.Name).Replace("%myname", this.parent.Name) + "\n");
         }
 
         public void SendChoices(string[] choices)
         {
-            KnuBotAnswerList.Send(TalkingTo.client, parent, choices);
+            KnuBotAnswerList.Send(this.TalkingTo.client, this.parent, choices);
         }
 
         public void OpenTrade(string message, int numberofitemslots)
         {
-            PacketHandlers.KnuBotStartTrade.Send(TalkingTo.client, parent, message, numberofitemslots);
+            PacketHandlers.KnuBotStartTrade.Send(this.TalkingTo.client, this.parent, message, numberofitemslots);
         }
 
         public void OpenChat()
         {
-            Packets.KnuBotOpenChatWindow.Send(TalkingTo.client, parent);
+            Packets.KnuBotOpenChatWindow.Send(this.TalkingTo.client, this.parent);
         }
 
         public void CloseChat()
         {
-            PacketHandlers.KnuBotCloseChatWindow.Send(TalkingTo, parent);
+            PacketHandlers.KnuBotCloseChatWindow.Send(this.TalkingTo, this.parent);
         }
 
         public void SpawnItem(int lowid, int highid, int ql)
@@ -159,9 +167,9 @@ namespace ZoneEngine.Misc
             AOItem it = ItemHandler.interpolate(lowid, highid, ql);
             mi.Item = it;
             mi.Container = 104;
-            mi.Placement = TalkingTo.GetNextFreeInventory(104);
-            TalkingTo.Inventory.Add(mi);
-            AddTemplate.Send(TalkingTo.client, mi);
+            mi.Placement = this.TalkingTo.GetNextFreeInventory(104);
+            this.TalkingTo.Inventory.Add(mi);
+            AddTemplate.Send(this.TalkingTo.client, mi);
         }
 
         public AOFunctions CreateKnuBotFunction(int KnuBotaction)
@@ -171,14 +179,14 @@ namespace ZoneEngine.Misc
             aof.TickCount = 1;
             aof.TickInterval = 0;
             aof.FunctionType = 2; // KnuBotActionTimer
-            aof.Target = parent.ID;
+            aof.Target = this.parent.ID;
             return aof;
         }
 
         public void Teleport(int x, int z, int y, int pf, uint delay)
         {
             AOFunctions aof = new AOFunctions();
-            aof.Target = TalkingTo.ID;
+            aof.Target = this.TalkingTo.ID;
             aof.TickCount = 0;
             aof.TickInterval = 1;
             aof.FunctionType = Constants.functiontype_teleport;
@@ -186,19 +194,20 @@ namespace ZoneEngine.Misc
             aof.Arguments.Add(y);
             aof.Arguments.Add(z);
             aof.Arguments.Add(pf);
-            TalkingTo.AddTimer(20001, DateTime.Now + TimeSpan.FromMilliseconds(delay), aof, false);
+            this.TalkingTo.AddTimer(20001, DateTime.Now + TimeSpan.FromMilliseconds(delay), aof, false);
         }
 
         #region KnuBot Events
         public class KnuBotAnswerEventArgs : EventArgs
         {
             public Character _sender;
+
             public int _answer;
 
             public KnuBotAnswerEventArgs(Character sender, int answer)
             {
-                _sender = sender;
-                _answer = answer;
+                this._sender = sender;
+                this._answer = answer;
             }
         }
 
@@ -206,7 +215,7 @@ namespace ZoneEngine.Misc
 
         protected virtual void OnKnuBotAnswerEvent(KnuBotAnswerEventArgs e)
         {
-            EventHandler<KnuBotAnswerEventArgs> handler = CallKnuBotAnswer;
+            EventHandler<KnuBotAnswerEventArgs> handler = this.CallKnuBotAnswer;
             if (handler != null)
             {
                 handler(this, e);
@@ -215,9 +224,8 @@ namespace ZoneEngine.Misc
 
         public void KnuBotAnswer(Character ch, int number)
         {
-            OnKnuBotAnswerEvent(new KnuBotAnswerEventArgs(ch, number));
+            this.OnKnuBotAnswerEvent(new KnuBotAnswerEventArgs(ch, number));
         }
-
 
         public class KnuBotEventArgs : EventArgs
         {
@@ -225,7 +233,7 @@ namespace ZoneEngine.Misc
 
             public KnuBotEventArgs(Character sender)
             {
-                _sender = sender;
+                this._sender = sender;
             }
         }
 
@@ -233,7 +241,7 @@ namespace ZoneEngine.Misc
 
         protected virtual void OnKnuBotCloseChatWindowEvent(KnuBotEventArgs e)
         {
-            EventHandler<KnuBotEventArgs> handler = CallKnuBotCloseChatWindow;
+            EventHandler<KnuBotEventArgs> handler = this.CallKnuBotCloseChatWindow;
             if (handler != null)
             {
                 handler(this, e);
@@ -242,7 +250,7 @@ namespace ZoneEngine.Misc
 
         public void KnuBotCloseChatWindow(Character ch)
         {
-            OnKnuBotCloseChatWindowEvent(new KnuBotEventArgs(ch));
+            this.OnKnuBotCloseChatWindowEvent(new KnuBotEventArgs(ch));
             // TODO: Give back Items in Trade window
         }
 
@@ -250,7 +258,7 @@ namespace ZoneEngine.Misc
 
         protected virtual void OnKnuBotOpenChatWindowEvent(KnuBotEventArgs e)
         {
-            EventHandler<KnuBotEventArgs> handler = CallKnuBotOpenChatWindow;
+            EventHandler<KnuBotEventArgs> handler = this.CallKnuBotOpenChatWindow;
             if (handler != null)
             {
                 handler(this, e);
@@ -259,14 +267,14 @@ namespace ZoneEngine.Misc
 
         public void KnuBotOpenChatWindow(Character ch)
         {
-            OnKnuBotOpenChatWindowEvent(new KnuBotEventArgs(ch));
+            this.OnKnuBotOpenChatWindowEvent(new KnuBotEventArgs(ch));
         }
 
         public event EventHandler<KnuBotEventArgs> CallKnuBotDeclineTrade;
 
         protected virtual void OnKnuBotDeclineTradeEvent(KnuBotEventArgs e)
         {
-            EventHandler<KnuBotEventArgs> handler = CallKnuBotDeclineTrade;
+            EventHandler<KnuBotEventArgs> handler = this.CallKnuBotDeclineTrade;
             if (handler != null)
             {
                 handler(this, e);
@@ -275,14 +283,14 @@ namespace ZoneEngine.Misc
 
         public void KnuBotDeclineTrade(Character ch)
         {
-            OnKnuBotDeclineTradeEvent(new KnuBotEventArgs(ch));
+            this.OnKnuBotDeclineTradeEvent(new KnuBotEventArgs(ch));
         }
 
         public event EventHandler<KnuBotEventArgs> CallKnuBotAcceptTrade;
 
         protected virtual void OnKnuBotAcceptTradeEvent(KnuBotEventArgs e)
         {
-            EventHandler<KnuBotEventArgs> handler = CallKnuBotAcceptTrade;
+            EventHandler<KnuBotEventArgs> handler = this.CallKnuBotAcceptTrade;
             if (handler != null)
             {
                 handler(this, e);
@@ -291,14 +299,14 @@ namespace ZoneEngine.Misc
 
         public void KnuBotAcceptTrade(Character character)
         {
-            OnKnuBotAcceptTradeEvent(new KnuBotEventArgs(character));
+            this.OnKnuBotAcceptTradeEvent(new KnuBotEventArgs(character));
         }
 
         public event EventHandler<KnuBotEventArgs> CallKnuBotStartTrade;
 
         protected virtual void OnKnuBotStartTradeEvent(KnuBotEventArgs e)
         {
-            EventHandler<KnuBotEventArgs> handler = CallKnuBotStartTrade;
+            EventHandler<KnuBotEventArgs> handler = this.CallKnuBotStartTrade;
             if (handler != null)
             {
                 handler(this, e);
@@ -307,18 +315,19 @@ namespace ZoneEngine.Misc
 
         public void KnuBotStartTrade(Character character)
         {
-            OnKnuBotStartTradeEvent(new KnuBotEventArgs(character));
+            this.OnKnuBotStartTradeEvent(new KnuBotEventArgs(character));
         }
 
         public class KnuBotTradeEventArgs : EventArgs
         {
             public Character _sender;
+
             public AOItem _item;
 
             public KnuBotTradeEventArgs(Character sender, AOItem item)
             {
-                _sender = sender;
-                _item = item;
+                this._sender = sender;
+                this._item = item;
             }
         }
 
@@ -326,7 +335,7 @@ namespace ZoneEngine.Misc
 
         protected virtual void OnKnuBotTradeEvent(KnuBotTradeEventArgs e)
         {
-            EventHandler<KnuBotTradeEventArgs> handler = CallKnuBotTrade;
+            EventHandler<KnuBotTradeEventArgs> handler = this.CallKnuBotTrade;
             if (handler != null)
             {
                 handler(this, e);
@@ -335,7 +344,7 @@ namespace ZoneEngine.Misc
 
         public void KnuBotTrade(Character character, AOItem item)
         {
-            OnKnuBotTradeEvent(new KnuBotTradeEventArgs(character, item));
+            this.OnKnuBotTradeEvent(new KnuBotTradeEventArgs(character, item));
         }
         #endregion
     }

@@ -1,10 +1,14 @@
 ﻿#region License
 // Copyright (c) 2005-2012, CellAO Team
+// 
 // All rights reserved.
+// 
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
 //     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 //     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 //     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -56,7 +60,7 @@ namespace ChatEngine
         /// <summary>
         /// Handles to log files for various channels.
         /// </summary>
-        private static readonly Dictionary<string, ChatLog> m_LogFiles = new Dictionary<string, ChatLog>();
+        private static readonly Dictionary<string, ChatLog> LogFiles = new Dictionary<string, ChatLog>();
 
         /// <summary>
         /// Initializes static members of the <see cref="ChatLogger"/> class.
@@ -109,7 +113,7 @@ namespace ChatEngine
         }
 
         /// <summary>
-        /// The write string.
+        /// Write a string into LogFile
         /// </summary>
         /// <param name="channel">
         /// The channel.
@@ -135,6 +139,7 @@ namespace ChatEngine
                 LoadLog(Channel);
             }
             */
+
             // Check if it's a new day and we must close current log
             // for channel, and open a new one.
             if (CheckLogRefresh(channel))
@@ -143,30 +148,18 @@ namespace ChatEngine
             }
 
             LoadLog(channel);
-            ChatLog LogFile = m_LogFiles[channel];
-            DateTime Timestamp = DateTime.Now;
-            StringBuilder LogEntry = new StringBuilder();
-            LogEntry.Append("[");
-            if (Timestamp.Hour < 10)
-            {
-                LogEntry.Append("0");
-            }
+            ChatLog logFile = LogFiles[channel];
+            DateTime timestamp = DateTime.Now;
+            StringBuilder logEntry = new StringBuilder();
+            logEntry.Append("[");
+            logEntry.Append(timestamp.ToString("hh:mm"));
+            logEntry.Append("] ");
+            logEntry.Append(sender);
+            logEntry.Append(": ");
+            logEntry.Append(data);
 
-            LogEntry.Append(Timestamp.Hour.ToString());
-            LogEntry.Append(":");
-            if (Timestamp.Minute < 10)
-            {
-                LogEntry.Append("0");
-            }
-
-            LogEntry.Append(Timestamp.Minute.ToString());
-            LogEntry.Append("] ");
-            LogEntry.Append(sender);
-            LogEntry.Append(": ");
-            LogEntry.Append(data);
-
-            LogFile.Stream.WriteLine(LogEntry.ToString());
-            LogFile.Stream.Close();
+            logFile.Stream.WriteLine(logEntry.ToString());
+            logFile.Stream.Close();
         }
 
         /// <summary>
@@ -180,9 +173,9 @@ namespace ChatEngine
         /// </returns>
         private static bool CheckLogRefresh(string Channel)
         {
-            if (m_LogFiles.ContainsKey(Channel))
+            if (LogFiles.ContainsKey(Channel))
             {
-                if (DateTime.Now.Day != m_LogFiles[Channel].CreationDate.Day)
+                if (DateTime.Now.Day != LogFiles[Channel].CreationDate.Day)
                 {
                     return true;
                 }
@@ -203,26 +196,26 @@ namespace ChatEngine
         /// </param>
         private static void LoadLog(string Channel)
         {
-            if (m_LogFiles.ContainsKey(Channel))
+            if (LogFiles.ContainsKey(Channel))
             {
-                m_LogFiles[Channel].Stream.Close();
+                LogFiles[Channel].Stream.Close();
             }
 
-            DateTime NewLogDate = DateTime.Now;
-            ChatLog NewLog = new ChatLog();
-            NewLog.CreationDate = NewLogDate;
-            NewLog.Stream = null;
-            string sLogFilename = GetLogString(Channel, NewLogDate);
-            if (!File.Exists(sLogFilename))
+            DateTime newLogDate = DateTime.Now;
+            ChatLog newLog = new ChatLog();
+            newLog.CreationDate = newLogDate;
+            newLog.Stream = null;
+            string logFilename = GetLogString(Channel, newLogDate);
+            if (!File.Exists(logFilename))
             {
-                NewLog.Stream = new StreamWriter(sLogFilename, false);
+                newLog.Stream = new StreamWriter(logFilename, false);
             }
             else
             {
-                NewLog.Stream = new StreamWriter(sLogFilename, true);
+                newLog.Stream = new StreamWriter(logFilename, true);
             }
 
-            m_LogFiles[Channel] = NewLog;
+            LogFiles[Channel] = newLog;
         }
     }
 }

@@ -1,49 +1,54 @@
 #region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Timers;
-using AO.Core;
-using Cell.Core;
-using ComponentAce.Compression.Libs.zlib;
-using ZoneEngine.Misc;
-using ZoneEngine.Packets;
 using Config = AO.Core.Config.ConfigReadWrite;
-using Timer = System.Timers.Timer;
+
 #endregion
 
 namespace ZoneEngine
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Text;
+    using System.Threading;
+    using System.Timers;
+
+    using AO.Core;
+
+    using Cell.Core;
+
+    using ComponentAce.Compression.Libs.zlib;
+
+    using ZoneEngine.Misc;
+    using ZoneEngine.Packets;
+
+    using Timer = System.Timers.Timer;
+
     /// <summary>
     /// 
     /// </summary>
@@ -76,7 +81,7 @@ namespace ZoneEngine
         protected override void OnReceive(int numBytes)
         {
             byte[] packet = new byte[numBytes];
-            Array.Copy(m_readBuffer.Array, m_readBuffer.Offset, packet, 0, numBytes);
+            Array.Copy(this.m_readBuffer.Array, this.m_readBuffer.Offset, packet, 0, numBytes);
             PacketReader reader = new PacketReader(ref packet);
 
             // TODO: make check here to see if packet starts with 0xDFDF
@@ -149,7 +154,7 @@ namespace ZoneEngine
         public override void Send(ref byte[] packet)
         {
             // 18.1 Fix
-            byte[] pn = BitConverter.GetBytes(packetNumber++);
+            byte[] pn = BitConverter.GetBytes(this.packetNumber++);
             packet[0] = pn[1];
             packet[1] = pn[0];
 
@@ -165,7 +170,7 @@ namespace ZoneEngine
             int tries = 0;
             Boolean done = false;
             // 18.1 Fix
-            byte[] pn = BitConverter.GetBytes(packetNumber++);
+            byte[] pn = BitConverter.GetBytes(this.packetNumber++);
             packet[0] = pn[1];
             packet[1] = pn[0];
             while ((!done) && (tries < 3))
@@ -173,23 +178,23 @@ namespace ZoneEngine
                 try
                 {
                     done = true;
-                    if (!zStreamSetup)
+                    if (!this.zStreamSetup)
                     {
                         // Create the zStream
-                        netStream = new NetworkStream(TcpSocket);
-                        zStream = new ZOutputStream(netStream, zlibConst.Z_BEST_COMPRESSION);
-                        zStream.FlushMode = zlibConst.Z_SYNC_FLUSH;
-                        zStreamSetup = true;
+                        this.netStream = new NetworkStream(this.TcpSocket);
+                        this.zStream = new ZOutputStream(this.netStream, zlibConst.Z_BEST_COMPRESSION);
+                        this.zStream.FlushMode = zlibConst.Z_SYNC_FLUSH;
+                        this.zStreamSetup = true;
                     }
 
-                    zStream.Write(packet, 0, packet.Length);
-                    zStream.Flush();
+                    this.zStream.Write(packet, 0, packet.Length);
+                    this.zStream.Flush();
                 }
                 catch (Exception)
                 {
                     tries++;
                     done = false;
-                    Server.DisconnectClient(this);
+                    this.Server.DisconnectClient(this);
                     return;
                 }
             }
@@ -241,13 +246,15 @@ namespace ZoneEngine
             base.Cleanup();
             //AH FINALLY, Man, get some NORMAL names (OnDisconnect maybe?).
             bool foundnextclient = false;
-            foreach (Client c in Server.Clients)
+            foreach (Client c in this.Server.Clients)
             {
                 if (this == c)
+                {
                     continue;
+                }
                 if (c.Character != null)
                 {
-                    if (c.Character.ID == Character.ID)
+                    if (c.Character.ID == this.Character.ID)
                     {
                         foundnextclient = true;
                         break;
@@ -257,7 +264,7 @@ namespace ZoneEngine
             if (!foundnextclient)
             {
                 CharStatus charS = new CharStatus();
-                charS.SetOffline(Character.ID);
+                charS.SetOffline(this.Character.ID);
             }
         }
         #endregion
@@ -269,9 +276,13 @@ namespace ZoneEngine
         public UInt16 packetNumber = 1;
 
         public Character Character = new Character(0, 0);
+
         public List<AOTimers> CoreTimers = new List<AOTimers>();
+
         private bool zStreamSetup;
+
         private NetworkStream netStream;
+
         private ZOutputStream zStream;
 
         // Core Timers Enable Variable
@@ -292,19 +303,19 @@ namespace ZoneEngine
             newCoretimer.Function = aof;
             newCoretimer.Timestamp = time;
             newCoretimer.Strain = strain;
-            CoreTimers.Add(newCoretimer);
+            this.CoreTimers.Add(newCoretimer);
         }
         #endregion
 
         #region Purge Core Timer
         public void PurgeCoreTimer(int strain)
         {
-            int c = CoreTimers.Count() - 1;
+            int c = this.CoreTimers.Count() - 1;
             while (c >= 0)
             {
-                if (CoreTimers[c].Strain == strain)
+                if (this.CoreTimers[c].Strain == strain)
                 {
-                    CoreTimers.RemoveAt(c);
+                    this.CoreTimers.RemoveAt(c);
                 }
                 c--;
             }
@@ -319,7 +330,7 @@ namespace ZoneEngine
             // Current Strain
             int strain;
             // if Charachter is skipping timers Leave Function
-            if (SkipCoreTimers)
+            if (this.SkipCoreTimers)
             {
                 return;
             }
@@ -328,13 +339,13 @@ namespace ZoneEngine
             int DTCompResult;
 
             // Backwards, easier to maintain integrity when removing something from the list
-            for (c = CoreTimers.Count - 1; c >= 0; c--)
+            for (c = this.CoreTimers.Count - 1; c >= 0; c--)
             {
                 // Compare the Timer Value to the Current Time
-                DTCompResult = _now.CompareTo(CoreTimers[c].Timestamp);
+                DTCompResult = _now.CompareTo(this.CoreTimers[c].Timestamp);
                 if (DTCompResult >= 0)
                 {
-                    strain = CoreTimers[c].Strain;
+                    strain = this.CoreTimers[c].Strain;
                     switch (strain)
                     {
                         case 0:
@@ -350,21 +361,26 @@ namespace ZoneEngine
                             }
                             break;
                         default:
-                            CoreTimers[c].Function.Apply(true);
+                            this.CoreTimers[c].Function.Apply(true);
                             break;
                     }
-                    if (CoreTimers[c].Function.TickCount >= 0)
-                        CoreTimers[c].Function.TickCount--;
+                    if (this.CoreTimers[c].Function.TickCount >= 0)
+                    {
+                        this.CoreTimers[c].Function.TickCount--;
+                    }
 
-                    if (CoreTimers[c].Function.TickCount == 0)
+                    if (this.CoreTimers[c].Function.TickCount == 0)
                     {
                         // Remove Timer if Ticks ran out
-                        CoreTimers.RemoveAt(c);
+                        this.CoreTimers.RemoveAt(c);
                     }
                     else
                     {
                         // Reinvoke the timer after the TickInterval
-                        CoreTimers[c].Timestamp = _now + TimeSpan.FromMilliseconds(CoreTimers[c].Function.TickInterval);
+                        this.CoreTimers[c].Timestamp = _now
+                                                       +
+                                                       TimeSpan.FromMilliseconds(
+                                                           this.CoreTimers[c].Function.TickInterval);
                     }
                 }
             }
@@ -380,15 +396,15 @@ namespace ZoneEngine
             _writer.PushShort(1); /* ? */
             _writer.PushShort(0); /* Packet size (0 for now, PacketWriter takes care of it)*/
             _writer.PushInt(3086); /* Sender (our server ID)*/
-            _writer.PushInt(Character.ID); /* Receiver */
+            _writer.PushInt(this.Character.ID); /* Receiver */
             _writer.PushInt(0x50544d19); /* Packet ID */
-            _writer.PushIdentity(50000, Character.ID); /* Affected identity */
+            _writer.PushIdentity(50000, this.Character.ID); /* Affected identity */
             _writer.PushByte(1); /* ? */
             _writer.PushInt(0); /* ? */
             _writer.PushInt(MsgCategory); /* Message category ID */
             _writer.PushInt(MsgNum); /* message ID */
             byte[] reply = _writer.Finish();
-            SendCompressed(reply);
+            this.SendCompressed(reply);
             return true;
         }
 
@@ -407,16 +423,16 @@ namespace ZoneEngine
             _writer.PushShort(1);
             _writer.PushShort(0);
             _writer.PushInt(3086);
-            _writer.PushInt(Character.ID);
+            _writer.PushInt(this.Character.ID);
             _writer.PushInt(0x5F4B442A);
-            _writer.PushIdentity(50000, Character.ID);
+            _writer.PushIdentity(50000, this.Character.ID);
             _writer.PushByte(0);
-            _writer.PushShort((short) Text.Length);
+            _writer.PushShort((short)Text.Length);
             _writer.PushBytes(Encoding.ASCII.GetBytes(Text));
             _writer.PushShort(0x1000);
             _writer.PushInt(0);
             byte[] reply = _writer.Finish();
-            SendCompressed(reply);
+            this.SendCompressed(reply);
             return true;
         }
 
@@ -437,9 +453,9 @@ namespace ZoneEngine
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(Character.ID);
+            writer.PushInt(this.Character.ID);
             writer.PushInt(0x43197D22);
-            writer.PushIdentity(50000, Character.ID);
+            writer.PushIdentity(50000, this.Character.ID);
             writer.PushByte(0);
             // Header ends
             writer.PushCoord(destination);
@@ -456,18 +472,18 @@ namespace ZoneEngine
             writer.PushInt(0);
             writer.PushInt(0);
             byte[] tpreply = writer.Finish();
-            Despawn.DespawnPacket(Character.ID);
-            SendCompressed(tpreply);
-            Character.dontdotimers = true;
-            Character.Stats.ExtenalDoorInstance.Value = 0;
-            Character.Stats.ExtenalPlayfieldInstance.Value = 0;
-            Character.Stats.LastConcretePlayfieldInstance.Value = 0;
+            Despawn.DespawnPacket(this.Character.ID);
+            this.SendCompressed(tpreply);
+            this.Character.dontdotimers = true;
+            this.Character.Stats.ExtenalDoorInstance.Value = 0;
+            this.Character.Stats.ExtenalPlayfieldInstance.Value = 0;
+            this.Character.Stats.LastConcretePlayfieldInstance.Value = 0;
 
-            Character.stopMovement();
-            Character.rawCoord = destination;
-            Character.rawHeading = heading;
-            Character.PlayField = playfield;
-            Character.Purge(); // Purge character information to DB before client reconnect
+            this.Character.stopMovement();
+            this.Character.rawCoord = destination;
+            this.Character.rawHeading = heading;
+            this.Character.PlayField = playfield;
+            this.Character.Purge(); // Purge character information to DB before client reconnect
 
             IPAddress tempIP;
             if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
@@ -493,12 +509,12 @@ namespace ZoneEngine
             writer2.PushShort(1);
             writer2.PushShort(0);
             writer2.PushInt(3086);
-            writer2.PushInt(Character.ID);
+            writer2.PushInt(this.Character.ID);
             writer2.PushInt(60);
             writer2.PushInt(zoneIP);
             writer2.PushShort(zonePort);
             byte[] connect = writer2.Finish();
-            SendCompressed(connect);
+            this.SendCompressed(connect);
             return true;
         }
 
@@ -509,8 +525,15 @@ namespace ZoneEngine
         /// <param name="heading"></param>
         /// <param name="playfield"></param>
         /// <returns></returns>
-        public bool TeleportProxy(AOCoord destination, Quaternion heading, int playfield, Identity pfinstance, int GS,
-                                  int SG, Identity R, Identity dest)
+        public bool TeleportProxy(
+            AOCoord destination,
+            Quaternion heading,
+            int playfield,
+            Identity pfinstance,
+            int GS,
+            int SG,
+            Identity R,
+            Identity dest)
         {
             PacketWriter writer = new PacketWriter();
             // header starts
@@ -520,13 +543,13 @@ namespace ZoneEngine
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(Character.ID);
+            writer.PushInt(this.Character.ID);
             writer.PushInt(0x43197D22);
-            writer.PushIdentity(50000, Character.ID);
+            writer.PushIdentity(50000, this.Character.ID);
             writer.PushByte(0);
             // Header ends
-            writer.PushCoord(Character.rawCoord);
-            writer.PushQuat(Character.rawHeading);
+            writer.PushCoord(this.Character.rawCoord);
+            writer.PushQuat(this.Character.rawHeading);
             writer.PushByte(97);
             writer.PushIdentity(pfinstance.Type, pfinstance.Instance);
             writer.PushInt(GS);
@@ -538,19 +561,19 @@ namespace ZoneEngine
             writer.PushIdentity(dest.Type, dest.Instance);
             writer.PushInt(0);
             byte[] tpreply = writer.Finish();
-            Character.dontdotimers = true;
-            Despawn.DespawnPacket(Character.ID);
-            SendCompressed(tpreply);
-            Character.dontdotimers = true;
-            Character.Stats.LastConcretePlayfieldInstance.Value = Character.PlayField;
-            Character.Stats.ExtenalDoorInstance.Value = SG;
+            this.Character.dontdotimers = true;
+            Despawn.DespawnPacket(this.Character.ID);
+            this.SendCompressed(tpreply);
+            this.Character.dontdotimers = true;
+            this.Character.Stats.LastConcretePlayfieldInstance.Value = this.Character.PlayField;
+            this.Character.Stats.ExtenalDoorInstance.Value = SG;
 
-            Character.stopMovement();
-            Character.rawCoord = destination;
-            Character.rawHeading = heading;
-            Character.PlayField = playfield;
-            Character.resource = 0x3c000;
-            Character.Purge(); // Purge character information to DB before client reconnect
+            this.Character.stopMovement();
+            this.Character.rawCoord = destination;
+            this.Character.rawHeading = heading;
+            this.Character.PlayField = playfield;
+            this.Character.resource = 0x3c000;
+            this.Character.Purge(); // Purge character information to DB before client reconnect
 
             IPAddress tempIP;
             if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
@@ -577,15 +600,14 @@ namespace ZoneEngine
             writer2.PushShort(1);
             writer2.PushShort(0);
             writer2.PushInt(3086);
-            writer2.PushInt(Character.ID);
+            writer2.PushInt(this.Character.ID);
             writer2.PushInt(60);
             writer2.PushInt(zoneIP);
             writer2.PushShort(zonePort);
             byte[] connect = writer2.Finish();
-            SendCompressed(connect);
+            this.SendCompressed(connect);
             return true;
         }
-
 
         private static Timer LogoutTimer = new Timer();
 
@@ -593,14 +615,14 @@ namespace ZoneEngine
         public void startLogoutTimer()
         {
             LogoutTimer = new Timer(30000);
-            LogoutTimer.Elapsed += LogOut;
+            LogoutTimer.Elapsed += this.LogOut;
             LogoutTimer.Enabled = true;
         }
 
         // Called after 30 second timer elapses
         private void LogOut(Object sender, ElapsedEventArgs e)
         {
-            Server.DisconnectClient(this);
+            this.Server.DisconnectClient(this);
         }
 
         /* Called from CharacterAction class in case of 'stop logout packet'
@@ -619,9 +641,9 @@ namespace ZoneEngine
             stopLogout.PushShort(1);
             stopLogout.PushShort(0);
             stopLogout.PushInt(3086); // Sender (server ID)
-            stopLogout.PushInt(Character.ID); // Receiver
+            stopLogout.PushInt(this.Character.ID); // Receiver
             stopLogout.PushInt(0x5E477770); // CharacterAction packet ID
-            stopLogout.PushIdentity(50000, Character.ID); // affected identity
+            stopLogout.PushIdentity(50000, this.Character.ID); // affected identity
             stopLogout.PushByte(0);
             // end packet header
 
@@ -635,7 +657,7 @@ namespace ZoneEngine
             stopLogout.PushInt(0);
             stopLogout.PushShort(0);
             byte[] stoplogOutPacket = stopLogout.Finish();
-            SendCompressed(stoplogOutPacket);
+            this.SendCompressed(stoplogOutPacket);
         }
 
         /* Called from CharacterAction class in case of 'stand' (0x57)
@@ -654,9 +676,9 @@ namespace ZoneEngine
             standUp.PushShort(1);
             standUp.PushShort(0);
             standUp.PushInt(3086); // Sender (server ID)
-            standUp.PushInt(Character.ID); // Receiver
+            standUp.PushInt(this.Character.ID); // Receiver
             standUp.PushInt(0x5E477770); // CharacterAction packet ID
-            standUp.PushIdentity(50000, Character.ID); // affected identity
+            standUp.PushIdentity(50000, this.Character.ID); // affected identity
             standUp.PushByte(0);
             // end packet header
 
@@ -670,12 +692,12 @@ namespace ZoneEngine
             standUp.PushInt(0);
             standUp.PushShort(0);
             byte[] standUpPacket = standUp.Finish();
-            Announce.Playfield(Character.PlayField, ref standUpPacket);
+            Announce.Playfield(this.Character.PlayField, ref standUpPacket);
             //            SendCompressed(standUpPacket);
 
             if (LogoutTimer.Enabled)
             {
-                CancelLogOut();
+                this.CancelLogOut();
             } // If logout timer is running, CancelLogOut method stops it.
         }
         #endregion

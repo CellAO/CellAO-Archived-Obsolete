@@ -1,45 +1,47 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using AO.Core;
-using Microsoft.CSharp;
+
 #endregion
 
 #region NameSpace
 
 namespace ZoneEngine.Script
 {
+    using System;
+    using System.CodeDom.Compiler;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+
+    using AO.Core;
+
+    using Microsoft.CSharp;
+
     /// <summary>
     /// Our scripting Interface, placed here
     /// because we want it to be part of
@@ -68,8 +70,8 @@ namespace ZoneEngine.Script
         /// <summary>
         /// Our CSharp compiler object
         /// </summary>
-        private readonly CodeDomProvider compiler = new CSharpCodeProvider
-            (new Dictionary<string, string> {{"CompilerVersion", "v4.0"}});
+        private readonly CodeDomProvider compiler =
+            new CSharpCodeProvider(new Dictionary<string, string> { { "CompilerVersion", "v4.0" } });
 
         // Holder for usermade scripts
         private readonly Dictionary<string, Type> ScriptList = new Dictionary<string, Type>();
@@ -82,27 +84,27 @@ namespace ZoneEngine.Script
         /// when we compile the scripts.
         /// </summary>
         private readonly CompilerParameters p = new CompilerParameters
-                                                    {
-                                                        GenerateInMemory = false,
-                                                        GenerateExecutable = false,
-                                                        IncludeDebugInformation = true,
-                                                        OutputAssembly = string.Format("Scripts.dll"),
-                                                        // TODO: Figure out how to parse the file and return the usings, then load those.
-                                                        ReferencedAssemblies =
-                                                            {
-                                                                "System.dll",
-                                                                "System.Core.dll",
-                                                                "AO.Core.dll",
-                                                                "Cell.Core.dll",
-                                                                "MySql.Data.dll",
-                                                                "ZoneEngine.exe",
-                                                                "ChatEngine.exe",
-                                                                "LoginEngine.exe"
-                                                            },
-                                                        TreatWarningsAsErrors = false,
-                                                        WarningLevel = 3,
-                                                        CompilerOptions = "/optimize"
-                                                    };
+            {
+                GenerateInMemory = false,
+                GenerateExecutable = false,
+                IncludeDebugInformation = true,
+                OutputAssembly = string.Format("Scripts.dll"),
+                // TODO: Figure out how to parse the file and return the usings, then load those.
+                ReferencedAssemblies =
+                    {
+                        "System.dll",
+                        "System.Core.dll",
+                        "AO.Core.dll",
+                        "Cell.Core.dll",
+                        "MySql.Data.dll",
+                        "ZoneEngine.exe",
+                        "ChatEngine.exe",
+                        "LoginEngine.exe"
+                    },
+                TreatWarningsAsErrors = false,
+                WarningLevel = 3,
+                CompilerOptions = "/optimize"
+            };
         #endregion
 
         #region Properties
@@ -122,47 +124,54 @@ namespace ZoneEngine.Script
         /// <returns></returns>
         public bool Compile(bool multipleFiles)
         {
-            if (!LoadFiles())
+            if (!this.LoadFiles())
             {
                 return false;
             }
             if (multipleFiles)
             {
-                LogScriptAction("ScriptCompiler:", ConsoleColor.Yellow, "multiple scripts configuration active.",
-                                ConsoleColor.Magenta);
-                foreach (string scriptFile in ScriptsList)
+                this.LogScriptAction(
+                    "ScriptCompiler:",
+                    ConsoleColor.Yellow,
+                    "multiple scripts configuration active.",
+                    ConsoleColor.Magenta);
+                foreach (string scriptFile in this.ScriptsList)
                 {
-                    p.OutputAssembly = String.Format(Path.Combine("tmp", DLLName(scriptFile)));
+                    this.p.OutputAssembly = String.Format(Path.Combine("tmp", this.DLLName(scriptFile)));
                     // Create the directory if it doesnt exist
-                    FileInfo file = new FileInfo(Path.Combine("tmp", DLLName(scriptFile)));
+                    FileInfo file = new FileInfo(Path.Combine("tmp", this.DLLName(scriptFile)));
                     file.Directory.Create();
                     // Now compile the dll's
-                    CompilerResults results = compiler.CompileAssemblyFromFile(p, scriptFile);
+                    CompilerResults results = this.compiler.CompileAssemblyFromFile(this.p, scriptFile);
                     // And check for errors
-                    if (ErrorReporting(results).Length != 0) // We have errors, display them
+                    if (this.ErrorReporting(results).Length != 0) // We have errors, display them
                     {
-                        LogScriptAction("Error:", ConsoleColor.Yellow, ErrorReporting(results), ConsoleColor.Red);
+                        this.LogScriptAction(
+                            "Error:", ConsoleColor.Yellow, this.ErrorReporting(results), ConsoleColor.Red);
                         return false;
                     }
-                    LogScriptAction("Script " + scriptFile, ConsoleColor.Green, "Compiled to: " + p.OutputAssembly,
-                                    ConsoleColor.Green);
+                    this.LogScriptAction(
+                        "Script " + scriptFile,
+                        ConsoleColor.Green,
+                        "Compiled to: " + this.p.OutputAssembly,
+                        ConsoleColor.Green);
                     // Add the compiled assembly to our list
-                    multipleDllList.Add(Assembly.LoadFile(file.FullName));
+                    this.multipleDllList.Add(Assembly.LoadFile(file.FullName));
                 }
                 // Ok all good, load em
-                foreach (Assembly a in multipleDllList)
+                foreach (Assembly a in this.multipleDllList)
                 {
-                    RunScript(a);
+                    this.RunScript(a);
                 }
             }
             else
             {
                 // Compile the full Scripts.dll
-                CompilerResults results = compiler.CompileAssemblyFromFile(p, ScriptsList);
+                CompilerResults results = this.compiler.CompileAssemblyFromFile(this.p, this.ScriptsList);
                 // And check for errors
-                if (ErrorReporting(results).Length != 0) // We have errors, display them
+                if (this.ErrorReporting(results).Length != 0) // We have errors, display them
                 {
-                    LogScriptAction("Error:", ConsoleColor.Yellow, ErrorReporting(results), ConsoleColor.Red);
+                    this.LogScriptAction("Error:", ConsoleColor.Yellow, this.ErrorReporting(results), ConsoleColor.Red);
                     return false;
                 }
                 //Load the full dll
@@ -170,15 +179,15 @@ namespace ZoneEngine.Script
                 {
                     FileInfo file = new FileInfo("Scripts.dll");
                     Assembly asm = Assembly.LoadFile(file.FullName);
-                    multipleDllList.Add(asm);
-                    RunScript(asm);
+                    this.multipleDllList.Add(asm);
+                    this.RunScript(asm);
                 }
                 catch (Exception ee)
                 {
-                    LogScriptAction("ERROR", ConsoleColor.Red, ee.ToString(), ConsoleColor.Red);
+                    this.LogScriptAction("ERROR", ConsoleColor.Red, ee.ToString(), ConsoleColor.Red);
                     return false;
                 }
-                AddScriptMembers();
+                this.AddScriptMembers();
             }
 
             return true;
@@ -200,7 +209,7 @@ namespace ZoneEngine.Script
             {
                 foreach (Type iface in type.GetInterfaces())
                 {
-                    if (iface == typeof (AOScript))
+                    if (iface == typeof(AOScript))
                     {
                         // yay, we found a script interface, lets create it and run it!
                         // Get the constructor for the current type
@@ -215,8 +224,11 @@ namespace ZoneEngine.Script
                             AOScript scriptObject = constructor.Invoke(null) as AOScript;
                             if (scriptObject != null)
                             {
-                                LogScriptAction("Script", ConsoleColor.Green, scriptObject.GetType().Name + " Loaded.",
-                                                ConsoleColor.Green);
+                                this.LogScriptAction(
+                                    "Script",
+                                    ConsoleColor.Green,
+                                    scriptObject.GetType().Name + " Loaded.",
+                                    ConsoleColor.Green);
                                 //Lets run our script and display its results
                                 scriptObject.Main(null);
                             }
@@ -226,14 +238,15 @@ namespace ZoneEngine.Script
                                 // this shouldn't happen, as we have been doing checks all along, but we should
                                 // inform the user something bad has happened, and possibly request them to send
                                 // you the script so you can debug this problem
-                                LogScriptAction("Error!", ConsoleColor.Red, "Script not loaded.", ConsoleColor.Red);
+                                this.LogScriptAction("Error!", ConsoleColor.Red, "Script not loaded.", ConsoleColor.Red);
                             }
                         }
                         else
                         {
                             // and even more friendly and explain that there was no valid constructor
                             // found and thats why this script object wasn't run
-                            LogScriptAction("Error!", ConsoleColor.Red, "No valid constructor found.", ConsoleColor.Red);
+                            this.LogScriptAction(
+                                "Error!", ConsoleColor.Red, "No valid constructor found.", ConsoleColor.Red);
                         }
                     }
                 }
@@ -258,9 +271,9 @@ namespace ZoneEngine.Script
                 for (var i = 0; i < count; i++)
                 {
                     report.Append(results.Errors[i].FileName);
-                    report.AppendLine(" In Line: " + results.Errors[i].Line +
-                                      " Error: " + results.Errors[i].ErrorNumber +
-                                      " " + results.Errors[i].ErrorText);
+                    report.AppendLine(
+                        " In Line: " + results.Errors[i].Line + " Error: " + results.Errors[i].ErrorNumber + " "
+                        + results.Errors[i].ErrorText);
                 }
             }
 
@@ -316,9 +329,9 @@ namespace ZoneEngine.Script
         /// <returns>The dll name.</returns>
         public string DLLName(string s)
         {
-            s = RemoveCharactersAfterChar(s, '.');
-            s = RemoveCharactersBeforeChar(s, '\\');
-            s = RemoveCharactersBeforeChar(s, '/');
+            s = this.RemoveCharactersAfterChar(s, '.');
+            s = this.RemoveCharactersBeforeChar(s, '\\');
+            s = this.RemoveCharactersBeforeChar(s, '/');
 
             return s + ".dll";
         }
@@ -334,27 +347,27 @@ namespace ZoneEngine.Script
             // Seperated like this, because i want to display different custom errors.
             try
             {
-                ScriptsList = Directory.GetFiles("Scripts", "*.cs", SearchOption.AllDirectories);
+                this.ScriptsList = Directory.GetFiles("Scripts", "*.cs", SearchOption.AllDirectories);
             }
             catch (Exception)
             {
-                LogScriptAction("Error", ConsoleColor.Red, "Scripts directory does not exist!", ConsoleColor.Red);
+                this.LogScriptAction("Error", ConsoleColor.Red, "Scripts directory does not exist!", ConsoleColor.Red);
                 return false;
             }
 
             try
             {
-                if (ScriptsList.Length == 0)
+                if (this.ScriptsList.Length == 0)
                 {
-                    LogScriptAction("Error:", ConsoleColor.Red, "Scripts directory contains no scripts!",
-                                    ConsoleColor.Yellow);
+                    this.LogScriptAction(
+                        "Error:", ConsoleColor.Red, "Scripts directory contains no scripts!", ConsoleColor.Yellow);
                     return false;
                 }
                 return true;
             }
             catch (Exception)
             {
-                LogScriptAction("Error:", ConsoleColor.Red, "You have no Scripts Directory!!", ConsoleColor.Yellow);
+                this.LogScriptAction("Error:", ConsoleColor.Red, "You have no Scripts Directory!!", ConsoleColor.Yellow);
                 return false;
             }
         }
@@ -379,8 +392,8 @@ namespace ZoneEngine.Script
         #region Read all Classes and their Members into a Dictionary
         public void AddScriptMembers()
         {
-            ScriptList.Clear();
-            foreach (Assembly assembly in multipleDllList)
+            this.ScriptList.Clear();
+            foreach (Assembly assembly in this.multipleDllList)
             {
                 foreach (Type t in assembly.GetTypes())
                 {
@@ -390,20 +403,24 @@ namespace ZoneEngine.Script
                         {
                             foreach (MemberInfo mi in t.GetMembers())
                             {
-                                if ((mi.Name == "GetType") || (mi.Name == ".ctor") || (mi.Name == "GetHashCode") ||
-                                    (mi.Name == "ToString") || (mi.Name == "Equals"))
+                                if ((mi.Name == "GetType") || (mi.Name == ".ctor") || (mi.Name == "GetHashCode")
+                                    || (mi.Name == "ToString") || (mi.Name == "Equals"))
+                                {
                                     continue;
+                                }
                                 if (mi.MemberType == MemberTypes.Method)
                                 {
-                                    if (!ScriptList.ContainsKey(t.Namespace + "." + t.Name + ":" + mi.Name))
-                                        ScriptList.Add(t.Namespace + "." + t.Name + ":" + mi.Name, t);
+                                    if (!this.ScriptList.ContainsKey(t.Namespace + "." + t.Name + ":" + mi.Name))
+                                    {
+                                        this.ScriptList.Add(t.Namespace + "." + t.Name + ":" + mi.Name, t);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-            ChatCommands.Clear();
+            this.ChatCommands.Clear();
             Assembly wholeassembly = Assembly.GetExecutingAssembly();
             foreach (Type t in wholeassembly.GetTypes())
             {
@@ -411,13 +428,13 @@ namespace ZoneEngine.Script
                 {
                     if (t.Name != "AOChatCommand")
                     {
-                        if (!ChatCommands.ContainsKey(t.Namespace + "." + t.Name))
+                        if (!this.ChatCommands.ContainsKey(t.Namespace + "." + t.Name))
                         {
-                            AOChatCommand aoc = (AOChatCommand) wholeassembly.CreateInstance(t.Namespace + "." + t.Name);
+                            AOChatCommand aoc = (AOChatCommand)wholeassembly.CreateInstance(t.Namespace + "." + t.Name);
                             List<string> acceptedcommands = aoc.GetCommands();
                             foreach (string command in acceptedcommands)
                             {
-                                ChatCommands.Add(t.Namespace + "." + t.Name + ":" + command, t);
+                                this.ChatCommands.Add(t.Namespace + "." + t.Name + ":" + command, t);
                             }
                         }
                     }
@@ -429,17 +446,21 @@ namespace ZoneEngine.Script
         #region Function Calling
         public void CallMethod(string FunctionName, Character character)
         {
-            foreach (Assembly assembly in multipleDllList)
+            foreach (Assembly assembly in this.multipleDllList)
             {
-                foreach (KeyValuePair<string, Type> kv in ScriptList)
+                foreach (KeyValuePair<string, Type> kv in this.ScriptList)
                 {
                     if (kv.Key.Substring(kv.Key.IndexOf(":")) == ":" + FunctionName)
                     {
-                        AOScript aos = (AOScript) assembly.CreateInstance(kv.Key.Substring(0, kv.Key.IndexOf(":")));
+                        AOScript aos = (AOScript)assembly.CreateInstance(kv.Key.Substring(0, kv.Key.IndexOf(":")));
                         if (aos != null)
                         {
-                            kv.Value.InvokeMember(FunctionName, BindingFlags.Default | BindingFlags.InvokeMethod, null,
-                                                  aos, new object[] {character});
+                            kv.Value.InvokeMember(
+                                FunctionName,
+                                BindingFlags.Default | BindingFlags.InvokeMethod,
+                                null,
+                                aos,
+                                new object[] { character });
                         }
                     }
                 }
@@ -453,17 +474,17 @@ namespace ZoneEngine.Script
             Assembly assembly = Assembly.GetExecutingAssembly();
             if (CommandName.ToLower() != "listcommands")
             {
-                foreach (KeyValuePair<string, Type> kv in ChatCommands)
+                foreach (KeyValuePair<string, Type> kv in this.ChatCommands)
                 {
                     if (kv.Key.Substring(kv.Key.IndexOf(":") + 1).ToLower() == CommandName.ToLower())
                     {
                         AOChatCommand aoc =
-                            (AOChatCommand) assembly.CreateInstance(kv.Key.Substring(0, kv.Key.IndexOf(":")));
+                            (AOChatCommand)assembly.CreateInstance(kv.Key.Substring(0, kv.Key.IndexOf(":")));
                         if (aoc != null)
                         {
                             // Check GM Level bitwise
-                            if ((client.Character.Stats.GmLevel.Value < aoc.GMLevelNeeded()) &&
-                                (aoc.GMLevelNeeded() > 0))
+                            if ((client.Character.Stats.GmLevel.Value < aoc.GMLevelNeeded())
+                                && (aoc.GMLevelNeeded() > 0))
                             {
                                 client.SendChatText(
                                     "You are not authorized to use this command!. This incident will be recorded.");
@@ -495,18 +516,18 @@ namespace ZoneEngine.Script
             else
             {
                 client.SendChatText("Available Commands:");
-                string[] scriptnames = ChatCommands.Keys.ToArray();
+                string[] scriptnames = this.ChatCommands.Keys.ToArray();
                 for (int i = 0; i < scriptnames.Length; i++)
                 {
-                    scriptnames[i] = scriptnames[i].Substring(scriptnames[i].IndexOf(":") + 1) + ":" +
-                                     scriptnames[i].Substring(0, scriptnames[i].IndexOf(":"));
+                    scriptnames[i] = scriptnames[i].Substring(scriptnames[i].IndexOf(":") + 1) + ":"
+                                     + scriptnames[i].Substring(0, scriptnames[i].IndexOf(":"));
                 }
                 Array.Sort(scriptnames);
 
                 foreach (string ScriptName in scriptnames)
                 {
                     string typename = ScriptName.Substring(ScriptName.IndexOf(":") + 1);
-                    AOChatCommand aoc = (AOChatCommand) assembly.CreateInstance(typename);
+                    AOChatCommand aoc = (AOChatCommand)assembly.CreateInstance(typename);
                     if (aoc != null)
                     {
                         if (client.Character.Stats.GmLevel.Value >= aoc.GMLevelNeeded())

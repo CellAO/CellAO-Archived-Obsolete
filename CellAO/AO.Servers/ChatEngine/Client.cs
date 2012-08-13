@@ -1,10 +1,14 @@
 ﻿#region License
 // Copyright (c) 2005-2012, CellAO Team
+// 
 // All rights reserved.
+// 
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
 //     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 //     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 //     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -31,14 +35,13 @@ namespace ChatEngine
     public class Client : ClientBase
     {
         #region Constructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Client"/> class. 
         /// The client.
         /// </summary>
         /// <param name="srvr">
         /// </param>
-        public Client(Server srvr)
+        public Client(ChatServer srvr)
             : base(srvr)
         {
             this.Character = new Character(0, null);
@@ -54,11 +57,9 @@ namespace ChatEngine
             : base(null)
         {
         }
-
         #endregion
 
         #region Needed overrides
-
         /// <summary>
         /// The on receive.
         /// </summary>
@@ -75,11 +76,9 @@ namespace ChatEngine
                 m_parser.Parse(this, packet, messageNumber);
             }
         }
-
         #endregion
 
         #region Misc overrides
-
         /// <summary>
         /// The send.
         /// </summary>
@@ -97,14 +96,13 @@ namespace ChatEngine
         {
             base.Cleanup();
         }
-
         #endregion
 
         #region Our own stuff
         /// <summary>
         /// Private known clients collection
         /// </summary>
-        private Collection<uint> knownClients;
+        private readonly Collection<uint> knownClients;
 
         /// <summary>
         /// The known clients.
@@ -142,7 +140,6 @@ namespace ChatEngine
             ushort reply = BitConverter.ToUInt16(new[] { packet[1], packet[0] }, 0);
             return reply;
         }
-
         #endregion
     }
 }

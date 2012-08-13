@@ -1,42 +1,42 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using AO.Core;
-using LoginEngine.Packets;
 
 #endregion
 
 namespace LoginEngine
 {
+    using System;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Text;
+
+    using AO.Core;
     using AO.Core.Config;
+
+    using LoginEngine.Packets;
 
     public class Parser
     {
@@ -73,8 +73,8 @@ namespace LoginEngine
                     reader.Finish();
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Client '" + client.AccountName + "' connected using version '" +
-                                      client.ClientVersion + "'");
+                    Console.WriteLine(
+                        "Client '" + client.AccountName + "' connected using version '" + client.ClientVersion + "'");
                     Console.ResetColor();
 
                     // Send Authentication Salt to client
@@ -106,11 +106,12 @@ namespace LoginEngine
                          */
 
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Client '" + client.AccountName +
-                                          "' banned, not a valid username, or sent a malformed Authentication Packet");
+                        Console.WriteLine(
+                            "Client '" + client.AccountName
+                            + "' banned, not a valid username, or sent a malformed Authentication Packet");
                         Console.ResetColor();
 
-                        client.Send(ref nb.wrongbyte);
+                        client.Send(ref nb.WrongByte);
 
                         client.Server.DisconnectClient(client);
 
@@ -125,7 +126,7 @@ namespace LoginEngine
                         Console.WriteLine("Client '" + client.AccountName + "' failed Authentication.");
                         Console.ResetColor();
 
-                        client.Send(ref nb.wrongbyte);
+                        client.Send(ref nb.WrongByte);
 
                         client.Server.DisconnectClient(client);
 
@@ -151,12 +152,13 @@ namespace LoginEngine
                     if (cbl.IsCharacterOnAccount(client, selectedCharID) == false)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Client '" + client.AccountName + "' tried to log in as CharID " +
-                                          selectedCharID + " but it is not on their account!");
+                        Console.WriteLine(
+                            "Client '" + client.AccountName + "' tried to log in as CharID " + selectedCharID
+                            + " but it is not on their account!");
                         Console.ResetColor();
 
                         // NV: Is this really what we want to send? Should find out sometime...
-                        client.Send(ref nb.wrongbyte);
+                        client.Send(ref nb.WrongByte);
 
                         client.Server.DisconnectClient(client);
 
@@ -164,9 +166,10 @@ namespace LoginEngine
                     }
                     if (OnlineChars.IsOnline(selectedCharID))
                     {
-                        Console.WriteLine("Client '" + client.AccountName +
-                                          "' is trying to login, but the requested character is already logged in.");
-                        client.Send(ref nb.wrongbyte);
+                        Console.WriteLine(
+                            "Client '" + client.AccountName
+                            + "' is trying to login, but the requested character is already logged in.");
+                        client.Send(ref nb.WrongByte);
                         client.Server.DisconnectClient(client);
                         break;
                     }
@@ -186,7 +189,8 @@ namespace LoginEngine
                         }
                     }
                     byte[] ZoneIP = tempIP.GetAddressBytes();
-                    byte[] ZonePort = BitConverter.GetBytes(Convert.ToInt32(ConfigReadWrite.Instance.CurrentConfig.ZonePort));
+                    byte[] ZonePort =
+                        BitConverter.GetBytes(Convert.ToInt32(ConfigReadWrite.Instance.CurrentConfig.ZonePort));
 
                     PacketWriter writer = new PacketWriter();
                     writer.PushByte(0xDF);
@@ -218,7 +222,7 @@ namespace LoginEngine
                     /* client created new character */
                     Int32 character_id;
                     bool start_in_sl = false;
-                    char_name.m_accountName = client.AccountName;
+                    char_name.AccountName = client.AccountName;
 
                     /* start reading packet */
 
@@ -230,24 +234,24 @@ namespace LoginEngine
                     /* name length */
                     int m_name_len = reader.PopInt();
                     /* name */
-                    char_name.m_name = reader.PopString(m_name_len);
+                    char_name.Name = reader.PopString(m_name_len);
                     /* breed */
-                    char_name.m_breed = reader.PopInt();
+                    char_name.Breed = reader.PopInt();
                     /* gender */
-                    char_name.m_gender = reader.PopInt();
+                    char_name.Gender = reader.PopInt();
                     /* profession */
-                    char_name.m_profession = reader.PopInt();
+                    char_name.Profession = reader.PopInt();
                     /* level (should always be 0 )*/
-                    char_name.m_level = reader.PopInt();
+                    char_name.Level = reader.PopInt();
                     /* lets skip some stuff */
                     int skip_len = reader.PopInt();
                     reader.ReadBytes(skip_len + 8);
                     /* head mesh */
-                    char_name.m_headmesh = reader.PopInt();
+                    char_name.HeadMesh = reader.PopInt();
                     /* monster scale */
-                    char_name.m_monsterscale = reader.PopInt();
+                    char_name.MonsterScale = reader.PopInt();
                     /* fatness */
-                    char_name.m_fatness = reader.PopInt();
+                    char_name.Fatness = reader.PopInt();
                     /* start in SL? */
                     int sl = reader.PopInt();
                     if (sl == 1)
@@ -268,14 +272,14 @@ namespace LoginEngine
                      * if name doesnt exist, creates default char setup and returns character_id
                      * 
                      */
-                    character_id = char_name.CheckAgainstDB();
+                    character_id = char_name.CheckAgainstDatabase();
                     if (character_id < 1)
                     {
                         char_name.SendNameInUse(client);
                     }
                     else
                     {
-                        char_name.SendNameToStartPF(client, start_in_sl, character_id);
+                        char_name.SendNameToStartPlayfield(client, start_in_sl, character_id);
                     }
 
                     /* reply will work only if character creation

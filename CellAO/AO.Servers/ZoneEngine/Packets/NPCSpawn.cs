@@ -1,37 +1,39 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System.Text;
-using AO.Core;
-using ZoneEngine.Misc;
+
 #endregion
 
 namespace ZoneEngine.Packets
 {
+    using System.Text;
+
+    using AO.Core;
+
+    using ZoneEngine.Misc;
+
     public static class NPCSpawn
     {
         public static void NPCSpawntoClient(NonPC mob, Client cli, bool wholeplayfield)
@@ -59,7 +61,6 @@ namespace ZoneEngine.Packets
             packetflags |= 0x0200000;
             packetflags |= 0x0000002;
 
-
             spawn.PushByte(0xDF);
             spawn.PushByte(0xDF);
             spawn.PushShort(10);
@@ -84,9 +85,10 @@ namespace ZoneEngine.Packets
             spawn.PushQuat(mob.Heading);
             // Side, Fatness, Breed, Sex, Race
             //   33,      47,     4,  59,    89
-            spawn.PushUInt(mob.Stats.Side.Value + (mob.Stats.Fatness.Value*8) + (mob.Stats.Breed.Value*32) +
-                           (mob.Stats.Sex.Value*256) + (mob.Stats.Race.Value*1024));
-            spawn.PushByte((byte) (mob.Name.Length + 1));
+            spawn.PushUInt(
+                mob.Stats.Side.Value + (mob.Stats.Fatness.Value * 8) + (mob.Stats.Breed.Value * 32)
+                + (mob.Stats.Sex.Value * 256) + (mob.Stats.Race.Value * 1024));
+            spawn.PushByte((byte)(mob.Name.Length + 1));
             spawn.PushBytes(Encoding.ASCII.GetBytes(mob.Name));
             spawn.PushByte(0);
             spawn.PushUInt(mob.Stats.Flags.Value);
@@ -95,21 +97,20 @@ namespace ZoneEngine.Packets
             if (mob.Stats.NPCFamily.Value <= 255) // NPCFamily
             {
                 packetflags |= 0x20000; // NPC Family 1 byte
-                spawn.PushByte((byte) mob.Stats.NPCFamily.Value);
+                spawn.PushByte((byte)mob.Stats.NPCFamily.Value);
             }
             else
             {
                 packetflags &= ~0x20000; // NPC Family 2 byte
-                spawn.PushShort((short) mob.Stats.NPCFamily.Value);
+                spawn.PushShort((short)mob.Stats.NPCFamily.Value);
             }
 
             spawn.PushByte(0);
             spawn.PushByte(0);
             spawn.PushShort(0);
 
-
             // TODO: set packetflag for levelsize
-            spawn.PushShort((short) mob.Stats.Level.Value); // 54 = Level
+            spawn.PushShort((short)mob.Stats.Level.Value); // 54 = Level
 
             // TODO: set packetflag for Healthsize/damagesize
             spawn.PushUInt(mob.Stats.Life.Value); // 1 = Life (max HP)
@@ -126,7 +127,7 @@ namespace ZoneEngine.Packets
                 spawn.PushUInt(mob.Stats.MonsterData.Value); // 359=Monsterdata
             }
 
-            spawn.PushShort((short) mob.Stats.MonsterScale.Value); // 360 = monsterscale
+            spawn.PushShort((short)mob.Stats.MonsterScale.Value); // 360 = monsterscale
             spawn.PushShort(0x1F); // VisualFlags
             spawn.PushByte(0); // Visible title?
             spawn.PushInt(0x1C);
@@ -155,11 +156,11 @@ namespace ZoneEngine.Packets
             if (mob.Stats.RunSpeed.Value > 255)
             {
                 packetflags |= 0x2000;
-                spawn.PushShort((short) mob.Stats.RunSpeed.Value); // 156 = RunSpeed
+                spawn.PushShort((short)mob.Stats.RunSpeed.Value); // 156 = RunSpeed
             }
             else
             {
-                spawn.PushByte((byte) mob.Stats.RunSpeed.Value); // 156 = RunSpeed
+                spawn.PushByte((byte)mob.Stats.RunSpeed.Value); // 156 = RunSpeed
             }
 
             if (mob.Attacking != 0)
@@ -227,23 +228,39 @@ namespace ZoneEngine.Packets
 
             int addmeshs = 0;
             if (mob.Stats.WeaponMeshRight.Value != 0)
+            {
                 addmeshs++;
+            }
             if (mob.Stats.WeaponMeshLeft.Value != 0)
+            {
                 addmeshs++;
+            }
             if (mob.Stats.HeadMesh.Value != 0)
+            {
                 addmeshs++;
+            }
             if (mob.Stats.BackMesh.Value != 0)
+            {
                 addmeshs++;
+            }
             if (mob.Stats.ShoulderMeshRight.Value != 0)
+            {
                 addmeshs++;
+            }
             if (mob.Stats.ShoulderMeshLeft.Value != 0)
+            {
                 addmeshs++;
+            }
             if (mob.Stats.HairMesh.Value != 0)
+            {
                 addmeshs++;
-//            if (mob.Stats.GetStat(42) != 0) // 42 = CATMesh, what is this?
-//                addmeshs++;
+            }
+            //            if (mob.Stats.GetStat(42) != 0) // 42 = CATMesh, what is this?
+            //                addmeshs++;
             if (mob.Stats.HairMesh.Value != 0)
+            {
                 addmeshs++;
+            }
 
             spawn.Push3F1Count(addmeshs);
             if (addmeshs > 0)
@@ -298,7 +315,7 @@ namespace ZoneEngine.Packets
                     spawn.PushInt(0);
                     spawn.PushByte(2); // Hairmesh is prio 2?
                 }
-/*                if (mob.Stats.GetStat(20001) != 0)
+                /*                if (mob.Stats.GetStat(20001) != 0)
                 {
                     spawn.PushByte(0);
                     spawn.PushUInt(mob.Stats.GetStat(20001));
@@ -326,10 +343,10 @@ namespace ZoneEngine.Packets
             byte[] spawnReply = spawn.Finish();
 
             // setting the packetflags
-            spawnReply[30] = (byte) ((packetflags >> 24) & 0xff);
-            spawnReply[31] = (byte) ((packetflags >> 16) & 0xff);
-            spawnReply[32] = (byte) ((packetflags >> 8) & 0xff);
-            spawnReply[33] = (byte) (packetflags & 0xff);
+            spawnReply[30] = (byte)((packetflags >> 24) & 0xff);
+            spawnReply[31] = (byte)((packetflags >> 16) & 0xff);
+            spawnReply[32] = (byte)((packetflags >> 8) & 0xff);
+            spawnReply[33] = (byte)(packetflags & 0xff);
 
             if (wholeplayfield)
             {

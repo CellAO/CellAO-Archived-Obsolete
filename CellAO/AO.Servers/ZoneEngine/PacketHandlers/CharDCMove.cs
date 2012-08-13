@@ -1,38 +1,40 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using AO.Core;
-using ZoneEngine.Collision;
-using ZoneEngine.Misc;
+
 #endregion
 
 namespace ZoneEngine.PacketHandlers
 {
+    using System;
+
+    using AO.Core;
+
+    using ZoneEngine.Collision;
+    using ZoneEngine.Misc;
+
     /// <summary>
     /// 
     /// </summary>
@@ -61,15 +63,15 @@ namespace ZoneEngine.PacketHandlers
 
             if (!client.Character.dontdotimers)
             {
-                WallCollision.LineSegment teleportPF = WallCollision.WallCollisionCheck(_coord.x, _coord.z,
-                                                                                        client.Character.PlayField);
+                WallCollision.LineSegment teleportPF = WallCollision.WallCollisionCheck(
+                    _coord.x, _coord.z, client.Character.PlayField);
                 if (teleportPF.ZoneToPF >= 1)
                 {
                     Quaternion newheading = new Quaternion(0, 0, 0, 0);
                     _coord = WallCollision.GetCoord(teleportPF, _coord.x, _coord.z, _coord, out newheading);
-                    if (teleportPF.Flags != 1337 && client.Character.PlayField != 152 ||
-                        Math.Abs(client.Character.Coordinates.y - teleportPF.Y) <= 2 ||
-                        teleportPF.Flags == 1337 && Math.Abs(client.Character.Coordinates.y - teleportPF.Y) <= 6)
+                    if (teleportPF.Flags != 1337 && client.Character.PlayField != 152
+                        || Math.Abs(client.Character.Coordinates.y - teleportPF.Y) <= 2
+                        || teleportPF.Flags == 1337 && Math.Abs(client.Character.Coordinates.y - teleportPF.Y) <= 6)
                     {
                         client.Teleport(_coord, newheading, teleportPF.ZoneToPF);
                         Program.zoneServer.Clients.Remove(client);
@@ -86,9 +88,9 @@ namespace ZoneEngine.PacketHandlers
                         door = DoorHandler.FindCorrespondingDoor(door, client.Character);
                         client.Character.Stats.LastConcretePlayfieldInstance.Value = 0;
                         AOCoord aoc = door.Coordinates;
-                        aoc.x += door.hX*3;
-                        aoc.y += door.hY*3;
-                        aoc.z += door.hZ*3;
+                        aoc.x += door.hX * 3;
+                        aoc.y += door.hY * 3;
+                        aoc.z += door.hZ * 3;
                         client.Teleport(aoc, client.Character.Heading, door.playfield);
                         Program.zoneServer.Clients.Remove(client);
                         return;
@@ -112,7 +114,6 @@ namespace ZoneEngine.PacketHandlers
             client.SendChatText("Roll: " + Math.Round(180 * client.Character.heading.roll / Math.PI) + " Degrees");
             client.SendChatText("Pitch:   " + Math.Round(180 * client.Character.heading.pitch / Math.PI) + " Degrees");
             /* End NV Heading testing code */
-
 
             /* start of packet */
             _writer.PushByte(0xDF);

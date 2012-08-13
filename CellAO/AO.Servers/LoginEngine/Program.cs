@@ -1,57 +1,62 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using System.Diagnostics;
-using System.Net;
-using System.Threading.Tasks;
-using AO.Core;
-using Cell.Core;
-using MySql.Data.MySqlClient;
-using NBug;
-using NLog;
-using NLog.Config;
-using NLog.Targets;
 using Config = AO.Core.Config.ConfigReadWrite;
+
 #endregion
 
 namespace LoginEngine
 {
+    using System;
+    using System.Diagnostics;
+    using System.Net;
+    using System.Threading.Tasks;
+
+    using AO.Core;
+
+    using Cell.Core;
+
+    using MySql.Data.MySqlClient;
+
+    using NBug;
+
+    using NLog;
+    using NLog.Config;
+    using NLog.Targets;
+
     public class Program
     {
-        public static Server LoginServer;
+        private static LoginServer loginLoginServer;
 
-        public static bool ismodified()
+        public static bool Ismodified()
         {
             string[] info = AssemblyInfoclass.Trademark.Split(';');
             return (info[1] == "1");
         }
 
-        public static bool ismixed()
+        public static bool Ismixed()
         {
             string[] info = AssemblyInfoclass.Trademark.Split(';');
             return (info[0] == "1");
@@ -60,16 +65,16 @@ namespace LoginEngine
         private static void Main(string[] args)
         {
             #region Console Texts...
-            Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description +
-                            " " + AssemblyInfoclass.AssemblyVersion;
+            Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description
+                            + " " + AssemblyInfoclass.AssemblyVersion;
             ConsoleText ct = new ConsoleText();
             ct.TextRead("main.txt");
             Console.WriteLine("Loading " + AssemblyInfoclass.Title + "...");
-            if (ismodified())
+            if (Ismodified())
             {
                 Console.WriteLine("Your " + AssemblyInfoclass.Title + " was compiled from modified source code.");
             }
-            else if (ismixed())
+            else if (Ismixed())
             {
                 Console.WriteLine("Your " + AssemblyInfoclass.Title + " uses mixed SVN revisions.");
             }
@@ -81,12 +86,12 @@ namespace LoginEngine
 
             //Sying helped figure all this code out, about 5 yearts ago! :P
             bool processedargs = false;
-            LoginServer = new Server();
-            LoginServer.EnableTCP = true;
-            LoginServer.EnableUDP = false;
+            loginLoginServer = new LoginServer();
+            loginLoginServer.EnableTCP = true;
+            loginLoginServer.EnableUDP = false;
             try
             {
-                LoginServer.TcpIP = IPAddress.Parse(Config.Instance.CurrentConfig.ListenIP);
+                loginLoginServer.TcpIP = IPAddress.Parse(Config.Instance.CurrentConfig.ListenIP);
             }
             catch
             {
@@ -94,7 +99,7 @@ namespace LoginEngine
                 Console.ReadKey();
                 return;
             }
-            LoginServer.TcpPort = Convert.ToInt32(Config.Instance.CurrentConfig.LoginPort);
+            loginLoginServer.TcpPort = Convert.ToInt32(Config.Instance.CurrentConfig.LoginPort);
 
             #region NLog
             LoggingConfiguration config = new LoggingConfiguration();
@@ -117,7 +122,7 @@ namespace LoginEngine
             //TODO: ADD More Handlers.
             #endregion
 
-            LoginServer.MaximumPendingConnections = 100;
+            loginLoginServer.MaximumPendingConnections = 100;
 
             #region Console Commands
             //Andyzweb: Added checks for start and stop
@@ -135,7 +140,7 @@ namespace LoginEngine
                         {
                             ct.TextRead("autostart.txt");
                             ThreadMgr.Start();
-                            LoginServer.Start();
+                            loginLoginServer.Start();
                         }
                     }
                     processedargs = true;
@@ -153,7 +158,7 @@ namespace LoginEngine
                 switch (consoleCommand.ToLower())
                 {
                     case "start":
-                        if (LoginServer.Running)
+                        if (loginLoginServer.Running)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             ct.TextRead("loginisrunning.txt");
@@ -161,10 +166,10 @@ namespace LoginEngine
                             break;
                         }
                         ThreadMgr.Start();
-                        LoginServer.Start();
+                        loginLoginServer.Start();
                         break;
                     case "stop":
-                        if (!LoginServer.Running)
+                        if (!loginLoginServer.Running)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             ct.TextRead("loginisnotrunning.txt");
@@ -172,13 +177,13 @@ namespace LoginEngine
                             break;
                         }
                         ThreadMgr.Stop();
-                        LoginServer.Stop();
+                        loginLoginServer.Stop();
                         break;
                     case "exit":
                         Process.GetCurrentProcess().Kill();
                         break;
                     case "running":
-                        if (LoginServer.Running)
+                        if (loginLoginServer.Running)
                         {
                             //Console.WriteLine("Login Server is running");
                             ct.TextRead("loginisrunning.txt");
@@ -239,7 +244,9 @@ namespace LoginEngine
                             {
                                 expansions = int.Parse(parts[4]);
                                 if (expansions < 0 || expansions > 2047)
+                                {
                                     throw new Exception();
+                                }
                             }
                             catch
                             {
@@ -261,7 +268,9 @@ namespace LoginEngine
                             try
                             {
                                 if (email == null)
+                                {
                                     throw new Exception();
+                                }
                             }
                             catch
                             {
@@ -272,7 +281,9 @@ namespace LoginEngine
                             try
                             {
                                 if (firstname == null)
+                                {
                                     throw new Exception();
+                                }
                             }
                             catch
                             {
@@ -283,7 +294,9 @@ namespace LoginEngine
                             try
                             {
                                 if (lastname == null)
+                                {
                                     throw new Exception();
+                                }
                             }
                             catch
                             {
@@ -293,17 +306,23 @@ namespace LoginEngine
 
                             string formatString;
                             formatString =
-                                "INSERT INTO `login` (`CreationDate`, `Flags`,`AccountFlags`,`Username`,`Password`,`Allowed_Characters`,`Expansions`, `GM`, `Email`, `FirstName`, `LastName`) VALUES " +
-                                "(NOW(), '0', '0', '{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}');";
+                                "INSERT INTO `login` (`CreationDate`, `Flags`,`AccountFlags`,`Username`,`Password`,`Allowed_Characters`,`Expansions`, `GM`, `Email`, `FirstName`, `LastName`) VALUES "
+                                + "(NOW(), '0', '0', '{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}');";
 
                             LoginEncryption le = new LoginEncryption();
 
                             string hashedPassword = le.GeneratePasswordHash(password);
 
-                            string sql =
-                                String.Format(formatString,
-                                              username, hashedPassword, numChars, expansions, gm, email, firstname,
-                                              lastname);
+                            string sql = String.Format(
+                                formatString,
+                                username,
+                                hashedPassword,
+                                numChars,
+                                expansions,
+                                gm,
+                                email,
+                                firstname,
+                                lastname);
                             SqlWrapper wrp = new SqlWrapper();
                             try
                             {
@@ -369,8 +388,7 @@ namespace LoginEngine
                             string formatString;
                             formatString = "UPDATE `login` SET Password = '{0}' WHERE login.Username = '{1}'";
 
-                            string sql =
-                                String.Format(formatString, hashed, username);
+                            string sql = String.Format(formatString, hashed, username);
 
                             SqlWrapper updt = new SqlWrapper();
                             try

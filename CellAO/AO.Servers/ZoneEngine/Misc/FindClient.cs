@@ -1,35 +1,35 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System.Collections.Generic;
+
 #endregion
 
 namespace ZoneEngine.Misc
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// 
     /// </summary>
@@ -44,7 +44,10 @@ namespace ZoneEngine.Misc
         {
             foreach (Client mClient in Program.zoneServer.Clients)
             {
-                if (mClient.Character.ID != id) continue;
+                if (mClient.Character.ID != id)
+                {
+                    continue;
+                }
                 return mClient;
             }
             return null;
@@ -60,7 +63,10 @@ namespace ZoneEngine.Misc
         {
             foreach (Client mClient in Program.zoneServer.Clients)
             {
-                if (mClient.Character.ID != id) continue;
+                if (mClient.Character.ID != id)
+                {
+                    continue;
+                }
                 client = mClient;
                 return true;
             }
@@ -77,7 +83,10 @@ namespace ZoneEngine.Misc
         {
             foreach (Client mClient in Program.zoneServer.Clients)
             {
-                if (mClient.Character.Name != name) continue;
+                if (mClient.Character.Name != name)
+                {
+                    continue;
+                }
                 return mClient;
             }
             return null;
@@ -93,7 +102,10 @@ namespace ZoneEngine.Misc
         {
             foreach (Client mClient in Program.zoneServer.Clients)
             {
-                if (mClient.Character.Name.ToLower() != name.ToLower()) continue;
+                if (mClient.Character.Name.ToLower() != name.ToLower())
+                {
+                    continue;
+                }
                 client = mClient;
                 return true;
             }
@@ -111,7 +123,10 @@ namespace ZoneEngine.Misc
             List<Client> mClients = new List<Client>();
             foreach (Client mClient in Program.zoneServer.Clients)
             {
-                if (mClient.Character.PlayField != pf) continue;
+                if (mClient.Character.PlayField != pf)
+                {
+                    continue;
+                }
                 mClients.Add(mClient);
             }
             return mClients;
@@ -128,7 +143,10 @@ namespace ZoneEngine.Misc
             List<Client> mClients = new List<Client>();
             foreach (Client mClient in Program.zoneServer.Clients)
             {
-                if (mClient.Character.PlayField != pf) continue;
+                if (mClient.Character.PlayField != pf)
+                {
+                    continue;
+                }
                 mClients.Add(mClient);
             }
             clients = mClients;
@@ -147,7 +165,6 @@ namespace ZoneEngine.Misc
             //we're added ourselves, because we're included in the list too.
             //Clients.Add(this);
 
-
             // searching client as first one!
             mClients.Add(client);
 
@@ -162,9 +179,18 @@ namespace ZoneEngine.Misc
                 {
                     Clients.Add(cli);
                 }*/
-                if (mClient.Character.PlayField != client.Character.PlayField) continue;
-                if (mClient.Character.Coordinates.distance2D(client.Character.Coordinates) >= radius) continue;
-                if (mClient.Character.ID == client.Character.ID) continue;
+                if (mClient.Character.PlayField != client.Character.PlayField)
+                {
+                    continue;
+                }
+                if (mClient.Character.Coordinates.distance2D(client.Character.Coordinates) >= radius)
+                {
+                    continue;
+                }
+                if (mClient.Character.ID == client.Character.ID)
+                {
+                    continue;
+                }
                 mClients.Add(mClient);
             }
             return mClients;
@@ -182,7 +208,6 @@ namespace ZoneEngine.Misc
             //we're added ourselves, because we're included in the list too.
             //Clients.Add(this);
 
-
             // searching client as first one!
             mClients.Add(cli);
 
@@ -197,9 +222,18 @@ namespace ZoneEngine.Misc
                 {
                     Clients.Add(cli);
                 }*/
-                if (mClient.Character.PlayField != cli.PlayField) continue;
-                if (mClient.Character.Coordinates.distance2D(cli.Coordinates) >= radius) continue;
-                if (mClient.Character.ID == cli.ID) continue;
+                if (mClient.Character.PlayField != cli.PlayField)
+                {
+                    continue;
+                }
+                if (mClient.Character.Coordinates.distance2D(cli.Coordinates) >= radius)
+                {
+                    continue;
+                }
+                if (mClient.Character.ID == cli.ID)
+                {
+                    continue;
+                }
                 mClients.Add(mClient.Character);
             }
             return mClients;

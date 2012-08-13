@@ -1,42 +1,46 @@
 ﻿#region License
-/*
-Copyright (c) 2005-2012, CellAO Team
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+// Copyright (c) 2005-2012, CellAO Team
+// 
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
 #region Usings...
-using System;
-using AO.Core;
-using ZoneEngine.NPC;
-using ZoneEngine.Packets;
+
 #endregion
 
 namespace ZoneEngine.PacketHandlers
 {
+    using System;
+
+    using AO.Core;
+
+    using ZoneEngine.NPC;
+    using ZoneEngine.Packets;
+
     public class GenericCmd
     {
         private static int _temp1, _count, _action, _temp4;
+
         private static Identity _user, _target;
+
         private static Client _sender;
 
         public static void Read(ref byte[] packet, Client client, Dynel dyn)
@@ -136,8 +140,7 @@ namespace ZoneEngine.PacketHandlers
 
                             #region Ferrys
                         case -1073741189: //2ho -> Stret west
-                            if (client.Character.Stats.Cash.Value < 50)
-                                //check if you got enough credits to use the ferry
+                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
                             {
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
@@ -153,8 +156,7 @@ namespace ZoneEngine.PacketHandlers
                             break;
 
                         case -1073478890: //Stret West -> 2ho
-                            if (client.Character.Stats.Cash.Value < 50)
-                                //check if you got enough credits to use the ferry
+                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
                             {
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
@@ -170,8 +172,7 @@ namespace ZoneEngine.PacketHandlers
                             break;
 
                         case -1073216841: //Harry's -> Plesant Meadows
-                            if (client.Character.Stats.Cash.Value < 50)
-                                //check if you got enough credits to use the ferry
+                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
                             {
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
@@ -187,8 +188,7 @@ namespace ZoneEngine.PacketHandlers
                             break;
 
                         case -1073216906: // Plesant Meadows -> Harry's
-                            if (client.Character.Stats.Cash.Value < 50)
-                                //check if you got enough credits to use the ferry
+                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
                             {
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
@@ -204,8 +204,7 @@ namespace ZoneEngine.PacketHandlers
                             break;
 
                         case -1073282442: //Pleasant Meadows -> Omni-Tek outpost in Lush Fields
-                            if (client.Character.Stats.Cash.Value < 50)
-                                //check if you got enough credits to use the ferry
+                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
                             {
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
@@ -221,8 +220,7 @@ namespace ZoneEngine.PacketHandlers
                             break;
 
                         case -1073413449: //Omni-Tek outpost in Lush Fields -> Pleasant Meadows
-                            if (client.Character.Stats.Cash.Value < 50)
-                                //check if you got enough credits to use the ferry
+                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
                             {
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
@@ -284,14 +282,14 @@ namespace ZoneEngine.PacketHandlers
                         {
                             if (aoe.EventType == Constants.eventtype_onuse)
                             {
-                                _sender.Character.ExecuteEvent(_sender.Character, _sender.Character, aoe, true, false, 0,
-                                                               CheckReqs.doCheckReqs);
+                                _sender.Character.ExecuteEvent(
+                                    _sender.Character, _sender.Character, aoe, true, false, 0, CheckReqs.doCheckReqs);
                                 SkillUpdate.sendstat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
                                 // Social Status
                                 return;
                             }
                         }
-                        int le = packet[7] + packet[6]*256;
+                        int le = packet[7] + packet[6] * 256;
                         byte[] reply = new byte[le];
                         Array.Copy(packet, reply, le);
                         reply[0] = 0xdf;
@@ -300,10 +298,10 @@ namespace ZoneEngine.PacketHandlers
                         reply[9] = 0x00;
                         reply[10] = 0x0C;
                         reply[11] = 0x0E;
-                        reply[12] = (byte) (client.Character.ID >> 24);
-                        reply[13] = (byte) (client.Character.ID >> 16);
-                        reply[14] = (byte) (client.Character.ID >> 8);
-                        reply[15] = (byte) (client.Character.ID);
+                        reply[12] = (byte)(client.Character.ID >> 24);
+                        reply[13] = (byte)(client.Character.ID >> 16);
+                        reply[14] = (byte)(client.Character.ID >> 8);
+                        reply[15] = (byte)(client.Character.ID);
                         reply[0x1c] = 0;
                         reply[32] = 1;
                         reply[36] = 3;
@@ -323,7 +321,7 @@ namespace ZoneEngine.PacketHandlers
                         Trade.Send(client, client.Character, vm);
                         Trade.Send(client, vm, client.Character);
                         Trade.Send(client, vm, client.Character);
-                        int le = packet[7] + packet[6]*256;
+                        int le = packet[7] + packet[6] * 256;
                         byte[] reply = new byte[le];
                         Array.Copy(packet, reply, le);
                         reply[0] = 0xdf;
@@ -332,10 +330,10 @@ namespace ZoneEngine.PacketHandlers
                         reply[9] = 0x00;
                         reply[10] = 0x0C;
                         reply[11] = 0x0E;
-                        reply[12] = (byte) (client.Character.ID >> 24);
-                        reply[13] = (byte) (client.Character.ID >> 16);
-                        reply[14] = (byte) (client.Character.ID >> 8);
-                        reply[15] = (byte) (client.Character.ID);
+                        reply[12] = (byte)(client.Character.ID >> 24);
+                        reply[13] = (byte)(client.Character.ID >> 16);
+                        reply[14] = (byte)(client.Character.ID >> 8);
+                        reply[15] = (byte)(client.Character.ID);
                         reply[0x1c] = 0;
                         reply[0x20] = 1;
 
@@ -363,8 +361,16 @@ namespace ZoneEngine.PacketHandlers
             if (feedback)
             {
 #if DEBUG
-                string Feedback1 = string.Format("T1 {0}, Count {1}, Action {2}, T4 {3}", _temp1, _count, _action, _temp4);
-                string Feedback2 = string.Format("User {0}:{1}, Target {2}:{3} ({4}:{5})", _user.Type, _user.Instance, _target.Type, (uint)_target.Instance, _target.Type.ToString("X4"), ((uint)_target.Instance).ToString("X8"));
+                string Feedback1 = string.Format(
+                    "T1 {0}, Count {1}, Action {2}, T4 {3}", _temp1, _count, _action, _temp4);
+                string Feedback2 = string.Format(
+                    "User {0}:{1}, Target {2}:{3} ({4}:{5})",
+                    _user.Type,
+                    _user.Instance,
+                    _target.Type,
+                    (uint)_target.Instance,
+                    _target.Type.ToString("X4"),
+                    ((uint)_target.Instance).ToString("X8"));
                 Statels.Statel b = null;
                 if (Statels.Statelppf.ContainsKey(client.Character.PlayField))
                 {
@@ -381,13 +387,15 @@ namespace ZoneEngine.PacketHandlers
                 {
                     foreach (Statels.Statel_Event e in b.Events)
                     {
-                        Console.WriteLine("DebugOutput: \r\n" + e.ToString());
+                        Console.WriteLine("DebugOutput: \r\n" + e);
                     }
                     Console.WriteLine(b.Coordinates.ToString());
                 }
                 else
                 {
-                    Console.WriteLine("No Statel defined in database for #" + _target.Type + ":" + (UInt32)_target.Instance + " (" + _target.Type.ToString("X4") + ":" + _target.Instance.ToString("X8") + ")");
+                    Console.WriteLine(
+                        "No Statel defined in database for #" + _target.Type + ":" + (UInt32)_target.Instance + " ("
+                        + _target.Type.ToString("X4") + ":" + _target.Instance.ToString("X8") + ")");
                 }
                 client.SendChatText(Feedback1);
                 client.SendChatText(Feedback2);
@@ -728,7 +736,7 @@ namespace ZoneEngine.PacketHandlers
         internal static void Reply()
         {
             PacketWriter writer = new PacketWriter();
-            writer.PushBytes(new byte[] {0xDF, 0xDF});
+            writer.PushBytes(new byte[] { 0xDF, 0xDF });
             writer.PushShort(10);
             writer.PushShort(1);
             writer.PushShort(0);

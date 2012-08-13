@@ -77,7 +77,7 @@
     <Compile Include="Client.cs" />
     <Compile Include="Lists\BuddyList.cs" />
     <Compile Include="Lists\BuddyListEntry.cs" />
-    <Compile Include="Lists\Channels.cs" />
+    <Compile Include="Lists\ChatChannels.cs" />
     <Compile Include="Lists\ChannelsEntry.cs" />
     <Compile Include="PacketHandlers\AuthenticateBot.cs" />
     <Compile Include="PacketIO.cs" />
