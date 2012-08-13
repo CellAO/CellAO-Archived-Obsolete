@@ -86,11 +86,11 @@ namespace LoginEngine.Packets
             foreach (CharacterEntry character in characters)
             {
                 pwriter.PushInt(4); // ?
-                pwriter.PushInt(character.ID); // character ID
+                pwriter.PushInt(character.Id); // character ID
 
                 // PlayfieldProxy starts
                 pwriter.PushByte(0x61); // PlayfieldProxy version
-                pwriter.PushIdentity(0xC79D, character.playfield);
+                pwriter.PushIdentity(0xC79D, character.Playfield);
                 pwriter.PushInt(1);
                 pwriter.PushInt(0);
                 pwriter.PushIdentity(0, 0);
@@ -108,7 +108,7 @@ namespace LoginEngine.Packets
                 }
                 // else
                 {
-                    pwriter.PushInt(character.ID); // character ID
+                    pwriter.PushInt(character.Id); // character ID
                     {
                         // if there is problem with name
                         //pwriter.PushInt(256); //(will set name to "ERROR-CHANGE-NAME")

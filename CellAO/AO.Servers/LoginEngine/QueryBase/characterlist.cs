@@ -59,9 +59,9 @@ namespace LoginEngine.QueryBase
             foreach (DataRow row in dt.Rows)
             {
                 CharacterEntry charentry = new CharacterEntry();
-                charentry.ID = (Int32)row["ID"];
+                charentry.Id = (Int32)row["ID"];
                 charentry.Name = ((string)row["Name"]).PadRight(11, '\u0000');
-                charentry.playfield = (Int32)row["playfield"];
+                charentry.Playfield = (Int32)row["playfield"];
                 charentry.Level = (Int32)row["level"];
                 charentry.Breed = (Int32)row["breed"];
                 charentry.Gender = (Int32)row["gender"];

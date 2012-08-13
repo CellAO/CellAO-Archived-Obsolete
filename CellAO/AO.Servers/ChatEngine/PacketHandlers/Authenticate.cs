@@ -111,7 +111,7 @@ namespace ChatEngine.PacketHandlers
 
             // tell client to join channel "Global"
             // hardcoded right now
-            foreach (ChannelsEntry channel in Channels.ChannelNames)
+            foreach (ChannelsEntry channel in ChatChannels.ChannelNames)
             {
                 byte[] chanGlobal = new ChannelJoin().Create(
                     channel.Id, channel.Name, channel.ChannelMode, new byte[] { 0x00, 0x00 });

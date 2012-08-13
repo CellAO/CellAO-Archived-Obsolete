@@ -39,7 +39,7 @@ namespace LoginEngine.Packets
         /// <summary>
         /// 
         /// </summary>
-        public int i_false;
+        private int IFalse;
 
         #region Query Setup...
         /// <summary>
@@ -81,7 +81,7 @@ namespace LoginEngine.Packets
             this.lf.GetLoginFlags(accountName);
 
             if (this.ln.LoginN != null && accountName.ToLower() == this.ln.LoginN.ToLower()
-                && this.lf.FlagsL == this.i_false)
+                && this.lf.FlagsL == this.IFalse)
             {
                 return true; // Login OK
             }
@@ -97,15 +97,15 @@ namespace LoginEngine.Packets
         /// 
         /// </summary>
         /// <param name="client"></param>
-        /// <param name="LoginKey"></param>
+        /// <param name="loginKey"></param>
         /// <returns></returns>
-        public bool IsLoginCorrect(Client client, string LoginKey)
+        public bool IsLoginCorrect(Client client, string loginKey)
         {
             LoginEncryption le = new LoginEncryption();
 
             this.lp.GetLoginPassword(client.AccountName);
 
-            return le.IsValidLogin(LoginKey, client.ServerSalt, client.AccountName, this.lp.PasswdL);
+            return le.IsValidLogin(loginKey, client.ServerSalt, client.AccountName, this.lp.PasswdL);
         }
         #endregion
 

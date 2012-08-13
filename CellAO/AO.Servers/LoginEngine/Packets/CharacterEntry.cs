@@ -40,7 +40,7 @@ namespace LoginEngine.Packets
         /// <summary>
         /// 
         /// </summary>
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// 
@@ -60,7 +60,7 @@ namespace LoginEngine.Packets
         /// <summary>
         /// 
         /// </summary>
-        public int playfield { get; set; }
+        public int Playfield { get; set; }
 
         /// <summary>
         /// 

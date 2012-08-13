@@ -38,21 +38,31 @@ namespace LoginEngine.QueryBase
     /// </summary>
     public class LoginFlags
     {
-        public int FlagsL;
+        private int flagsL;
+
+        public int FlagsL
+        {
+            get
+            {
+                return flagsL;
+            }
+        }
 
         /// <summary>
         /// Read login 
         /// </summary>
-        /// <param name="RecvLogin"></param>
-        public void GetLoginFlags(string RecvLogin)
+        /// <param name="recvLogin">
+        /// Username sent by client
+        /// </param>
+        public void GetLoginFlags(string recvLogin)
         {
-            string sqlQuery = "SELECT Flags FROM login WHERE Username = " + "'" + RecvLogin + "'";
+            string sqlQuery = "SELECT Flags FROM login WHERE Username = " + "'" + recvLogin + "'";
             SqlWrapper ms = new SqlWrapper();
             DataTable dt = ms.ReadDT(sqlQuery);
 
             foreach (DataRow row in dt.Rows)
             {
-                this.FlagsL = (Int32)row[0];
+                this.flagsL = (Int32)row[0];
             }
         }
     }

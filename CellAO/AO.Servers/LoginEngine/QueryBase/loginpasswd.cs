@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace LoginEngine.QueryBase
@@ -37,22 +36,32 @@ namespace LoginEngine.QueryBase
     /// </summary>
     public class LoginPasswd
     {
-        public string PasswdL;
+        private string passwdL;
 
         private readonly SqlWrapper ms = new SqlWrapper();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="RecvLogin"></param>
-        public void GetLoginPassword(string RecvLogin)
+        public string PasswdL
         {
-            string SqlQuery = "SELECT `Password` FROM `login` WHERE `Username` = " + "'" + RecvLogin + "'";
-            DataTable dt = this.ms.ReadDT(SqlQuery);
+            get
+            {
+                return this.passwdL;
+            }
+        }
+
+        /// <summary>
+        /// Returns the Password hash
+        /// </summary>
+        /// <param name="recvLogin">
+        /// Username received from the client
+        /// </param>
+        public void GetLoginPassword(string recvLogin)
+        {
+            string sqlQuery = "SELECT `Password` FROM `login` WHERE `Username` = " + "'" + recvLogin + "'";
+            DataTable dt = this.ms.ReadDT(sqlQuery);
 
             foreach (DataRow row in dt.Rows)
             {
-                this.PasswdL = (string)row[0];
+                this.passwdL = (string)row[0];
             }
         }
     }

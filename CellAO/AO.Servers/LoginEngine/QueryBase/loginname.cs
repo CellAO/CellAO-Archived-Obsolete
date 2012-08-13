@@ -37,22 +37,30 @@ namespace LoginEngine.QueryBase
     /// </summary>
     public class LoginName
     {
-        public string LoginN;
+        private string loginN;
 
-        private readonly SqlWrapper ms = new SqlWrapper();
+
+        public string LoginN
+        {
+            get
+            {
+                return loginN;
+            }
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="RecvLogin"></param>
-        public void GetLoginName(string RecvLogin)
+        /// <param name="recvLogin"></param>
+        public void GetLoginName(string recvLogin)
         {
-            string SqlQuery = "SELECT Username FROM login WHERE Username = " + "'" + RecvLogin + "'";
-            DataTable dt = this.ms.ReadDT(SqlQuery);
+            string SqlQuery = "SELECT Username FROM login WHERE Username = " + "'" + recvLogin + "'";
+            SqlWrapper ms = new SqlWrapper(); 
+            DataTable dt = ms.ReadDT(SqlQuery);
 
             foreach (DataRow row in dt.Rows)
             {
-                this.LoginN = (string)row[0];
+                this.loginN = (string)row[0];
             }
         }
     }

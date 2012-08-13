@@ -24,17 +24,17 @@
 
 namespace ChatEngine.Lists
 {
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The channels.
     /// </summary>
-    public static class Channels
+    public static class ChatChannels
     {
         /// <summary>
         /// The channel names.
         /// </summary>
-        public static readonly Collection<ChannelsEntry> ChannelNames = new Collection<ChannelsEntry>
+        public static readonly List<ChannelsEntry> ChannelNames = new List<ChannelsEntry>
             {
                 new ChannelsEntry("Global", new byte[] { 0x04, 0x00, 0x00, 0x23, 0x28 }, 0x8044),
                 new ChannelsEntry("CellAO News", new byte[] { 0x0c, 0x00, 0x00, 0x07, 0xd0 }, 0x8044)

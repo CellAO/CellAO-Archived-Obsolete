@@ -111,7 +111,7 @@ namespace LoginEngine
                             + "' banned, not a valid username, or sent a malformed Authentication Packet");
                         Console.ResetColor();
 
-                        client.Send(ref nb.wrongbyte);
+                        client.Send(ref nb.WrongByte);
 
                         client.Server.DisconnectClient(client);
 
@@ -126,7 +126,7 @@ namespace LoginEngine
                         Console.WriteLine("Client '" + client.AccountName + "' failed Authentication.");
                         Console.ResetColor();
 
-                        client.Send(ref nb.wrongbyte);
+                        client.Send(ref nb.WrongByte);
 
                         client.Server.DisconnectClient(client);
 
@@ -158,7 +158,7 @@ namespace LoginEngine
                         Console.ResetColor();
 
                         // NV: Is this really what we want to send? Should find out sometime...
-                        client.Send(ref nb.wrongbyte);
+                        client.Send(ref nb.WrongByte);
 
                         client.Server.DisconnectClient(client);
 
@@ -169,7 +169,7 @@ namespace LoginEngine
                         Console.WriteLine(
                             "Client '" + client.AccountName
                             + "' is trying to login, but the requested character is already logged in.");
-                        client.Send(ref nb.wrongbyte);
+                        client.Send(ref nb.WrongByte);
                         client.Server.DisconnectClient(client);
                         break;
                     }
@@ -222,7 +222,7 @@ namespace LoginEngine
                     /* client created new character */
                     Int32 character_id;
                     bool start_in_sl = false;
-                    char_name.m_accountName = client.AccountName;
+                    char_name.AccountName = client.AccountName;
 
                     /* start reading packet */
 
@@ -234,24 +234,24 @@ namespace LoginEngine
                     /* name length */
                     int m_name_len = reader.PopInt();
                     /* name */
-                    char_name.m_name = reader.PopString(m_name_len);
+                    char_name.Name = reader.PopString(m_name_len);
                     /* breed */
-                    char_name.m_breed = reader.PopInt();
+                    char_name.Breed = reader.PopInt();
                     /* gender */
-                    char_name.m_gender = reader.PopInt();
+                    char_name.Gender = reader.PopInt();
                     /* profession */
-                    char_name.m_profession = reader.PopInt();
+                    char_name.Profession = reader.PopInt();
                     /* level (should always be 0 )*/
-                    char_name.m_level = reader.PopInt();
+                    char_name.Level = reader.PopInt();
                     /* lets skip some stuff */
                     int skip_len = reader.PopInt();
                     reader.ReadBytes(skip_len + 8);
                     /* head mesh */
-                    char_name.m_headmesh = reader.PopInt();
+                    char_name.HeadMesh = reader.PopInt();
                     /* monster scale */
-                    char_name.m_monsterscale = reader.PopInt();
+                    char_name.MonsterScale = reader.PopInt();
                     /* fatness */
-                    char_name.m_fatness = reader.PopInt();
+                    char_name.Fatness = reader.PopInt();
                     /* start in SL? */
                     int sl = reader.PopInt();
                     if (sl == 1)
@@ -272,14 +272,14 @@ namespace LoginEngine
                      * if name doesnt exist, creates default char setup and returns character_id
                      * 
                      */
-                    character_id = char_name.CheckAgainstDB();
+                    character_id = char_name.CheckAgainstDatabase();
                     if (character_id < 1)
                     {
                         char_name.SendNameInUse(client);
                     }
                     else
                     {
-                        char_name.SendNameToStartPF(client, start_in_sl, character_id);
+                        char_name.SendNameToStartPlayfield(client, start_in_sl, character_id);
                     }
 
                     /* reply will work only if character creation

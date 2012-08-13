@@ -38,7 +38,7 @@ namespace LoginEngine
     /// <summary>
     /// 
     /// </summary>
-    public class Server : ServerBase
+    public class LoginServer : ServerBase
     {
         #region Needed overrides
         /// <summary>

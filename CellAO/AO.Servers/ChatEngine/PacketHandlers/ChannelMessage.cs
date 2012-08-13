@@ -79,7 +79,7 @@ namespace ChatEngine.PacketHandlers
             reader.ReadUInt16();
             reader.ReadByte();
             string text = reader.ReadString();
-            string ChannelName = Channels.GetChannel(packet).Name;
+            string ChannelName = ChatChannels.GetChannel(packet).Name;
             ChatLogger.WriteString(ChannelName, text, client.Character.characterName);
         }
     }

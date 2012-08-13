@@ -42,12 +42,13 @@ namespace LoginEngine
         {
         }
 
-        public static bool IsOnline(int ID)
+        public static bool IsOnline(int id)
         {
             SqlWrapper sql = new SqlWrapper();
-            DataTable dt = sql.ReadDT("SELECT * FROM characters WHERE ID = " + ID + ";");
+            DataTable dt = sql.ReadDT("SELECT * FROM characters WHERE ID = " + id + ";");
             if (dt.Rows.Count == 0)
             {
+                // TODO: Create a proper Exception type
                 throw new Exception("Character does not exist");
             }
             if ((Int16)dt.Rows[0]["Online"] == 1)
@@ -57,10 +58,10 @@ namespace LoginEngine
             return false;
         }
 
-        public static void SetOnline(int ID)
+        public static void SetOnline(int id)
         {
             SqlWrapper sql = new SqlWrapper();
-            sql.SqlUpdate("UPDATE characters SET Online = 1 WHERE ID = " + ID + ";");
+            sql.SqlUpdate("UPDATE characters SET Online = 1 WHERE ID = " + id + ";");
         }
     }
 }

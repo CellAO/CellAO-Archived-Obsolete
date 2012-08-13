@@ -48,15 +48,15 @@ namespace LoginEngine
 
     public class Program
     {
-        public static Server LoginServer;
+        private static LoginServer loginLoginServer;
 
-        public static bool ismodified()
+        public static bool Ismodified()
         {
             string[] info = AssemblyInfoclass.Trademark.Split(';');
             return (info[1] == "1");
         }
 
-        public static bool ismixed()
+        public static bool Ismixed()
         {
             string[] info = AssemblyInfoclass.Trademark.Split(';');
             return (info[0] == "1");
@@ -70,11 +70,11 @@ namespace LoginEngine
             ConsoleText ct = new ConsoleText();
             ct.TextRead("main.txt");
             Console.WriteLine("Loading " + AssemblyInfoclass.Title + "...");
-            if (ismodified())
+            if (Ismodified())
             {
                 Console.WriteLine("Your " + AssemblyInfoclass.Title + " was compiled from modified source code.");
             }
-            else if (ismixed())
+            else if (Ismixed())
             {
                 Console.WriteLine("Your " + AssemblyInfoclass.Title + " uses mixed SVN revisions.");
             }
@@ -86,12 +86,12 @@ namespace LoginEngine
 
             //Sying helped figure all this code out, about 5 yearts ago! :P
             bool processedargs = false;
-            LoginServer = new Server();
-            LoginServer.EnableTCP = true;
-            LoginServer.EnableUDP = false;
+            loginLoginServer = new LoginServer();
+            loginLoginServer.EnableTCP = true;
+            loginLoginServer.EnableUDP = false;
             try
             {
-                LoginServer.TcpIP = IPAddress.Parse(Config.Instance.CurrentConfig.ListenIP);
+                loginLoginServer.TcpIP = IPAddress.Parse(Config.Instance.CurrentConfig.ListenIP);
             }
             catch
             {
@@ -99,7 +99,7 @@ namespace LoginEngine
                 Console.ReadKey();
                 return;
             }
-            LoginServer.TcpPort = Convert.ToInt32(Config.Instance.CurrentConfig.LoginPort);
+            loginLoginServer.TcpPort = Convert.ToInt32(Config.Instance.CurrentConfig.LoginPort);
 
             #region NLog
             LoggingConfiguration config = new LoggingConfiguration();
@@ -122,7 +122,7 @@ namespace LoginEngine
             //TODO: ADD More Handlers.
             #endregion
 
-            LoginServer.MaximumPendingConnections = 100;
+            loginLoginServer.MaximumPendingConnections = 100;
 
             #region Console Commands
             //Andyzweb: Added checks for start and stop
@@ -140,7 +140,7 @@ namespace LoginEngine
                         {
                             ct.TextRead("autostart.txt");
                             ThreadMgr.Start();
-                            LoginServer.Start();
+                            loginLoginServer.Start();
                         }
                     }
                     processedargs = true;
@@ -158,7 +158,7 @@ namespace LoginEngine
                 switch (consoleCommand.ToLower())
                 {
                     case "start":
-                        if (LoginServer.Running)
+                        if (loginLoginServer.Running)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             ct.TextRead("loginisrunning.txt");
@@ -166,10 +166,10 @@ namespace LoginEngine
                             break;
                         }
                         ThreadMgr.Start();
-                        LoginServer.Start();
+                        loginLoginServer.Start();
                         break;
                     case "stop":
-                        if (!LoginServer.Running)
+                        if (!loginLoginServer.Running)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             ct.TextRead("loginisnotrunning.txt");
@@ -177,13 +177,13 @@ namespace LoginEngine
                             break;
                         }
                         ThreadMgr.Stop();
-                        LoginServer.Stop();
+                        loginLoginServer.Stop();
                         break;
                     case "exit":
                         Process.GetCurrentProcess().Kill();
                         break;
                     case "running":
-                        if (LoginServer.Running)
+                        if (loginLoginServer.Running)
                         {
                             //Console.WriteLine("Login Server is running");
                             ct.TextRead("loginisrunning.txt");

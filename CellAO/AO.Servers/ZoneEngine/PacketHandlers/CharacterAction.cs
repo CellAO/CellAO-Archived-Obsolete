@@ -199,7 +199,7 @@ namespace ZoneEngine.PacketHandlers
                             SqlWrapper ms = new SqlWrapper();
                             DataTable dt =
                                 ms.ReadDT(
-                                    "SELECT `GovernmentForm` FROM organizations WHERE ID=" + tPlayer.Character.orgId);
+                                    "SELECT `GovernmentForm` FROM organizations WHERE ID=" + tPlayer.Character.OrgId);
 
                             if (dt.Rows.Count > 0)
                             {
@@ -215,7 +215,7 @@ namespace ZoneEngine.PacketHandlers
                              * Bit0 = hasOrg, Bit1 = orgTowers, Bit2 = personalTowers, Bit3 = (Int32) time until supression changes (Byte) type of supression level?, Bit4 = noPvpDataShown, Bit5 = hasFaction, Bit6 = ?, Bit 7 = null.
                             */
                             byte packetFlags = 0x40; // Player has no Org
-                            if (tPlayer.Character.orgId != 0)
+                            if (tPlayer.Character.OrgId != 0)
                             {
                                 packetFlags = 0x41; // Player has Org, no towers
                             }
@@ -245,7 +245,7 @@ namespace ZoneEngine.PacketHandlers
                             infoPacket.PushUInt(tPlayer.Character.Stats.Health.Value); // Current Health (Health)
                             infoPacket.PushUInt(tPlayer.Character.Stats.Life.Value); // Max Health (Life)
                             infoPacket.PushInt(0); // BreedHostility?
-                            infoPacket.PushUInt(tPlayer.Character.orgId); // org ID
+                            infoPacket.PushUInt(tPlayer.Character.OrgId); // org ID
                             infoPacket.PushShort((short)tPlayer.Character.FirstName.Length);
                             infoPacket.PushBytes(Encoding.ASCII.GetBytes(tPlayer.Character.FirstName));
                             infoPacket.PushShort((short)tPlayer.Character.LastName.Length);
@@ -255,7 +255,7 @@ namespace ZoneEngine.PacketHandlers
                             infoPacket.PushShort(0); // Title 2
 
                             // If receiver is in the same org as affected identity, whom is not orgless, send org rank and city playfield
-                            if ((client.Character.orgId == tPlayer.Character.orgId) && (tPlayer.Character.orgId != 0))
+                            if ((client.Character.OrgId == tPlayer.Character.OrgId) && (tPlayer.Character.OrgId != 0))
                             {
                                 infoPacket.PushShort((short)orgRank.Length);
                                 infoPacket.PushBytes(Encoding.ASCII.GetBytes(orgRank));

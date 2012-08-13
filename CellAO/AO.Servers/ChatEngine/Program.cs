@@ -101,7 +101,7 @@ namespace ChatEngine
             Console.ResetColor();
 
             bool processedArgs = false;
-            Server chatServer = new Server();
+            ChatServer chatServer = new ChatServer();
 
             Console.WriteLine("[ISComm] Waiting for link...");
 

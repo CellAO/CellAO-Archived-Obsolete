@@ -227,8 +227,8 @@ namespace ZoneEngine.Packets
                 LastNameLength = character.LastName.Length;
                 FirstName = character.FirstName;
                 LastName = character.LastName;
-                OrgNameLength = character.orgName.Length;
-                OrgName = character.orgName;
+                OrgNameLength = character.OrgName.Length;
+                OrgName = character.OrgName;
                 LevelValue = character.Stats.Level.Value;
                 HealthValue = character.Stats.Life.Value;
 

@@ -34,7 +34,7 @@ namespace ChatEngine
     /// <summary>
     /// The server.
     /// </summary>
-    public class Server : ServerBase
+    public class ChatServer : ServerBase
     {
         #region Needed overrides
         /// <summary>

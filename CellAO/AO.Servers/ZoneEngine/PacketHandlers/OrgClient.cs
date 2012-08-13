@@ -129,7 +129,7 @@ namespace ZoneEngine.PacketHandlers
 
                             // Make sure the order of these next two lines is not swapped -NV
                             client.Character.Stats.ClanLevel.Set(0);
-                            client.Character.orgId = orgID;
+                            client.Character.OrgId = orgID;
                             break;
                         }
                         else
@@ -145,12 +145,12 @@ namespace ZoneEngine.PacketHandlers
                     // org ranks
                     //Displays Org Rank Structure.
                     /* Select governingform from DB, Roll through display from GovForm */
-                    if (client.Character.orgId == 0)
+                    if (client.Character.OrgId == 0)
                     {
                         client.SendChatText("You're not in an organization!");
                         break;
                     }
-                    string ranksSql = "SELECT GovernmentForm FROM organizations WHERE ID = " + client.Character.orgId;
+                    string ranksSql = "SELECT GovernmentForm FROM organizations WHERE ID = " + client.Character.OrgId;
                     int govForm = -1;
                     dt = this.ms.ReadDT(ranksSql);
                     if (dt.Rows.Count > 0)
@@ -181,7 +181,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             string orgDescription = "", orgObjective = "", orgHistory = "", orgLeaderName = "";
                             int orgGoverningForm = 0, orgLeaderID = 0;
-                            dt = this.ms.ReadDT("SELECT * FROM organizations WHERE ID=" + tPlayer.Character.orgId);
+                            dt = this.ms.ReadDT("SELECT * FROM organizations WHERE ID=" + tPlayer.Character.OrgId);
 
                             if (dt.Rows.Count > 0)
                             {
@@ -242,9 +242,9 @@ namespace ZoneEngine.PacketHandlers
                             writer.PushInt(0);
                             writer.PushInt(0);
                             writer.PushInt(0xDEAA); // Type (org)
-                            writer.PushUInt(tPlayer.Character.orgId); // org ID
-                            writer.PushShort((short)tPlayer.Character.orgName.Length);
-                            writer.PushBytes(Encoding.ASCII.GetBytes(tPlayer.Character.orgName));
+                            writer.PushUInt(tPlayer.Character.OrgId); // org ID
+                            writer.PushShort((short)tPlayer.Character.OrgName.Length);
+                            writer.PushBytes(Encoding.ASCII.GetBytes(tPlayer.Character.OrgName));
                             writer.PushShort((short)orgDescription.Length);
                             writer.PushBytes(Encoding.ASCII.GetBytes(orgDescription));
                             writer.PushShort((short)orgObjective.Length);
@@ -305,7 +305,7 @@ namespace ZoneEngine.PacketHandlers
                         if (FindClient.FindClientByID(target.Instance, out t_promote))
                         {
                             //First we check if target is in the same org as you
-                            if (t_promote.Character.orgId != client.Character.orgId)
+                            if (t_promote.Character.OrgId != client.Character.OrgId)
                             {
                                 //not in same org
                                 client.SendChatText("Target is not in your organization!");
@@ -319,7 +319,7 @@ namespace ZoneEngine.PacketHandlers
                                 //Promoter is eligible. Start the process
 
                                 //First we get the details about the org itself
-                                promoteSql = "SELECT * FROM organizations WHERE ID = " + client.Character.orgId;
+                                promoteSql = "SELECT * FROM organizations WHERE ID = " + client.Character.OrgId;
                                 dt = this.ms.ReadDT(promoteSql);
 
                                 int promoteGovForm = -1;
@@ -352,7 +352,7 @@ namespace ZoneEngine.PacketHandlers
                                     client.Character.Stats.ClanLevel.Set(newPresRank);
                                     //Change the leader id in SQL
                                     string newLeadSql = "UPDATE organizations SET LeaderID = " + t_promote.Character.ID
-                                                        + " WHERE ID = " + t_promote.Character.orgId;
+                                                        + " WHERE ID = " + t_promote.Character.OrgId;
                                     this.ms.SqlUpdate(newLeadSql);
                                     client.SendChatText(
                                         "You've passed leadership of the organization to: " + t_promote.Character.Name);
@@ -398,7 +398,7 @@ namespace ZoneEngine.PacketHandlers
                     if (FindClient.FindClientByID(target.Instance, out t_demote))
                     {
                         //First we check if target is in the same org as you
-                        if (t_demote.Character.orgId != client.Character.orgId)
+                        if (t_demote.Character.OrgId != client.Character.OrgId)
                         {
                             //not in same org
                             client.SendChatText("Target is not in your organization!");
@@ -411,7 +411,7 @@ namespace ZoneEngine.PacketHandlers
                             //Promoter is eligible. Start the process
 
                             //First we get the details about the org itself
-                            demoteSql = "SELECT GovernmentForm FROM organizations WHERE ID = " + client.Character.orgId;
+                            demoteSql = "SELECT GovernmentForm FROM organizations WHERE ID = " + client.Character.OrgId;
                             dt = this.ms.ReadDT(demoteSql);
                             int demoteGovForm = -1;
                             string demotedToRank = "";
@@ -457,7 +457,7 @@ namespace ZoneEngine.PacketHandlers
                     // <name> is CmdStr
 
                     //create the t_player Client namespace, using CmdStr to find character id, in replacement of target.Instance
-                    uint kickedFrom = client.Character.orgId;
+                    uint kickedFrom = client.Character.OrgId;
                     string kickeeSql = "SELECT * FROM characters WHERE Name = '" + CmdStr + "'";
                     int kickeeId = 0;
                     dt = this.ms.ReadDT(kickeeSql);
@@ -470,8 +470,8 @@ namespace ZoneEngine.PacketHandlers
                     if (FindClient.FindClientByID(kickeeId, out target_player))
                     {
                         //Check if CmdStr is actually part of the org
-                        uint kickeeOrgId = target_player.Character.orgId;
-                        if (kickeeOrgId != client.Character.orgId)
+                        uint kickeeOrgId = target_player.Character.OrgId;
+                        if (kickeeOrgId != client.Character.OrgId)
                         {
                             //Not part of Org. break out.
                             client.SendChatText(CmdStr + "is not a member of your organization!");
@@ -496,8 +496,8 @@ namespace ZoneEngine.PacketHandlers
 
                         //Player is online. Start the kick.
                         target_player.Character.Stats.ClanLevel.Set(0);
-                        target_player.Character.orgId = 0;
-                        string kickedFromSql = "SELECT Name FROM organizations WHERE ID = " + client.Character.orgId;
+                        target_player.Character.OrgId = 0;
+                        string kickedFromSql = "SELECT Name FROM organizations WHERE ID = " + client.Character.OrgId;
                         dt = this.ms.ReadDT(kickedFromSql);
                         string KickedFromName = "";
                         if (dt.Rows.Count > 0)
@@ -528,9 +528,9 @@ namespace ZoneEngine.PacketHandlers
                             writer.PushByte(5); //OrgServer Case 0x05 (Invite)
                             writer.PushInt(0);
                             writer.PushInt(0);
-                            writer.PushIdentity(0xDEAA, (int)client.Character.orgId); // Type (org)
-                            writer.PushShort((short)client.Character.orgName.Length);
-                            writer.PushBytes(Encoding.ASCII.GetBytes(client.Character.orgName));
+                            writer.PushIdentity(0xDEAA, (int)client.Character.OrgId); // Type (org)
+                            writer.PushShort((short)client.Character.OrgName.Length);
+                            writer.PushBytes(Encoding.ASCII.GetBytes(client.Character.OrgName));
                             writer.PushInt(0);
                             byte[] reply = writer.Finish();
 
@@ -555,7 +555,7 @@ namespace ZoneEngine.PacketHandlers
 
                         // Make sure the order of these next two lines is not swapped -NV
                         client.Character.Stats.ClanLevel.Set(GetLowestRank(gov_form));
-                        client.Character.orgId = (uint)orgIdtoJoin;
+                        client.Character.OrgId = (uint)orgIdtoJoin;
                     }
                     break;
                     #endregion
@@ -568,7 +568,7 @@ namespace ZoneEngine.PacketHandlers
                     // Something worth testing on Testlive perhaps ~Chaz
                     // Just because something happens on TL, doesnt mean its a good idea. Really tbh id prefer it if you had to explicitly type /org disband to disband rather than /org leave doing it... -NV
                     // Agreeing with NV.  Org Leader can't leave without passing lead on.  org disband requires /org disband to specifically be issued, with a Yes/No box.
-                    string LeaveSql = "SELECT * FROM organizations WHERE ID = " + client.Character.orgId;
+                    string LeaveSql = "SELECT * FROM organizations WHERE ID = " + client.Character.OrgId;
                     int govern_form = 0;
                     dt = this.ms.ReadDT(LeaveSql);
                     if (dt.Rows.Count > 0)
@@ -583,7 +583,7 @@ namespace ZoneEngine.PacketHandlers
                     }
                     else
                     {
-                        client.Character.orgId = 0;
+                        client.Character.OrgId = 0;
                         client.SendChatText("You left the guild");
                     }
                     break;
@@ -610,7 +610,7 @@ namespace ZoneEngine.PacketHandlers
                 case 18:
                     {
                         // org bank
-                        dt = this.ms.ReadDT("SELECT * FROM organizations WHERE ID=" + client.Character.orgId);
+                        dt = this.ms.ReadDT("SELECT * FROM organizations WHERE ID=" + client.Character.OrgId);
                         if (dt.Rows.Count > 0)
                         {
                             UInt64 bank_credits = (UInt64)dt.Rows[0]["Bank"];
@@ -623,7 +623,7 @@ namespace ZoneEngine.PacketHandlers
                     #region /org bank add <cash>
                 case 19:
                     {
-                        if (client.Character.orgId == 0)
+                        if (client.Character.OrgId == 0)
                         {
                             client.SendChatText("You are not in an organisation.");
 
@@ -645,7 +645,7 @@ namespace ZoneEngine.PacketHandlers
 
                             this.ms.SqlUpdate(
                                 "UPDATE `organizations` SET `Bank` = `Bank` + " + minuscredits_fromplayer
-                                + " WHERE `ID` = " + client.Character.orgId);
+                                + " WHERE `ID` = " + client.Character.OrgId);
                             client.SendChatText("You have donated " + minuscredits_fromplayer + " to the organization");
                         }
                     }
@@ -659,14 +659,14 @@ namespace ZoneEngine.PacketHandlers
                     // <cash> is CmdStr
                     // player wants to take credits from org bank
                     // only leader can do that
-                    if ((client.Character.Stats.ClanLevel.Value != 0) || (client.Character.orgId == 0))
+                    if ((client.Character.Stats.ClanLevel.Value != 0) || (client.Character.OrgId == 0))
                     {
                         client.SendChatText("You're not the leader of an Organization");
                         break;
                     }
                     int remove_credits = Convert.ToInt32(CmdStr);
                     long org_bank = 0;
-                    dt = this.ms.ReadDT("SELECT Bank FROM organizations WHERE ID = " + client.Character.orgId);
+                    dt = this.ms.ReadDT("SELECT Bank FROM organizations WHERE ID = " + client.Character.OrgId);
                     if (dt.Rows.Count > 0)
                     {
                         org_bank = (Int64)dt.Rows[0][0];
@@ -683,7 +683,7 @@ namespace ZoneEngine.PacketHandlers
                         existingcreds = client.Character.Stats.Cash.Value;
                         int newcreds = existingcreds + remove_credits;
                         this.ms.SqlUpdate(
-                            "UPDATE organizations SET Bank = " + neworgbank + " WHERE ID = " + client.Character.orgId);
+                            "UPDATE organizations SET Bank = " + neworgbank + " WHERE ID = " + client.Character.OrgId);
                         client.Character.Stats.Cash.Set(newcreds);
                         client.SendChatText("You've removed " + remove_credits + " credits from the organization bank");
                     }
@@ -713,7 +713,7 @@ namespace ZoneEngine.PacketHandlers
                             // org history <history text>
                             this.ms.SqlUpdate(
                                 "UPDATE organizations SET history = '" + CmdStr + "' WHERE ID = '"
-                                + client.Character.orgId + "'");
+                                + client.Character.OrgId + "'");
                             client.SendChatText("History Updated");
                         }
                         else
@@ -732,7 +732,7 @@ namespace ZoneEngine.PacketHandlers
                             // org objective <objective text>
                             this.ms.SqlUpdate(
                                 "UPDATE organizations SET objective = '" + CmdStr + "' WHERE ID = '"
-                                + client.Character.orgId + "'");
+                                + client.Character.OrgId + "'");
                             client.SendChatText("Objective Updated");
                         }
                         else
@@ -751,7 +751,7 @@ namespace ZoneEngine.PacketHandlers
                             // org description <description text>
                             this.ms.SqlUpdate(
                                 "UPDATE organizations SET description = '" + CmdStr + "' WHERE ID = '"
-                                + client.Character.orgId + "'");
+                                + client.Character.OrgId + "'");
                             client.SendChatText("Description Updated");
                         }
                         else
@@ -783,13 +783,13 @@ namespace ZoneEngine.PacketHandlers
                             if (CurrentOrg == null)
                             {
                                 string SqlQuery27 = "UPDATE organizations SET Name = '" + CmdStr + "' WHERE ID = '"
-                                                    + client.Character.orgId + "'";
+                                                    + client.Character.OrgId + "'";
                                 this.ms.SqlUpdate(SqlQuery27);
                                 client.SendChatText("Organization Name Changed to: " + CmdStr);
 
                                 // Forces reloading of org name and the like
                                 // XXXX TODO: Make it reload for all other members in the org
-                                client.Character.orgId = client.Character.orgId;
+                                client.Character.OrgId = client.Character.OrgId;
                                 break;
                             }
                             else
@@ -856,8 +856,8 @@ namespace ZoneEngine.PacketHandlers
                             {
                                 this.ms.SqlUpdate(
                                     "UPDATE organizations SET GovernmentForm = '" + GovFormNum + "' WHERE ID = '"
-                                    + client.Character.orgId + "'");
-                                foreach (int currentCharId in OrgMisc.GetOrgMembers(client.Character.orgId, true))
+                                    + client.Character.OrgId + "'");
+                                foreach (int currentCharId in OrgMisc.GetOrgMembers(client.Character.OrgId, true))
                                 {
                                     client.Character.Stats.ClanLevel.Set(GetLowestRank(GovFormNum));
                                 }

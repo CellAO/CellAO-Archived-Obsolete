@@ -41,7 +41,7 @@ namespace ChatEngine
         /// </summary>
         /// <param name="srvr">
         /// </param>
-        public Client(Server srvr)
+        public Client(ChatServer srvr)
             : base(srvr)
         {
             this.Character = new Character(0, null);

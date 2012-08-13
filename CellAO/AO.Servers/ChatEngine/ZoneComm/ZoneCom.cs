@@ -47,7 +47,7 @@ namespace ChatEngine
         /// <returns>
         /// The link.
         /// </returns>
-        public static bool Link(string ip, int port, Server srv)
+        public static bool Link(string ip, int port, ChatServer srv)
         {
             try
             {

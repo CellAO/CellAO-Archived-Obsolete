@@ -51,12 +51,12 @@ namespace ZoneEngine
         /// <summary>
         /// Organization ID
         /// </summary>
-        private int _orgId;
+        private int orgId;
 
         /// <summary>
         /// Organization name
         /// </summary>
-        public string orgName;
+        public string OrgName;
 
         /// <summary>
         /// Is Character attacking?
@@ -312,13 +312,13 @@ namespace ZoneEngine
         }
         #endregion
 
-        #region orgId update fix
+        #region OrgId update fix
         /// <summary>
         /// This is here to prevent desync issues between this variable and the stats class.
-        /// Stats are purged to the db when orgId changes so that the ChatEngine can read
+        /// Stats are purged to the db when OrgId changes so that the ChatEngine can read
         /// the new org details.
         /// </summary>
-        public uint orgId
+        public uint OrgId
         {
             // Stat 5 (Clan) is org id
             // Stat 5 (ClanLevel) is org rank
@@ -328,7 +328,7 @@ namespace ZoneEngine
             }
             set
             {
-                string oldOrgName = this.orgName;
+                string oldOrgName = this.OrgName;
 
                 this.Stats.Clan.Set(value);
 
@@ -343,7 +343,7 @@ namespace ZoneEngine
 
                     this.ReadNames();
 
-                    if (oldOrgName != this.orgName)
+                    if (oldOrgName != this.OrgName)
                     {
                         OrgInfo.OrgInfoPacket(this);
                     }
@@ -979,19 +979,19 @@ namespace ZoneEngine
                         + " AND Stat = 5 LIMIT 1");
                 if (dt.Rows.Count == 1)
                 {
-                    this._orgId = (Int32)dt.Rows[0][0];
+                    this.orgId = (Int32)dt.Rows[0][0];
                 }
-                if (this._orgId == 0)
+                if (this.orgId == 0)
                 {
-                    this.orgName = string.Empty;
+                    this.OrgName = string.Empty;
                 }
                 else
                 {
-                    List<GuildEntry> m_Guild = GuildInfo.GetGuildInfo(this._orgId);
+                    List<GuildEntry> m_Guild = GuildInfo.GetGuildInfo(this.orgId);
 
                     foreach (GuildEntry ge in m_Guild)
                     {
-                        this.orgName = ge.Name;
+                        this.OrgName = ge.Name;
                     }
                 }
                 return true;

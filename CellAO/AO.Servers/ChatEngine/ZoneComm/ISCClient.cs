@@ -117,7 +117,7 @@ namespace ChatEngine
         /// <param name="srv">
         /// The srv.
         /// </param>
-        public IscClient(string ip, int port, Server srv)
+        public IscClient(string ip, int port, ChatServer srv)
             : base(ip, port)
         {
             this.OnMessage += this.ISCClient_OnMessage;
@@ -128,6 +128,6 @@ namespace ChatEngine
         /// <summary>
         /// The server.
         /// </summary>
-        internal Server server;
+        internal ChatServer server;
     }
 }

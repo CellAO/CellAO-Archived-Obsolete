@@ -62,7 +62,7 @@ namespace LoginEngine
         /// <param name="srvr">
         /// Server object
         /// </param>
-        public Client(Server srvr)
+        public Client(LoginServer srvr)
             : base(srvr)
         {
         }

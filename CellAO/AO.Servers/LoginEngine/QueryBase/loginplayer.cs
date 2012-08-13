@@ -41,19 +41,18 @@ namespace LoginEngine.QueryBase
     {
         private int cbreedint, cprofint, playfield;
 
-        public byte[] name, breed, prof, zone;
+        private byte[] name, breed, prof, zone;
 
-        private readonly SqlWrapper ms = new SqlWrapper();
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="RecvLogin"></param>
-        public void GetCharacterName(string RecvLogin)
+        /// <param name="recvLogin"></param>
+        public void GetCharacterName(string recvLogin)
         {
-            string SqlQuery = "SELECT `Name`, `Breed`, `Profession` FROM `characters` WHERE Username = " + "'"
-                              + RecvLogin + "'";
-            DataTable dt = this.ms.ReadDT(SqlQuery);
+            string sqlQuery = "SELECT `Name`, `Breed`, `Profession` FROM `characters` WHERE Username = " + "'" + recvLogin + "'";
+            SqlWrapper ms = new SqlWrapper(); 
+            DataTable dt = ms.ReadDT(sqlQuery);
 
             foreach (DataRow datarow1 in dt.Rows)
             {
@@ -68,11 +67,12 @@ namespace LoginEngine.QueryBase
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="RecvLogin"></param>
-        public void GetCharacterZone(string RecvLogin)
+        /// <param name="recvLogin"></param>
+        public void GetCharacterZone(string recvLogin)
         {
-            string SqlQuery = "SELECT `playfield` FROM `characters` WHERE Username = " + "'" + RecvLogin + "'";
-            DataTable dt = this.ms.ReadDT(SqlQuery);
+            string sqlQuery = "SELECT `playfield` FROM `characters` WHERE Username = " + "'" + recvLogin + "'";
+            SqlWrapper ms = new SqlWrapper(); 
+            DataTable dt = ms.ReadDT(sqlQuery);
 
             foreach (DataRow datarow2 in dt.Rows)
             {

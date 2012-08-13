@@ -50,8 +50,8 @@ namespace ZoneEngine.Packets
             writer.PushInt(0x2E2A4A6B);
             writer.PushIdentity(50000, character.ID);
             writer.PushByte(0);
-            writer.PushShort((short)character.orgName.Length);
-            writer.PushBytes(Encoding.ASCII.GetBytes(character.orgName));
+            writer.PushShort((short)character.OrgName.Length);
+            writer.PushBytes(Encoding.ASCII.GetBytes(character.OrgName));
             byte[] mReply = writer.Finish();
             Announce.Playfield(character.PlayField, ref mReply);
         }
