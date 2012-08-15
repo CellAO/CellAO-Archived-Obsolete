@@ -284,7 +284,7 @@ namespace ZoneEngine.PacketHandlers
                             {
                                 _sender.Character.ExecuteEvent(
                                     _sender.Character, _sender.Character, aoe, true, false, 0, CheckReqs.doCheckReqs);
-                                SkillUpdate.sendstat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
+                                SkillUpdate.SendStat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
                                 // Social Status
                                 return;
                             }
@@ -310,7 +310,7 @@ namespace ZoneEngine.PacketHandlers
                         pw.PushBytes(reply);
                         byte[] rep = pw.Finish();
                         client.SendCompressed(rep);
-                        SkillUpdate.sendstat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
+                        SkillUpdate.SendStat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
                         // Social Status
                         return;
                     }

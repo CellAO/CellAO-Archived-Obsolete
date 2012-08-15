@@ -32,30 +32,30 @@ namespace ZoneEngine.Packets
 
     public class DeleteItem
     {
-        public static void Send(Character ch, int type, int instance)
+        public static void Send(Character character, int type, int instance)
         {
-            PacketWriter packet = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            packet.PushByte(0xdf);
-            packet.PushByte(0xdf);
-            packet.PushShort(0xa);
-            packet.PushShort(1);
-            packet.PushShort(0);
-            packet.PushInt(3086);
-            packet.PushInt(ch.ID);
-            packet.PushInt(0x5e477770);
-            packet.PushInt(50000);
-            packet.PushInt(ch.ID);
-            packet.PushByte(0);
-            packet.PushInt(0x70); // Delete
-            packet.PushInt(0);
-            packet.PushInt(type);
-            packet.PushInt(instance);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushShort(0);
-            byte[] pack = packet.Finish();
-            ch.client.SendCompressed(pack);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(0x5e477770);
+            packetWriter.PushInt(50000);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0x70); // Delete
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(type);
+            packetWriter.PushInt(instance);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushShort(0);
+            byte[] pack = packetWriter.Finish();
+            character.client.SendCompressed(pack);
         }
     }
 }

@@ -389,7 +389,7 @@ namespace ZoneEngine.PacketHandlers
                         // if positive
 
                         TeamClass Team = new TeamClass();
-                        uint TeamID = Team.GenerateNewTeamID(client, m_ident);
+                        uint TeamID = Team.GenerateNewTeamId(client, m_ident);
 
                         // Destination Client 0 = Sender, 1 = Reciever
 
@@ -397,26 +397,26 @@ namespace ZoneEngine.PacketHandlers
                         ///////////////////
 
                         // CharAction 15
-                        Team.TRRCA15(client, m_ident);
+                        Team.TeamRequestReply(client, m_ident);
                         // CharAction 23
-                        Team.TRRCA23(client, m_ident);
+                        Team.TeamRequestReplyCharacterAction23(client, m_ident);
 
                         // TeamMember Packet
-                        Team.TRPTM(1, client, m_ident, "Member1");
+                        Team.TeamReplyPacketTeamMember(1, client, m_ident, "Member1");
                         // TeamMemberInfo Packet
-                        Team.TRPTMI(1, client, m_ident);
+                        Team.TeamReplyPacketTeamMemberInfo(1, client, m_ident);
                         // TeamMember Packet
-                        Team.TRPTM(1, client, m_ident, "Member2");
+                        Team.TeamReplyPacketTeamMember(1, client, m_ident, "Member2");
 
                         // Sender Packets
                         /////////////////
 
                         // TeamMember Packet
-                        Team.TRPTM(0, client, m_ident, "Member1");
+                        Team.TeamReplyPacketTeamMember(0, client, m_ident, "Member1");
                         // TeamMemberInfo Packet
-                        Team.TRPTMI(0, client, m_ident);
+                        Team.TeamReplyPacketTeamMemberInfo(0, client, m_ident);
                         // TeamMember Packet
-                        Team.TRPTM(0, client, m_ident, "Member2");
+                        Team.TeamReplyPacketTeamMember(0, client, m_ident, "Member2");
                     }
                     break;
                     #endregion
@@ -532,7 +532,7 @@ namespace ZoneEngine.PacketHandlers
                     {
                         client.Character.Stats.VisualFlags.Set(unknown3);
                         // client.SendChatText("Setting Visual Flag to "+unknown3.ToString());
-                        AppearanceUpdate.Appearance_Update(client.Character);
+                        AppearanceUpdate.AnnounceAppearanceUpdate(client.Character);
                         break;
                     }
                     #endregion

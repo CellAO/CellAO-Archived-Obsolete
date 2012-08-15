@@ -28,160 +28,160 @@ namespace ZoneEngine.Packets
 
     public static class TradeskillPacket
     {
-        public static void SendResult(Character ch, int min, int max, int low, int high)
+        public static void SendResult(Character character, int min, int max, int low, int high)
         {
-            PacketWriter packet = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            packet.PushByte(0xdf);
-            packet.PushByte(0xdf);
-            packet.PushShort(0xa);
-            packet.PushShort(1);
-            packet.PushShort(0);
-            packet.PushInt(3086);
-            packet.PushInt(ch.ID);
-            packet.PushInt(0x5E477770);
-            packet.PushIdentity(50000, ch.ID);
-            packet.PushByte(0);
-            packet.PushInt(0xE4);
-            packet.PushInt(0);
-            packet.PushInt(max);
-            packet.PushInt(high);
-            packet.PushInt(min);
-            packet.PushInt(low);
-            packet.PushByte(0);
-            packet.PushByte(0);
-            byte[] pack = packet.Finish();
-            ch.client.SendCompressed(pack);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(0x5E477770);
+            packetWriter.PushIdentity(50000, character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xE4);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(max);
+            packetWriter.PushInt(high);
+            packetWriter.PushInt(min);
+            packetWriter.PushInt(low);
+            packetWriter.PushByte(0);
+            packetWriter.PushByte(0);
+            byte[] pack = packetWriter.Finish();
+            character.client.SendCompressed(pack);
         }
 
-        public static void SendRequirement(Character ch, Tradeskill.SkillInfo skill)
+        public static void SendRequirement(Character character, Tradeskill.SkillInfo skillInfo)
         {
-            PacketWriter packet = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            packet.PushByte(0xdf);
-            packet.PushByte(0xdf);
-            packet.PushShort(0xa);
-            packet.PushShort(1);
-            packet.PushShort(0);
-            packet.PushInt(3086);
-            packet.PushInt(ch.ID);
-            packet.PushInt(0x5E477770);
-            packet.PushIdentity(50000, ch.ID);
-            packet.PushByte(0);
-            packet.PushInt(0xE3);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(skill.Skill);
-            packet.PushInt(skill.Requirement);
-            packet.PushByte(0);
-            packet.PushByte(0);
-            byte[] pack = packet.Finish();
-            ch.client.SendCompressed(pack);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(0x5E477770);
+            packetWriter.PushIdentity(50000, character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xE3);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(skillInfo.Skill);
+            packetWriter.PushInt(skillInfo.Requirement);
+            packetWriter.PushByte(0);
+            packetWriter.PushByte(0);
+            byte[] packet = packetWriter.Finish();
+            character.client.SendCompressed(packet);
         }
 
-        public static void SendSource(Character ch, int count)
+        public static void SendSource(Character character, int count)
         {
-            PacketWriter packet = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            packet.PushByte(0xdf);
-            packet.PushByte(0xdf);
-            packet.PushShort(0xa);
-            packet.PushShort(1);
-            packet.PushShort(0);
-            packet.PushInt(3086);
-            packet.PushInt(ch.ID);
-            packet.PushInt(0x5E477770);
-            packet.PushIdentity(50000, ch.ID);
-            packet.PushByte(0);
-            packet.PushInt(0xdf);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(count);
-            packet.PushByte(0);
-            packet.PushByte(0);
-            byte[] pack = packet.Finish();
-            ch.client.SendCompressed(pack);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(0x5E477770);
+            packetWriter.PushIdentity(50000, character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xdf);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(count);
+            packetWriter.PushByte(0);
+            packetWriter.PushByte(0);
+            byte[] packet = packetWriter.Finish();
+            character.client.SendCompressed(packet);
         }
 
-        public static void SendTarget(Character ch, int count)
+        public static void SendTarget(Character character, int count)
         {
-            PacketWriter packet = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            packet.PushByte(0xdf);
-            packet.PushByte(0xdf);
-            packet.PushShort(0xa);
-            packet.PushShort(1);
-            packet.PushShort(0);
-            packet.PushInt(3086);
-            packet.PushInt(ch.ID);
-            packet.PushInt(0x5E477770);
-            packet.PushIdentity(50000, ch.ID);
-            packet.PushByte(0);
-            packet.PushInt(0xE0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(count);
-            packet.PushByte(0);
-            packet.PushByte(0);
-            byte[] pack = packet.Finish();
-            ch.client.SendCompressed(pack);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(0x5E477770);
+            packetWriter.PushIdentity(50000, character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xE0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(count);
+            packetWriter.PushByte(0);
+            packetWriter.PushByte(0);
+            byte[] packet = packetWriter.Finish();
+            character.client.SendCompressed(packet);
         }
 
-        public static void SendOutOfRange(Character ch, int min)
+        public static void SendOutOfRange(Character character, int min)
         {
-            PacketWriter packet = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            packet.PushByte(0xdf);
-            packet.PushByte(0xdf);
-            packet.PushShort(0xa);
-            packet.PushShort(1);
-            packet.PushShort(0);
-            packet.PushInt(3086);
-            packet.PushInt(ch.ID);
-            packet.PushInt(0x5E477770);
-            packet.PushIdentity(50000, ch.ID);
-            packet.PushByte(0);
-            packet.PushInt(0xE2);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(min);
-            packet.PushByte(0);
-            packet.PushByte(0);
-            byte[] pack = packet.Finish();
-            ch.client.SendCompressed(pack);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(0x5E477770);
+            packetWriter.PushIdentity(50000, character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xE2);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(min);
+            packetWriter.PushByte(0);
+            packetWriter.PushByte(0);
+            byte[] packet = packetWriter.Finish();
+            character.client.SendCompressed(packet);
         }
 
-        public static void SendNotTradeskill(Character ch)
+        public static void SendNotTradeskill(Character character)
         {
-            PacketWriter packet = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            packet.PushByte(0xdf);
-            packet.PushByte(0xdf);
-            packet.PushShort(0xa);
-            packet.PushShort(1);
-            packet.PushShort(0);
-            packet.PushInt(3086);
-            packet.PushInt(ch.ID);
-            packet.PushInt(0x5E477770);
-            packet.PushIdentity(50000, ch.ID);
-            packet.PushByte(0);
-            packet.PushInt(0xE1);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushInt(0);
-            packet.PushByte(0);
-            packet.PushByte(0);
-            byte[] pack = packet.Finish();
-            ch.client.SendCompressed(pack);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(0x5E477770);
+            packetWriter.PushIdentity(50000, character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xE1);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushByte(0);
+            packetWriter.PushByte(0);
+            byte[] packet = packetWriter.Finish();
+            character.client.SendCompressed(packet);
         }
     }
 }

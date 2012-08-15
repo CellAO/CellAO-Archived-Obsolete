@@ -22,38 +22,34 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     public class AddTemplate
     {
-        public static void Send(Client cli, InventoryEntries ie)
+        public static void Send(Client client, InventoryEntries inventoryEntry)
         {
-            PacketWriter pw = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            pw.PushByte(0xdf);
-            pw.PushByte(0xdf);
-            pw.PushShort(0xa);
-            pw.PushShort(1);
-            pw.PushShort(0);
-            pw.PushInt(3086);
-            pw.PushInt(cli.Character.ID);
-            pw.PushInt(0x052e2f0c);
-            pw.PushIdentity(cli.Character.Type, cli.Character.ID);
-            pw.PushByte(0);
-            pw.PushInt(ie.Item.lowID);
-            pw.PushInt(ie.Item.highID);
-            pw.PushInt(ie.Item.Quality);
-            pw.PushInt(ie.Item.multiplecount);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x052e2f0c);
+            packetWriter.PushIdentity(client.Character.Type, client.Character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(inventoryEntry.Item.lowID);
+            packetWriter.PushInt(inventoryEntry.Item.highID);
+            packetWriter.PushInt(inventoryEntry.Item.Quality);
+            packetWriter.PushInt(inventoryEntry.Item.multiplecount);
 
-            byte[] packet = pw.Finish();
+            byte[] packet = packetWriter.Finish();
 
-            cli.SendCompressed(packet);
+            client.SendCompressed(packet);
         }
     }
 }

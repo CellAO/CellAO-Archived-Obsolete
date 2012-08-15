@@ -32,14 +32,14 @@ namespace ZoneEngine.Misc
 
     using AO.Core;
 
-    public class Stat_NanoInterval : ClassStat
+    public class StatHealInterval : ClassStat
     {
-        public Stat_NanoInterval(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatHealInterval(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefault;
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
@@ -49,34 +49,40 @@ namespace ZoneEngine.Misc
         {
             if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass))
             {
-                Character ch = (Character)this.Parent;
+                Character character = (Character)this.Parent;
 
                 // calculating Nano and Heal Delta and interval
-                int nanointerval = 28
-                                   - (Math.Min((int)Math.Floor(Convert.ToDouble(ch.Stats.Psychic.Value) / 60), 13) * 2);
-                ch.Stats.NanoInterval.StatBaseValue = (uint)nanointerval; // Healinterval
+                int healinterval = 29 - Math.Min(character.Stats.Stamina.Value / 30, 27);
 
-                ch.PurgeTimer(1);
-                AOTimers at = new AOTimers();
-                at.Strain = 1;
+                character.Stats.HealInterval.StatBaseValue = (uint)healinterval; // Healinterval
 
-                int nd = ch.Stats.NanoDelta.Value;
-                if (ch.moveMode == Character.MoveMode.Sit)
+                character.PurgeTimer(0);
+                AOFunctions aof = new AOFunctions();
+                character.AddTimer(0, DateTime.Now + TimeSpan.FromSeconds(healinterval * 1000), aof, true);
+
+                int sitBonusInterval = 0;
+                int healDelta = character.Stats.HealDelta.Value;
+                if (character.moveMode == Character.MoveMode.Sit)
                 {
-                    int nd2 = nd >> 1;
-                    nd = nd + nd2;
+                    sitBonusInterval = 1000;
+                    int healDelta2 = healDelta >> 1;
+                    healDelta = healDelta + healDelta2;
                 }
 
-                at.Timestamp = DateTime.Now + TimeSpan.FromSeconds(ch.Stats.NanoInterval.Value);
+                character.PurgeTimer(0);
+                AOTimers at = new AOTimers();
+                at.Strain = 0;
+                at.Timestamp = DateTime.Now
+                               + TimeSpan.FromMilliseconds(character.Stats.HealInterval.Value * 1000 - sitBonusInterval);
                 at.Function.Target = this.Parent.ID; // changed from ItemHandler.itemtarget_self;
                 at.Function.TickCount = -2;
-                at.Function.TickInterval = (uint)(ch.Stats.NanoInterval.Value * 1000);
+                at.Function.TickInterval = (uint)(character.Stats.HealInterval.Value * 1000 - sitBonusInterval);
                 at.Function.FunctionType = Constants.functiontype_hit;
-                at.Function.Arguments.Add(214);
-                at.Function.Arguments.Add(nd);
-                at.Function.Arguments.Add(nd);
+                at.Function.Arguments.Add(27);
+                at.Function.Arguments.Add(healDelta);
+                at.Function.Arguments.Add(healDelta);
                 at.Function.Arguments.Add(0);
-                ch.Timers.Add(at);
+                character.Timers.Add(at);
 
                 if (!this.Parent.startup)
                 {

@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
@@ -44,45 +40,45 @@ namespace ZoneEngine.Packets
         /// <param name="client"></param>
         public static void Send(Client client)
         {
-            PacketWriter writer = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            writer.PushBytes(new byte[] { 0xDF, 0xDF });
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(client.Character.ID);
-            writer.PushInt(0x5F4B1A39);
-            writer.PushIdentity(40016, client.Character.PlayField);
-            writer.PushByte(0);
+            packetWriter.PushBytes(new byte[] { 0xDF, 0xDF });
+            packetWriter.PushShort(10);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x5F4B1A39);
+            packetWriter.PushIdentity(40016, client.Character.PlayField);
+            packetWriter.PushByte(0);
 
-            writer.PushInt(4);
-            writer.PushCoord(client.Character.Coordinates);
-            writer.PushByte(97);
-            writer.PushIdentity(51100, client.Character.PlayField);
-            writer.PushInt(0);
-            writer.PushInt(0);
-            writer.PushIdentity(40016, client.Character.PlayField);
-            writer.PushInt(0);
-            writer.PushInt(0);
+            packetWriter.PushInt(4);
+            packetWriter.PushCoord(client.Character.Coordinates);
+            packetWriter.PushByte(97);
+            packetWriter.PushIdentity(51100, client.Character.PlayField);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushIdentity(40016, client.Character.PlayField);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
 
             int vendorcount = VendorHandler.GetNumberofVendorsinPlayfield(client.Character.PlayField);
             if (vendorcount > 0)
             {
-                writer.PushInt(51035);
-                writer.PushInt(1);
-                writer.PushInt(1);
-                writer.PushInt(vendorcount);
-                writer.PushInt(VendorHandler.GetFirstVendor(client.Character.PlayField));
+                packetWriter.PushInt(51035);
+                packetWriter.PushInt(1);
+                packetWriter.PushInt(1);
+                packetWriter.PushInt(vendorcount);
+                packetWriter.PushInt(VendorHandler.GetFirstVendor(client.Character.PlayField));
             }
             // TODO: Use correct World Position for each "outdoors" playfield -Suiv-
             // Playfield WorldPos X
-            writer.PushInt(Playfields.GetPlayfieldX(client.Character.PlayField));
+            packetWriter.PushInt(Playfields.GetPlayfieldX(client.Character.PlayField));
             // Playfield WorldPos Z
-            writer.PushInt(Playfields.GetPlayfieldZ(client.Character.PlayField));
+            packetWriter.PushInt(Playfields.GetPlayfieldZ(client.Character.PlayField));
 
-            byte[] reply = writer.Finish();
-            client.SendCompressed(reply);
+            byte[] packet = packetWriter.Finish();
+            client.SendCompressed(packet);
         }
     }
 }

@@ -22,44 +22,62 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Misc
 {
-    using System;
-
-    public class Stat_AlienNextXP : ClassStat
+    public class StatTitleLevel : ClassStat
     {
-        public Stat_AlienNextXP(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatTitleLevel(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefault;
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
         }
 
-        public override int Value
-        {
-            get
-            {
-                int level = ((Character)this.Parent).Stats.AlienLevel.Value;
-                return Convert.ToInt32(Program.zoneServer.XPproLevel.tableAIXP[level, 2]);
-            }
-            set
-            {
-                Set(value);
-            }
-        }
-
         public override void CalcTrickle()
         {
-            base.CalcTrickle();
-            this.Set(this.Value);
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
+            {
+                Character character = (Character)this.Parent;
+                int level = character.Stats.Level.Value;
+
+                if (level >= 205)
+                {
+                    this.Set(7);
+                }
+                else if (level >= 190)
+                {
+                    this.Set(6);
+                }
+                else if (level >= 150)
+                {
+                    this.Set(5);
+                }
+                else if (level >= 100)
+                {
+                    this.Set(4);
+                }
+                else if (level >= 50)
+                {
+                    this.Set(3);
+                }
+                else if (level >= 15)
+                {
+                    this.Set(2);
+                }
+                else
+                {
+                    this.Set(1);
+                }
+
+                if (!this.Parent.startup)
+                {
+                    this.AffectStats();
+                }
+            }
         }
     }
 }

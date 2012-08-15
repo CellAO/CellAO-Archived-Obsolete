@@ -22,38 +22,34 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     public class ShopInventory
     {
-        public static void Send(Client client, VendingMachine vm)
+        public static void Send(Client client, VendingMachine vendingMachine)
         {
-            PacketWriter pw = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            pw.PushByte(0xdf);
-            pw.PushByte(0xdf);
-            pw.PushShort(0xa);
-            pw.PushShort(1);
-            pw.PushShort(0);
-            pw.PushInt(3086);
-            pw.PushInt(client.Character.ID);
-            pw.PushInt(0x58362220);
-            pw.PushIdentity(vm.Type, vm.ID);
-            pw.PushByte(1);
-            pw.Push3F1Count(vm.Inventory.Count);
-            foreach (InventoryEntries ie in vm.Inventory)
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x58362220);
+            packetWriter.PushIdentity(vendingMachine.Type, vendingMachine.ID);
+            packetWriter.PushByte(1);
+            packetWriter.Push3F1Count(vendingMachine.Inventory.Count);
+            foreach (InventoryEntries ie in vendingMachine.Inventory)
             {
-                pw.PushInt(ie.Item.lowID);
-                pw.PushInt(ie.Item.highID);
-                pw.PushInt(ie.Item.Quality);
+                packetWriter.PushInt(ie.Item.lowID);
+                packetWriter.PushInt(ie.Item.highID);
+                packetWriter.PushInt(ie.Item.Quality);
             }
-            byte[] packet = pw.Finish();
+            byte[] packet = packetWriter.Finish();
             client.SendCompressed(packet);
         }
     }

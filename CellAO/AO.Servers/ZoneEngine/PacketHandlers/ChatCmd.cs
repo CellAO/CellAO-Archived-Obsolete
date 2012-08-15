@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.PacketHandlers
 {
     using AO.Core;
@@ -66,12 +62,12 @@ namespace ZoneEngine.PacketHandlers
         }
 
         #region Checks (These are bools to check if Item is already in Placement or if Nano is already uploaded)
-        public static bool HasNano(int nanoID, Client m_client)
+        public static bool HasNano(int nanoId, Client client)
         {
             bool found = false;
-            foreach (AOUploadedNanos au in m_client.Character.UploadedNanos)
+            foreach (AOUploadedNanos au in client.Character.UploadedNanos)
             {
-                if (au.Nano != nanoID)
+                if (au.Nano != nanoId)
                 {
                     continue;
                 }
@@ -81,9 +77,9 @@ namespace ZoneEngine.PacketHandlers
             return found;
         }
 
-        public static bool ItemExists(int Placement, Client m_client)
+        public static bool ItemExists(int placement, Client client)
         {
-            return (m_client.Character.getInventoryAt(Placement) != null);
+            return (client.Character.getInventoryAt(placement) != null);
         }
         #endregion
     }

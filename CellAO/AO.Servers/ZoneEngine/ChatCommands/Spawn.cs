@@ -31,7 +31,6 @@ namespace ZoneEngine.ChatCommands
     using AO.Core;
 
     using ZoneEngine.NonPlayerCharacter;
-    using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Script;
 
     /// <summary>
@@ -77,7 +76,8 @@ namespace ZoneEngine.ChatCommands
                     }
 
                     SqlWrapper sql = new SqlWrapper();
-                    DataTable dt = sql.ReadDatatable("SELECT Hash, Name FROM mobtemplate " + filter + " order by Name ASC");
+                    DataTable dt =
+                        sql.ReadDatatable("SELECT Hash, Name FROM mobtemplate " + filter + " order by Name ASC");
                     client.SendChatText("List of mobtemplates: ");
                     foreach (DataRow row in dt.Rows)
                     {

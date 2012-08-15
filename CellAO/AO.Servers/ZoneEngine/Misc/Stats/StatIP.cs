@@ -22,19 +22,20 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-#endregion
-
 namespace ZoneEngine.Misc
 {
-    public class Stat_TitleLevel : ClassStat
-    {
-        public Stat_TitleLevel(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
-        {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+    using System;
 
-            this.Value = (int)this.StatDefault;
+    using ZoneEngine.PacketHandlers;
+
+    public class StatIP : ClassStat
+    {
+        public StatIP(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        {
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
+
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
@@ -45,36 +46,45 @@ namespace ZoneEngine.Misc
             if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
                 Character ch = (Character)this.Parent;
-                int level = ch.Stats.Level.Value;
+                int baseIP = 0;
+                int characterLevel;
 
-                if (level >= 205)
+                characterLevel = (Int32)ch.Stats.Level.StatBaseValue;
+
+                // Calculate base IP value for character level
+                if (characterLevel > 204)
                 {
-                    this.Set(7);
+                    baseIP += (characterLevel - 204) * 600000;
+                    characterLevel = 204;
                 }
-                else if (level >= 190)
+                if (characterLevel > 189)
                 {
-                    this.Set(6);
+                    baseIP += (characterLevel - 189) * 150000;
+                    characterLevel = 189;
                 }
-                else if (level >= 150)
+                if (characterLevel > 149)
                 {
-                    this.Set(5);
+                    baseIP += (characterLevel - 149) * 80000;
+                    characterLevel = 149;
                 }
-                else if (level >= 100)
+                if (characterLevel > 99)
                 {
-                    this.Set(4);
+                    baseIP += (characterLevel - 99) * 40000;
+                    characterLevel = 99;
                 }
-                else if (level >= 50)
+                if (characterLevel > 49)
                 {
-                    this.Set(3);
+                    baseIP += (characterLevel - 49) * 20000;
+                    characterLevel = 49;
                 }
-                else if (level >= 15)
+                if (characterLevel > 14)
                 {
-                    this.Set(2);
+                    baseIP += (characterLevel - 14) * 10000; // Change 99 => 14 by Wizard
+                    characterLevel = 14;
                 }
-                else
-                {
-                    this.Set(1);
-                }
+                baseIP += 1500 + (characterLevel - 1) * 4000;
+
+                this.Set(baseIP - Convert.ToInt32(SkillUpdate.CalculateIP(ch.client)));
 
                 if (!this.Parent.startup)
                 {

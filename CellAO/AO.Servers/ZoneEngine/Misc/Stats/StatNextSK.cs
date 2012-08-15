@@ -30,27 +30,40 @@ namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_HP : ClassStat
+    public class StatNextSK : ClassStat
     {
-        public Stat_HP(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatNextSK(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefault;
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
-            this.AnnounceToPlayfield = true;
+            this.AnnounceToPlayfield = false;
         }
 
-        public override uint GetMaxValue(uint val)
+        public override int Value
         {
-            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass))
+            get
             {
-                Character c = (Character)this.Parent;
-                return (uint)(Math.Min(val, c.Stats.Life.Value));
+                int level = ((Character)this.Parent).Stats.Level.Value;
+                if (level < 200)
+                {
+                    return 0;
+                }
+                return Convert.ToInt32(Program.zoneServer.XPproLevel.tableSLSK[level - 200, 2]);
             }
-            return base.GetMaxValue(val);
+            set
+            {
+                Set(value);
+            }
+        }
+
+        public override void CalcTrickle()
+        {
+            base.CalcTrickle();
+            this.Set(this.Value);
         }
     }
 }

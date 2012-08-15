@@ -22,17 +22,13 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     public class KnuBotAnswerList
     {
-        public static void Send(Client cli, NonPlayerCharacterClass KnuBottarget, string[] choices)
+        public static void Send(Client cli, NonPlayerCharacterClass knubotTarget, string[] choices)
         {
             PacketWriter pw = new PacketWriter();
 
@@ -47,7 +43,7 @@ namespace ZoneEngine.Packets
             pw.PushIdentity(cli.Character.Type, cli.Character.ID);
             pw.PushByte(0);
             pw.PushShort(2);
-            pw.PushIdentity(KnuBottarget.Type, KnuBottarget.ID);
+            pw.PushIdentity(knubotTarget.Type, knubotTarget.ID);
             pw.PushInt(choices.Length);
             foreach (string choice in choices)
             {

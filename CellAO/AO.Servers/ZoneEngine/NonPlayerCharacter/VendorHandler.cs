@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings
-
-#endregion
-
 namespace ZoneEngine.NonPlayerCharacter
 {
     using System;
@@ -36,7 +32,7 @@ namespace ZoneEngine.NonPlayerCharacter
 
     using ZoneEngine.Packets;
 
-    public class VendorHandler
+    public static class VendorHandler
     {
         #region get next free vendor ID
         // TODO: Move this function somewhere else, where it can be static without being inside a non-static object class 

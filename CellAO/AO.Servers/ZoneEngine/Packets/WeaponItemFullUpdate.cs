@@ -42,7 +42,7 @@ namespace ZoneEngine.Packets
             }
         }
 
-        public static void SendOwner(Client cl, Character ch)
+        public static void SendOwner(Client client, Character character)
         {
             // ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
             // ## Weapon Item Full Update - Test ## Do Not attempt to send this packet until all values have been Verified ##
@@ -51,58 +51,58 @@ namespace ZoneEngine.Packets
             // notes: one packet has to be sent for each hand!!!!!!! (more for each weapon, see below)
             // Packet only sent when Weapons are in Posession or being equipped the first time
 
-            PacketWriter PW = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            PW.PushByte(0xDF); // starter
-            PW.PushByte(0xDF); // starter
-            PW.PushShort(0xA);
-            PW.PushShort(0x1);
-            PW.PushShort(0); // Length
-            PW.PushInt(3086); // Sender
-            PW.PushInt(ch.ID); // Reciever
-            PW.PushInt(0x3B1D2268); // Packet ID
-            PW.PushInt(0xC74A); // Type Weapon (always instanced)
-            PW.PushInt(0x45AEE789);
+            packetWriter.PushByte(0xDF); // starter
+            packetWriter.PushByte(0xDF); // starter
+            packetWriter.PushShort(0xA);
+            packetWriter.PushShort(0x1);
+            packetWriter.PushShort(0); // Length
+            packetWriter.PushInt(3086); // Sender
+            packetWriter.PushInt(character.ID); // Reciever
+            packetWriter.PushInt(0x3B1D2268); // Packet ID
+            packetWriter.PushInt(0xC74A); // Type Weapon (always instanced)
+            packetWriter.PushInt(0x45AEE789);
             // Instance of Weapon, hardcoding this causes a crash if you want to equip more than one weapon
-            PW.PushByte(0);
-            PW.PushInt(0xB);
-            PW.PushInt(ch.Type);
-            PW.PushInt(ch.ID); // Reciever
-            PW.PushInt(0xC0A);
-            PW.PushInt(0xF424F); // constant
-            PW.PushShort(0);
-            PW.PushInt(0x6); // Placement/Location Maybe?
-            PW.PushInt(0x1F88); // Another Constant
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xB);
+            packetWriter.PushInt(character.Type);
+            packetWriter.PushInt(character.ID); // Reciever
+            packetWriter.PushInt(0xC0A);
+            packetWriter.PushInt(0xF424F); // constant
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(0x6); // Placement/Location Maybe?
+            packetWriter.PushInt(0x1F88); // Another Constant
 
             // Stat 1
-            PW.PushInt(0); // constant Flags
-            PW.PushUInt(0x403); // Item Flag
+            packetWriter.PushInt(0); // constant Flags
+            packetWriter.PushUInt(0x403); // Item Flag
             // Stat 2
-            PW.PushInt(0x17); // constant Static Instance?
-            PW.PushInt(0x1e6d0); // Weapon ITEM ID
+            packetWriter.PushInt(0x17); // constant Static Instance?
+            packetWriter.PushInt(0x1e6d0); // Weapon ITEM ID
             // Stat 3
-            PW.PushInt(0x2BD); //constant ACG Item Level
-            PW.PushInt(0x5); // Quality-Level
+            packetWriter.PushInt(0x2BD); //constant ACG Item Level
+            packetWriter.PushInt(0x5); // Quality-Level
             // Stat 4
-            PW.PushInt(0x2BE); // constant ACGItemTemplateID
-            PW.PushInt(0x1e6d0); // Weapon ITEM ID (low ID)
+            packetWriter.PushInt(0x2BE); // constant ACGItemTemplateID
+            packetWriter.PushInt(0x1e6d0); // Weapon ITEM ID (low ID)
             // Stat 5
-            PW.PushInt(0x2BF); // constant ACGItemTemplateID2
-            PW.PushInt(0x1e6d1); // High ID
+            packetWriter.PushInt(0x2BF); // constant ACGItemTemplateID2
+            packetWriter.PushInt(0x1e6d1); // High ID
             // Stat 6
-            PW.PushInt(0x19C); // Constant MultipleCount
-            PW.PushInt(0x1); // Amount
+            packetWriter.PushInt(0x19C); // Constant MultipleCount
+            packetWriter.PushInt(0x1); // Amount
             // Stat 7
-            PW.PushInt(0x1A); // Constant Energy
-            PW.PushUInt(0x28); // Ammo
+            packetWriter.PushInt(0x1A); // Constant Energy
+            packetWriter.PushUInt(0x28); // Ammo
             // End
-            PW.PushInt(0); // Empty fill
+            packetWriter.PushInt(0); // Empty fill
 
-            byte[] reply2 = PW.Finish();
-            cl.SendCompressed(reply2);
+            byte[] packet = packetWriter.Finish();
+            client.SendCompressed(packet);
         }
 
-        public static void SendPlayfield(Client cl, Character ch)
+        public static void SendPlayfield(Client client, Character character)
         {
             // ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
             // ## Weapon Item Full Update - Test ## Do Not attempt to send this packet until all values have been Verified ##
@@ -111,54 +111,54 @@ namespace ZoneEngine.Packets
             // notes: one packet has to be sent for each hand!!!!!!!
             // Packet only sent when Weapons are in Posession!
 
-            PacketWriter PW = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            PW.PushByte(0xDF); // starter
-            PW.PushByte(0xDF); // starter
-            PW.PushShort(0xA);
-            PW.PushShort(0x1);
-            PW.PushShort(0); // Length
-            PW.PushInt(3086); // Sender
-            PW.PushInt(ch.ID); // Reciever
-            PW.PushInt(0x3B1D2268); // Packet ID
-            PW.PushInt(0xC74A); // .... Weapon maybe?
-            PW.PushInt(0x45AEE789); // ID
-            PW.PushByte(0);
-            PW.PushInt(0xB);
-            PW.PushInt(0xC350);
-            PW.PushInt(ch.ID); // Reciever
-            PW.PushInt(0xC0A);
-            PW.PushInt(0xF424F); // constant
-            PW.PushShort(0);
-            PW.PushInt(0x6); // Placement/Location Maybe?
-            PW.PushInt(0x1F88); // Another Constant
+            packetWriter.PushByte(0xDF); // starter
+            packetWriter.PushByte(0xDF); // starter
+            packetWriter.PushShort(0xA);
+            packetWriter.PushShort(0x1);
+            packetWriter.PushShort(0); // Length
+            packetWriter.PushInt(3086); // Sender
+            packetWriter.PushInt(character.ID); // Reciever
+            packetWriter.PushInt(0x3B1D2268); // Packet ID
+            packetWriter.PushInt(0xC74A); // .... Weapon maybe?
+            packetWriter.PushInt(0x45AEE789); // ID
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xB);
+            packetWriter.PushInt(0xC350);
+            packetWriter.PushInt(character.ID); // Reciever
+            packetWriter.PushInt(0xC0A);
+            packetWriter.PushInt(0xF424F); // constant
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(0x6); // Placement/Location Maybe?
+            packetWriter.PushInt(0x1F88); // Another Constant
 
             // Stat 1
-            PW.PushInt(0); // constant Flags
-            PW.PushUInt(0x403); // Item Flag
+            packetWriter.PushInt(0); // constant Flags
+            packetWriter.PushUInt(0x403); // Item Flag
             // Stat 2
-            PW.PushInt(0x17); // constant Static Instance?
-            PW.PushInt(0x1e6d0); // Weapon ITEM ID
+            packetWriter.PushInt(0x17); // constant Static Instance?
+            packetWriter.PushInt(0x1e6d0); // Weapon ITEM ID
             // Stat 3
-            PW.PushInt(0x2BD); //constant ACG Item Level
-            PW.PushInt(0x5); // Quality-Level
+            packetWriter.PushInt(0x2BD); //constant ACG Item Level
+            packetWriter.PushInt(0x5); // Quality-Level
             // Stat 4
-            PW.PushInt(0x2BE); // constant ACGItemTemplateID
-            PW.PushInt(0x1e6d0); // Weapon ITEM ID (low ID)
+            packetWriter.PushInt(0x2BE); // constant ACGItemTemplateID
+            packetWriter.PushInt(0x1e6d0); // Weapon ITEM ID (low ID)
             // Stat 5
-            PW.PushInt(0x2BF); // constant ACGItemTemplateID2
-            PW.PushInt(0x1e6d1); // High ID
+            packetWriter.PushInt(0x2BF); // constant ACGItemTemplateID2
+            packetWriter.PushInt(0x1e6d1); // High ID
             // Stat 6
-            PW.PushInt(0x19C); // Constant MultipleCount
-            PW.PushInt(0x1); // Amount
+            packetWriter.PushInt(0x19C); // Constant MultipleCount
+            packetWriter.PushInt(0x1); // Amount
             // Stat 7
-            PW.PushInt(0x1A); // Constant Energy
-            PW.PushUInt(0x28); // Ammo
+            packetWriter.PushInt(0x1A); // Constant Energy
+            packetWriter.PushUInt(0x28); // Ammo
             // End
-            PW.PushInt(0); // Empty fill
+            packetWriter.PushInt(0); // Empty fill
 
-            byte[] reply = PW.Finish();
-            cl.SendCompressed(reply);
+            byte[] packet = packetWriter.Finish();
+            client.SendCompressed(packet);
         }
     }
 }

@@ -22,41 +22,37 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     public class UploadNanoupdate
     {
-        public static void Send(Character ch, int _type, int _id)
+        public static void Send(Character character, int type, int id)
         {
-            PacketWriter packet = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            packet.PushByte(0xdf);
-            packet.PushByte(0xdf);
-            packet.PushShort(0xa);
-            packet.PushShort(1);
-            packet.PushShort(0);
-            packet.PushInt(3086);
-            packet.PushInt(ch.ID);
-            packet.PushInt(0x5e477770);
-            packet.PushInt(50000);
-            packet.PushInt(ch.ID);
-            packet.PushByte(0);
-            packet.PushInt(0xcc);
-            packet.PushInt(0);
-            packet.PushInt(50000);
-            packet.PushInt(ch.ID);
-            packet.PushInt(_type);
-            packet.PushInt(_id);
-            packet.PushShort(0);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(0x5e477770);
+            packetWriter.PushInt(50000);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xcc);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(50000);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(type);
+            packetWriter.PushInt(id);
+            packetWriter.PushShort(0);
 
-            byte[] pack = packet.Finish();
-            ch.client.SendCompressed(pack);
+            byte[] packet = packetWriter.Finish();
+            character.client.SendCompressed(packet);
         }
     }
 }

@@ -266,7 +266,7 @@
     <Compile Include="Misc\Stats\Stat_NanoInterval.cs" />
     <Compile Include="Misc\Stats\Stat_NextSK.cs" />
     <Compile Include="Misc\Stats\Stat_NextXP.cs" />
-    <Compile Include="Misc\Stats\Stat_NP.cs" />
+    <Compile Include="Misc\Stats\StatNanoPoints.cs" />
     <Compile Include="Misc\Stats\Stat_Skill.cs" />
     <Compile Include="Misc\Stats\Stat_TitleLevel.cs" />
     <Compile Include="Misc\Stats\Stat_WeaponsStyle.cs" />

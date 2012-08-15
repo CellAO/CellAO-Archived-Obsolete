@@ -22,19 +22,16 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-#endregion
-
 namespace ZoneEngine.Misc
 {
-    public class Stat_Nano : ClassStat
+    public class StatNano : ClassStat
     {
-        public Stat_Nano(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatNano(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefault;
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
@@ -43,7 +40,7 @@ namespace ZoneEngine.Misc
         public override void CalcTrickle()
         {
             #region table
-            int[,] TableProfNP =
+            int[,] tableProfessionNanoPoints =
                 {
                     //Sol|MA|ENG|FIX|AGE|ADV|TRA|CRA|ENF|DOC| NT| MP|KEP|SHA  // geprüfte Prof & TL = Soldier, Martial Artist, Engineer, Fixer, Agent, Advy, Trader, Doc
                     { 4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4 }, //TitleLevel 1
@@ -55,22 +52,22 @@ namespace ZoneEngine.Misc
                     { 5, 5, 10, 5, 8, 8, 8, 8, 5, 11, 11, 11, 5, 7 }, //TitleLevel 7
                 };
             //Sol|Opi|Nan|Tro
-            int[] BreedBaseNP = { 10, 10, 15, 8, 10, 10, 10 };
-            int[] BreedMultiNP = { 3, 3, 4, 2, 3, 3, 3 };
-            int[] BreedModiNP = { 0, -1, 1, -2, 0, 0, 0 };
+            int[] breedBaseNanoPoints = { 10, 10, 15, 8, 10, 10, 10 };
+            int[] breedMultiplicatorNanoPoints = { 3, 3, 4, 2, 3, 3, 3 };
+            int[] breedModificatorNanoPoints = { 0, -1, 1, -2, 0, 0, 0 };
             #endregion
 
             if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
-                Character ch = (Character)this.Parent;
-                uint breed = ch.Stats.Breed.StatBaseValue;
-                uint profession = ch.Stats.Profession.StatBaseValue;
+                Character character = (Character)this.Parent;
+                uint breed = character.Stats.Breed.StatBaseValue;
+                uint profession = character.Stats.Profession.StatBaseValue;
                 if (profession > 13)
                 {
                     profession--;
                 }
-                uint titlelevel = ch.Stats.TitleLevel.StatBaseValue;
-                uint level = ch.Stats.Level.StatBaseValue;
+                uint titleLevel = character.Stats.TitleLevel.StatBaseValue;
+                uint level = character.Stats.Level.StatBaseValue;
 
                 //BreedBaseNP+(Level*(TableProfNP+BreedModiNP))+(NanoEnergyPool*BreedMultiNP))
                 if (this.Parent is NonPlayerCharacterClass)
@@ -78,17 +75,17 @@ namespace ZoneEngine.Misc
                     // TODO: correct calculation of mob NP
                     this.Set(
                         (uint)
-                        (BreedBaseNP[breed - 1] + (ch.Stats.Level.Value * (TableProfNP[6, 8] + BreedModiNP[breed - 1]))
-                         + (ch.Stats.NanoEnergyPool.Value * BreedMultiNP[breed - 1])));
+                        (breedBaseNanoPoints[breed - 1] + (character.Stats.Level.Value * (tableProfessionNanoPoints[6, 8] + breedModificatorNanoPoints[breed - 1]))
+                         + (character.Stats.NanoEnergyPool.Value * breedMultiplicatorNanoPoints[breed - 1])));
                 }
                 else
                 {
                     this.Set(
                         (uint)
-                        (BreedBaseNP[breed - 1]
+                        (breedBaseNanoPoints[breed - 1]
                          +
-                         (ch.Stats.Level.Value * (TableProfNP[titlelevel - 1, profession - 1] + BreedModiNP[breed - 1]))
-                         + (ch.Stats.NanoEnergyPool.Value * BreedMultiNP[breed - 1])));
+                         (character.Stats.Level.Value * (tableProfessionNanoPoints[titleLevel - 1, profession - 1] + breedModificatorNanoPoints[breed - 1]))
+                         + (character.Stats.NanoEnergyPool.Value * breedMultiplicatorNanoPoints[breed - 1])));
                 }
             }
             if (!this.Parent.startup)

@@ -34,39 +34,39 @@ namespace ZoneEngine.Packets
 
     public class KnuBotOpenChatWindow
     {
-        public static void Send(Client cli, NonPlayerCharacterClass KnuBottarget)
+        public static void Send(Client cli, NonPlayerCharacterClass knubotTarget)
         {
-            PacketWriter pw = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            pw.PushByte(0xdf);
-            pw.PushByte(0xdf);
-            pw.PushShort(0xa);
-            pw.PushShort(1);
-            pw.PushShort(0);
-            pw.PushInt(3086);
-            pw.PushInt(cli.Character.ID);
-            pw.PushInt(0x3b132d64);
-            pw.PushIdentity(cli.Character.Type, cli.Character.ID);
-            pw.PushByte(0);
-            pw.PushShort(2);
-            pw.PushIdentity(KnuBottarget.Type, KnuBottarget.ID);
-            pw.PushInt(1);
-            pw.PushInt(0);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(cli.Character.ID);
+            packetWriter.PushInt(0x3b132d64);
+            packetWriter.PushIdentity(cli.Character.Type, cli.Character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushShort(2);
+            packetWriter.PushIdentity(knubotTarget.Type, knubotTarget.ID);
+            packetWriter.PushInt(1);
+            packetWriter.PushInt(0);
 
-            byte[] packet = pw.Finish();
+            byte[] packet = packetWriter.Finish();
 
             cli.SendCompressed(packet);
         }
 
         public static void Read(ref byte[] packet, Client client)
         {
-            PacketReader _reader = new PacketReader(ref packet);
+            PacketReader packetReader = new PacketReader(ref packet);
 
-            Header header = _reader.PopHeader();
-            _reader.PopByte();
-            _reader.PopShort();
-            int type = _reader.PopInt();
-            int instance = _reader.PopInt();
+            Header header = packetReader.PopHeader();
+            packetReader.PopByte();
+            packetReader.PopShort();
+            int type = packetReader.PopInt();
+            int instance = packetReader.PopInt();
             NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(type, instance);
             Character ch = FindClient.FindClientByID(header.Sender).Character;
             ch.KnuBotTarget = npc;

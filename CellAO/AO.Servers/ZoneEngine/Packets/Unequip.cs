@@ -22,75 +22,71 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     internal class Unequip
     {
-        public static void Send(Client cli, AOItem it, int page, int placement, bool fromsocial)
+        public static void Send(Client client, AOItem item, int page, int placement, bool fromSocial)
         {
             // tell the client to remove (07) the item modifiers (AC, skills and so on)
-            PacketWriter unequippacket = new PacketWriter();
-            PacketWriter action97 = new PacketWriter();
+            PacketWriter unequipPacketWriter = new PacketWriter();
+            PacketWriter action97PacketWriter = new PacketWriter();
 
             //if (placement == 6)
             switch (placement)
             {
                 case 6: // Right Hand
                     // Action 97
-                    action97.PushByte(0xdf);
-                    action97.PushByte(0xdf);
-                    action97.PushShort(0xa);
-                    action97.PushShort(0x1);
-                    action97.PushShort(0);
-                    action97.PushInt(3086);
-                    action97.PushInt(cli.Character.ID);
-                    action97.PushInt(0x5E477770);
-                    action97.PushInt(50000);
-                    action97.PushInt(cli.Character.ID);
-                    action97.PushByte(0);
-                    action97.PushInt(0x61);
-                    action97.PushInt(0);
-                    action97.PushInt(0);
-                    action97.PushInt(0);
-                    action97.PushInt(0);
-                    action97.PushInt(0x6);
-                    action97.PushShort(0);
+                    action97PacketWriter.PushByte(0xdf);
+                    action97PacketWriter.PushByte(0xdf);
+                    action97PacketWriter.PushShort(0xa);
+                    action97PacketWriter.PushShort(0x1);
+                    action97PacketWriter.PushShort(0);
+                    action97PacketWriter.PushInt(3086);
+                    action97PacketWriter.PushInt(client.Character.ID);
+                    action97PacketWriter.PushInt(0x5E477770);
+                    action97PacketWriter.PushInt(50000);
+                    action97PacketWriter.PushInt(client.Character.ID);
+                    action97PacketWriter.PushByte(0);
+                    action97PacketWriter.PushInt(0x61);
+                    action97PacketWriter.PushInt(0);
+                    action97PacketWriter.PushInt(0);
+                    action97PacketWriter.PushInt(0);
+                    action97PacketWriter.PushInt(0);
+                    action97PacketWriter.PushInt(0x6);
+                    action97PacketWriter.PushShort(0);
 
-                    byte[] ActionReply = action97.Finish();
-                    cli.SendCompressed(ActionReply);
+                    byte[] action97Reply = action97PacketWriter.Finish();
+                    client.SendCompressed(action97Reply);
 
                     break;
 
                 default:
-                    unequippacket.PushByte(0xdf);
-                    unequippacket.PushByte(0xdf);
-                    unequippacket.PushShort(0xa);
-                    unequippacket.PushShort(0x1);
-                    unequippacket.PushShort(0);
-                    unequippacket.PushInt(3086);
-                    unequippacket.PushInt(cli.Character.ID);
-                    unequippacket.PushInt(0x35505644);
-                    unequippacket.PushInt(50000);
-                    unequippacket.PushInt(cli.Character.ID);
-                    unequippacket.PushByte(0);
-                    unequippacket.PushInt(it.lowID);
-                    unequippacket.PushInt(it.highID);
-                    unequippacket.PushInt(it.Quality);
-                    unequippacket.PushInt(1);
-                    unequippacket.PushInt(7);
-                    unequippacket.PushInt(page);
-                    unequippacket.PushInt(placement);
-                    unequippacket.PushInt(0);
-                    unequippacket.PushInt(0);
+                    unequipPacketWriter.PushByte(0xdf);
+                    unequipPacketWriter.PushByte(0xdf);
+                    unequipPacketWriter.PushShort(0xa);
+                    unequipPacketWriter.PushShort(0x1);
+                    unequipPacketWriter.PushShort(0);
+                    unequipPacketWriter.PushInt(3086);
+                    unequipPacketWriter.PushInt(client.Character.ID);
+                    unequipPacketWriter.PushInt(0x35505644);
+                    unequipPacketWriter.PushInt(50000);
+                    unequipPacketWriter.PushInt(client.Character.ID);
+                    unequipPacketWriter.PushByte(0);
+                    unequipPacketWriter.PushInt(item.lowID);
+                    unequipPacketWriter.PushInt(item.highID);
+                    unequipPacketWriter.PushInt(item.Quality);
+                    unequipPacketWriter.PushInt(1);
+                    unequipPacketWriter.PushInt(7);
+                    unequipPacketWriter.PushInt(page);
+                    unequipPacketWriter.PushInt(placement);
+                    unequipPacketWriter.PushInt(0);
+                    unequipPacketWriter.PushInt(0);
 
-                    byte[] reply = unequippacket.Finish();
-                    cli.SendCompressed(reply);
+                    byte[] unequipReply = unequipPacketWriter.Finish();
+                    client.SendCompressed(unequipReply);
                     break;
             }
         }

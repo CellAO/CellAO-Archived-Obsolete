@@ -69,7 +69,7 @@ namespace ZoneEngine.Functions
             Dictionary<int, uint> statstoupdate = new Dictionary<int, uint>();
             foreach (ClassStat cs in ch.Stats.all)
             {
-                if (cs.changed)
+                if (cs.Changed)
                 {
                     if (cs.SendBaseValue)
                     {
@@ -79,7 +79,7 @@ namespace ZoneEngine.Functions
                     {
                         statstoupdate.Add(cs.StatNumber, (uint)cs.Value);
                     }
-                    cs.changed = false;
+                    cs.Changed = false;
                 }
             }
             if (ch.client == null)

@@ -443,7 +443,7 @@ namespace ZoneEngine.Collision
             foreach (FileInfo fileInfo in fiArr)
             {
                 Int32 id = Convert.ToInt32(Path.GetFileNameWithoutExtension(fileInfo.Name));
-                WallList.Add(id, this.WallsLoadXML(fileInfo.FullName));
+                WallList.Add(id, this.WallsLoadXml(fileInfo.FullName));
                 Segments.Add(id, new List<LineSegment>(WallList[id].NumWalls));
             }
         }
@@ -455,14 +455,14 @@ namespace ZoneEngine.Collision
             foreach (FileInfo fileInfo in fiArr)
             {
                 Int32 id = Convert.ToInt32(Path.GetFileNameWithoutExtension(fileInfo.Name));
-                Destinations.Add(id, this.PlayFieldsLoadXML(fileInfo.FullName));
+                Destinations.Add(id, this.PlayFieldsLoadXml(fileInfo.FullName));
             }
         }
 
         /// <summary>
         /// Load a specific PF wall set
         /// </summary>
-        public Walls WallsLoadXML(String fileName)
+        public Walls WallsLoadXml(String fileName)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Walls));
             TextReader reader = new StreamReader(fileName);
@@ -471,7 +471,7 @@ namespace ZoneEngine.Collision
             return data;
         }
 
-        public Root PlayFieldsLoadXML(String fileName)
+        public Root PlayFieldsLoadXml(String fileName)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Root));
             TextReader reader = new StreamReader(fileName);
@@ -537,16 +537,16 @@ namespace ZoneEngine.Collision
         /// </summary>
         public Boolean Intersect(LineSegment lineSegmentA, LineSegment lineSegmentB)
         {
-            Vector2 A1 = lineSegmentA.VectorA;
-            Vector2 A2 = lineSegmentA.VectorB;
-            Vector2 B1 = lineSegmentB.VectorA;
-            Vector2 B2 = lineSegmentB.VectorB;
-            Int32 IA1 = this.Cross2D(Vector2.Subtract(B2, A1), Vector2.Subtract(B1, A1));
-            Int32 IB1 = this.Cross2D(Vector2.Subtract(A1, B1), Vector2.Subtract(A2, B1));
-            Int32 IA2 = this.Cross2D(Vector2.Subtract(B1, A2), Vector2.Subtract(B2, A2));
-            Int32 IB2 = this.Cross2D(Vector2.Subtract(A2, B2), Vector2.Subtract(A1, B2));
-            if (((IA1 <= 0 && IA2 <= 0 && IB1 <= 0 && IB2 <= 0) || (IA1 >= 0 && IA2 >= 0 && IB1 >= 0 && IB2 >= 0))
-                && !(IA1 == 0 && IA2 == 0 && IB1 == 0 && IB2 == 0))
+            Vector2 vectorA1 = lineSegmentA.VectorA;
+            Vector2 vectorA2 = lineSegmentA.VectorB;
+            Vector2 vectorB1 = lineSegmentB.VectorA;
+            Vector2 vectorB2 = lineSegmentB.VectorB;
+            Int32 intersectionA1 = this.Cross2D(Vector2.Subtract(vectorB2, vectorA1), Vector2.Subtract(vectorB1, vectorA1));
+            Int32 intersectionB1 = this.Cross2D(Vector2.Subtract(vectorA1, vectorB1), Vector2.Subtract(vectorA2, vectorB1));
+            Int32 intersectionA2 = this.Cross2D(Vector2.Subtract(vectorB1, vectorA2), Vector2.Subtract(vectorB2, vectorA2));
+            Int32 intersectionB2 = this.Cross2D(Vector2.Subtract(vectorA2, vectorB2), Vector2.Subtract(vectorA1, vectorB2));
+            if (((intersectionA1 <= 0 && intersectionA2 <= 0 && intersectionB1 <= 0 && intersectionB2 <= 0) || (intersectionA1 >= 0 && intersectionA2 >= 0 && intersectionB1 >= 0 && intersectionB2 >= 0))
+                && !(intersectionA1 == 0 && intersectionA2 == 0 && intersectionB1 == 0 && intersectionB2 == 0))
             {
                 return true;
             }

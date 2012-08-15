@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Misc
 {
     using System;
@@ -38,7 +34,7 @@ namespace ZoneEngine.Misc
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="playfield"></param>
         /// <param name="data"></param>
         public static void Playfield(int playfield, ref byte[] data)
         {
@@ -46,18 +42,18 @@ namespace ZoneEngine.Misc
             {
                 for (int i = Program.zoneServer.Clients.Count - 1; i >= 0; i--)
                 {
-                    Client mClient = (Client)Program.zoneServer.Clients[i];
+                    Client tempClient = (Client)Program.zoneServer.Clients[i];
 
-                    if (mClient.Character.PlayField != playfield)
+                    if (tempClient.Character.PlayField != playfield)
                     {
                         continue;
                     }
-                    byte[] mID = BitConverter.GetBytes(mClient.Character.ID);
+                    byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
                     data[12] = mID[3];
                     data[13] = mID[2];
                     data[14] = mID[1];
                     data[15] = mID[0];
-                    mClient.SendCompressed(data);
+                    tempClient.SendCompressed(data);
                 }
             }
         }
@@ -69,43 +65,44 @@ namespace ZoneEngine.Misc
         /// <param name="data"></param>
         public static void PlayfieldOthers(Client client, ref Byte[] data)
         {
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client tempClient in Program.zoneServer.Clients)
             {
-                if ((mClient.Character.PlayField != client.Character.PlayField)
-                    || (mClient.Character.ID == client.Character.ID))
+                if ((tempClient.Character.PlayField != client.Character.PlayField)
+                    || (tempClient.Character.ID == client.Character.ID))
                 {
                     continue;
                 }
-                Byte[] mID = BitConverter.GetBytes(mClient.Character.ID);
+                Byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
                 data[14] = mID[2];
                 data[15] = mID[3];
-                mClient.SendCompressed(data);
+                tempClient.SendCompressed(data);
             }
         }
 
         /// <summary>
         /// NPC's send their stats to playfield too
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="playfield
+        /// "></param>
         /// <param name="data"></param>
         public static void PlayfieldOthers(int playfield, ref Byte[] data)
         {
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client tempClient in Program.zoneServer.Clients)
             {
-                if ((mClient.Character.PlayField != playfield))
+                if ((tempClient.Character.PlayField != playfield))
                 {
                     continue;
                 }
-                Byte[] mID = BitConverter.GetBytes(mClient.Character.ID);
+                Byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
                 data[14] = mID[2];
                 data[15] = mID[3];
-                mClient.SendCompressed(data);
+                tempClient.SendCompressed(data);
             }
         }
 
@@ -116,15 +113,15 @@ namespace ZoneEngine.Misc
         /// <param name="data"></param>
         public static void Global(Client client, byte[] data)
         {
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client tempClient in Program.zoneServer.Clients)
             {
-                byte[] mID = BitConverter.GetBytes(mClient.Character.ID);
+                byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
                 data[14] = mID[2];
                 data[15] = mID[3];
-                mClient.SendCompressed(data);
+                tempClient.SendCompressed(data);
             }
         }
 
@@ -135,19 +132,19 @@ namespace ZoneEngine.Misc
         /// <param name="data"></param>
         public static void GlobalOthers(Client client, byte[] data)
         {
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client tempClient in Program.zoneServer.Clients)
             {
-                if (mClient.Character.ID == client.Character.ID)
+                if (tempClient.Character.ID == client.Character.ID)
                 {
                     continue;
                 }
-                byte[] mID = BitConverter.GetBytes(mClient.Character.ID);
+                byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
                 data[14] = mID[2];
                 data[15] = mID[3];
-                mClient.SendCompressed(data);
+                tempClient.SendCompressed(data);
             }
         }
 
@@ -156,13 +153,13 @@ namespace ZoneEngine.Misc
         /// <summary>
         /// Broadcasts chat message to ALL users on the server
         /// </summary>
-        /// <param name="b">Base Client to extract the ServerBase from. Like, who designed this :P</param>
-        /// <param name="msg">...</param>
-        public static void Broadcast(Client b, string msg)
+        /// <param name="client">Base Client to extract the ServerBase from. Like, who designed this :P</param>
+        /// <param name="message">...</param>
+        public static void Broadcast(Client client, string message)
         {
-            foreach (Client c in b.Server.Clients)
+            foreach (Client tempClient in client.Server.Clients)
             {
-                c.SendChatText("System Message: " + msg);
+                tempClient.SendChatText("System Message: " + message);
             }
         }
     }

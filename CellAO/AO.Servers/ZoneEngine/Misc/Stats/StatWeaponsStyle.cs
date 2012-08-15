@@ -22,24 +22,16 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Misc
 {
-    using System;
-
-    using ZoneEngine.PacketHandlers;
-
-    public class Stat_IP : ClassStat
+    public class StatWeaponsStyle : ClassStat
     {
-        public Stat_IP(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatWeaponsStyle(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefault;
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
@@ -49,51 +41,8 @@ namespace ZoneEngine.Misc
         {
             if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
-                Character ch = (Character)this.Parent;
-                int baseIP = 0;
-                int charlevel;
-
-                charlevel = (Int32)ch.Stats.Level.StatBaseValue;
-
-                // Calculate base IP value for character level
-                if (charlevel > 204)
-                {
-                    baseIP += (charlevel - 204) * 600000;
-                    charlevel = 204;
-                }
-                if (charlevel > 189)
-                {
-                    baseIP += (charlevel - 189) * 150000;
-                    charlevel = 189;
-                }
-                if (charlevel > 149)
-                {
-                    baseIP += (charlevel - 149) * 80000;
-                    charlevel = 149;
-                }
-                if (charlevel > 99)
-                {
-                    baseIP += (charlevel - 99) * 40000;
-                    charlevel = 99;
-                }
-                if (charlevel > 49)
-                {
-                    baseIP += (charlevel - 49) * 20000;
-                    charlevel = 49;
-                }
-                if (charlevel > 14)
-                {
-                    baseIP += (charlevel - 14) * 10000; // Change 99 => 14 by Wizard
-                    charlevel = 14;
-                }
-                baseIP += 1500 + (charlevel - 1) * 4000;
-
-                this.Set(baseIP - Convert.ToInt32(SkillUpdate.calcIP(ch.client)));
-
-                if (!this.Parent.startup)
-                {
-                    this.AffectStats();
-                }
+                this.Value = ((Character)this.Parent).Stats.WeaponStyleLeft.Value
+                             | ((Character)this.Parent).Stats.WeaponStyleRight.Value;
             }
         }
     }

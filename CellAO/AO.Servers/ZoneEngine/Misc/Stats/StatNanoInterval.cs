@@ -22,22 +22,20 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_HealDelta : ClassStat
-    {
-        public Stat_HealDelta(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
-        {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+    using AO.Core;
 
-            this.Value = (int)this.StatDefault;
+    public class StatNanoInterval : ClassStat
+    {
+        public StatNanoInterval(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        {
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
+
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
@@ -45,13 +43,36 @@ namespace ZoneEngine.Misc
 
         public override void CalcTrickle()
         {
-            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass))
             {
-                Character ch = (Character)this.Parent;
-                uint[] healdelta = { 3, 3, 2, 4, 12, 15, 20 };
+                Character character = (Character)this.Parent;
 
-                this.StatBaseValue = healdelta[ch.Stats.Breed.Value - 1]
-                                     + (uint)Math.Floor((double)(ch.Stats.BodyDevelopment.Value / 100));
+                // calculating Nano and Heal Delta and interval
+                int nanoInterval = 28
+                                   - (Math.Min((int)Math.Floor(Convert.ToDouble(character.Stats.Psychic.Value) / 60), 13) * 2);
+                character.Stats.NanoInterval.StatBaseValue = (uint)nanoInterval; // Healinterval
+
+                character.PurgeTimer(1);
+                AOTimers at = new AOTimers();
+                at.Strain = 1;
+
+                int nanoDelta = character.Stats.NanoDelta.Value;
+                if (character.moveMode == Character.MoveMode.Sit)
+                {
+                    int nanoDelta2 = nanoDelta >> 1;
+                    nanoDelta = nanoDelta + nanoDelta2;
+                }
+
+                at.Timestamp = DateTime.Now + TimeSpan.FromSeconds(character.Stats.NanoInterval.Value);
+                at.Function.Target = this.Parent.ID; // changed from ItemHandler.itemtarget_self;
+                at.Function.TickCount = -2;
+                at.Function.TickInterval = (uint)(character.Stats.NanoInterval.Value * 1000);
+                at.Function.FunctionType = Constants.functiontype_hit;
+                at.Function.Arguments.Add(214);
+                at.Function.Arguments.Add(nanoDelta);
+                at.Function.Arguments.Add(nanoDelta);
+                at.Function.Arguments.Add(0);
+                character.Timers.Add(at);
 
                 if (!this.Parent.startup)
                 {

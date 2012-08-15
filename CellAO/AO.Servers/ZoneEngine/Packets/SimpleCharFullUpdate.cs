@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using System;
@@ -46,31 +42,31 @@ namespace ZoneEngine.Packets
         /// 
         /// </summary>
         /// <param name="client"></param>
-        public static void SendToPf(Client client)
+        public static void SendToPlayfield(Client client)
         {
-            byte[] mReply = GetPacket(client);
-            Announce.Playfield(client.Character.PlayField, ref mReply);
+            byte[] packet = GetPacket(client);
+            Announce.Playfield(client.Character.PlayField, ref packet);
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="client"></param>
-        public static void SendToPfOthers(Client client)
+        public static void SendToOthersInPlayfield(Client client)
         {
-            Byte[] data = GetPacket(client);
-            Announce.PlayfieldOthers(client, ref data);
+            Byte[] packet = GetPacket(client);
+            Announce.PlayfieldOthers(client, ref packet);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="character"></param>
         /// <param name="receiver"></param>
         public static void SendToOne(Character character, Client receiver)
         {
-            Byte[] data = WritePacket(character, receiver.Character.ID);
-            receiver.SendCompressed(data);
+            Byte[] packet = WritePacket(character, receiver.Character.ID);
+            receiver.SendCompressed(packet);
         }
 
         /// <summary>
@@ -86,7 +82,7 @@ namespace ZoneEngine.Packets
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="character"></param>
         /// <param name="receiver"></param>
         /// <returns></returns>
         public static Byte[] WritePacket(Character character, int receiver)
@@ -179,11 +175,11 @@ namespace ZoneEngine.Packets
 
             int NPCFamily;
 
-            Dictionary<int, int> SocialTab = new Dictionary<int, int>();
+            Dictionary<int, int> socialTab = new Dictionary<int, int>();
 
-            List<AOTextures> Textures = new List<AOTextures>();
+            List<AOTextures> textures = new List<AOTextures>();
 
-            List<AOMeshs> mh = new List<AOMeshs>();
+            List<AOMeshs> meshs = new List<AOMeshs>();
 
             List<AONano> nanos = new List<AONano>();
 
@@ -261,80 +257,80 @@ namespace ZoneEngine.Packets
 
                 foreach (int num in character.SocialTab.Keys)
                 {
-                    SocialTab.Add(num, character.SocialTab[num]);
+                    socialTab.Add(num, character.SocialTab[num]);
                 }
 
                 foreach (AOTextures at in character.Textures)
                 {
-                    Textures.Add(new AOTextures(at.place, at.Texture));
+                    textures.Add(new AOTextures(at.place, at.Texture));
                 }
 
-                mh = MeshLayers.GetMeshs(character, showsocial, socialonly);
+                meshs = MeshLayers.GetMeshs(character, showsocial, socialonly);
 
-                foreach (AONano an in character.ActiveNanos)
+                foreach (AONano nano in character.ActiveNanos)
                 {
-                    AONano AN = new AONano();
-                    AN.ID = an.ID;
-                    AN.Instance = an.Instance;
-                    AN.NanoStrain = an.NanoStrain;
-                    AN.Nanotype = an.Nanotype;
-                    AN.Time1 = an.Time1;
-                    AN.Time2 = an.Time2;
-                    AN.Value3 = an.Value3;
+                    AONano tempNano = new AONano();
+                    tempNano.ID = nano.ID;
+                    tempNano.Instance = nano.Instance;
+                    tempNano.NanoStrain = nano.NanoStrain;
+                    tempNano.Nanotype = nano.Nanotype;
+                    tempNano.Time1 = nano.Time1;
+                    tempNano.Time2 = nano.Time2;
+                    tempNano.Value3 = nano.Value3;
 
-                    nanos.Add(AN);
+                    nanos.Add(tempNano);
                 }
 
                 LOSHeight = character.Stats.LOSHeight.Value;
                 NPCFamily = character.Stats.NPCFamily.Value;
                 CurrentHealth = character.Stats.Health.Value;
             }
-            PacketWriter _writer = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
             // Packet Header
-            _writer.PushByte(0xDF);
-            _writer.PushByte(0xDF);
-            _writer.PushShort(10);
-            _writer.PushShort(1);
-            _writer.PushShort(0); // length. writer will take care of this
-            _writer.PushInt(3086); // sender. our server ID
-            _writer.PushInt(receiver); // receiver
-            _writer.PushInt(0x271B3A6B); // packet ID
-            _writer.PushIdentity(50000, CharID); // affected identity
-            _writer.PushByte(0); // Unknown?
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushShort(10);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0); // length. writer will take care of this
+            packetWriter.PushInt(3086); // sender. our server ID
+            packetWriter.PushInt(receiver); // receiver
+            packetWriter.PushInt(0x271B3A6B); // packet ID
+            packetWriter.PushIdentity(50000, CharID); // affected identity
+            packetWriter.PushByte(0); // Unknown?
             // End Packet Header
 
-            _writer.PushByte(57); // SCFU packet version (57/0x39)
-            _writer.PushInt(0); // packet flags (this is set later based on packetFlags variable above)
+            packetWriter.PushByte(57); // SCFU packet version (57/0x39)
+            packetWriter.PushInt(0); // packet flags (this is set later based on packetFlags variable above)
 
             packetFlags |= 0x40; // Has Playfield ID
-            _writer.PushInt(CharPlayfield); // playfield
+            packetWriter.PushInt(CharPlayfield); // playfield
 
             if (character.FightingTarget.Instance != 0)
             {
                 packetFlags |= 20;
-                _writer.PushIdentity(character.FightingTarget);
+                packetWriter.PushIdentity(character.FightingTarget);
             }
 
             // Coordinates
-            _writer.PushCoord(CharCoord);
+            packetWriter.PushCoord(CharCoord);
 
             // Heading Data
             packetFlags |= 0x200; // Has Heading Data Flag
-            _writer.PushQuat(CharHeading);
+            packetWriter.PushQuat(CharHeading);
 
-            uint m_appearance = SideValue + (FatValue * 8) + (BreedValue * 32) + (SexValue * 256) + (RaceValue * 1024);
+            uint appearance = SideValue + (FatValue * 8) + (BreedValue * 32) + (SexValue * 256) + (RaceValue * 1024);
                 // Race
-            _writer.PushUInt(m_appearance); // appearance
+            packetWriter.PushUInt(appearance); // appearance
 
             // Name
-            _writer.PushByte((byte)(NameLength + 1));
-            _writer.PushBytes(Encoding.ASCII.GetBytes(CharName));
-            _writer.PushByte(0); // 0 terminator for name
+            packetWriter.PushByte((byte)(NameLength + 1));
+            packetWriter.PushBytes(Encoding.ASCII.GetBytes(CharName));
+            packetWriter.PushByte(0); // 0 terminator for name
 
-            _writer.PushUInt(CharFlagsValue); // Flags
-            _writer.PushShort((short)AccFlagsValue);
-            _writer.PushShort((short)ExpansionValue);
+            packetWriter.PushUInt(CharFlagsValue); // Flags
+            packetWriter.PushShort((short)AccFlagsValue);
+            packetWriter.PushShort((short)ExpansionValue);
 
             if (character is NonPlayerCharacterClass)
             {
@@ -348,22 +344,22 @@ namespace ZoneEngine.Packets
 
                 if (NPCFamily < 256)
                 {
-                    _writer.PushByte((byte)NPCFamily);
+                    packetWriter.PushByte((byte)NPCFamily);
                 }
                 else
                 {
                     packetFlags |= 0x20000;
-                    _writer.PushShort((Int16)NPCFamily);
+                    packetWriter.PushShort((Int16)NPCFamily);
                 }
 
                 if (LOSHeight < 256)
                 {
-                    _writer.PushByte((byte)LOSHeight);
+                    packetWriter.PushByte((byte)LOSHeight);
                 }
                 else
                 {
                     packetFlags |= 0x80000;
-                    _writer.PushShort((Int16)LOSHeight);
+                    packetWriter.PushShort((Int16)LOSHeight);
                 }
 
                 //if (packetFlags & 0x2000000)
@@ -385,74 +381,74 @@ namespace ZoneEngine.Packets
             else
             {
                 // Are we a player?
-                _writer.PushUInt(CurrentNano); // CurrentNano
-                _writer.PushInt(0); // team?
-                _writer.PushShort(5); // swim?
+                packetWriter.PushUInt(CurrentNano); // CurrentNano
+                packetWriter.PushInt(0); // team?
+                packetWriter.PushShort(5); // swim?
 
                 // The checks here are to prevent the client doing weird things if the character has really large or small base attributes
                 if (StrengthBaseValue > 32767) // Strength
                 {
-                    _writer.PushShort(32767);
+                    packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    _writer.PushShort((short)StrengthBaseValue);
+                    packetWriter.PushShort((short)StrengthBaseValue);
                 }
                 if (AgilityBaseValue > 32767) // Agility
                 {
-                    _writer.PushShort(32767);
+                    packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    _writer.PushShort((short)AgilityBaseValue);
+                    packetWriter.PushShort((short)AgilityBaseValue);
                 }
                 if (StaminaBaseValue > 32767) //  Stamina
                 {
-                    _writer.PushShort(32767);
+                    packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    _writer.PushShort((short)StaminaBaseValue);
+                    packetWriter.PushShort((short)StaminaBaseValue);
                 }
                 if (IntelligenceBaseValue > 32767) // Intelligence
                 {
-                    _writer.PushShort(32767);
+                    packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    _writer.PushShort((short)IntelligenceBaseValue);
+                    packetWriter.PushShort((short)IntelligenceBaseValue);
                 }
                 if (SenseBaseValue > 32767) // Sense
                 {
-                    _writer.PushShort(32767);
+                    packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    _writer.PushShort((short)SenseBaseValue);
+                    packetWriter.PushShort((short)SenseBaseValue);
                 }
                 if (PsychicBaseValue > 32767) // Psychic
                 {
-                    _writer.PushShort(32767);
+                    packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    _writer.PushShort((short)PsychicBaseValue);
+                    packetWriter.PushShort((short)PsychicBaseValue);
                 }
 
                 if ((CharFlagsValue & 0x400000) != 0) // has visible names? (Flags)
                 {
-                    _writer.PushShort((short)FirstNameLength);
-                    _writer.PushBytes(Encoding.ASCII.GetBytes(FirstName));
-                    _writer.PushShort((short)LastNameLength);
-                    _writer.PushBytes(Encoding.ASCII.GetBytes(LastName));
+                    packetWriter.PushShort((short)FirstNameLength);
+                    packetWriter.PushBytes(Encoding.ASCII.GetBytes(FirstName));
+                    packetWriter.PushShort((short)LastNameLength);
+                    packetWriter.PushBytes(Encoding.ASCII.GetBytes(LastName));
                 }
 
                 if (OrgNameLength != 0)
                 {
                     packetFlags |= 0x4000000; // Has org name data
 
-                    _writer.PushShort((short)OrgNameLength);
-                    _writer.PushBytes(Encoding.ASCII.GetBytes(OrgName));
+                    packetWriter.PushShort((short)OrgNameLength);
+                    packetWriter.PushBytes(Encoding.ASCII.GetBytes(OrgName));
                 }
                 else
                 {
@@ -463,40 +459,40 @@ namespace ZoneEngine.Packets
             if (LevelValue > 127) // Level
             {
                 packetFlags |= 0x1000; // Has Extended Level
-                _writer.PushShort((short)LevelValue);
+                packetWriter.PushShort((short)LevelValue);
             }
             else
             {
                 packetFlags &= ~0x1000; // Has Small Level
-                _writer.PushByte((byte)LevelValue);
+                packetWriter.PushByte((byte)LevelValue);
             }
 
             if (HealthValue > 32767) // Health
             {
                 packetFlags &= ~0x800; // Has Extended Health
-                _writer.PushUInt(HealthValue);
+                packetWriter.PushUInt(HealthValue);
             }
             else
             {
                 packetFlags |= 0x800; // Has Small Health
-                _writer.PushShort((short)HealthValue);
+                packetWriter.PushShort((short)HealthValue);
             }
             int healthdamage = HealthValue - CurrentHealth;
             if (healthdamage < 256)
             {
                 packetFlags |= 0x4000;
-                _writer.PushByte((byte)healthdamage);
+                packetWriter.PushByte((byte)healthdamage);
             }
             else
             {
                 packetFlags &= ~0x4000;
                 if ((packetFlags & 0x800) == 0x800)
                 {
-                    _writer.PushShort((Int16)healthdamage);
+                    packetWriter.PushShort((Int16)healthdamage);
                 }
                 else
                 {
-                    _writer.PushInt(healthdamage);
+                    packetWriter.PushInt(healthdamage);
                 }
             }
 
@@ -504,48 +500,48 @@ namespace ZoneEngine.Packets
             // make him/her/it a nice upside down pyramid
             if ((CharPlayfield == 152) || (CharPlayfield == 4107))
             {
-                _writer.PushInt(99902);
+                packetWriter.PushInt(99902);
             }
             else
             {
-                _writer.PushUInt(MonsterData); // Monsterdata
+                packetWriter.PushUInt(MonsterData); // Monsterdata
             }
-            _writer.PushShort((short)MonsterScale); // Monsterscale
-            _writer.PushShort((short)VisualFlags); // VisualFlags
-            _writer.PushByte(0); // visible title?
+            packetWriter.PushShort((short)MonsterScale); // Monsterscale
+            packetWriter.PushShort((short)VisualFlags); // VisualFlags
+            packetWriter.PushByte(0); // visible title?
 
-            _writer.PushInt(42); // 'skipdata' length
+            packetWriter.PushInt(42); // 'skipdata' length
             // Start 'skipdata'
-            _writer.PushBytes(new Byte[] { 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00 });
-            _writer.PushByte((byte)CurrentMovementMode); // CurrentMovementMode
-            _writer.PushByte(1); // don't change
-            _writer.PushShort(1); // ?
-            _writer.PushShort(1); // ?
-            _writer.PushShort(1); // ?
-            _writer.PushShort(1); // ?
-            _writer.PushShort(0); // ?
-            _writer.PushShort(3); // ?
-            _writer.PushInt(0); //?
-            _writer.PushInt(0); //?
-            _writer.PushInt(0); //?
-            _writer.PushInt(0); //?
+            packetWriter.PushBytes(new Byte[] { 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00 });
+            packetWriter.PushByte((byte)CurrentMovementMode); // CurrentMovementMode
+            packetWriter.PushByte(1); // don't change
+            packetWriter.PushShort(1); // ?
+            packetWriter.PushShort(1); // ?
+            packetWriter.PushShort(1); // ?
+            packetWriter.PushShort(1); // ?
+            packetWriter.PushShort(0); // ?
+            packetWriter.PushShort(3); // ?
+            packetWriter.PushInt(0); //?
+            packetWriter.PushInt(0); //?
+            packetWriter.PushInt(0); //?
+            packetWriter.PushInt(0); //?
             // End 'skipdata'
 
             if (HeadMeshValue != 0)
             {
                 packetFlags |= 0x80; // Has HeadMesh Flag
-                _writer.PushUInt(HeadMeshValue); // Headmesh
+                packetWriter.PushUInt(HeadMeshValue); // Headmesh
             }
 
             if ((RunSpeedBaseValue > 127)) // Runspeed
             {
                 packetFlags |= 0x2000;
-                _writer.PushShort((short)RunSpeedBaseValue);
+                packetWriter.PushShort((short)RunSpeedBaseValue);
             }
             else
             {
                 packetFlags &= ~0x2000;
-                _writer.PushByte((byte)RunSpeedBaseValue);
+                packetWriter.PushByte((byte)RunSpeedBaseValue);
             }
 
             //if (packetFlags & 0x400)
@@ -589,13 +585,13 @@ namespace ZoneEngine.Packets
             //    char unknown;
             //}
 
-            _writer.Push3F1Count(nanos.Count); // running nanos count
+            packetWriter.Push3F1Count(nanos.Count); // running nanos count
             foreach (AONano nano in nanos)
             {
-                _writer.PushInt(nano.ID);
-                _writer.PushInt(nano.Instance);
-                _writer.PushInt(nano.Time1);
-                _writer.PushInt(nano.Time2);
+                packetWriter.PushInt(nano.ID);
+                packetWriter.PushInt(nano.Instance);
+                packetWriter.PushInt(nano.Time1);
+                packetWriter.PushInt(nano.Time2);
             }
             // longx5: aoid, instance, unknown(0?), timer1, timer2
 
@@ -617,21 +613,19 @@ namespace ZoneEngine.Packets
 
             // Texture/Cloth Data
             int c;
-            int c2;
-            Textures tx = new Textures();
-            tx.ReadTexturesFromDatabase(CharID);
-            _writer.Push3F1Count(5); // textures count
+            packetWriter.Push3F1Count(5); // textures count
 
             AOTextures aotemp = new AOTextures(0, 0);
             for (c = 0; c < 5; c++)
             {
                 aotemp.Texture = 0;
                 aotemp.place = c;
+                int c2;
                 for (c2 = 0; c2 < TexturesCount; c2++)
                 {
-                    if (Textures[c2].place == c)
+                    if (textures[c2].place == c)
                     {
-                        aotemp.Texture = Textures[c2].Texture;
+                        aotemp.Texture = textures[c2].Texture;
                         break;
                     }
                 }
@@ -639,20 +633,20 @@ namespace ZoneEngine.Packets
                 {
                     if (socialonly)
                     {
-                        aotemp.Texture = SocialTab[c];
+                        aotemp.Texture = socialTab[c];
                     }
                     else
                     {
-                        if (SocialTab[c] != 0)
+                        if (socialTab[c] != 0)
                         {
-                            aotemp.Texture = SocialTab[c];
+                            aotemp.Texture = socialTab[c];
                         }
                     }
                 }
 
-                _writer.PushInt(aotemp.place);
-                _writer.PushInt(aotemp.Texture);
-                _writer.PushInt(0);
+                packetWriter.PushInt(aotemp.place);
+                packetWriter.PushInt(aotemp.Texture);
+                packetWriter.PushInt(0);
             }
             // End Textures
 
@@ -660,15 +654,15 @@ namespace ZoneEngine.Packets
             // # Meshs
             // ############
 
-            c = mh.Count;
+            c = meshs.Count;
 
-            _writer.Push3F1Count(c);
-            foreach (AOMeshs m2 in mh)
+            packetWriter.Push3F1Count(c);
+            foreach (AOMeshs aoMeshs in meshs)
             {
-                _writer.PushByte((byte)m2.Position);
-                _writer.PushUInt(m2.Mesh);
-                _writer.PushInt(m2.OverrideTexture); // Override Texture!!!!!!
-                _writer.PushByte((byte)m2.Layer);
+                packetWriter.PushByte((byte)aoMeshs.Position);
+                packetWriter.PushUInt(aoMeshs.Mesh);
+                packetWriter.PushInt(aoMeshs.OverrideTexture); // Override Texture!!!!!!
+                packetWriter.PushByte((byte)aoMeshs.Layer);
             }
             // End Meshs
 
@@ -700,7 +694,7 @@ namespace ZoneEngine.Packets
             //    end repeat
             //}
 
-            _writer.PushInt(0); // packetFlags2
+            packetWriter.PushInt(0); // packetFlags2
 
             // Some mech stuff
             //if (packetFlags2 & 0x01)
@@ -729,18 +723,18 @@ namespace ZoneEngine.Packets
             //    long PetMaster;
             //}
 
-            _writer.PushByte(0);
+            packetWriter.PushByte(0);
 
-            Byte[] reply = _writer.Finish();
+            Byte[] reply = packetWriter.Finish();
 
             // Set Packet Flags
-            Byte[] m_packetFlags;
-            m_packetFlags = BitConverter.GetBytes(packetFlags);
-            Array.Reverse(m_packetFlags);
-            reply[30] = m_packetFlags[0];
-            reply[31] = m_packetFlags[1];
-            reply[32] = m_packetFlags[2];
-            reply[33] = m_packetFlags[3];
+            Byte[] packetFlagBytes;
+            packetFlagBytes = BitConverter.GetBytes(packetFlags);
+            Array.Reverse(packetFlagBytes);
+            reply[30] = packetFlagBytes[0];
+            reply[31] = packetFlagBytes[1];
+            reply[32] = packetFlagBytes[2];
+            reply[33] = packetFlagBytes[3];
 
             return reply;
         }

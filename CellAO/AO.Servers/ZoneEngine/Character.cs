@@ -1760,7 +1760,7 @@ namespace ZoneEngine
         /// </summary>
         public void AppearanceUpdate()
         {
-            Packets.AppearanceUpdate.Appearance_Update(this);
+            Packets.AppearanceUpdate.AnnounceAppearanceUpdate(this);
         }
         #endregion
 

@@ -22,43 +22,44 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_NanoDelta : ClassStat
+    public class StatNextXP : ClassStat
     {
-        public Stat_NanoDelta(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatNextXP(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefault;
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
         }
 
+        public override int Value
+        {
+            get
+            {
+                int level = ((Character)this.Parent).Stats.Level.Value;
+                if (level >= 200)
+                {
+                    return 0;
+                }
+                return Convert.ToInt32(Program.zoneServer.XPproLevel.tableRKXP[level - 1, 2]);
+            }
+            set
+            {
+                Set(value);
+            }
+        }
+
         public override void CalcTrickle()
         {
-            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
-            {
-                Character ch = (Character)this.Parent;
-                uint[] nanodelta = { 3, 3, 4, 2, 12, 15, 20 };
-                uint ND = nanodelta[ch.Stats.Breed.Value - 1]
-                          + (uint)Math.Floor((double)(ch.Stats.NanoEnergyPool.Value / 100));
-                // Whats this? TODO: Find the original routine again
-                this.StatBaseValue = ND;
-
-                if (!this.Parent.startup)
-                {
-                    this.AffectStats();
-                }
-            }
+            base.CalcTrickle();
+            this.Set(this.Value);
         }
     }
 }

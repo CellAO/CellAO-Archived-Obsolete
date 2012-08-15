@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using System;
@@ -49,31 +45,31 @@ namespace ZoneEngine.Packets
         /// <param name="announce">Let others on same playfield know?</param>
         public static uint Set(Client client, int stat, uint value, bool announce)
         {
-            PacketWriter writer = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
             uint oldValue = (uint)client.Character.Stats.Get(stat);
             client.Character.Stats.Set(stat, value);
 
-            writer.PushBytes(new byte[] { 0xDF, 0xDF, });
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(client.Character.ID);
-            writer.PushInt(0x2B333D6E);
-            writer.PushIdentity(50000, client.Character.ID);
-            writer.PushByte(1);
-            writer.PushInt(1);
-            writer.PushInt(stat);
-            writer.PushUInt(value);
+            packetWriter.PushBytes(new byte[] { 0xDF, 0xDF, });
+            packetWriter.PushShort(10);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x2B333D6E);
+            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushByte(1);
+            packetWriter.PushInt(1);
+            packetWriter.PushInt(stat);
+            packetWriter.PushUInt(value);
 
-            byte[] reply = writer.Finish();
-            client.SendCompressed(reply);
+            byte[] packet = packetWriter.Finish();
+            client.SendCompressed(packet);
 
             /* announce to playfield? */
             if (announce)
             {
-                Announce.Playfield(client.Character.PlayField, ref reply);
+                Announce.Playfield(client.Character.PlayField, ref packet);
             }
 
             return oldValue;
@@ -100,122 +96,122 @@ namespace ZoneEngine.Packets
             writer.PushInt(stat);
             writer.PushUInt(value);
 
-            byte[] reply = writer.Finish();
-            client.SendCompressed(reply);
+            byte[] packet = writer.Finish();
+            client.SendCompressed(packet);
 
             /* announce to playfield? */
             if (announce)
             {
-                Announce.PlayfieldOthers(client, ref reply);
+                Announce.PlayfieldOthers(client, ref packet);
             }
         }
 
-        public static void SendBulk(Character ch, Dictionary<int, uint> StatsToUpdate)
+        public static void SendBulk(Character ch, Dictionary<int, uint> statsToUpdate)
         {
-            if (StatsToUpdate.Count == 0)
+            if (statsToUpdate.Count == 0)
             {
                 return;
             }
-            PacketWriter toplayfield = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            toplayfield.PushBytes(new byte[] { 0xDF, 0xDF, });
-            toplayfield.PushShort(10);
-            toplayfield.PushShort(1);
-            toplayfield.PushShort(0);
-            toplayfield.PushInt(3086);
-            toplayfield.PushInt(ch.ID);
-            toplayfield.PushInt(0x2B333D6E);
-            toplayfield.PushIdentity(ch.Type, ch.ID);
-            toplayfield.PushByte(1);
+            packetWriter.PushBytes(new byte[] { 0xDF, 0xDF, });
+            packetWriter.PushShort(10);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(ch.ID);
+            packetWriter.PushInt(0x2B333D6E);
+            packetWriter.PushIdentity(ch.Type, ch.ID);
+            packetWriter.PushByte(1);
 
-            List<int> topf = new List<int>();
-            foreach (KeyValuePair<int, uint> kv in StatsToUpdate)
+            List<int> toPlayfield = new List<int>();
+            foreach (KeyValuePair<int, uint> keyValuePair in statsToUpdate)
             {
-                if (ch.Stats.GetStatbyNumber(kv.Key).AnnounceToPlayfield)
+                if (ch.Stats.GetStatbyNumber(keyValuePair.Key).AnnounceToPlayfield)
                 {
-                    topf.Add(kv.Key);
+                    toPlayfield.Add(keyValuePair.Key);
                 }
             }
 
-            toplayfield.PushInt(topf.Count);
+            packetWriter.PushInt(toPlayfield.Count);
 
-            foreach (KeyValuePair<int, uint> kv in StatsToUpdate)
+            foreach (KeyValuePair<int, uint> keyValuePair in statsToUpdate)
             {
-                if (topf.Contains(kv.Key))
+                if (toPlayfield.Contains(keyValuePair.Key))
                 {
-                    toplayfield.PushInt(kv.Key);
-                    toplayfield.PushUInt(kv.Value);
+                    packetWriter.PushInt(keyValuePair.Key);
+                    packetWriter.PushUInt(keyValuePair.Value);
                 }
             }
 
             /* announce to playfield? */
-            if (topf.Count > 0)
+            if (toPlayfield.Count > 0)
             {
-                byte[] replytopf = toplayfield.Finish();
-                Announce.PlayfieldOthers(ch.PlayField, ref replytopf);
+                byte[] packet = packetWriter.Finish();
+                Announce.PlayfieldOthers(ch.PlayField, ref packet);
             }
         }
 
-        public static void SendBulk(Client client, Dictionary<int, uint> StatsToUpdate)
+        public static void SendBulk(Client client, Dictionary<int, uint> statsToUpdate)
         {
-            if (StatsToUpdate.Count == 0)
+            if (statsToUpdate.Count == 0)
             {
                 return;
             }
-            PacketWriter writer = new PacketWriter();
-            PacketWriter toplayfield = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
+            PacketWriter toPlayfieldWriter = new PacketWriter();
             //            client.Character.Stats.SetBaseValue(stat, value);
-            writer.PushBytes(new byte[] { 0xDF, 0xDF, });
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(client.Character.ID);
-            writer.PushInt(0x2B333D6E);
-            writer.PushIdentity(50000, client.Character.ID);
-            writer.PushByte(1);
+            packetWriter.PushBytes(new byte[] { 0xDF, 0xDF, });
+            packetWriter.PushShort(10);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x2B333D6E);
+            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushByte(1);
 
-            toplayfield.PushBytes(new byte[] { 0xDF, 0xDF, });
-            toplayfield.PushShort(10);
-            toplayfield.PushShort(1);
-            toplayfield.PushShort(0);
-            toplayfield.PushInt(3086);
-            toplayfield.PushInt(client.Character.ID);
-            toplayfield.PushInt(0x2B333D6E);
-            toplayfield.PushIdentity(50000, client.Character.ID);
-            toplayfield.PushByte(1);
+            toPlayfieldWriter.PushBytes(new byte[] { 0xDF, 0xDF, });
+            toPlayfieldWriter.PushShort(10);
+            toPlayfieldWriter.PushShort(1);
+            toPlayfieldWriter.PushShort(0);
+            toPlayfieldWriter.PushInt(3086);
+            toPlayfieldWriter.PushInt(client.Character.ID);
+            toPlayfieldWriter.PushInt(0x2B333D6E);
+            toPlayfieldWriter.PushIdentity(50000, client.Character.ID);
+            toPlayfieldWriter.PushByte(1);
 
-            List<int> topf = new List<int>();
-            foreach (KeyValuePair<int, uint> kv in StatsToUpdate)
+            List<int> toPlayfieldIds = new List<int>();
+            foreach (KeyValuePair<int, uint> keyValuePair in statsToUpdate)
             {
-                if (client.Character.Stats.GetStatbyNumber(kv.Key).AnnounceToPlayfield)
+                if (client.Character.Stats.GetStatbyNumber(keyValuePair.Key).AnnounceToPlayfield)
                 {
-                    topf.Add(kv.Key);
+                    toPlayfieldIds.Add(keyValuePair.Key);
                 }
             }
 
-            writer.PushInt(StatsToUpdate.Count);
-            toplayfield.PushInt(topf.Count);
+            packetWriter.PushInt(statsToUpdate.Count);
+            toPlayfieldWriter.PushInt(toPlayfieldIds.Count);
 
-            foreach (KeyValuePair<int, uint> kv in StatsToUpdate)
+            foreach (KeyValuePair<int, uint> keyValuePair in statsToUpdate)
             {
-                writer.PushInt(kv.Key);
-                writer.PushUInt(kv.Value);
-                if (topf.Contains(kv.Key))
+                packetWriter.PushInt(keyValuePair.Key);
+                packetWriter.PushUInt(keyValuePair.Value);
+                if (toPlayfieldIds.Contains(keyValuePair.Key))
                 {
-                    toplayfield.PushInt(kv.Key);
-                    toplayfield.PushUInt(kv.Value);
+                    toPlayfieldWriter.PushInt(keyValuePair.Key);
+                    toPlayfieldWriter.PushUInt(keyValuePair.Value);
                 }
             }
 
-            byte[] reply = writer.Finish();
+            byte[] reply = packetWriter.Finish();
             client.SendCompressed(reply);
 
             /* announce to playfield? */
-            if (topf.Count > 0)
+            if (toPlayfieldIds.Count > 0)
             {
-                byte[] replytopf = toplayfield.Finish();
-                Announce.PlayfieldOthers(client, ref replytopf);
+                byte[] replyToPlayfield = toPlayfieldWriter.Finish();
+                Announce.PlayfieldOthers(client, ref replyToPlayfield);
             }
         }
 

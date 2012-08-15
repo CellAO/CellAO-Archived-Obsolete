@@ -22,43 +22,39 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     public class KnuBotRejectedItems
     {
-        public static void Send(Client cli, NonPlayerCharacterClass KnuBottarget, AOItem[] items)
+        public static void Send(Client cli, NonPlayerCharacterClass knubotTarget, AOItem[] items)
         {
-            PacketWriter pw = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            pw.PushByte(0xdf);
-            pw.PushByte(0xdf);
-            pw.PushShort(0xa);
-            pw.PushShort(1);
-            pw.PushShort(0);
-            pw.PushInt(3086);
-            pw.PushInt(cli.Character.ID);
-            pw.PushInt(0x7864401d);
-            pw.PushIdentity(cli.Character.Type, cli.Character.ID);
-            pw.PushByte(0);
-            pw.PushShort(2);
-            pw.PushIdentity(KnuBottarget.Type, KnuBottarget.ID);
-            pw.PushInt(items.Length);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(cli.Character.ID);
+            packetWriter.PushInt(0x7864401d);
+            packetWriter.PushIdentity(cli.Character.Type, cli.Character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushShort(2);
+            packetWriter.PushIdentity(knubotTarget.Type, knubotTarget.ID);
+            packetWriter.PushInt(items.Length);
             foreach (AOItem item in items)
             {
-                pw.PushInt(item.lowID);
-                pw.PushInt(item.highID);
-                pw.PushInt(item.Quality);
-                pw.PushInt(0x499602d2); // 1234567890  ???????
+                packetWriter.PushInt(item.lowID);
+                packetWriter.PushInt(item.highID);
+                packetWriter.PushInt(item.Quality);
+                packetWriter.PushInt(0x499602d2); // 1234567890  ???????
             }
-            pw.PushInt(0);
+            packetWriter.PushInt(0);
 
-            byte[] packet = pw.Finish();
+            byte[] packet = packetWriter.Finish();
 
             cli.SendCompressed(packet);
         }

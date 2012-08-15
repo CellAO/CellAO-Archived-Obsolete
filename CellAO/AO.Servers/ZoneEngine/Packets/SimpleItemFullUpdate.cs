@@ -22,100 +22,100 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     public class SimpleItemFullUpdate
     {
-        public static void UpdateItemsCache(Character ch)
+        public static void UpdateItemsCache(Character character)
         {
-            int CurrentSlot = 64;
+            int currentSlot = 64;
 
-            while (CurrentSlot < 109)
+            while (currentSlot < 109)
             {
-                CurrentSlot++;
+                currentSlot++;
             }
         }
 
-        public void SendPlayField(Client cli, VendingMachine vm, int itemnum)
+        public void SendPlayField(Client client, VendingMachine vendingMachine, int itemNumber)
         {
-            PacketWriter pw = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            pw.PushByte(0xdf);
-            pw.PushByte(0xdf);
-            pw.PushShort(0xa);
-            pw.PushShort(1);
-            pw.PushShort(0);
-            pw.PushInt(3086);
-            pw.PushInt(cli.Character.ID);
-            pw.PushInt(0x3b11256f);
-            pw.PushIdentity(0xc76e, 0x021fa86f); // whats this one???
-            pw.PushByte(0);
-            pw.PushInt(11);
-            pw.PushIdentity(cli.Character.Type, cli.Character.ID);
-            pw.PushInt(cli.Character.PlayField);
-            pw.PushInt(0x0f424f);
-            pw.PushInt(0);
-            pw.PushShort(0x656f); // ??????
-            pw.Push3F1Count(6);
-            pw.PushInt(0);
-            pw.PushByte(0x80);
-            pw.PushByte(0);
-            pw.PushShort(0x0203);
-            pw.PushInt(0x17);
-            pw.PushInt(vm.Inventory[itemnum].Item.lowID); // TODO: 3 times lowID and no highID?
-            pw.PushInt(0x2bd);
-            pw.PushInt(1);
-            pw.PushInt(0x2be);
-            pw.PushInt(vm.Inventory[itemnum].Item.lowID);
-            pw.PushInt(0x2bf);
-            pw.PushInt(vm.Inventory[itemnum].Item.lowID);
-            pw.PushInt(0x19c);
-            pw.PushInt(1);
-            pw.PushInt(0);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x3b11256f);
+            packetWriter.PushIdentity(0xc76e, 0x021fa86f); // whats this one???
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(11);
+            packetWriter.PushIdentity(client.Character.Type, client.Character.ID);
+            packetWriter.PushInt(client.Character.PlayField);
+            packetWriter.PushInt(0x0f424f);
+            packetWriter.PushInt(0);
+            packetWriter.PushShort(0x656f); // ??????
+            packetWriter.Push3F1Count(6);
+            packetWriter.PushInt(0);
+            packetWriter.PushByte(0x80);
+            packetWriter.PushByte(0);
+            packetWriter.PushShort(0x0203);
+            packetWriter.PushInt(0x17);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID); // TODO: 3 times lowID and no highID?
+            packetWriter.PushInt(0x2bd);
+            packetWriter.PushInt(1);
+            packetWriter.PushInt(0x2be);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            packetWriter.PushInt(0x2bf);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            packetWriter.PushInt(0x19c);
+            packetWriter.PushInt(1);
+            packetWriter.PushInt(0);
+
+            // TODO: Actually send the data, probably research needed
         }
 
-        public void SendOwner(Client cli, VendingMachine vm, int itemnum)
+        public void SendOwner(Client client, VendingMachine vendingMachine, int itemNumber)
         {
-            PacketWriter pw = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            pw.PushByte(0xdf);
-            pw.PushByte(0xdf);
-            pw.PushShort(0xa);
-            pw.PushShort(1);
-            pw.PushShort(0);
-            pw.PushInt(3086);
-            pw.PushInt(cli.Character.ID);
-            pw.PushInt(0x3b11256f);
-            pw.PushIdentity(0xc76e, 0x021fa86f); // whats this one???
-            pw.PushByte(0);
-            pw.PushInt(11);
-            pw.PushIdentity(cli.Character.Type, cli.Character.ID);
-            pw.PushInt(cli.Character.PlayField);
-            pw.PushInt(0x0f424f);
-            pw.PushInt(0);
-            pw.PushShort(0x656f); // ??????
-            pw.Push3F1Count(6);
-            pw.PushInt(0);
-            pw.PushByte(0x80);
-            pw.PushByte(0);
-            pw.PushShort(0x0203);
-            pw.PushInt(0x17);
-            pw.PushInt(vm.Inventory[itemnum].Item.lowID); // TODO: Three times low id and no high id?
-            pw.PushInt(0x2bd);
-            pw.PushInt(1);
-            pw.PushInt(0x2be);
-            pw.PushInt(vm.Inventory[itemnum].Item.lowID);
-            pw.PushInt(0x2bf);
-            pw.PushInt(vm.Inventory[itemnum].Item.lowID);
-            pw.PushInt(0x19c);
-            pw.PushInt(1);
-            pw.PushInt(0);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x3b11256f);
+            packetWriter.PushIdentity(0xc76e, 0x021fa86f); // whats this one???
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(11);
+            packetWriter.PushIdentity(client.Character.Type, client.Character.ID);
+            packetWriter.PushInt(client.Character.PlayField);
+            packetWriter.PushInt(0x0f424f);
+            packetWriter.PushInt(0);
+            packetWriter.PushShort(0x656f); // ??????
+            packetWriter.Push3F1Count(6);
+            packetWriter.PushInt(0);
+            packetWriter.PushByte(0x80);
+            packetWriter.PushByte(0);
+            packetWriter.PushShort(0x0203);
+            packetWriter.PushInt(0x17);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            // TODO: Three times low id and no high id?
+            packetWriter.PushInt(0x2bd);
+            packetWriter.PushInt(1);
+            packetWriter.PushInt(0x2be);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            packetWriter.PushInt(0x2bf);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            packetWriter.PushInt(0x19c);
+            packetWriter.PushInt(1);
+            packetWriter.PushInt(0);
+            // TODO: Actually send the data, probably research needed
         }
     }
 }

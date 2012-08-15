@@ -32,26 +32,26 @@ namespace ZoneEngine.Packets
 
     internal class BankOpen
     {
-        public static void Send(Client cli)
+        public static void Send(Client client)
         {
-            PacketWriter bank = new PacketWriter();
-            bank.PushByte(0xdf);
-            bank.PushByte(0xdf);
-            bank.PushShort(0xa);
-            bank.PushShort(1);
-            bank.PushShort(0); // Length
-            bank.PushInt(3086);
-            bank.PushInt(cli.Character.ID);
-            bank.PushInt(0x343c287f);
-            bank.PushIdentity(50000, cli.Character.ID);
-            bank.PushByte(1);
-            bank.PushInt(0);
-            bank.PushInt(0);
-            bank.PushInt(0);
-            bank.Push3F1Count(cli.Character.Bank.Count);
-            foreach (AOItem item in cli.Character.Bank)
+            PacketWriter packetWriter = new PacketWriter();
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0); // Length
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x343c287f);
+            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushByte(1);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.Push3F1Count(client.Character.Bank.Count);
+            foreach (AOItem item in client.Character.Bank)
             {
-                bank.PushInt(item.flags); // misused the flags for position in the bank
+                packetWriter.PushInt(item.flags); // misused the flags for position in the bank
                 short flags = 0;
                 if (item.isInstanced())
                 {
@@ -66,17 +66,17 @@ namespace ZoneEngine.Packets
                     flags |= 1;
                 }
                 // perhaps there are more flags...
-                bank.PushShort(flags);
-                bank.PushShort((short)item.multiplecount);
-                bank.PushInt(item.Type);
-                bank.PushInt(item.Instance);
-                bank.PushInt(item.lowID);
-                bank.PushInt(item.highID);
-                bank.PushInt(item.Quality);
-                bank.PushInt(0); // didnt encounter any other value
+                packetWriter.PushShort(flags);
+                packetWriter.PushShort((short)item.multiplecount);
+                packetWriter.PushInt(item.Type);
+                packetWriter.PushInt(item.Instance);
+                packetWriter.PushInt(item.lowID);
+                packetWriter.PushInt(item.highID);
+                packetWriter.PushInt(item.Quality);
+                packetWriter.PushInt(0); // didnt encounter any other value
             }
-            byte[] reply = bank.Finish();
-            cli.SendCompressed(reply);
+            byte[] reply = packetWriter.Finish();
+            client.SendCompressed(reply);
         }
     }
 }

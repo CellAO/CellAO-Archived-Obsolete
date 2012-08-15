@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using System;
@@ -48,11 +44,11 @@ namespace ZoneEngine.Packets
         public static void Send(Client client)
         {
             /* get chat settings from config */
-            string ChatServerIP = string.Empty;
-            IPAddress tempIP;
-            if (IPAddress.TryParse(ConfigReadWrite.Instance.CurrentConfig.ChatIP, out tempIP))
+            string chatServerIp = string.Empty;
+            IPAddress tempIp;
+            if (IPAddress.TryParse(ConfigReadWrite.Instance.CurrentConfig.ChatIP, out tempIp))
             {
-                ChatServerIP = ConfigReadWrite.Instance.CurrentConfig.ChatIP;
+                chatServerIp = ConfigReadWrite.Instance.CurrentConfig.ChatIP;
             }
             else
             {
@@ -61,12 +57,12 @@ namespace ZoneEngine.Packets
                 {
                     if (ip.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        ChatServerIP = ip.ToString();
+                        chatServerIp = ip.ToString();
                         break;
                     }
                 }
             }
-            int ChatPort = Convert.ToInt32(ConfigReadWrite.Instance.CurrentConfig.ChatPort);
+            int chatPort = Convert.ToInt32(ConfigReadWrite.Instance.CurrentConfig.ChatPort);
 
             PacketWriter writer = new PacketWriter();
 
@@ -78,12 +74,12 @@ namespace ZoneEngine.Packets
             writer.PushInt(client.Character.ID);
             writer.PushInt(67);
             writer.PushInt(1);
-            writer.PushInt(ChatServerIP.Length);
-            writer.PushBytes(Encoding.ASCII.GetBytes(ChatServerIP));
-            writer.PushInt(ChatPort);
+            writer.PushInt(chatServerIp.Length);
+            writer.PushBytes(Encoding.ASCII.GetBytes(chatServerIp));
+            writer.PushInt(chatPort);
             writer.PushInt(0);
-            byte[] reply = writer.Finish();
-            client.SendCompressed(reply);
+            byte[] packet = writer.Finish();
+            client.SendCompressed(packet);
         }
     }
 }

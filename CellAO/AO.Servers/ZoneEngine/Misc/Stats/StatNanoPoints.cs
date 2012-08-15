@@ -22,48 +22,31 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_Skill : ClassStat
+    public class StatNanoPoints : ClassStat
     {
-        public Stat_Skill(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatNanoPoints(int number, int Default, string name, bool sendBaseValue, bool dontWrite, bool announce)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)Default;
 
-            this.Value = (int)this.StatDefault;
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
         }
 
-        public override void CalcTrickle()
+        public override uint GetMaxValue(uint val)
         {
-            double StrengthTrickle = SkillTrickleTable.table[this.StatNumber - 100, 1];
-            double AgilityTrickle = SkillTrickleTable.table[this.StatNumber - 100, 2];
-            double StaminaTrickle = SkillTrickleTable.table[this.StatNumber - 100, 3];
-            double IntelligenceTrickle = SkillTrickleTable.table[this.StatNumber - 100, 4];
-            double SenseTrickle = SkillTrickleTable.table[this.StatNumber - 100, 5];
-            double PsychicTrickle = SkillTrickleTable.table[this.StatNumber - 100, 6];
-
-            CharacterStats st = ((Character)this.Parent).Stats;
-            this.Trickle =
-                Convert.ToInt32(
-                    Math.Floor(
-                        (StrengthTrickle * st.Strength.Value + StaminaTrickle * st.Stamina.Value
-                         + SenseTrickle * st.Sense.Value + AgilityTrickle * st.Agility.Value
-                         + IntelligenceTrickle * st.Intelligence.Value + PsychicTrickle * st.Psychic.Value) / 4));
-
-            if (!this.Parent.startup)
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass))
             {
-                this.AffectStats();
+                Character c = (Character)this.Parent;
+                return (uint)(Math.Min(val, c.Stats.MaxNanoEnergy.Value));
             }
+            return base.GetMaxValue(val);
         }
     }
 }

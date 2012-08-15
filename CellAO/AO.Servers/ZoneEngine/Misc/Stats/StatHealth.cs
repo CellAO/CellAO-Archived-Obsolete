@@ -27,25 +27,25 @@
 
 namespace ZoneEngine.Misc
 {
-    public class Stat_Health : ClassStat
+    public class StatHealth : ClassStat
     {
-        public Stat_Health(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatHealth(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefault;
-            this.SendBaseValue = sendbase;
-            this.DoNotDontWriteToSql = dontwrite;
-            this.AnnounceToPlayfield = announce;
+            this.Value = (int)this.StatDefaultValue;
+            this.SendBaseValue = sendBaseValue;
+            this.DoNotDontWriteToSql = doNotWrite;
+            this.AnnounceToPlayfield = announceToPlayfield;
         }
 
         public override void CalcTrickle()
         {
             #region table
-            int[,] TableProfHP =
+            int[,] tableProfessionHitPoints =
                 {
-                    //Sol| MA|ENG|FIX|AGE|ADV|TRA|CRA|ENF|DOC| NT| MP| KEP|SHA   // geprüfte Prof & TL = Soldier, Martial Artist, Engineer, Fixer, Agent, Advy, Trader, Crat
+                    // Sol| MA|ENG|FIX|AGE|ADV|TRA|CRA|ENF|DOC| NT| MP| KEP|SHA   // geprüfte Prof & TL = Soldier, Martial Artist, Engineer, Fixer, Agent, Advy, Trader, Crat
                     { 6, 6, 6, 6, 6, 6, 6, 6, 7, 6, 6, 6, 6, 6 }, //TitleLevel 1
                     { 7, 7, 6, 7, 7, 7, 6, 7, 8, 6, 6, 6, 7, 7 }, //TitleLevel 2
                     { 8, 7, 6, 7, 7, 8, 7, 7, 9, 6, 6, 6, 8, 7 }, //TitleLevel 3
@@ -54,39 +54,39 @@ namespace ZoneEngine.Misc
                     { 11, 12, 6, 10, 9, 9, 9, 9, 12, 6, 6, 6, 11, 10 }, //TitleLevel 6
                     { 12, 13, 7, 11, 10, 10, 10, 10, 13, 7, 7, 7, 12, 11 }, //TitleLevel 7
                 };
-            //Sol|Opi|Nan|Tro
-            int[] BreedBaseHP = { 10, 15, 10, 25, 30, 30, 30 };
-            int[] BreedMultiHP = { 3, 3, 2, 4, 8, 8, 10 };
-            int[] BreedModiHP = { 0, -1, -1, 0, 0, 0, 0 };
+            // Sol|Opi|Nan|Tro
+            int[] breedBaseHitPoints = { 10, 15, 10, 25, 30, 30, 30 };
+            int[] breedMultiplicatorHitPoints = { 3, 3, 2, 4, 8, 8, 10 };
+            int[] breedModificatorHitPoints = { 0, -1, -1, 0, 0, 0, 0 };
             #endregion
 
             if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
-                Character ch = (Character)this.Parent;
-                uint breed = ch.Stats.Breed.StatBaseValue;
-                uint profession = ch.Stats.Profession.StatBaseValue;
+                Character character = (Character)this.Parent;
+                uint breed = character.Stats.Breed.StatBaseValue;
+                uint profession = character.Stats.Profession.StatBaseValue;
                 if (profession > 13)
                 {
                     profession--;
                 }
-                uint titlelevel = ch.Stats.TitleLevel.StatBaseValue;
-                uint level = ch.Stats.Level.StatBaseValue;
+                uint titleLevel = character.Stats.TitleLevel.StatBaseValue;
+                uint level = character.Stats.Level.StatBaseValue;
 
                 //BreedBaseHP+(Level*(TableProfHP+BreedModiHP))+(BodyDevelopment*BreedMultiHP))
                 if (this.Parent is NonPlayerCharacterClass)
                 {
                     // TODO: correct calculation of mob HP
                     Set(
-                        BreedBaseHP[breed - 1] + (ch.Stats.Level.Value * TableProfHP[6, 8])
-                        + (ch.Stats.BodyDevelopment.Value + BreedMultiHP[breed - 1]));
+                        breedBaseHitPoints[breed - 1] + (character.Stats.Level.Value * tableProfessionHitPoints[6, 8])
+                        + (character.Stats.BodyDevelopment.Value + breedMultiplicatorHitPoints[breed - 1]));
                 }
                 else
                 {
                     Set(
-                        BreedBaseHP[breed - 1]
+                        breedBaseHitPoints[breed - 1]
                         +
-                        (ch.Stats.Level.Value * (TableProfHP[titlelevel - 1, profession - 1] + BreedModiHP[breed - 1]))
-                        + (ch.Stats.BodyDevelopment.Value * BreedMultiHP[breed - 1]));
+                        (character.Stats.Level.Value * (tableProfessionHitPoints[titleLevel - 1, profession - 1] + breedModificatorHitPoints[breed - 1]))
+                        + (character.Stats.BodyDevelopment.Value * breedMultiplicatorHitPoints[breed - 1]));
                 }
 
                 //ch.Stats.Health.StatBaseValue = (UInt32)Math.Min(ch.Stats.Health.Value, StatBaseValue);

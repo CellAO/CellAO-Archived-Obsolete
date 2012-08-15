@@ -22,36 +22,38 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_Level : ClassStat
+    public class StatNanoDelta : ClassStat
     {
-        public Stat_Level(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatNanoDelta(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefault;
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
         }
 
-        public override int Value
+        public override void CalcTrickle()
         {
-            get
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
-                return (Int32)this.StatBaseValue;
-            }
-            set
-            {
-                Set(value);
+                Character character = (Character)this.Parent;
+                uint[] nanodelta = { 3, 3, 4, 2, 12, 15, 20 };
+                uint nanoDelta = nanodelta[character.Stats.Breed.Value - 1]
+                          + (uint)Math.Floor((double)(character.Stats.NanoEnergyPool.Value / 100));
+                // Whats this? TODO: Find the original routine again
+                this.StatBaseValue = nanoDelta;
+
+                if (!this.Parent.startup)
+                {
+                    this.AffectStats();
+                }
             }
         }
     }

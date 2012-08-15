@@ -22,31 +22,31 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-#endregion
-
 namespace ZoneEngine.Misc
 {
-    public class Stat_WeaponsStyle : ClassStat
-    {
-        public Stat_WeaponsStyle(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
-        {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+    using System;
 
-            this.Value = (int)this.StatDefault;
+    public class StatHitPoints : ClassStat
+    {
+        public StatHitPoints(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        {
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)defaultValue;
+
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
-            this.AnnounceToPlayfield = false;
+            this.AnnounceToPlayfield = true;
         }
 
-        public override void CalcTrickle()
+        public override uint GetMaxValue(uint val)
         {
-            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass))
             {
-                this.Value = ((Character)this.Parent).Stats.WeaponStyleLeft.Value
-                             | ((Character)this.Parent).Stats.WeaponStyleRight.Value;
+                Character character = (Character)this.Parent;
+                return (uint)(Math.Min(val, character.Stats.Life.Value));
             }
+            return base.GetMaxValue(val);
         }
     }
 }

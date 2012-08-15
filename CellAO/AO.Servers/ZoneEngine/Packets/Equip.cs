@@ -84,8 +84,8 @@ namespace ZoneEngine.Packets
                     action167packet.PushInt(0);
                     action167packet.PushShort(0);
 
-                    byte[] replyAc167 = action167packet.Finish();
-                    cli.SendCompressed(replyAc167);
+                    byte[] replyAction167 = action167packet.Finish();
+                    cli.SendCompressed(replyAction167);
 
                     // Action 131 Reply
                     action131packet.PushByte(0xDF);
@@ -107,8 +107,8 @@ namespace ZoneEngine.Packets
                     action131packet.PushInt(0x06);
                     action131packet.PushShort(0);
 
-                    byte[] replyAc131 = action131packet.Finish();
-                    cli.SendCompressed(replyAc131);
+                    byte[] replyAction131 = action131packet.Finish();
+                    cli.SendCompressed(replyAction131);
 
                     break;
 
@@ -142,10 +142,10 @@ namespace ZoneEngine.Packets
                     equippacket.PushInt(0);
                     equippacket.PushInt(0);
 
-                    byte[] reply2 = equippacket.Finish();
+                    byte[] defaultReply = equippacket.Finish();
                     if (!((placement >= 49) && (placement <= 63)))
                     {
-                        cli.SendCompressed(reply2);
+                        cli.SendCompressed(defaultReply);
                     }
                     break;
             }

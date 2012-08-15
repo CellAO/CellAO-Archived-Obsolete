@@ -22,35 +22,40 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_NP : ClassStat
+    public class StatAlienNextXP : ClassStat
     {
-        public Stat_NP(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
+        public StatAlienNextXP(int number, int Default, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
-            this.StatNumber = Number;
-            this.StatDefault = (uint)Default;
+            this.StatNumber = number;
+            this.StatDefaultValue = (uint)Default;
 
-            this.Value = (int)this.StatDefault;
+            this.Value = (int)this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
         }
 
-        public override uint GetMaxValue(uint val)
+        public override int Value
         {
-            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass))
+            get
             {
-                Character c = (Character)this.Parent;
-                return (uint)(Math.Min(val, c.Stats.MaxNanoEnergy.Value));
+                int level = ((Character)this.Parent).Stats.AlienLevel.Value;
+                return Convert.ToInt32(Program.zoneServer.XPproLevel.tableAIXP[level, 2]);
             }
-            return base.GetMaxValue(val);
+            set
+            {
+                Set(value);
+            }
+        }
+
+        public override void CalcTrickle()
+        {
+            base.CalcTrickle();
+            this.Set(this.Value);
         }
     }
 }

@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
@@ -34,29 +30,29 @@ namespace ZoneEngine.Packets
 
     public static class Despawn
     {
-        public static void DespawnPacket(int targetid)
+        public static void DespawnPacket(int targetId)
         {
-            PacketWriter dspawn = new PacketWriter();
-            dspawn.PushByte(0xDF);
-            dspawn.PushByte(0xDF);
-            dspawn.PushShort(10);
-            dspawn.PushShort(1);
-            dspawn.PushShort(0x1d);
-            dspawn.PushInt(3086);
-            dspawn.PushInt(0);
-            dspawn.PushInt(0x36510078);
-            dspawn.PushIdentity(50000, targetid);
-            dspawn.PushByte(1);
-            byte[] dspawnA = dspawn.Finish();
+            PacketWriter packetWriter = new PacketWriter();
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushShort(10);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0x1d);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0x36510078);
+            packetWriter.PushIdentity(50000, targetId);
+            packetWriter.PushByte(1);
+            byte[] packet = packetWriter.Finish();
 
-            Dynel dyn = FindDynel.FindDynelByID(50000, targetid);
+            Dynel dyn = FindDynel.FindDynelByID(50000, targetId);
             if (dyn != null)
             {
                 if (dyn is NonPlayerCharacterClass)
                 {
                     (dyn as NonPlayerCharacterClass).RemoveFromCache();
                 }
-                Announce.PlayfieldOthers(dyn.PlayField, ref dspawnA);
+                Announce.PlayfieldOthers(dyn.PlayField, ref packet);
             }
         }
     }

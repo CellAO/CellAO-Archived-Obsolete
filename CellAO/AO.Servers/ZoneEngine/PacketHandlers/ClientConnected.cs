@@ -138,7 +138,7 @@ namespace ZoneEngine.PacketHandlers
 
             /* visual */
 
-            SimpleCharFullUpdate.SendToPf(client);
+            SimpleCharFullUpdate.SendToPlayfield(client);
 
             /* inventory, items and all that */
             FullCharacter.Send(client);
@@ -194,7 +194,7 @@ namespace ZoneEngine.PacketHandlers
 
             client.Character.CalculateSkills();
 
-            AppearanceUpdate.Appearance_Update(client.Character);
+            AppearanceUpdate.AnnounceAppearanceUpdate(client.Character);
 
             // done, so we call a hook.
             // Call all OnConnect script Methods

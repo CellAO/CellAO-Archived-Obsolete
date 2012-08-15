@@ -22,39 +22,35 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     internal class SwitchItem
     {
-        public static void Send(Client cli, int frompage, int fromplacement, Identity to_identity, int toplacement)
+        public static void Send(Client client, int fromPage, int fromPlacement, Identity toIdentity, int toPlacement)
         {
-            PacketWriter xx = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
             // Send Switch place ACK
-            xx.PushByte(0xDF);
-            xx.PushByte(0xDF);
-            xx.PushShort(0x000a);
-            xx.PushShort(0x0001);
-            xx.PushShort(0); // LENGTH
-            xx.PushInt(3086); // Server ID
-            xx.PushInt(cli.Character.ID);
-            xx.PushInt(0x47537a24);
-            xx.PushInt(50000);
-            xx.PushInt(cli.Character.ID);
-            xx.PushByte(0);
-            xx.PushInt(frompage); // Send Container ID
-            xx.PushInt(fromplacement);
-            xx.PushInt(to_identity.Type);
-            xx.PushInt(to_identity.Instance);
-            xx.PushInt(toplacement); // changed toplacement
-            byte[] reply = xx.Finish();
-            cli.SendCompressed(reply);
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushShort(0x000a);
+            packetWriter.PushShort(0x0001);
+            packetWriter.PushShort(0); // LENGTH
+            packetWriter.PushInt(3086); // Server ID
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x47537a24);
+            packetWriter.PushInt(50000);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(fromPage); // Send Container ID
+            packetWriter.PushInt(fromPlacement);
+            packetWriter.PushInt(toIdentity.Type);
+            packetWriter.PushInt(toIdentity.Instance);
+            packetWriter.PushInt(toPlacement); // changed toplacement
+            byte[] packet = packetWriter.Finish();
+            client.SendCompressed(packet);
         }
     }
 }

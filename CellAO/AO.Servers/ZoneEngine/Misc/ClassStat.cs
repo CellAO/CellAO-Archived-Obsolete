@@ -129,7 +129,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public uint StatDefault;
+        public uint StatDefaultValue;
 
         public uint StatBaseValue;
 
@@ -145,23 +145,23 @@ namespace ZoneEngine.Misc
 
         public bool SendBaseValue = true;
 
-        public bool changed;
+        public bool Changed;
 
         public List<int> Affects = new List<int>();
 
         public Dynel Parent;
 
         public ClassStat(
-            int Number, uint Default, string name, bool sendbase, bool dontwrite, bool announcetoplayfield)
+            int number, uint defaultValue, string name, bool sendBaseValue, bool dontWrite, bool announceToPlayfield)
         {
             this.DoNotDontWriteToSql = true;
-            this.StatNumber = Number;
-            this.StatDefault = Default;
-            this.Value = (int)Default;
-            this.StatDefault = Default;
-            this.SendBaseValue = sendbase;
-            this.DoNotDontWriteToSql = dontwrite;
-            this.AnnounceToPlayfield = announcetoplayfield;
+            this.StatNumber = number;
+            this.StatDefaultValue = defaultValue;
+            this.Value = (int)defaultValue;
+            this.StatDefaultValue = defaultValue;
+            this.SendBaseValue = sendBaseValue;
+            this.DoNotDontWriteToSql = dontWrite;
+            this.AnnounceToPlayfield = announceToPlayfield;
             // Obsolete            StatName = name;
         }
 
@@ -199,7 +199,7 @@ namespace ZoneEngine.Misc
                 this.OnBeforeStatChangedEvent(new StatChangedEventArgs(this, oldvalue, max, this.AnnounceToPlayfield));
                 this.StatBaseValue = max;
                 this.OnAfterStatChangedEvent(new StatChangedEventArgs(this, oldvalue, max, this.AnnounceToPlayfield));
-                this.changed = true;
+                this.Changed = true;
                 this.WriteStatToSQL();
 
                 if (!this.Parent.startup)
@@ -231,7 +231,7 @@ namespace ZoneEngine.Misc
             }
             int id = this.Parent.ID;
             SqlWrapper sql = new SqlWrapper();
-            if (this.changed)
+            if (this.Changed)
             {
                 if (this.Parent is NonPlayerCharacterClass)
                 {
@@ -330,7 +330,7 @@ namespace ZoneEngine.Misc
         #region stats creation
         public ClassStat Flags = new ClassStat(0, 8917569, "Flags", false, false, true);
 
-        public Stat_Health Life = new Stat_Health(1, 1, "Life", true, false, false);
+        public StatHealth Life = new StatHealth(1, 1, "Life", true, false, false);
 
         public ClassStat VolumeMass = new ClassStat(2, 1234567890, "VolumeMass", false, false, false);
 
@@ -382,7 +382,7 @@ namespace ZoneEngine.Misc
 
         public ClassStat Energy = new ClassStat(26, 1234567890, "Energy", false, false, false);
 
-        public Stat_HP Health = new Stat_HP(27, 1, "Health", false, false, false);
+        public StatHitPoints Health = new StatHitPoints(27, 1, "Health", false, false, false);
 
         public ClassStat Height = new ClassStat(28, 1234567890, "Height", false, false, false);
 
@@ -402,7 +402,7 @@ namespace ZoneEngine.Misc
 
         public ClassStat AttackCount = new ClassStat(36, 1234567890, "AttackCount", false, false, false);
 
-        public Stat_TitleLevel TitleLevel = new Stat_TitleLevel(37, 1, "TitleLevel", false, false, false);
+        public StatTitleLevel TitleLevel = new StatTitleLevel(37, 1, "TitleLevel", false, false, false);
 
         public ClassStat BackMesh = new ClassStat(38, 0, "BackMesh", false, false, false);
 
@@ -434,7 +434,7 @@ namespace ZoneEngine.Misc
 
         public ClassStat XP = new ClassStat(52, 0, "XP", false, false, false);
 
-        public Stat_IP IP = new Stat_IP(53, 1500, "IP", false, false, false);
+        public StatIP IP = new StatIP(53, 1500, "IP", false, false, false);
 
         public ClassStat Level = new ClassStat(54, 1234567890, "Level", false, false, false);
 
@@ -530,146 +530,146 @@ namespace ZoneEngine.Misc
 
         public ClassStat ItemAnim = new ClassStat(99, 1234567890, "ItemAnim", true, false, false);
 
-        public Stat_Skill MartialArts = new Stat_Skill(100, 5, "MartialArts", true, false, false);
+        public StatSkill MartialArts = new StatSkill(100, 5, "MartialArts", true, false, false);
 
-        public Stat_Skill MeleeMultiple = new Stat_Skill(101, 5, "MeleeMultiple", true, false, false);
+        public StatSkill MeleeMultiple = new StatSkill(101, 5, "MeleeMultiple", true, false, false);
 
-        public Stat_Skill OnehBluntWeapons = new Stat_Skill(102, 5, "1hBluntWeapons", true, false, false);
+        public StatSkill OnehBluntWeapons = new StatSkill(102, 5, "1hBluntWeapons", true, false, false);
 
-        public Stat_Skill OnehEdgedWeapon = new Stat_Skill(103, 5, "1hEdgedWeapon", true, false, false);
+        public StatSkill OnehEdgedWeapon = new StatSkill(103, 5, "1hEdgedWeapon", true, false, false);
 
-        public Stat_Skill MeleeEnergyWeapon = new Stat_Skill(104, 5, "MeleeEnergyWeapon", true, false, false);
+        public StatSkill MeleeEnergyWeapon = new StatSkill(104, 5, "MeleeEnergyWeapon", true, false, false);
 
-        public Stat_Skill TwohEdgedWeapons = new Stat_Skill(105, 5, "2hEdgedWeapons", true, false, false);
+        public StatSkill TwohEdgedWeapons = new StatSkill(105, 5, "2hEdgedWeapons", true, false, false);
 
-        public Stat_Skill Piercing = new Stat_Skill(106, 5, "Piercing", true, false, false);
+        public StatSkill Piercing = new StatSkill(106, 5, "Piercing", true, false, false);
 
-        public Stat_Skill TwohBluntWeapons = new Stat_Skill(107, 5, "2hBluntWeapons", true, false, false);
+        public StatSkill TwohBluntWeapons = new StatSkill(107, 5, "2hBluntWeapons", true, false, false);
 
-        public Stat_Skill ThrowingKnife = new Stat_Skill(108, 5, "ThrowingKnife", true, false, false);
+        public StatSkill ThrowingKnife = new StatSkill(108, 5, "ThrowingKnife", true, false, false);
 
-        public Stat_Skill Grenade = new Stat_Skill(109, 5, "Grenade", true, false, false);
+        public StatSkill Grenade = new StatSkill(109, 5, "Grenade", true, false, false);
 
-        public Stat_Skill ThrownGrapplingWeapons = new Stat_Skill(110, 5, "ThrownGrapplingWeapons", true, false, false);
+        public StatSkill ThrownGrapplingWeapons = new StatSkill(110, 5, "ThrownGrapplingWeapons", true, false, false);
 
-        public Stat_Skill Bow = new Stat_Skill(111, 5, "Bow", true, false, false);
+        public StatSkill Bow = new StatSkill(111, 5, "Bow", true, false, false);
 
-        public Stat_Skill Pistol = new Stat_Skill(112, 5, "Pistol", true, false, false);
+        public StatSkill Pistol = new StatSkill(112, 5, "Pistol", true, false, false);
 
-        public Stat_Skill Rifle = new Stat_Skill(113, 5, "Rifle", true, false, false);
+        public StatSkill Rifle = new StatSkill(113, 5, "Rifle", true, false, false);
 
-        public Stat_Skill SubMachineGun = new Stat_Skill(114, 5, "SubMachineGun", true, false, false);
+        public StatSkill SubMachineGun = new StatSkill(114, 5, "SubMachineGun", true, false, false);
 
-        public Stat_Skill Shotgun = new Stat_Skill(115, 5, "Shotgun", true, false, false);
+        public StatSkill Shotgun = new StatSkill(115, 5, "Shotgun", true, false, false);
 
-        public Stat_Skill AssaultRifle = new Stat_Skill(116, 5, "AssaultRifle", true, false, false);
+        public StatSkill AssaultRifle = new StatSkill(116, 5, "AssaultRifle", true, false, false);
 
-        public Stat_Skill DriveWater = new Stat_Skill(117, 5, "DriveWater", true, false, false);
+        public StatSkill DriveWater = new StatSkill(117, 5, "DriveWater", true, false, false);
 
-        public Stat_Skill CloseCombatInitiative = new Stat_Skill(118, 5, "CloseCombatInitiative", true, false, false);
+        public StatSkill CloseCombatInitiative = new StatSkill(118, 5, "CloseCombatInitiative", true, false, false);
 
-        public Stat_Skill DistanceWeaponInitiative = new Stat_Skill(
+        public StatSkill DistanceWeaponInitiative = new StatSkill(
             119, 5, "DistanceWeaponInitiative", true, false, false);
 
-        public Stat_Skill PhysicalProwessInitiative = new Stat_Skill(
+        public StatSkill PhysicalProwessInitiative = new StatSkill(
             120, 5, "PhysicalProwessInitiative", true, false, false);
 
-        public Stat_Skill BowSpecialAttack = new Stat_Skill(121, 5, "BowSpecialAttack", true, false, false);
+        public StatSkill BowSpecialAttack = new StatSkill(121, 5, "BowSpecialAttack", true, false, false);
 
-        public Stat_Skill SenseImprovement = new Stat_Skill(122, 5, "SenseImprovement", true, false, false);
+        public StatSkill SenseImprovement = new StatSkill(122, 5, "SenseImprovement", true, false, false);
 
-        public Stat_Skill FirstAid = new Stat_Skill(123, 5, "FirstAid", true, false, false);
+        public StatSkill FirstAid = new StatSkill(123, 5, "FirstAid", true, false, false);
 
-        public Stat_Skill Treatment = new Stat_Skill(124, 5, "Treatment", true, false, false);
+        public StatSkill Treatment = new StatSkill(124, 5, "Treatment", true, false, false);
 
-        public Stat_Skill MechanicalEngineering = new Stat_Skill(125, 5, "MechanicalEngineering", true, false, false);
+        public StatSkill MechanicalEngineering = new StatSkill(125, 5, "MechanicalEngineering", true, false, false);
 
-        public Stat_Skill ElectricalEngineering = new Stat_Skill(126, 5, "ElectricalEngineering", true, false, false);
+        public StatSkill ElectricalEngineering = new StatSkill(126, 5, "ElectricalEngineering", true, false, false);
 
-        public Stat_Skill MaterialMetamorphose = new Stat_Skill(127, 5, "MaterialMetamorphose", true, false, false);
+        public StatSkill MaterialMetamorphose = new StatSkill(127, 5, "MaterialMetamorphose", true, false, false);
 
-        public Stat_Skill BiologicalMetamorphose = new Stat_Skill(128, 5, "BiologicalMetamorphose", true, false, false);
+        public StatSkill BiologicalMetamorphose = new StatSkill(128, 5, "BiologicalMetamorphose", true, false, false);
 
-        public Stat_Skill PsychologicalModification = new Stat_Skill(
+        public StatSkill PsychologicalModification = new StatSkill(
             129, 5, "PsychologicalModification", true, false, false);
 
-        public Stat_Skill MaterialCreation = new Stat_Skill(130, 5, "MaterialCreation", true, false, false);
+        public StatSkill MaterialCreation = new StatSkill(130, 5, "MaterialCreation", true, false, false);
 
-        public Stat_Skill MaterialLocation = new Stat_Skill(131, 5, "MaterialLocation", true, false, false);
+        public StatSkill MaterialLocation = new StatSkill(131, 5, "MaterialLocation", true, false, false);
 
-        public Stat_Skill NanoEnergyPool = new Stat_Skill(132, 5, "NanoEnergyPool", true, false, false);
+        public StatSkill NanoEnergyPool = new StatSkill(132, 5, "NanoEnergyPool", true, false, false);
 
-        public Stat_Skill LR_EnergyWeapon = new Stat_Skill(133, 5, "LR_EnergyWeapon", true, false, false);
+        public StatSkill LR_EnergyWeapon = new StatSkill(133, 5, "LR_EnergyWeapon", true, false, false);
 
-        public Stat_Skill LR_MultipleWeapon = new Stat_Skill(134, 5, "LR_MultipleWeapon", true, false, false);
+        public StatSkill LR_MultipleWeapon = new StatSkill(134, 5, "LR_MultipleWeapon", true, false, false);
 
-        public Stat_Skill DisarmTrap = new Stat_Skill(135, 5, "DisarmTrap", true, false, false);
+        public StatSkill DisarmTrap = new StatSkill(135, 5, "DisarmTrap", true, false, false);
 
-        public Stat_Skill Perception = new Stat_Skill(136, 5, "Perception", true, false, false);
+        public StatSkill Perception = new StatSkill(136, 5, "Perception", true, false, false);
 
-        public Stat_Skill Adventuring = new Stat_Skill(137, 5, "Adventuring", true, false, false);
+        public StatSkill Adventuring = new StatSkill(137, 5, "Adventuring", true, false, false);
 
-        public Stat_Skill Swim = new Stat_Skill(138, 5, "Swim", true, false, false);
+        public StatSkill Swim = new StatSkill(138, 5, "Swim", true, false, false);
 
-        public Stat_Skill DriveAir = new Stat_Skill(139, 5, "DriveAir", true, false, false);
+        public StatSkill DriveAir = new StatSkill(139, 5, "DriveAir", true, false, false);
 
-        public Stat_Skill MapNavigation = new Stat_Skill(140, 5, "MapNavigation", true, false, false);
+        public StatSkill MapNavigation = new StatSkill(140, 5, "MapNavigation", true, false, false);
 
-        public Stat_Skill Tutoring = new Stat_Skill(141, 5, "Tutoring", true, false, false);
+        public StatSkill Tutoring = new StatSkill(141, 5, "Tutoring", true, false, false);
 
-        public Stat_Skill Brawl = new Stat_Skill(142, 5, "Brawl", true, false, false);
+        public StatSkill Brawl = new StatSkill(142, 5, "Brawl", true, false, false);
 
-        public Stat_Skill Riposte = new Stat_Skill(143, 5, "Riposte", true, false, false);
+        public StatSkill Riposte = new StatSkill(143, 5, "Riposte", true, false, false);
 
-        public Stat_Skill Dimach = new Stat_Skill(144, 5, "Dimach", true, false, false);
+        public StatSkill Dimach = new StatSkill(144, 5, "Dimach", true, false, false);
 
-        public Stat_Skill Parry = new Stat_Skill(145, 5, "Parry", true, false, false);
+        public StatSkill Parry = new StatSkill(145, 5, "Parry", true, false, false);
 
-        public Stat_Skill SneakAttack = new Stat_Skill(146, 5, "SneakAttack", true, false, false);
+        public StatSkill SneakAttack = new StatSkill(146, 5, "SneakAttack", true, false, false);
 
-        public Stat_Skill FastAttack = new Stat_Skill(147, 5, "FastAttack", true, false, false);
+        public StatSkill FastAttack = new StatSkill(147, 5, "FastAttack", true, false, false);
 
-        public Stat_Skill Burst = new Stat_Skill(148, 5, "Burst", true, false, false);
+        public StatSkill Burst = new StatSkill(148, 5, "Burst", true, false, false);
 
-        public Stat_Skill NanoProwessInitiative = new Stat_Skill(149, 5, "NanoProwessInitiative", true, false, false);
+        public StatSkill NanoProwessInitiative = new StatSkill(149, 5, "NanoProwessInitiative", true, false, false);
 
-        public Stat_Skill FlingShot = new Stat_Skill(150, 5, "FlingShot", true, false, false);
+        public StatSkill FlingShot = new StatSkill(150, 5, "FlingShot", true, false, false);
 
-        public Stat_Skill AimedShot = new Stat_Skill(151, 5, "AimedShot", true, false, false);
+        public StatSkill AimedShot = new StatSkill(151, 5, "AimedShot", true, false, false);
 
-        public Stat_Skill BodyDevelopment = new Stat_Skill(152, 5, "BodyDevelopment", true, false, false);
+        public StatSkill BodyDevelopment = new StatSkill(152, 5, "BodyDevelopment", true, false, false);
 
-        public Stat_Skill Duck = new Stat_Skill(153, 5, "Duck", true, false, false);
+        public StatSkill Duck = new StatSkill(153, 5, "Duck", true, false, false);
 
-        public Stat_Skill Dodge = new Stat_Skill(154, 5, "Dodge", true, false, false);
+        public StatSkill Dodge = new StatSkill(154, 5, "Dodge", true, false, false);
 
-        public Stat_Skill Evade = new Stat_Skill(155, 5, "Evade", true, false, false);
+        public StatSkill Evade = new StatSkill(155, 5, "Evade", true, false, false);
 
-        public Stat_Skill RunSpeed = new Stat_Skill(156, 5, "RunSpeed", true, false, false);
+        public StatSkill RunSpeed = new StatSkill(156, 5, "RunSpeed", true, false, false);
 
-        public Stat_Skill FieldQuantumPhysics = new Stat_Skill(157, 5, "FieldQuantumPhysics", true, false, false);
+        public StatSkill FieldQuantumPhysics = new StatSkill(157, 5, "FieldQuantumPhysics", true, false, false);
 
-        public Stat_Skill WeaponSmithing = new Stat_Skill(158, 5, "WeaponSmithing", true, false, false);
+        public StatSkill WeaponSmithing = new StatSkill(158, 5, "WeaponSmithing", true, false, false);
 
-        public Stat_Skill Pharmaceuticals = new Stat_Skill(159, 5, "Pharmaceuticals", true, false, false);
+        public StatSkill Pharmaceuticals = new StatSkill(159, 5, "Pharmaceuticals", true, false, false);
 
-        public Stat_Skill NanoProgramming = new Stat_Skill(160, 5, "NanoProgramming", true, false, false);
+        public StatSkill NanoProgramming = new StatSkill(160, 5, "NanoProgramming", true, false, false);
 
-        public Stat_Skill ComputerLiteracy = new Stat_Skill(161, 5, "ComputerLiteracy", true, false, false);
+        public StatSkill ComputerLiteracy = new StatSkill(161, 5, "ComputerLiteracy", true, false, false);
 
-        public Stat_Skill Psychology = new Stat_Skill(162, 5, "Psychology", true, false, false);
+        public StatSkill Psychology = new StatSkill(162, 5, "Psychology", true, false, false);
 
-        public Stat_Skill Chemistry = new Stat_Skill(163, 5, "Chemistry", true, false, false);
+        public StatSkill Chemistry = new StatSkill(163, 5, "Chemistry", true, false, false);
 
-        public Stat_Skill Concealment = new Stat_Skill(164, 5, "Concealment", true, false, false);
+        public StatSkill Concealment = new StatSkill(164, 5, "Concealment", true, false, false);
 
-        public Stat_Skill BreakingEntry = new Stat_Skill(165, 5, "BreakingEntry", true, false, false);
+        public StatSkill BreakingEntry = new StatSkill(165, 5, "BreakingEntry", true, false, false);
 
-        public Stat_Skill DriveGround = new Stat_Skill(166, 5, "DriveGround", true, false, false);
+        public StatSkill DriveGround = new StatSkill(166, 5, "DriveGround", true, false, false);
 
-        public Stat_Skill FullAuto = new Stat_Skill(167, 5, "FullAuto", true, false, false);
+        public StatSkill FullAuto = new StatSkill(167, 5, "FullAuto", true, false, false);
 
-        public Stat_Skill NanoAC = new Stat_Skill(168, 5, "NanoAC", true, false, false);
+        public StatSkill NanoAC = new StatSkill(168, 5, "NanoAC", true, false, false);
 
         public ClassStat AlienLevel = new ClassStat(169, 0, "AlienLevel", false, false, false);
 
@@ -691,7 +691,7 @@ namespace ZoneEngine.Misc
 
         public ClassStat MoreFlags = new ClassStat(177, 1234567890, "MoreFlags", false, false, true);
 
-        public Stat_AlienNextXP AlienNextXP = new Stat_AlienNextXP(178, 1500, "AlienNextXP", false, false, false);
+        public StatAlienNextXP AlienNextXP = new StatAlienNextXP(178, 1500, "AlienNextXP", false, false, false);
 
         public ClassStat NPCFlags = new ClassStat(179, 1234567890, "NPCFlags", false, false, false);
 
@@ -768,7 +768,7 @@ namespace ZoneEngine.Misc
 
         public ClassStat TeamSide = new ClassStat(213, 0, "TeamSide", false, false, false);
 
-        public Stat_NP CurrentNano = new Stat_NP(214, 1, "CurrentNano", false, false, false);
+        public StatNanoPoints CurrentNano = new StatNanoPoints(214, 1, "CurrentNano", false, false, false);
 
         public ClassStat GmLevel = new ClassStat(215, 0, "GmLevel", false, true, false);
 
@@ -782,7 +782,7 @@ namespace ZoneEngine.Misc
 
         public ClassStat CurrBodyLocation = new ClassStat(220, 0, "CurrBodyLocation", false, false, false);
 
-        public Stat_Nano MaxNanoEnergy = new Stat_Nano(221, 1, "MaxNanoEnergy", false, false, false);
+        public StatNano MaxNanoEnergy = new StatNano(221, 1, "MaxNanoEnergy", false, false, false);
 
         public ClassStat AccumulatedDamage = new ClassStat(222, 1234567890, "AccumulatedDamage", false, false, false);
 
@@ -1037,9 +1037,9 @@ namespace ZoneEngine.Misc
 
         public ClassStat XPBonus = new ClassStat(341, 1234567890, "XPBonus", false, false, false);
 
-        public Stat_HealInterval HealInterval = new Stat_HealInterval(342, 29, "HealInterval", false, false, false);
+        public StatHealInterval HealInterval = new StatHealInterval(342, 29, "HealInterval", false, false, false);
 
-        public Stat_HealDelta HealDelta = new Stat_HealDelta(343, 1234567890, "HealDelta", false, false, false);
+        public StatHealDelta HealDelta = new StatHealDelta(343, 1234567890, "HealDelta", false, false, false);
 
         public ClassStat MonsterTexture = new ClassStat(344, 1234567890, "MonsterTexture", false, false, false);
 
@@ -1053,7 +1053,7 @@ namespace ZoneEngine.Misc
 
         public ClassStat AutoAttackFlags = new ClassStat(349, 5, "AutoAttackFlags", false, false, false);
 
-        public Stat_NextXP NextXP = new Stat_NextXP(350, 1450, "NextXP", false, false, false);
+        public StatNextXP NextXP = new StatNextXP(350, 1450, "NextXP", false, false, false);
 
         public ClassStat TeleportPauseMilliSeconds = new ClassStat(
             351, 1234567890, "TeleportPauseMilliSeconds", false, false, false);
@@ -1080,9 +1080,9 @@ namespace ZoneEngine.Misc
 
         public ClassStat ResurrectDest = new ClassStat(362, 1234567890, "ResurrectDest", false, false, false);
 
-        public Stat_NanoInterval NanoInterval = new Stat_NanoInterval(363, 28, "NanoInterval", false, false, false);
+        public StatNanoInterval NanoInterval = new StatNanoInterval(363, 28, "NanoInterval", false, false, false);
 
-        public Stat_NanoDelta NanoDelta = new Stat_NanoDelta(364, 1234567890, "NanoDelta", false, false, false);
+        public StatNanoDelta NanoDelta = new StatNanoDelta(364, 1234567890, "NanoDelta", false, false, false);
 
         public ClassStat ReclaimItem = new ClassStat(365, 1234567890, "ReclaimItem", false, false, false);
 
@@ -1535,7 +1535,7 @@ namespace ZoneEngine.Misc
 
         public ClassStat LastSK = new ClassStat(574, 0, "LastSK", false, false, false);
 
-        public Stat_NextSK NextSK = new Stat_NextSK(575, 0, "NextSK", false, false, false);
+        public StatNextSK NextSK = new StatNextSK(575, 0, "NextSK", false, false, false);
 
         public ClassStat PlayerOptions = new ClassStat(576, 0, "PlayerOptions", false, false, false);
 
@@ -3349,7 +3349,7 @@ namespace ZoneEngine.Misc
                 {
                     Stat.Send(((Character)e.Stat.Parent).client, e.Stat.StatNumber, e.newvalue, e.AnnounceToPlayfield);
                 }
-                e.Stat.changed = false;
+                e.Stat.Changed = false;
             }
         }
         #endregion
@@ -3561,7 +3561,7 @@ namespace ZoneEngine.Misc
                 {
                     continue;
                 }
-                c.changed = c.StatBaseValue != value;
+                c.Changed = c.StatBaseValue != value;
                 c.StatBaseValue = value;
                 return;
             }
@@ -3627,7 +3627,7 @@ namespace ZoneEngine.Misc
         {
             foreach (ClassStat cs in this.all)
             {
-                cs.changed = false;
+                cs.Changed = false;
             }
         }
     }

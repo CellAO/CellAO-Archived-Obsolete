@@ -22,43 +22,39 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     internal class SystemText
     {
-        public static void Send(Client cli, string text, int color)
+        public static void Send(Client client, string text, int color)
         {
-            PacketWriter pw = new PacketWriter();
-            pw.PushByte(0xdf);
-            pw.PushByte(0xdf);
-            pw.PushShort(0xa);
-            pw.PushShort(1);
-            pw.PushShort(0);
-            pw.PushInt(3086);
-            pw.PushInt(cli.Character.ID);
-            pw.PushInt(0x206b4b73);
-            pw.PushInt(50000);
-            pw.PushInt(cli.Character.ID);
-            pw.PushByte(1);
-            pw.PushInt(0);
-            pw.PushInt(0x557e26);
-            pw.PushInt(0x21212122);
-            pw.PushInt(0x3a212121);
-            pw.PushShort(0x293c);
-            pw.PushByte(0x73);
-            pw.PushByte((byte)text.Length);
-            pw.PushString(text);
-            pw.PushInt(0);
+            PacketWriter packetWriter = new PacketWriter();
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x206b4b73);
+            packetWriter.PushInt(50000);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushByte(1);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0x557e26);
+            packetWriter.PushInt(0x21212122);
+            packetWriter.PushInt(0x3a212121);
+            packetWriter.PushShort(0x293c);
+            packetWriter.PushByte(0x73);
+            packetWriter.PushByte((byte)text.Length);
+            packetWriter.PushString(text);
+            packetWriter.PushInt(0);
 
-            byte[] packet = pw.Finish();
+            byte[] packet = packetWriter.Finish();
 
-            cli.SendCompressed(packet);
+            client.SendCompressed(packet);
         }
     }
 }

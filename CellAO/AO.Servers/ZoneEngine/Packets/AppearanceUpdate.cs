@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using System.Collections.Generic;
@@ -36,23 +32,22 @@ namespace ZoneEngine.Packets
 
     public static class AppearanceUpdate
     {
-        public static void Appearance_Update(Character character)
+        public static void AnnounceAppearanceUpdate(Character character)
         {
-            List<AOMeshs> mh;
-            PacketWriter wri = new PacketWriter();
-            wri.PushByte(0xDF);
-            wri.PushByte(0xDF);
-            wri.PushShort(10);
-            wri.PushShort(1);
-            wri.PushShort(0); // Packet size. writer will take care of this
-            wri.PushInt(3086);
-            wri.PushInt(character.ID);
-            wri.PushInt(0x41624F0D);
-            wri.PushIdentity(50000, character.ID);
-            wri.PushByte(0);
-            wri.Push3F1Count(5); // Textures are always transferred
+            List<AOMeshs> meshs;
+            PacketWriter packetWriter = new PacketWriter();
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushShort(10);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0); // Packet size. writer will take care of this
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(0x41624F0D);
+            packetWriter.PushIdentity(50000, character.ID);
+            packetWriter.PushByte(0);
+            packetWriter.Push3F1Count(5); // Textures are always transferred
             int c;
-            int c2;
 
             bool socialonly;
             bool showsocial;
@@ -85,9 +80,9 @@ namespace ZoneEngine.Packets
             int OverrideTextureBack;
             int OverrideTextureAttractor;
 
-            List<AOTextures> Textures = new List<AOTextures>();
+            List<AOTextures> textures = new List<AOTextures>();
 
-            Dictionary<int, int> SocialTab = new Dictionary<int, int>();
+            Dictionary<int, int> socialTab = new Dictionary<int, int>();
 
             lock (character)
             {
@@ -126,15 +121,15 @@ namespace ZoneEngine.Packets
 
                 foreach (int num in character.SocialTab.Keys)
                 {
-                    SocialTab.Add(num, character.SocialTab[num]);
+                    socialTab.Add(num, character.SocialTab[num]);
                 }
 
-                foreach (AOTextures at in character.Textures)
+                foreach (AOTextures texture in character.Textures)
                 {
-                    Textures.Add(new AOTextures(at.place, at.Texture));
+                    textures.Add(new AOTextures(texture.place, texture.Texture));
                 }
 
-                mh = MeshLayers.GetMeshs(character, showsocial, socialonly);
+                meshs = MeshLayers.GetMeshs(character, showsocial, socialonly);
             }
 
             AOTextures aotemp = new AOTextures(0, 0);
@@ -142,11 +137,12 @@ namespace ZoneEngine.Packets
             {
                 aotemp.Texture = 0;
                 aotemp.place = c;
-                for (c2 = 0; c2 < Textures.Count; c2++)
+                int c2;
+                for (c2 = 0; c2 < textures.Count; c2++)
                 {
-                    if (Textures[c2].place == c)
+                    if (textures[c2].place == c)
                     {
-                        aotemp.Texture = Textures[c2].Texture;
+                        aotemp.Texture = textures[c2].Texture;
                         break;
                     }
                 }
@@ -154,36 +150,36 @@ namespace ZoneEngine.Packets
                 {
                     if (socialonly)
                     {
-                        aotemp.Texture = SocialTab[c];
+                        aotemp.Texture = socialTab[c];
                     }
                     else
                     {
-                        if (SocialTab[c] != 0)
+                        if (socialTab[c] != 0)
                         {
-                            aotemp.Texture = SocialTab[c];
+                            aotemp.Texture = socialTab[c];
                         }
                     }
                 }
 
-                wri.PushInt(aotemp.place);
-                wri.PushInt(aotemp.Texture);
-                wri.PushInt(0);
+                packetWriter.PushInt(aotemp.place);
+                packetWriter.PushInt(aotemp.Texture);
+                packetWriter.PushInt(0);
             }
 
-            c = mh.Count;
-            wri.Push3F1Count(c);
-            foreach (AOMeshs m2 in mh)
+            c = meshs.Count;
+            packetWriter.Push3F1Count(c);
+            foreach (AOMeshs mesh in meshs)
             {
-                wri.PushByte((byte)m2.Position);
-                wri.PushUInt(m2.Mesh);
-                wri.PushInt(m2.OverrideTexture); // Override Texture!!!!!!
-                wri.PushByte((byte)m2.Layer);
+                packetWriter.PushByte((byte)mesh.Position);
+                packetWriter.PushUInt(mesh.Mesh);
+                packetWriter.PushInt(mesh.OverrideTexture); // Override Texture!!!!!!
+                packetWriter.PushByte((byte)mesh.Layer);
             }
 
-            wri.PushShort((short)(VisualFlags)); // 673 = VisualFlags
-            wri.PushByte(0);
+            packetWriter.PushShort((short)(VisualFlags)); // 673 = VisualFlags
+            packetWriter.PushByte(0);
 
-            byte[] reply = wri.Finish();
+            byte[] reply = packetWriter.Finish();
             Announce.Playfield(PlayField, ref reply);
         }
     }

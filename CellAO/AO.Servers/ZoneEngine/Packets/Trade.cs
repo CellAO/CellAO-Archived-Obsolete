@@ -22,36 +22,32 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     public class Trade
     {
-        public static void Send(Client cli, Dynel dyn1, Dynel dyn2)
+        public static void Send(Client client, Dynel dynel1, Dynel dynel2)
         {
-            PacketWriter pw = new PacketWriter();
-            pw.PushByte(0xdf);
-            pw.PushByte(0xdf);
-            pw.PushShort(0xa);
-            pw.PushShort(1);
-            pw.PushShort(0);
-            pw.PushInt(3086);
-            pw.PushInt(cli.Character.ID);
-            pw.PushInt(0x36284f6e);
-            pw.PushIdentity(dyn1.Type, dyn1.ID);
-            pw.PushByte(0);
-            pw.PushInt(1); // Knubot sends 2 here
-            pw.PushByte(0); // and 2 here too
-            pw.PushIdentity(dyn2.Type, dyn2.ID); // knubot 0
-            pw.PushIdentity(0xc767, 0x39da2458); // temp bag ID?? Knubot 0, needs more testing....
+            PacketWriter packetWriter = new PacketWriter();
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x36284f6e);
+            packetWriter.PushIdentity(dynel1.Type, dynel1.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(1); // Knubot sends 2 here
+            packetWriter.PushByte(0); // and 2 here too
+            packetWriter.PushIdentity(dynel2.Type, dynel2.ID); // knubot 0
+            packetWriter.PushIdentity(0xc767, 0x39da2458); // temp bag ID?? Knubot 0, needs more testing....
 
-            byte[] packet = pw.Finish();
-            cli.SendCompressed(packet);
+            byte[] packet = packetWriter.Finish();
+            client.SendCompressed(packet);
         }
     }
 }

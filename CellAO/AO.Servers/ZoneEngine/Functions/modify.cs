@@ -65,7 +65,7 @@ namespace ZoneEngine.Functions
             Character ch = (Character)Self;
             ch.Stats.SetModifier((Int32)Arguments[0], ch.Stats.GetModifier((Int32)Arguments[0]) + (Int32)Arguments[1]);
             ch.Stats.GetStatbyNumber((Int32)Arguments[0]).CalcTrickle();
-            ch.Stats.GetStatbyNumber((Int32)Arguments[0]).changed = false;
+            ch.Stats.GetStatbyNumber((Int32)Arguments[0]).Changed = false;
             // Dont send to client, client will do calculation too
             // Packets.Stat.Send(ch.client, (Int32)Arguments[0], ch.Stats.GetStatbyNumber((Int32)Arguments[0]).Value, ch.Stats.GetStatbyNumber((Int32)Arguments[0]).AnnounceToPlayfield);
             return true;

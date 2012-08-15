@@ -22,65 +22,61 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Packets
 {
     using AO.Core;
 
     public class VendingMachineFullUpdate
     {
-        public static void Send(Client client, VendingMachine vm)
+        public static void Send(Client client, VendingMachine vendingMachine)
         {
-            PacketWriter pw = new PacketWriter();
+            PacketWriter packetWriter = new PacketWriter();
 
-            pw.PushByte(0xdf);
-            pw.PushByte(0xdf);
-            pw.PushShort(0xa);
-            pw.PushShort(1);
-            pw.PushShort(0);
-            pw.PushInt(3086);
-            pw.PushInt(client.Character.ID);
-            pw.PushInt(0x7f544905); // 20
-            pw.PushIdentity(vm.Type, vm.ID);
-            pw.PushByte(0);
-            pw.PushInt(0xb); // Counter??
-            pw.PushInt(0);
-            pw.PushInt(0); // 41
-            pw.PushCoord(vm.Coordinates);
-            pw.PushQuat(vm.Heading); // 69
-            pw.PushInt(vm.PlayField);
-            pw.PushInt(1000015);
-            pw.PushInt(0);
-            pw.PushShort(0x6f);
-            pw.PushInt(0x2379);
-            pw.PushInt(0); // 91
-            pw.PushByte(0x80);
-            pw.PushByte(2);
-            pw.PushShort(0x3603);
-            pw.PushInt(0x17);
-            pw.PushInt(vm.TemplateID);
-            pw.PushInt(0x2bd);
-            pw.PushInt(0); // 111
-            pw.PushInt(0x2be);
-            pw.PushInt(0);
-            pw.PushInt(0x2bf);
-            pw.PushInt(0);
-            pw.PushInt(0x19c); // 131
-            pw.PushInt(1);
-            pw.PushInt(0x1f5);
-            pw.PushInt(2);
-            pw.PushInt(0x1f4);
-            pw.PushInt(0);
-            pw.PushInt(0);
-            pw.PushInt(2);
-            pw.PushInt(0x32); // 147
-            pw.Push3F1Count(0);
-            pw.PushInt(3); // 155<
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushByte(0xdf);
+            packetWriter.PushShort(0xa);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x7f544905); // 20
+            packetWriter.PushIdentity(vendingMachine.Type, vendingMachine.ID);
+            packetWriter.PushByte(0);
+            packetWriter.PushInt(0xb); // Counter??
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0); // 41
+            packetWriter.PushCoord(vendingMachine.Coordinates);
+            packetWriter.PushQuat(vendingMachine.Heading); // 69
+            packetWriter.PushInt(vendingMachine.PlayField);
+            packetWriter.PushInt(1000015);
+            packetWriter.PushInt(0);
+            packetWriter.PushShort(0x6f);
+            packetWriter.PushInt(0x2379);
+            packetWriter.PushInt(0); // 91
+            packetWriter.PushByte(0x80);
+            packetWriter.PushByte(2);
+            packetWriter.PushShort(0x3603);
+            packetWriter.PushInt(0x17);
+            packetWriter.PushInt(vendingMachine.TemplateID);
+            packetWriter.PushInt(0x2bd);
+            packetWriter.PushInt(0); // 111
+            packetWriter.PushInt(0x2be);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0x2bf);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0x19c); // 131
+            packetWriter.PushInt(1);
+            packetWriter.PushInt(0x1f5);
+            packetWriter.PushInt(2);
+            packetWriter.PushInt(0x1f4);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(0);
+            packetWriter.PushInt(2);
+            packetWriter.PushInt(0x32); // 147
+            packetWriter.Push3F1Count(0);
+            packetWriter.PushInt(3); // 155<
 
-            byte[] packet = pw.Finish();
+            byte[] packet = packetWriter.Finish();
             client.SendCompressed(packet);
         }
     }
