@@ -56,7 +56,7 @@ namespace LoginEngine
 
             string encryptedPassword;
             int encPasswordLength;
-            LoginWrong nb = new LoginWrong();
+            byte[] wrongLogin = LoginWrong.GetPacket();
             CheckLogin cbl = new CheckLogin();
             CharacterName char_name = new CharacterName();
             #endregion
@@ -111,7 +111,7 @@ namespace LoginEngine
                             + "' banned, not a valid username, or sent a malformed Authentication Packet");
                         Console.ResetColor();
 
-                        client.Send(ref nb.WrongByte);
+                        client.Send(ref wrongLogin);
 
                         client.Server.DisconnectClient(client);
 
@@ -126,7 +126,7 @@ namespace LoginEngine
                         Console.WriteLine("Client '" + client.AccountName + "' failed Authentication.");
                         Console.ResetColor();
 
-                        client.Send(ref nb.WrongByte);
+                        client.Send(ref wrongLogin);
 
                         client.Server.DisconnectClient(client);
 
@@ -158,7 +158,7 @@ namespace LoginEngine
                         Console.ResetColor();
 
                         // NV: Is this really what we want to send? Should find out sometime...
-                        client.Send(ref nb.WrongByte);
+                        client.Send(ref wrongLogin);
 
                         client.Server.DisconnectClient(client);
 
@@ -169,7 +169,7 @@ namespace LoginEngine
                         Console.WriteLine(
                             "Client '" + client.AccountName
                             + "' is trying to login, but the requested character is already logged in.");
-                        client.Send(ref nb.WrongByte);
+                        client.Send(ref wrongLogin);
                         client.Server.DisconnectClient(client);
                         break;
                     }

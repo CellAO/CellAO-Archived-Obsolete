@@ -33,7 +33,8 @@ namespace ZoneEngine.PacketHandlers
     using System.Net;
     using System.Text;
 
-    using ZoneEngine.NPC;
+    using ZoneEngine.NonPlayerCharacter;
+    using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Packets;
 
     /// <summary>
@@ -178,9 +179,9 @@ namespace ZoneEngine.PacketHandlers
             client.Character.dontdotimers = false;
 
             // spawn all active monsters to client
-            NPCHandler.GetMonstersInPF(client, client.Character.PlayField);
+            NonPlayerCharacterHandler.GetMonstersInPF(client, client.Character.PlayField);
 
-            if (VendorHandler.getNumberofVendorsinPlayfield(client.Character.PlayField) > 0)
+            if (VendorHandler.GetNumberofVendorsinPlayfield(client.Character.PlayField) > 0)
             {
                 /* Shops */
                 VendorHandler.GetVendorsInPF(client);

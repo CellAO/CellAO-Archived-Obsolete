@@ -27,7 +27,7 @@
 
 namespace ZoneEngine.Misc
 {
-    public class Stat_Health : Class_Stat
+    public class Stat_Health : ClassStat
     {
         public Stat_Health(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {
@@ -60,7 +60,7 @@ namespace ZoneEngine.Misc
             int[] BreedModiHP = { 0, -1, -1, 0, 0, 0, 0 };
             #endregion
 
-            if ((this.Parent is Character) || (this.Parent is NonPC)) // This condition could be obsolete
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
                 Character ch = (Character)this.Parent;
                 uint breed = ch.Stats.Breed.StatBaseValue;
@@ -73,7 +73,7 @@ namespace ZoneEngine.Misc
                 uint level = ch.Stats.Level.StatBaseValue;
 
                 //BreedBaseHP+(Level*(TableProfHP+BreedModiHP))+(BodyDevelopment*BreedMultiHP))
-                if (this.Parent is NonPC)
+                if (this.Parent is NonPlayerCharacterClass)
                 {
                     // TODO: correct calculation of mob HP
                     Set(

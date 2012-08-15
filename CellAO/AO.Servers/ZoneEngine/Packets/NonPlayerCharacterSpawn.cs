@@ -34,15 +34,15 @@ namespace ZoneEngine.Packets
 
     using ZoneEngine.Misc;
 
-    public static class NPCSpawn
+    public static class NonPlayerCharacterSpawn
     {
-        public static void NPCSpawntoClient(NonPC mob, Client cli, bool wholeplayfield)
+        public static void SpawnNpcToClient(NonPlayerCharacterClass nonPlayerCharacter, Client targetClient, bool wholePlayfield)
         {
             int unknown1 = 0;
             int unknown2 = 0;
             int unknown3 = 0;
             PacketWriter spawn = new PacketWriter();
-            int counter, counter2;
+            int counter;
             int packetflags = 0x0001; // We want to spawn a NPC
             packetflags |= 0x0200; // Heading flag
             packetflags |= 0x0040; // packet has playfield
@@ -52,7 +52,7 @@ namespace ZoneEngine.Packets
                 packetflags |= 0x80000; // LOS Height 1 byte
             }
 
-            if (mob.Attacking != 0)
+            if (nonPlayerCharacter.Attacking != 0)
             {
                 packetflags |= 0x400;
             }
@@ -67,42 +67,42 @@ namespace ZoneEngine.Packets
             spawn.PushShort(1);
             spawn.PushShort(0); // Length, packetwriter will take care of this
             spawn.PushInt(3086);
-            if (cli == null)
+            if (targetClient == null)
             {
                 spawn.PushInt(0); // will be sent to whole playfield
             }
             else
             {
-                spawn.PushInt(cli.Character.ID);
+                spawn.PushInt(targetClient.Character.ID);
             }
             spawn.PushInt(0x271B3A6B);
-            spawn.PushIdentity(50000, mob.ID);
+            spawn.PushIdentity(50000, nonPlayerCharacter.ID);
             spawn.PushByte(0);
             spawn.PushByte(0x39); // version 0x39
             spawn.PushInt(packetflags); // packetflags
-            spawn.PushInt(mob.PlayField);
-            spawn.PushCoord(mob.Coordinates);
-            spawn.PushQuat(mob.Heading);
+            spawn.PushInt(nonPlayerCharacter.PlayField);
+            spawn.PushCoord(nonPlayerCharacter.Coordinates);
+            spawn.PushQuat(nonPlayerCharacter.Heading);
             // Side, Fatness, Breed, Sex, Race
             //   33,      47,     4,  59,    89
             spawn.PushUInt(
-                mob.Stats.Side.Value + (mob.Stats.Fatness.Value * 8) + (mob.Stats.Breed.Value * 32)
-                + (mob.Stats.Sex.Value * 256) + (mob.Stats.Race.Value * 1024));
-            spawn.PushByte((byte)(mob.Name.Length + 1));
-            spawn.PushBytes(Encoding.ASCII.GetBytes(mob.Name));
+                nonPlayerCharacter.Stats.Side.Value + (nonPlayerCharacter.Stats.Fatness.Value * 8) + (nonPlayerCharacter.Stats.Breed.Value * 32)
+                + (nonPlayerCharacter.Stats.Sex.Value * 256) + (nonPlayerCharacter.Stats.Race.Value * 1024));
+            spawn.PushByte((byte)(nonPlayerCharacter.Name.Length + 1));
+            spawn.PushBytes(Encoding.ASCII.GetBytes(nonPlayerCharacter.Name));
             spawn.PushByte(0);
-            spawn.PushUInt(mob.Stats.Flags.Value);
+            spawn.PushUInt(nonPlayerCharacter.Stats.Flags.Value);
             spawn.PushShort(0); // AccountFlags
             spawn.PushShort(0); // Expansion
-            if (mob.Stats.NPCFamily.Value <= 255) // NPCFamily
+            if (nonPlayerCharacter.Stats.NPCFamily.Value <= 255) // NPCFamily
             {
                 packetflags |= 0x20000; // NPC Family 1 byte
-                spawn.PushByte((byte)mob.Stats.NPCFamily.Value);
+                spawn.PushByte((byte)nonPlayerCharacter.Stats.NPCFamily.Value);
             }
             else
             {
                 packetflags &= ~0x20000; // NPC Family 2 byte
-                spawn.PushShort((short)mob.Stats.NPCFamily.Value);
+                spawn.PushShort((short)nonPlayerCharacter.Stats.NPCFamily.Value);
             }
 
             spawn.PushByte(0);
@@ -110,24 +110,24 @@ namespace ZoneEngine.Packets
             spawn.PushShort(0);
 
             // TODO: set packetflag for levelsize
-            spawn.PushShort((short)mob.Stats.Level.Value); // 54 = Level
+            spawn.PushShort((short)nonPlayerCharacter.Stats.Level.Value); // 54 = Level
 
             // TODO: set packetflag for Healthsize/damagesize
-            spawn.PushUInt(mob.Stats.Life.Value); // 1 = Life (max HP)
-            spawn.PushUInt(mob.Stats.Health.Value); // 27 = Health left?? (same Size as Health, flag for 1byte not set)
+            spawn.PushUInt(nonPlayerCharacter.Stats.Life.Value); // 1 = Life (max HP)
+            spawn.PushUInt(nonPlayerCharacter.Stats.Health.Value); // 27 = Health left?? (same Size as Health, flag for 1byte not set)
 
             // If NPC is in grid or fixer grid
             // make him look like nice upside down pyramid
-            if ((mob.PlayField == 152) || (mob.PlayField == 4107))
+            if ((nonPlayerCharacter.PlayField == 152) || (nonPlayerCharacter.PlayField == 4107))
             {
                 spawn.PushInt(99902);
             }
             else
             {
-                spawn.PushUInt(mob.Stats.MonsterData.Value); // 359=Monsterdata
+                spawn.PushUInt(nonPlayerCharacter.Stats.MonsterData.Value); // 359=Monsterdata
             }
 
-            spawn.PushShort((short)mob.Stats.MonsterScale.Value); // 360 = monsterscale
+            spawn.PushShort((short)nonPlayerCharacter.Stats.MonsterScale.Value); // 360 = monsterscale
             spawn.PushShort(0x1F); // VisualFlags
             spawn.PushByte(0); // Visible title?
             spawn.PushInt(0x1C);
@@ -146,118 +146,119 @@ namespace ZoneEngine.Packets
             spawn.PushShort(2);
             spawn.PushShort(0);
 
-            if (mob.Stats.HeadMesh.Value != 0) // 64 = headmesh
+            if (nonPlayerCharacter.Stats.HeadMesh.Value != 0) // 64 = headmesh
             {
                 packetflags |= 0x80;
-                spawn.PushUInt(mob.Stats.HeadMesh.Value);
+                spawn.PushUInt(nonPlayerCharacter.Stats.HeadMesh.Value);
             }
 
             // TODO: runspeedsize+flag
-            if (mob.Stats.RunSpeed.Value > 255)
+            if (nonPlayerCharacter.Stats.RunSpeed.Value > 255)
             {
                 packetflags |= 0x2000;
-                spawn.PushShort((short)mob.Stats.RunSpeed.Value); // 156 = RunSpeed
+                spawn.PushShort((short)nonPlayerCharacter.Stats.RunSpeed.Value); // 156 = RunSpeed
             }
             else
             {
-                spawn.PushByte((byte)mob.Stats.RunSpeed.Value); // 156 = RunSpeed
+                spawn.PushByte((byte)nonPlayerCharacter.Stats.RunSpeed.Value); // 156 = RunSpeed
             }
 
-            if (mob.Attacking != 0)
+            if (nonPlayerCharacter.Attacking != 0)
             {
                 spawn.PushInt(0xc350);
-                spawn.PushInt(mob.Attacking);
+                spawn.PushInt(nonPlayerCharacter.Attacking);
             }
 
-            if (mob.Meshs.Count > 0)
+            if (nonPlayerCharacter.Meshs.Count > 0)
             {
                 packetflags |= 0x10; // Meshs on mob
-                spawn.Push3F1Count(mob.Meshs.Count);
-                for (counter = 0; counter < mob.Meshs.Count; counter++)
+                spawn.Push3F1Count(nonPlayerCharacter.Meshs.Count);
+                for (counter = 0; counter < nonPlayerCharacter.Meshs.Count; counter++)
                 {
                     // Name for meshtemplate not needed, sending 32byte 00 instead, thx to Suiv
+                    int counter2;
                     for (counter2 = 0; counter2 < 8; counter2++)
                     {
                         spawn.PushInt(0);
                     }
-                    spawn.PushInt(mob.Meshs[counter].Position);
-                    spawn.PushInt(mob.Meshs[counter].Mesh);
-                    spawn.PushInt(mob.Meshs[counter].OverrideTexture);
+                    spawn.PushInt(nonPlayerCharacter.Meshs[counter].Position);
+                    spawn.PushInt(nonPlayerCharacter.Meshs[counter].Mesh);
+                    spawn.PushInt(nonPlayerCharacter.Meshs[counter].OverrideTexture);
                 }
             }
 
             // Running Nanos/Nano Effects
-            spawn.Push3F1Count(mob.ActiveNanos.Count);
-            for (counter = 0; counter < mob.ActiveNanos.Count; counter++)
+            spawn.Push3F1Count(nonPlayerCharacter.ActiveNanos.Count);
+            for (counter = 0; counter < nonPlayerCharacter.ActiveNanos.Count; counter++)
             {
-                spawn.PushInt(mob.ActiveNanos[counter].Nanotype);
-                spawn.PushInt(mob.ActiveNanos[counter].Instance);
-                spawn.PushInt(mob.ActiveNanos[counter].Value3);
-                spawn.PushInt(mob.ActiveNanos[counter].Time1);
-                spawn.PushInt(mob.ActiveNanos[counter].Time2);
+                spawn.PushInt(nonPlayerCharacter.ActiveNanos[counter].Nanotype);
+                spawn.PushInt(nonPlayerCharacter.ActiveNanos[counter].Instance);
+                spawn.PushInt(nonPlayerCharacter.ActiveNanos[counter].Value3);
+                spawn.PushInt(nonPlayerCharacter.ActiveNanos[counter].Time1);
+                spawn.PushInt(nonPlayerCharacter.ActiveNanos[counter].Time2);
             }
 
             // Waypoints
-            if (mob.Waypoints.Count > 0)
+            if (nonPlayerCharacter.Waypoints.Count > 0)
             {
                 packetflags |= 0x10000; // Waypoints
                 spawn.PushInt(0xc350);
-                spawn.PushInt(mob.ID);
-                spawn.Push3F1Count(mob.Waypoints.Count); // Waypoints
-                for (counter = 0; counter < mob.Waypoints.Count; counter++)
+                spawn.PushInt(nonPlayerCharacter.ID);
+                spawn.Push3F1Count(nonPlayerCharacter.Waypoints.Count); // Waypoints
+                for (counter = 0; counter < nonPlayerCharacter.Waypoints.Count; counter++)
                 {
-                    spawn.PushCoord(mob.Waypoints[counter]);
+                    spawn.PushCoord(nonPlayerCharacter.Waypoints[counter]);
                 }
             }
 
-            /// Textures have to be rewritten too
-            /// mobs should get a equip table
-            /// and get the textures from the equipped items
+            // Textures have to be rewritten too
+            // mobs should get a equip table
+            // and get the textures from the equipped items
 
-            spawn.Push3F1Count(mob.Textures.Count); // Texture count (should be 5 at all times iirc)
+            spawn.Push3F1Count(nonPlayerCharacter.Textures.Count); // Texture count (should be 5 at all times iirc)
             int c;
-            for (c = 0; c < mob.Textures.Count; c++)
+            for (c = 0; c < nonPlayerCharacter.Textures.Count; c++)
             {
-                spawn.PushInt(mob.Textures[c].place);
-                spawn.PushInt(mob.Textures[c].Texture);
+                spawn.PushInt(nonPlayerCharacter.Textures[c].place);
+                spawn.PushInt(nonPlayerCharacter.Textures[c].Texture);
                 spawn.PushInt(0);
             }
 
-            /// same as texture part, equip table should define the additional meshs
-            /// data could be stored with the item entries
+            // same as texture part, equip table should define the additional meshs
+            // data could be stored with the item entries
 
             int addmeshs = 0;
-            if (mob.Stats.WeaponMeshRight.Value != 0)
+            if (nonPlayerCharacter.Stats.WeaponMeshRight.Value != 0)
             {
                 addmeshs++;
             }
-            if (mob.Stats.WeaponMeshLeft.Value != 0)
+            if (nonPlayerCharacter.Stats.WeaponMeshLeft.Value != 0)
             {
                 addmeshs++;
             }
-            if (mob.Stats.HeadMesh.Value != 0)
+            if (nonPlayerCharacter.Stats.HeadMesh.Value != 0)
             {
                 addmeshs++;
             }
-            if (mob.Stats.BackMesh.Value != 0)
+            if (nonPlayerCharacter.Stats.BackMesh.Value != 0)
             {
                 addmeshs++;
             }
-            if (mob.Stats.ShoulderMeshRight.Value != 0)
+            if (nonPlayerCharacter.Stats.ShoulderMeshRight.Value != 0)
             {
                 addmeshs++;
             }
-            if (mob.Stats.ShoulderMeshLeft.Value != 0)
+            if (nonPlayerCharacter.Stats.ShoulderMeshLeft.Value != 0)
             {
                 addmeshs++;
             }
-            if (mob.Stats.HairMesh.Value != 0)
+            if (nonPlayerCharacter.Stats.HairMesh.Value != 0)
             {
                 addmeshs++;
             }
             //            if (mob.Stats.GetStat(42) != 0) // 42 = CATMesh, what is this?
             //                addmeshs++;
-            if (mob.Stats.HairMesh.Value != 0)
+            if (nonPlayerCharacter.Stats.HairMesh.Value != 0)
             {
                 addmeshs++;
             }
@@ -266,52 +267,52 @@ namespace ZoneEngine.Packets
             if (addmeshs > 0)
             {
                 // 0 head, 1 r_hand, 2 l_hand, 3 r_shoulder, 4 l_shoulder, 5 back, 6 hip, 7 r_thigh, 8 l_thigh, 9 r_crus, 10 l_crus, 11 r_arm, 12 l_arm, 13 r_forearm, 14 l_forearm
-                if (mob.Stats.HeadMesh.Value != 0)
+                if (nonPlayerCharacter.Stats.HeadMesh.Value != 0)
                 {
                     spawn.PushByte(0);
-                    spawn.PushUInt(mob.Stats.HeadMesh.Value);
+                    spawn.PushUInt(nonPlayerCharacter.Stats.HeadMesh.Value);
                     spawn.PushInt(0);
                     spawn.PushByte(4);
                 }
-                if (mob.Stats.WeaponMeshRight.Value != 0)
+                if (nonPlayerCharacter.Stats.WeaponMeshRight.Value != 0)
                 {
                     spawn.PushByte(1); // Position
-                    spawn.PushUInt(mob.Stats.WeaponMeshRight.Value); // Mesh ID
+                    spawn.PushUInt(nonPlayerCharacter.Stats.WeaponMeshRight.Value); // Mesh ID
                     spawn.PushInt(0); // Unknown
                     spawn.PushByte(4); // Priority
                 }
-                if (mob.Stats.WeaponMeshLeft.Value != 0)
+                if (nonPlayerCharacter.Stats.WeaponMeshLeft.Value != 0)
                 {
                     spawn.PushByte(2); // Position
-                    spawn.PushUInt(mob.Stats.WeaponMeshLeft.Value); // Mesh ID
+                    spawn.PushUInt(nonPlayerCharacter.Stats.WeaponMeshLeft.Value); // Mesh ID
                     spawn.PushInt(0); // Unknown
                     spawn.PushByte(4); // Priority
                 }
-                if (mob.Stats.ShoulderMeshRight.Value != 0)
+                if (nonPlayerCharacter.Stats.ShoulderMeshRight.Value != 0)
                 {
                     spawn.PushByte(3);
-                    spawn.PushUInt(mob.Stats.ShoulderMeshRight.Value);
+                    spawn.PushUInt(nonPlayerCharacter.Stats.ShoulderMeshRight.Value);
                     spawn.PushInt(0);
                     spawn.PushByte(4);
                 }
-                if (mob.Stats.ShoulderMeshLeft.Value != 0)
+                if (nonPlayerCharacter.Stats.ShoulderMeshLeft.Value != 0)
                 {
                     spawn.PushByte(4);
-                    spawn.PushUInt(mob.Stats.ShoulderMeshLeft.Value);
+                    spawn.PushUInt(nonPlayerCharacter.Stats.ShoulderMeshLeft.Value);
                     spawn.PushInt(0);
                     spawn.PushByte(4);
                 }
-                if (mob.Stats.BackMesh.Value != 0)
+                if (nonPlayerCharacter.Stats.BackMesh.Value != 0)
                 {
                     spawn.PushByte(5);
-                    spawn.PushUInt(mob.Stats.BackMesh.Value);
+                    spawn.PushUInt(nonPlayerCharacter.Stats.BackMesh.Value);
                     spawn.PushInt(0);
                     spawn.PushByte(4);
                 }
-                if (mob.Stats.HairMesh.Value != 0)
+                if (nonPlayerCharacter.Stats.HairMesh.Value != 0)
                 {
                     spawn.PushByte(0);
-                    spawn.PushUInt(mob.Stats.HairMesh.Value);
+                    spawn.PushUInt(nonPlayerCharacter.Stats.HairMesh.Value);
                     spawn.PushInt(0);
                     spawn.PushByte(2); // Hairmesh is prio 2?
                 }
@@ -325,15 +326,15 @@ namespace ZoneEngine.Packets
  */
             }
 
-            if (mob.Weaponpairs.Count > 0)
+            if (nonPlayerCharacter.Weaponpairs.Count > 0)
             {
-                spawn.Push3F1Count(mob.Weaponpairs.Count);
-                for (counter = 0; counter < mob.Weaponpairs.Count; counter++)
+                spawn.Push3F1Count(nonPlayerCharacter.Weaponpairs.Count);
+                for (counter = 0; counter < nonPlayerCharacter.Weaponpairs.Count; counter++)
                 {
-                    spawn.PushInt(mob.Weaponpairs[counter].value1);
-                    spawn.PushInt(mob.Weaponpairs[counter].value2);
-                    spawn.PushInt(mob.Weaponpairs[counter].value3);
-                    spawn.PushInt(mob.Weaponpairs[counter].value4);
+                    spawn.PushInt(nonPlayerCharacter.Weaponpairs[counter].value1);
+                    spawn.PushInt(nonPlayerCharacter.Weaponpairs[counter].value2);
+                    spawn.PushInt(nonPlayerCharacter.Weaponpairs[counter].value3);
+                    spawn.PushInt(nonPlayerCharacter.Weaponpairs[counter].value4);
                 }
             }
             // Finishing output with 5byte 00
@@ -348,13 +349,13 @@ namespace ZoneEngine.Packets
             spawnReply[32] = (byte)((packetflags >> 8) & 0xff);
             spawnReply[33] = (byte)(packetflags & 0xff);
 
-            if (wholeplayfield)
+            if (wholePlayfield)
             {
-                Announce.Playfield(mob.PlayField, ref spawnReply);
+                Announce.Playfield(nonPlayerCharacter.PlayField, ref spawnReply);
             }
             else
             {
-                cli.SendCompressed(spawnReply);
+                targetClient.SendCompressed(spawnReply);
             }
         }
     }

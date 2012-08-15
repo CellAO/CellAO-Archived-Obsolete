@@ -56,7 +56,7 @@ namespace LoginEngine.QueryBase
         {
             string SqlQuery = "SELECT Username FROM login WHERE Username = " + "'" + recvLogin + "'";
             SqlWrapper ms = new SqlWrapper(); 
-            DataTable dt = ms.ReadDT(SqlQuery);
+            DataTable dt = ms.ReadDatatable(SqlQuery);
 
             foreach (DataRow row in dt.Rows)
             {

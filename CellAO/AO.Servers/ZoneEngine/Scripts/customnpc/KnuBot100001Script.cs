@@ -75,7 +75,7 @@ namespace ZonEngine.Script.customnpcs
         // The Character parameter is not used here, but has to be defined (yet)
         public void Init(Character ch)
         {
-            NonPC target = (NonPC)ZoneEngine.Misc.FindDynel.FindDynelByID(50000, 100001);
+            NonPlayerCharacter target = (NonPlayerCharacter)ZoneEngine.Misc.FindDynel.FindDynelByID(50000, 100001);
             if (target != null)
             {
                 target.KnuBot = new KnuBotNPC100001(target);
@@ -91,13 +91,13 @@ namespace ZonEngine.Script.customnpcs
     {
         int lastaction = 0;
 
-        public KnuBotNPC100001(Character target, NonPC _parent)
+        public KnuBotNPC100001(Character target, NonPlayerCharacter _parent)
             : base(target, _parent)
         {
         }
 
         // Adding our event handlers
-        public KnuBotNPC100001(NonPC _parent)
+        public KnuBotNPC100001(NonPlayerCharacter _parent)
             : base(_parent)
         {
             CallKnuBotCloseChatWindow += MyCloseChatWindow;

@@ -32,7 +32,7 @@ namespace ZoneEngine.Packets
 
     public class KnuBotAnswerList
     {
-        public static void Send(Client cli, NonPC KnuBottarget, string[] choices)
+        public static void Send(Client cli, NonPlayerCharacterClass KnuBottarget, string[] choices)
         {
             PacketWriter pw = new PacketWriter();
 

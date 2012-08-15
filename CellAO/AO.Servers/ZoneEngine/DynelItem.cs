@@ -32,7 +32,7 @@ namespace ZoneEngine
 
     public class DynelItem : Dynel
     {
-        public Character_Stats Stats;
+        public CharacterStats Stats;
 
         public DynelItem(int _id, int _playfield)
             : base(_id, _playfield)

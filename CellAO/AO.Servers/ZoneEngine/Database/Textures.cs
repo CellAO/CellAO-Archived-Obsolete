@@ -39,52 +39,126 @@ namespace ZoneEngine.Database
     public class Textures
     {
         /// <summary>
-        /// 
+        /// Texture number 0
         /// </summary>
-        public int Textures0;
+        private int textures0;
 
         /// <summary>
-        /// 
+        /// Texture number 1
         /// </summary>
-        public int Textures1;
+        private int textures1;
 
         /// <summary>
-        /// 
+        /// Texture number 2
         /// </summary>
-        public int Textures2;
+        private int textures2;
 
         /// <summary>
-        /// 
+        /// Texture number 3
         /// </summary>
-        public int Textures3;
+        private int textures3;
 
         /// <summary>
-        /// 
+        /// Texture number 4
         /// </summary>
-        public int Textures4;
-
-        private readonly SqlWrapper ms = new SqlWrapper();
+        private int textures4;
 
         /// <summary>
-        /// 
+        /// Getter/Setter Texture 0
         /// </summary>
-        /// <param name="charID"></param>
-        public void GetTextures(int charID)
+        public int Textures0
         {
-            string SqlQuery =
+            get
+            {
+                return textures0;
+            }
+            set
+            {
+                textures0 = value;
+            }
+        }
+
+        /// <summary>
+        /// Getter/Setter Texture 1
+        /// </summary>
+        public int Textures1
+        {
+            get
+            {
+                return textures1;
+            }
+            set
+            {
+                textures1 = value;
+            }
+        }
+
+        /// <summary>
+        /// Getter/Setter Texture 2
+        /// </summary>
+        public int Textures2
+        {
+            get
+            {
+                return textures2;
+            }
+            set
+            {
+                textures2 = value;
+            }
+        }
+
+        /// <summary>
+        /// Getter/Setter Texture 3
+        /// </summary>
+        public int Textures3
+        {
+            get
+            {
+                return textures3;
+            }
+            set
+            {
+                textures3 = value;
+            }
+        }
+
+        /// <summary>
+        /// Getter/Setter Texture 4
+        /// </summary>
+        public int Textures4
+        {
+            get
+            {
+                return textures4;
+            }
+            set
+            {
+                textures4 = value;
+            }
+        }
+
+        /// <summary>
+        /// Read textures from database
+        /// </summary>
+        /// <param name="charId"></param>
+        public void ReadTexturesFromDatabase(int charId)
+        {
+            string sqlQuery =
                 "SELECT `Textures0`, `Textures1`, `Textures2`, `Textures3`, `Textures4` FROM `characters` WHERE ID = "
-                + "'" + charID + "'";
-            DataTable dt = this.ms.ReadDT(SqlQuery);
+                + "'" + charId + "'";
+            SqlWrapper ms = new SqlWrapper();
+            DataTable dt = ms.ReadDatatable(sqlQuery);
 
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
-                    this.Textures0 = (Int32)row[0];
-                    this.Textures1 = (Int32)row[1];
-                    this.Textures2 = (Int32)row[2];
-                    this.Textures3 = (Int32)row[3];
-                    this.Textures4 = (Int32)row[4];
+                    this.textures0 = (Int32)row[0];
+                    this.textures1 = (Int32)row[1];
+                    this.textures2 = (Int32)row[2];
+                    this.textures3 = (Int32)row[3];
+                    this.textures4 = (Int32)row[4];
                 }
             }
         }

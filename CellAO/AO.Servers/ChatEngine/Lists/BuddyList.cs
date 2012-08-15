@@ -48,7 +48,7 @@ namespace ChatEngine.Lists
             Collection<BuddyListEntry> buddyList = new Collection<BuddyListEntry>();
             SqlWrapper ms = new SqlWrapper();
             string sqlQuery = "SELECT `BuddyID` FROM `buddylist` WHERE PlayerID = " + "'" + charId + "'";
-            DataTable dt = ms.ReadDT(sqlQuery);
+            DataTable dt = ms.ReadDatatable(sqlQuery);
 
             foreach (DataRow buddyRow in dt.Rows)
             {
@@ -76,7 +76,7 @@ namespace ChatEngine.Lists
             Collection<RecentMsgsEntry> reciviedMsgsList = new Collection<RecentMsgsEntry>();
             SqlWrapper ms = new SqlWrapper();
             string sqlQuery = "SELECT `ReceivedID` FROM `receivedmsgs` WHERE PlayerID =" + "'" + charId + "'";
-            DataTable dt = ms.ReadDT(sqlQuery);
+            DataTable dt = ms.ReadDatatable(sqlQuery);
             foreach (DataRow msgsRow in dt.Rows)
             {
                 RecentMsgsEntry rme = new RecentMsgsEntry { ReceivedId = uint.Parse(msgsRow["ReceivedID"].ToString()) };

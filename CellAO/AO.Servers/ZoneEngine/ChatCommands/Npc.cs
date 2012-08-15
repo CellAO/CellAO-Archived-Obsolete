@@ -34,7 +34,7 @@ namespace ZoneEngine.ChatCommands
 
     using ZoneEngine.Script;
 
-    public class npc : AOChatCommand
+    public class ChatCommandNonPlayerCharacter : AOChatCommand
     {
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
@@ -43,8 +43,8 @@ namespace ZoneEngine.ChatCommands
                 this.CommandHelp(client);
                 return;
             }
-            NonPC targetMonster = null;
-            foreach (NonPC mMonster in Program.zoneServer.Monsters)
+            NonPlayerCharacterClass targetMonster = null;
+            foreach (NonPlayerCharacterClass mMonster in Program.zoneServer.Monsters)
             {
                 if (mMonster.ID != target.Instance)
                 {
@@ -129,8 +129,7 @@ namespace ZoneEngine.ChatCommands
 
         public override List<string> GetCommands()
         {
-            List<string> temp = new List<string>();
-            temp.Add("npc");
+            List<string> temp = new List<string> { "npc" };
             return temp;
         }
     }

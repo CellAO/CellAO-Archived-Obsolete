@@ -30,19 +30,15 @@ namespace LoginEngine.Packets
     /// <summary>
     /// 
     /// </summary>
-    public class LoginWrong
+    public static class LoginWrong
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public byte[] WrongByte;
 
         /// <summary>
         /// 
         /// </summary>
-        public LoginWrong()
+        public static byte[] GetPacket()
         {
-            this.WrongByte = new byte[]
+            return new byte[]
                 {
                     0xDF, 0xDF, 0x00, 0x01, 0x00, 0x01, 0x00, 0x18, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x1f, 0x83, 0x00,
                     0x00, 0x00, 0x0d, 0x00, 0x00, 0x00, 0x6a

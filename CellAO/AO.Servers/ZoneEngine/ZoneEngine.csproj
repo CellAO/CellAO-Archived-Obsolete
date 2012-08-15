@@ -246,7 +246,7 @@
     <Compile Include="InventoryEntries.cs" />
     <Compile Include="Misc\Announce.cs" />
     <Compile Include="Collision\BorderlineCheck.cs" />
-    <Compile Include="Misc\Class_Stat.cs" />
+    <Compile Include="Misc\ClassStat.cs" />
     <Compile Include="Misc\DoorHandler.cs" />
     <Compile Include="Misc\FindClient.cs" />
     <Compile Include="Misc\FindDynel.cs" />
@@ -270,11 +270,11 @@
     <Compile Include="Misc\Stats\Stat_Skill.cs" />
     <Compile Include="Misc\Stats\Stat_TitleLevel.cs" />
     <Compile Include="Misc\Stats\Stat_WeaponsStyle.cs" />
-    <Compile Include="NonPC.cs" />
-    <Compile Include="NPC\NPCHandler.cs">
+    <Compile Include="NonPlayerCharacterClass.cs" />
+    <Compile Include="NonPlayerCharacter\NonPlayerCharacterHandler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NPC\VendorHandler.cs" />
+    <Compile Include="NonPlayerCharacter\VendorHandler.cs" />
     <Compile Include="PacketHandlers\CharacterAction.cs" />
     <Compile Include="PacketHandlers\CharDCMove.cs" />
     <Compile Include="PacketHandlers\CharInPlay.cs" />
@@ -307,7 +307,7 @@
     <Compile Include="Packets\Despawn.cs" />
     <Compile Include="Packets\GenericCmd.cs" />
     <Compile Include="Packets\SystemText.cs" />
-    <Compile Include="Packets\NPCSpawn.cs" />
+    <Compile Include="Packets\NonPlayerCharacterSpawn.cs" />
     <Compile Include="Packets\OrgInfo.cs" />
     <Compile Include="Packets\AppearanceUpdate.cs" />
     <Compile Include="Packets\Equip.cs" />
@@ -355,7 +355,7 @@
     <Compile Include="ChatCommands\GiveItem.cs" />
     <Compile Include="ChatCommands\ListTimers.cs" />
     <Compile Include="ChatCommands\NanoUpload.cs" />
-    <Compile Include="ChatCommands\Npc.cs" />
+    <Compile Include="ChatCommands\npc.cs" />
     <Compile Include="ChatCommands\Online.cs" />
     <Compile Include="ChatCommands\RemoveItem.cs" />
     <Compile Include="ChatCommands\RemoveName.cs" />
@@ -367,7 +367,7 @@
     <Compile Include="ChatCommands\Summon.cs" />
     <Compile Include="ChatCommands\Teleport.cs" />
     <Compile Include="ChatCommands\TeleportDynel.cs" />
-    <Compile Include="ChatCommands\TeleportToNPC.cs" />
+    <Compile Include="ChatCommands\TeleportToNpc.cs" />
     <Compile Include="Script\AOChatCommand.cs" />
     <Compile Include="Script\AOScript.cs" />
     <Compile Include="Script\CScriptCompiler.cs" />

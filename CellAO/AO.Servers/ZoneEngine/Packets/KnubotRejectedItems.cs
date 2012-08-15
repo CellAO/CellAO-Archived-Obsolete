@@ -32,7 +32,7 @@ namespace ZoneEngine.Packets
 
     public class KnuBotRejectedItems
     {
-        public static void Send(Client cli, NonPC KnuBottarget, AOItem[] items)
+        public static void Send(Client cli, NonPlayerCharacterClass KnuBottarget, AOItem[] items)
         {
             PacketWriter pw = new PacketWriter();
 

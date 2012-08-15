@@ -52,7 +52,7 @@ namespace LoginEngine.QueryBase
         {
             string sqlQuery = "SELECT `Name`, `Breed`, `Profession` FROM `characters` WHERE Username = " + "'" + recvLogin + "'";
             SqlWrapper ms = new SqlWrapper(); 
-            DataTable dt = ms.ReadDT(sqlQuery);
+            DataTable dt = ms.ReadDatatable(sqlQuery);
 
             foreach (DataRow datarow1 in dt.Rows)
             {
@@ -72,7 +72,7 @@ namespace LoginEngine.QueryBase
         {
             string sqlQuery = "SELECT `playfield` FROM `characters` WHERE Username = " + "'" + recvLogin + "'";
             SqlWrapper ms = new SqlWrapper(); 
-            DataTable dt = ms.ReadDT(sqlQuery);
+            DataTable dt = ms.ReadDatatable(sqlQuery);
 
             foreach (DataRow datarow2 in dt.Rows)
             {

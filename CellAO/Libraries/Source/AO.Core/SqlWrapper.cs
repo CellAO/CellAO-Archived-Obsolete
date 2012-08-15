@@ -153,7 +153,7 @@ namespace AO.Core
         /// <returns></returns>
         public Int32 SqlCount(string SqlQuery)
         {
-            DataTable dt = ReadDT(SqlQuery);
+            DataTable dt = this.ReadDatatable(SqlQuery);
             try
             {
                 return (Int32) (Int64) dt.Rows[0][0];
@@ -558,9 +558,9 @@ namespace AO.Core
         /// <summary>
         /// Read Data into a DataTable object
         /// </summary>
-        /// <param name="SqlQuery">Insert SQL Query here</param>
+        /// <param name="sqlQuery">Insert SQL Query here</param>
         /// <returns></returns>
-        public DataTable ReadDT(string SqlQuery)
+        public DataTable ReadDatatable(string sqlQuery)
         {
             DataSet ds = new DataSet();
             try
@@ -568,19 +568,19 @@ namespace AO.Core
                 if (ismysql)
                 {
                     mcc = new MySqlConnection(ConnectionString_MySQL);
-                    MySqlDataAdapter mda = new MySqlDataAdapter(SqlQuery, mcc);
+                    MySqlDataAdapter mda = new MySqlDataAdapter(sqlQuery, mcc);
                     mda.Fill(ds);
                 }
                 if (ismssql)
                 {
                     sqlcc = new SqlConnection(ConnectionString_MSSQL);
-                    SqlDataAdapter mda = new SqlDataAdapter(SqlQuery, sqlcc);
+                    SqlDataAdapter mda = new SqlDataAdapter(sqlQuery, sqlcc);
                     mda.Fill(ds);
                 }
                 if (isnpgsql)
                 {
                     npgcc = new NpgsqlConnection(ConnectionString_PostGreSQL);
-                    NpgsqlDataAdapter mda = new NpgsqlDataAdapter(SqlQuery, npgcc);
+                    NpgsqlDataAdapter mda = new NpgsqlDataAdapter(sqlQuery, npgcc);
                     mda.Fill(ds);
                 }
             }
@@ -588,7 +588,7 @@ namespace AO.Core
             {
                 if (ConfigReadWrite.Instance.CurrentConfig.SqlLog)
                 {
-                    MySqlLogger(me, SqlQuery);
+                    MySqlLogger(me, sqlQuery);
                 }
                 else
                 {
@@ -599,7 +599,7 @@ namespace AO.Core
             {
                 if (ConfigReadWrite.Instance.CurrentConfig.SqlLog)
                 {
-                    MsSqlLogger(me, SqlQuery);
+                    MsSqlLogger(me, sqlQuery);
                 }
                 else
                 {
@@ -610,7 +610,7 @@ namespace AO.Core
             {
                 if (ConfigReadWrite.Instance.CurrentConfig.SqlLog)
                 {
-                    PostgressqlLogger(me, SqlQuery);
+                    PostgressqlLogger(me, sqlQuery);
                 }
                 else
                 {

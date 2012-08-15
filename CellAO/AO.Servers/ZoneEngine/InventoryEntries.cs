@@ -22,17 +22,19 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-#endregion
-
 namespace AO.Core
 {
     public class InventoryEntries
     {
-        public int Container;
+        public InventoryEntries()
+        {
+            Item = new AOItem();
+        }
 
-        public int Placement;
+        public int Container { get; set; }
 
-        public AOItem Item = new AOItem();
+        public int Placement { get; set; }
+
+        public AOItem Item { get; set; }
     }
 }

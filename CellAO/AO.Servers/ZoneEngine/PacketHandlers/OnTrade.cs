@@ -54,13 +54,13 @@ namespace ZoneEngine.PacketHandlers
                 (Character)FindDynel.FindDynelByID(_header.AffectedId.Type, _header.AffectedId.Instance);
 
             // If target is a NPC, call its Action 0
-            if ((ch is NonPC) && (action == 0))
+            if ((ch is NonPlayerCharacterClass) && (action == 0))
             {
-                if (((NonPC)ch).KnuBot != null)
+                if (((NonPlayerCharacterClass)ch).KnuBot != null)
                 {
                     ch.KnuBotTarget = ch;
-                    ((NonPC)ch).KnuBot.TalkingTo = chaffected;
-                    ((NonPC)ch).KnuBot.Action(0);
+                    ((NonPlayerCharacterClass)ch).KnuBot.TalkingTo = chaffected;
+                    ((NonPlayerCharacterClass)ch).KnuBot.Action(0);
                 }
                 return;
             }

@@ -58,7 +58,7 @@ namespace LoginEngine.QueryBase
         {
             string sqlQuery = "SELECT Flags FROM login WHERE Username = " + "'" + recvLogin + "'";
             SqlWrapper ms = new SqlWrapper();
-            DataTable dt = ms.ReadDT(sqlQuery);
+            DataTable dt = ms.ReadDatatable(sqlQuery);
 
             foreach (DataRow row in dt.Rows)
             {

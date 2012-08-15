@@ -53,7 +53,7 @@ namespace ZoneEngine.Database.Items
                 string SqlQuery =
                     "SELECT `Placement`, `Flags`, `MultipleCount`, `Type`, `Instance`, `LowID`, `HighID`, `Quality`, `Nothing` FROM `inventory` WHERE ID = "
                     + "'" + charID + "' ORDER BY Placement ASC";
-                DataTable dt = ms.ReadDT(SqlQuery);
+                DataTable dt = ms.ReadDatatable(SqlQuery);
 
                 foreach (DataRow itemRow in dt.Rows)
                 {

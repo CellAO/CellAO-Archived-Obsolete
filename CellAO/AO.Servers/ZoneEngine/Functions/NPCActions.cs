@@ -35,15 +35,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -71,15 +71,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -107,15 +107,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -143,15 +143,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -179,15 +179,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -215,15 +215,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -251,15 +251,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -287,15 +287,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -323,15 +323,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -359,15 +359,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -395,15 +395,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -431,15 +431,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -467,15 +467,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -503,15 +503,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -539,15 +539,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -575,15 +575,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -611,15 +611,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -647,15 +647,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -683,15 +683,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -719,15 +719,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -755,15 +755,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -791,15 +791,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -827,15 +827,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -863,15 +863,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -899,15 +899,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -935,15 +935,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -971,15 +971,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1007,15 +1007,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1043,15 +1043,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1079,15 +1079,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1115,15 +1115,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1151,15 +1151,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1187,15 +1187,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1223,15 +1223,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1259,15 +1259,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1295,15 +1295,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1331,15 +1331,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1367,15 +1367,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1403,15 +1403,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1439,15 +1439,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1475,15 +1475,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1511,15 +1511,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1547,15 +1547,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1583,15 +1583,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1619,15 +1619,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1655,15 +1655,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1691,15 +1691,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1727,15 +1727,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -1763,15 +1763,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }

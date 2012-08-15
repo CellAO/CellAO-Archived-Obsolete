@@ -42,13 +42,6 @@ namespace LoginEngine.Packets
     /// </summary>
     public class CharacterListPacket
     {
-        #region Query Setup
-        /// <summary>
-        /// 
-        /// </summary>
-        private readonly SqlWrapper ms = new SqlWrapper();
-        #endregion
-
         /// <summary>
         /// 
         /// </summary>
@@ -57,17 +50,18 @@ namespace LoginEngine.Packets
         public void SendPacket(Client client, string accountName)
         {
             #region Expansions Checker
-            Int32 Expansions = 0;
-            Int32 AllowedCharacters = 0;
+            Int32 expansions = 0;
+            Int32 allowedCharacters = 0;
             /* This checks your expansions and
                number of characters allowed (num. of chars doesn't work)*/
-            string SqlQuery = "SELECT `Expansions`,`Allowed_Characters` FROM `login` WHERE Username = '" + accountName
+            string sqlQuery = "SELECT `Expansions`,`Allowed_Characters` FROM `login` WHERE Username = '" + accountName
                               + "'";
-            DataTable dt = this.ms.ReadDT(SqlQuery);
+            SqlWrapper ms = new SqlWrapper();
+            DataTable dt = ms.ReadDatatable(sqlQuery);
             if (dt.Rows.Count > 0)
             {
-                Expansions = Int32.Parse((string)dt.Rows[0][0]);
-                AllowedCharacters = (Int32)dt.Rows[0][1];
+                expansions = Int32.Parse((string)dt.Rows[0][0]);
+                allowedCharacters = (Int32)dt.Rows[0][1];
             }
             #endregion
 
@@ -141,8 +135,8 @@ namespace LoginEngine.Packets
                 }
             }
             // TODO: find out what this really is
-            pwriter.PushInt(AllowedCharacters); // not really allowed characters..
-            pwriter.PushInt(Expansions);
+            pwriter.PushInt(allowedCharacters); // not really allowed characters..
+            pwriter.PushInt(expansions);
 
             byte[] reply = pwriter.Finish();
             client.Send(ref reply);

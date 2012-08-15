@@ -32,7 +32,7 @@ namespace ZoneEngine.PacketHandlers
 
     using AO.Core;
 
-    using ZoneEngine.NPC;
+    using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Packets;
 
     public class GenericCmd
@@ -316,7 +316,7 @@ namespace ZoneEngine.PacketHandlers
                     }
                     else if (_target.Type == 51035) // Shops
                     {
-                        VendingMachine vm = VendorHandler.GetVendorByID(_target.Instance);
+                        VendingMachine vm = VendorHandler.GetVendorById(_target.Instance);
                         ShopInventory.Send(client, vm);
                         Trade.Send(client, client.Character, vm);
                         Trade.Send(client, vm, client.Character);

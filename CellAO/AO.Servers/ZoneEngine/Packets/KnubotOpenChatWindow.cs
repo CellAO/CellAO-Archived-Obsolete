@@ -34,7 +34,7 @@ namespace ZoneEngine.Packets
 
     public class KnuBotOpenChatWindow
     {
-        public static void Send(Client cli, NonPC KnuBottarget)
+        public static void Send(Client cli, NonPlayerCharacterClass KnuBottarget)
         {
             PacketWriter pw = new PacketWriter();
 
@@ -67,7 +67,7 @@ namespace ZoneEngine.Packets
             _reader.PopShort();
             int type = _reader.PopInt();
             int instance = _reader.PopInt();
-            NonPC npc = (NonPC)FindDynel.FindDynelByID(type, instance);
+            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(type, instance);
             Character ch = FindClient.FindClientByID(header.Sender).Character;
             ch.KnuBotTarget = npc;
         }

@@ -37,7 +37,7 @@ namespace ZoneEngine
     using ZoneEngine.Misc;
     using ZoneEngine.Packets;
 
-    public class VendingMachine : NonPC
+    public class VendingMachine : NonPlayerCharacterClass
     {
         public int TemplateID;
 
@@ -54,7 +54,7 @@ namespace ZoneEngine
             this.rawHeading = new Quaternion(0, 0, 0, 0);
             this.HASH = hash;
             this.dontdotimers = true;
-            this.Stats = new Character_Stats(this);
+            this.Stats = new CharacterStats(this);
             if (this.ID != 0)
             {
                 LoadTemplate(hash); // All shops will have level 1
@@ -73,7 +73,7 @@ namespace ZoneEngine
             this.rawHeading = new Quaternion(0, 0, 0, 0);
             this.TemplateID = template;
             this.dontdotimers = true;
-            this.Stats = new Character_Stats(this);
+            this.Stats = new CharacterStats(this);
             if (this.ID != 0)
             {
                 this.LoadTemplate(this.TemplateID); // All shops will have level 1
@@ -102,7 +102,7 @@ namespace ZoneEngine
             Random r = new Random();
             string like = "";
             SqlWrapper Sql = new SqlWrapper();
-            DataTable dt = Sql.ReadDT("SELECT * from vendortemplate where HASH='" + this.HASH + "'");
+            DataTable dt = Sql.ReadDatatable("SELECT * from vendortemplate where HASH='" + this.HASH + "'");
             foreach (DataRow row in dt.Rows)
             {
                 temp = new ShopInv();
@@ -119,7 +119,7 @@ namespace ZoneEngine
             if (like != "")
             {
                 this.Inventory.Clear();
-                dt = Sql.ReadDT("SELECT * from shopinventorytemplates where " + like + "and active = 1");
+                dt = Sql.ReadDatatable("SELECT * from shopinventorytemplates where " + like + "and active = 1");
                 string thishash;
                 foreach (DataRow row in dt.Rows)
                 {
@@ -199,7 +199,7 @@ namespace ZoneEngine
         public bool LoadTemplate(string hash)
         {
             SqlWrapper Sql = new SqlWrapper();
-            DataTable dt = Sql.ReadDT("SELECT * from vendortemplate WHERE HASH='" + hash + "'");
+            DataTable dt = Sql.ReadDatatable("SELECT * from vendortemplate WHERE HASH='" + hash + "'");
             if (dt.Rows.Count > 0)
             {
                 this.TemplateID = (Int32)dt.Rows[0]["itemtemplate"];

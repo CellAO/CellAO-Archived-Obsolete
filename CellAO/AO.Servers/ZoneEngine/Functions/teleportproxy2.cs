@@ -45,15 +45,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -107,18 +107,18 @@ namespace ZoneEngine.Functions
         {
             coordheading ret = new coordheading();
             ret.Coordinates.x = -1;
-            foreach (WallCollision.Line l in WallCollision.destinations[Playfield].playfield.lines)
+            foreach (WallCollision.Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
             {
                 if (l.ID != DestinationNumber)
                 {
                     continue;
                 }
-                ret.Coordinates.x = (l.start.X + l.end.X) / 2;
-                ret.Coordinates.y = (l.start.Y + l.end.Y) / 2;
-                ret.Coordinates.z = (l.start.Z + l.end.Z) / 2;
+                ret.Coordinates.x = (l.LineStartPoint.X + l.LineEndPoint.X) / 2;
+                ret.Coordinates.y = (l.LineStartPoint.Y + l.LineEndPoint.Y) / 2;
+                ret.Coordinates.z = (l.LineStartPoint.Z + l.LineEndPoint.Z) / 2;
                 // TODO: Calculate the right Quaternion for the heading...
                 // - Algorithman
-                Quaternion q = new Quaternion(new Vector3((l.end.X - l.start.X), 1, -(l.end.Z - l.start.Z)));
+                Quaternion q = new Quaternion(new Vector3((l.LineEndPoint.X - l.LineStartPoint.X), 1, -(l.LineEndPoint.Z - l.LineStartPoint.Z)));
                 ret.Heading.x = q.x;
                 ret.Heading.y = q.y;
                 ret.Heading.z = q.z;

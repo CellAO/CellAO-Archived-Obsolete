@@ -46,7 +46,7 @@ namespace ZoneEngine.Misc
                     }
                     lock (Program.zoneServer.Monsters)
                     {
-                        foreach (NonPC np in Program.zoneServer.Monsters)
+                        foreach (NonPlayerCharacterClass np in Program.zoneServer.Monsters)
                         {
                             if (np.ID == _id)
                             {

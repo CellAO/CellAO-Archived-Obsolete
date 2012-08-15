@@ -285,7 +285,7 @@ namespace ZoneEngine
         #endregion
 
         #region Our Own Stuff
-        public List<NonPC> Monsters;
+        public List<NonPlayerCharacterClass> Monsters;
 
         public List<VendingMachine> Vendors;
 

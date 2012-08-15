@@ -65,7 +65,7 @@ namespace AO.Core
         /// <returns></returns>
         public bool ReadName()
         {
-            DataTable dt = mySql.ReadDT("SELECT `Name`  FROM `mobspawns` WHERE ID = '" + mobId + "' LIMIT 1");
+            DataTable dt = mySql.ReadDatatable("SELECT `Name`  FROM `mobspawns` WHERE ID = '" + mobId + "' LIMIT 1");
             if (dt.Rows.Count == 0)
             {
                 return false;

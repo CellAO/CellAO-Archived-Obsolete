@@ -255,7 +255,7 @@ namespace ZoneEngine
             }
             string SQLTable = this.getSQLTablefromDynelType();
             DataTable dt =
-                ms.ReadDT("SELECT Playfield, X,Y,Z from " + SQLTable + " WHERE ID=" + this.ID.ToString() + ";");
+                ms.ReadDatatable("SELECT Playfield, X,Y,Z from " + SQLTable + " WHERE ID=" + this.ID.ToString() + ";");
 
             if (dt.Rows.Count > 0)
             {
@@ -317,7 +317,7 @@ namespace ZoneEngine
             }
             string SQLTable = this.getSQLTablefromDynelType();
             DataTable dt =
-                ms.ReadDT(
+                ms.ReadDatatable(
                     "SELECT HeadingX,HeadingY,HeadingZ,HeadingW from " + SQLTable + " WHERE ID=" + this.ID.ToString()
                     + ";");
 
@@ -384,7 +384,7 @@ namespace ZoneEngine
             this.Textures.Clear();
 
             DataTable dt =
-                ms.ReadDT(
+                ms.ReadDatatable(
                     "SELECT textures0, textures1, textures2, textures3, textures4 from "
                     + this.getSQLTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + ";");
             if (dt.Rows.Count > 0)

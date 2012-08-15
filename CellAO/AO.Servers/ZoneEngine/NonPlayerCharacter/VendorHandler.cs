@@ -26,7 +26,7 @@
 
 #endregion
 
-namespace ZoneEngine.NPC
+namespace ZoneEngine.NonPlayerCharacter
 {
     using System;
     using System.Data;
@@ -39,20 +39,19 @@ namespace ZoneEngine.NPC
     public class VendorHandler
     {
         #region get next free vendor ID
-        public static int GetFreshID(int playfield)
+        // TODO: Move this function somewhere else, where it can be static without being inside a non-static object class 
+        public static int GetNextFreeId(int playfield)
         {
-            int freeID = 0x0; // minimum ID for mobs
-            int tempid = 0;
+            int freeId = 0x0; // Vendors reign in their own numberspace
             foreach (VendingMachine vm in Program.zoneServer.Vendors)
             {
                 if (vm.PlayField == playfield)
                 {
-                    tempid = vm.ID & 0xffff;
-                    freeID = Math.Max(freeID, tempid);
+                    freeId = Math.Max(freeId, vm.ID & 0xffff);
                 }
             }
-            freeID++;
-            return (freeID + (playfield << 16));
+            freeId++;
+            return (freeId + (playfield << 16));
         }
         #endregion
 
@@ -71,7 +70,7 @@ namespace ZoneEngine.NPC
             // TODO:COUNT
             npcall = msql.SqlCount("SELECT count(*) FROM `vendors`");
             Console.Write("Reading vendors: 0/" + npcall.ToString());
-            DataTable dt = msql.ReadDT("SELECT * FROM `vendors`");
+            DataTable dt = msql.ReadDatatable("SELECT * FROM `vendors`");
 
             foreach (DataRow row in dt.Rows)
             {
@@ -106,7 +105,7 @@ namespace ZoneEngine.NPC
         #region SpawnVendor
         public static void SpawnVendor(Client cli, string hash)
         {
-            VendingMachine vm = new VendingMachine(GetFreshID(cli.Character.PlayField), cli.Character.PlayField, hash);
+            VendingMachine vm = new VendingMachine(GetNextFreeId(cli.Character.PlayField), cli.Character.PlayField, hash);
             //(cli, hash, level);
             vm.rawCoord = cli.Character.rawCoord;
             vm.rawHeading = cli.Character.rawHeading;
@@ -135,8 +134,8 @@ namespace ZoneEngine.NPC
         }
         #endregion
 
-        #region getfirstmachine
-        public static int getFirstVendor(int playfield)
+        #region GetFirstVendor
+        public static int GetFirstVendor(int playfield)
         {
             int retid = 0;
             foreach (VendingMachine vm in Program.zoneServer.Vendors)
@@ -157,8 +156,8 @@ namespace ZoneEngine.NPC
         }
         #endregion
 
-        #region getNumberofVendorsinPlayfield
-        public static int getNumberofVendorsinPlayfield(int playfield)
+        #region GetNumberofVendorsinPlayfield
+        public static int GetNumberofVendorsinPlayfield(int playfield)
         {
             int count = 0;
             foreach (VendingMachine vm in Program.zoneServer.Vendors)
@@ -173,11 +172,11 @@ namespace ZoneEngine.NPC
         #endregion
 
         #region GetVendorByID
-        public static VendingMachine GetVendorByID(int ID)
+        public static VendingMachine GetVendorById(int id)
         {
             foreach (VendingMachine vm in Program.zoneServer.Vendors)
             {
-                if (vm.ID == ID)
+                if (vm.ID == id)
                 {
                     return vm;
                 }

@@ -36,7 +36,7 @@ namespace ZoneEngine.ChatCommands
     using ZoneEngine.Misc;
     using ZoneEngine.Script;
 
-    public class effect : AOChatCommand
+    public class ChatCommandEffect : AOChatCommand
     {
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
@@ -44,38 +44,38 @@ namespace ZoneEngine.ChatCommands
             int gfx = int.Parse(args[3]);
 
             //begin assembling packet here
-            PacketWriter pout = new PacketWriter();
-            pout.PushByte(0xDF);
-            pout.PushByte(0xDF);
-            pout.PushShort(10);
-            pout.PushShort(1);
-            pout.PushShort(0);
-            pout.PushInt(3086);
-            pout.PushInt(client.Character.ID);
-            pout.PushInt(0x4D450114);
-            pout.PushIdentity(target);
-            pout.PushByte(0);
-            pout.Push3F1Count(1); // effects count
+            PacketWriter packet = new PacketWriter();
+            packet.PushByte(0xDF);
+            packet.PushByte(0xDF);
+            packet.PushShort(10);
+            packet.PushShort(1);
+            packet.PushShort(0);
+            packet.PushInt(3086);
+            packet.PushInt(client.Character.ID);
+            packet.PushInt(0x4D450114);
+            packet.PushIdentity(target);
+            packet.PushByte(0);
+            packet.Push3F1Count(1); // effects count
             // effect starts
-            pout.PushIdentity(53030, 0); // effect ID (53030 = GfxEffect)
-            pout.PushInt(4); // ?
-            pout.PushInt(0); // Criterion count
-            pout.PushInt(1); // Hits
-            pout.PushInt(0); // Delay
-            pout.PushInt(0); // 
-            pout.PushInt(0); // 
+            packet.PushIdentity(53030, 0); // effect ID (53030 = GfxEffect)
+            packet.PushInt(4); // ?
+            packet.PushInt(0); // Criterion count
+            packet.PushInt(1); // Hits
+            packet.PushInt(0); // Delay
+            packet.PushInt(0); // 
+            packet.PushInt(0); // 
             // effect args
-            pout.PushInt(gfx); // Value
-            pout.PushInt(0); // GfxLife
-            pout.PushInt(0); // GfxSize
-            pout.PushInt(0); // GfxRed
-            pout.PushInt(0); // GfxGreen
-            pout.PushInt(0); // GfxBlue
-            pout.PushInt(0); // GfxFade
+            packet.PushInt(gfx); // Value
+            packet.PushInt(0); // GfxLife
+            packet.PushInt(0); // GfxSize
+            packet.PushInt(0); // GfxRed
+            packet.PushInt(0); // GfxGreen
+            packet.PushInt(0); // GfxBlue
+            packet.PushInt(0); // GfxFade
             // effect args end
             // effect ends
-            pout.PushIdentity(50000, client.Character.ID);
-            byte[] reply = pout.Finish();
+            packet.PushIdentity(50000, client.Character.ID);
+            byte[] reply = packet.Finish();
             //done creating the packet
             Announce.Playfield(client.Character.PlayField, ref reply);
         }

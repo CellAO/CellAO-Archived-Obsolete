@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.ChatCommands
 {
     using System;
@@ -51,12 +47,12 @@ namespace ZoneEngine.ChatCommands
                 client.SendChatText("Target must be player/monster/NPC");
                 return;
             }
-            Dynel dyn;
-            dyn = FindDynel.FindDynelByID(target.Type, target.Instance);
-            if (dyn != null)
+            Dynel targetDynel = FindDynel.FindDynelByID(target.Type, target.Instance);
+            if (targetDynel != null)
             {
-                Character ch = (Character)dyn;
-                //ch.CalculateSkills();  // May be obsolete in the future
+                Character targetCharacter = (Character)targetDynel;
+                // May be obsolete in the future, let it stay in comment yet
+                // ch.CalculateSkills();  
                 int statId = StatsList.GetStatId(args[1]);
                 if (statId == 1234567890)
                 {
@@ -71,11 +67,11 @@ namespace ZoneEngine.ChatCommands
                 int perc;
                 try
                 {
-                    statValue = ch.Stats.GetBaseValue(statId);
-                    effectiveValue = ch.Stats.Get(statId);
-                    trickle = ch.Stats.GetStatbyNumber(statId).Trickle;
-                    mod = ch.Stats.GetStatbyNumber(statId).StatModifier;
-                    perc = ch.Stats.GetStatbyNumber(statId).StatPercentageModifier;
+                    statValue = targetCharacter.Stats.GetBaseValue(statId);
+                    effectiveValue = targetCharacter.Stats.Get(statId);
+                    trickle = targetCharacter.Stats.GetStatbyNumber(statId).Trickle;
+                    mod = targetCharacter.Stats.GetStatbyNumber(statId).StatModifier;
+                    perc = targetCharacter.Stats.GetStatbyNumber(statId).StatPercentageModifier;
                 }
                 catch
                 {
@@ -83,11 +79,11 @@ namespace ZoneEngine.ChatCommands
                     return;
                 }
 
-                string response = "Character " + ch.Name + " (" + ch.ID + "): Stat " + StatsList.GetStatName(statId)
+                string response = "Character " + targetCharacter.Name + " (" + targetCharacter.ID + "): Stat " + StatsList.GetStatName(statId)
                                   + " (" + statId + ") = " + statValue;
 
                 client.SendChatText(response);
-                if (statValue != ch.Stats.Get(args[1]))
+                if (statValue != targetCharacter.Stats.Get(args[1]))
                 {
                     response = "Effective value Stat " + StatsList.GetStatName(statId) + " (" + statId + ") = "
                                + effectiveValue;
@@ -112,8 +108,7 @@ namespace ZoneEngine.ChatCommands
         public override bool CheckCommandArguments(string[] args)
         {
             // Two different checks return true: <int> <uint> and <string> <uint>
-            List<Type> check = new List<Type>();
-            check.Add(typeof(int));
+            List<Type> check = new List<Type> { typeof(int) };
             bool check1 = this.CheckArgumentHelper(check, args);
 
             check.Clear();
@@ -131,8 +126,7 @@ namespace ZoneEngine.ChatCommands
 
         public override List<string> GetCommands()
         {
-            List<string> temp = new List<string>();
-            temp.Add("get");
+            List<string> temp = new List<string> { "get" };
             return temp;
         }
     }

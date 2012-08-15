@@ -245,6 +245,7 @@ namespace LoginEngine
                                 expansions = int.Parse(parts[4]);
                                 if (expansions < 0 || expansions > 2047)
                                 {
+                                    // TODO: Create proper Exception Type and replace the 2047 with a configuration value capable of future expansions
                                     throw new Exception();
                                 }
                             }

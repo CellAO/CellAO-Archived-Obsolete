@@ -38,8 +38,6 @@ namespace LoginEngine.QueryBase
     {
         private string passwdL;
 
-        private readonly SqlWrapper ms = new SqlWrapper();
-
         public string PasswdL
         {
             get
@@ -57,7 +55,8 @@ namespace LoginEngine.QueryBase
         public void GetLoginPassword(string recvLogin)
         {
             string sqlQuery = "SELECT `Password` FROM `login` WHERE `Username` = " + "'" + recvLogin + "'";
-            DataTable dt = this.ms.ReadDT(sqlQuery);
+            SqlWrapper ms = new SqlWrapper(); 
+            DataTable dt = ms.ReadDatatable(sqlQuery);
 
             foreach (DataRow row in dt.Rows)
             {

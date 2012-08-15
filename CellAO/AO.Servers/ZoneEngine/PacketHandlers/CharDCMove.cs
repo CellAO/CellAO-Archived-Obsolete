@@ -65,7 +65,7 @@ namespace ZoneEngine.PacketHandlers
             {
                 WallCollision.LineSegment teleportPF = WallCollision.WallCollisionCheck(
                     _coord.x, _coord.z, client.Character.PlayField);
-                if (teleportPF.ZoneToPF >= 1)
+                if (teleportPF.ZoneToPlayfield >= 1)
                 {
                     Quaternion newheading = new Quaternion(0, 0, 0, 0);
                     _coord = WallCollision.GetCoord(teleportPF, _coord.x, _coord.z, _coord, out newheading);
@@ -73,7 +73,7 @@ namespace ZoneEngine.PacketHandlers
                         || Math.Abs(client.Character.Coordinates.y - teleportPF.Y) <= 2
                         || teleportPF.Flags == 1337 && Math.Abs(client.Character.Coordinates.y - teleportPF.Y) <= 6)
                     {
-                        client.Teleport(_coord, newheading, teleportPF.ZoneToPF);
+                        client.Teleport(_coord, newheading, teleportPF.ZoneToPlayfield);
                         Program.zoneServer.Clients.Remove(client);
                     }
                     return;

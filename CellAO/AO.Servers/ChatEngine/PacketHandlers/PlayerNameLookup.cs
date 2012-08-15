@@ -69,7 +69,7 @@ namespace ChatEngine.PacketHandlers
 
             SqlWrapper ms = new SqlWrapper();
             string sqlQuery = "SELECT `ID` FROM `characters` WHERE `Name` = " + "'" + this.playerName + "'";
-            DataTable dt = ms.ReadDT(sqlQuery);
+            DataTable dt = ms.ReadDatatable(sqlQuery);
             if (dt.Rows.Count > 0)
             {
                 // Yes, this double cast is correct

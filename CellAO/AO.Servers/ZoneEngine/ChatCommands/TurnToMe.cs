@@ -47,7 +47,7 @@ namespace ZoneEngine.ChatCommands
                 return;
             }
 
-            if ((_target is Character) && (!(_target is NonPC)))
+            if ((_target is Character) && (!(_target is NonPlayerCharacterClass)))
             {
                 this.CommandHelp(client);
                 return;

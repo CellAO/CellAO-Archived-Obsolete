@@ -30,7 +30,7 @@ namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_HP : Class_Stat
+    public class Stat_HP : ClassStat
     {
         public Stat_HP(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {
@@ -45,7 +45,7 @@ namespace ZoneEngine.Misc
 
         public override uint GetMaxValue(uint val)
         {
-            if ((this.Parent is Character) || (this.Parent is NonPC))
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass))
             {
                 Character c = (Character)this.Parent;
                 return (uint)(Math.Min(val, c.Stats.Life.Value));

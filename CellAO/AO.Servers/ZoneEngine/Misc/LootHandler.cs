@@ -101,7 +101,7 @@ namespace ZoneEngine
         public static void CacheAllFromDB()
         {
             SqlWrapper wrapper = new SqlWrapper();
-            DataTable dt = wrapper.ReadDT("SELECT * FROM mobdroptable");
+            DataTable dt = wrapper.ReadDatatable("SELECT * FROM mobdroptable");
 
             DataRowCollection drc = dt.Rows;
             foreach (DataRow row in drc)
@@ -117,7 +117,7 @@ namespace ZoneEngine
             }
         }
 
-        public static List<AOItem> GetLoot(NonPC npc)
+        public static List<AOItem> GetLoot(NonPlayerCharacterClass npc)
         {
             List<AOItem> drops = new List<AOItem>();
 
@@ -125,7 +125,7 @@ namespace ZoneEngine
             int maxql = (int)Math.Floor(npc.Stats.Level.Value + 0.2 * npc.Stats.Level.Value);
 
             var lootinfo =
-                new SqlWrapper().ReadDT(
+                new SqlWrapper().ReadDatatable(
                     "SELECT drophashes, dropslots, droppercents FROM mobtemplate WHERE hash = " + npc.Hash + ";").Rows;
 
             int numberofslots = 0;

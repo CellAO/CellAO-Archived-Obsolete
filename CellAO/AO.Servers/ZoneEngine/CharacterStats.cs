@@ -264,7 +264,7 @@ namespace ZoneEngine
             }
 
             DataTable dt =
-                mySql.ReadDT(
+                mySql.ReadDatatable(
                     "SELECT `ID` FROM `characters_stats` WHERE `Stat` = '5' AND `Value` = '" + orgId + "'" + pres);
 
             if (dt.Rows.Count > 0)

@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.ChatCommands
 {
     using System;
@@ -41,26 +37,26 @@ namespace ZoneEngine.ChatCommands
     {
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
-            Client mClient;
-            if (FindClient.FindClientByName(args[1], out mClient))
+            Client targetClient;
+            if (FindClient.FindClientByName(args[1], out targetClient))
             {
-                bool hasNano = (this.HasNano(Convert.ToInt32(args[2]), mClient));
+                bool hasNano = (this.HasNano(Convert.ToInt32(args[2]), targetClient));
                 if (hasNano == false)
                 {
-                    mClient.Character.UploadNano(Convert.ToInt32(args[2]));
-                    UploadNanoupdate.Send(mClient.Character, 53019, Convert.ToInt32(args[2]));
+                    targetClient.Character.UploadNano(Convert.ToInt32(args[2]));
+                    UploadNanoupdate.Send(targetClient.Character, 53019, Convert.ToInt32(args[2]));
                     return;
                 }
-                mClient.SendChatText("The nano already exists in nano programs..");
+                targetClient.SendChatText("The nano already exists in nano programs..");
             }
         }
 
-        public bool HasNano(int nanoID, Client m_client)
+        public bool HasNano(int nanoId, Client client)
         {
             bool found = false;
-            foreach (AOUploadedNanos au in m_client.Character.UploadedNanos)
+            foreach (AOUploadedNanos uploadedNano in client.Character.UploadedNanos)
             {
-                if (au.Nano != nanoID)
+                if (uploadedNano.Nano != nanoId)
                 {
                     continue;
                 }
@@ -79,9 +75,7 @@ namespace ZoneEngine.ChatCommands
         public override bool CheckCommandArguments(string[] args)
         {
             // Always true, only string arguments
-            List<Type> check = new List<Type>();
-            check.Add(typeof(string));
-            check.Add(typeof(int));
+            List<Type> check = new List<Type> { typeof(string), typeof(int) };
 
             return this.CheckArgumentHelper(check, args);
         }
@@ -93,8 +87,7 @@ namespace ZoneEngine.ChatCommands
 
         public override List<string> GetCommands()
         {
-            List<string> temp = new List<string>();
-            temp.Add("nanoupload");
+            List<string> temp = new List<string> { "nanoupload" };
             return temp;
         }
     }

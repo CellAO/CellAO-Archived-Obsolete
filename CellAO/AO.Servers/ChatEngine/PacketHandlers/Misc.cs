@@ -51,7 +51,7 @@ namespace ChatEngine.PacketHandlers
         {
             string sqlQuery = string.Format("SELECT `Name` FROM `characters` WHERE `ID` = '{0}'", charId);
             SqlWrapper ms = new SqlWrapper();
-            DataTable dt = ms.ReadDT(sqlQuery);
+            DataTable dt = ms.ReadDatatable(sqlQuery);
             if (dt.Rows.Count > 0)
             {
                 this.name1 = (string)dt.Rows[0][0];

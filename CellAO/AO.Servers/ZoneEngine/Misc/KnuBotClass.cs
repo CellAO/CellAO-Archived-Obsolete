@@ -47,7 +47,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public NonPC parent;
+        public NonPlayerCharacterClass parent;
 
         public List<AOItem> TradedItems = new List<AOItem>();
 
@@ -55,13 +55,13 @@ namespace ZoneEngine.Misc
 
         public bool WantsTrade;
 
-        public KnuBotClass(Character target, NonPC _parent)
+        public KnuBotClass(Character target, NonPlayerCharacterClass _parent)
         {
             this.TalkingTo = target;
             this.parent = _parent;
         }
 
-        public KnuBotClass(NonPC _parent)
+        public KnuBotClass(NonPlayerCharacterClass _parent)
         {
             this.TalkingTo = null;
             this.parent = _parent;

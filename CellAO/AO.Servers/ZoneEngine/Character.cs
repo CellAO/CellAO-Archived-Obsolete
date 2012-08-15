@@ -96,7 +96,7 @@ namespace ZoneEngine
         /// <summary>
         /// Stats
         /// </summary>
-        public Character_Stats Stats;
+        public CharacterStats Stats;
 
         /// <summary>
         /// Inventory list
@@ -177,7 +177,7 @@ namespace ZoneEngine
                 if (this.ID != 0)
                 {
                     this.dontdotimers = true;
-                    this.Stats = new Character_Stats(this);
+                    this.Stats = new CharacterStats(this);
                     this.readCoordsfromSQL();
                     this.readHeadingfromSQL();
                     this.Stats.ReadStatsfromSQL();
@@ -213,7 +213,7 @@ namespace ZoneEngine
                 this.SaveSocialTab();
                 if (this.KnuBotTarget != null)
                 {
-                    ((NonPC)this.KnuBotTarget).KnuBot.TalkingTo = null;
+                    ((NonPlayerCharacterClass)this.KnuBotTarget).KnuBot.TalkingTo = null;
                 }
                 this.Purge();
             }
@@ -962,7 +962,7 @@ namespace ZoneEngine
             {
                 SqlWrapper Sql = new SqlWrapper();
                 DataTable dt =
-                    Sql.ReadDT(
+                    Sql.ReadDatatable(
                         "SELECT `Name`, `FirstName`, `LastName` FROM " + this.getSQLTablefromDynelType()
                         + " WHERE ID = '" + this.ID + "' LIMIT 1");
                 if (dt.Rows.Count == 1)
@@ -974,7 +974,7 @@ namespace ZoneEngine
 
                 // Read stat# 5 (Clan) - OrgID from character stats table
                 dt =
-                    Sql.ReadDT(
+                    Sql.ReadDatatable(
                         "SELECT `Value` FROM " + this.getSQLTablefromDynelType() + "_stats WHERE ID = " + this.ID
                         + " AND Stat = 5 LIMIT 1");
                 if (dt.Rows.Count == 1)
@@ -1033,7 +1033,7 @@ namespace ZoneEngine
                     InventoryEntries m_inv;
                     this.Inventory.Clear();
                     DataTable dt =
-                        ms.ReadDT(
+                        ms.ReadDatatable(
                             "SELECT * FROM " + this.getSQLTablefromDynelType() + "inventory WHERE ID="
                             + this.ID.ToString() + " AND container=104 ORDER BY placement ASC;");
                     if (dt.Rows.Count > 0)
@@ -1168,7 +1168,7 @@ namespace ZoneEngine
                 ms.SqlRead(
                     "SELECT * FROM " + this.getSQLTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString() + ";");
                 DataTable dt =
-                    ms.ReadDT(
+                    ms.ReadDatatable(
                         "SELECT * FROM " + this.getSQLTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString()
                         + ";");
                 if (dt.Rows.Count > 0)
@@ -1204,7 +1204,7 @@ namespace ZoneEngine
                     AONano m_an;
 
                     DataTable dt =
-                        ms.ReadDT(
+                        ms.ReadDatatable(
                             "SELECT * FROM " + this.getSQLTablefromDynelType() + "activenanos WHERE ID="
                             + this.ID.ToString());
                     if (dt.Rows.Count > 0)
@@ -1747,7 +1747,7 @@ namespace ZoneEngine
                     this.writeUploadedNanostoSQL();
                     if (this.KnuBotTarget != null)
                     {
-                        ((NonPC)this.KnuBotTarget).KnuBot.TalkingTo = null;
+                        ((NonPlayerCharacterClass)this.KnuBotTarget).KnuBot.TalkingTo = null;
                     }
                 }
             }
@@ -1908,7 +1908,7 @@ namespace ZoneEngine
                 this.UploadedNanos.Clear();
                 SqlWrapper Sql = new SqlWrapper();
                 DataTable dt =
-                    Sql.ReadDT(
+                    Sql.ReadDatatable(
                         "SELECT nano FROM " + this.getSQLTablefromDynelType() + "uploadednanos WHERE ID="
                         + this.ID.ToString());
                 if (dt.Rows.Count > 0)
@@ -2030,7 +2030,7 @@ namespace ZoneEngine
                 SqlWrapper ms = new SqlWrapper();
                 this.Bank.Clear();
                 DataTable dt =
-                    ms.ReadDT("SELECT * FROM bank WHERE charID=" + this.ID.ToString() + " ORDER BY InventoryID ASC");
+                    ms.ReadDatatable("SELECT * FROM bank WHERE charID=" + this.ID.ToString() + " ORDER BY InventoryID ASC");
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
@@ -2111,7 +2111,7 @@ namespace ZoneEngine
             {
                 SqlWrapper sql = new SqlWrapper();
                 DataTable dt =
-                    sql.ReadDT(
+                    sql.ReadDatatable(
                         "SELECT `ID`, `Expansions`, `AccountFlags`, `GM` FROM `login` WHERE `Username` = (SELECT `Username` FROM `characters` WHERE `ID` = "
                         + this.ID + ");");
                 if (dt.Rows.Count > 0)
@@ -2192,7 +2192,7 @@ namespace ZoneEngine
             lock (this.SocialTab)
             {
                 SqlWrapper ms = new SqlWrapper();
-                DataTable dt = ms.ReadDT("SELECT * FROM socialtab WHERE charid=" + this.ID);
+                DataTable dt = ms.ReadDatatable("SELECT * FROM socialtab WHERE charid=" + this.ID);
                 if (dt.Rows.Count > 0)
                 {
                     this.SocialTab.Clear();
@@ -2501,7 +2501,7 @@ namespace ZoneEngine
             this.dontdotimers = true;
 
             // Clear all stat modifiers/Percentagemodifiers
-            foreach (Class_Stat cs in this.Stats.all)
+            foreach (ClassStat cs in this.Stats.all)
             {
                 cs.StatModifier = 0;
                 cs.StatPercentageModifier = 100;

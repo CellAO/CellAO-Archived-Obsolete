@@ -27,7 +27,7 @@
 
 namespace ZoneEngine.Misc
 {
-    public class Stat_Nano : Class_Stat
+    public class Stat_Nano : ClassStat
     {
         public Stat_Nano(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {
@@ -60,7 +60,7 @@ namespace ZoneEngine.Misc
             int[] BreedModiNP = { 0, -1, 1, -2, 0, 0, 0 };
             #endregion
 
-            if ((this.Parent is Character) || (this.Parent is NonPC)) // This condition could be obsolete
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
                 Character ch = (Character)this.Parent;
                 uint breed = ch.Stats.Breed.StatBaseValue;
@@ -73,7 +73,7 @@ namespace ZoneEngine.Misc
                 uint level = ch.Stats.Level.StatBaseValue;
 
                 //BreedBaseNP+(Level*(TableProfNP+BreedModiNP))+(NanoEnergyPool*BreedMultiNP))
-                if (this.Parent is NonPC)
+                if (this.Parent is NonPlayerCharacterClass)
                 {
                     // TODO: correct calculation of mob NP
                     this.Set(

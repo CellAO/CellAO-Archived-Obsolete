@@ -27,7 +27,7 @@
 
 namespace ZoneEngine.Misc
 {
-    public class Stat_WeaponsStyle : Class_Stat
+    public class Stat_WeaponsStyle : ClassStat
     {
         public Stat_WeaponsStyle(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {
@@ -42,7 +42,7 @@ namespace ZoneEngine.Misc
 
         public override void CalcTrickle()
         {
-            if ((this.Parent is Character) || (this.Parent is NonPC)) // This condition could be obsolete
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
                 this.Value = ((Character)this.Parent).Stats.WeaponStyleLeft.Value
                              | ((Character)this.Parent).Stats.WeaponStyleRight.Value;

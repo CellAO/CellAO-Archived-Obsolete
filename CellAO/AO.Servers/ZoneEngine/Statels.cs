@@ -417,18 +417,18 @@ namespace ZoneEngine
             {
                 coordheading ret = new coordheading();
                 ret.Coordinates.x = -1;
-                foreach (WallCollision.Line l in WallCollision.destinations[Playfield].playfield.lines)
+                foreach (WallCollision.Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
                 {
                     if (l.ID != DestinationNumber)
                     {
                         continue;
                     }
-                    ret.Coordinates.x = (l.start.X + l.end.X) / 2;
-                    ret.Coordinates.y = (l.start.Y + l.end.Y) / 2;
-                    ret.Coordinates.z = (l.start.Z + l.end.Z) / 2;
+                    ret.Coordinates.x = (l.LineStartPoint.X + l.LineEndPoint.X) / 2;
+                    ret.Coordinates.y = (l.LineStartPoint.Y + l.LineEndPoint.Y) / 2;
+                    ret.Coordinates.z = (l.LineStartPoint.Z + l.LineEndPoint.Z) / 2;
                     // TODO: Calculate the right Quaternion for the heading...
                     // - Algorithman
-                    Quaternion q = new Quaternion(new Vector3((l.end.X - l.start.X), 1, -(l.end.Z - l.start.Z)));
+                    Quaternion q = new Quaternion(new Vector3((l.LineEndPoint.X - l.LineStartPoint.X), 1, -(l.LineEndPoint.Z - l.LineStartPoint.Z)));
                     ret.Heading.x = q.x;
                     ret.Heading.y = q.y;
                     ret.Heading.z = q.z;
@@ -576,14 +576,14 @@ namespace ZoneEngine
         {
             SqlWrapper ms = new SqlWrapper();
             int count = 0;
-            DataTable dt = ms.ReadDT("SELECT * FROM statels ORDER BY id ASC");
+            DataTable dt = ms.ReadDatatable("SELECT * FROM statels ORDER BY id ASC");
             dt_args =
-                ms.ReadDT(
+                ms.ReadDatatable(
                     "SELECT * FROM statel_function_arguments ORDER BY statel_id, event_id, function_id, attrid ASC");
-            dt_events = ms.ReadDT("SELECT * FROM statel_events ORDER BY statel_id, eventid ASC");
+            dt_events = ms.ReadDatatable("SELECT * FROM statel_events ORDER BY statel_id, eventid ASC");
             dt_reqs =
-                ms.ReadDT("SELECT * FROM statel_function_reqs ORDER BY statel_id, event_id, function_id, reqid ASC");
-            dt_functions = ms.ReadDT("SELECT * FROM statel_functions ORDER BY statel_id, event_id, functionid ASC");
+                ms.ReadDatatable("SELECT * FROM statel_function_reqs ORDER BY statel_id, event_id, function_id, reqid ASC");
+            dt_functions = ms.ReadDatatable("SELECT * FROM statel_functions ORDER BY statel_id, event_id, functionid ASC");
             int maxcount = 0;
             ms.sqlclose();
 

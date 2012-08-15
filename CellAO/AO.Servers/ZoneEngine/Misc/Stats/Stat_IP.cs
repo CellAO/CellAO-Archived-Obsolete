@@ -32,7 +32,7 @@ namespace ZoneEngine.Misc
 
     using ZoneEngine.PacketHandlers;
 
-    public class Stat_IP : Class_Stat
+    public class Stat_IP : ClassStat
     {
         public Stat_IP(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {
@@ -47,7 +47,7 @@ namespace ZoneEngine.Misc
 
         public override void CalcTrickle()
         {
-            if ((this.Parent is Character) || (this.Parent is NonPC)) // This condition could be obsolete
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
                 Character ch = (Character)this.Parent;
                 int baseIP = 0;

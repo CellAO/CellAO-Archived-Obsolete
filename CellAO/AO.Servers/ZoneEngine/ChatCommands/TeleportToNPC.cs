@@ -36,7 +36,7 @@ namespace ZoneEngine.ChatCommands
     using ZoneEngine.Misc;
     using ZoneEngine.Script;
 
-    public class ChatCommandTeleportToNPC : AOChatCommand
+    public class ChatCommandTeleportToNpc : AOChatCommand
     {
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {

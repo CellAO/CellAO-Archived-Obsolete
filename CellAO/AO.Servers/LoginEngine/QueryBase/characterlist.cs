@@ -54,7 +54,7 @@ namespace LoginEngine.QueryBase
             string SqlQuery =
                 "SELECT `characters`.`ID`, `characters`.`Name`, `characters`.`playfield`, (SELECT `Value` FROM `characters_stats` WHERE `characters`.`ID` = `characters_stats`.`ID` AND `Stat` = 54) as level, (SELECT `Value` FROM `characters_stats` WHERE `characters`.`ID` = `characters_stats`.`ID` AND `Stat` = 4) as breed, (SELECT `Value` FROM `characters_stats` WHERE `characters`.`ID` = `characters_stats`.`ID` AND `Stat` = 59) as gender, (SELECT `Value` FROM `characters_stats` WHERE `characters`.`ID` = `characters_stats`.`ID` AND `Stat` = 60) as profession FROM `characters` WHERE `characters`.Username = '"
                 + accountName + "'";
-            DataTable dt = ms.ReadDT(SqlQuery);
+            DataTable dt = ms.ReadDatatable(SqlQuery);
 
             foreach (DataRow row in dt.Rows)
             {

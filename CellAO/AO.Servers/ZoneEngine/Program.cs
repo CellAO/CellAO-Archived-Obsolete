@@ -51,7 +51,8 @@ namespace ZoneEngine
 
     using ZoneEngine.Functions;
     using ZoneEngine.Misc;
-    using ZoneEngine.NPC;
+    using ZoneEngine.NonPlayerCharacter;
+    using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Script;
 
     public class Program
@@ -434,7 +435,7 @@ namespace ZoneEngine
             try
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                zoneServer.Monsters = new List<NonPC>();
+                zoneServer.Monsters = new List<NonPlayerCharacterClass>();
                 zoneServer.Vendors = new List<VendingMachine>();
                 zoneServer.Doors = new List<Doors>();
 
@@ -455,7 +456,7 @@ namespace ZoneEngine
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Loaded {0} items", ItemHandler.CacheAllItems());
                 Console.WriteLine("Loaded {0} nanos", NanoHandler.CacheAllNanos());
-                Console.WriteLine("Loaded {0} spawns", NPCHandler.CacheAllFromDB());
+                Console.WriteLine("Loaded {0} spawns", NonPlayerCharacterHandler.CacheAllFromDB());
                 Console.WriteLine("Loaded {0} vendors", VendorHandler.CacheAllFromDB());
                 Console.WriteLine("Loaded {0} teleports", DoorHandler.CacheAllFromDB());
                 Console.WriteLine("Loaded {0} statels", Statels.CacheAllStatels());

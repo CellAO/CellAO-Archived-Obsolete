@@ -254,7 +254,7 @@ namespace LoginEngine.Packets
             {
                 /* select new char id */
                 string sqlQuery = "SELECT `ID` FROM `characters` WHERE Name = " + "'" + this.Name + "'";
-                DataTable dt = ms.ReadDT(sqlQuery);
+                DataTable dt = ms.ReadDatatable(sqlQuery);
 
                 foreach (DataRow row in dt.Rows)
                 {

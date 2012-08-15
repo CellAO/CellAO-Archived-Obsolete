@@ -32,7 +32,7 @@ namespace ZoneEngine.Misc
 
     using AO.Core;
 
-    public class Stat_HealInterval : Class_Stat
+    public class Stat_HealInterval : ClassStat
     {
         public Stat_HealInterval(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {
@@ -47,7 +47,7 @@ namespace ZoneEngine.Misc
 
         public override void CalcTrickle()
         {
-            if ((this.Parent is Character) || (this.Parent is NonPC))
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass))
             {
                 Character ch = (Character)this.Parent;
 

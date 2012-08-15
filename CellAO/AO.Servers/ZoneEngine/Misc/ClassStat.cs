@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Misc
 {
     using System;
@@ -36,8 +32,8 @@ namespace ZoneEngine.Misc
 
     using ZoneEngine.Packets;
 
-    #region Class_Stat  class for one stat
-    public class Class_Stat
+    #region ClassStat  class for one stat
+    public class ClassStat
     {
         #region StatChangedEventArgs
         /// <summary>
@@ -45,7 +41,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         public class StatChangedEventArgs : EventArgs
         {
-            public StatChangedEventArgs(Class_Stat Stat, uint Old_Value, uint New_Value, bool announce)
+            public StatChangedEventArgs(ClassStat Stat, uint Old_Value, uint New_Value, bool announce)
             {
                 this.stat = Stat;
                 this.oldvalue = Old_Value;
@@ -53,7 +49,7 @@ namespace ZoneEngine.Misc
                 this.AnnounceToPlayfield = announce;
             }
 
-            private readonly Class_Stat stat;
+            private readonly ClassStat stat;
 
             public uint oldvalue;
 
@@ -61,7 +57,7 @@ namespace ZoneEngine.Misc
 
             public bool AnnounceToPlayfield;
 
-            public Class_Stat Stat
+            public ClassStat Stat
             {
                 get
                 {
@@ -155,7 +151,7 @@ namespace ZoneEngine.Misc
 
         public Dynel Parent;
 
-        public Class_Stat(
+        public ClassStat(
             int Number, uint Default, string name, bool sendbase, bool dontwrite, bool announcetoplayfield)
         {
             this.DoNotDontWriteToSql = true;
@@ -169,7 +165,7 @@ namespace ZoneEngine.Misc
             // Obsolete            StatName = name;
         }
 
-        public Class_Stat()
+        public ClassStat()
         {
         }
 
@@ -237,7 +233,7 @@ namespace ZoneEngine.Misc
             SqlWrapper sql = new SqlWrapper();
             if (this.changed)
             {
-                if (this.Parent is NonPC)
+                if (this.Parent is NonPlayerCharacterClass)
                 {
                     sql.SqlInsert(
                         "INSERT INTO " + (this.Parent).getSQLTablefromDynelType()
@@ -270,7 +266,7 @@ namespace ZoneEngine.Misc
             SqlWrapper sql = new SqlWrapper();
             if (doit)
             {
-                if (this.Parent is NonPC)
+                if (this.Parent is NonPlayerCharacterClass)
                 {
                     sql.SqlInsert(
                         "INSERT INTO " + (this.Parent).getSQLTablefromDynelType()
@@ -301,7 +297,7 @@ namespace ZoneEngine.Misc
             SqlWrapper sql = new SqlWrapper();
             int id = this.Parent.ID;
             DataTable dt =
-                sql.ReadDT(
+                sql.ReadDatatable(
                     "SELECT Value FROM " + this.Parent.getSQLTablefromDynelType() + " WHERE ID=" + id.ToString()
                     + " AND Stat=" + this.StatNumber.ToString() + ";");
 
@@ -315,7 +311,7 @@ namespace ZoneEngine.Misc
         #region Call Stats affected by this stat
         public void AffectStats()
         {
-            if (!(this.Parent is Character) && !(this.Parent is NonPC))
+            if (!(this.Parent is Character) && !(this.Parent is NonPlayerCharacterClass))
             {
                 return;
             }
@@ -329,210 +325,210 @@ namespace ZoneEngine.Misc
     #endregion
 
     #region Character_Stats holder for Character's stats
-    public class Character_Stats
+    public class CharacterStats
     {
         #region stats creation
-        public Class_Stat Flags = new Class_Stat(0, 8917569, "Flags", false, false, true);
+        public ClassStat Flags = new ClassStat(0, 8917569, "Flags", false, false, true);
 
         public Stat_Health Life = new Stat_Health(1, 1, "Life", true, false, false);
 
-        public Class_Stat VolumeMass = new Class_Stat(2, 1234567890, "VolumeMass", false, false, false);
+        public ClassStat VolumeMass = new ClassStat(2, 1234567890, "VolumeMass", false, false, false);
 
-        public Class_Stat AttackSpeed = new Class_Stat(3, 5, "AttackSpeed", false, false, false);
+        public ClassStat AttackSpeed = new ClassStat(3, 5, "AttackSpeed", false, false, false);
 
-        public Class_Stat Breed = new Class_Stat(4, 1234567890, "Breed", false, false, false);
+        public ClassStat Breed = new ClassStat(4, 1234567890, "Breed", false, false, false);
 
-        public Class_Stat Clan = new Class_Stat(5, 0, "Clan", false, false, false);
+        public ClassStat Clan = new ClassStat(5, 0, "Clan", false, false, false);
 
-        public Class_Stat Team = new Class_Stat(6, 0, "Team", false, false, false);
+        public ClassStat Team = new ClassStat(6, 0, "Team", false, false, false);
 
-        public Class_Stat State = new Class_Stat(7, 0, "State", false, false, false);
+        public ClassStat State = new ClassStat(7, 0, "State", false, false, false);
 
-        public Class_Stat TimeExist = new Class_Stat(8, 1234567890, "TimeExist", false, false, false);
+        public ClassStat TimeExist = new ClassStat(8, 1234567890, "TimeExist", false, false, false);
 
-        public Class_Stat MapFlags = new Class_Stat(9, 0, "MapFlags", false, false, false);
+        public ClassStat MapFlags = new ClassStat(9, 0, "MapFlags", false, false, false);
 
-        public Class_Stat ProfessionLevel = new Class_Stat(10, 1234567890, "ProfessionLevel", false, true, false);
+        public ClassStat ProfessionLevel = new ClassStat(10, 1234567890, "ProfessionLevel", false, true, false);
 
-        public Class_Stat PreviousHealth = new Class_Stat(11, 50, "PreviousHealth", false, false, false);
+        public ClassStat PreviousHealth = new ClassStat(11, 50, "PreviousHealth", false, false, false);
 
-        public Class_Stat Mesh = new Class_Stat(12, 17530, "Mesh", false, false, false);
+        public ClassStat Mesh = new ClassStat(12, 17530, "Mesh", false, false, false);
 
-        public Class_Stat Anim = new Class_Stat(13, 1234567890, "Anim", false, false, false);
+        public ClassStat Anim = new ClassStat(13, 1234567890, "Anim", false, false, false);
 
-        public Class_Stat Name = new Class_Stat(14, 1234567890, "Name", false, false, false);
+        public ClassStat Name = new ClassStat(14, 1234567890, "Name", false, false, false);
 
-        public Class_Stat Info = new Class_Stat(15, 1234567890, "Info", false, false, false);
+        public ClassStat Info = new ClassStat(15, 1234567890, "Info", false, false, false);
 
-        public Class_Stat Strength = new Class_Stat(16, 0, "Strength", true, false, false);
+        public ClassStat Strength = new ClassStat(16, 0, "Strength", true, false, false);
 
-        public Class_Stat Agility = new Class_Stat(17, 0, "Agility", true, false, false);
+        public ClassStat Agility = new ClassStat(17, 0, "Agility", true, false, false);
 
-        public Class_Stat Stamina = new Class_Stat(18, 0, "Stamina", true, false, false);
+        public ClassStat Stamina = new ClassStat(18, 0, "Stamina", true, false, false);
 
-        public Class_Stat Intelligence = new Class_Stat(19, 0, "Intelligence", true, false, false);
+        public ClassStat Intelligence = new ClassStat(19, 0, "Intelligence", true, false, false);
 
-        public Class_Stat Sense = new Class_Stat(20, 0, "Sense", true, false, false);
+        public ClassStat Sense = new ClassStat(20, 0, "Sense", true, false, false);
 
-        public Class_Stat Psychic = new Class_Stat(21, 0, "Psychic", true, false, false);
+        public ClassStat Psychic = new ClassStat(21, 0, "Psychic", true, false, false);
 
-        public Class_Stat AMS = new Class_Stat(22, 1234567890, "AMS", false, false, false);
+        public ClassStat AMS = new ClassStat(22, 1234567890, "AMS", false, false, false);
 
-        public Class_Stat StaticInstance = new Class_Stat(23, 1234567890, "StaticInstance", false, false, false);
+        public ClassStat StaticInstance = new ClassStat(23, 1234567890, "StaticInstance", false, false, false);
 
-        public Class_Stat MaxMass = new Class_Stat(24, 1234567890, "MaxMass", false, false, false);
+        public ClassStat MaxMass = new ClassStat(24, 1234567890, "MaxMass", false, false, false);
 
-        public Class_Stat StaticType = new Class_Stat(25, 1234567890, "StaticType", false, false, false);
+        public ClassStat StaticType = new ClassStat(25, 1234567890, "StaticType", false, false, false);
 
-        public Class_Stat Energy = new Class_Stat(26, 1234567890, "Energy", false, false, false);
+        public ClassStat Energy = new ClassStat(26, 1234567890, "Energy", false, false, false);
 
         public Stat_HP Health = new Stat_HP(27, 1, "Health", false, false, false);
 
-        public Class_Stat Height = new Class_Stat(28, 1234567890, "Height", false, false, false);
+        public ClassStat Height = new ClassStat(28, 1234567890, "Height", false, false, false);
 
-        public Class_Stat DMS = new Class_Stat(29, 1234567890, "DMS", false, false, false);
+        public ClassStat DMS = new ClassStat(29, 1234567890, "DMS", false, false, false);
 
-        public Class_Stat Can = new Class_Stat(30, 1234567890, "Can", false, false, false);
+        public ClassStat Can = new ClassStat(30, 1234567890, "Can", false, false, false);
 
-        public Class_Stat Face = new Class_Stat(31, 1234567890, "Face", false, false, false);
+        public ClassStat Face = new ClassStat(31, 1234567890, "Face", false, false, false);
 
-        public Class_Stat HairMesh = new Class_Stat(32, 0, "HairMesh", false, false, false);
+        public ClassStat HairMesh = new ClassStat(32, 0, "HairMesh", false, false, false);
 
-        public Class_Stat Side = new Class_Stat(33, 0, "Side", false, false, false);
+        public ClassStat Side = new ClassStat(33, 0, "Side", false, false, false);
 
-        public Class_Stat DeadTimer = new Class_Stat(34, 0, "DeadTimer", false, false, false);
+        public ClassStat DeadTimer = new ClassStat(34, 0, "DeadTimer", false, false, false);
 
-        public Class_Stat AccessCount = new Class_Stat(35, 1234567890, "AccessCount", false, false, false);
+        public ClassStat AccessCount = new ClassStat(35, 1234567890, "AccessCount", false, false, false);
 
-        public Class_Stat AttackCount = new Class_Stat(36, 1234567890, "AttackCount", false, false, false);
+        public ClassStat AttackCount = new ClassStat(36, 1234567890, "AttackCount", false, false, false);
 
         public Stat_TitleLevel TitleLevel = new Stat_TitleLevel(37, 1, "TitleLevel", false, false, false);
 
-        public Class_Stat BackMesh = new Class_Stat(38, 0, "BackMesh", false, false, false);
+        public ClassStat BackMesh = new ClassStat(38, 0, "BackMesh", false, false, false);
 
-        public Class_Stat ShoulderMeshHolder = new Class_Stat(39, 0, "WeaponMeshRight", false, false, false);
+        public ClassStat ShoulderMeshHolder = new ClassStat(39, 0, "WeaponMeshRight", false, false, false);
 
-        public Class_Stat AlienXP = new Class_Stat(40, 0, "AlienXP", false, false, false);
+        public ClassStat AlienXP = new ClassStat(40, 0, "AlienXP", false, false, false);
 
-        public Class_Stat FabricType = new Class_Stat(41, 1234567890, "FabricType", false, false, false);
+        public ClassStat FabricType = new ClassStat(41, 1234567890, "FabricType", false, false, false);
 
-        public Class_Stat CATMesh = new Class_Stat(42, 1234567890, "CATMesh", false, false, false);
+        public ClassStat CATMesh = new ClassStat(42, 1234567890, "CATMesh", false, false, false);
 
-        public Class_Stat ParentType = new Class_Stat(43, 1234567890, "ParentType", false, false, false);
+        public ClassStat ParentType = new ClassStat(43, 1234567890, "ParentType", false, false, false);
 
-        public Class_Stat ParentInstance = new Class_Stat(44, 1234567890, "ParentInstance", false, false, false);
+        public ClassStat ParentInstance = new ClassStat(44, 1234567890, "ParentInstance", false, false, false);
 
-        public Class_Stat BeltSlots = new Class_Stat(45, 0, "BeltSlots", false, false, false);
+        public ClassStat BeltSlots = new ClassStat(45, 0, "BeltSlots", false, false, false);
 
-        public Class_Stat BandolierSlots = new Class_Stat(46, 1234567890, "BandolierSlots", false, false, false);
+        public ClassStat BandolierSlots = new ClassStat(46, 1234567890, "BandolierSlots", false, false, false);
 
-        public Class_Stat Fatness = new Class_Stat(47, 1234567890, "Fatness", false, false, false);
+        public ClassStat Fatness = new ClassStat(47, 1234567890, "Fatness", false, false, false);
 
-        public Class_Stat ClanLevel = new Class_Stat(48, 1234567890, "ClanLevel", false, false, false);
+        public ClassStat ClanLevel = new ClassStat(48, 1234567890, "ClanLevel", false, false, false);
 
-        public Class_Stat InsuranceTime = new Class_Stat(49, 0, "InsuranceTime", false, false, false);
+        public ClassStat InsuranceTime = new ClassStat(49, 0, "InsuranceTime", false, false, false);
 
-        public Class_Stat InventoryTimeout = new Class_Stat(50, 1234567890, "InventoryTimeout", false, false, false);
+        public ClassStat InventoryTimeout = new ClassStat(50, 1234567890, "InventoryTimeout", false, false, false);
 
-        public Class_Stat AggDef = new Class_Stat(51, 100, "AggDef", false, false, false);
+        public ClassStat AggDef = new ClassStat(51, 100, "AggDef", false, false, false);
 
-        public Class_Stat XP = new Class_Stat(52, 0, "XP", false, false, false);
+        public ClassStat XP = new ClassStat(52, 0, "XP", false, false, false);
 
         public Stat_IP IP = new Stat_IP(53, 1500, "IP", false, false, false);
 
-        public Class_Stat Level = new Class_Stat(54, 1234567890, "Level", false, false, false);
+        public ClassStat Level = new ClassStat(54, 1234567890, "Level", false, false, false);
 
-        public Class_Stat InventoryId = new Class_Stat(55, 1234567890, "InventoryId", false, false, false);
+        public ClassStat InventoryId = new ClassStat(55, 1234567890, "InventoryId", false, false, false);
 
-        public Class_Stat TimeSinceCreation = new Class_Stat(56, 1234567890, "TimeSinceCreation", false, false, false);
+        public ClassStat TimeSinceCreation = new ClassStat(56, 1234567890, "TimeSinceCreation", false, false, false);
 
-        public Class_Stat LastXP = new Class_Stat(57, 0, "LastXP", false, false, false);
+        public ClassStat LastXP = new ClassStat(57, 0, "LastXP", false, false, false);
 
-        public Class_Stat Age = new Class_Stat(58, 0, "Age", false, false, false);
+        public ClassStat Age = new ClassStat(58, 0, "Age", false, false, false);
 
-        public Class_Stat Sex = new Class_Stat(59, 1234567890, "Sex", false, false, false);
+        public ClassStat Sex = new ClassStat(59, 1234567890, "Sex", false, false, false);
 
-        public Class_Stat Profession = new Class_Stat(60, 1234567890, "Profession", false, false, false);
+        public ClassStat Profession = new ClassStat(60, 1234567890, "Profession", false, false, false);
 
-        public Class_Stat Cash = new Class_Stat(61, 0, "Cash", false, false, false);
+        public ClassStat Cash = new ClassStat(61, 0, "Cash", false, false, false);
 
-        public Class_Stat Alignment = new Class_Stat(62, 0, "Alignment", false, false, false);
+        public ClassStat Alignment = new ClassStat(62, 0, "Alignment", false, false, false);
 
-        public Class_Stat Attitude = new Class_Stat(63, 0, "Attitude", false, false, false);
+        public ClassStat Attitude = new ClassStat(63, 0, "Attitude", false, false, false);
 
-        public Class_Stat HeadMesh = new Class_Stat(64, 0, "HeadMesh", false, false, false);
+        public ClassStat HeadMesh = new ClassStat(64, 0, "HeadMesh", false, false, false);
 
-        public Class_Stat MissionBits5 = new Class_Stat(65, 0, "MissionBits5", false, false, false);
+        public ClassStat MissionBits5 = new ClassStat(65, 0, "MissionBits5", false, false, false);
 
-        public Class_Stat MissionBits6 = new Class_Stat(66, 0, "MissionBits6", false, false, false);
+        public ClassStat MissionBits6 = new ClassStat(66, 0, "MissionBits6", false, false, false);
 
-        public Class_Stat MissionBits7 = new Class_Stat(67, 0, "MissionBits7", false, false, false);
+        public ClassStat MissionBits7 = new ClassStat(67, 0, "MissionBits7", false, false, false);
 
-        public Class_Stat VeteranPoints = new Class_Stat(68, 0, "VeteranPoints", false, false, false);
+        public ClassStat VeteranPoints = new ClassStat(68, 0, "VeteranPoints", false, false, false);
 
-        public Class_Stat MonthsPaid = new Class_Stat(69, 0, "MonthsPaid", false, false, false);
+        public ClassStat MonthsPaid = new ClassStat(69, 0, "MonthsPaid", false, false, false);
 
-        public Class_Stat SpeedPenalty = new Class_Stat(70, 1234567890, "SpeedPenalty", false, false, false);
+        public ClassStat SpeedPenalty = new ClassStat(70, 1234567890, "SpeedPenalty", false, false, false);
 
-        public Class_Stat TotalMass = new Class_Stat(71, 1234567890, "TotalMass", false, false, false);
+        public ClassStat TotalMass = new ClassStat(71, 1234567890, "TotalMass", false, false, false);
 
-        public Class_Stat ItemType = new Class_Stat(72, 0, "ItemType", false, false, false);
+        public ClassStat ItemType = new ClassStat(72, 0, "ItemType", false, false, false);
 
-        public Class_Stat RepairDifficulty = new Class_Stat(73, 1234567890, "RepairDifficulty", false, false, false);
+        public ClassStat RepairDifficulty = new ClassStat(73, 1234567890, "RepairDifficulty", false, false, false);
 
-        public Class_Stat Price = new Class_Stat(74, 1234567890, "Price", false, false, false);
+        public ClassStat Price = new ClassStat(74, 1234567890, "Price", false, false, false);
 
-        public Class_Stat MetaType = new Class_Stat(75, 0, "MetaType", false, false, false);
+        public ClassStat MetaType = new ClassStat(75, 0, "MetaType", false, false, false);
 
-        public Class_Stat ItemClass = new Class_Stat(76, 1234567890, "ItemClass", false, false, false);
+        public ClassStat ItemClass = new ClassStat(76, 1234567890, "ItemClass", false, false, false);
 
-        public Class_Stat RepairSkill = new Class_Stat(77, 1234567890, "RepairSkill", false, false, false);
+        public ClassStat RepairSkill = new ClassStat(77, 1234567890, "RepairSkill", false, false, false);
 
-        public Class_Stat CurrentMass = new Class_Stat(78, 0, "CurrentMass", false, false, false);
+        public ClassStat CurrentMass = new ClassStat(78, 0, "CurrentMass", false, false, false);
 
-        public Class_Stat Icon = new Class_Stat(79, 0, "Icon", false, false, false);
+        public ClassStat Icon = new ClassStat(79, 0, "Icon", false, false, false);
 
-        public Class_Stat PrimaryItemType = new Class_Stat(80, 1234567890, "PrimaryItemType", false, false, false);
+        public ClassStat PrimaryItemType = new ClassStat(80, 1234567890, "PrimaryItemType", false, false, false);
 
-        public Class_Stat PrimaryItemInstance = new Class_Stat(
+        public ClassStat PrimaryItemInstance = new ClassStat(
             81, 1234567890, "PrimaryItemInstance", false, false, false);
 
-        public Class_Stat SecondaryItemType = new Class_Stat(82, 1234567890, "SecondaryItemType", false, false, false);
+        public ClassStat SecondaryItemType = new ClassStat(82, 1234567890, "SecondaryItemType", false, false, false);
 
-        public Class_Stat SecondaryItemInstance = new Class_Stat(
+        public ClassStat SecondaryItemInstance = new ClassStat(
             83, 1234567890, "SecondaryItemInstance", false, false, false);
 
-        public Class_Stat UserType = new Class_Stat(84, 1234567890, "UserType", false, false, false);
+        public ClassStat UserType = new ClassStat(84, 1234567890, "UserType", false, false, false);
 
-        public Class_Stat UserInstance = new Class_Stat(85, 1234567890, "UserInstance", false, false, false);
+        public ClassStat UserInstance = new ClassStat(85, 1234567890, "UserInstance", false, false, false);
 
-        public Class_Stat AreaType = new Class_Stat(86, 1234567890, "AreaType", false, false, false);
+        public ClassStat AreaType = new ClassStat(86, 1234567890, "AreaType", false, false, false);
 
-        public Class_Stat AreaInstance = new Class_Stat(87, 1234567890, "AreaInstance", false, false, false);
+        public ClassStat AreaInstance = new ClassStat(87, 1234567890, "AreaInstance", false, false, false);
 
-        public Class_Stat DefaultPos = new Class_Stat(88, 1234567890, "DefaultPos", false, false, false);
+        public ClassStat DefaultPos = new ClassStat(88, 1234567890, "DefaultPos", false, false, false);
 
-        public Class_Stat Race = new Class_Stat(89, 1, "Race", false, false, false);
+        public ClassStat Race = new ClassStat(89, 1, "Race", false, false, false);
 
-        public Class_Stat ProjectileAC = new Class_Stat(90, 0, "ProjectileAC", true, false, false);
+        public ClassStat ProjectileAC = new ClassStat(90, 0, "ProjectileAC", true, false, false);
 
-        public Class_Stat MeleeAC = new Class_Stat(91, 0, "MeleeAC", true, false, false);
+        public ClassStat MeleeAC = new ClassStat(91, 0, "MeleeAC", true, false, false);
 
-        public Class_Stat EnergyAC = new Class_Stat(92, 0, "EnergyAC", true, false, false);
+        public ClassStat EnergyAC = new ClassStat(92, 0, "EnergyAC", true, false, false);
 
-        public Class_Stat ChemicalAC = new Class_Stat(93, 0, "ChemicalAC", true, false, false);
+        public ClassStat ChemicalAC = new ClassStat(93, 0, "ChemicalAC", true, false, false);
 
-        public Class_Stat RadiationAC = new Class_Stat(94, 0, "RadiationAC", true, false, false);
+        public ClassStat RadiationAC = new ClassStat(94, 0, "RadiationAC", true, false, false);
 
-        public Class_Stat ColdAC = new Class_Stat(95, 0, "ColdAC", true, false, false);
+        public ClassStat ColdAC = new ClassStat(95, 0, "ColdAC", true, false, false);
 
-        public Class_Stat PoisonAC = new Class_Stat(96, 0, "PoisonAC", true, false, false);
+        public ClassStat PoisonAC = new ClassStat(96, 0, "PoisonAC", true, false, false);
 
-        public Class_Stat FireAC = new Class_Stat(97, 0, "FireAC", true, false, false);
+        public ClassStat FireAC = new ClassStat(97, 0, "FireAC", true, false, false);
 
-        public Class_Stat StateAction = new Class_Stat(98, 1234567890, "StateAction", true, false, false);
+        public ClassStat StateAction = new ClassStat(98, 1234567890, "StateAction", true, false, false);
 
-        public Class_Stat ItemAnim = new Class_Stat(99, 1234567890, "ItemAnim", true, false, false);
+        public ClassStat ItemAnim = new ClassStat(99, 1234567890, "ItemAnim", true, false, false);
 
         public Stat_Skill MartialArts = new Stat_Skill(100, 5, "MartialArts", true, false, false);
 
@@ -675,1164 +671,1164 @@ namespace ZoneEngine.Misc
 
         public Stat_Skill NanoAC = new Stat_Skill(168, 5, "NanoAC", true, false, false);
 
-        public Class_Stat AlienLevel = new Class_Stat(169, 0, "AlienLevel", false, false, false);
+        public ClassStat AlienLevel = new ClassStat(169, 0, "AlienLevel", false, false, false);
 
-        public Class_Stat HealthChangeBest = new Class_Stat(170, 1234567890, "HealthChangeBest", false, false, false);
+        public ClassStat HealthChangeBest = new ClassStat(170, 1234567890, "HealthChangeBest", false, false, false);
 
-        public Class_Stat HealthChangeWorst = new Class_Stat(171, 1234567890, "HealthChangeWorst", false, false, false);
+        public ClassStat HealthChangeWorst = new ClassStat(171, 1234567890, "HealthChangeWorst", false, false, false);
 
-        public Class_Stat HealthChange = new Class_Stat(172, 1234567890, "HealthChange", false, false, false);
+        public ClassStat HealthChange = new ClassStat(172, 1234567890, "HealthChange", false, false, false);
 
-        public Class_Stat CurrentMovementMode = new Class_Stat(173, 3, "CurrentMovementMode", false, false, false);
+        public ClassStat CurrentMovementMode = new ClassStat(173, 3, "CurrentMovementMode", false, false, false);
 
-        public Class_Stat PrevMovementMode = new Class_Stat(174, 3, "PrevMovementMode", false, false, false);
+        public ClassStat PrevMovementMode = new ClassStat(174, 3, "PrevMovementMode", false, false, false);
 
-        public Class_Stat AutoLockTimeDefault = new Class_Stat(
+        public ClassStat AutoLockTimeDefault = new ClassStat(
             175, 1234567890, "AutoLockTimeDefault", false, false, false);
 
-        public Class_Stat AutoUnlockTimeDefault = new Class_Stat(
+        public ClassStat AutoUnlockTimeDefault = new ClassStat(
             176, 1234567890, "AutoUnlockTimeDefault", false, false, false);
 
-        public Class_Stat MoreFlags = new Class_Stat(177, 1234567890, "MoreFlags", false, false, true);
+        public ClassStat MoreFlags = new ClassStat(177, 1234567890, "MoreFlags", false, false, true);
 
         public Stat_AlienNextXP AlienNextXP = new Stat_AlienNextXP(178, 1500, "AlienNextXP", false, false, false);
 
-        public Class_Stat NPCFlags = new Class_Stat(179, 1234567890, "NPCFlags", false, false, false);
+        public ClassStat NPCFlags = new ClassStat(179, 1234567890, "NPCFlags", false, false, false);
 
-        public Class_Stat CurrentNCU = new Class_Stat(180, 0, "CurrentNCU", false, false, false);
+        public ClassStat CurrentNCU = new ClassStat(180, 0, "CurrentNCU", false, false, false);
 
-        public Class_Stat MaxNCU = new Class_Stat(181, 8, "MaxNCU", false, false, false);
+        public ClassStat MaxNCU = new ClassStat(181, 8, "MaxNCU", false, false, false);
 
-        public Class_Stat Specialization = new Class_Stat(182, 0, "Specialization", false, false, false);
+        public ClassStat Specialization = new ClassStat(182, 0, "Specialization", false, false, false);
 
-        public Class_Stat EffectIcon = new Class_Stat(183, 1234567890, "EffectIcon", false, false, false);
+        public ClassStat EffectIcon = new ClassStat(183, 1234567890, "EffectIcon", false, false, false);
 
-        public Class_Stat BuildingType = new Class_Stat(184, 1234567890, "BuildingType", false, false, false);
+        public ClassStat BuildingType = new ClassStat(184, 1234567890, "BuildingType", false, false, false);
 
-        public Class_Stat BuildingInstance = new Class_Stat(185, 1234567890, "BuildingInstance", false, false, false);
+        public ClassStat BuildingInstance = new ClassStat(185, 1234567890, "BuildingInstance", false, false, false);
 
-        public Class_Stat CardOwnerType = new Class_Stat(186, 1234567890, "CardOwnerType", false, false, false);
+        public ClassStat CardOwnerType = new ClassStat(186, 1234567890, "CardOwnerType", false, false, false);
 
-        public Class_Stat CardOwnerInstance = new Class_Stat(187, 1234567890, "CardOwnerInstance", false, false, false);
+        public ClassStat CardOwnerInstance = new ClassStat(187, 1234567890, "CardOwnerInstance", false, false, false);
 
-        public Class_Stat BuildingComplexInst = new Class_Stat(
+        public ClassStat BuildingComplexInst = new ClassStat(
             188, 1234567890, "BuildingComplexInst", false, false, false);
 
-        public Class_Stat ExitInstance = new Class_Stat(189, 1234567890, "ExitInstance", false, false, false);
+        public ClassStat ExitInstance = new ClassStat(189, 1234567890, "ExitInstance", false, false, false);
 
-        public Class_Stat NextDoorInBuilding = new Class_Stat(
+        public ClassStat NextDoorInBuilding = new ClassStat(
             190, 1234567890, "NextDoorInBuilding", false, false, false);
 
-        public Class_Stat LastConcretePlayfieldInstance = new Class_Stat(
+        public ClassStat LastConcretePlayfieldInstance = new ClassStat(
             191, 0, "LastConcretePlayfieldInstance", false, false, false);
 
-        public Class_Stat ExtenalPlayfieldInstance = new Class_Stat(
+        public ClassStat ExtenalPlayfieldInstance = new ClassStat(
             192, 1234567890, "ExtenalPlayfieldInstance", false, false, false);
 
-        public Class_Stat ExtenalDoorInstance = new Class_Stat(
+        public ClassStat ExtenalDoorInstance = new ClassStat(
             193, 1234567890, "ExtenalDoorInstance", false, false, false);
 
-        public Class_Stat InPlay = new Class_Stat(194, 0, "InPlay", false, false, false);
+        public ClassStat InPlay = new ClassStat(194, 0, "InPlay", false, false, false);
 
-        public Class_Stat AccessKey = new Class_Stat(195, 1234567890, "AccessKey", false, false, false);
+        public ClassStat AccessKey = new ClassStat(195, 1234567890, "AccessKey", false, false, false);
 
-        public Class_Stat PetMaster = new Class_Stat(196, 1234567890, "PetMaster", false, false, false);
+        public ClassStat PetMaster = new ClassStat(196, 1234567890, "PetMaster", false, false, false);
 
-        public Class_Stat OrientationMode = new Class_Stat(197, 1234567890, "OrientationMode", false, false, false);
+        public ClassStat OrientationMode = new ClassStat(197, 1234567890, "OrientationMode", false, false, false);
 
-        public Class_Stat SessionTime = new Class_Stat(198, 1234567890, "SessionTime", false, false, false);
+        public ClassStat SessionTime = new ClassStat(198, 1234567890, "SessionTime", false, false, false);
 
-        public Class_Stat RP = new Class_Stat(199, 0, "RP", false, false, false);
+        public ClassStat RP = new ClassStat(199, 0, "RP", false, false, false);
 
-        public Class_Stat Conformity = new Class_Stat(200, 1234567890, "Conformity", false, false, false);
+        public ClassStat Conformity = new ClassStat(200, 1234567890, "Conformity", false, false, false);
 
-        public Class_Stat Aggressiveness = new Class_Stat(201, 1234567890, "Aggressiveness", false, false, false);
+        public ClassStat Aggressiveness = new ClassStat(201, 1234567890, "Aggressiveness", false, false, false);
 
-        public Class_Stat Stability = new Class_Stat(202, 1234567890, "Stability", false, false, false);
+        public ClassStat Stability = new ClassStat(202, 1234567890, "Stability", false, false, false);
 
-        public Class_Stat Extroverty = new Class_Stat(203, 1234567890, "Extroverty", false, false, false);
+        public ClassStat Extroverty = new ClassStat(203, 1234567890, "Extroverty", false, false, false);
 
-        public Class_Stat BreedHostility = new Class_Stat(204, 1234567890, "BreedHostility", false, false, false);
+        public ClassStat BreedHostility = new ClassStat(204, 1234567890, "BreedHostility", false, false, false);
 
-        public Class_Stat ReflectProjectileAC = new Class_Stat(205, 0, "ReflectProjectileAC", true, false, false);
+        public ClassStat ReflectProjectileAC = new ClassStat(205, 0, "ReflectProjectileAC", true, false, false);
 
-        public Class_Stat ReflectMeleeAC = new Class_Stat(206, 0, "ReflectMeleeAC", true, false, false);
+        public ClassStat ReflectMeleeAC = new ClassStat(206, 0, "ReflectMeleeAC", true, false, false);
 
-        public Class_Stat ReflectEnergyAC = new Class_Stat(207, 0, "ReflectEnergyAC", true, false, false);
+        public ClassStat ReflectEnergyAC = new ClassStat(207, 0, "ReflectEnergyAC", true, false, false);
 
-        public Class_Stat ReflectChemicalAC = new Class_Stat(208, 0, "ReflectChemicalAC", true, false, false);
+        public ClassStat ReflectChemicalAC = new ClassStat(208, 0, "ReflectChemicalAC", true, false, false);
 
-        public Class_Stat WeaponMeshHolder = new Class_Stat(209, 0, "WeaponMeshRight", false, false, false);
+        public ClassStat WeaponMeshHolder = new ClassStat(209, 0, "WeaponMeshRight", false, false, false);
 
-        public Class_Stat RechargeDelay = new Class_Stat(210, 1234567890, "RechargeDelay", false, false, false);
+        public ClassStat RechargeDelay = new ClassStat(210, 1234567890, "RechargeDelay", false, false, false);
 
-        public Class_Stat EquipDelay = new Class_Stat(211, 1234567890, "EquipDelay", false, false, false);
+        public ClassStat EquipDelay = new ClassStat(211, 1234567890, "EquipDelay", false, false, false);
 
-        public Class_Stat MaxEnergy = new Class_Stat(212, 1234567890, "MaxEnergy", false, false, false);
+        public ClassStat MaxEnergy = new ClassStat(212, 1234567890, "MaxEnergy", false, false, false);
 
-        public Class_Stat TeamSide = new Class_Stat(213, 0, "TeamSide", false, false, false);
+        public ClassStat TeamSide = new ClassStat(213, 0, "TeamSide", false, false, false);
 
         public Stat_NP CurrentNano = new Stat_NP(214, 1, "CurrentNano", false, false, false);
 
-        public Class_Stat GmLevel = new Class_Stat(215, 0, "GmLevel", false, true, false);
+        public ClassStat GmLevel = new ClassStat(215, 0, "GmLevel", false, true, false);
 
-        public Class_Stat ReflectRadiationAC = new Class_Stat(216, 0, "ReflectRadiationAC", true, false, false);
+        public ClassStat ReflectRadiationAC = new ClassStat(216, 0, "ReflectRadiationAC", true, false, false);
 
-        public Class_Stat ReflectColdAC = new Class_Stat(217, 0, "ReflectColdAC", true, false, false);
+        public ClassStat ReflectColdAC = new ClassStat(217, 0, "ReflectColdAC", true, false, false);
 
-        public Class_Stat ReflectNanoAC = new Class_Stat(218, 0, "ReflectNanoAC", true, false, false);
+        public ClassStat ReflectNanoAC = new ClassStat(218, 0, "ReflectNanoAC", true, false, false);
 
-        public Class_Stat ReflectFireAC = new Class_Stat(219, 0, "ReflectFireAC", true, false, false);
+        public ClassStat ReflectFireAC = new ClassStat(219, 0, "ReflectFireAC", true, false, false);
 
-        public Class_Stat CurrBodyLocation = new Class_Stat(220, 0, "CurrBodyLocation", false, false, false);
+        public ClassStat CurrBodyLocation = new ClassStat(220, 0, "CurrBodyLocation", false, false, false);
 
         public Stat_Nano MaxNanoEnergy = new Stat_Nano(221, 1, "MaxNanoEnergy", false, false, false);
 
-        public Class_Stat AccumulatedDamage = new Class_Stat(222, 1234567890, "AccumulatedDamage", false, false, false);
+        public ClassStat AccumulatedDamage = new ClassStat(222, 1234567890, "AccumulatedDamage", false, false, false);
 
-        public Class_Stat CanChangeClothes = new Class_Stat(223, 1234567890, "CanChangeClothes", false, false, false);
+        public ClassStat CanChangeClothes = new ClassStat(223, 1234567890, "CanChangeClothes", false, false, false);
 
-        public Class_Stat Features = new Class_Stat(224, 6, "Features", false, false, false);
+        public ClassStat Features = new ClassStat(224, 6, "Features", false, false, false);
 
-        public Class_Stat ReflectPoisonAC = new Class_Stat(225, 0, "ReflectPoisonAC", false, false, false);
+        public ClassStat ReflectPoisonAC = new ClassStat(225, 0, "ReflectPoisonAC", false, false, false);
 
-        public Class_Stat ShieldProjectileAC = new Class_Stat(226, 0, "ShieldProjectileAC", true, false, false);
+        public ClassStat ShieldProjectileAC = new ClassStat(226, 0, "ShieldProjectileAC", true, false, false);
 
-        public Class_Stat ShieldMeleeAC = new Class_Stat(227, 0, "ShieldMeleeAC", true, false, false);
+        public ClassStat ShieldMeleeAC = new ClassStat(227, 0, "ShieldMeleeAC", true, false, false);
 
-        public Class_Stat ShieldEnergyAC = new Class_Stat(228, 0, "ShieldEnergyAC", true, false, false);
+        public ClassStat ShieldEnergyAC = new ClassStat(228, 0, "ShieldEnergyAC", true, false, false);
 
-        public Class_Stat ShieldChemicalAC = new Class_Stat(229, 0, "ShieldChemicalAC", true, false, false);
+        public ClassStat ShieldChemicalAC = new ClassStat(229, 0, "ShieldChemicalAC", true, false, false);
 
-        public Class_Stat ShieldRadiationAC = new Class_Stat(230, 0, "ShieldRadiationAC", true, false, false);
+        public ClassStat ShieldRadiationAC = new ClassStat(230, 0, "ShieldRadiationAC", true, false, false);
 
-        public Class_Stat ShieldColdAC = new Class_Stat(231, 0, "ShieldColdAC", true, false, false);
+        public ClassStat ShieldColdAC = new ClassStat(231, 0, "ShieldColdAC", true, false, false);
 
-        public Class_Stat ShieldNanoAC = new Class_Stat(232, 0, "ShieldNanoAC", true, false, false);
+        public ClassStat ShieldNanoAC = new ClassStat(232, 0, "ShieldNanoAC", true, false, false);
 
-        public Class_Stat ShieldFireAC = new Class_Stat(233, 0, "ShieldFireAC", true, false, false);
+        public ClassStat ShieldFireAC = new ClassStat(233, 0, "ShieldFireAC", true, false, false);
 
-        public Class_Stat ShieldPoisonAC = new Class_Stat(234, 0, "ShieldPoisonAC", true, false, false);
+        public ClassStat ShieldPoisonAC = new ClassStat(234, 0, "ShieldPoisonAC", true, false, false);
 
-        public Class_Stat BerserkMode = new Class_Stat(235, 1234567890, "BerserkMode", false, false, false);
+        public ClassStat BerserkMode = new ClassStat(235, 1234567890, "BerserkMode", false, false, false);
 
-        public Class_Stat InsurancePercentage = new Class_Stat(236, 0, "InsurancePercentage", false, false, false);
+        public ClassStat InsurancePercentage = new ClassStat(236, 0, "InsurancePercentage", false, false, false);
 
-        public Class_Stat ChangeSideCount = new Class_Stat(237, 0, "ChangeSideCount", false, false, false);
+        public ClassStat ChangeSideCount = new ClassStat(237, 0, "ChangeSideCount", false, false, false);
 
-        public Class_Stat AbsorbProjectileAC = new Class_Stat(238, 0, "AbsorbProjectileAC", true, false, false);
+        public ClassStat AbsorbProjectileAC = new ClassStat(238, 0, "AbsorbProjectileAC", true, false, false);
 
-        public Class_Stat AbsorbMeleeAC = new Class_Stat(239, 0, "AbsorbMeleeAC", true, false, false);
+        public ClassStat AbsorbMeleeAC = new ClassStat(239, 0, "AbsorbMeleeAC", true, false, false);
 
-        public Class_Stat AbsorbEnergyAC = new Class_Stat(240, 0, "AbsorbEnergyAC", true, false, false);
+        public ClassStat AbsorbEnergyAC = new ClassStat(240, 0, "AbsorbEnergyAC", true, false, false);
 
-        public Class_Stat AbsorbChemicalAC = new Class_Stat(241, 0, "AbsorbChemicalAC", true, false, false);
+        public ClassStat AbsorbChemicalAC = new ClassStat(241, 0, "AbsorbChemicalAC", true, false, false);
 
-        public Class_Stat AbsorbRadiationAC = new Class_Stat(242, 0, "AbsorbRadiationAC", true, false, false);
+        public ClassStat AbsorbRadiationAC = new ClassStat(242, 0, "AbsorbRadiationAC", true, false, false);
 
-        public Class_Stat AbsorbColdAC = new Class_Stat(243, 0, "AbsorbColdAC", true, false, false);
+        public ClassStat AbsorbColdAC = new ClassStat(243, 0, "AbsorbColdAC", true, false, false);
 
-        public Class_Stat AbsorbFireAC = new Class_Stat(244, 0, "AbsorbFireAC", true, false, false);
+        public ClassStat AbsorbFireAC = new ClassStat(244, 0, "AbsorbFireAC", true, false, false);
 
-        public Class_Stat AbsorbPoisonAC = new Class_Stat(245, 0, "AbsorbPoisonAC", true, false, false);
+        public ClassStat AbsorbPoisonAC = new ClassStat(245, 0, "AbsorbPoisonAC", true, false, false);
 
-        public Class_Stat AbsorbNanoAC = new Class_Stat(246, 0, "AbsorbNanoAC", true, false, false);
+        public ClassStat AbsorbNanoAC = new ClassStat(246, 0, "AbsorbNanoAC", true, false, false);
 
-        public Class_Stat TemporarySkillReduction = new Class_Stat(
+        public ClassStat TemporarySkillReduction = new ClassStat(
             247, 0, "TemporarySkillReduction", false, false, false);
 
-        public Class_Stat BirthDate = new Class_Stat(248, 1234567890, "BirthDate", false, false, false);
+        public ClassStat BirthDate = new ClassStat(248, 1234567890, "BirthDate", false, false, false);
 
-        public Class_Stat LastSaved = new Class_Stat(249, 1234567890, "LastSaved", false, false, false);
+        public ClassStat LastSaved = new ClassStat(249, 1234567890, "LastSaved", false, false, false);
 
-        public Class_Stat SoundVolume = new Class_Stat(250, 1234567890, "SoundVolume", false, false, false);
+        public ClassStat SoundVolume = new ClassStat(250, 1234567890, "SoundVolume", false, false, false);
 
-        public Class_Stat PetCounter = new Class_Stat(251, 1234567890, "PetCounter", false, false, false);
+        public ClassStat PetCounter = new ClassStat(251, 1234567890, "PetCounter", false, false, false);
 
-        public Class_Stat MeetersWalked = new Class_Stat(252, 1234567890, "MeetersWalked", false, false, false);
+        public ClassStat MeetersWalked = new ClassStat(252, 1234567890, "MeetersWalked", false, false, false);
 
-        public Class_Stat QuestLevelsSolved = new Class_Stat(253, 1234567890, "QuestLevelsSolved", false, false, false);
+        public ClassStat QuestLevelsSolved = new ClassStat(253, 1234567890, "QuestLevelsSolved", false, false, false);
 
         // Accumulated Tokens?
 
-        public Class_Stat MonsterLevelsKilled = new Class_Stat(
+        public ClassStat MonsterLevelsKilled = new ClassStat(
             254, 1234567890, "MonsterLevelsKilled", false, false, false);
 
-        public Class_Stat PvPLevelsKilled = new Class_Stat(255, 1234567890, "PvPLevelsKilled", false, false, false);
+        public ClassStat PvPLevelsKilled = new ClassStat(255, 1234567890, "PvPLevelsKilled", false, false, false);
 
-        public Class_Stat MissionBits1 = new Class_Stat(256, 0, "MissionBits1", false, false, false);
+        public ClassStat MissionBits1 = new ClassStat(256, 0, "MissionBits1", false, false, false);
 
-        public Class_Stat MissionBits2 = new Class_Stat(257, 0, "MissionBits2", false, false, false);
+        public ClassStat MissionBits2 = new ClassStat(257, 0, "MissionBits2", false, false, false);
 
-        public Class_Stat AccessGrant = new Class_Stat(258, 1234567890, "AccessGrant", false, false, false);
+        public ClassStat AccessGrant = new ClassStat(258, 1234567890, "AccessGrant", false, false, false);
 
-        public Class_Stat DoorFlags = new Class_Stat(259, 1234567890, "DoorFlags", false, false, false);
+        public ClassStat DoorFlags = new ClassStat(259, 1234567890, "DoorFlags", false, false, false);
 
-        public Class_Stat ClanHierarchy = new Class_Stat(260, 1234567890, "ClanHierarchy", false, false, false);
+        public ClassStat ClanHierarchy = new ClassStat(260, 1234567890, "ClanHierarchy", false, false, false);
 
-        public Class_Stat QuestStat = new Class_Stat(261, 1234567890, "QuestStat", false, false, false);
+        public ClassStat QuestStat = new ClassStat(261, 1234567890, "QuestStat", false, false, false);
 
-        public Class_Stat ClientActivated = new Class_Stat(262, 1234567890, "ClientActivated", false, false, false);
+        public ClassStat ClientActivated = new ClassStat(262, 1234567890, "ClientActivated", false, false, false);
 
-        public Class_Stat PersonalResearchLevel = new Class_Stat(263, 0, "PersonalResearchLevel", false, false, false);
+        public ClassStat PersonalResearchLevel = new ClassStat(263, 0, "PersonalResearchLevel", false, false, false);
 
-        public Class_Stat GlobalResearchLevel = new Class_Stat(264, 0, "GlobalResearchLevel", false, false, false);
+        public ClassStat GlobalResearchLevel = new ClassStat(264, 0, "GlobalResearchLevel", false, false, false);
 
-        public Class_Stat PersonalResearchGoal = new Class_Stat(265, 0, "PersonalResearchGoal", false, false, false);
+        public ClassStat PersonalResearchGoal = new ClassStat(265, 0, "PersonalResearchGoal", false, false, false);
 
-        public Class_Stat GlobalResearchGoal = new Class_Stat(266, 0, "GlobalResearchGoal", false, false, false);
+        public ClassStat GlobalResearchGoal = new ClassStat(266, 0, "GlobalResearchGoal", false, false, false);
 
-        public Class_Stat TurnSpeed = new Class_Stat(267, 40000, "TurnSpeed", false, false, false);
+        public ClassStat TurnSpeed = new ClassStat(267, 40000, "TurnSpeed", false, false, false);
 
-        public Class_Stat LiquidType = new Class_Stat(268, 1234567890, "LiquidType", false, false, false);
+        public ClassStat LiquidType = new ClassStat(268, 1234567890, "LiquidType", false, false, false);
 
-        public Class_Stat GatherSound = new Class_Stat(269, 1234567890, "GatherSound", false, false, false);
+        public ClassStat GatherSound = new ClassStat(269, 1234567890, "GatherSound", false, false, false);
 
-        public Class_Stat CastSound = new Class_Stat(270, 1234567890, "CastSound", false, false, false);
+        public ClassStat CastSound = new ClassStat(270, 1234567890, "CastSound", false, false, false);
 
-        public Class_Stat TravelSound = new Class_Stat(271, 1234567890, "TravelSound", false, false, false);
+        public ClassStat TravelSound = new ClassStat(271, 1234567890, "TravelSound", false, false, false);
 
-        public Class_Stat HitSound = new Class_Stat(272, 1234567890, "HitSound", false, false, false);
+        public ClassStat HitSound = new ClassStat(272, 1234567890, "HitSound", false, false, false);
 
-        public Class_Stat SecondaryItemTemplate = new Class_Stat(
+        public ClassStat SecondaryItemTemplate = new ClassStat(
             273, 1234567890, "SecondaryItemTemplate", false, false, false);
 
-        public Class_Stat EquippedWeapons = new Class_Stat(274, 1234567890, "EquippedWeapons", false, false, false);
+        public ClassStat EquippedWeapons = new ClassStat(274, 1234567890, "EquippedWeapons", false, false, false);
 
-        public Class_Stat XPKillRange = new Class_Stat(275, 5, "XPKillRange", false, false, false);
+        public ClassStat XPKillRange = new ClassStat(275, 5, "XPKillRange", false, false, false);
 
-        public Class_Stat AMSModifier = new Class_Stat(276, 0, "AMSModifier", false, false, false);
+        public ClassStat AMSModifier = new ClassStat(276, 0, "AMSModifier", false, false, false);
 
-        public Class_Stat DMSModifier = new Class_Stat(277, 0, "DMSModifier", false, false, false);
+        public ClassStat DMSModifier = new ClassStat(277, 0, "DMSModifier", false, false, false);
 
-        public Class_Stat ProjectileDamageModifier = new Class_Stat(
+        public ClassStat ProjectileDamageModifier = new ClassStat(
             278, 0, "ProjectileDamageModifier", false, false, false);
 
-        public Class_Stat MeleeDamageModifier = new Class_Stat(279, 0, "MeleeDamageModifier", false, false, false);
+        public ClassStat MeleeDamageModifier = new ClassStat(279, 0, "MeleeDamageModifier", false, false, false);
 
-        public Class_Stat EnergyDamageModifier = new Class_Stat(280, 0, "EnergyDamageModifier", false, false, false);
+        public ClassStat EnergyDamageModifier = new ClassStat(280, 0, "EnergyDamageModifier", false, false, false);
 
-        public Class_Stat ChemicalDamageModifier = new Class_Stat(281, 0, "ChemicalDamageModifier", false, false, false);
+        public ClassStat ChemicalDamageModifier = new ClassStat(281, 0, "ChemicalDamageModifier", false, false, false);
 
-        public Class_Stat RadiationDamageModifier = new Class_Stat(
+        public ClassStat RadiationDamageModifier = new ClassStat(
             282, 0, "RadiationDamageModifier", false, false, false);
 
-        public Class_Stat ItemHateValue = new Class_Stat(283, 1234567890, "ItemHateValue", false, false, false);
+        public ClassStat ItemHateValue = new ClassStat(283, 1234567890, "ItemHateValue", false, false, false);
 
-        public Class_Stat DamageBonus = new Class_Stat(284, 1234567890, "DamageBonus", false, false, false);
+        public ClassStat DamageBonus = new ClassStat(284, 1234567890, "DamageBonus", false, false, false);
 
-        public Class_Stat MaxDamage = new Class_Stat(285, 1234567890, "MaxDamage", false, false, false);
+        public ClassStat MaxDamage = new ClassStat(285, 1234567890, "MaxDamage", false, false, false);
 
-        public Class_Stat MinDamage = new Class_Stat(286, 1234567890, "MinDamage", false, false, false);
+        public ClassStat MinDamage = new ClassStat(286, 1234567890, "MinDamage", false, false, false);
 
-        public Class_Stat AttackRange = new Class_Stat(287, 1234567890, "AttackRange", false, false, false);
+        public ClassStat AttackRange = new ClassStat(287, 1234567890, "AttackRange", false, false, false);
 
-        public Class_Stat HateValueModifyer = new Class_Stat(288, 1234567890, "HateValueModifyer", false, false, false);
+        public ClassStat HateValueModifyer = new ClassStat(288, 1234567890, "HateValueModifyer", false, false, false);
 
-        public Class_Stat TrapDifficulty = new Class_Stat(289, 1234567890, "TrapDifficulty", false, false, false);
+        public ClassStat TrapDifficulty = new ClassStat(289, 1234567890, "TrapDifficulty", false, false, false);
 
-        public Class_Stat StatOne = new Class_Stat(290, 1234567890, "StatOne", false, false, false);
+        public ClassStat StatOne = new ClassStat(290, 1234567890, "StatOne", false, false, false);
 
-        public Class_Stat NumAttackEffects = new Class_Stat(291, 1234567890, "NumAttackEffects", false, false, false);
+        public ClassStat NumAttackEffects = new ClassStat(291, 1234567890, "NumAttackEffects", false, false, false);
 
-        public Class_Stat DefaultAttackType = new Class_Stat(292, 1234567890, "DefaultAttackType", false, false, false);
+        public ClassStat DefaultAttackType = new ClassStat(292, 1234567890, "DefaultAttackType", false, false, false);
 
-        public Class_Stat ItemSkill = new Class_Stat(293, 1234567890, "ItemSkill", false, false, false);
+        public ClassStat ItemSkill = new ClassStat(293, 1234567890, "ItemSkill", false, false, false);
 
-        public Class_Stat ItemDelay = new Class_Stat(294, 1234567890, "ItemDelay", false, false, false);
+        public ClassStat ItemDelay = new ClassStat(294, 1234567890, "ItemDelay", false, false, false);
 
-        public Class_Stat ItemOpposedSkill = new Class_Stat(295, 1234567890, "ItemOpposedSkill", false, false, false);
+        public ClassStat ItemOpposedSkill = new ClassStat(295, 1234567890, "ItemOpposedSkill", false, false, false);
 
-        public Class_Stat ItemSIS = new Class_Stat(296, 1234567890, "ItemSIS", false, false, false);
+        public ClassStat ItemSIS = new ClassStat(296, 1234567890, "ItemSIS", false, false, false);
 
-        public Class_Stat InteractionRadius = new Class_Stat(297, 1234567890, "InteractionRadius", false, false, false);
+        public ClassStat InteractionRadius = new ClassStat(297, 1234567890, "InteractionRadius", false, false, false);
 
-        public Class_Stat Placement = new Class_Stat(298, 1234567890, "Placement", false, false, false);
+        public ClassStat Placement = new ClassStat(298, 1234567890, "Placement", false, false, false);
 
-        public Class_Stat LockDifficulty = new Class_Stat(299, 1234567890, "LockDifficulty", false, false, false);
+        public ClassStat LockDifficulty = new ClassStat(299, 1234567890, "LockDifficulty", false, false, false);
 
-        public Class_Stat Members = new Class_Stat(300, 999, "Members", false, false, false);
+        public ClassStat Members = new ClassStat(300, 999, "Members", false, false, false);
 
-        public Class_Stat MinMembers = new Class_Stat(301, 1234567890, "MinMembers", false, false, false);
+        public ClassStat MinMembers = new ClassStat(301, 1234567890, "MinMembers", false, false, false);
 
-        public Class_Stat ClanPrice = new Class_Stat(302, 1234567890, "ClanPrice", false, false, false);
+        public ClassStat ClanPrice = new ClassStat(302, 1234567890, "ClanPrice", false, false, false);
 
-        public Class_Stat MissionBits3 = new Class_Stat(303, 0, "MissionBits3", false, false, false);
+        public ClassStat MissionBits3 = new ClassStat(303, 0, "MissionBits3", false, false, false);
 
-        public Class_Stat ClanType = new Class_Stat(304, 1234567890, "ClanType", false, false, false);
+        public ClassStat ClanType = new ClassStat(304, 1234567890, "ClanType", false, false, false);
 
-        public Class_Stat ClanInstance = new Class_Stat(305, 1234567890, "ClanInstance", false, false, false);
+        public ClassStat ClanInstance = new ClassStat(305, 1234567890, "ClanInstance", false, false, false);
 
-        public Class_Stat VoteCount = new Class_Stat(306, 1234567890, "VoteCount", false, false, false);
+        public ClassStat VoteCount = new ClassStat(306, 1234567890, "VoteCount", false, false, false);
 
-        public Class_Stat MemberType = new Class_Stat(307, 1234567890, "MemberType", false, false, false);
+        public ClassStat MemberType = new ClassStat(307, 1234567890, "MemberType", false, false, false);
 
-        public Class_Stat MemberInstance = new Class_Stat(308, 1234567890, "MemberInstance", false, false, false);
+        public ClassStat MemberInstance = new ClassStat(308, 1234567890, "MemberInstance", false, false, false);
 
-        public Class_Stat GlobalClanType = new Class_Stat(309, 1234567890, "GlobalClanType", false, false, false);
+        public ClassStat GlobalClanType = new ClassStat(309, 1234567890, "GlobalClanType", false, false, false);
 
-        public Class_Stat GlobalClanInstance = new Class_Stat(
+        public ClassStat GlobalClanInstance = new ClassStat(
             310, 1234567890, "GlobalClanInstance", false, false, false);
 
-        public Class_Stat ColdDamageModifier = new Class_Stat(
+        public ClassStat ColdDamageModifier = new ClassStat(
             311, 1234567890, "ColdDamageModifier", false, false, false);
 
-        public Class_Stat ClanUpkeepInterval = new Class_Stat(
+        public ClassStat ClanUpkeepInterval = new ClassStat(
             312, 1234567890, "ClanUpkeepInterval", false, false, false);
 
-        public Class_Stat TimeSinceUpkeep = new Class_Stat(313, 1234567890, "TimeSinceUpkeep", false, false, false);
+        public ClassStat TimeSinceUpkeep = new ClassStat(313, 1234567890, "TimeSinceUpkeep", false, false, false);
 
-        public Class_Stat ClanFinalized = new Class_Stat(314, 1234567890, "ClanFinalized", false, false, false);
+        public ClassStat ClanFinalized = new ClassStat(314, 1234567890, "ClanFinalized", false, false, false);
 
-        public Class_Stat NanoDamageModifier = new Class_Stat(315, 0, "NanoDamageModifier", false, false, false);
+        public ClassStat NanoDamageModifier = new ClassStat(315, 0, "NanoDamageModifier", false, false, false);
 
-        public Class_Stat FireDamageModifier = new Class_Stat(316, 0, "FireDamageModifier", false, false, false);
+        public ClassStat FireDamageModifier = new ClassStat(316, 0, "FireDamageModifier", false, false, false);
 
-        public Class_Stat PoisonDamageModifier = new Class_Stat(317, 0, "PoisonDamageModifier", false, false, false);
+        public ClassStat PoisonDamageModifier = new ClassStat(317, 0, "PoisonDamageModifier", false, false, false);
 
-        public Class_Stat NPCostModifier = new Class_Stat(318, 0, "NPCostModifier", false, false, false);
+        public ClassStat NPCostModifier = new ClassStat(318, 0, "NPCostModifier", false, false, false);
 
-        public Class_Stat XPModifier = new Class_Stat(319, 0, "XPModifier", false, false, false);
+        public ClassStat XPModifier = new ClassStat(319, 0, "XPModifier", false, false, false);
 
-        public Class_Stat BreedLimit = new Class_Stat(320, 1234567890, "BreedLimit", false, false, false);
+        public ClassStat BreedLimit = new ClassStat(320, 1234567890, "BreedLimit", false, false, false);
 
-        public Class_Stat GenderLimit = new Class_Stat(321, 1234567890, "GenderLimit", false, false, false);
+        public ClassStat GenderLimit = new ClassStat(321, 1234567890, "GenderLimit", false, false, false);
 
-        public Class_Stat LevelLimit = new Class_Stat(322, 1234567890, "LevelLimit", false, false, false);
+        public ClassStat LevelLimit = new ClassStat(322, 1234567890, "LevelLimit", false, false, false);
 
-        public Class_Stat PlayerKilling = new Class_Stat(323, 1234567890, "PlayerKilling", false, false, false);
+        public ClassStat PlayerKilling = new ClassStat(323, 1234567890, "PlayerKilling", false, false, false);
 
-        public Class_Stat TeamAllowed = new Class_Stat(324, 1234567890, "TeamAllowed", false, false, false);
+        public ClassStat TeamAllowed = new ClassStat(324, 1234567890, "TeamAllowed", false, false, false);
 
-        public Class_Stat WeaponDisallowedType = new Class_Stat(
+        public ClassStat WeaponDisallowedType = new ClassStat(
             325, 1234567890, "WeaponDisallowedType", false, false, false);
 
-        public Class_Stat WeaponDisallowedInstance = new Class_Stat(
+        public ClassStat WeaponDisallowedInstance = new ClassStat(
             326, 1234567890, "WeaponDisallowedInstance", false, false, false);
 
-        public Class_Stat Taboo = new Class_Stat(327, 1234567890, "Taboo", false, false, false);
+        public ClassStat Taboo = new ClassStat(327, 1234567890, "Taboo", false, false, false);
 
-        public Class_Stat Compulsion = new Class_Stat(328, 1234567890, "Compulsion", false, false, false);
+        public ClassStat Compulsion = new ClassStat(328, 1234567890, "Compulsion", false, false, false);
 
-        public Class_Stat SkillDisabled = new Class_Stat(329, 1234567890, "SkillDisabled", false, false, false);
+        public ClassStat SkillDisabled = new ClassStat(329, 1234567890, "SkillDisabled", false, false, false);
 
-        public Class_Stat ClanItemType = new Class_Stat(330, 1234567890, "ClanItemType", false, false, false);
+        public ClassStat ClanItemType = new ClassStat(330, 1234567890, "ClanItemType", false, false, false);
 
-        public Class_Stat ClanItemInstance = new Class_Stat(331, 1234567890, "ClanItemInstance", false, false, false);
+        public ClassStat ClanItemInstance = new ClassStat(331, 1234567890, "ClanItemInstance", false, false, false);
 
-        public Class_Stat DebuffFormula = new Class_Stat(332, 1234567890, "DebuffFormula", false, false, false);
+        public ClassStat DebuffFormula = new ClassStat(332, 1234567890, "DebuffFormula", false, false, false);
 
-        public Class_Stat PvP_Rating = new Class_Stat(333, 1300, "PvP_Rating", false, false, false);
+        public ClassStat PvP_Rating = new ClassStat(333, 1300, "PvP_Rating", false, false, false);
 
-        public Class_Stat SavedXP = new Class_Stat(334, 0, "SavedXP", false, false, false);
+        public ClassStat SavedXP = new ClassStat(334, 0, "SavedXP", false, false, false);
 
-        public Class_Stat DoorBlockTime = new Class_Stat(335, 1234567890, "DoorBlockTime", false, false, false);
+        public ClassStat DoorBlockTime = new ClassStat(335, 1234567890, "DoorBlockTime", false, false, false);
 
-        public Class_Stat OverrideTexture = new Class_Stat(336, 1234567890, "OverrideTexture", false, false, false);
+        public ClassStat OverrideTexture = new ClassStat(336, 1234567890, "OverrideTexture", false, false, false);
 
-        public Class_Stat OverrideMaterial = new Class_Stat(337, 1234567890, "OverrideMaterial", false, false, false);
+        public ClassStat OverrideMaterial = new ClassStat(337, 1234567890, "OverrideMaterial", false, false, false);
 
-        public Class_Stat DeathReason = new Class_Stat(338, 1234567890, "DeathReason", false, false, false);
+        public ClassStat DeathReason = new ClassStat(338, 1234567890, "DeathReason", false, false, false);
 
-        public Class_Stat DamageOverrideType = new Class_Stat(
+        public ClassStat DamageOverrideType = new ClassStat(
             339, 1234567890, "DamageOverrideType", false, false, false);
 
-        public Class_Stat BrainType = new Class_Stat(340, 1234567890, "BrainType", false, false, false);
+        public ClassStat BrainType = new ClassStat(340, 1234567890, "BrainType", false, false, false);
 
-        public Class_Stat XPBonus = new Class_Stat(341, 1234567890, "XPBonus", false, false, false);
+        public ClassStat XPBonus = new ClassStat(341, 1234567890, "XPBonus", false, false, false);
 
         public Stat_HealInterval HealInterval = new Stat_HealInterval(342, 29, "HealInterval", false, false, false);
 
         public Stat_HealDelta HealDelta = new Stat_HealDelta(343, 1234567890, "HealDelta", false, false, false);
 
-        public Class_Stat MonsterTexture = new Class_Stat(344, 1234567890, "MonsterTexture", false, false, false);
+        public ClassStat MonsterTexture = new ClassStat(344, 1234567890, "MonsterTexture", false, false, false);
 
-        public Class_Stat HasAlwaysLootable = new Class_Stat(345, 1234567890, "HasAlwaysLootable", false, false, false);
+        public ClassStat HasAlwaysLootable = new ClassStat(345, 1234567890, "HasAlwaysLootable", false, false, false);
 
-        public Class_Stat TradeLimit = new Class_Stat(346, 1234567890, "TradeLimit", false, false, false);
+        public ClassStat TradeLimit = new ClassStat(346, 1234567890, "TradeLimit", false, false, false);
 
-        public Class_Stat FaceTexture = new Class_Stat(347, 1234567890, "FaceTexture", false, false, false);
+        public ClassStat FaceTexture = new ClassStat(347, 1234567890, "FaceTexture", false, false, false);
 
-        public Class_Stat SpecialCondition = new Class_Stat(348, 1, "SpecialCondition", false, false, false);
+        public ClassStat SpecialCondition = new ClassStat(348, 1, "SpecialCondition", false, false, false);
 
-        public Class_Stat AutoAttackFlags = new Class_Stat(349, 5, "AutoAttackFlags", false, false, false);
+        public ClassStat AutoAttackFlags = new ClassStat(349, 5, "AutoAttackFlags", false, false, false);
 
         public Stat_NextXP NextXP = new Stat_NextXP(350, 1450, "NextXP", false, false, false);
 
-        public Class_Stat TeleportPauseMilliSeconds = new Class_Stat(
+        public ClassStat TeleportPauseMilliSeconds = new ClassStat(
             351, 1234567890, "TeleportPauseMilliSeconds", false, false, false);
 
-        public Class_Stat SISCap = new Class_Stat(352, 1234567890, "SISCap", false, false, false);
+        public ClassStat SISCap = new ClassStat(352, 1234567890, "SISCap", false, false, false);
 
-        public Class_Stat AnimSet = new Class_Stat(353, 1234567890, "AnimSet", false, false, false);
+        public ClassStat AnimSet = new ClassStat(353, 1234567890, "AnimSet", false, false, false);
 
-        public Class_Stat AttackType = new Class_Stat(354, 1234567890, "AttackType", false, false, false);
+        public ClassStat AttackType = new ClassStat(354, 1234567890, "AttackType", false, false, false);
 
-        public Class_Stat NanoFocusLevel = new Class_Stat(355, 0, "NanoFocusLevel", false, false, false);
+        public ClassStat NanoFocusLevel = new ClassStat(355, 0, "NanoFocusLevel", false, false, false);
 
-        public Class_Stat NPCHash = new Class_Stat(356, 1234567890, "NPCHash", false, false, false);
+        public ClassStat NPCHash = new ClassStat(356, 1234567890, "NPCHash", false, false, false);
 
-        public Class_Stat CollisionRadius = new Class_Stat(357, 1234567890, "CollisionRadius", false, false, false);
+        public ClassStat CollisionRadius = new ClassStat(357, 1234567890, "CollisionRadius", false, false, false);
 
-        public Class_Stat OuterRadius = new Class_Stat(358, 1234567890, "OuterRadius", false, false, false);
+        public ClassStat OuterRadius = new ClassStat(358, 1234567890, "OuterRadius", false, false, false);
 
-        public Class_Stat MonsterData = new Class_Stat(359, 0, "MonsterData", false, false, true);
+        public ClassStat MonsterData = new ClassStat(359, 0, "MonsterData", false, false, true);
 
-        public Class_Stat MonsterScale = new Class_Stat(360, 1234567890, "MonsterScale", false, false, true);
+        public ClassStat MonsterScale = new ClassStat(360, 1234567890, "MonsterScale", false, false, true);
 
-        public Class_Stat HitEffectType = new Class_Stat(361, 1234567890, "HitEffectType", false, false, false);
+        public ClassStat HitEffectType = new ClassStat(361, 1234567890, "HitEffectType", false, false, false);
 
-        public Class_Stat ResurrectDest = new Class_Stat(362, 1234567890, "ResurrectDest", false, false, false);
+        public ClassStat ResurrectDest = new ClassStat(362, 1234567890, "ResurrectDest", false, false, false);
 
         public Stat_NanoInterval NanoInterval = new Stat_NanoInterval(363, 28, "NanoInterval", false, false, false);
 
         public Stat_NanoDelta NanoDelta = new Stat_NanoDelta(364, 1234567890, "NanoDelta", false, false, false);
 
-        public Class_Stat ReclaimItem = new Class_Stat(365, 1234567890, "ReclaimItem", false, false, false);
+        public ClassStat ReclaimItem = new ClassStat(365, 1234567890, "ReclaimItem", false, false, false);
 
-        public Class_Stat GatherEffectType = new Class_Stat(366, 1234567890, "GatherEffectType", false, false, false);
+        public ClassStat GatherEffectType = new ClassStat(366, 1234567890, "GatherEffectType", false, false, false);
 
-        public Class_Stat VisualBreed = new Class_Stat(367, 1234567890, "VisualBreed", false, false, true);
+        public ClassStat VisualBreed = new ClassStat(367, 1234567890, "VisualBreed", false, false, true);
 
-        public Class_Stat VisualProfession = new Class_Stat(368, 1234567890, "VisualProfession", false, false, true);
+        public ClassStat VisualProfession = new ClassStat(368, 1234567890, "VisualProfession", false, false, true);
 
-        public Class_Stat VisualSex = new Class_Stat(369, 1234567890, "VisualSex", false, false, true);
+        public ClassStat VisualSex = new ClassStat(369, 1234567890, "VisualSex", false, false, true);
 
-        public Class_Stat RitualTargetInst = new Class_Stat(370, 1234567890, "RitualTargetInst", false, false, false);
+        public ClassStat RitualTargetInst = new ClassStat(370, 1234567890, "RitualTargetInst", false, false, false);
 
-        public Class_Stat SkillTimeOnSelectedTarget = new Class_Stat(
+        public ClassStat SkillTimeOnSelectedTarget = new ClassStat(
             371, 1234567890, "SkillTimeOnSelectedTarget", false, false, false);
 
-        public Class_Stat LastSaveXP = new Class_Stat(372, 0, "LastSaveXP", false, false, false);
+        public ClassStat LastSaveXP = new ClassStat(372, 0, "LastSaveXP", false, false, false);
 
-        public Class_Stat ExtendedTime = new Class_Stat(373, 1234567890, "ExtendedTime", false, false, false);
+        public ClassStat ExtendedTime = new ClassStat(373, 1234567890, "ExtendedTime", false, false, false);
 
-        public Class_Stat BurstRecharge = new Class_Stat(374, 1234567890, "BurstRecharge", false, false, false);
+        public ClassStat BurstRecharge = new ClassStat(374, 1234567890, "BurstRecharge", false, false, false);
 
-        public Class_Stat FullAutoRecharge = new Class_Stat(375, 1234567890, "FullAutoRecharge", false, false, false);
+        public ClassStat FullAutoRecharge = new ClassStat(375, 1234567890, "FullAutoRecharge", false, false, false);
 
-        public Class_Stat GatherAbstractAnim = new Class_Stat(
+        public ClassStat GatherAbstractAnim = new ClassStat(
             376, 1234567890, "GatherAbstractAnim", false, false, false);
 
-        public Class_Stat CastTargetAbstractAnim = new Class_Stat(
+        public ClassStat CastTargetAbstractAnim = new ClassStat(
             377, 1234567890, "CastTargetAbstractAnim", false, false, false);
 
-        public Class_Stat CastSelfAbstractAnim = new Class_Stat(
+        public ClassStat CastSelfAbstractAnim = new ClassStat(
             378, 1234567890, "CastSelfAbstractAnim", false, false, false);
 
-        public Class_Stat CriticalIncrease = new Class_Stat(379, 1234567890, "CriticalIncrease", false, false, false);
+        public ClassStat CriticalIncrease = new ClassStat(379, 1234567890, "CriticalIncrease", false, false, false);
 
-        public Class_Stat RangeIncreaserWeapon = new Class_Stat(380, 0, "RangeIncreaserWeapon", false, false, false);
+        public ClassStat RangeIncreaserWeapon = new ClassStat(380, 0, "RangeIncreaserWeapon", false, false, false);
 
-        public Class_Stat RangeIncreaserNF = new Class_Stat(381, 0, "RangeIncreaserNF", false, false, false);
+        public ClassStat RangeIncreaserNF = new ClassStat(381, 0, "RangeIncreaserNF", false, false, false);
 
-        public Class_Stat SkillLockModifier = new Class_Stat(382, 0, "SkillLockModifier", false, false, false);
+        public ClassStat SkillLockModifier = new ClassStat(382, 0, "SkillLockModifier", false, false, false);
 
-        public Class_Stat InterruptModifier = new Class_Stat(383, 1234567890, "InterruptModifier", false, false, false);
+        public ClassStat InterruptModifier = new ClassStat(383, 1234567890, "InterruptModifier", false, false, false);
 
-        public Class_Stat ACGEntranceStyles = new Class_Stat(384, 1234567890, "ACGEntranceStyles", false, false, false);
+        public ClassStat ACGEntranceStyles = new ClassStat(384, 1234567890, "ACGEntranceStyles", false, false, false);
 
-        public Class_Stat ChanceOfBreakOnSpellAttack = new Class_Stat(
+        public ClassStat ChanceOfBreakOnSpellAttack = new ClassStat(
             385, 1234567890, "ChanceOfBreakOnSpellAttack", false, false, false);
 
-        public Class_Stat ChanceOfBreakOnDebuff = new Class_Stat(
+        public ClassStat ChanceOfBreakOnDebuff = new ClassStat(
             386, 1234567890, "ChanceOfBreakOnDebuff", false, false, false);
 
-        public Class_Stat DieAnim = new Class_Stat(387, 1234567890, "DieAnim", false, false, false);
+        public ClassStat DieAnim = new ClassStat(387, 1234567890, "DieAnim", false, false, false);
 
-        public Class_Stat TowerType = new Class_Stat(388, 1234567890, "TowerType", false, false, false);
+        public ClassStat TowerType = new ClassStat(388, 1234567890, "TowerType", false, false, false);
 
-        public Class_Stat Expansion = new Class_Stat(389, 0, "Expansion", false, true, false);
+        public ClassStat Expansion = new ClassStat(389, 0, "Expansion", false, true, false);
 
-        public Class_Stat LowresMesh = new Class_Stat(390, 1234567890, "LowresMesh", false, false, false);
+        public ClassStat LowresMesh = new ClassStat(390, 1234567890, "LowresMesh", false, false, false);
 
-        public Class_Stat CriticalDecrease = new Class_Stat(391, 1234567890, "CriticalDecrease", false, false, false);
+        public ClassStat CriticalDecrease = new ClassStat(391, 1234567890, "CriticalDecrease", false, false, false);
 
-        public Class_Stat OldTimeExist = new Class_Stat(392, 1234567890, "OldTimeExist", false, false, false);
+        public ClassStat OldTimeExist = new ClassStat(392, 1234567890, "OldTimeExist", false, false, false);
 
-        public Class_Stat ResistModifier = new Class_Stat(393, 1234567890, "ResistModifier", false, false, false);
+        public ClassStat ResistModifier = new ClassStat(393, 1234567890, "ResistModifier", false, false, false);
 
-        public Class_Stat ChestFlags = new Class_Stat(394, 1234567890, "ChestFlags", false, false, false);
+        public ClassStat ChestFlags = new ClassStat(394, 1234567890, "ChestFlags", false, false, false);
 
-        public Class_Stat PrimaryTemplateID = new Class_Stat(395, 1234567890, "PrimaryTemplateID", false, false, false);
+        public ClassStat PrimaryTemplateID = new ClassStat(395, 1234567890, "PrimaryTemplateID", false, false, false);
 
-        public Class_Stat NumberOfItems = new Class_Stat(396, 1234567890, "NumberOfItems", false, false, false);
+        public ClassStat NumberOfItems = new ClassStat(396, 1234567890, "NumberOfItems", false, false, false);
 
-        public Class_Stat SelectedTargetType = new Class_Stat(
+        public ClassStat SelectedTargetType = new ClassStat(
             397, 1234567890, "SelectedTargetType", false, false, false);
 
-        public Class_Stat Corpse_Hash = new Class_Stat(398, 1234567890, "Corpse_Hash", false, false, false);
+        public ClassStat Corpse_Hash = new ClassStat(398, 1234567890, "Corpse_Hash", false, false, false);
 
-        public Class_Stat AmmoName = new Class_Stat(399, 1234567890, "AmmoName", false, false, false);
+        public ClassStat AmmoName = new ClassStat(399, 1234567890, "AmmoName", false, false, false);
 
-        public Class_Stat Rotation = new Class_Stat(400, 1234567890, "Rotation", false, false, false);
+        public ClassStat Rotation = new ClassStat(400, 1234567890, "Rotation", false, false, false);
 
-        public Class_Stat CATAnim = new Class_Stat(401, 1234567890, "CATAnim", false, false, false);
+        public ClassStat CATAnim = new ClassStat(401, 1234567890, "CATAnim", false, false, false);
 
-        public Class_Stat CATAnimFlags = new Class_Stat(402, 1234567890, "CATAnimFlags", false, false, false);
+        public ClassStat CATAnimFlags = new ClassStat(402, 1234567890, "CATAnimFlags", false, false, false);
 
-        public Class_Stat DisplayCATAnim = new Class_Stat(403, 1234567890, "DisplayCATAnim", false, false, false);
+        public ClassStat DisplayCATAnim = new ClassStat(403, 1234567890, "DisplayCATAnim", false, false, false);
 
-        public Class_Stat DisplayCATMesh = new Class_Stat(404, 1234567890, "DisplayCATMesh", false, false, false);
+        public ClassStat DisplayCATMesh = new ClassStat(404, 1234567890, "DisplayCATMesh", false, false, false);
 
-        public Class_Stat School = new Class_Stat(405, 1234567890, "School", false, false, false);
+        public ClassStat School = new ClassStat(405, 1234567890, "School", false, false, false);
 
-        public Class_Stat NanoSpeed = new Class_Stat(406, 1234567890, "NanoSpeed", false, false, false);
+        public ClassStat NanoSpeed = new ClassStat(406, 1234567890, "NanoSpeed", false, false, false);
 
-        public Class_Stat NanoPoints = new Class_Stat(407, 1234567890, "NanoPoints", false, false, false);
+        public ClassStat NanoPoints = new ClassStat(407, 1234567890, "NanoPoints", false, false, false);
 
-        public Class_Stat TrainSkill = new Class_Stat(408, 1234567890, "TrainSkill", false, false, false);
+        public ClassStat TrainSkill = new ClassStat(408, 1234567890, "TrainSkill", false, false, false);
 
-        public Class_Stat TrainSkillCost = new Class_Stat(409, 1234567890, "TrainSkillCost", false, false, false);
+        public ClassStat TrainSkillCost = new ClassStat(409, 1234567890, "TrainSkillCost", false, false, false);
 
-        public Class_Stat IsFightingMe = new Class_Stat(410, 1234567890, "IsFightingMe", false, false, false);
+        public ClassStat IsFightingMe = new ClassStat(410, 1234567890, "IsFightingMe", false, false, false);
 
-        public Class_Stat NextFormula = new Class_Stat(411, 1234567890, "NextFormula", false, false, false);
+        public ClassStat NextFormula = new ClassStat(411, 1234567890, "NextFormula", false, false, false);
 
-        public Class_Stat MultipleCount = new Class_Stat(412, 1234567890, "MultipleCount", false, false, false);
+        public ClassStat MultipleCount = new ClassStat(412, 1234567890, "MultipleCount", false, false, false);
 
-        public Class_Stat EffectType = new Class_Stat(413, 1234567890, "EffectType", false, false, false);
+        public ClassStat EffectType = new ClassStat(413, 1234567890, "EffectType", false, false, false);
 
-        public Class_Stat ImpactEffectType = new Class_Stat(414, 1234567890, "ImpactEffectType", false, false, false);
+        public ClassStat ImpactEffectType = new ClassStat(414, 1234567890, "ImpactEffectType", false, false, false);
 
-        public Class_Stat CorpseType = new Class_Stat(415, 1234567890, "CorpseType", false, false, false);
+        public ClassStat CorpseType = new ClassStat(415, 1234567890, "CorpseType", false, false, false);
 
-        public Class_Stat CorpseInstance = new Class_Stat(416, 1234567890, "CorpseInstance", false, false, false);
+        public ClassStat CorpseInstance = new ClassStat(416, 1234567890, "CorpseInstance", false, false, false);
 
-        public Class_Stat CorpseAnimKey = new Class_Stat(417, 1234567890, "CorpseAnimKey", false, false, false);
+        public ClassStat CorpseAnimKey = new ClassStat(417, 1234567890, "CorpseAnimKey", false, false, false);
 
-        public Class_Stat UnarmedTemplateInstance = new Class_Stat(
+        public ClassStat UnarmedTemplateInstance = new ClassStat(
             418, 0, "UnarmedTemplateInstance", false, false, false);
 
-        public Class_Stat TracerEffectType = new Class_Stat(419, 1234567890, "TracerEffectType", false, false, false);
+        public ClassStat TracerEffectType = new ClassStat(419, 1234567890, "TracerEffectType", false, false, false);
 
-        public Class_Stat AmmoType = new Class_Stat(420, 1234567890, "AmmoType", false, false, false);
+        public ClassStat AmmoType = new ClassStat(420, 1234567890, "AmmoType", false, false, false);
 
-        public Class_Stat CharRadius = new Class_Stat(421, 1234567890, "CharRadius", false, false, false);
+        public ClassStat CharRadius = new ClassStat(421, 1234567890, "CharRadius", false, false, false);
 
-        public Class_Stat ChanceOfUse = new Class_Stat(422, 1234567890, "ChanceOfUse", false, false, false);
+        public ClassStat ChanceOfUse = new ClassStat(422, 1234567890, "ChanceOfUse", false, false, false);
 
-        public Class_Stat CurrentState = new Class_Stat(423, 0, "CurrentState", false, false, false);
+        public ClassStat CurrentState = new ClassStat(423, 0, "CurrentState", false, false, false);
 
-        public Class_Stat ArmourType = new Class_Stat(424, 1234567890, "ArmourType", false, false, false);
+        public ClassStat ArmourType = new ClassStat(424, 1234567890, "ArmourType", false, false, false);
 
-        public Class_Stat RestModifier = new Class_Stat(425, 1234567890, "RestModifier", false, false, false);
+        public ClassStat RestModifier = new ClassStat(425, 1234567890, "RestModifier", false, false, false);
 
-        public Class_Stat BuyModifier = new Class_Stat(426, 1234567890, "BuyModifier", false, false, false);
+        public ClassStat BuyModifier = new ClassStat(426, 1234567890, "BuyModifier", false, false, false);
 
-        public Class_Stat SellModifier = new Class_Stat(427, 1234567890, "SellModifier", false, false, false);
+        public ClassStat SellModifier = new ClassStat(427, 1234567890, "SellModifier", false, false, false);
 
-        public Class_Stat CastEffectType = new Class_Stat(428, 1234567890, "CastEffectType", false, false, false);
+        public ClassStat CastEffectType = new ClassStat(428, 1234567890, "CastEffectType", false, false, false);
 
-        public Class_Stat NPCBrainState = new Class_Stat(429, 1234567890, "NPCBrainState", false, false, false);
+        public ClassStat NPCBrainState = new ClassStat(429, 1234567890, "NPCBrainState", false, false, false);
 
-        public Class_Stat WaitState = new Class_Stat(430, 2, "WaitState", false, false, false);
+        public ClassStat WaitState = new ClassStat(430, 2, "WaitState", false, false, false);
 
-        public Class_Stat SelectedTarget = new Class_Stat(431, 1234567890, "SelectedTarget", false, false, false);
+        public ClassStat SelectedTarget = new ClassStat(431, 1234567890, "SelectedTarget", false, false, false);
 
-        public Class_Stat MissionBits4 = new Class_Stat(432, 0, "MissionBits4", false, false, false);
+        public ClassStat MissionBits4 = new ClassStat(432, 0, "MissionBits4", false, false, false);
 
-        public Class_Stat OwnerInstance = new Class_Stat(433, 1234567890, "OwnerInstance", false, false, false);
+        public ClassStat OwnerInstance = new ClassStat(433, 1234567890, "OwnerInstance", false, false, false);
 
-        public Class_Stat CharState = new Class_Stat(434, 1234567890, "CharState", false, false, false);
+        public ClassStat CharState = new ClassStat(434, 1234567890, "CharState", false, false, false);
 
-        public Class_Stat ReadOnly = new Class_Stat(435, 1234567890, "ReadOnly", false, false, false);
+        public ClassStat ReadOnly = new ClassStat(435, 1234567890, "ReadOnly", false, false, false);
 
-        public Class_Stat DamageType = new Class_Stat(436, 1234567890, "DamageType", false, false, false);
+        public ClassStat DamageType = new ClassStat(436, 1234567890, "DamageType", false, false, false);
 
-        public Class_Stat CollideCheckInterval = new Class_Stat(
+        public ClassStat CollideCheckInterval = new ClassStat(
             437, 1234567890, "CollideCheckInterval", false, false, false);
 
-        public Class_Stat PlayfieldType = new Class_Stat(438, 1234567890, "PlayfieldType", false, false, false);
+        public ClassStat PlayfieldType = new ClassStat(438, 1234567890, "PlayfieldType", false, false, false);
 
-        public Class_Stat NPCCommand = new Class_Stat(439, 1234567890, "NPCCommand", false, false, false);
+        public ClassStat NPCCommand = new ClassStat(439, 1234567890, "NPCCommand", false, false, false);
 
-        public Class_Stat InitiativeType = new Class_Stat(440, 1234567890, "InitiativeType", false, false, false);
+        public ClassStat InitiativeType = new ClassStat(440, 1234567890, "InitiativeType", false, false, false);
 
-        public Class_Stat CharTmp1 = new Class_Stat(441, 1234567890, "CharTmp1", false, false, false);
+        public ClassStat CharTmp1 = new ClassStat(441, 1234567890, "CharTmp1", false, false, false);
 
-        public Class_Stat CharTmp2 = new Class_Stat(442, 1234567890, "CharTmp2", false, false, false);
+        public ClassStat CharTmp2 = new ClassStat(442, 1234567890, "CharTmp2", false, false, false);
 
-        public Class_Stat CharTmp3 = new Class_Stat(443, 1234567890, "CharTmp3", false, false, false);
+        public ClassStat CharTmp3 = new ClassStat(443, 1234567890, "CharTmp3", false, false, false);
 
-        public Class_Stat CharTmp4 = new Class_Stat(444, 1234567890, "CharTmp4", false, false, false);
+        public ClassStat CharTmp4 = new ClassStat(444, 1234567890, "CharTmp4", false, false, false);
 
-        public Class_Stat NPCCommandArg = new Class_Stat(445, 1234567890, "NPCCommandArg", false, false, false);
+        public ClassStat NPCCommandArg = new ClassStat(445, 1234567890, "NPCCommandArg", false, false, false);
 
-        public Class_Stat NameTemplate = new Class_Stat(446, 1234567890, "NameTemplate", false, false, false);
+        public ClassStat NameTemplate = new ClassStat(446, 1234567890, "NameTemplate", false, false, false);
 
-        public Class_Stat DesiredTargetDistance = new Class_Stat(
+        public ClassStat DesiredTargetDistance = new ClassStat(
             447, 1234567890, "DesiredTargetDistance", false, false, false);
 
-        public Class_Stat VicinityRange = new Class_Stat(448, 1234567890, "VicinityRange", false, false, false);
+        public ClassStat VicinityRange = new ClassStat(448, 1234567890, "VicinityRange", false, false, false);
 
-        public Class_Stat NPCIsSurrendering = new Class_Stat(449, 1234567890, "NPCIsSurrendering", false, false, false);
+        public ClassStat NPCIsSurrendering = new ClassStat(449, 1234567890, "NPCIsSurrendering", false, false, false);
 
-        public Class_Stat StateMachine = new Class_Stat(450, 1234567890, "StateMachine", false, false, false);
+        public ClassStat StateMachine = new ClassStat(450, 1234567890, "StateMachine", false, false, false);
 
-        public Class_Stat NPCSurrenderInstance = new Class_Stat(
+        public ClassStat NPCSurrenderInstance = new ClassStat(
             451, 1234567890, "NPCSurrenderInstance", false, false, false);
 
-        public Class_Stat NPCHasPatrolList = new Class_Stat(452, 1234567890, "NPCHasPatrolList", false, false, false);
+        public ClassStat NPCHasPatrolList = new ClassStat(452, 1234567890, "NPCHasPatrolList", false, false, false);
 
-        public Class_Stat NPCVicinityChars = new Class_Stat(453, 1234567890, "NPCVicinityChars", false, false, false);
+        public ClassStat NPCVicinityChars = new ClassStat(453, 1234567890, "NPCVicinityChars", false, false, false);
 
-        public Class_Stat ProximityRangeOutdoors = new Class_Stat(
+        public ClassStat ProximityRangeOutdoors = new ClassStat(
             454, 1234567890, "ProximityRangeOutdoors", false, false, false);
 
-        public Class_Stat NPCFamily = new Class_Stat(455, 1234567890, "NPCFamily", false, false, false);
+        public ClassStat NPCFamily = new ClassStat(455, 1234567890, "NPCFamily", false, false, false);
 
-        public Class_Stat CommandRange = new Class_Stat(456, 1234567890, "CommandRange", false, false, false);
+        public ClassStat CommandRange = new ClassStat(456, 1234567890, "CommandRange", false, false, false);
 
-        public Class_Stat NPCHatelistSize = new Class_Stat(457, 1234567890, "NPCHatelistSize", false, false, false);
+        public ClassStat NPCHatelistSize = new ClassStat(457, 1234567890, "NPCHatelistSize", false, false, false);
 
-        public Class_Stat NPCNumPets = new Class_Stat(458, 1234567890, "NPCNumPets", false, false, false);
+        public ClassStat NPCNumPets = new ClassStat(458, 1234567890, "NPCNumPets", false, false, false);
 
-        public Class_Stat ODMinSizeAdd = new Class_Stat(459, 1234567890, "ODMinSizeAdd", false, false, false);
+        public ClassStat ODMinSizeAdd = new ClassStat(459, 1234567890, "ODMinSizeAdd", false, false, false);
 
-        public Class_Stat EffectRed = new Class_Stat(460, 1234567890, "EffectRed", false, false, false);
+        public ClassStat EffectRed = new ClassStat(460, 1234567890, "EffectRed", false, false, false);
 
-        public Class_Stat EffectGreen = new Class_Stat(461, 1234567890, "EffectGreen", false, false, false);
+        public ClassStat EffectGreen = new ClassStat(461, 1234567890, "EffectGreen", false, false, false);
 
-        public Class_Stat EffectBlue = new Class_Stat(462, 1234567890, "EffectBlue", false, false, false);
+        public ClassStat EffectBlue = new ClassStat(462, 1234567890, "EffectBlue", false, false, false);
 
-        public Class_Stat ODMaxSizeAdd = new Class_Stat(463, 1234567890, "ODMaxSizeAdd", false, false, false);
+        public ClassStat ODMaxSizeAdd = new ClassStat(463, 1234567890, "ODMaxSizeAdd", false, false, false);
 
-        public Class_Stat DurationModifier = new Class_Stat(464, 1234567890, "DurationModifier", false, false, false);
+        public ClassStat DurationModifier = new ClassStat(464, 1234567890, "DurationModifier", false, false, false);
 
-        public Class_Stat NPCCryForHelpRange = new Class_Stat(
+        public ClassStat NPCCryForHelpRange = new ClassStat(
             465, 1234567890, "NPCCryForHelpRange", false, false, false);
 
-        public Class_Stat LOSHeight = new Class_Stat(466, 1234567890, "LOSHeight", false, false, false);
+        public ClassStat LOSHeight = new ClassStat(466, 1234567890, "LOSHeight", false, false, false);
 
-        public Class_Stat PetReq1 = new Class_Stat(467, 1234567890, "PetReq1", false, false, false);
+        public ClassStat PetReq1 = new ClassStat(467, 1234567890, "PetReq1", false, false, false);
 
-        public Class_Stat PetReq2 = new Class_Stat(468, 1234567890, "PetReq2", false, false, false);
+        public ClassStat PetReq2 = new ClassStat(468, 1234567890, "PetReq2", false, false, false);
 
-        public Class_Stat PetReq3 = new Class_Stat(469, 1234567890, "PetReq3", false, false, false);
+        public ClassStat PetReq3 = new ClassStat(469, 1234567890, "PetReq3", false, false, false);
 
-        public Class_Stat MapOptions = new Class_Stat(470, 0, "MapOptions", false, false, false);
+        public ClassStat MapOptions = new ClassStat(470, 0, "MapOptions", false, false, false);
 
-        public Class_Stat MapAreaPart1 = new Class_Stat(471, 0, "MapAreaPart1", false, false, false);
+        public ClassStat MapAreaPart1 = new ClassStat(471, 0, "MapAreaPart1", false, false, false);
 
-        public Class_Stat MapAreaPart2 = new Class_Stat(472, 0, "MapAreaPart2", false, false, false);
+        public ClassStat MapAreaPart2 = new ClassStat(472, 0, "MapAreaPart2", false, false, false);
 
-        public Class_Stat FixtureFlags = new Class_Stat(473, 1234567890, "FixtureFlags", false, false, false);
+        public ClassStat FixtureFlags = new ClassStat(473, 1234567890, "FixtureFlags", false, false, false);
 
-        public Class_Stat FallDamage = new Class_Stat(474, 1234567890, "FallDamage", false, false, false);
+        public ClassStat FallDamage = new ClassStat(474, 1234567890, "FallDamage", false, false, false);
 
-        public Class_Stat ReflectReturnedProjectileAC = new Class_Stat(
+        public ClassStat ReflectReturnedProjectileAC = new ClassStat(
             475, 0, "ReflectReturnedProjectileAC", false, false, false);
 
-        public Class_Stat ReflectReturnedMeleeAC = new Class_Stat(476, 0, "ReflectReturnedMeleeAC", false, false, false);
+        public ClassStat ReflectReturnedMeleeAC = new ClassStat(476, 0, "ReflectReturnedMeleeAC", false, false, false);
 
-        public Class_Stat ReflectReturnedEnergyAC = new Class_Stat(
+        public ClassStat ReflectReturnedEnergyAC = new ClassStat(
             477, 0, "ReflectReturnedEnergyAC", false, false, false);
 
-        public Class_Stat ReflectReturnedChemicalAC = new Class_Stat(
+        public ClassStat ReflectReturnedChemicalAC = new ClassStat(
             478, 0, "ReflectReturnedChemicalAC", false, false, false);
 
-        public Class_Stat ReflectReturnedRadiationAC = new Class_Stat(
+        public ClassStat ReflectReturnedRadiationAC = new ClassStat(
             479, 0, "ReflectReturnedRadiationAC", false, false, false);
 
-        public Class_Stat ReflectReturnedColdAC = new Class_Stat(480, 0, "ReflectReturnedColdAC", false, false, false);
+        public ClassStat ReflectReturnedColdAC = new ClassStat(480, 0, "ReflectReturnedColdAC", false, false, false);
 
-        public Class_Stat ReflectReturnedNanoAC = new Class_Stat(481, 0, "ReflectReturnedNanoAC", false, false, false);
+        public ClassStat ReflectReturnedNanoAC = new ClassStat(481, 0, "ReflectReturnedNanoAC", false, false, false);
 
-        public Class_Stat ReflectReturnedFireAC = new Class_Stat(482, 0, "ReflectReturnedFireAC", false, false, false);
+        public ClassStat ReflectReturnedFireAC = new ClassStat(482, 0, "ReflectReturnedFireAC", false, false, false);
 
-        public Class_Stat ReflectReturnedPoisonAC = new Class_Stat(
+        public ClassStat ReflectReturnedPoisonAC = new ClassStat(
             483, 0, "ReflectReturnedPoisonAC", false, false, false);
 
-        public Class_Stat ProximityRangeIndoors = new Class_Stat(
+        public ClassStat ProximityRangeIndoors = new ClassStat(
             484, 1234567890, "ProximityRangeIndoors", false, false, false);
 
-        public Class_Stat PetReqVal1 = new Class_Stat(485, 1234567890, "PetReqVal1", false, false, false);
+        public ClassStat PetReqVal1 = new ClassStat(485, 1234567890, "PetReqVal1", false, false, false);
 
-        public Class_Stat PetReqVal2 = new Class_Stat(486, 1234567890, "PetReqVal2", false, false, false);
+        public ClassStat PetReqVal2 = new ClassStat(486, 1234567890, "PetReqVal2", false, false, false);
 
-        public Class_Stat PetReqVal3 = new Class_Stat(487, 1234567890, "PetReqVal3", false, false, false);
+        public ClassStat PetReqVal3 = new ClassStat(487, 1234567890, "PetReqVal3", false, false, false);
 
-        public Class_Stat TargetFacing = new Class_Stat(488, 1234567890, "TargetFacing", false, false, false);
+        public ClassStat TargetFacing = new ClassStat(488, 1234567890, "TargetFacing", false, false, false);
 
-        public Class_Stat Backstab = new Class_Stat(489, 1234567890, "Backstab", true, false, false);
+        public ClassStat Backstab = new ClassStat(489, 1234567890, "Backstab", true, false, false);
 
-        public Class_Stat OriginatorType = new Class_Stat(490, 1234567890, "OriginatorType", false, false, false);
+        public ClassStat OriginatorType = new ClassStat(490, 1234567890, "OriginatorType", false, false, false);
 
-        public Class_Stat QuestInstance = new Class_Stat(491, 1234567890, "QuestInstance", false, false, false);
+        public ClassStat QuestInstance = new ClassStat(491, 1234567890, "QuestInstance", false, false, false);
 
-        public Class_Stat QuestIndex1 = new Class_Stat(492, 1234567890, "QuestIndex1", false, false, false);
+        public ClassStat QuestIndex1 = new ClassStat(492, 1234567890, "QuestIndex1", false, false, false);
 
-        public Class_Stat QuestIndex2 = new Class_Stat(493, 1234567890, "QuestIndex2", false, false, false);
+        public ClassStat QuestIndex2 = new ClassStat(493, 1234567890, "QuestIndex2", false, false, false);
 
-        public Class_Stat QuestIndex3 = new Class_Stat(494, 1234567890, "QuestIndex3", false, false, false);
+        public ClassStat QuestIndex3 = new ClassStat(494, 1234567890, "QuestIndex3", false, false, false);
 
-        public Class_Stat QuestIndex4 = new Class_Stat(495, 1234567890, "QuestIndex4", false, false, false);
+        public ClassStat QuestIndex4 = new ClassStat(495, 1234567890, "QuestIndex4", false, false, false);
 
-        public Class_Stat QuestIndex5 = new Class_Stat(496, 1234567890, "QuestIndex5", false, false, false);
+        public ClassStat QuestIndex5 = new ClassStat(496, 1234567890, "QuestIndex5", false, false, false);
 
-        public Class_Stat QTDungeonInstance = new Class_Stat(497, 1234567890, "QTDungeonInstance", false, false, false);
+        public ClassStat QTDungeonInstance = new ClassStat(497, 1234567890, "QTDungeonInstance", false, false, false);
 
-        public Class_Stat QTNumMonsters = new Class_Stat(498, 1234567890, "QTNumMonsters", false, false, false);
+        public ClassStat QTNumMonsters = new ClassStat(498, 1234567890, "QTNumMonsters", false, false, false);
 
-        public Class_Stat QTKilledMonsters = new Class_Stat(499, 1234567890, "QTKilledMonsters", false, false, false);
+        public ClassStat QTKilledMonsters = new ClassStat(499, 1234567890, "QTKilledMonsters", false, false, false);
 
-        public Class_Stat AnimPos = new Class_Stat(500, 1234567890, "AnimPos", false, false, false);
+        public ClassStat AnimPos = new ClassStat(500, 1234567890, "AnimPos", false, false, false);
 
-        public Class_Stat AnimPlay = new Class_Stat(501, 1234567890, "AnimPlay", false, false, false);
+        public ClassStat AnimPlay = new ClassStat(501, 1234567890, "AnimPlay", false, false, false);
 
-        public Class_Stat AnimSpeed = new Class_Stat(502, 1234567890, "AnimSpeed", false, false, false);
+        public ClassStat AnimSpeed = new ClassStat(502, 1234567890, "AnimSpeed", false, false, false);
 
-        public Class_Stat QTKillNumMonsterID1 = new Class_Stat(
+        public ClassStat QTKillNumMonsterID1 = new ClassStat(
             503, 1234567890, "QTKillNumMonsterID1", false, false, false);
 
-        public Class_Stat QTKillNumMonsterCount1 = new Class_Stat(
+        public ClassStat QTKillNumMonsterCount1 = new ClassStat(
             504, 1234567890, "QTKillNumMonsterCount1", false, false, false);
 
-        public Class_Stat QTKillNumMonsterID2 = new Class_Stat(
+        public ClassStat QTKillNumMonsterID2 = new ClassStat(
             505, 1234567890, "QTKillNumMonsterID2", false, false, false);
 
-        public Class_Stat QTKillNumMonsterCount2 = new Class_Stat(
+        public ClassStat QTKillNumMonsterCount2 = new ClassStat(
             506, 1234567890, "QTKillNumMonsterCount2", false, false, false);
 
-        public Class_Stat QTKillNumMonsterID3 = new Class_Stat(
+        public ClassStat QTKillNumMonsterID3 = new ClassStat(
             507, 1234567890, "QTKillNumMonsterID3", false, false, false);
 
-        public Class_Stat QTKillNumMonsterCount3 = new Class_Stat(
+        public ClassStat QTKillNumMonsterCount3 = new ClassStat(
             508, 1234567890, "QTKillNumMonsterCount3", false, false, false);
 
-        public Class_Stat QuestIndex0 = new Class_Stat(509, 1234567890, "QuestIndex0", false, false, false);
+        public ClassStat QuestIndex0 = new ClassStat(509, 1234567890, "QuestIndex0", false, false, false);
 
-        public Class_Stat QuestTimeout = new Class_Stat(510, 1234567890, "QuestTimeout", false, false, false);
+        public ClassStat QuestTimeout = new ClassStat(510, 1234567890, "QuestTimeout", false, false, false);
 
-        public Class_Stat Tower_NPCHash = new Class_Stat(511, 1234567890, "Tower_NPCHash", false, false, false);
+        public ClassStat Tower_NPCHash = new ClassStat(511, 1234567890, "Tower_NPCHash", false, false, false);
 
-        public Class_Stat PetType = new Class_Stat(512, 1234567890, "PetType", false, false, false);
+        public ClassStat PetType = new ClassStat(512, 1234567890, "PetType", false, false, false);
 
-        public Class_Stat OnTowerCreation = new Class_Stat(513, 1234567890, "OnTowerCreation", false, false, false);
+        public ClassStat OnTowerCreation = new ClassStat(513, 1234567890, "OnTowerCreation", false, false, false);
 
-        public Class_Stat OwnedTowers = new Class_Stat(514, 1234567890, "OwnedTowers", false, false, false);
+        public ClassStat OwnedTowers = new ClassStat(514, 1234567890, "OwnedTowers", false, false, false);
 
-        public Class_Stat TowerInstance = new Class_Stat(515, 1234567890, "TowerInstance", false, false, false);
+        public ClassStat TowerInstance = new ClassStat(515, 1234567890, "TowerInstance", false, false, false);
 
-        public Class_Stat AttackShield = new Class_Stat(516, 1234567890, "AttackShield", false, false, false);
+        public ClassStat AttackShield = new ClassStat(516, 1234567890, "AttackShield", false, false, false);
 
-        public Class_Stat SpecialAttackShield = new Class_Stat(
+        public ClassStat SpecialAttackShield = new ClassStat(
             517, 1234567890, "SpecialAttackShield", false, false, false);
 
-        public Class_Stat NPCVicinityPlayers = new Class_Stat(
+        public ClassStat NPCVicinityPlayers = new ClassStat(
             518, 1234567890, "NPCVicinityPlayers", false, false, false);
 
-        public Class_Stat NPCUseFightModeRegenRate = new Class_Stat(
+        public ClassStat NPCUseFightModeRegenRate = new ClassStat(
             519, 1234567890, "NPCUseFightModeRegenRate", false, false, false);
 
-        public Class_Stat Rnd = new Class_Stat(520, 1234567890, "Rnd", false, false, false);
+        public ClassStat Rnd = new ClassStat(520, 1234567890, "Rnd", false, false, false);
 
-        public Class_Stat SocialStatus = new Class_Stat(521, 0, "SocialStatus", false, false, false);
+        public ClassStat SocialStatus = new ClassStat(521, 0, "SocialStatus", false, false, false);
 
-        public Class_Stat LastRnd = new Class_Stat(522, 1234567890, "LastRnd", false, false, false);
+        public ClassStat LastRnd = new ClassStat(522, 1234567890, "LastRnd", false, false, false);
 
-        public Class_Stat ItemDelayCap = new Class_Stat(523, 1234567890, "ItemDelayCap", false, false, false);
+        public ClassStat ItemDelayCap = new ClassStat(523, 1234567890, "ItemDelayCap", false, false, false);
 
-        public Class_Stat RechargeDelayCap = new Class_Stat(524, 1234567890, "RechargeDelayCap", false, false, false);
+        public ClassStat RechargeDelayCap = new ClassStat(524, 1234567890, "RechargeDelayCap", false, false, false);
 
-        public Class_Stat PercentRemainingHealth = new Class_Stat(
+        public ClassStat PercentRemainingHealth = new ClassStat(
             525, 1234567890, "PercentRemainingHealth", false, false, false);
 
-        public Class_Stat PercentRemainingNano = new Class_Stat(
+        public ClassStat PercentRemainingNano = new ClassStat(
             526, 1234567890, "PercentRemainingNano", false, false, false);
 
-        public Class_Stat TargetDistance = new Class_Stat(527, 1234567890, "TargetDistance", false, false, false);
+        public ClassStat TargetDistance = new ClassStat(527, 1234567890, "TargetDistance", false, false, false);
 
-        public Class_Stat TeamCloseness = new Class_Stat(528, 1234567890, "TeamCloseness", false, false, false);
+        public ClassStat TeamCloseness = new ClassStat(528, 1234567890, "TeamCloseness", false, false, false);
 
-        public Class_Stat NumberOnHateList = new Class_Stat(529, 1234567890, "NumberOnHateList", false, false, false);
+        public ClassStat NumberOnHateList = new ClassStat(529, 1234567890, "NumberOnHateList", false, false, false);
 
-        public Class_Stat ConditionState = new Class_Stat(530, 1234567890, "ConditionState", false, false, false);
+        public ClassStat ConditionState = new ClassStat(530, 1234567890, "ConditionState", false, false, false);
 
-        public Class_Stat ExpansionPlayfield = new Class_Stat(
+        public ClassStat ExpansionPlayfield = new ClassStat(
             531, 1234567890, "ExpansionPlayfield", false, false, false);
 
-        public Class_Stat ShadowBreed = new Class_Stat(532, 0, "ShadowBreed", false, false, false);
+        public ClassStat ShadowBreed = new ClassStat(532, 0, "ShadowBreed", false, false, false);
 
-        public Class_Stat NPCFovStatus = new Class_Stat(533, 1234567890, "NPCFovStatus", false, false, false);
+        public ClassStat NPCFovStatus = new ClassStat(533, 1234567890, "NPCFovStatus", false, false, false);
 
-        public Class_Stat DudChance = new Class_Stat(534, 1234567890, "DudChance", false, false, false);
+        public ClassStat DudChance = new ClassStat(534, 1234567890, "DudChance", false, false, false);
 
-        public Class_Stat HealMultiplier = new Class_Stat(535, 1234567890, "HealMultiplier", false, false, false);
+        public ClassStat HealMultiplier = new ClassStat(535, 1234567890, "HealMultiplier", false, false, false);
 
-        public Class_Stat NanoDamageMultiplier = new Class_Stat(536, 0, "NanoDamageMultiplier", false, false, false);
+        public ClassStat NanoDamageMultiplier = new ClassStat(536, 0, "NanoDamageMultiplier", false, false, false);
 
-        public Class_Stat NanoVulnerability = new Class_Stat(537, 1234567890, "NanoVulnerability", false, false, false);
+        public ClassStat NanoVulnerability = new ClassStat(537, 1234567890, "NanoVulnerability", false, false, false);
 
-        public Class_Stat AmsCap = new Class_Stat(538, 1234567890, "AmsCap", false, false, false);
+        public ClassStat AmsCap = new ClassStat(538, 1234567890, "AmsCap", false, false, false);
 
-        public Class_Stat ProcInitiative1 = new Class_Stat(539, 1234567890, "ProcInitiative1", false, false, false);
+        public ClassStat ProcInitiative1 = new ClassStat(539, 1234567890, "ProcInitiative1", false, false, false);
 
-        public Class_Stat ProcInitiative2 = new Class_Stat(540, 1234567890, "ProcInitiative2", false, false, false);
+        public ClassStat ProcInitiative2 = new ClassStat(540, 1234567890, "ProcInitiative2", false, false, false);
 
-        public Class_Stat ProcInitiative3 = new Class_Stat(541, 1234567890, "ProcInitiative3", false, false, false);
+        public ClassStat ProcInitiative3 = new ClassStat(541, 1234567890, "ProcInitiative3", false, false, false);
 
-        public Class_Stat ProcInitiative4 = new Class_Stat(542, 1234567890, "ProcInitiative4", false, false, false);
+        public ClassStat ProcInitiative4 = new ClassStat(542, 1234567890, "ProcInitiative4", false, false, false);
 
-        public Class_Stat FactionModifier = new Class_Stat(543, 1234567890, "FactionModifier", false, false, false);
+        public ClassStat FactionModifier = new ClassStat(543, 1234567890, "FactionModifier", false, false, false);
 
-        public Class_Stat MissionBits8 = new Class_Stat(544, 0, "MissionBits8", false, false, false);
+        public ClassStat MissionBits8 = new ClassStat(544, 0, "MissionBits8", false, false, false);
 
-        public Class_Stat MissionBits9 = new Class_Stat(545, 0, "MissionBits9", false, false, false);
+        public ClassStat MissionBits9 = new ClassStat(545, 0, "MissionBits9", false, false, false);
 
-        public Class_Stat StackingLine2 = new Class_Stat(546, 1234567890, "StackingLine2", false, false, false);
+        public ClassStat StackingLine2 = new ClassStat(546, 1234567890, "StackingLine2", false, false, false);
 
-        public Class_Stat StackingLine3 = new Class_Stat(547, 1234567890, "StackingLine3", false, false, false);
+        public ClassStat StackingLine3 = new ClassStat(547, 1234567890, "StackingLine3", false, false, false);
 
-        public Class_Stat StackingLine4 = new Class_Stat(548, 1234567890, "StackingLine4", false, false, false);
+        public ClassStat StackingLine4 = new ClassStat(548, 1234567890, "StackingLine4", false, false, false);
 
-        public Class_Stat StackingLine5 = new Class_Stat(549, 1234567890, "StackingLine5", false, false, false);
+        public ClassStat StackingLine5 = new ClassStat(549, 1234567890, "StackingLine5", false, false, false);
 
-        public Class_Stat StackingLine6 = new Class_Stat(550, 1234567890, "StackingLine6", false, false, false);
+        public ClassStat StackingLine6 = new ClassStat(550, 1234567890, "StackingLine6", false, false, false);
 
-        public Class_Stat StackingOrder = new Class_Stat(551, 1234567890, "StackingOrder", false, false, false);
+        public ClassStat StackingOrder = new ClassStat(551, 1234567890, "StackingOrder", false, false, false);
 
-        public Class_Stat ProcNano1 = new Class_Stat(552, 1234567890, "ProcNano1", false, false, false);
+        public ClassStat ProcNano1 = new ClassStat(552, 1234567890, "ProcNano1", false, false, false);
 
-        public Class_Stat ProcNano2 = new Class_Stat(553, 1234567890, "ProcNano2", false, false, false);
+        public ClassStat ProcNano2 = new ClassStat(553, 1234567890, "ProcNano2", false, false, false);
 
-        public Class_Stat ProcNano3 = new Class_Stat(554, 1234567890, "ProcNano3", false, false, false);
+        public ClassStat ProcNano3 = new ClassStat(554, 1234567890, "ProcNano3", false, false, false);
 
-        public Class_Stat ProcNano4 = new Class_Stat(555, 1234567890, "ProcNano4", false, false, false);
+        public ClassStat ProcNano4 = new ClassStat(555, 1234567890, "ProcNano4", false, false, false);
 
-        public Class_Stat ProcChance1 = new Class_Stat(556, 1234567890, "ProcChance1", false, false, false);
+        public ClassStat ProcChance1 = new ClassStat(556, 1234567890, "ProcChance1", false, false, false);
 
-        public Class_Stat ProcChance2 = new Class_Stat(557, 1234567890, "ProcChance2", false, false, false);
+        public ClassStat ProcChance2 = new ClassStat(557, 1234567890, "ProcChance2", false, false, false);
 
-        public Class_Stat ProcChance3 = new Class_Stat(558, 1234567890, "ProcChance3", false, false, false);
+        public ClassStat ProcChance3 = new ClassStat(558, 1234567890, "ProcChance3", false, false, false);
 
-        public Class_Stat ProcChance4 = new Class_Stat(559, 1234567890, "ProcChance4", false, false, false);
+        public ClassStat ProcChance4 = new ClassStat(559, 1234567890, "ProcChance4", false, false, false);
 
-        public Class_Stat OTArmedForces = new Class_Stat(560, 0, "OTArmedForces", false, false, false);
+        public ClassStat OTArmedForces = new ClassStat(560, 0, "OTArmedForces", false, false, false);
 
-        public Class_Stat ClanSentinels = new Class_Stat(561, 0, "ClanSentinels", false, false, false);
+        public ClassStat ClanSentinels = new ClassStat(561, 0, "ClanSentinels", false, false, false);
 
-        public Class_Stat OTMed = new Class_Stat(562, 1234567890, "OTMed", false, false, false);
+        public ClassStat OTMed = new ClassStat(562, 1234567890, "OTMed", false, false, false);
 
-        public Class_Stat ClanGaia = new Class_Stat(563, 0, "ClanGaia", false, false, false);
+        public ClassStat ClanGaia = new ClassStat(563, 0, "ClanGaia", false, false, false);
 
-        public Class_Stat OTTrans = new Class_Stat(564, 0, "OTTrans", false, false, false);
+        public ClassStat OTTrans = new ClassStat(564, 0, "OTTrans", false, false, false);
 
-        public Class_Stat ClanVanguards = new Class_Stat(565, 0, "ClanVanguards", false, false, false);
+        public ClassStat ClanVanguards = new ClassStat(565, 0, "ClanVanguards", false, false, false);
 
-        public Class_Stat GOS = new Class_Stat(566, 0, "GOS", false, false, false);
+        public ClassStat GOS = new ClassStat(566, 0, "GOS", false, false, false);
 
-        public Class_Stat OTFollowers = new Class_Stat(567, 0, "OTFollowers", false, false, false);
+        public ClassStat OTFollowers = new ClassStat(567, 0, "OTFollowers", false, false, false);
 
-        public Class_Stat OTOperator = new Class_Stat(568, 0, "OTOperator", false, false, false);
+        public ClassStat OTOperator = new ClassStat(568, 0, "OTOperator", false, false, false);
 
-        public Class_Stat OTUnredeemed = new Class_Stat(569, 0, "OTUnredeemed", false, false, false);
+        public ClassStat OTUnredeemed = new ClassStat(569, 0, "OTUnredeemed", false, false, false);
 
-        public Class_Stat ClanDevoted = new Class_Stat(570, 0, "ClanDevoted", false, false, false);
+        public ClassStat ClanDevoted = new ClassStat(570, 0, "ClanDevoted", false, false, false);
 
-        public Class_Stat ClanConserver = new Class_Stat(571, 0, "ClanConserver", false, false, false);
+        public ClassStat ClanConserver = new ClassStat(571, 0, "ClanConserver", false, false, false);
 
-        public Class_Stat ClanRedeemed = new Class_Stat(572, 0, "ClanRedeemed", false, false, false);
+        public ClassStat ClanRedeemed = new ClassStat(572, 0, "ClanRedeemed", false, false, false);
 
-        public Class_Stat SK = new Class_Stat(573, 0, "SK", false, false, false);
+        public ClassStat SK = new ClassStat(573, 0, "SK", false, false, false);
 
-        public Class_Stat LastSK = new Class_Stat(574, 0, "LastSK", false, false, false);
+        public ClassStat LastSK = new ClassStat(574, 0, "LastSK", false, false, false);
 
         public Stat_NextSK NextSK = new Stat_NextSK(575, 0, "NextSK", false, false, false);
 
-        public Class_Stat PlayerOptions = new Class_Stat(576, 0, "PlayerOptions", false, false, false);
+        public ClassStat PlayerOptions = new ClassStat(576, 0, "PlayerOptions", false, false, false);
 
-        public Class_Stat LastPerkResetTime = new Class_Stat(577, 0, "LastPerkResetTime", false, false, false);
+        public ClassStat LastPerkResetTime = new ClassStat(577, 0, "LastPerkResetTime", false, false, false);
 
-        public Class_Stat CurrentTime = new Class_Stat(578, 1234567890, "CurrentTime", false, false, false);
+        public ClassStat CurrentTime = new ClassStat(578, 1234567890, "CurrentTime", false, false, false);
 
-        public Class_Stat ShadowBreedTemplate = new Class_Stat(579, 0, "ShadowBreedTemplate", false, false, false);
+        public ClassStat ShadowBreedTemplate = new ClassStat(579, 0, "ShadowBreedTemplate", false, false, false);
 
-        public Class_Stat NPCVicinityFamily = new Class_Stat(580, 1234567890, "NPCVicinityFamily", false, false, false);
+        public ClassStat NPCVicinityFamily = new ClassStat(580, 1234567890, "NPCVicinityFamily", false, false, false);
 
-        public Class_Stat NPCScriptAMSScale = new Class_Stat(581, 1234567890, "NPCScriptAMSScale", false, false, false);
+        public ClassStat NPCScriptAMSScale = new ClassStat(581, 1234567890, "NPCScriptAMSScale", false, false, false);
 
-        public Class_Stat ApartmentsAllowed = new Class_Stat(582, 1, "ApartmentsAllowed", false, false, false);
+        public ClassStat ApartmentsAllowed = new ClassStat(582, 1, "ApartmentsAllowed", false, false, false);
 
-        public Class_Stat ApartmentsOwned = new Class_Stat(583, 0, "ApartmentsOwned", false, false, false);
+        public ClassStat ApartmentsOwned = new ClassStat(583, 0, "ApartmentsOwned", false, false, false);
 
-        public Class_Stat ApartmentAccessCard = new Class_Stat(
+        public ClassStat ApartmentAccessCard = new ClassStat(
             584, 1234567890, "ApartmentAccessCard", false, false, false);
 
-        public Class_Stat MapAreaPart3 = new Class_Stat(585, 0, "MapAreaPart3", false, false, false);
+        public ClassStat MapAreaPart3 = new ClassStat(585, 0, "MapAreaPart3", false, false, false);
 
-        public Class_Stat MapAreaPart4 = new Class_Stat(586, 0, "MapAreaPart4", false, false, false);
+        public ClassStat MapAreaPart4 = new ClassStat(586, 0, "MapAreaPart4", false, false, false);
 
-        public Class_Stat NumberOfTeamMembers = new Class_Stat(
+        public ClassStat NumberOfTeamMembers = new ClassStat(
             587, 1234567890, "NumberOfTeamMembers", false, false, false);
 
-        public Class_Stat ActionCategory = new Class_Stat(588, 1234567890, "ActionCategory", false, false, false);
+        public ClassStat ActionCategory = new ClassStat(588, 1234567890, "ActionCategory", false, false, false);
 
-        public Class_Stat CurrentPlayfield = new Class_Stat(589, 1234567890, "CurrentPlayfield", false, false, false);
+        public ClassStat CurrentPlayfield = new ClassStat(589, 1234567890, "CurrentPlayfield", false, false, false);
 
-        public Class_Stat DistrictNano = new Class_Stat(590, 1234567890, "DistrictNano", false, false, false);
+        public ClassStat DistrictNano = new ClassStat(590, 1234567890, "DistrictNano", false, false, false);
 
-        public Class_Stat DistrictNanoInterval = new Class_Stat(
+        public ClassStat DistrictNanoInterval = new ClassStat(
             591, 1234567890, "DistrictNanoInterval", false, false, false);
 
-        public Class_Stat UnsavedXP = new Class_Stat(592, 0, "UnsavedXP", false, false, false);
+        public ClassStat UnsavedXP = new ClassStat(592, 0, "UnsavedXP", false, false, false);
 
-        public Class_Stat RegainXPPercentage = new Class_Stat(593, 0, "RegainXPPercentage", false, false, false);
+        public ClassStat RegainXPPercentage = new ClassStat(593, 0, "RegainXPPercentage", false, false, false);
 
-        public Class_Stat TempSaveTeamID = new Class_Stat(594, 0, "TempSaveTeamID", false, false, false);
+        public ClassStat TempSaveTeamID = new ClassStat(594, 0, "TempSaveTeamID", false, false, false);
 
-        public Class_Stat TempSavePlayfield = new Class_Stat(595, 0, "TempSavePlayfield", false, false, false);
+        public ClassStat TempSavePlayfield = new ClassStat(595, 0, "TempSavePlayfield", false, false, false);
 
-        public Class_Stat TempSaveX = new Class_Stat(596, 0, "TempSaveX", false, false, false);
+        public ClassStat TempSaveX = new ClassStat(596, 0, "TempSaveX", false, false, false);
 
-        public Class_Stat TempSaveY = new Class_Stat(597, 0, "TempSaveY", false, false, false);
+        public ClassStat TempSaveY = new ClassStat(597, 0, "TempSaveY", false, false, false);
 
-        public Class_Stat ExtendedFlags = new Class_Stat(598, 1234567890, "ExtendedFlags", false, false, false);
+        public ClassStat ExtendedFlags = new ClassStat(598, 1234567890, "ExtendedFlags", false, false, false);
 
-        public Class_Stat ShopPrice = new Class_Stat(599, 1234567890, "ShopPrice", false, false, false);
+        public ClassStat ShopPrice = new ClassStat(599, 1234567890, "ShopPrice", false, false, false);
 
-        public Class_Stat NewbieHP = new Class_Stat(600, 1234567890, "NewbieHP", false, false, false);
+        public ClassStat NewbieHP = new ClassStat(600, 1234567890, "NewbieHP", false, false, false);
 
-        public Class_Stat HPLevelUp = new Class_Stat(601, 1234567890, "HPLevelUp", false, false, false);
+        public ClassStat HPLevelUp = new ClassStat(601, 1234567890, "HPLevelUp", false, false, false);
 
-        public Class_Stat HPPerSkill = new Class_Stat(602, 1234567890, "HPPerSkill", false, false, false);
+        public ClassStat HPPerSkill = new ClassStat(602, 1234567890, "HPPerSkill", false, false, false);
 
-        public Class_Stat NewbieNP = new Class_Stat(603, 1234567890, "NewbieNP", false, false, false);
+        public ClassStat NewbieNP = new ClassStat(603, 1234567890, "NewbieNP", false, false, false);
 
-        public Class_Stat NPLevelUp = new Class_Stat(604, 1234567890, "NPLevelUp", false, false, false);
+        public ClassStat NPLevelUp = new ClassStat(604, 1234567890, "NPLevelUp", false, false, false);
 
-        public Class_Stat NPPerSkill = new Class_Stat(605, 1234567890, "NPPerSkill", false, false, false);
+        public ClassStat NPPerSkill = new ClassStat(605, 1234567890, "NPPerSkill", false, false, false);
 
-        public Class_Stat MaxShopItems = new Class_Stat(606, 1234567890, "MaxShopItems", false, false, false);
+        public ClassStat MaxShopItems = new ClassStat(606, 1234567890, "MaxShopItems", false, false, false);
 
-        public Class_Stat PlayerID = new Class_Stat(607, 1234567890, "PlayerID", false, true, false);
+        public ClassStat PlayerID = new ClassStat(607, 1234567890, "PlayerID", false, true, false);
 
-        public Class_Stat ShopRent = new Class_Stat(608, 1234567890, "ShopRent", false, false, false);
+        public ClassStat ShopRent = new ClassStat(608, 1234567890, "ShopRent", false, false, false);
 
-        public Class_Stat SynergyHash = new Class_Stat(609, 1234567890, "SynergyHash", false, false, false);
+        public ClassStat SynergyHash = new ClassStat(609, 1234567890, "SynergyHash", false, false, false);
 
-        public Class_Stat ShopFlags = new Class_Stat(610, 1234567890, "ShopFlags", false, false, false);
+        public ClassStat ShopFlags = new ClassStat(610, 1234567890, "ShopFlags", false, false, false);
 
-        public Class_Stat ShopLastUsed = new Class_Stat(611, 1234567890, "ShopLastUsed", false, false, false);
+        public ClassStat ShopLastUsed = new ClassStat(611, 1234567890, "ShopLastUsed", false, false, false);
 
-        public Class_Stat ShopType = new Class_Stat(612, 1234567890, "ShopType", false, false, false);
+        public ClassStat ShopType = new ClassStat(612, 1234567890, "ShopType", false, false, false);
 
-        public Class_Stat LockDownTime = new Class_Stat(613, 1234567890, "LockDownTime", false, false, false);
+        public ClassStat LockDownTime = new ClassStat(613, 1234567890, "LockDownTime", false, false, false);
 
-        public Class_Stat LeaderLockDownTime = new Class_Stat(
+        public ClassStat LeaderLockDownTime = new ClassStat(
             614, 1234567890, "LeaderLockDownTime", false, false, false);
 
-        public Class_Stat InvadersKilled = new Class_Stat(615, 0, "InvadersKilled", false, false, false);
+        public ClassStat InvadersKilled = new ClassStat(615, 0, "InvadersKilled", false, false, false);
 
-        public Class_Stat KilledByInvaders = new Class_Stat(616, 0, "KilledByInvaders", false, false, false);
+        public ClassStat KilledByInvaders = new ClassStat(616, 0, "KilledByInvaders", false, false, false);
 
-        public Class_Stat MissionBits10 = new Class_Stat(617, 0, "MissionBits10", false, false, false);
+        public ClassStat MissionBits10 = new ClassStat(617, 0, "MissionBits10", false, false, false);
 
-        public Class_Stat MissionBits11 = new Class_Stat(618, 0, "MissionBits11", false, false, false);
+        public ClassStat MissionBits11 = new ClassStat(618, 0, "MissionBits11", false, false, false);
 
-        public Class_Stat MissionBits12 = new Class_Stat(619, 0, "MissionBits12", false, false, false);
+        public ClassStat MissionBits12 = new ClassStat(619, 0, "MissionBits12", false, false, false);
 
-        public Class_Stat HouseTemplate = new Class_Stat(620, 1234567890, "HouseTemplate", false, false, false);
+        public ClassStat HouseTemplate = new ClassStat(620, 1234567890, "HouseTemplate", false, false, false);
 
-        public Class_Stat PercentFireDamage = new Class_Stat(621, 1234567890, "PercentFireDamage", false, false, false);
+        public ClassStat PercentFireDamage = new ClassStat(621, 1234567890, "PercentFireDamage", false, false, false);
 
-        public Class_Stat PercentColdDamage = new Class_Stat(622, 1234567890, "PercentColdDamage", false, false, false);
+        public ClassStat PercentColdDamage = new ClassStat(622, 1234567890, "PercentColdDamage", false, false, false);
 
-        public Class_Stat PercentMeleeDamage = new Class_Stat(
+        public ClassStat PercentMeleeDamage = new ClassStat(
             623, 1234567890, "PercentMeleeDamage", false, false, false);
 
-        public Class_Stat PercentProjectileDamage = new Class_Stat(
+        public ClassStat PercentProjectileDamage = new ClassStat(
             624, 1234567890, "PercentProjectileDamage", false, false, false);
 
-        public Class_Stat PercentPoisonDamage = new Class_Stat(
+        public ClassStat PercentPoisonDamage = new ClassStat(
             625, 1234567890, "PercentPoisonDamage", false, false, false);
 
-        public Class_Stat PercentRadiationDamage = new Class_Stat(
+        public ClassStat PercentRadiationDamage = new ClassStat(
             626, 1234567890, "PercentRadiationDamage", false, false, false);
 
-        public Class_Stat PercentEnergyDamage = new Class_Stat(
+        public ClassStat PercentEnergyDamage = new ClassStat(
             627, 1234567890, "PercentEnergyDamage", false, false, false);
 
-        public Class_Stat PercentChemicalDamage = new Class_Stat(
+        public ClassStat PercentChemicalDamage = new ClassStat(
             628, 1234567890, "PercentChemicalDamage", false, false, false);
 
-        public Class_Stat TotalDamage = new Class_Stat(629, 1234567890, "TotalDamage", false, false, false);
+        public ClassStat TotalDamage = new ClassStat(629, 1234567890, "TotalDamage", false, false, false);
 
-        public Class_Stat TrackProjectileDamage = new Class_Stat(
+        public ClassStat TrackProjectileDamage = new ClassStat(
             630, 1234567890, "TrackProjectileDamage", false, false, false);
 
-        public Class_Stat TrackMeleeDamage = new Class_Stat(631, 1234567890, "TrackMeleeDamage", false, false, false);
+        public ClassStat TrackMeleeDamage = new ClassStat(631, 1234567890, "TrackMeleeDamage", false, false, false);
 
-        public Class_Stat TrackEnergyDamage = new Class_Stat(632, 1234567890, "TrackEnergyDamage", false, false, false);
+        public ClassStat TrackEnergyDamage = new ClassStat(632, 1234567890, "TrackEnergyDamage", false, false, false);
 
-        public Class_Stat TrackChemicalDamage = new Class_Stat(
+        public ClassStat TrackChemicalDamage = new ClassStat(
             633, 1234567890, "TrackChemicalDamage", false, false, false);
 
-        public Class_Stat TrackRadiationDamage = new Class_Stat(
+        public ClassStat TrackRadiationDamage = new ClassStat(
             634, 1234567890, "TrackRadiationDamage", false, false, false);
 
-        public Class_Stat TrackColdDamage = new Class_Stat(635, 1234567890, "TrackColdDamage", false, false, false);
+        public ClassStat TrackColdDamage = new ClassStat(635, 1234567890, "TrackColdDamage", false, false, false);
 
-        public Class_Stat TrackPoisonDamage = new Class_Stat(636, 1234567890, "TrackPoisonDamage", false, false, false);
+        public ClassStat TrackPoisonDamage = new ClassStat(636, 1234567890, "TrackPoisonDamage", false, false, false);
 
-        public Class_Stat TrackFireDamage = new Class_Stat(637, 1234567890, "TrackFireDamage", false, false, false);
+        public ClassStat TrackFireDamage = new ClassStat(637, 1234567890, "TrackFireDamage", false, false, false);
 
-        public Class_Stat NPCSpellArg1 = new Class_Stat(638, 1234567890, "NPCSpellArg1", false, false, false);
+        public ClassStat NPCSpellArg1 = new ClassStat(638, 1234567890, "NPCSpellArg1", false, false, false);
 
-        public Class_Stat NPCSpellRet1 = new Class_Stat(639, 1234567890, "NPCSpellRet1", false, false, false);
+        public ClassStat NPCSpellRet1 = new ClassStat(639, 1234567890, "NPCSpellRet1", false, false, false);
 
-        public Class_Stat CityInstance = new Class_Stat(640, 1234567890, "CityInstance", false, false, false);
+        public ClassStat CityInstance = new ClassStat(640, 1234567890, "CityInstance", false, false, false);
 
-        public Class_Stat DistanceToSpawnpoint = new Class_Stat(
+        public ClassStat DistanceToSpawnpoint = new ClassStat(
             641, 1234567890, "DistanceToSpawnpoint", false, false, false);
 
-        public Class_Stat CityTerminalRechargePercent = new Class_Stat(
+        public ClassStat CityTerminalRechargePercent = new ClassStat(
             642, 1234567890, "CityTerminalRechargePercent", false, false, false);
 
-        public Class_Stat UnreadMailCount = new Class_Stat(649, 0, "UnreadMailCount", false, false, false);
+        public ClassStat UnreadMailCount = new ClassStat(649, 0, "UnreadMailCount", false, false, false);
 
-        public Class_Stat LastMailCheckTime = new Class_Stat(650, 1283065897, "LastMailCheckTime", false, false, false);
+        public ClassStat LastMailCheckTime = new ClassStat(650, 1283065897, "LastMailCheckTime", false, false, false);
 
-        public Class_Stat AdvantageHash1 = new Class_Stat(651, 1234567890, "AdvantageHash1", false, false, false);
+        public ClassStat AdvantageHash1 = new ClassStat(651, 1234567890, "AdvantageHash1", false, false, false);
 
-        public Class_Stat AdvantageHash2 = new Class_Stat(652, 1234567890, "AdvantageHash2", false, false, false);
+        public ClassStat AdvantageHash2 = new ClassStat(652, 1234567890, "AdvantageHash2", false, false, false);
 
-        public Class_Stat AdvantageHash3 = new Class_Stat(653, 1234567890, "AdvantageHash3", false, false, false);
+        public ClassStat AdvantageHash3 = new ClassStat(653, 1234567890, "AdvantageHash3", false, false, false);
 
-        public Class_Stat AdvantageHash4 = new Class_Stat(654, 1234567890, "AdvantageHash4", false, false, false);
+        public ClassStat AdvantageHash4 = new ClassStat(654, 1234567890, "AdvantageHash4", false, false, false);
 
-        public Class_Stat AdvantageHash5 = new Class_Stat(655, 1234567890, "AdvantageHash5", false, false, false);
+        public ClassStat AdvantageHash5 = new ClassStat(655, 1234567890, "AdvantageHash5", false, false, false);
 
-        public Class_Stat ShopIndex = new Class_Stat(656, 1234567890, "ShopIndex", false, false, false);
+        public ClassStat ShopIndex = new ClassStat(656, 1234567890, "ShopIndex", false, false, false);
 
-        public Class_Stat ShopID = new Class_Stat(657, 1234567890, "ShopID", false, false, false);
+        public ClassStat ShopID = new ClassStat(657, 1234567890, "ShopID", false, false, false);
 
-        public Class_Stat IsVehicle = new Class_Stat(658, 1234567890, "IsVehicle", false, false, false);
+        public ClassStat IsVehicle = new ClassStat(658, 1234567890, "IsVehicle", false, false, false);
 
-        public Class_Stat DamageToNano = new Class_Stat(659, 1234567890, "DamageToNano", false, false, false);
+        public ClassStat DamageToNano = new ClassStat(659, 1234567890, "DamageToNano", false, false, false);
 
-        public Class_Stat AccountFlags = new Class_Stat(660, 1234567890, "AccountFlags", false, true, false);
+        public ClassStat AccountFlags = new ClassStat(660, 1234567890, "AccountFlags", false, true, false);
 
-        public Class_Stat DamageToNanoMultiplier = new Class_Stat(
+        public ClassStat DamageToNanoMultiplier = new ClassStat(
             661, 1234567890, "DamageToNanoMultiplier", false, false, false);
 
-        public Class_Stat MechData = new Class_Stat(662, 0, "MechData", false, false, false);
+        public ClassStat MechData = new ClassStat(662, 0, "MechData", false, false, false);
 
-        public Class_Stat VehicleAC = new Class_Stat(664, 1234567890, "VehicleAC", false, false, false);
+        public ClassStat VehicleAC = new ClassStat(664, 1234567890, "VehicleAC", false, false, false);
 
-        public Class_Stat VehicleDamage = new Class_Stat(665, 1234567890, "VehicleDamage", false, false, false);
+        public ClassStat VehicleDamage = new ClassStat(665, 1234567890, "VehicleDamage", false, false, false);
 
-        public Class_Stat VehicleHealth = new Class_Stat(666, 1234567890, "VehicleHealth", false, false, false);
+        public ClassStat VehicleHealth = new ClassStat(666, 1234567890, "VehicleHealth", false, false, false);
 
-        public Class_Stat VehicleSpeed = new Class_Stat(667, 1234567890, "VehicleSpeed", false, false, false);
+        public ClassStat VehicleSpeed = new ClassStat(667, 1234567890, "VehicleSpeed", false, false, false);
 
-        public Class_Stat BattlestationSide = new Class_Stat(668, 0, "BattlestationSide", false, false, false);
+        public ClassStat BattlestationSide = new ClassStat(668, 0, "BattlestationSide", false, false, false);
 
-        public Class_Stat VP = new Class_Stat(669, 0, "VP", false, false, false);
+        public ClassStat VP = new ClassStat(669, 0, "VP", false, false, false);
 
-        public Class_Stat BattlestationRep = new Class_Stat(670, 10, "BattlestationRep", false, false, false);
+        public ClassStat BattlestationRep = new ClassStat(670, 10, "BattlestationRep", false, false, false);
 
-        public Class_Stat PetState = new Class_Stat(671, 1234567890, "PetState", false, false, false);
+        public ClassStat PetState = new ClassStat(671, 1234567890, "PetState", false, false, false);
 
-        public Class_Stat PaidPoints = new Class_Stat(672, 0, "PaidPoints", false, false, false);
+        public ClassStat PaidPoints = new ClassStat(672, 0, "PaidPoints", false, false, false);
 
-        public Class_Stat VisualFlags = new Class_Stat(673, 31, "VisualFlags", false, false, false);
+        public ClassStat VisualFlags = new ClassStat(673, 31, "VisualFlags", false, false, false);
 
-        public Class_Stat PVPDuelKills = new Class_Stat(674, 0, "PVPDuelKills", false, false, false);
+        public ClassStat PVPDuelKills = new ClassStat(674, 0, "PVPDuelKills", false, false, false);
 
-        public Class_Stat PVPDuelDeaths = new Class_Stat(675, 0, "PVPDuelDeaths", false, false, false);
+        public ClassStat PVPDuelDeaths = new ClassStat(675, 0, "PVPDuelDeaths", false, false, false);
 
-        public Class_Stat PVPProfessionDuelKills = new Class_Stat(676, 0, "PVPProfessionDuelKills", false, false, false);
+        public ClassStat PVPProfessionDuelKills = new ClassStat(676, 0, "PVPProfessionDuelKills", false, false, false);
 
-        public Class_Stat PVPProfessionDuelDeaths = new Class_Stat(
+        public ClassStat PVPProfessionDuelDeaths = new ClassStat(
             677, 0, "PVPProfessionDuelDeaths", false, false, false);
 
-        public Class_Stat PVPRankedSoloKills = new Class_Stat(678, 0, "PVPRankedSoloKills", false, false, false);
+        public ClassStat PVPRankedSoloKills = new ClassStat(678, 0, "PVPRankedSoloKills", false, false, false);
 
-        public Class_Stat PVPRankedSoloDeaths = new Class_Stat(679, 0, "PVPRankedSoloDeaths", false, false, false);
+        public ClassStat PVPRankedSoloDeaths = new ClassStat(679, 0, "PVPRankedSoloDeaths", false, false, false);
 
-        public Class_Stat PVPRankedTeamKills = new Class_Stat(680, 0, "PVPRankedTeamKills", false, false, false);
+        public ClassStat PVPRankedTeamKills = new ClassStat(680, 0, "PVPRankedTeamKills", false, false, false);
 
-        public Class_Stat PVPRankedTeamDeaths = new Class_Stat(681, 0, "PVPRankedTeamDeaths", false, false, false);
+        public ClassStat PVPRankedTeamDeaths = new ClassStat(681, 0, "PVPRankedTeamDeaths", false, false, false);
 
-        public Class_Stat PVPSoloScore = new Class_Stat(682, 0, "PVPSoloScore", false, false, false);
+        public ClassStat PVPSoloScore = new ClassStat(682, 0, "PVPSoloScore", false, false, false);
 
-        public Class_Stat PVPTeamScore = new Class_Stat(683, 0, "PVPTeamScore", false, false, false);
+        public ClassStat PVPTeamScore = new ClassStat(683, 0, "PVPTeamScore", false, false, false);
 
-        public Class_Stat PVPDuelScore = new Class_Stat(684, 0, "PVPDuelScore", false, false, false);
+        public ClassStat PVPDuelScore = new ClassStat(684, 0, "PVPDuelScore", false, false, false);
 
-        public Class_Stat ACGItemSeed = new Class_Stat(700, 1234567890, "ACGItemSeed", false, false, false);
+        public ClassStat ACGItemSeed = new ClassStat(700, 1234567890, "ACGItemSeed", false, false, false);
 
-        public Class_Stat ACGItemLevel = new Class_Stat(701, 1234567890, "ACGItemLevel", false, false, false);
+        public ClassStat ACGItemLevel = new ClassStat(701, 1234567890, "ACGItemLevel", false, false, false);
 
-        public Class_Stat ACGItemTemplateID = new Class_Stat(702, 1234567890, "ACGItemTemplateID", false, false, false);
+        public ClassStat ACGItemTemplateID = new ClassStat(702, 1234567890, "ACGItemTemplateID", false, false, false);
 
-        public Class_Stat ACGItemTemplateID2 = new Class_Stat(
+        public ClassStat ACGItemTemplateID2 = new ClassStat(
             703, 1234567890, "ACGItemTemplateID2", false, false, false);
 
-        public Class_Stat ACGItemCategoryID = new Class_Stat(704, 1234567890, "ACGItemCategoryID", false, false, false);
+        public ClassStat ACGItemCategoryID = new ClassStat(704, 1234567890, "ACGItemCategoryID", false, false, false);
 
-        public Class_Stat HasKnuBotData = new Class_Stat(768, 1234567890, "HasKnuBotData", false, false, false);
+        public ClassStat HasKnuBotData = new ClassStat(768, 1234567890, "HasKnuBotData", false, false, false);
 
-        public Class_Stat QuestBoothDifficulty = new Class_Stat(
+        public ClassStat QuestBoothDifficulty = new ClassStat(
             800, 1234567890, "QuestBoothDifficulty", false, false, false);
 
-        public Class_Stat QuestASMinimumRange = new Class_Stat(
+        public ClassStat QuestASMinimumRange = new ClassStat(
             801, 1234567890, "QuestASMinimumRange", false, false, false);
 
-        public Class_Stat QuestASMaximumRange = new Class_Stat(
+        public ClassStat QuestASMaximumRange = new ClassStat(
             802, 1234567890, "QuestASMaximumRange", false, false, false);
 
-        public Class_Stat VisualLODLevel = new Class_Stat(888, 1234567890, "VisualLODLevel", false, false, false);
+        public ClassStat VisualLODLevel = new ClassStat(888, 1234567890, "VisualLODLevel", false, false, false);
 
-        public Class_Stat TargetDistanceChange = new Class_Stat(
+        public ClassStat TargetDistanceChange = new ClassStat(
             889, 1234567890, "TargetDistanceChange", false, false, false);
 
-        public Class_Stat TideRequiredDynelID = new Class_Stat(
+        public ClassStat TideRequiredDynelID = new ClassStat(
             900, 1234567890, "TideRequiredDynelID", false, false, false);
 
-        public Class_Stat StreamCheckMagic = new Class_Stat(999, 1234567890, "StreamCheckMagic", false, false, false);
+        public ClassStat StreamCheckMagic = new ClassStat(999, 1234567890, "StreamCheckMagic", false, false, false);
 
-        public Class_Stat Type = new Class_Stat(1001, 1234567890, "Type", false, true, false);
+        public ClassStat Type = new ClassStat(1001, 1234567890, "Type", false, true, false);
 
-        public Class_Stat Instance = new Class_Stat(1002, 1234567890, "Instance", false, true, false);
+        public ClassStat Instance = new ClassStat(1002, 1234567890, "Instance", false, true, false);
 
-        public Class_Stat WeaponsStyle = new Class_Stat(1003, 1234567890, "WeaponType", false, false, false);
+        public ClassStat WeaponsStyle = new ClassStat(1003, 1234567890, "WeaponType", false, false, false);
 
-        public Class_Stat ShoulderMeshRight = new Class_Stat(1004, 0, "ShoulderMeshRight", false, false, false);
+        public ClassStat ShoulderMeshRight = new ClassStat(1004, 0, "ShoulderMeshRight", false, false, false);
 
-        public Class_Stat ShoulderMeshLeft = new Class_Stat(1005, 0, "ShoulderMeshLeft", false, false, false);
+        public ClassStat ShoulderMeshLeft = new ClassStat(1005, 0, "ShoulderMeshLeft", false, false, false);
 
-        public Class_Stat WeaponMeshRight = new Class_Stat(1006, 0, "WeaponMeshRight", false, false, false);
+        public ClassStat WeaponMeshRight = new ClassStat(1006, 0, "WeaponMeshRight", false, false, false);
 
-        public Class_Stat WeaponMeshLeft = new Class_Stat(1007, 0, "WeaponMeshLeft", false, false, false);
+        public ClassStat WeaponMeshLeft = new ClassStat(1007, 0, "WeaponMeshLeft", false, false, false);
 
-        public Class_Stat OverrideTextureHead = new Class_Stat(1008, 0, "OverrideTextureHead", false, false, false);
+        public ClassStat OverrideTextureHead = new ClassStat(1008, 0, "OverrideTextureHead", false, false, false);
 
-        public Class_Stat OverrideTextureWeaponRight = new Class_Stat(
+        public ClassStat OverrideTextureWeaponRight = new ClassStat(
             1009, 0, "OverrideTextureWeaponRight", false, false, false);
 
-        public Class_Stat OverrideTextureWeaponLeft = new Class_Stat(
+        public ClassStat OverrideTextureWeaponLeft = new ClassStat(
             1010, 0, "OverrideTextureWeaponLeft", false, false, false);
 
-        public Class_Stat OverrideTextureShoulderpadRight = new Class_Stat(
+        public ClassStat OverrideTextureShoulderpadRight = new ClassStat(
             1011, 0, "OverrideTextureShoulderpadRight", false, false, false);
 
-        public Class_Stat OverrideTextureShoulderpadLeft = new Class_Stat(
+        public ClassStat OverrideTextureShoulderpadLeft = new ClassStat(
             1012, 0, "OverrideTextureShoulderpadLeft", false, false, false);
 
-        public Class_Stat OverrideTextureBack = new Class_Stat(1013, 0, "OverrideTextureBack", false, false, false);
+        public ClassStat OverrideTextureBack = new ClassStat(1013, 0, "OverrideTextureBack", false, false, false);
 
-        public Class_Stat OverrideTextureAttractor = new Class_Stat(
+        public ClassStat OverrideTextureAttractor = new ClassStat(
             1014, 0, "OverrideTextureAttractor", false, false, false);
 
-        public Class_Stat WeaponStyleLeft = new Class_Stat(1015, 0, "WeaponStyleLeft", false, false, false);
+        public ClassStat WeaponStyleLeft = new ClassStat(1015, 0, "WeaponStyleLeft", false, false, false);
 
-        public Class_Stat WeaponStyleRight = new Class_Stat(1016, 0, "WeaponStyleRight", false, false, false);
+        public ClassStat WeaponStyleRight = new ClassStat(1016, 0, "WeaponStyleRight", false, false, false);
         #endregion
 
-        public List<Class_Stat> all = new List<Class_Stat>();
+        public List<ClassStat> all = new List<ClassStat>();
 
         #region Create Stats
         /// <summary>
@@ -1840,7 +1836,7 @@ namespace ZoneEngine.Misc
         /// Class for character's stats
         /// </summary>
         /// <param name="parent">Stat's owner (Character or derived class)</param>
-        public Character_Stats(Character parent)
+        public CharacterStats(Character parent)
         {
             #region Add stats to list
             this.all.Add(this.Flags);
@@ -2572,11 +2568,11 @@ namespace ZoneEngine.Misc
             this.Level.Affects.Add(this.IP.StatNumber);
             #endregion
 
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 c.SetParent(parent);
             }
-            if (!(parent is NonPC))
+            if (!(parent is NonPlayerCharacterClass))
             {
                 #region Set standard Eventhandler for Stats (announce to player or playfield)
                 /*
@@ -3326,9 +3322,9 @@ namespace ZoneEngine.Misc
         #endregion
 
         #region Get Stat object by number
-        public Class_Stat GetStatbyNumber(int number)
+        public ClassStat GetStatbyNumber(int number)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != number)
                 {
@@ -3341,9 +3337,9 @@ namespace ZoneEngine.Misc
         #endregion
 
         #region Announce Statchange to player(s)
-        public void Send(object sender, Class_Stat.StatChangedEventArgs e)
+        public void Send(object sender, ClassStat.StatChangedEventArgs e)
         {
-            if (!((Character)((Class_Stat)sender).Parent).dontdotimers)
+            if (!((Character)((ClassStat)sender).Parent).dontdotimers)
             {
                 if (e.Stat.SendBaseValue)
                 {
@@ -3366,7 +3362,7 @@ namespace ZoneEngine.Misc
         /// <returns>Stat's value</returns>
         public int Get(int number)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != number)
                 {
@@ -3384,7 +3380,7 @@ namespace ZoneEngine.Misc
         /// <param name="newvalue">Stat's new value</param>
         public void Set(int number, uint newvalue)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != number)
                 {
@@ -3406,7 +3402,7 @@ namespace ZoneEngine.Misc
         public int Get(string name)
         {
             int statid = StatsList.GetStatId(name.ToLower());
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statid)
                 {
@@ -3425,7 +3421,7 @@ namespace ZoneEngine.Misc
         public void Set(string name, uint newvalue)
         {
             int statid = StatsList.GetStatId(name.ToLower());
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statid)
                 {
@@ -3440,7 +3436,7 @@ namespace ZoneEngine.Misc
         public int GetID(string name)
         {
             int statid = StatsList.GetStatId(name.ToLower());
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statid)
                 {
@@ -3460,7 +3456,7 @@ namespace ZoneEngine.Misc
         {
             SqlWrapper sql = new SqlWrapper();
             DataTable dt =
-                sql.ReadDT(
+                sql.ReadDatatable(
                     "SELECT Stat,Value FROM " + this.Flags.Parent.getSQLTablefromDynelType() + "_stats WHERE ID="
                     + this.Flags.Parent.ID); // Using Flags to address parent object
             foreach (DataRow row in dt.Rows)
@@ -3474,7 +3470,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         public void WriteStatstoSQL()
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.DoNotDontWriteToSql)
                 {
@@ -3488,7 +3484,7 @@ namespace ZoneEngine.Misc
         #region Get/Set Stat Modifier
         public int GetModifier(int stat)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -3501,7 +3497,7 @@ namespace ZoneEngine.Misc
 
         public void SetModifier(int stat, int value)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -3517,7 +3513,7 @@ namespace ZoneEngine.Misc
         #region Get/Set Stat Percentage Modifier
         public int GetPercentageModifier(int stat)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -3530,7 +3526,7 @@ namespace ZoneEngine.Misc
 
         public void SetPercentageModifier(int stat, int value)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -3546,7 +3542,7 @@ namespace ZoneEngine.Misc
         #region Get/Set Stat Base Value
         public uint GetBaseValue(int stat)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -3559,7 +3555,7 @@ namespace ZoneEngine.Misc
 
         public void SetBaseValue(int stat, uint value)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -3576,7 +3572,7 @@ namespace ZoneEngine.Misc
         #region Clear Modifiers for recalculation
         public void ClearModifiers()
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 c.StatModifier = 0;
                 c.StatPercentageModifier = 100;
@@ -3588,7 +3584,7 @@ namespace ZoneEngine.Misc
         #region Set Trickle values
         public void SetTrickle(int statid, int value)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statid)
                 {
@@ -3604,7 +3600,7 @@ namespace ZoneEngine.Misc
         #region send stat value by ID
         public void Send(Client cli, int statId)
         {
-            foreach (Class_Stat c in this.all)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statId)
                 {
@@ -3629,7 +3625,7 @@ namespace ZoneEngine.Misc
 
         public void ClearChangedFlags()
         {
-            foreach (Class_Stat cs in this.all)
+            foreach (ClassStat cs in this.all)
             {
                 cs.changed = false;
             }

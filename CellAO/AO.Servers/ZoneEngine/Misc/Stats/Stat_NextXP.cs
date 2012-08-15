@@ -30,7 +30,7 @@ namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_NextXP : Class_Stat
+    public class Stat_NextXP : ClassStat
     {
         public Stat_NextXP(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {

@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.ChatCommands
 {
     using System;
@@ -41,17 +37,17 @@ namespace ZoneEngine.ChatCommands
     {
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
-            Client mClient;
-            if (FindClient.FindClientByName(args[1], out mClient))
+            Client targetClient;
+            if (FindClient.FindClientByName(args[1], out targetClient))
             {
-                bool itemExists = (this.ItemExists(Convert.ToInt32(args[2]), mClient));
+                bool itemExists = (this.ItemExists(Convert.ToInt32(args[2]), targetClient));
                 if (itemExists)
                 {
-                    DeleteItem.Send(mClient.Character, 104, Convert.ToInt32(args[2]));
-                    mClient.Character.Inventory.Remove(mClient.Character.getInventoryAt(Convert.ToInt32(args[2])));
+                    DeleteItem.Send(targetClient.Character, 104, Convert.ToInt32(args[2]));
+                    targetClient.Character.Inventory.Remove(targetClient.Character.getInventoryAt(Convert.ToInt32(args[2])));
                     return;
                 }
-                mClient.SendChatText("There exists no item in the slot you choose");
+                targetClient.SendChatText("There exists no item in the slot you choose");
             }
         }
 
@@ -64,10 +60,7 @@ namespace ZoneEngine.ChatCommands
 
         public override bool CheckCommandArguments(string[] args)
         {
-            List<Type> check = new List<Type>();
-            check.Add(typeof(string));
-            check.Add(typeof(int));
-
+            List<Type> check = new List<Type> { typeof(string), typeof(int) };
             return this.CheckArgumentHelper(check, args);
         }
 
@@ -78,15 +71,12 @@ namespace ZoneEngine.ChatCommands
 
         public override List<string> GetCommands()
         {
-            List<string> temp = new List<string>();
-            temp.Add("remitem");
-            temp.Add("delitem");
-            return temp;
+            return new List<string> { "remitem", "delitem" };
         }
 
-        public bool ItemExists(int Placement, Client m_client)
+        public bool ItemExists(int placement, Client client)
         {
-            return (m_client.Character.getInventoryAt(Placement) != null);
+            return (client.Character.getInventoryAt(placement) != null);
         }
     }
 }

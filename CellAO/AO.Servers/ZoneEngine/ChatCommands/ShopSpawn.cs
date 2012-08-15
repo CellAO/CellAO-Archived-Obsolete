@@ -33,7 +33,7 @@ namespace ZoneEngine.ChatCommands
 
     using AO.Core;
 
-    using ZoneEngine.NPC;
+    using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Script;
 
     public class ChatCommandShopSpawn : AOChatCommand
@@ -65,7 +65,7 @@ namespace ZoneEngine.ChatCommands
                         }
                     }
                     SqlWrapper sql = new SqlWrapper();
-                    DataTable dt = sql.ReadDT("SELECT Hash, Name FROM vendortemplate " + filter + " order by Name ASC");
+                    DataTable dt = sql.ReadDatatable("SELECT Hash, Name FROM vendortemplate " + filter + " order by Name ASC");
                     client.SendChatText("List of vendortemplates: ");
                     foreach (DataRow row in dt.Rows)
                     {

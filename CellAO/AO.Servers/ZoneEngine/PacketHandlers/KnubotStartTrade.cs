@@ -34,7 +34,7 @@ namespace ZoneEngine.PacketHandlers
 
     public class KnuBotStartTrade
     {
-        public static void Send(Client cli, NonPC KnuBottarget, string message, int numberofitems)
+        public static void Send(Client cli, NonPlayerCharacterClass KnuBottarget, string message, int numberofitems)
         {
             PacketWriter pw = new PacketWriter();
 
@@ -67,7 +67,7 @@ namespace ZoneEngine.PacketHandlers
             pr.PopByte();
             pr.PopShort();
             Identity id = pr.PopIdentity();
-            NonPC npc = (NonPC)FindDynel.FindDynelByID(id.Type, id.Instance);
+            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(id.Type, id.Instance);
             if (npc != null)
             {
                 npc.KnuBotStartTrade(cli.Character);

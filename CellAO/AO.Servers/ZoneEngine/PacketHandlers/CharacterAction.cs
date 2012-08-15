@@ -198,7 +198,7 @@ namespace ZoneEngine.PacketHandlers
                             int orgGoverningForm = 0;
                             SqlWrapper ms = new SqlWrapper();
                             DataTable dt =
-                                ms.ReadDT(
+                                ms.ReadDatatable(
                                     "SELECT `GovernmentForm` FROM organizations WHERE ID=" + tPlayer.Character.OrgId);
 
                             if (dt.Rows.Count > 0)
@@ -281,7 +281,7 @@ namespace ZoneEngine.PacketHandlers
                         }
                         else
                         {
-                            NonPC npc = (NonPC)FindDynel.FindDynelByID(m_ident.Type, m_ident.Instance);
+                            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(m_ident.Type, m_ident.Instance);
                             if (npc != null)
                             {
                                 PacketWriter infoPacket = new PacketWriter();

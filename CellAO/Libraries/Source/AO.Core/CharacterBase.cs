@@ -67,7 +67,7 @@ namespace AO.Core
         public bool ReadNames()
         {
             DataTable dt =
-                mySql.ReadDT("SELECT `Name`, `FirstName`, `LastName` FROM `characters` WHERE ID = '" + characterId +
+                mySql.ReadDatatable("SELECT `Name`, `FirstName`, `LastName` FROM `characters` WHERE ID = '" + characterId +
                              "' LIMIT 1");
             if (dt.Rows.Count > 0)
             {
@@ -82,7 +82,7 @@ namespace AO.Core
 
             // Read stat# 5 (Clan) - OrgID from character stats table
             dt =
-                mySql.ReadDT("SELECT `Value` FROM `characters_stats` WHERE ID = " + characterId +
+                mySql.ReadDatatable("SELECT `Value` FROM `characters_stats` WHERE ID = " + characterId +
                              " AND Stat = 5 LIMIT 1");
 
             if (dt.Rows.Count > 0)

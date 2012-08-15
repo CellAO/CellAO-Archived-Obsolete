@@ -336,7 +336,7 @@ namespace ZoneEngine.Packets
             _writer.PushShort((short)AccFlagsValue);
             _writer.PushShort((short)ExpansionValue);
 
-            if (character is NonPC)
+            if (character is NonPlayerCharacterClass)
             {
                 packetFlags |= 1;
             }
@@ -619,7 +619,7 @@ namespace ZoneEngine.Packets
             int c;
             int c2;
             Textures tx = new Textures();
-            tx.GetTextures(CharID);
+            tx.ReadTexturesFromDatabase(CharID);
             _writer.Push3F1Count(5); // textures count
 
             AOTextures aotemp = new AOTextures(0, 0);

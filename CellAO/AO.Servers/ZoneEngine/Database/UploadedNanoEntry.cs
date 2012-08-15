@@ -29,6 +29,6 @@ namespace ZoneEngine.Database
 {
     public class UploadedNanoEntry
     {
-        public int NanoProgramID { get; set; }
+        public int NanoProgramId { get; set; }
     }
 }

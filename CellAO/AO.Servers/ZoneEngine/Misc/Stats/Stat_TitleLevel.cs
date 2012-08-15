@@ -27,7 +27,7 @@
 
 namespace ZoneEngine.Misc
 {
-    public class Stat_TitleLevel : Class_Stat
+    public class Stat_TitleLevel : ClassStat
     {
         public Stat_TitleLevel(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {
@@ -42,7 +42,7 @@ namespace ZoneEngine.Misc
 
         public override void CalcTrickle()
         {
-            if ((this.Parent is Character) || (this.Parent is NonPC)) // This condition could be obsolete
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
                 Character ch = (Character)this.Parent;
                 int level = ch.Stats.Level.Value;

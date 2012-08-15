@@ -47,7 +47,7 @@ namespace AO.Core
             List<GuildEntry> Guild = new List<GuildEntry>();
             SqlWrapper ms = new SqlWrapper();
             string SqlQuery = "SELECT * FROM `organizations` WHERE ID=" + "'" + guildID + "'";
-            DataTable dt = ms.ReadDT(SqlQuery);
+            DataTable dt = ms.ReadDatatable(SqlQuery);
             foreach (DataRow row in dt.Rows)
             {
                 GuildEntry guildEntry = new GuildEntry();

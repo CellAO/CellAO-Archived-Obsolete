@@ -52,9 +52,9 @@ namespace ZoneEngine.Packets
             Dynel dyn = FindDynel.FindDynelByID(50000, targetid);
             if (dyn != null)
             {
-                if (dyn is NonPC)
+                if (dyn is NonPlayerCharacterClass)
                 {
-                    (dyn as NonPC).RemoveFromCache();
+                    (dyn as NonPlayerCharacterClass).RemoveFromCache();
                 }
                 Announce.PlayfieldOthers(dyn.PlayField, ref dspawnA);
             }

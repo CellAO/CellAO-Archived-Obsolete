@@ -30,7 +30,7 @@ namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_HealDelta : Class_Stat
+    public class Stat_HealDelta : ClassStat
     {
         public Stat_HealDelta(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {
@@ -45,7 +45,7 @@ namespace ZoneEngine.Misc
 
         public override void CalcTrickle()
         {
-            if ((this.Parent is Character) || (this.Parent is NonPC)) // This condition could be obsolete
+            if ((this.Parent is Character) || (this.Parent is NonPlayerCharacterClass)) // This condition could be obsolete
             {
                 Character ch = (Character)this.Parent;
                 uint[] healdelta = { 3, 3, 2, 4, 12, 15, 20 };

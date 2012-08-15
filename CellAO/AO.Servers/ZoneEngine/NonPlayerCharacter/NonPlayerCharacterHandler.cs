@@ -22,18 +22,14 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
-namespace ZoneEngine.NPC
+namespace ZoneEngine.NonPlayerCharacter
 {
     using System;
     using System.Data;
 
     using AO.Core;
 
-    public static class NPCHandler
+    public static class NonPlayerCharacterHandler
     {
         /// <summary>
         /// Spawns new NPC to world.
@@ -44,12 +40,12 @@ namespace ZoneEngine.NPC
         /// <returns></returns>
         public static void SpawnMonster(Client cli, string hash, uint level)
         {
-            NonPC mMonster = new NonPC(0, 0); //(cli, hash, level);
+            NonPlayerCharacterClass mMonster = new NonPlayerCharacterClass(0, 0); //(cli, hash, level);
             mMonster.LoadTemplate(hash, level);
             mMonster.PurgeTimer(-1);
             mMonster.PurgeTimer(0);
             mMonster.PurgeTimer(1);
-            mMonster.ID = GetFreshID();
+            mMonster.ID = FindNextFreeId();
             mMonster.rawCoord = cli.Character.rawCoord;
             mMonster.rawHeading = cli.Character.rawHeading;
             mMonster.PlayField = cli.Character.PlayField;
@@ -71,7 +67,7 @@ namespace ZoneEngine.NPC
         /// <returns></returns>
         public static void GetMonstersInPF(Client cli, int playfield)
         {
-            foreach (NonPC mMonster in Program.zoneServer.Monsters)
+            foreach (NonPlayerCharacterClass mMonster in Program.zoneServer.Monsters)
             {
                 if (mMonster.PlayField != playfield)
                 {
@@ -81,10 +77,10 @@ namespace ZoneEngine.NPC
             }
         }
 
-        public static int GetFreshID()
+        public static int FindNextFreeId()
         {
             int freeID = 100000; // minimum ID for mobs
-            foreach (NonPC mob in Program.zoneServer.Monsters)
+            foreach (NonPlayerCharacterClass mob in Program.zoneServer.Monsters)
             {
                 freeID = Math.Max(freeID, mob.ID);
             }
@@ -104,7 +100,7 @@ namespace ZoneEngine.NPC
             {
                 return;
             }
-            foreach (NonPC mMonster in Program.zoneServer.Monsters)
+            foreach (NonPlayerCharacterClass mMonster in Program.zoneServer.Monsters)
             {
                 if (mMonster.ID != monster.Instance)
                 {
@@ -126,7 +122,7 @@ namespace ZoneEngine.NPC
             int npcCount = 0;
             long counter;
             int npcall;
-            NonPC mMonster;
+            NonPlayerCharacterClass mMonster;
             SqlWrapper msql = new SqlWrapper();
             AOCoord coord;
             byte[] btd = new byte[4];
@@ -141,16 +137,16 @@ namespace ZoneEngine.NPC
 
             Console.Write("Reading spawns: 0/" + npcall.ToString());
             SQL = "SELECT * FROM `mobspawns`";
-            DataTable dt = msql.ReadDT(SQL);
+            DataTable dt = msql.ReadDatatable(SQL);
             msql = new SqlWrapper();
-            DataTable dtstats = msql.ReadDT("SELECT * from mobspawns_stats ORDER BY id, stat ASC");
+            DataTable dtstats = msql.ReadDatatable("SELECT * from mobspawns_stats ORDER BY id, stat ASC");
             msql = new SqlWrapper();
-            DataTable dtinventory = msql.ReadDT("SELECT * from mobspawnsinventory order by id, placement ASC");
+            DataTable dtinventory = msql.ReadDatatable("SELECT * from mobspawnsinventory order by id, placement ASC");
             int statcount = 0;
             int invcount = 0;
             foreach (DataRow row in dt.Rows)
             {
-                mMonster = new NonPC(0, 0);
+                mMonster = new NonPlayerCharacterClass(0, 0);
                 mMonster.startup = true;
                 mMonster.ID = (Int32)row["ID"];
 

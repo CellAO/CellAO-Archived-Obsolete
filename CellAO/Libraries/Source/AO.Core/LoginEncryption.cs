@@ -112,7 +112,7 @@ namespace AO.Core
         {
             SqlWrapper mySql = new SqlWrapper();
 
-            DataTable dt = mySql.ReadDT("SELECT `Username` FROM `characters` WHERE ID = " + CharacterID);
+            DataTable dt = mySql.ReadDatatable("SELECT `Username` FROM `characters` WHERE ID = " + CharacterID);
             if (dt.Rows.Count == 0)
             {
                 return false;
@@ -185,7 +185,7 @@ namespace AO.Core
         {
             SqlWrapper ms = new SqlWrapper();
             string PasswdL = string.Empty;
-            DataTable dt = ms.ReadDT("SELECT Password FROM login WHERE Username = " + "'" + RecvLogin + "'");
+            DataTable dt = ms.ReadDatatable("SELECT Password FROM login WHERE Username = " + "'" + RecvLogin + "'");
             foreach (DataRow row in dt.Rows)
             {
                 PasswdL = (string) row[0];

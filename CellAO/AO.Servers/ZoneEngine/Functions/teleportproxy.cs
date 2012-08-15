@@ -44,15 +44,15 @@ namespace ZoneEngine.Functions
             return this.FunctionNumber;
         }
 
-        public override bool Execute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public override bool Execute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            lock (Self)
+            lock (self)
             {
-                lock (Caller)
+                lock (caller)
                 {
-                    lock (Target)
+                    lock (target)
                     {
-                        return this.FunctionExecute(Self, Caller, Target, Arguments);
+                        return this.FunctionExecute(self, caller, target, arguments);
                     }
                 }
             }
@@ -89,7 +89,7 @@ namespace ZoneEngine.Functions
                 id3.Instance = (Int32)Arguments[5];
             }
             SqlWrapper ms = new SqlWrapper();
-            DataTable dt = ms.ReadDT("SELECT * from proxydestinations WHERE playfield=" + pfinstance.Instance);
+            DataTable dt = ms.ReadDatatable("SELECT * from proxydestinations WHERE playfield=" + pfinstance.Instance);
             if (dt.Rows.Count == 0)
             {
 #if DEBUG

@@ -45,7 +45,7 @@ namespace LoginEngine
         public static bool IsOnline(int id)
         {
             SqlWrapper sql = new SqlWrapper();
-            DataTable dt = sql.ReadDT("SELECT * FROM characters WHERE ID = " + id + ";");
+            DataTable dt = sql.ReadDatatable("SELECT * FROM characters WHERE ID = " + id + ";");
             if (dt.Rows.Count == 0)
             {
                 // TODO: Create a proper Exception type

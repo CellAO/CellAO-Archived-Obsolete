@@ -38,25 +38,49 @@ namespace ZoneEngine.Functions
         /// <summary>
         /// Locks function targets and executes the function
         /// </summary>
-        /// <param name="Self">Dynel (Character or NPC)</param>
-        /// <param name="Caller">Caller of the function</param>
-        /// <param name="Target">Target of the Function (Dynel or Statel)</param>
-        /// <param name="Arguments">Function Arguments</param>
+        /// <param name="self">Dynel (Character or NPC)</param>
+        /// <param name="caller">Caller of the function</param>
+        /// <param name="target">Target of the Function (Dynel or Statel)</param>
+        /// <param name="arguments">Function Arguments</param>
         /// <returns></returns>
-        public abstract bool Execute(Dynel Self, Dynel Caller, Object Target, object[] Arguments);
+        public abstract bool Execute(Dynel self, Dynel caller, Object target, object[] arguments);
 
-        public int FunctionNumber = -1;
+        private int functionNumber = -1;
 
-        public string FunctionName = "";
+        private string functionName = "";
 
         public abstract int ReturnNumber();
 
         public abstract string ReturnName();
+
+        public int FunctionNumber
+        {
+            get
+            {
+                return functionNumber;
+            }
+            set
+            {
+                functionNumber = value;
+            }
+        }
+
+        public string FunctionName
+        {
+            get
+            {
+                return functionName;
+            }
+            set
+            {
+                functionName = value;
+            }
+        }
     }
 
     public class FunctionCollection
     {
-        private readonly Dictionary<int, Type> Functions = new Dictionary<int, Type>();
+        private readonly Dictionary<int, Type> functions = new Dictionary<int, Type>();
 
         private Assembly assembly;
 
@@ -74,7 +98,7 @@ namespace ZoneEngine.Functions
                         {
                             if ((t.Name != "FunctionPrototype") && (t.Name != "FunctionCollection"))
                             {
-                                this.Functions.Add(
+                                this.functions.Add(
                                     ((FunctionPrototype)this.assembly.CreateInstance(t.Namespace + "." + t.Name)).
                                         ReturnNumber(),
                                     t);
@@ -118,19 +142,19 @@ namespace ZoneEngine.Functions
 
         public FunctionPrototype GetFunctionByNumber(int functionnumber)
         {
-            if (this.Functions.Keys.Contains(functionnumber))
+            if (this.functions.Keys.Contains(functionnumber))
             {
                 return
                     (FunctionPrototype)
                     this.assembly.CreateInstance(
-                        this.Functions[functionnumber].Namespace + "." + this.Functions[functionnumber].Name);
+                        this.functions[functionnumber].Namespace + "." + this.functions[functionnumber].Name);
             }
             return null;
         }
 
         public int NumberofRegisteredFunctions()
         {
-            return this.Functions.Keys.Count;
+            return this.functions.Keys.Count;
         }
     }
 }

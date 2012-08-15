@@ -56,11 +56,6 @@ namespace LoginEngine.Packets
         /// 
         /// </summary>
         private readonly LoginPasswd lp = new LoginPasswd();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private SqlWrapper ms = new SqlWrapper();
         #endregion
 
         #region Check To See If The Player is allowed to login (Not banned/etc)...

@@ -40,7 +40,7 @@ namespace ZoneEngine
     using ZoneEngine.Misc;
     using ZoneEngine.Packets;
 
-    public class NonPC : Character
+    public class NonPlayerCharacterClass : Character
     {
         /// <summary>
         /// List of waypoints to walk
@@ -71,7 +71,7 @@ namespace ZoneEngine
         /// </summary>
         /// <param name="_id">Unique ID</param>
         /// <param name="_playfield">Plafield number</param>
-        public NonPC(int _id, int _playfield)
+        public NonPlayerCharacterClass(int _id, int _playfield)
             : base(_id, _playfield)
         {
             this.ID = _id;
@@ -81,13 +81,13 @@ namespace ZoneEngine
             this.Meshs = new List<AOMeshs>();
             this.AdditionalMeshs = new List<AOAddMeshs>();
             this.Weaponpairs = new List<AOWeaponpairs>();
-            this.Stats = new Character_Stats(this);
+            this.Stats = new CharacterStats(this);
             this.startup = false;
             this.addHPNPtick();
             this.dontdotimers = false;
         }
 
-        public NonPC()
+        public NonPlayerCharacterClass()
         {
         }
 
@@ -102,7 +102,7 @@ namespace ZoneEngine
             AOCoord m_wp;
 
             DataTable dt =
-                ms.ReadDT(
+                ms.ReadDatatable(
                     "SELECT * FROM " + this.getSQLTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString());
 
             foreach (DataRow row in dt.Rows)
@@ -170,7 +170,7 @@ namespace ZoneEngine
             SqlWrapper Sql = new SqlWrapper();
             this.Weaponpairs.Clear();
             DataTable dt =
-                Sql.ReadDT(
+                Sql.ReadDatatable(
                     "SELECT * FROM " + this.getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
                     + " AND playfield=" + this.PlayField.ToString());
 
@@ -217,7 +217,7 @@ namespace ZoneEngine
             this.Meshs.Clear();
             AOMeshs m_m;
             DataTable dt =
-                Sql.ReadDT(
+                Sql.ReadDatatable(
                     "SELECT * from " + this.getSQLTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
                     + " AND playfield=" + this.PlayField.ToString());
 
@@ -345,7 +345,7 @@ namespace ZoneEngine
         /// <param name="playfield">Playfield to spawn to</param>
         public void SpawnToPlayfield(int playfield)
         {
-            NPCSpawn.NPCSpawntoClient(this, null, true);
+            NonPlayerCharacterSpawn.SpawnNpcToClient(this, null, true);
         }
         #endregion
 
@@ -356,7 +356,7 @@ namespace ZoneEngine
         /// <param name="cli"></param>
         public void SpawnToClient(Client cli)
         {
-            NPCSpawn.NPCSpawntoClient(this, cli, false);
+            NonPlayerCharacterSpawn.SpawnNpcToClient(this, cli, false);
         }
         #endregion
 
@@ -389,7 +389,7 @@ namespace ZoneEngine
             this.Textures.Clear();
 
             DataTable dt =
-                ms.ReadDT(
+                ms.ReadDatatable(
                     "SELECT textures0, textures1, textures2, textures3, textures4 from "
                     + this.getSQLTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + " AND playfield="
                     + this.PlayField.ToString());
@@ -468,7 +468,7 @@ namespace ZoneEngine
         public void LoadTemplate(string hash, uint level)
         {
             SqlWrapper ms = new SqlWrapper();
-            DataTable dt = ms.ReadDT("SELECT * FROM mobtemplate where hash='" + hash + "'");
+            DataTable dt = ms.ReadDatatable("SELECT * FROM mobtemplate where hash='" + hash + "'");
             if (dt.Rows.Count > 0)
             {
                 this.startup = true;

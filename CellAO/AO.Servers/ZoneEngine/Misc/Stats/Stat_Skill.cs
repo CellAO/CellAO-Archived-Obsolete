@@ -30,7 +30,7 @@ namespace ZoneEngine.Misc
 {
     using System;
 
-    public class Stat_Skill : Class_Stat
+    public class Stat_Skill : ClassStat
     {
         public Stat_Skill(int Number, int Default, string name, bool sendbase, bool dontwrite, bool announce)
         {
@@ -52,7 +52,7 @@ namespace ZoneEngine.Misc
             double SenseTrickle = SkillTrickleTable.table[this.StatNumber - 100, 5];
             double PsychicTrickle = SkillTrickleTable.table[this.StatNumber - 100, 6];
 
-            Character_Stats st = ((Character)this.Parent).Stats;
+            CharacterStats st = ((Character)this.Parent).Stats;
             this.Trickle =
                 Convert.ToInt32(
                     Math.Floor(

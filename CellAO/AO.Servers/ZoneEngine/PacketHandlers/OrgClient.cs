@@ -105,7 +105,7 @@ namespace ZoneEngine.PacketHandlers
                         string SqlQuery = "SELECT * FROM organizations WHERE Name='" + CmdStr + "'";
                         string guild_name = null;
                         uint orgID = 0;
-                        dt = this.ms.ReadDT(SqlQuery);
+                        dt = this.ms.ReadDatatable(SqlQuery);
                         if (dt.Rows.Count > 0)
                         {
                             guild_name = (string)dt.Rows[0]["Name"];
@@ -121,7 +121,7 @@ namespace ZoneEngine.PacketHandlers
                                 + CmdStr + "', '" + CurrDate + "', '" + client.Character.ID + "', '0')";
                             this.ms.SqlInsert(SqlQuery2);
                             string SqlQuery3 = "SELECT * FROM organizations WHERE Name='" + CmdStr + "'";
-                            dt = this.ms.ReadDT(SqlQuery3);
+                            dt = this.ms.ReadDatatable(SqlQuery3);
                             if (dt.Rows.Count > 0)
                             {
                                 orgID = (UInt32)dt.Rows[0]["ID"];
@@ -152,7 +152,7 @@ namespace ZoneEngine.PacketHandlers
                     }
                     string ranksSql = "SELECT GovernmentForm FROM organizations WHERE ID = " + client.Character.OrgId;
                     int govForm = -1;
-                    dt = this.ms.ReadDT(ranksSql);
+                    dt = this.ms.ReadDatatable(ranksSql);
                     if (dt.Rows.Count > 0)
                     {
                         govForm = (Int32)dt.Rows[0]["GovernmentForm"];
@@ -181,7 +181,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             string orgDescription = "", orgObjective = "", orgHistory = "", orgLeaderName = "";
                             int orgGoverningForm = 0, orgLeaderID = 0;
-                            dt = this.ms.ReadDT("SELECT * FROM organizations WHERE ID=" + tPlayer.Character.OrgId);
+                            dt = this.ms.ReadDatatable("SELECT * FROM organizations WHERE ID=" + tPlayer.Character.OrgId);
 
                             if (dt.Rows.Count > 0)
                             {
@@ -192,7 +192,7 @@ namespace ZoneEngine.PacketHandlers
                                 orgLeaderID = (Int32)dt.Rows[0]["LeaderID"];
                             }
 
-                            dt = this.ms.ReadDT("SELECT Name FROM characters WHERE ID=" + orgLeaderID);
+                            dt = this.ms.ReadDatatable("SELECT Name FROM characters WHERE ID=" + orgLeaderID);
                             if (dt.Rows.Count > 0)
                             {
                                 orgLeaderName = (string)dt.Rows[0][0];
@@ -320,7 +320,7 @@ namespace ZoneEngine.PacketHandlers
 
                                 //First we get the details about the org itself
                                 promoteSql = "SELECT * FROM organizations WHERE ID = " + client.Character.OrgId;
-                                dt = this.ms.ReadDT(promoteSql);
+                                dt = this.ms.ReadDatatable(promoteSql);
 
                                 int promoteGovForm = -1;
                                 string promotedToRank = "";
@@ -412,7 +412,7 @@ namespace ZoneEngine.PacketHandlers
 
                             //First we get the details about the org itself
                             demoteSql = "SELECT GovernmentForm FROM organizations WHERE ID = " + client.Character.OrgId;
-                            dt = this.ms.ReadDT(demoteSql);
+                            dt = this.ms.ReadDatatable(demoteSql);
                             int demoteGovForm = -1;
                             string demotedToRank = "";
                             if (dt.Rows.Count > 0)
@@ -460,7 +460,7 @@ namespace ZoneEngine.PacketHandlers
                     uint kickedFrom = client.Character.OrgId;
                     string kickeeSql = "SELECT * FROM characters WHERE Name = '" + CmdStr + "'";
                     int kickeeId = 0;
-                    dt = this.ms.ReadDT(kickeeSql);
+                    dt = this.ms.ReadDatatable(kickeeSql);
                     if (dt.Rows.Count > 0)
                     {
                         kickeeId = (Int32)dt.Rows[0]["ID"];
@@ -481,7 +481,7 @@ namespace ZoneEngine.PacketHandlers
                         //They are part of the org, so begin the processing...
                         //First we check if the player is online...
                         string onlineSql = "SELECT online FROM characters WHERE ID = " + client.Character.ID;
-                        dt = this.ms.ReadDT(onlineSql);
+                        dt = this.ms.ReadDatatable(onlineSql);
                         int onlineStatus = 0;
                         if (dt.Rows.Count > 0)
                         {
@@ -498,7 +498,7 @@ namespace ZoneEngine.PacketHandlers
                         target_player.Character.Stats.ClanLevel.Set(0);
                         target_player.Character.OrgId = 0;
                         string kickedFromSql = "SELECT Name FROM organizations WHERE ID = " + client.Character.OrgId;
-                        dt = this.ms.ReadDT(kickedFromSql);
+                        dt = this.ms.ReadDatatable(kickedFromSql);
                         string KickedFromName = "";
                         if (dt.Rows.Count > 0)
                         {
@@ -547,7 +547,7 @@ namespace ZoneEngine.PacketHandlers
                         int orgIdtoJoin = target.Instance;
                         string JoinSql = "SELECT * FROM organizations WHERE ID = '" + orgIdtoJoin + "' LIMIT 1";
                         int gov_form = 0;
-                        dt = this.ms.ReadDT(JoinSql);
+                        dt = this.ms.ReadDatatable(JoinSql);
                         if (dt.Rows.Count > 0)
                         {
                             gov_form = (Int32)dt.Rows[0]["GovernmentForm"];
@@ -570,7 +570,7 @@ namespace ZoneEngine.PacketHandlers
                     // Agreeing with NV.  Org Leader can't leave without passing lead on.  org disband requires /org disband to specifically be issued, with a Yes/No box.
                     string LeaveSql = "SELECT * FROM organizations WHERE ID = " + client.Character.OrgId;
                     int govern_form = 0;
-                    dt = this.ms.ReadDT(LeaveSql);
+                    dt = this.ms.ReadDatatable(LeaveSql);
                     if (dt.Rows.Count > 0)
                     {
                         govern_form = (Int32)dt.Rows[0]["GovernmentForm"];
@@ -610,7 +610,7 @@ namespace ZoneEngine.PacketHandlers
                 case 18:
                     {
                         // org bank
-                        dt = this.ms.ReadDT("SELECT * FROM organizations WHERE ID=" + client.Character.OrgId);
+                        dt = this.ms.ReadDatatable("SELECT * FROM organizations WHERE ID=" + client.Character.OrgId);
                         if (dt.Rows.Count > 0)
                         {
                             UInt64 bank_credits = (UInt64)dt.Rows[0]["Bank"];
@@ -666,7 +666,7 @@ namespace ZoneEngine.PacketHandlers
                     }
                     int remove_credits = Convert.ToInt32(CmdStr);
                     long org_bank = 0;
-                    dt = this.ms.ReadDT("SELECT Bank FROM organizations WHERE ID = " + client.Character.OrgId);
+                    dt = this.ms.ReadDatatable("SELECT Bank FROM organizations WHERE ID = " + client.Character.OrgId);
                     if (dt.Rows.Count > 0)
                     {
                         org_bank = (Int64)dt.Rows[0][0];
@@ -774,7 +774,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             string SqlQuery26 = "SELECT * FROM organizations WHERE Name LIKE '" + CmdStr + "' LIMIT 1";
                             string CurrentOrg = null;
-                            dt = this.ms.ReadDT(SqlQuery26);
+                            dt = this.ms.ReadDatatable(SqlQuery26);
                             if (dt.Rows.Count > 0)
                             {
                                 CurrentOrg = (string)dt.Rows[0]["Name"];

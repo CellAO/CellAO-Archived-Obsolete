@@ -166,7 +166,7 @@ namespace ZoneEngine
 
             SqlWrapper wrapper = new SqlWrapper();
             DataTable dt =
-                wrapper.ReadDT(
+                wrapper.ReadDatatable(
                     "SELECT * FROM tradeskill WHERE ID1 = " + this.Source.highID + " AND ID2 = " + this.Target.highID
                     + ";");
             wrapper.Dispose();
@@ -485,7 +485,7 @@ namespace ZoneEngine
         public static void CacheItemNames()
         {
             SqlWrapper wrap = new SqlWrapper();
-            DataTable dt = wrap.ReadDT("SELECT * FROM itemnames");
+            DataTable dt = wrap.ReadDatatable("SELECT * FROM itemnames");
             DataRowCollection drc = dt.Rows;
 
             foreach (DataRow row in drc)
@@ -578,7 +578,7 @@ namespace ZoneEngine
         {
             int count = 0;
             SqlWrapper wrapper = new SqlWrapper();
-            DataTable dt = wrapper.ReadDT("SELECT * FROM tradeskill WHERE ID1 = " + id + ";");
+            DataTable dt = wrapper.ReadDatatable("SELECT * FROM tradeskill WHERE ID1 = " + id + ";");
             DataRowCollection drc = dt.Rows;
             count += drc.Count;
             wrapper.Dispose();
@@ -590,7 +590,7 @@ namespace ZoneEngine
         {
             int count = 0;
             SqlWrapper wrapper = new SqlWrapper();
-            DataTable dt = wrapper.ReadDT("SELECT * FROM tradeskill WHERE ID2 = " + id + ";");
+            DataTable dt = wrapper.ReadDatatable("SELECT * FROM tradeskill WHERE ID2 = " + id + ";");
             DataRowCollection drc = dt.Rows;
             count += drc.Count;
             wrapper.Dispose();

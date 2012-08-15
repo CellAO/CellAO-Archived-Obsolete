@@ -40,7 +40,7 @@ namespace ZoneEngine.Misc
         {
             int c = 0;
             SqlWrapper ms = new SqlWrapper();
-            DataTable dt = ms.ReadDT("SELECT * FROM doors");
+            DataTable dt = ms.ReadDatatable("SELECT * FROM doors");
 
             foreach (DataRow row in dt.Rows)
             {

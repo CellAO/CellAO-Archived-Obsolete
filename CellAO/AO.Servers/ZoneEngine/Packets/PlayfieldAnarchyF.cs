@@ -31,7 +31,7 @@ namespace ZoneEngine.Packets
     using AO.Core;
 
     using ZoneEngine.Misc;
-    using ZoneEngine.NPC;
+    using ZoneEngine.NonPlayerCharacter;
 
     /// <summary>
     /// 
@@ -66,14 +66,14 @@ namespace ZoneEngine.Packets
             writer.PushInt(0);
             writer.PushInt(0);
 
-            int vendorcount = VendorHandler.getNumberofVendorsinPlayfield(client.Character.PlayField);
+            int vendorcount = VendorHandler.GetNumberofVendorsinPlayfield(client.Character.PlayField);
             if (vendorcount > 0)
             {
                 writer.PushInt(51035);
                 writer.PushInt(1);
                 writer.PushInt(1);
                 writer.PushInt(vendorcount);
-                writer.PushInt(VendorHandler.getFirstVendor(client.Character.PlayField));
+                writer.PushInt(VendorHandler.GetFirstVendor(client.Character.PlayField));
             }
             // TODO: Use correct World Position for each "outdoors" playfield -Suiv-
             // Playfield WorldPos X

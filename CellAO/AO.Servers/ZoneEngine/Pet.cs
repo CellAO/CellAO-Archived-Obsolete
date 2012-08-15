@@ -32,7 +32,7 @@ namespace ZoneEngine
 
     using AO.Core;
 
-    internal class Pet : NonPC
+    internal class Pet : NonPlayerCharacterClass
     {
         public Pet(int _id, int _playfield)
             : base(_id, _playfield)
@@ -48,7 +48,7 @@ namespace ZoneEngine
             SqlWrapper ms = new SqlWrapper();
 
             DataTable dt =
-                ms.ReadDT("SELECT * FROM " + this.getSQLTablefromDynelType() + "owner WHERE ID=" + this.ID.ToString());
+                ms.ReadDatatable("SELECT * FROM " + this.getSQLTablefromDynelType() + "owner WHERE ID=" + this.ID.ToString());
             if (dt.Rows.Count > 0)
             {
                 //TODO: Add Pet code here

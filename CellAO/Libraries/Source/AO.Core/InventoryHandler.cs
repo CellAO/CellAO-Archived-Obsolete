@@ -75,7 +75,7 @@ namespace AO.Core
             for (int i = 0; i < Items.Length; i++)
                 Items[i] = null;
             SqlWrapper sql = new SqlWrapper();
-            DataTable dt = sql.ReadDT("SELECT * FROM " + tablename + " WHERE container=" + Type + " AND ID=" + Instance);
+            DataTable dt = sql.ReadDatatable("SELECT * FROM " + tablename + " WHERE container=" + Type + " AND ID=" + Instance);
             foreach (DataRow row in dt.Rows)
             {
                 int place = (Int32)row["placement"];

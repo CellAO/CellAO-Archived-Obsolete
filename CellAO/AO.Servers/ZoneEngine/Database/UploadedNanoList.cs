@@ -22,10 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.Database
 {
     using System;
@@ -36,20 +32,18 @@ namespace ZoneEngine.Database
 
     public static class UploadedNanoList
     {
-        public static List<UploadedNanoEntry> UploadedNanos(int charID)
+        public static List<UploadedNanoEntry> UploadedNanos(int charId)
         {
-            List<UploadedNanoEntry> UploadedNano = new List<UploadedNanoEntry>();
+            List<UploadedNanoEntry> uploadedNano = new List<UploadedNanoEntry>();
             SqlWrapper ms = new SqlWrapper();
-            string SqlQuery = "SELECT `NanoProgramID` FROM `uploadednanos` WHERE CharID = " + "'" + charID + "'";
-            DataTable dt = ms.ReadDT(SqlQuery);
+            string sqlQuery = "SELECT `NanoProgramID` FROM `uploadednanos` WHERE CharID = " + "'" + charId + "'";
+            DataTable dt = ms.ReadDatatable(sqlQuery);
 
             foreach (DataRow nanoRow in dt.Rows)
             {
-                UploadedNanoEntry une = new UploadedNanoEntry();
-                une.NanoProgramID = (Int32)nanoRow["NanoProgramID"];
-                UploadedNano.Add(une);
+                uploadedNano.Add(new UploadedNanoEntry { NanoProgramId = (Int32)nanoRow["NanoProgramID"] });
             }
-            return UploadedNano;
+            return uploadedNano;
         }
     }
 }
