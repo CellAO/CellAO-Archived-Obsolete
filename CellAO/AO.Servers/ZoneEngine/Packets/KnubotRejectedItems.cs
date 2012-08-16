@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class KnuBotRejectedItems
+    public static class KnuBotRejectedItems
     {
         public static void Send(Client cli, NonPlayerCharacterClass knubotTarget, AOItem[] items)
         {
@@ -47,8 +47,8 @@ namespace ZoneEngine.Packets
             packetWriter.PushInt(items.Length);
             foreach (AOItem item in items)
             {
-                packetWriter.PushInt(item.lowID);
-                packetWriter.PushInt(item.highID);
+                packetWriter.PushInt(item.LowID);
+                packetWriter.PushInt(item.HighID);
                 packetWriter.PushInt(item.Quality);
                 packetWriter.PushInt(0x499602d2); // 1234567890  ???????
             }

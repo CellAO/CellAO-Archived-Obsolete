@@ -79,9 +79,9 @@ namespace ZoneEngine.Packets
 
         public static char ByteToChar(byte b)
         {
-            byte[] buf = new byte[1];
-            buf[0] = b;
-            return BitConverter.ToChar(buf, 0);
+            byte[] buffer = new byte[1];
+            buffer[0] = b;
+            return BitConverter.ToChar(buffer, 0);
         }
 
         public static string ShortToChar(Int16 value)

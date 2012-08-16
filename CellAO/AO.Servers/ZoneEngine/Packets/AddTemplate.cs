@@ -42,10 +42,10 @@ namespace ZoneEngine.Packets
             packetWriter.PushInt(0x052e2f0c);
             packetWriter.PushIdentity(client.Character.Type, client.Character.ID);
             packetWriter.PushByte(0);
-            packetWriter.PushInt(inventoryEntry.Item.lowID);
-            packetWriter.PushInt(inventoryEntry.Item.highID);
+            packetWriter.PushInt(inventoryEntry.Item.LowID);
+            packetWriter.PushInt(inventoryEntry.Item.HighID);
             packetWriter.PushInt(inventoryEntry.Item.Quality);
-            packetWriter.PushInt(inventoryEntry.Item.multiplecount);
+            packetWriter.PushInt(inventoryEntry.Item.MultipleCount);
 
             byte[] packet = packetWriter.Finish();
 

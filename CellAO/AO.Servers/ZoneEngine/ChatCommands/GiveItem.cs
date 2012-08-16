@@ -52,12 +52,12 @@ namespace ZoneEngine.ChatCommands
                     AOItem it = ItemHandler.GetItemTemplate(Convert.ToInt32(args[2]));
                     mi.Placement = firstfree;
                     mi.Container = 104;
-                    mi.Item.lowID = Convert.ToInt32(args[2]);
-                    mi.Item.highID = Convert.ToInt32(args[3]);
+                    mi.Item.LowID = Convert.ToInt32(args[2]);
+                    mi.Item.HighID = Convert.ToInt32(args[3]);
                     mi.Item.Quality = Convert.ToInt32(args[4]);
                     if (it.ItemType != 1)
                     {
-                        mi.Item.multiplecount = Math.Max(1, it.getItemAttribute(212));
+                        mi.Item.MultipleCount = Math.Max(1, it.getItemAttribute(212));
                     }
                     else
                     {

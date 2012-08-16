@@ -180,7 +180,7 @@ namespace ZoneEngine
                     this.Stats = new CharacterStats(this);
                     this.readCoordsfromSQL();
                     this.readHeadingfromSQL();
-                    this.Stats.ReadStatsfromSQL();
+                    this.Stats.ReadStatsfromSql();
                     this.ReadSpecialStatsfromSQL();
                     this.readTimersfromSQL();
                     this.readInventoryfromSQL();
@@ -1043,13 +1043,13 @@ namespace ZoneEngine
                             m_inv = new InventoryEntries();
                             m_inv.Container = (Int32)row["container"];
                             m_inv.Placement = (Int32)row["placement"];
-                            m_inv.Item.highID = (Int32)row["highid"];
-                            m_inv.Item.lowID = (Int32)row["lowid"];
+                            m_inv.Item.HighID = (Int32)row["highid"];
+                            m_inv.Item.LowID = (Int32)row["lowid"];
                             m_inv.Item.Quality = (Int32)row["quality"];
-                            m_inv.Item.multiplecount = (Int32)row["multiplecount"];
+                            m_inv.Item.MultipleCount = (Int32)row["multiplecount"];
                             m_inv.Item.Type = (Int32)row["type"];
                             m_inv.Item.Instance = (Int32)row["instance"];
-                            m_inv.Item.flags = (Int32)row["flags"];
+                            m_inv.Item.Flags = (Int32)row["flags"];
                             this.Inventory.Add(m_inv);
                         }
                     }
@@ -1078,9 +1078,9 @@ namespace ZoneEngine
                             "INSERT INTO " + this.getSQLTablefromDynelType()
                             + "inventory (ID,placement,flags,multiplecount,lowid,highid,quality,container) values ("
                             + this.ID.ToString() + "," + this.Inventory[count].Placement.ToString() + ",1,"
-                            + this.Inventory[count].Item.multiplecount.ToString() + ","
-                            + this.Inventory[count].Item.lowID.ToString() + ","
-                            + this.Inventory[count].Item.highID.ToString() + ","
+                            + this.Inventory[count].Item.MultipleCount.ToString() + ","
+                            + this.Inventory[count].Item.LowID.ToString() + ","
+                            + this.Inventory[count].Item.HighID.ToString() + ","
                             + this.Inventory[count].Item.Quality.ToString() + ",104);");
                     }
                 }
@@ -1100,11 +1100,11 @@ namespace ZoneEngine
                 for (count = 0; count < this.Inventory.Count; count++)
                 {
                     writer.PushInt(this.Inventory[count].Placement);
-                    writer.PushShort((short)this.Inventory[count].Item.flags);
-                    writer.PushShort((short)this.Inventory[count].Item.multiplecount);
+                    writer.PushShort((short)this.Inventory[count].Item.Flags);
+                    writer.PushShort((short)this.Inventory[count].Item.MultipleCount);
                     writer.PushIdentity(this.Inventory[count].Item.Type, this.Inventory[count].Item.Instance);
-                    writer.PushInt(this.Inventory[count].Item.lowID);
-                    writer.PushInt(this.Inventory[count].Item.highID);
+                    writer.PushInt(this.Inventory[count].Item.LowID);
+                    writer.PushInt(this.Inventory[count].Item.HighID);
                     writer.PushInt(this.Inventory[count].Item.Quality);
                     writer.PushInt(this.Inventory[count].Item.Nothing);
                 }
@@ -1566,7 +1566,7 @@ namespace ZoneEngine
 
                 AOItem tobank = new AOItem();
                 tobank = afrom.Item.ShallowCopy();
-                tobank.flags = this.GetNextFreeInventory(0x69);
+                tobank.Flags = this.GetNextFreeInventory(0x69);
                 this.Inventory.Remove(afrom);
                 this.Bank.Add(tobank);
                 this.writeBankContentstoSQL();
@@ -1590,7 +1590,7 @@ namespace ZoneEngine
                 AOItem tempitem = null;
                 foreach (AOItem aoi in this.Bank)
                 {
-                    if (aoi.flags == _from)
+                    if (aoi.Flags == _from)
                     {
                         tempitem = aoi;
                         break;
@@ -1603,13 +1603,13 @@ namespace ZoneEngine
                 }
 
                 InventoryEntries mi = new InventoryEntries();
-                AOItem it = ItemHandler.GetItemTemplate(tempitem.lowID);
+                AOItem it = ItemHandler.GetItemTemplate(tempitem.LowID);
                 mi.Placement = placement;
                 mi.Container = 104;
-                mi.Item.lowID = tempitem.lowID;
-                mi.Item.highID = tempitem.highID;
+                mi.Item.LowID = tempitem.LowID;
+                mi.Item.HighID = tempitem.HighID;
                 mi.Item.Quality = tempitem.Quality;
-                mi.Item.multiplecount = Math.Max(1, tempitem.multiplecount);
+                mi.Item.MultipleCount = Math.Max(1, tempitem.MultipleCount);
                 this.Inventory.Add(mi);
                 this.Bank.Remove(tempitem);
                 this.writeBankContentstoSQL();
@@ -1672,7 +1672,7 @@ namespace ZoneEngine
                     if (this.Inventory[c].Placement < 64)
                     {
                         m_item = ItemHandler.interpolate(
-                            this.Inventory[c].Item.lowID, this.Inventory[c].Item.highID, this.Inventory[c].Item.Quality);
+                            this.Inventory[c].Item.LowID, this.Inventory[c].Item.HighID, this.Inventory[c].Item.Quality);
                         for (c2 = 0; c2 < m_item.Events.Count; c2++)
                         {
                             if (m_item.Events[c2].EventType == Constants.eventtype_onwear)
@@ -1788,7 +1788,7 @@ namespace ZoneEngine
                         foundfreeslot = true;
                         foreach (AOItem i in this.Bank)
                         {
-                            if (i.flags == c)
+                            if (i.Flags == c)
                             {
                                 foundfreeslot = false;
                             }
@@ -1996,16 +1996,16 @@ namespace ZoneEngine
         {
             lock (this.Inventory)
             {
-                AOItem it = ItemHandler.GetItemTemplate(ie.Item.lowID);
+                AOItem it = ItemHandler.GetItemTemplate(ie.Item.LowID);
                 //            if (it.isStackable())
                 {
                     foreach (InventoryEntries ia in this.Inventory)
                     {
-                        if ((ia.Item.lowID == ie.Item.lowID) && (ia.Item.highID == ie.Item.highID)
+                        if ((ia.Item.LowID == ie.Item.LowID) && (ia.Item.HighID == ie.Item.HighID)
                             && (ia.Container == -1))
                         {
-                            ia.Item.multiplecount += ie.Item.multiplecount;
-                            if (ia.Item.multiplecount == 0)
+                            ia.Item.MultipleCount += ie.Item.MultipleCount;
+                            if (ia.Item.MultipleCount == 0)
                             {
                                 this.Inventory.Remove(ia);
                             }
@@ -2036,10 +2036,10 @@ namespace ZoneEngine
                     foreach (DataRow row in dt.Rows)
                     {
                         AOItem item = new AOItem();
-                        item.flags = (Int32)row["InventoryID"];
-                        item.lowID = (Int32)row["lowID"];
-                        item.highID = (Int32)row["highID"];
-                        item.multiplecount = (Int32)row["Amount"];
+                        item.Flags = (Int32)row["InventoryID"];
+                        item.LowID = (Int32)row["lowID"];
+                        item.HighID = (Int32)row["highID"];
+                        item.MultipleCount = (Int32)row["Amount"];
                         item.Quality = (Int32)row["QL"];
                         item.Type = (Int32)row["Type"];
                         item.Instance = (Int32)row["instance"];
@@ -2085,9 +2085,9 @@ namespace ZoneEngine
             ms.SqlDelete("DELETE FROM bank WHERE charID=" + this.ID.ToString());
             foreach (AOItem temp in this.Bank)
             {
-                string insert = "INSERT INTO bank VALUES(" + this.ID.ToString() + "," + temp.flags.ToString() + ","
-                                + temp.lowID.ToString() + "," + temp.highID.ToString() + ","
-                                + temp.multiplecount.ToString() + "," + temp.Quality.ToString() + ","
+                string insert = "INSERT INTO bank VALUES(" + this.ID.ToString() + "," + temp.Flags.ToString() + ","
+                                + temp.LowID.ToString() + "," + temp.HighID.ToString() + ","
+                                + temp.MultipleCount.ToString() + "," + temp.Quality.ToString() + ","
                                 + temp.Type.ToString() + "," + temp.Instance.ToString() + ",X'";
                 foreach (AOItemAttribute tempattr in temp.Stats)
                 {
@@ -2145,7 +2145,7 @@ namespace ZoneEngine
                 {
                     if (ie.Placement < 64) // only process equipped items 
                     {
-                        it = ItemHandler.interpolate(ie.Item.lowID, ie.Item.highID, ie.Item.Quality);
+                        it = ItemHandler.interpolate(ie.Item.LowID, ie.Item.HighID, ie.Item.Quality);
                         this.FakeEquipItem(it, this, ie.Placement >= 48, ie.Placement);
                     }
                 }
@@ -2239,18 +2239,18 @@ namespace ZoneEngine
             int ailevel = this.Stats.AlienLevel.Value;
 
             double needaixp = Program.zoneServer.XPproLevel.tableAIXP[ailevel, 2];
-            this.Stats.AlienNextXP.StatBaseValue = Convert.ToUInt32(needaixp);
+            this.Stats.AlienNextXp.StatBaseValue = Convert.ToUInt32(needaixp);
 
             if (level < 200) //we get XP
             {
                 double needrkxp = Program.zoneServer.XPproLevel.tableRKXP[level - 1, 2];
-                this.Stats.NextXP.StatBaseValue = Convert.ToUInt32(needrkxp);
+                this.Stats.NextXp.StatBaseValue = Convert.ToUInt32(needrkxp);
             }
             if (level > 199) //we get SK
             {
                 level -= 200;
                 double needslsk = Program.zoneServer.XPproLevel.tableSLSK[level, 2];
-                this.Stats.NextSK.StatBaseValue = Convert.ToUInt32(needslsk);
+                this.Stats.NextSk.StatBaseValue = Convert.ToUInt32(needslsk);
             }
         }
         #endregion
@@ -2501,7 +2501,7 @@ namespace ZoneEngine
             this.dontdotimers = true;
 
             // Clear all stat modifiers/Percentagemodifiers
-            foreach (ClassStat cs in this.Stats.all)
+            foreach (ClassStat cs in this.Stats.All)
             {
                 cs.StatModifier = 0;
                 cs.StatPercentageModifier = 100;

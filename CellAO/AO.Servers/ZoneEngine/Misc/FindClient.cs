@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Misc
@@ -42,13 +41,13 @@ namespace ZoneEngine.Misc
         /// <returns></returns>
         public static Client FindClientByID(int id)
         {
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client client in Program.zoneServer.Clients)
             {
-                if (mClient.Character.ID != id)
+                if (client.Character.ID != id)
                 {
                     continue;
                 }
-                return mClient;
+                return client;
             }
             return null;
         }
@@ -61,13 +60,13 @@ namespace ZoneEngine.Misc
         /// <returns></returns>
         public static bool FindClientByID(int id, out Client client)
         {
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client client1 in Program.zoneServer.Clients)
             {
-                if (mClient.Character.ID != id)
+                if (client1.Character.ID != id)
                 {
                     continue;
                 }
-                client = mClient;
+                client = client1;
                 return true;
             }
             client = null;
@@ -81,13 +80,13 @@ namespace ZoneEngine.Misc
         /// <returns></returns>
         public static Client FindClientByName(string name)
         {
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client client in Program.zoneServer.Clients)
             {
-                if (mClient.Character.Name != name)
+                if (client.Character.Name != name)
                 {
                     continue;
                 }
-                return mClient;
+                return client;
             }
             return null;
         }
@@ -100,13 +99,13 @@ namespace ZoneEngine.Misc
         /// <returns></returns>
         public static bool FindClientByName(string name, out Client client)
         {
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client client1 in Program.zoneServer.Clients)
             {
-                if (mClient.Character.Name.ToLower() != name.ToLower())
+                if (client1.Character.Name.ToLower() != name.ToLower())
                 {
                     continue;
                 }
-                client = mClient;
+                client = client1;
                 return true;
             }
             client = null;
@@ -118,18 +117,18 @@ namespace ZoneEngine.Misc
         /// </summary>
         /// <param name="pf"></param>
         /// <returns></returns>
-        public static List<Client> FindClientsByPF(int pf)
+        public static List<Client> FindClientsByPlayfield(int pf)
         {
-            List<Client> mClients = new List<Client>();
-            foreach (Client mClient in Program.zoneServer.Clients)
+            List<Client> clientList = new List<Client>();
+            foreach (Client client in Program.zoneServer.Clients)
             {
-                if (mClient.Character.PlayField != pf)
+                if (client.Character.PlayField != pf)
                 {
                     continue;
                 }
-                mClients.Add(mClient);
+                clientList.Add(client);
             }
-            return mClients;
+            return clientList;
         }
 
         /// <summary>
@@ -138,19 +137,19 @@ namespace ZoneEngine.Misc
         /// <param name="pf"></param>
         /// <param name="clients"></param>
         /// <returns></returns>
-        public static bool FindClientsByPF(int pf, out List<Client> clients)
+        public static bool FindClientsByPlayfield(int pf, out List<Client> clients)
         {
-            List<Client> mClients = new List<Client>();
-            foreach (Client mClient in Program.zoneServer.Clients)
+            List<Client> clientList = new List<Client>();
+            foreach (Client client in Program.zoneServer.Clients)
             {
-                if (mClient.Character.PlayField != pf)
+                if (client.Character.PlayField != pf)
                 {
                     continue;
                 }
-                mClients.Add(mClient);
+                clientList.Add(client);
             }
-            clients = mClients;
-            return mClients.Count >= 1;
+            clients = clientList;
+            return clientList.Count >= 1;
         }
 
         /// <summary>
@@ -161,14 +160,14 @@ namespace ZoneEngine.Misc
         /// <returns></returns>
         public static List<Client> GetClientsInRadius(Client client, float radius)
         {
-            List<Client> mClients = new List<Client>();
+            List<Client> clientList = new List<Client>();
             //we're added ourselves, because we're included in the list too.
             //Clients.Add(this);
 
             // searching client as first one!
-            mClients.Add(client);
+            clientList.Add(client);
 
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client client1 in Program.zoneServer.Clients)
             {
                 /*float DeltaX = cli.Character.coord.x - Character.coord.x;
                 float DeltaY = cli.Character.coord.y - Character.coord.y;
@@ -179,64 +178,53 @@ namespace ZoneEngine.Misc
                 {
                     Clients.Add(cli);
                 }*/
-                if (mClient.Character.PlayField != client.Character.PlayField)
+                if (client1.Character.PlayField != client.Character.PlayField)
                 {
                     continue;
                 }
-                if (mClient.Character.Coordinates.distance2D(client.Character.Coordinates) >= radius)
+                if (client1.Character.ID == client.Character.ID)
                 {
                     continue;
                 }
-                if (mClient.Character.ID == client.Character.ID)
+                if (client1.Character.Coordinates.Distance2D(client.Character.Coordinates) >= radius)
                 {
                     continue;
                 }
-                mClients.Add(mClient);
+                clientList.Add(client1);
             }
-            return mClients;
+            return clientList;
         }
 
         /// <summary>
         /// Experimental - Check who is in the given radius
         /// </summary>
-        /// <param name="cli">Character or NPC to start from</param>
+        /// <param name="client">Character or NPC to start from</param>
         /// <param name="radius">RAdius</param>
         /// <returns></returns>
-        public static List<Dynel> GetClientsInRadius(Dynel cli, float radius)
+        public static List<Dynel> GetClientsInRadius(Dynel client, float radius)
         {
-            List<Dynel> mClients = new List<Dynel>();
-            //we're added ourselves, because we're included in the list too.
-            //Clients.Add(this);
+            // we're added ourselves, because we're included in the list too.
+            List<Dynel> clientList = new List<Dynel> { client };
 
             // searching client as first one!
-            mClients.Add(cli);
 
-            foreach (Client mClient in Program.zoneServer.Clients)
+            foreach (Client client1 in Program.zoneServer.Clients)
             {
-                /*float DeltaX = cli.Character.coord.x - Character.coord.x;
-                float DeltaY = cli.Character.coord.y - Character.coord.y;
-
-                float DeltaRadius = (float)Math.Sqrt((double)((DeltaX * DeltaX) + (DeltaY + DeltaY)));
-
-                if (DeltaRadius < Radius)
-                {
-                    Clients.Add(cli);
-                }*/
-                if (mClient.Character.PlayField != cli.PlayField)
+                if (client1.Character.PlayField != client.PlayField)
                 {
                     continue;
                 }
-                if (mClient.Character.Coordinates.distance2D(cli.Coordinates) >= radius)
+                if (client1.Character.ID == client.ID)
                 {
                     continue;
                 }
-                if (mClient.Character.ID == cli.ID)
+                if (client1.Character.Coordinates.Distance2D(client.Coordinates) >= radius)
                 {
                     continue;
                 }
-                mClients.Add(mClient.Character);
+                clientList.Add(client1.Character);
             }
-            return mClients;
+            return clientList;
         }
     }
 }

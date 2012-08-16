@@ -125,8 +125,8 @@ namespace ZoneEngine.Packets
                     equippacket.PushInt(50000);
                     equippacket.PushInt(cli.Character.ID);
                     equippacket.PushByte(0);
-                    equippacket.PushInt(it.lowID);
-                    equippacket.PushInt(it.highID);
+                    equippacket.PushInt(it.LowID);
+                    equippacket.PushInt(it.HighID);
                     equippacket.PushInt(it.Quality);
                     equippacket.PushInt(1);
                     if ((placement >= 49) && (placement <= 63))

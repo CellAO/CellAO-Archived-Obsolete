@@ -90,15 +90,15 @@ namespace ZoneEngine.Packets
             spawn.PushUInt(nonPlayerCharacter.Stats.Flags.Value);
             spawn.PushShort(0); // AccountFlags
             spawn.PushShort(0); // Expansion
-            if (nonPlayerCharacter.Stats.NPCFamily.Value <= 255) // NPCFamily
+            if (nonPlayerCharacter.Stats.NpcFamily.Value <= 255) // NPCFamily
             {
                 packetflags |= 0x20000; // NPC Family 1 byte
-                spawn.PushByte((byte)nonPlayerCharacter.Stats.NPCFamily.Value);
+                spawn.PushByte((byte)nonPlayerCharacter.Stats.NpcFamily.Value);
             }
             else
             {
                 packetflags &= ~0x20000; // NPC Family 2 byte
-                spawn.PushShort((short)nonPlayerCharacter.Stats.NPCFamily.Value);
+                spawn.PushShort((short)nonPlayerCharacter.Stats.NpcFamily.Value);
             }
 
             spawn.PushByte(0);

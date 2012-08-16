@@ -278,8 +278,8 @@ namespace ZonEngine.Script.customnpcs
             foreach (AOItem item in TradedItems)
             {
                 // Spawn back our items with max QL
-                SpawnItem(item.lowID, item.highID, 500);
-                AppendText("Spawned back with max ql: " + item.lowID + "/" + item.highID);
+                SpawnItem(item.LowID, item.HighID, 500);
+                AppendText("Spawned back with max ql: " + item.LowID + "/" + item.HighID);
             }
             TradedItems.Clear();
             CloseChat();

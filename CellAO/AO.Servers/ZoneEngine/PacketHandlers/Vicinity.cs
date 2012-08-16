@@ -45,7 +45,7 @@ namespace ZoneEngine.PacketHandlers
             if (pktType != 0x0005)
             {
                 //TextMessage type
-                throw new Exception("Wrong packet type given to VicinityHandler.");
+                throw new WrongPacketTypeException("Wrong packet type given to VicinityHandler.");
             }
             reader.PopShort(); //unknown
             short packetSize = reader.PopShort();
@@ -62,8 +62,9 @@ namespace ZoneEngine.PacketHandlers
             string msg = reader.PopString(msgLen);
             byte msgType = reader.PopByte();
 
+#if DEBUG
             Console.WriteLine("Vicinity: " + msg);
-
+#endif
             float range = 0f;
             switch (msgType)
             {

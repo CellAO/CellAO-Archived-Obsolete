@@ -62,27 +62,27 @@ namespace ZoneEngine.Functions
             return this.FunctionName;
         }
 
-        public AOFunctions CreateKnuBotFunction(int KnuBotaction)
+        public AOFunctions CreateKnuBotFunction(int knubotAction)
         {
             AOFunctions aof = new AOFunctions();
-            aof.Arguments.Add(KnuBotaction);
+            aof.Arguments.Add(knubotAction);
             aof.TickCount = 1;
             aof.TickInterval = 0;
             aof.FunctionType = this.FunctionNumber;
             return aof;
         }
 
-        public void KnuBotNextAction(Character Self, int ActionNumber, uint delay)
+        public void KnuBotNextAction(Character self, int actionNumber, uint delay)
         {
-            Self.AddTimer(
-                20000, DateTime.Now + TimeSpan.FromMilliseconds(delay), this.CreateKnuBotFunction(ActionNumber), false);
+            self.AddTimer(
+                20000, DateTime.Now + TimeSpan.FromMilliseconds(delay), this.CreateKnuBotFunction(actionNumber), false);
         }
 
-        public bool FunctionExecute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public bool FunctionExecute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            int actionnumber = (Int32)Arguments[0];
-            NonPlayerCharacterClass _self = (NonPlayerCharacterClass)Self;
-            _self.KnuBot.Action((Int32)Arguments[0]);
+            int actionnumber = (Int32)arguments[0];
+            NonPlayerCharacterClass knubotTarget = (NonPlayerCharacterClass)self;
+            knubotTarget.KnuBot.Action((Int32)arguments[0]);
             return true;
         }
     }

@@ -265,13 +265,13 @@ namespace ZoneEngine.PacketHandlers
                     if (_target.Type == 104)
                     {
                         InventoryEntries ie = client.Character.getInventoryAt(_target.Instance);
-                        AOItem mi = ItemHandler.GetItemTemplate(ie.Item.lowID);
+                        AOItem mi = ItemHandler.GetItemTemplate(ie.Item.LowID);
                         // TODO mi.applyon(client.Character, ItemHandler.eventtype_onuse, true, false, ie.Placement);
                         TemplateAction.Send(client.Character, ie);
                         if (mi.isConsumable())
                         {
-                            ie.Item.multiplecount--;
-                            if (ie.Item.multiplecount <= 0)
+                            ie.Item.MultipleCount--;
+                            if (ie.Item.MultipleCount <= 0)
                             {
                                 client.Character.Inventory.Remove(ie);
                                 DeleteItem.Send(client.Character, ie.Container, ie.Placement);

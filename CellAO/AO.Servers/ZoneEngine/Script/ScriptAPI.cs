@@ -53,21 +53,6 @@ namespace ZoneEngine
             {
                 LogScriptAction("Could not load file ({0})...", ex.Message);
             }
-
-            #region Lua Bindings
-            //put Lua bindings after this comment
-            /* Bye Bye Bindings
-            L.RegisterFunction("print", this, this.GetType().GetMethod("Print"));
-            L.RegisterFunction("NewTimer", this, this.GetType().GetMethod("NewTimer"));
-            L.RegisterFunction("Broadcast", this, this.GetType().GetMethod("Broadcast"));
-            L.RegisterFunction("SetStat", this, this.GetType().GetMethod("SetStat"));
-
-            L.RegisterFunction("NewCoord", this, this.GetType().GetMethod("NewCoord"));
-            L.RegisterFunction("NewQuat", this, this.GetType().GetMethod("NewQuat"));
-            // Experimental
-            L.RegisterFunction("SendVicinityChat", this, this.GetType().GetMethod("SendVicinityChat"));
-             */
-            #endregion
         }
 
         public void SendVicinityChat(Dynel target, string message)
@@ -129,99 +114,28 @@ namespace ZoneEngine
         /// <summary>
         /// Executes a script with filename
         /// </summary>
-        /// <param name="filename">Filename of the script.</param>
-        public void ExecuteScript(string filename)
+        /// <param name="fileName">Filename of the script.</param>
+        public void ExecuteScript(string fileName)
         {
-            if (!File.Exists(filename))
+            if (!File.Exists(fileName))
             {
-                LogScriptAction("ExecuteScript: Can't find file '{0}'", filename);
+                LogScriptAction("ExecuteScript: Can't find file '{0}'", fileName);
                 return;
             }
-            /* Lua Removed
-            L.DoFile(filename);
-            LuaTable a = new LuaTable(0, L);
-             */
         }
-
-        /* Lua Removed
-        /// <summary>
-        /// Returns handler to main Lua state.
-        /// </summary>
-        /// <returns>Lua.</returns>
-        public Lua GetLua()
-        {
-            return L;
-        }
-        
-        /// <summary>
-        /// General Hook calling function. This will be the proxy for calling Lua functions from the Core code.
-        /// </summary>
-        /// <param name="Hook">The Hook name</param>
-        /// <param name="argv">Array of values</param>
-        /// <returns>Whether the hook call was successful or not.</returns>
-        public bool CallHook(string Hook, params object[] argv)
-        {
-            //L.GetFunction(Hook).Call(argv);
-            LuaFunction f = L.GetFunction(Hook);
-            if (f != null)
-            {
-                object[] ret = null;
-                try
-                {
-                    ret = f.Call(argv);
-                }
-                catch (LuaException e)
-                {
-                    LogScriptAction("Got exception: {0}", e.Message);
-                }
-
-                //return (bool)ret[0];
-                if (ret == null) { return true; }
-                if (ret[0] != null)
-                {
-                    return (bool)ret[0];
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                LogScriptAction("Can't find hook to call: '{0}'.", Hook);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Returns timer object to Lua.
-        /// </summary>
-        /// <param name="Interval">Interval until timer end in ms</param>
-        /// <param name="f">Function name string</param>
-        /// <param name="RemoveOnEnd">Whether to remove the timer when it ends</param>
-        /// <returns></returns>
-        public LuaTimer NewTimer(int Interval, string f, bool RemoveOnEnd)
-        {
-            return new LuaTimer(Interval, f, RemoveOnEnd);
-        }
-        */
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="messagefmt"></param>
-        /// <param name="args"></param>
-        public static void LogScriptAction(string messagefmt, params object[] args)
+        /// <param name="messageFormat"></param>
+        /// <param name="arguments"></param>
+        public static void LogScriptAction(string messageFormat, params object[] arguments)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("++ ScriptAPI: ");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(messagefmt + "\n", args);
+            Console.Write(messageFormat + "\n", arguments);
             Console.ResetColor();
         }
-
-        //--- internal funcs
-
-        //public static Lua L = null; 
     }
 }

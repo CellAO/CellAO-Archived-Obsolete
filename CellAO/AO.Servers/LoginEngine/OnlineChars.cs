@@ -48,8 +48,7 @@ namespace LoginEngine
             DataTable dt = sql.ReadDatatable("SELECT * FROM characters WHERE ID = " + id + ";");
             if (dt.Rows.Count == 0)
             {
-                // TODO: Create a proper Exception type
-                throw new Exception("Character does not exist");
+                throw new CharacterDoesNotExistException("Character does not exist: " + id);
             }
             if ((Int16)dt.Rows[0]["Online"] == 1)
             {

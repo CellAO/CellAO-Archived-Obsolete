@@ -148,7 +148,7 @@ namespace AO.Core
         {
             foreach (AOItem it in ItemList)
             {
-                if (it.lowID == ID)
+                if (it.LowID == ID)
                 {
                     return it.ShallowCopy();
                 }
@@ -179,12 +179,12 @@ namespace AO.Core
             }
 
             interp = high.ShallowCopy();
-            interp.lowID = low.lowID;
+            interp.LowID = low.LowID;
             if (_QL < high.Quality)
             {
                 interp = low.ShallowCopy();
             }
-            interp.highID = high.highID;
+            interp.HighID = high.HighID;
             interp.Quality = _QL;
             if ((_QL == low.Quality) || (_QL == high.Quality))
             {

@@ -43,8 +43,8 @@ namespace ZoneEngine.Packets
             packetWriter.PushInt(50000);
             packetWriter.PushInt(character.ID);
             packetWriter.PushByte(0);
-            packetWriter.PushInt(inventoryEntry.Item.lowID);
-            packetWriter.PushInt(inventoryEntry.Item.highID);
+            packetWriter.PushInt(inventoryEntry.Item.LowID);
+            packetWriter.PushInt(inventoryEntry.Item.HighID);
             packetWriter.PushInt(inventoryEntry.Item.Quality);
             packetWriter.PushInt(1); // Unknown
             packetWriter.PushInt(3); // Consume??

@@ -51,13 +51,13 @@ namespace ZoneEngine.Packets
             packetWriter.Push3F1Count(client.Character.Bank.Count);
             foreach (AOItem item in client.Character.Bank)
             {
-                packetWriter.PushInt(item.flags); // misused the flags for position in the bank
+                packetWriter.PushInt(item.Flags); // misused the flags for position in the bank
                 short flags = 0;
                 if (item.isInstanced())
                 {
                     flags |= 0xa0;
                 }
-                if (item.lowID == item.highID)
+                if (item.LowID == item.HighID)
                 {
                     flags |= 2;
                 }
@@ -67,11 +67,11 @@ namespace ZoneEngine.Packets
                 }
                 // perhaps there are more flags...
                 packetWriter.PushShort(flags);
-                packetWriter.PushShort((short)item.multiplecount);
+                packetWriter.PushShort((short)item.MultipleCount);
                 packetWriter.PushInt(item.Type);
                 packetWriter.PushInt(item.Instance);
-                packetWriter.PushInt(item.lowID);
-                packetWriter.PushInt(item.highID);
+                packetWriter.PushInt(item.LowID);
+                packetWriter.PushInt(item.HighID);
                 packetWriter.PushInt(item.Quality);
                 packetWriter.PushInt(0); // didnt encounter any other value
             }

@@ -143,7 +143,7 @@ namespace ZoneEngine
         /// Write weaponpairs to database
         /// TODO: catch exceptions
         /// </summary>
-        public void writeWeaponpairstoSQL()
+        public void WriteWeaponpairstoSQL()
         {
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlDelete(
@@ -268,7 +268,7 @@ namespace ZoneEngine
             this.writeInventorytoSQL();
             this.writeNanostoSQL();
             this.writeWaypointstoSQL();
-            this.writeWeaponpairstoSQL();
+            this.WriteWeaponpairstoSQL();
             this.writeMeshstoSQL();
         }
         #endregion
@@ -481,7 +481,7 @@ namespace ZoneEngine
                 this.Stats.Race.Set((Int32)dt.Rows[0]["Race"]);
                 this.Name = (string)dt.Rows[0]["Name"];
                 this.Stats.Flags.Set((Int32)dt.Rows[0]["Flags"]);
-                this.Stats.NPCFamily.Set((Int32)dt.Rows[0]["NPCFamily"]);
+                this.Stats.NpcFamily.Set((Int32)dt.Rows[0]["NPCFamily"]);
                 this.Stats.Health.Set((Int32)dt.Rows[0]["Health"]);
                 this.Stats.Life.Set((Int32)dt.Rows[0]["Health"]);
                 this.Stats.MonsterData.Set((Int32)dt.Rows[0]["Monsterdata"]);

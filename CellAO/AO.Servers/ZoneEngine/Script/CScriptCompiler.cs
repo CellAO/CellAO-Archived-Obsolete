@@ -23,11 +23,9 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 #region NameSpace
-
 namespace ZoneEngine.Script
 {
     using System;
@@ -41,21 +39,6 @@ namespace ZoneEngine.Script
     using AO.Core;
 
     using Microsoft.CSharp;
-
-    /// <summary>
-    /// Our scripting Interface, placed here
-    /// because we want it to be part of
-    /// of this namespace, AO.Core.Scripting
-    /// any file that inherits this, will
-    /// be considered a script file.
-    /// 
-    /// Might not use this method
-    /// 
-    /// </summary>
-    public interface BaseScript
-    {
-        // TODO: Beef this up.
-    }
 
     #region Class CScriptCompiler
     /// <summary>

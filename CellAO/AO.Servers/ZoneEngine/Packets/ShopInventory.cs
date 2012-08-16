@@ -45,8 +45,8 @@ namespace ZoneEngine.Packets
             packetWriter.Push3F1Count(vendingMachine.Inventory.Count);
             foreach (InventoryEntries ie in vendingMachine.Inventory)
             {
-                packetWriter.PushInt(ie.Item.lowID);
-                packetWriter.PushInt(ie.Item.highID);
+                packetWriter.PushInt(ie.Item.LowID);
+                packetWriter.PushInt(ie.Item.HighID);
                 packetWriter.PushInt(ie.Item.Quality);
             }
             byte[] packet = packetWriter.Finish();

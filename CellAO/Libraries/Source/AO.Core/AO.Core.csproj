@@ -85,6 +85,7 @@
     <Compile Include="AOContainer.cs" />
     <Compile Include="AOCoord.cs" />
     <Compile Include="AOEvents.cs" />
+    <Compile Include="AOExceptions.cs" />
     <Compile Include="AOFunctions.cs" />
     <Compile Include="AOItem.cs" />
     <Compile Include="AOMeshs.cs" />
@@ -361,9 +362,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="locale\ee" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -32,6 +32,7 @@ namespace LoginEngine
     using System;
     using System.Diagnostics;
     using System.Net;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     using AO.Core;
@@ -60,6 +61,19 @@ namespace LoginEngine
         {
             string[] info = AssemblyInfoclass.Trademark.Split(';');
             return (info[0] == "1");
+        }
+
+        public static bool TestEmailRegex(string emailAddress)
+        {
+
+            const string PatternStrict = @"^(([^<>()[\]\\.,;:\s@\""]+"
+                                         + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
+                                         + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
+                                         + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
+                                         + @"[a-zA-Z]{2,}))$";
+
+            Regex reStrict = new Regex(PatternStrict);
+            return reStrict.IsMatch(emailAddress);
         }
 
         private static void Main(string[] args)
@@ -193,7 +207,7 @@ namespace LoginEngine
                         ct.TextRead("loginisnotrunning.txt");
                         break;
 
-                        #region Help Commands....
+                    #region Help Commands....
                     case "help":
                         ct.TextRead("logincmdhelp.txt");
                         break;
@@ -212,7 +226,7 @@ namespace LoginEngine
                     case "help setpass":
                         ct.TextRead("logincmdhelpsetpass.txt");
                         break;
-                        #endregion
+                    #endregion
 
                     default:
 
@@ -243,17 +257,18 @@ namespace LoginEngine
                             try
                             {
                                 expansions = int.Parse(parts[4]);
-                                if (expansions < 0 || expansions > 2047)
-                                {
-                                    // TODO: Create proper Exception Type and replace the 2047 with a configuration value capable of future expansions
-                                    throw new Exception();
-                                }
                             }
                             catch
                             {
                                 Console.WriteLine("Error: <expansions> must be a number between 0 and 2047!");
                                 break;
                             }
+                            if (expansions < 0 || expansions > 2047)
+                            {
+                                Console.WriteLine("Error: <expansions> must be a number between 0 and 2047!");
+                                break;
+                            }
+
                             int gm = 0;
                             try
                             {
@@ -266,14 +281,11 @@ namespace LoginEngine
                             }
 
                             string email = parts[6];
-                            try
+                            if (email==null)
                             {
-                                if (email == null)
-                                {
-                                    throw new Exception();
-                                }
+                                email = String.Empty;
                             }
-                            catch
+                            if (!TestEmailRegex(email))
                             {
                                 Console.WriteLine("Error: <Email> You must supply an email address for this account");
                                 break;
@@ -305,17 +317,15 @@ namespace LoginEngine
                                 break;
                             }
 
-                            string formatString;
-                            formatString =
-                                "INSERT INTO `login` (`CreationDate`, `Flags`,`AccountFlags`,`Username`,`Password`,`Allowed_Characters`,`Expansions`, `GM`, `Email`, `FirstName`, `LastName`) VALUES "
-                                + "(NOW(), '0', '0', '{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}');";
+                            const string FormatString = "INSERT INTO `login` (`CreationDate`, `Flags`,`AccountFlags`,`Username`,`Password`,`Allowed_Characters`,`Expansions`, `GM`, `Email`, `FirstName`, `LastName`) VALUES "
+                                                        + "(NOW(), '0', '0', '{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}');";
 
                             LoginEncryption le = new LoginEncryption();
 
                             string hashedPassword = le.GeneratePasswordHash(password);
 
                             string sql = String.Format(
-                                formatString,
+                                FormatString,
                                 username,
                                 hashedPassword,
                                 numChars,
@@ -324,10 +334,10 @@ namespace LoginEngine
                                 email,
                                 firstname,
                                 lastname);
-                            SqlWrapper wrp = new SqlWrapper();
+                            SqlWrapper sqlWrapper = new SqlWrapper();
                             try
                             {
-                                wrp.SqlInsert(sql);
+                                sqlWrapper.SqlInsert(sql);
                             }
                             catch (MySqlException ex)
                             {
@@ -396,7 +406,7 @@ namespace LoginEngine
                             {
                                 updt.SqlUpdate(sql);
                             }
-                                //yeah this part here, some kind of exception handling for mysql errors
+                            //yeah this part here, some kind of exception handling for mysql errors
                             catch
                             {
                             }

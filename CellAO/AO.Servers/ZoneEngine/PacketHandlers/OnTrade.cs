@@ -37,112 +37,110 @@ namespace ZoneEngine.PacketHandlers
 
     public static class OnTrade
     {
-        public static void read(ref byte[] packet, Client client, Dynel dyn)
+        public static void Read(ref byte[] packet, Client client, Dynel dynel)
         {
             PacketReader reader = new PacketReader(ref packet);
-            PacketWriter pw = new PacketWriter();
-            Header _header = reader.PopHeader();
+            PacketWriter packetWriter = new PacketWriter();
+            Header header = reader.PopHeader();
             reader.PopByte();
             reader.PopInt(); // unknown
             byte action = reader.PopByte(); // unknown
             Identity ident = reader.PopIdentity();
-            int _container = reader.PopInt();
-            int _place = reader.PopInt();
+            int container = reader.PopInt();
+            int place = reader.PopInt();
 
-            Character ch = (Character)FindDynel.FindDynelByID(ident.Type, ident.Instance);
+            Character character = (Character)FindDynel.FindDynelByID(ident.Type, ident.Instance);
             Character chaffected =
-                (Character)FindDynel.FindDynelByID(_header.AffectedId.Type, _header.AffectedId.Instance);
+                (Character)FindDynel.FindDynelByID(header.AffectedId.Type, header.AffectedId.Instance);
 
             // If target is a NPC, call its Action 0
-            if ((ch is NonPlayerCharacterClass) && (action == 0))
+            if ((character is NonPlayerCharacterClass) && (action == 0))
             {
-                if (((NonPlayerCharacterClass)ch).KnuBot != null)
+                if (((NonPlayerCharacterClass)character).KnuBot != null)
                 {
-                    ch.KnuBotTarget = ch;
-                    ((NonPlayerCharacterClass)ch).KnuBot.TalkingTo = chaffected;
-                    ((NonPlayerCharacterClass)ch).KnuBot.Action(0);
+                    character.KnuBotTarget = character;
+                    ((NonPlayerCharacterClass)character).KnuBot.TalkingTo = chaffected;
+                    ((NonPlayerCharacterClass)character).KnuBot.Action(0);
                 }
                 return;
             }
 
-            int nextfree;
-            int cashdeduct = 0;
-            AOItem it;
-            int c;
-            int c2;
-            InventoryEntries ie;
+            int cashDeduct = 0;
+            int inventoryCounter;
+            InventoryEntries inventoryEntry;
 
             switch (action)
             {
                 case 1: // end trade
-                    c = client.Character.Inventory.Count - 1;
-                    while (c >= 0)
+                    inventoryCounter = client.Character.Inventory.Count - 1;
+                    while (inventoryCounter >= 0)
                     {
-                        ie = client.Character.Inventory[c];
-                        if (ie.Container == -1)
+                        inventoryEntry = client.Character.Inventory[inventoryCounter];
+                        AOItem aoItem;
+                        if (inventoryEntry.Container == -1)
                         {
-                            nextfree = client.Character.GetNextFreeInventory(104); // next free spot on main inventory
-                            it = ItemHandler.GetItemTemplate(ie.Item.lowID);
-                            int Price = it.getItemAttribute(74);
-                            int mult = it.getItemAttribute(212); // original multiplecount
+                            int nextFree = client.Character.GetNextFreeInventory(104);
+                            aoItem = ItemHandler.GetItemTemplate(inventoryEntry.Item.LowID);
+                            int price = aoItem.getItemAttribute(74);
+                            int mult = aoItem.getItemAttribute(212); // original multiplecount
                             if (mult == 0)
                             {
                                 mult = 1;
-                                ie.Item.multiplecount = 1;
+                                inventoryEntry.Item.MultipleCount = 1;
                             }
                             // Deduct Cash (ie.item.multiplecount) div mult * price
-                            cashdeduct +=
+                            cashDeduct +=
                                 Convert.ToInt32(
-                                    mult * Price
+                                    mult * price
                                     *
                                     (100
                                      - Math.Floor(Math.Min(1500, client.Character.Stats.ComputerLiteracy.Value) / 40.0))
                                     / 2500);
                             // Add the Shop modificator and exchange the CompLit for skill form vendortemplate table
-                            ie.Placement = nextfree;
-                            ie.Container = 104;
-                            if (!it.isStackable())
+                            inventoryEntry.Placement = nextFree;
+                            inventoryEntry.Container = 104;
+                            if (!aoItem.isStackable())
                             {
-                                c2 = ie.Item.multiplecount;
-                                ie.Item.multiplecount = 0;
-                                while (c2 > 0)
+                                int multiplicator = inventoryEntry.Item.MultipleCount;
+                                inventoryEntry.Item.MultipleCount = 0;
+                                while (multiplicator > 0)
                                 {
-                                    AddTemplate.Send(client, ie);
-                                    c2--;
+                                    AddTemplate.Send(client, inventoryEntry);
+                                    multiplicator--;
                                 }
                             }
                             else
                             {
-                                AddTemplate.Send(client, ie);
+                                AddTemplate.Send(client, inventoryEntry);
                             }
                         }
-                        if (ie.Container == -2)
+                        if (inventoryEntry.Container == -2)
                         {
-                            it = ItemHandler.interpolate(ie.Item.lowID, ie.Item.highID, ie.Item.Quality);
-                            double mult = it.getItemAttribute(212); // original multiplecount
-                            int Price = it.getItemAttribute(74);
-                            if (mult == 0)
+                            aoItem = ItemHandler.interpolate(inventoryEntry.Item.LowID, inventoryEntry.Item.HighID, inventoryEntry.Item.Quality);
+                            double multipleCount = aoItem.getItemAttribute(212); // original multiplecount
+                            int price = aoItem.getItemAttribute(74);
+                            if (multipleCount == 0.0)
                             {
-                                mult = 1.0;
+                                multipleCount = 1.0;
                             }
                             else
                             {
-                                mult = ie.Item.multiplecount / mult;
+                                multipleCount = inventoryEntry.Item.MultipleCount / multipleCount;
                             }
-                            cashdeduct -=
+                            cashDeduct -=
                                 Convert.ToInt32(
-                                    mult * Price
+                                    multipleCount * price
                                     *
                                     (100
                                      + Math.Floor(Math.Min(1500, client.Character.Stats.ComputerLiteracy.Value) / 40.0))
                                     / 2500);
                             // Add the Shop modificator and exchange the CompLit for skill form vendortemplate table
-                            client.Character.Inventory.Remove(ie);
+                            client.Character.Inventory.Remove(inventoryEntry);
                         }
-                        c--;
+                        inventoryCounter--;
                     }
 
-                    client.Character.Stats.Cash.Set((uint)(client.Character.Stats.Cash.Value - cashdeduct));
+                    client.Character.Stats.Cash.Set((uint)(client.Character.Stats.Cash.Value - cashDeduct));
                     //                    Packets.Stat.Set(client, 61, client.Character.Stats.Cash.StatValue - cashdeduct, false);
                     byte[] reply0 = new byte[32];
                     Array.Copy(packet, reply0, 32);
@@ -159,54 +157,54 @@ namespace ZoneEngine.PacketHandlers
                     reply0[14] = (byte)(client.Character.ID >> 8);
                     reply0[15] = (byte)(client.Character.ID);
 
-                    pw.PushBytes(reply0);
-                    pw.PushByte(1);
-                    pw.PushByte(4);
-                    pw.PushIdentity(client.Character.LastTrade);
-                    pw.PushIdentity(client.Character.LastTrade);
+                    packetWriter.PushBytes(reply0);
+                    packetWriter.PushByte(1);
+                    packetWriter.PushByte(4);
+                    packetWriter.PushIdentity(client.Character.LastTrade);
+                    packetWriter.PushIdentity(client.Character.LastTrade);
                     client.Character.LastTrade.Type = 0;
                     client.Character.LastTrade.Instance = 0;
-                    byte[] rep2 = pw.Finish();
-                    client.SendCompressed(rep2);
+                    byte[] reply2 = packetWriter.Finish();
+                    client.SendCompressed(reply2);
                     break;
                 case 2:
                     // Decline trade
-                    c = client.Character.Inventory.Count - 1;
-                    while (c >= 0)
+                    inventoryCounter = client.Character.Inventory.Count - 1;
+                    while (inventoryCounter >= 0)
                     {
-                        ie = client.Character.Inventory[c];
-                        if (ie.Container == -1)
+                        inventoryEntry = client.Character.Inventory[inventoryCounter];
+                        if (inventoryEntry.Container == -1)
                         {
-                            client.Character.Inventory.Remove(ie);
+                            client.Character.Inventory.Remove(inventoryEntry);
                         }
                         else
                         {
-                            if (ie.Container == -2)
+                            if (inventoryEntry.Container == -2)
                             {
-                                ie.Placement = client.Character.GetNextFreeInventory(104);
-                                ie.Container = 104;
+                                inventoryEntry.Placement = client.Character.GetNextFreeInventory(104);
+                                inventoryEntry.Container = 104;
                             }
                         }
-                        c--;
+                        inventoryCounter--;
                     }
 
-                    byte[] reply1 = new byte[50];
-                    Array.Copy(packet, reply1, 50);
+                    byte[] replyCopy = new byte[50];
+                    Array.Copy(packet, replyCopy, 50);
 
                     // pushing in server ID
-                    reply1[8] = 0;
-                    reply1[9] = 0;
-                    reply1[10] = 12;
-                    reply1[11] = 14;
+                    replyCopy[8] = 0;
+                    replyCopy[9] = 0;
+                    replyCopy[10] = 12;
+                    replyCopy[11] = 14;
 
                     // pushing in Client ID
-                    reply1[12] = (byte)(client.Character.ID >> 24);
-                    reply1[13] = (byte)(client.Character.ID >> 16);
-                    reply1[14] = (byte)(client.Character.ID >> 8);
-                    reply1[15] = (byte)(client.Character.ID);
+                    replyCopy[12] = (byte)(client.Character.ID >> 24);
+                    replyCopy[13] = (byte)(client.Character.ID >> 16);
+                    replyCopy[14] = (byte)(client.Character.ID >> 8);
+                    replyCopy[15] = (byte)(client.Character.ID);
 
-                    pw.PushBytes(reply1);
-                    byte[] rep1 = pw.Finish();
+                    packetWriter.PushBytes(replyCopy);
+                    byte[] rep1 = packetWriter.Finish();
 
                     client.SendCompressed(rep1);
                     break;
@@ -218,9 +216,9 @@ namespace ZoneEngine.PacketHandlers
                 case 6: // remove item from trade window
                     byte[] reply = new byte[50];
                     Array.Copy(packet, reply, 50);
-                    if (ch.Inventory.Count == 0)
+                    if (character.Inventory.Count == 0)
                     {
-                        ((VendingMachine)ch).LoadTemplate(((VendingMachine)ch).TemplateID);
+                        ((VendingMachine)character).LoadTemplate(((VendingMachine)character).TemplateID);
                     }
 
                     // pushing in server ID
@@ -236,38 +234,37 @@ namespace ZoneEngine.PacketHandlers
                     reply[15] = (byte)(client.Character.ID);
 
                     //PacketWriter pw = new PacketWriter();
-                    pw.PushBytes(reply);
-                    byte[] rep3 = pw.Finish();
-                    client.SendCompressed(rep3);
+                    packetWriter.PushBytes(reply);
+                    byte[] replyRemoveItemFromTradeWindow = packetWriter.Finish();
+                    client.SendCompressed(replyRemoveItemFromTradeWindow);
 
-                    if (client.Character == ch)
+                    if (client.Character == character)
                     {
                         if (action == 5)
                         {
-                            ie = ch.getInventoryAt(_place);
-                            ie.Placement = ch.GetNextFreeInventory(-2);
-                            ie.Container = -2;
+                            inventoryEntry = character.getInventoryAt(place);
+                            inventoryEntry.Placement = character.GetNextFreeInventory(-2);
+                            inventoryEntry.Container = -2;
                         }
                         if (action == 6)
                         {
-                            ie = ch.getInventoryAt(_place, -2);
-                            ie.Placement = ch.GetNextFreeInventory(104);
-                            ie.Container = 104;
+                            inventoryEntry = character.getInventoryAt(place, -2);
+                            inventoryEntry.Placement = character.GetNextFreeInventory(104);
+                            inventoryEntry.Container = 104;
                         }
                     }
                     else
                     {
-                        InventoryEntries inew = new InventoryEntries();
-                        inew.Container = -1;
-                        inew.Placement = ch.GetNextFreeInventory(-1);
-                        int oldplace = ((packet[46] >> 24) + (packet[47] >> 16) + (packet[48] >> 8) + packet[49]);
-                        InventoryEntries totrade = ch.getInventoryAt(oldplace);
-                        inew.Item.lowID = totrade.Item.lowID;
-                        inew.Item.highID = totrade.Item.highID;
-                        inew.Item.multiplecount = totrade.Item.multiplecount;
+                        InventoryEntries inew = new InventoryEntries
+                            { Container = -1, Placement = character.GetNextFreeInventory(-1) };
+                        int oldPlacement = ((packet[46] >> 24) + (packet[47] >> 16) + (packet[48] >> 8) + packet[49]);
+                        InventoryEntries totrade = character.getInventoryAt(oldPlacement);
+                        inew.Item.LowID = totrade.Item.LowID;
+                        inew.Item.HighID = totrade.Item.HighID;
+                        inew.Item.MultipleCount = totrade.Item.MultipleCount;
                         if (action == 6) // Remove item from trade window
                         {
-                            inew.Item.multiplecount = -inew.Item.multiplecount;
+                            inew.Item.MultipleCount = -inew.Item.MultipleCount;
                         }
                         inew.Item.Quality = totrade.Item.Quality;
                         chaffected.InventoryReplaceAdd(inew);

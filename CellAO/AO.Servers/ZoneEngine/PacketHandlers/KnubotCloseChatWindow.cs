@@ -36,13 +36,13 @@ namespace ZoneEngine.PacketHandlers
     {
         public static void Read(ref byte[] packet, Client client)
         {
-            PacketReader _reader = new PacketReader(ref packet);
+            PacketReader packetReader = new PacketReader(ref packet);
 
-            Header header = _reader.PopHeader();
-            _reader.PopByte();
-            _reader.PopShort();
-            int type = _reader.PopInt();
-            int instance = _reader.PopInt();
+            Header header = packetReader.PopHeader();
+            packetReader.PopByte();
+            packetReader.PopShort();
+            int type = packetReader.PopInt();
+            int instance = packetReader.PopInt();
             NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(type, instance);
             Character ch = FindClient.FindClientByID(header.Sender).Character;
             if (npc != null)
@@ -51,9 +51,9 @@ namespace ZoneEngine.PacketHandlers
             }
         }
 
-        public static void Send(Character TalkingTo, NonPlayerCharacterClass talker)
+        public static void Send(Character talkingTo, NonPlayerCharacterClass talker)
         {
-            Client client = TalkingTo.client;
+            Client client = talkingTo.client;
 
             PacketWriter pw = new PacketWriter();
 
@@ -65,7 +65,7 @@ namespace ZoneEngine.PacketHandlers
             pw.PushInt(3086);
             pw.PushInt(client.Character.ID);
             pw.PushInt(0x270a4c62);
-            pw.PushIdentity(50000, TalkingTo.ID);
+            pw.PushIdentity(50000, talkingTo.ID);
             pw.PushByte(0);
             pw.PushShort(2);
             pw.PushIdentity(50000, talker.ID);
@@ -76,7 +76,7 @@ namespace ZoneEngine.PacketHandlers
             client.SendCompressed(packet);
 
             // Closing KnuBot window from server side needs to clear KnuBot's variables
-            talker.KnuBot.KnuBotCloseChatWindow(TalkingTo);
+            talker.KnuBot.KnuBotCloseChatWindow(talkingTo);
         }
     }
 }

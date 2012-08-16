@@ -75,8 +75,8 @@ namespace ZoneEngine.Packets
                     unequipPacketWriter.PushInt(50000);
                     unequipPacketWriter.PushInt(client.Character.ID);
                     unequipPacketWriter.PushByte(0);
-                    unequipPacketWriter.PushInt(item.lowID);
-                    unequipPacketWriter.PushInt(item.highID);
+                    unequipPacketWriter.PushInt(item.LowID);
+                    unequipPacketWriter.PushInt(item.HighID);
                     unequipPacketWriter.PushInt(item.Quality);
                     unequipPacketWriter.PushInt(1);
                     unequipPacketWriter.PushInt(7);

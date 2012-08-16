@@ -41,17 +41,17 @@ namespace AO.Core
         /// <summary>
         /// Item Flags
         /// </summary>
-        public int flags;
+        public int Flags;
 
         /// <summary>
         /// Item low ID
         /// </summary>
-        public int lowID;
+        public int LowID;
 
         /// <summary>
         /// Item high ID
         /// </summary>
-        public int highID;
+        public int HighID;
 
         /// <summary>
         /// Quality level
@@ -61,7 +61,7 @@ namespace AO.Core
         /// <summary>
         /// Stacked item count
         /// </summary>
-        public int multiplecount;
+        public int MultipleCount;
 
         /// <summary>
         /// Type of instanced item
@@ -115,8 +115,8 @@ namespace AO.Core
         public AOItem ShallowCopy()
         {
             AOItem it = new AOItem();
-            it.lowID = lowID;
-            it.highID = highID;
+            it.LowID = this.LowID;
+            it.HighID = this.HighID;
 
             foreach (AOItemAttribute ai in Attack)
             {
@@ -189,10 +189,10 @@ namespace AO.Core
             }
 
 
-            it.flags = flags;
+            it.Flags = this.Flags;
             it.Instance = Instance;
             it.ItemType = ItemType;
-            it.multiplecount = multiplecount;
+            it.MultipleCount = this.MultipleCount;
             it.Nothing = Nothing;
             it.Quality = Quality;
 
@@ -227,11 +227,11 @@ namespace AO.Core
         /// <param name="context"></param>
         public AOItem(SerializationInfo info, StreamingContext context)
         {
-            flags = (int) info.GetValue("flags", typeof (int));
-            lowID = (int) info.GetValue("lowID", typeof (int));
-            highID = (int) info.GetValue("highID", typeof (int));
+            this.Flags = (int) info.GetValue("flags", typeof (int));
+            this.LowID = (int) info.GetValue("lowID", typeof (int));
+            this.HighID = (int) info.GetValue("highID", typeof (int));
             Quality = (int) info.GetValue("Quality", typeof (int));
-            multiplecount = (int) info.GetValue("multiplecount", typeof (int));
+            this.MultipleCount = (int) info.GetValue("multiplecount", typeof (int));
             Type = (int) info.GetValue("Type", typeof (int));
             Instance = (int) info.GetValue("Instance", typeof (int));
             Nothing = (int) info.GetValue("Nothing", typeof (int));
@@ -249,11 +249,11 @@ namespace AO.Core
         /// <param name="context"></param>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("flags", flags);
-            info.AddValue("lowID", lowID);
-            info.AddValue("highID", highID);
+            info.AddValue("flags", this.Flags);
+            info.AddValue("lowID", this.LowID);
+            info.AddValue("highID", this.HighID);
             info.AddValue("Quality", Quality);
-            info.AddValue("multiplecount", multiplecount);
+            info.AddValue("multiplecount", this.MultipleCount);
             info.AddValue("Type", Type);
             info.AddValue("Instance", Instance);
             info.AddValue("Nothing", Nothing);

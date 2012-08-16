@@ -176,7 +176,7 @@ namespace LoginEngine
             Array.Copy(this.m_readBuffer.Array, this.m_readBuffer.Offset, packet, 0, numBytes);
             uint messageNumber = this.GetMessageNumber(packet);
             Parser myParser = new Parser();
-            myParser.Parse(this, ref packet, messageNumber);
+            myParser.Parse(this, packet, messageNumber);
         }
         #endregion
 

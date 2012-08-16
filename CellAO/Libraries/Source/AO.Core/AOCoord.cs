@@ -45,7 +45,7 @@ namespace AO.Core
         /// <summary>
         /// Quaterion representation of Coordinates (w is 0)
         /// </summary>
-        public Quaternion quatCoordinate
+        public Quaternion QuatCoordinate
         {
             get { return new Quaternion(coordinate); }
             set { coordinate = value.VectorRepresentation(); }
@@ -85,7 +85,7 @@ namespace AO.Core
         /// </summary>
         public AOCoord()
         {
-            update(0, 0, 0);
+            this.Update(0, 0, 0);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace AO.Core
         /// <param name="aoCoord">AOCoord coordinate is at</param>
         public AOCoord(AOCoord aoCoord)
         {
-            update(aoCoord);
+            this.Update(aoCoord);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace AO.Core
         /// <param name="coordinate">Vector coordinate is at</param>
         public AOCoord(Vector3 coordinate)
         {
-            update(coordinate);
+            this.Update(coordinate);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace AO.Core
         /// <param name="z">z component of the Coordinate</param>
         public AOCoord(float x, float y, float z)
         {
-            update(x, y, z);
+            this.Update(x, y, z);
         }
         #endregion
 
@@ -125,7 +125,7 @@ namespace AO.Core
         /// <param name="x">x component of the Coordinate</param>
         /// <param name="y">y component of the Coordinate</param>
         /// <param name="z">z component of the Coordinate</param>
-        public void update(float x, float y, float z)
+        public void Update(float x, float y, float z)
         {
             coordinate = new Vector3(x, y, z);
         }
@@ -134,7 +134,7 @@ namespace AO.Core
         /// Update the Coordinate using a Vector
         /// </summary>
         /// <param name="coordinate">Vector coordinate is at</param>
-        public void update(Vector3 coordinate)
+        public void Update(Vector3 coordinate)
         {
             this.coordinate = coordinate;
         }
@@ -143,7 +143,7 @@ namespace AO.Core
         /// Update the Coordinate using a AOCoord
         /// </summary>
         /// <param name="aoCoord">AOCoord coordinate is at</param>
-        public void update(AOCoord aoCoord)
+        public void Update(AOCoord aoCoord)
         {
             coordinate = aoCoord.coordinate;
         }
@@ -155,11 +155,9 @@ namespace AO.Core
         /// </summary>
         /// <param name="c1">Coordinate 1</param>
         /// <param name="c2">Coordinate 2</param>
-        public static double distance3D(AOCoord c1, AOCoord c2)
+        public static double Distance3D(AOCoord c1, AOCoord c2)
         {
-            Vector3 difference;
-
-            difference = c1.coordinate - c2.coordinate;
+            Vector3 difference = c1.coordinate - c2.coordinate;
 
             return difference.Magnitude;
         }
@@ -168,9 +166,9 @@ namespace AO.Core
         /// Calculate the Distance between two Coordinates in 3 Dimensions
         /// </summary>
         /// <param name="c1">Other Coordinate</param>
-        public double distance3D(AOCoord c1)
+        public double Distance3D(AOCoord c1)
         {
-            return distance3D(this, c1);
+            return Distance3D(this, c1);
         }
 
         /// <summary>
@@ -178,11 +176,9 @@ namespace AO.Core
         /// </summary>
         /// <param name="c1">Coordinate 1</param>
         /// <param name="c2">Coordinate 2</param>
-        public static double distance2D(AOCoord c1, AOCoord c2)
+        public static double Distance2D(AOCoord c1, AOCoord c2)
         {
-            Vector3 difference;
-
-            difference = c1.coordinate - c2.coordinate;
+            Vector3 difference = c1.coordinate - c2.coordinate;
 
             return Math.Sqrt((difference.x*difference.x) + (difference.z*difference.z));
         }
@@ -191,9 +187,9 @@ namespace AO.Core
         /// Calculate the Distance between two Coordinates in 2 Dimensions
         /// </summary>
         /// <param name="c1">Other Coordinate</param>
-        public double distance2D(AOCoord c1)
+        public double Distance2D(AOCoord c1)
         {
-            return distance2D(this, c1);
+            return Distance2D(this, c1);
         }
         #endregion
 

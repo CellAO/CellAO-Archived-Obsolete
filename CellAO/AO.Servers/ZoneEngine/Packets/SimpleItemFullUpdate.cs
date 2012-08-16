@@ -64,13 +64,13 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(0);
             packetWriter.PushShort(0x0203);
             packetWriter.PushInt(0x17);
-            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID); // TODO: 3 times lowID and no highID?
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.LowID); // TODO: 3 times lowID and no highID?
             packetWriter.PushInt(0x2bd);
             packetWriter.PushInt(1);
             packetWriter.PushInt(0x2be);
-            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.LowID);
             packetWriter.PushInt(0x2bf);
-            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.LowID);
             packetWriter.PushInt(0x19c);
             packetWriter.PushInt(1);
             packetWriter.PushInt(0);
@@ -104,14 +104,14 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(0);
             packetWriter.PushShort(0x0203);
             packetWriter.PushInt(0x17);
-            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.LowID);
             // TODO: Three times low id and no high id?
             packetWriter.PushInt(0x2bd);
             packetWriter.PushInt(1);
             packetWriter.PushInt(0x2be);
-            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.LowID);
             packetWriter.PushInt(0x2bf);
-            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.lowID);
+            packetWriter.PushInt(vendingMachine.Inventory[itemNumber].Item.LowID);
             packetWriter.PushInt(0x19c);
             packetWriter.PushInt(1);
             packetWriter.PushInt(0);

@@ -152,12 +152,12 @@ namespace ZoneEngine.Packets
             for (count = 0; count < client.Character.Inventory.Count; count++)
             {
                 writer.PushInt(client.Character.Inventory[count].Placement);
-                writer.PushShort((short)client.Character.Inventory[count].Item.flags);
-                writer.PushShort((short)client.Character.Inventory[count].Item.multiplecount);
+                writer.PushShort((short)client.Character.Inventory[count].Item.Flags);
+                writer.PushShort((short)client.Character.Inventory[count].Item.MultipleCount);
                 writer.PushIdentity(
                     client.Character.Inventory[count].Item.Type, client.Character.Inventory[count].Item.Instance);
-                writer.PushInt(client.Character.Inventory[count].Item.lowID);
-                writer.PushInt(client.Character.Inventory[count].Item.highID);
+                writer.PushInt(client.Character.Inventory[count].Item.LowID);
+                writer.PushInt(client.Character.Inventory[count].Item.HighID);
                 writer.PushInt(client.Character.Inventory[count].Item.Quality);
                 writer.PushInt(client.Character.Inventory[count].Item.Nothing);
             }

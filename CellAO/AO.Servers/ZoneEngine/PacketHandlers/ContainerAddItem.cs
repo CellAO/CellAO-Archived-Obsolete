@@ -109,7 +109,7 @@ namespace ZoneEngine.PacketHandlers
                 if (fromcontainerid == 0x69)
                 {
                     for (c_from = 0;
-                         (c_from < cli.Character.Bank.Count) && (fromplacement != cli.Character.Bank[c_from].flags);
+                         (c_from < cli.Character.Bank.Count) && (fromplacement != cli.Character.Bank[c_from].Flags);
                          c_from++)
                     {
                         ;
@@ -146,8 +146,8 @@ namespace ZoneEngine.PacketHandlers
             if (c_from < cli.Character.Inventory.Count)
             {
                 m_from = ItemHandler.interpolate(
-                    cli.Character.Inventory[c_from].Item.lowID,
-                    cli.Character.Inventory[c_from].Item.highID,
+                    cli.Character.Inventory[c_from].Item.LowID,
+                    cli.Character.Inventory[c_from].Item.HighID,
                     cli.Character.Inventory[c_from].Item.Quality);
             }
 
@@ -155,8 +155,8 @@ namespace ZoneEngine.PacketHandlers
             if (c_to < cli.Character.Inventory.Count)
             {
                 m_to = ItemHandler.interpolate(
-                    cli.Character.Inventory[c_to].Item.lowID,
-                    cli.Character.Inventory[c_to].Item.highID,
+                    cli.Character.Inventory[c_to].Item.LowID,
+                    cli.Character.Inventory[c_to].Item.HighID,
                     cli.Character.Inventory[c_to].Item.Quality);
             }
 
@@ -189,7 +189,7 @@ namespace ZoneEngine.PacketHandlers
                         c3 = 1;
                         for (c2 = 0; c2 < cli.Character.Bank.Count; c2++)
                         {
-                            if (cli.Character.Bank[c2].flags == c) // using flags for placement
+                            if (cli.Character.Bank[c2].Flags == c) // using flags for placement
                             {
                                 c++;
                                 c3 = 0;

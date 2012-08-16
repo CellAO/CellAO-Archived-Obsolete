@@ -74,7 +74,7 @@ namespace ZoneEngine.Misc
                 {
                     continue;
                 }
-                if ((coord.distance2D(door.Coordinates) < range)
+                if ((coord.Distance2D(door.Coordinates) < range)
                     && (Math.Abs(coord.coordinate.y - door.Coordinates.y) < 3))
                 {
                     return door;

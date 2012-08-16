@@ -136,9 +136,9 @@ namespace ZoneEngine
                                 ie = new InventoryEntries();
                                 ie.Container = 104;
                                 ie.Placement = place++;
-                                ie.Item.lowID = (Int32)row["lowid"];
-                                ie.Item.highID = (Int32)row["highid"];
-                                ie.Item.multiplecount = (Int32)row["multiplecount"];
+                                ie.Item.LowID = (Int32)row["lowid"];
+                                ie.Item.HighID = (Int32)row["highid"];
+                                ie.Item.MultipleCount = (Int32)row["multiplecount"];
                                 ie.Item.Nothing = 0;
                                 ie.Item.Quality = Math.Min(
                                     Math.Max(Convert.ToInt32(r.Next(si.minQL, si.maxQL)), iminql), imaxql);

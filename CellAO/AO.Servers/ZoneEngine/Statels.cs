@@ -673,7 +673,7 @@ namespace ZoneEngine
                     {
                         continue;
                     }
-                    if ((AOCoord.distance2D(cli.Character.Coordinates, this.Coordinates) < 0.8f)
+                    if ((AOCoord.Distance2D(cli.Character.Coordinates, this.Coordinates) < 0.8f)
                         && (Math.Abs(cli.Character.Coordinates.y - this.Coordinates.y) < 5))
                     {
                         foreach (Statel_Function f in e.Functions)
@@ -694,7 +694,7 @@ namespace ZoneEngine
                     {
                         continue;
                     }
-                    if ((AOCoord.distance2D(cli.Character.Coordinates, this.Coordinates) < 1.2f)
+                    if ((AOCoord.Distance2D(cli.Character.Coordinates, this.Coordinates) < 1.2f)
                         && (Math.Abs(cli.Character.Coordinates.y - this.Coordinates.y) < 5))
                     {
                         foreach (Statel_Function f in e.Functions)

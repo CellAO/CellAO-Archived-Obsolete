@@ -48,8 +48,8 @@ namespace ZoneEngine.ChatCommands
                 }
                 else
                 {
-                    if (AOCoord.distance2D(client.Character.Coordinates, s.Coordinates)
-                        < AOCoord.distance2D(client.Character.Coordinates, o.Coordinates))
+                    if (AOCoord.Distance2D(client.Character.Coordinates, s.Coordinates)
+                        < AOCoord.Distance2D(client.Character.Coordinates, o.Coordinates))
                     {
                         o = s;
                     }

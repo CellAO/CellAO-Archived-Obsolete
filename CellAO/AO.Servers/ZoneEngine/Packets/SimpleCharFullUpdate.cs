@@ -281,8 +281,8 @@ namespace ZoneEngine.Packets
                     nanos.Add(tempNano);
                 }
 
-                LOSHeight = character.Stats.LOSHeight.Value;
-                NPCFamily = character.Stats.NPCFamily.Value;
+                LOSHeight = character.Stats.LosHeight.Value;
+                NPCFamily = character.Stats.NpcFamily.Value;
                 CurrentHealth = character.Stats.Health.Value;
             }
             PacketWriter packetWriter = new PacketWriter();

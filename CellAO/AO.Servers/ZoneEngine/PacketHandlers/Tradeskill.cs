@@ -159,15 +159,15 @@ namespace ZoneEngine
             this.Source = this.Cli.Character.getInventoryAt(src_loc).Item;
             this.Target = this.Cli.Character.getInventoryAt(tgt_loc).Item;
 
-            this.SourceID = this.Source.highID;
-            this.TargetID = this.Target.highID;
+            this.SourceID = this.Source.HighID;
+            this.TargetID = this.Target.HighID;
 
             this.isTradeskill = false;
 
             SqlWrapper wrapper = new SqlWrapper();
             DataTable dt =
                 wrapper.ReadDatatable(
-                    "SELECT * FROM tradeskill WHERE ID1 = " + this.Source.highID + " AND ID2 = " + this.Target.highID
+                    "SELECT * FROM tradeskill WHERE ID1 = " + this.Source.HighID + " AND ID2 = " + this.Target.HighID
                     + ";");
             wrapper.Dispose();
             DataRowCollection drc = dt.Rows;
@@ -176,8 +176,8 @@ namespace ZoneEngine
             {
                 this.isTradeskill = true;
 
-                this.SourceName = GetItemName(this.Source.lowID, this.Source.highID, this.Source.Quality);
-                this.TargetName = GetItemName(this.Target.lowID, this.Target.highID, this.Target.Quality);
+                this.SourceName = GetItemName(this.Source.LowID, this.Source.HighID, this.Source.Quality);
+                this.TargetName = GetItemName(this.Target.LowID, this.Target.HighID, this.Target.Quality);
 
                 this.TargetMinQL = (int)drc[0][2];
 
@@ -649,12 +649,12 @@ namespace ZoneEngine
                 AOItem it = ItemHandler.GetItemTemplate(Convert.ToInt32(this.ResultLID));
                 mi.Placement = firstfree;
                 mi.Container = 104;
-                mi.Item.lowID = Convert.ToInt32(this.ResultLID);
-                mi.Item.highID = Convert.ToInt32(this.ResultHID);
+                mi.Item.LowID = Convert.ToInt32(this.ResultLID);
+                mi.Item.HighID = Convert.ToInt32(this.ResultHID);
                 mi.Item.Quality = Convert.ToInt32(this.Quality);
                 if (it.ItemType != 1)
                 {
-                    mi.Item.multiplecount = Math.Max(1, it.getItemAttribute(212));
+                    mi.Item.MultipleCount = Math.Max(1, it.getItemAttribute(212));
                 }
                 else
                 {
@@ -752,7 +752,7 @@ namespace ZoneEngine
 
                 AOItem it = client.Character.getInventoryAt(placement).Item;
 
-                TradeskillPacket.SendSource(client.Character, Tradeskill.GetSourceProcessesCount(it.highID));
+                TradeskillPacket.SendSource(client.Character, Tradeskill.GetSourceProcessesCount(it.HighID));
 
                 var l1 = tsInfo.Where(m => m.Cli == client && m.Location == 0).Select(m => m);
                 var l2 = tsInfo.Where(m => m.Cli == client && m.Location == 1).Select(m => m);
@@ -800,7 +800,7 @@ namespace ZoneEngine
 
                 AOItem it = client.Character.getInventoryAt(placement).Item;
 
-                TradeskillPacket.SendTarget(client.Character, Tradeskill.GetTargetProcessesCount(it.highID));
+                TradeskillPacket.SendTarget(client.Character, Tradeskill.GetTargetProcessesCount(it.HighID));
 
                 var l1 = tsInfo.Where(m => m.Cli == client && m.Location == 0).Select(m => m);
                 var l2 = tsInfo.Where(m => m.Cli == client && m.Location == 1).Select(m => m);

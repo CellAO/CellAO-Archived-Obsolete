@@ -221,7 +221,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x36284f6e:
                     //Trade
-                    OnTrade.read(ref packet, client, dyn);
+                    OnTrade.Read(ref packet, client, dyn);
                     break;
                 case 0x365a5071:
                     //DoorFullUpdate

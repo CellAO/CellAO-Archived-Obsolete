@@ -56,6 +56,7 @@ namespace ZoneEngine.Script
         /// Execute the chat command
         /// </summary>
         /// <param name="client">client</param>
+        /// <param name="target">Target identity</param>
         /// <param name="args">command arguments</param>
         public abstract void ExecuteCommand(Client client, Identity target, string[] args);
 

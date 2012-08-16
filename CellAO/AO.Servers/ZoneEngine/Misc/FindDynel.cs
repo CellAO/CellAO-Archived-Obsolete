@@ -29,16 +29,16 @@ namespace ZoneEngine.Misc
 {
     public static class FindDynel
     {
-        public static Dynel FindDynelByID(int _type, int _id)
+        public static Dynel FindDynelByID(int findType, int findId)
         {
-            switch (_type)
+            switch (findType)
             {
                 case 50000:
                     lock (Program.zoneServer.Clients)
                     {
                         foreach (Client cli in Program.zoneServer.Clients)
                         {
-                            if (cli.Character.ID == _id)
+                            if (cli.Character.ID == findId)
                             {
                                 return cli.Character;
                             }
@@ -48,7 +48,7 @@ namespace ZoneEngine.Misc
                     {
                         foreach (NonPlayerCharacterClass np in Program.zoneServer.Monsters)
                         {
-                            if (np.ID == _id)
+                            if (np.ID == findId)
                             {
                                 return np;
                             }
@@ -58,7 +58,7 @@ namespace ZoneEngine.Misc
                 case 51035:
                     foreach (VendingMachine vm in Program.zoneServer.Vendors)
                     {
-                        if (vm.ID == _id)
+                        if (vm.ID == findId)
                         {
                             return vm;
                         }

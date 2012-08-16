@@ -49,7 +49,7 @@ namespace LoginEngine
         /// <param name="client"></param>
         /// <param name="packet"></param>
         /// <param name="messageNumber"></param>
-        public void Parse(Client client, ref byte[] packet, uint messageNumber)
+        public void Parse(Client client, byte[] packet, uint messageNumber)
         {
             #region Setup...
             PacketReader reader = new PacketReader(ref packet);

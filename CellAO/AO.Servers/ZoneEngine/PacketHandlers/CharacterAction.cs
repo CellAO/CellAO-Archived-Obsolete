@@ -147,7 +147,7 @@ namespace ZoneEngine.PacketHandlers
                         if (FindClient.FindClientByID(m_ident.Instance, out tPlayer))
                         {
                             #region Titles
-                            uint LegacyScore = tPlayer.Character.Stats.PvP_Rating.StatBaseValue;
+                            uint LegacyScore = tPlayer.Character.Stats.PvpRating.StatBaseValue;
                             string LegacyTitle = null;
                             if (LegacyScore < 1400)
                             {
@@ -266,15 +266,15 @@ namespace ZoneEngine.PacketHandlers
                             infoPacket.PushUInt(tPlayer.Character.Stats.InvadersKilled.Value); // Invaders Killed
                             infoPacket.PushUInt(tPlayer.Character.Stats.KilledByInvaders.Value); // Killed by Invaders
                             infoPacket.PushUInt(tPlayer.Character.Stats.AlienLevel.Value); // Alien Level
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PVPDuelKills.Value); // Pvp Duel Kills 
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PVPDuelDeaths.Value); // Pvp Duel Deaths
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PVPProfessionDuelDeaths.Value);
+                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpDuelKills.Value); // Pvp Duel Kills 
+                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpDuelDeaths.Value); // Pvp Duel Deaths
+                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpProfessionDuelDeaths.Value);
                             // Pvp Profession Duel Kills 
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PVPRankedSoloKills.Value); // Pvp Solo Kills
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PVPRankedSoloDeaths.Value); // Pvp Team Kills
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PVPSoloScore.Value); // Pvp Solo Score
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PVPTeamScore.Value); // Pvp Team Score
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PVPDuelScore.Value); // Pvp Duel Score
+                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpRankedSoloKills.Value); // Pvp Solo Kills
+                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpRankedSoloDeaths.Value); // Pvp Team Kills
+                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpSoloScore.Value); // Pvp Solo Score
+                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpTeamScore.Value); // Pvp Team Score
+                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpDuelScore.Value); // Pvp Duel Score
 
                             byte[] infoPacketA = infoPacket.Finish();
                             client.SendCompressed(infoPacketA);
@@ -442,10 +442,10 @@ namespace ZoneEngine.PacketHandlers
                 case 0x34:
                     int nextid = client.Character.GetNextFreeInventory(m_ident.Type);
                     InventoryEntries i = client.Character.getInventoryAt(m_ident.Instance);
-                    i.Item.multiplecount -= unknown3;
+                    i.Item.MultipleCount -= unknown3;
                     InventoryEntries i2 = new InventoryEntries();
                     i2.Item = i.Item.ShallowCopy();
-                    i2.Item.multiplecount = unknown3;
+                    i2.Item.MultipleCount = unknown3;
                     i2.Placement = nextid;
                     client.Character.Inventory.Add(i2);
                     client.Character.writeInventorytoSQL();
@@ -456,7 +456,7 @@ namespace ZoneEngine.PacketHandlers
                 case 0x35:
                     InventoryEntries j1 = client.Character.getInventoryAt(m_ident.Instance);
                     InventoryEntries j2 = client.Character.getInventoryAt(unknown3);
-                    j1.Item.multiplecount += j2.Item.multiplecount;
+                    j1.Item.MultipleCount += j2.Item.MultipleCount;
                     client.Character.Inventory.Remove(j2);
                     client.Character.writeInventorytoSQL();
 

@@ -53,18 +53,6 @@ namespace ZoneEngine
     {
         public class LootItem
         {
-            public string Hash;
-
-            public int LowID;
-
-            public int HighID;
-
-            public int MinQL;
-
-            public int MaxQL;
-
-            public bool RangeCheck;
-
             public LootItem(string hash, string lowid, string highid, string minql, string maxql, string rangecheck)
             {
                 this.Hash = hash;
@@ -74,6 +62,18 @@ namespace ZoneEngine
                 this.MaxQL = Convert.ToInt32(maxql);
                 this.RangeCheck = Convert.ToBoolean(Convert.ToByte(rangecheck));
             }
+
+            public string Hash { get; set; }
+
+            public int LowID { get; set; }
+
+            public int HighID { get; set; }
+
+            public int MinQL { get; set; }
+
+            public int MaxQL { get; set; }
+
+            public bool RangeCheck { get; set; }
         }
 
         public class PartialSlot
@@ -86,10 +86,10 @@ namespace ZoneEngine
 
             public PartialSlot(string hash, string slot, string chance)
             {
-                string[] hasharray = hash.Split('+');
-                foreach (string h in hasharray)
+                string[] hashArray = hash.Split('+');
+                foreach (string hash1 in hashArray)
                 {
-                    this.HashList.Add(h.Trim());
+                    this.HashList.Add(hash1.Trim());
                 }
                 this.Slot = Convert.ToInt32(slot);
                 this.Chance = Convert.ToInt32(chance);
@@ -128,13 +128,13 @@ namespace ZoneEngine
                 new SqlWrapper().ReadDatatable(
                     "SELECT drophashes, dropslots, droppercents FROM mobtemplate WHERE hash = " + npc.Hash + ";").Rows;
 
-            int numberofslots = 0;
+            int numberOfSlots = 0;
 
             string[] hashes = lootinfo[0][0].ToString().ToLower().Split(',');
             string[] slots = lootinfo[0][1].ToString().ToLower().Split(',');
             string[] percents = lootinfo[0][2].ToString().ToLower().Split(',');
 
-            if (hashes.Count() == 0)
+            if (!hashes.Any())
             {
                 return null;
             }
@@ -145,19 +145,19 @@ namespace ZoneEngine
 
             foreach (string s in slots)
             {
-                numberofslots = Math.Max(numberofslots, Convert.ToInt32(s.Trim()));
+                numberOfSlots = Math.Max(numberOfSlots, Convert.ToInt32(s.Trim()));
             }
 
             List<PartialSlot> list = new List<PartialSlot>();
 
-            for (int i = 0; i < hashes.Count(); ++i)
+            for (int hashNumber = 0; hashNumber < hashes.Count(); ++hashNumber)
             {
-                list.Add(new PartialSlot(hashes[i].Trim(), slots[i].Trim(), percents[i].Trim()));
+                list.Add(new PartialSlot(hashes[hashNumber].Trim(), slots[hashNumber].Trim(), percents[hashNumber].Trim()));
             }
 
-            for (int i = 1; i <= numberofslots; ++i)
+            for (int slotNumber = 1; slotNumber <= numberOfSlots; ++slotNumber)
             {
-                var fullSlot = list.Where(match => match.Slot == i).Select(match => match);
+                var fullSlot = list.Where(match => match.Slot == slotNumber).Select(match => match);
 
                 Random rand = new Random();
                 double num = rand.NextDouble();
@@ -193,7 +193,7 @@ namespace ZoneEngine
 
                         int ql = rand.Next(minql - 1, maxql + 1);
 
-                        if (union.Count() > 0)
+                        if (union.Any())
                         {
                             int select = rand.Next(-1, union.Count());
 
@@ -202,7 +202,7 @@ namespace ZoneEngine
 
                             if (item.ItemType != 1)
                             {
-                                item.multiplecount = Math.Max(1, item.getItemAttribute(212));
+                                item.MultipleCount = Math.Max(1, item.getItemAttribute(212));
                             }
                             else
                             {
@@ -219,9 +219,8 @@ namespace ZoneEngine
                                 }
                                 if (!found)
                                 {
-                                    AOItemAttribute aoi = new AOItemAttribute();
-                                    aoi.Stat = 212;
-                                    aoi.Value = Math.Max(1, item.getItemAttribute(212));
+                                    AOItemAttribute aoi = new AOItemAttribute
+                                        { Stat = 212, Value = Math.Max(1, item.getItemAttribute(212)) };
                                     item.Stats.Add(aoi);
                                 }
                             }

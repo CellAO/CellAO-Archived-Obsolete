@@ -67,7 +67,7 @@ namespace ZoneEngine.Functions
         {
             Character ch = (Character)Self;
             Dictionary<int, uint> statstoupdate = new Dictionary<int, uint>();
-            foreach (ClassStat cs in ch.Stats.all)
+            foreach (ClassStat cs in ch.Stats.All)
             {
                 if (cs.Changed)
                 {
