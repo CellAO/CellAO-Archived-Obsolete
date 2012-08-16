@@ -33,38 +33,34 @@ namespace ZoneEngine.Misc
 
     public class KnuBotClass
     {
-        protected Character _talkingto;
+        public Character TalkingTo { get; set; }
 
-        public Character TalkingTo
+        public NonPlayerCharacterClass Parent { get; set; }
+
+        private readonly List<AOItem> tradedItems = new List<AOItem>();
+
+        public bool InTrade { get; set; }
+
+        public bool WantsTrade { get; set; }
+
+        public List<AOItem> TradedItems
         {
             get
             {
-                return this._talkingto;
-            }
-            set
-            {
-                this._talkingto = value;
+                return tradedItems;
             }
         }
 
-        public NonPlayerCharacterClass parent;
-
-        public List<AOItem> TradedItems = new List<AOItem>();
-
-        public bool InTrade;
-
-        public bool WantsTrade;
-
-        public KnuBotClass(Character target, NonPlayerCharacterClass _parent)
+        public KnuBotClass(Character target, NonPlayerCharacterClass parentNpc)
         {
             this.TalkingTo = target;
-            this.parent = _parent;
+            this.Parent = parentNpc;
         }
 
-        public KnuBotClass(NonPlayerCharacterClass _parent)
+        public KnuBotClass(NonPlayerCharacterClass parentNpc)
         {
             this.TalkingTo = null;
-            this.parent = _parent;
+            this.Parent = parentNpc;
 
             this.CallKnuBotAcceptTrade += this.OnKnuBotAcceptTrade;
             this.CallKnuBotAnswer += this.OnKnuBotAnswer;
@@ -81,10 +77,10 @@ namespace ZoneEngine.Misc
 
         public virtual void OnKnuBotCloseChatWindow(object sender, KnuBotEventArgs e)
         {
-            if (this.TradedItems.Count > 0)
+            if (this.tradedItems.Count > 0)
             {
-                KnuBotRejectedItems.Send(this.TalkingTo.client, this.parent, this.TradedItems.ToArray());
-                this.TradedItems.Clear();
+                KnuBotRejectedItems.Send(this.TalkingTo.client, this.Parent, this.tradedItems.ToArray());
+                this.tradedItems.Clear();
             }
         }
 
@@ -99,12 +95,12 @@ namespace ZoneEngine.Misc
 
         public virtual void OnKnuBotDeclineTrade(object sender, KnuBotEventArgs e)
         {
-            KnuBotRejectedItems.Send(this.TalkingTo.client, this.parent, this.TradedItems.ToArray());
-            foreach (AOItem item in this.TradedItems)
+            KnuBotRejectedItems.Send(this.TalkingTo.client, this.Parent, this.tradedItems.ToArray());
+            foreach (AOItem item in this.tradedItems)
             {
                 this.TalkingTo.AddItemToInventory(item);
             }
-            this.TradedItems.Clear();
+            this.tradedItems.Clear();
             this.InTrade = false;
         }
 
@@ -112,52 +108,52 @@ namespace ZoneEngine.Misc
         {
             if (this.WantsTrade && !this.InTrade)
             {
-                this.TradedItems.Clear();
+                this.tradedItems.Clear();
                 this.InTrade = true;
             }
         }
 
         public virtual void OnKnuBotTrade(object sender, KnuBotTradeEventArgs e)
         {
-            this.TradedItems.Add(e._item);
+            this.tradedItems.Add(e.Item);
         }
 
         public virtual void Action(Int32 actionnumber)
         {
         }
 
-        public void KnuBotNextAction(int ActionNumber, uint delay)
+        public void KnuBotNextAction(int actionNumber, uint delay)
         {
-            this.parent.AddTimer(
-                20000, DateTime.Now + TimeSpan.FromMilliseconds(delay), this.CreateKnuBotFunction(ActionNumber), false);
+            this.Parent.AddTimer(
+                20000, DateTime.Now + TimeSpan.FromMilliseconds(delay), this.CreateKnuBotFunction(actionNumber), false);
         }
 
         public void AppendText(string message)
         {
             KnuBotAppendText.Send(
                 this.TalkingTo.client,
-                this.parent,
-                message.Replace("%name", this.TalkingTo.Name).Replace("%myname", this.parent.Name) + "\n");
+                this.Parent,
+                message.Replace("%name", this.TalkingTo.Name).Replace("%myname", this.Parent.Name) + "\n");
         }
 
         public void SendChoices(string[] choices)
         {
-            KnuBotAnswerList.Send(this.TalkingTo.client, this.parent, choices);
+            KnuBotAnswerList.Send(this.TalkingTo.client, this.Parent, choices);
         }
 
         public void OpenTrade(string message, int numberofitemslots)
         {
-            PacketHandlers.KnuBotStartTrade.Send(this.TalkingTo.client, this.parent, message, numberofitemslots);
+            PacketHandlers.KnuBotStartTrade.Send(this.TalkingTo.client, this.Parent, message, numberofitemslots);
         }
 
         public void OpenChat()
         {
-            Packets.KnuBotOpenChatWindow.Send(this.TalkingTo.client, this.parent);
+            Packets.KnuBotOpenChatWindow.Send(this.TalkingTo.client, this.Parent);
         }
 
         public void CloseChat()
         {
-            PacketHandlers.KnuBotCloseChatWindow.Send(this.TalkingTo, this.parent);
+            PacketHandlers.KnuBotCloseChatWindow.Send(this.TalkingTo, this.Parent);
         }
 
         public void SpawnItem(int lowid, int highid, int ql)
@@ -172,14 +168,14 @@ namespace ZoneEngine.Misc
             AddTemplate.Send(this.TalkingTo.client, mi);
         }
 
-        public AOFunctions CreateKnuBotFunction(int KnuBotaction)
+        public AOFunctions CreateKnuBotFunction(int knubotAction)
         {
             AOFunctions aof = new AOFunctions();
-            aof.Arguments.Add(KnuBotaction);
+            aof.Arguments.Add(knubotAction);
             aof.TickCount = 1;
             aof.TickInterval = 0;
             aof.FunctionType = 2; // KnuBotActionTimer
-            aof.Target = this.parent.ID;
+            aof.Target = this.Parent.ID;
             return aof;
         }
 
@@ -198,19 +194,6 @@ namespace ZoneEngine.Misc
         }
 
         #region KnuBot Events
-        public class KnuBotAnswerEventArgs : EventArgs
-        {
-            public Character _sender;
-
-            public int _answer;
-
-            public KnuBotAnswerEventArgs(Character sender, int answer)
-            {
-                this._sender = sender;
-                this._answer = answer;
-            }
-        }
-
         public event EventHandler<KnuBotAnswerEventArgs> CallKnuBotAnswer;
 
         protected virtual void OnKnuBotAnswerEvent(KnuBotAnswerEventArgs e)
@@ -225,16 +208,6 @@ namespace ZoneEngine.Misc
         public void KnuBotAnswer(Character ch, int number)
         {
             this.OnKnuBotAnswerEvent(new KnuBotAnswerEventArgs(ch, number));
-        }
-
-        public class KnuBotEventArgs : EventArgs
-        {
-            public Character _sender;
-
-            public KnuBotEventArgs(Character sender)
-            {
-                this._sender = sender;
-            }
         }
 
         public event EventHandler<KnuBotEventArgs> CallKnuBotCloseChatWindow;
@@ -318,19 +291,6 @@ namespace ZoneEngine.Misc
             this.OnKnuBotStartTradeEvent(new KnuBotEventArgs(character));
         }
 
-        public class KnuBotTradeEventArgs : EventArgs
-        {
-            public Character _sender;
-
-            public AOItem _item;
-
-            public KnuBotTradeEventArgs(Character sender, AOItem item)
-            {
-                this._sender = sender;
-                this._item = item;
-            }
-        }
-
         public event EventHandler<KnuBotTradeEventArgs> CallKnuBotTrade;
 
         protected virtual void OnKnuBotTradeEvent(KnuBotTradeEventArgs e)
@@ -348,4 +308,41 @@ namespace ZoneEngine.Misc
         }
         #endregion
     }
+
+    public class KnuBotEventArgs : EventArgs
+    {
+        public Character Sender { get; set; }
+
+        public KnuBotEventArgs(Character sender)
+        {
+            this.Sender = sender;
+        }
+    }
+
+    public class KnuBotAnswerEventArgs : EventArgs
+    {
+        public Character Sender { get; set; }
+
+        public int Answer { get; set; }
+
+        public KnuBotAnswerEventArgs(Character sender, int answer)
+        {
+            this.Sender = sender;
+            this.Answer = answer;
+        }
+    }
+
+    public class KnuBotTradeEventArgs : EventArgs
+    {
+        public Character Sender { get; set; }
+
+        public AOItem Item { get; set; }
+
+        public KnuBotTradeEventArgs(Character sender, AOItem item)
+        {
+            this.Sender = sender;
+            this.Item = item;
+        }
+    }
+
 }

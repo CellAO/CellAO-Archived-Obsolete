@@ -201,13 +201,13 @@ namespace ZoneEngine.Misc
 
         static Playfields()
         {
-            Instance = LoadXML(Path.Combine("XML Data", "Playfields.xml"));
+            Instance = LoadXml(Path.Combine("XML Data", "Playfields.xml"));
         }
         #endregion
 
         #region XML
         // Generally this shouldn't be used outside of the static constructor
-        public static Playfields LoadXML(string fileName)
+        public static Playfields LoadXml(string fileName)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Playfields));
             TextReader reader = new StreamReader(fileName);
@@ -217,7 +217,7 @@ namespace ZoneEngine.Misc
         }
 
         // This really should only be used for development. Included for completeness.
-        public static void DumpXML(string fileName)
+        public static void DumpXml(string fileName)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Playfields));
             XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();

@@ -32,49 +32,50 @@ namespace ZoneEngine.Misc
 
     using ZoneEngine.Packets;
 
+    #region StatChangedEventArgs
+    /// <summary>
+    /// Event Arguments for changed stats
+    /// </summary>
+    public class StatChangedEventArgs : EventArgs
+    {
+        public StatChangedEventArgs(
+            ClassStat changedStat, uint valueBeforeChange, uint valueAfterChange, bool announceToPlayfield)
+        {
+            this.stat = changedStat;
+            this.OldValue = valueBeforeChange;
+            this.NewValue = valueAfterChange;
+            this.AnnounceToPlayfield = announceToPlayfield;
+        }
+
+        private readonly ClassStat stat;
+
+        public ClassStat Stat
+        {
+            get
+            {
+                return this.stat;
+            }
+        }
+
+        public uint OldValue { get; set; }
+
+        public Dynel Parent
+        {
+            get
+            {
+                return this.stat.Parent;
+            }
+        }
+
+        public uint NewValue { get; set; }
+
+        public bool AnnounceToPlayfield { get; set; }
+    }
+    #endregion
+
     #region ClassStat  class for one stat
     public class ClassStat
     {
-        #region StatChangedEventArgs
-        /// <summary>
-        /// Event Arguments for changed stats
-        /// </summary>
-        public class StatChangedEventArgs : EventArgs
-        {
-            public StatChangedEventArgs(
-                ClassStat changedStat, uint valueBeforeChange, uint valueAfterChange, bool announceToPlayfield)
-            {
-                this.stat = changedStat;
-                this.OldValue = valueBeforeChange;
-                this.NewValue = valueAfterChange;
-                this.AnnounceToPlayfield = announceToPlayfield;
-            }
-
-            private readonly ClassStat stat;
-
-            public ClassStat Stat
-            {
-                get
-                {
-                    return this.stat;
-                }
-            }
-
-            public uint OldValue { get; set; }
-
-            public Dynel Parent
-            {
-                get
-                {
-                    return this.stat.Parent;
-                }
-            }
-
-            public uint NewValue { get; set; }
-
-            public bool AnnounceToPlayfield { get; set; }
-        }
-        #endregion
 
         #region Eventhandlers
         public event EventHandler<StatChangedEventArgs> RaiseBeforeStatChangedEvent;
@@ -100,7 +101,7 @@ namespace ZoneEngine.Misc
         }
         #endregion
 
-        public int StatNumber;
+        public int StatNumber { get; set; }
 
         public virtual int Value
         {
@@ -110,7 +111,7 @@ namespace ZoneEngine.Misc
                     (int)
                     Math.Floor((double)
 // ReSharper disable PossibleLossOfFraction
-                        ((this.StatBaseValue + this.StatModifier + this.Trickle) * this.StatPercentageModifier / 100));
+                        ((this.StatBaseValue + this.StatModifier + this.Trickle) * this.statPercentageModifier / 100));
 // ReSharper restore PossibleLossOfFraction
             }
             set
@@ -119,27 +120,79 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public uint StatDefaultValue;
+        public Dynel Parent
+        {
+            get
+            {
+                return parent;
+            }
+        }
 
-        public uint StatBaseValue;
+        public uint StatDefaultValue { get; set; }
 
-        public int StatPercentageModifier = 100; // From Items/Perks/Nanos
+        public uint StatBaseValue { get; set; }
 
-        public int StatModifier; // From Items/Perks/Nanos
+        public int StatPercentageModifier
+        {
+            get
+            {
+                return statPercentageModifier;
+            }
+            set
+            {
+                statPercentageModifier = value;
+            }
+        }
 
-        public int Trickle; // From Attributes (Strength, Stamina, Sense, Agility, Intelligence, Psychic)
+        private int statPercentageModifier = 100; // From Items/Perks/Nanos
 
-        public bool AnnounceToPlayfield = true;
+        public int StatModifier { get; set; }
 
-        public bool DoNotDontWriteToSql;
+        public int Trickle { get; set; }
 
-        public bool SendBaseValue = true;
+        public bool AnnounceToPlayfield
+        {
+            get
+            {
+                return announceToPlayfield;
+            }
+            set
+            {
+                announceToPlayfield = value;
+            }
+        }
 
-        public bool Changed;
+        private bool announceToPlayfield = true;
 
-        public List<int> Affects = new List<int>();
+        public bool DoNotDontWriteToSql { get; set; }
 
-        public Dynel Parent;
+        public bool SendBaseValue
+        {
+            get
+            {
+                return sendBaseValue;
+            }
+            set
+            {
+                sendBaseValue = value;
+            }
+        }
+
+        private bool sendBaseValue = true;
+
+        public bool Changed { get; set; }
+
+        public List<int> Affects
+        {
+            get
+            {
+                return affects;
+            }
+        }
+
+        private List<int> affects = new List<int>();
+
+        private Dynel parent;
 
         public ClassStat(
             int number, uint defaultValue, string name, bool sendBaseValue, bool dontWrite, bool announceToPlayfield)
@@ -149,9 +202,9 @@ namespace ZoneEngine.Misc
             this.StatDefaultValue = defaultValue;
             this.StatBaseValue = defaultValue;
             this.StatDefaultValue = defaultValue;
-            this.SendBaseValue = sendBaseValue;
+            this.sendBaseValue = sendBaseValue;
             this.DoNotDontWriteToSql = dontWrite;
-            this.AnnounceToPlayfield = announceToPlayfield;
+            this.announceToPlayfield = announceToPlayfield;
             // Obsolete            StatName = name;
         }
 
@@ -164,7 +217,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         public virtual void CalcTrickle()
         {
-            if (!this.Parent.startup)
+            if (!this.parent.startup)
             {
                 this.AffectStats();
             }
@@ -177,7 +230,7 @@ namespace ZoneEngine.Misc
 
         public void Set(uint value)
         {
-            if ((this.Parent == null) || (this.Parent.startup))
+            if ((this.parent == null) || (this.parent.startup))
             {
                 this.StatBaseValue = value;
                 return;
@@ -186,13 +239,13 @@ namespace ZoneEngine.Misc
             {
                 uint oldvalue = (uint)this.Value;
                 uint max = this.GetMaxValue(value);
-                this.OnBeforeStatChangedEvent(new StatChangedEventArgs(this, oldvalue, max, this.AnnounceToPlayfield));
+                this.OnBeforeStatChangedEvent(new StatChangedEventArgs(this, oldvalue, max, this.announceToPlayfield));
                 this.StatBaseValue = max;
-                this.OnAfterStatChangedEvent(new StatChangedEventArgs(this, oldvalue, max, this.AnnounceToPlayfield));
+                this.OnAfterStatChangedEvent(new StatChangedEventArgs(this, oldvalue, max, this.announceToPlayfield));
                 this.Changed = true;
                 this.WriteStatToSQL();
 
-                if (!this.Parent.startup)
+                if (!this.parent.startup)
                 {
                     this.AffectStats();
                 }
@@ -206,7 +259,7 @@ namespace ZoneEngine.Misc
 
         public void SetParent(Dynel parent)
         {
-            this.Parent = parent;
+            this.parent = parent;
         }
 
         #region read and write to SQL
@@ -219,23 +272,23 @@ namespace ZoneEngine.Misc
             {
                 return;
             }
-            int id = this.Parent.ID;
+            int id = this.parent.ID;
             SqlWrapper sql = new SqlWrapper();
             if (this.Changed)
             {
-                if (this.Parent is NonPlayerCharacterClass)
+                if (this.parent is NonPlayerCharacterClass)
                 {
                     sql.SqlInsert(
-                        "INSERT INTO " + (this.Parent).getSQLTablefromDynelType()
+                        "INSERT INTO " + (this.parent).getSQLTablefromDynelType()
                         + "_stats (ID, Playfield, Stat, Value) VALUES (" + id + ","
-                        + this.Parent.PlayField + "," + this.StatNumber + ","
+                        + this.parent.PlayField + "," + this.StatNumber + ","
                         + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
                         + ((Int32)this.StatBaseValue) + ";");
                 }
                 else
                 {
                     sql.SqlInsert(
-                        "INSERT INTO " + (this.Parent).getSQLTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
+                        "INSERT INTO " + (this.parent).getSQLTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
                         + id + "," + this.StatNumber + ","
                         + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
                         + ((Int32)this.StatBaseValue) + ";");
@@ -252,22 +305,22 @@ namespace ZoneEngine.Misc
             {
                 return;
             }
-            int id = this.Parent.ID;
+            int id = this.parent.ID;
             SqlWrapper sql = new SqlWrapper();
             if (doit)
             {
-                if (this.Parent is NonPlayerCharacterClass)
+                if (this.parent is NonPlayerCharacterClass)
                 {
                     sql.SqlInsert(
-                        "INSERT INTO " + (this.Parent).getSQLTablefromDynelType()
-                        + "_stats (ID, Playfield, Stat, Value) VALUES (" + id + "," + this.Parent.PlayField
+                        "INSERT INTO " + (this.parent).getSQLTablefromDynelType()
+                        + "_stats (ID, Playfield, Stat, Value) VALUES (" + id + "," + this.parent.PlayField
                         + "," + this.StatNumber + "," + ((Int32)this.StatBaseValue)
                         + ") ON DUPLICATE KEY UPDATE Value=" + ((Int32)this.StatBaseValue) + ";");
                 }
                 else
                 {
                     sql.SqlInsert(
-                        "INSERT INTO " + (this.Parent).getSQLTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
+                        "INSERT INTO " + (this.parent).getSQLTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
                         + id + "," + this.StatNumber + ","
                         + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
                         + ((Int32)this.StatBaseValue) + ";");
@@ -285,10 +338,10 @@ namespace ZoneEngine.Misc
                 return;
             }
             SqlWrapper sql = new SqlWrapper();
-            int id = this.Parent.ID;
+            int id = this.parent.ID;
             DataTable dt =
                 sql.ReadDatatable(
-                    "SELECT Value FROM " + this.Parent.getSQLTablefromDynelType() + " WHERE ID=" + id
+                    "SELECT Value FROM " + this.parent.getSQLTablefromDynelType() + " WHERE ID=" + id
                     + " AND Stat=" + this.StatNumber + ";");
 
             if (dt.Rows.Count > 0)
@@ -301,13 +354,13 @@ namespace ZoneEngine.Misc
         #region Call Stats affected by this stat
         public void AffectStats()
         {
-            if (!(this.Parent is Character) && !(this.Parent is NonPlayerCharacterClass))
+            if (!(this.parent is Character) && !(this.parent is NonPlayerCharacterClass))
             {
                 return;
             }
-            foreach (int c in this.Affects)
+            foreach (int c in this.affects)
             {
-                ((Character)this.Parent).Stats.GetStatbyNumber(c).CalcTrickle();
+                ((Character)this.parent).Stats.GetStatbyNumber(c).CalcTrickle();
             }
         }
         #endregion
@@ -1906,7 +1959,7 @@ namespace ZoneEngine.Misc
         private readonly ClassStat streamCheckMagic = new ClassStat(
             999, 1234567890, "StreamCheckMagic", false, false, false);
 
-        private readonly ClassStat type = new ClassStat(1001, 1234567890, "Type", false, true, false);
+        private readonly ClassStat objectType = new ClassStat(1001, 1234567890, "Type", false, true, false);
 
         private readonly ClassStat instance = new ClassStat(1002, 1234567890, "Instance", false, true, false);
 
@@ -1946,7 +1999,7 @@ namespace ZoneEngine.Misc
         private readonly ClassStat weaponStyleRight = new ClassStat(1016, 0, "WeaponStyleRight", false, false, false);
         #endregion
 
-        public List<ClassStat> All = new List<ClassStat>();
+        private List<ClassStat> all = new List<ClassStat>();
 
         #region Create Stats
         /// <summary>
@@ -1957,709 +2010,709 @@ namespace ZoneEngine.Misc
         public CharacterStats(Character parent)
         {
             #region Add stats to list
-            this.All.Add(this.flags);
-            this.All.Add(this.life);
-            this.All.Add(this.volumeMass);
-            this.All.Add(this.attackSpeed);
-            this.All.Add(this.breed);
-            this.All.Add(this.clan);
-            this.All.Add(this.team);
-            this.All.Add(this.state);
-            this.All.Add(this.timeExist);
-            this.All.Add(this.mapFlags);
-            this.All.Add(this.professionLevel);
-            this.All.Add(this.previousHealth);
-            this.All.Add(this.mesh);
-            this.All.Add(this.anim);
-            this.All.Add(this.name);
-            this.All.Add(this.info);
-            this.All.Add(this.strength);
-            this.All.Add(this.agility);
-            this.All.Add(this.stamina);
-            this.All.Add(this.intelligence);
-            this.All.Add(this.sense);
-            this.All.Add(this.psychic);
-            this.All.Add(this.ams);
-            this.All.Add(this.staticInstance);
-            this.All.Add(this.maxMass);
-            this.All.Add(this.staticType);
-            this.All.Add(this.energy);
-            this.All.Add(this.health);
-            this.All.Add(this.height);
-            this.All.Add(this.dms);
-            this.All.Add(this.can);
-            this.All.Add(this.face);
-            this.All.Add(this.hairMesh);
-            this.All.Add(this.side);
-            this.All.Add(this.deadTimer);
-            this.All.Add(this.accessCount);
-            this.All.Add(this.attackCount);
-            this.All.Add(this.titleLevel);
-            this.All.Add(this.backMesh);
-            this.All.Add(this.alienXP);
-            this.All.Add(this.fabricType);
-            this.All.Add(this.catMesh);
-            this.All.Add(this.parentType);
-            this.All.Add(this.parentInstance);
-            this.All.Add(this.beltSlots);
-            this.All.Add(this.bandolierSlots);
-            this.All.Add(this.fatness);
-            this.All.Add(this.clanLevel);
-            this.All.Add(this.insuranceTime);
-            this.All.Add(this.inventoryTimeout);
-            this.All.Add(this.aggDef);
-            this.All.Add(this.xp);
-            this.All.Add(this.ip);
-            this.All.Add(this.level);
-            this.All.Add(this.inventoryId);
-            this.All.Add(this.timeSinceCreation);
-            this.All.Add(this.lastXP);
-            this.All.Add(this.age);
-            this.All.Add(this.sex);
-            this.All.Add(this.profession);
-            this.All.Add(this.cash);
-            this.All.Add(this.alignment);
-            this.All.Add(this.attitude);
-            this.All.Add(this.headMesh);
-            this.All.Add(this.missionBits5);
-            this.All.Add(this.missionBits6);
-            this.All.Add(this.missionBits7);
-            this.All.Add(this.veteranPoints);
-            this.All.Add(this.monthsPaid);
-            this.All.Add(this.speedPenalty);
-            this.All.Add(this.totalMass);
-            this.All.Add(this.itemType);
-            this.All.Add(this.repairDifficulty);
-            this.All.Add(this.price);
-            this.All.Add(this.metaType);
-            this.All.Add(this.itemClass);
-            this.All.Add(this.repairSkill);
-            this.All.Add(this.currentMass);
-            this.All.Add(this.icon);
-            this.All.Add(this.primaryItemType);
-            this.All.Add(this.primaryItemInstance);
-            this.All.Add(this.secondaryItemType);
-            this.All.Add(this.secondaryItemInstance);
-            this.All.Add(this.userType);
-            this.All.Add(this.userInstance);
-            this.All.Add(this.areaType);
-            this.All.Add(this.areaInstance);
-            this.All.Add(this.defaultPos);
-            this.All.Add(this.race);
-            this.All.Add(this.projectileAC);
-            this.All.Add(this.meleeAC);
-            this.All.Add(this.energyAC);
-            this.All.Add(this.chemicalAC);
-            this.All.Add(this.radiationAC);
-            this.All.Add(this.coldAC);
-            this.All.Add(this.poisonAC);
-            this.All.Add(this.fireAC);
-            this.All.Add(this.stateAction);
-            this.All.Add(this.itemAnim);
-            this.All.Add(this.martialArts);
-            this.All.Add(this.meleeMultiple);
-            this.All.Add(this.onehBluntWeapons);
-            this.All.Add(this.onehEdgedWeapon);
-            this.All.Add(this.meleeEnergyWeapon);
-            this.All.Add(this.twohEdgedWeapons);
-            this.All.Add(this.piercing);
-            this.All.Add(this.twohBluntWeapons);
-            this.All.Add(this.throwingKnife);
-            this.All.Add(this.grenade);
-            this.All.Add(this.thrownGrapplingWeapons);
-            this.All.Add(this.bow);
-            this.All.Add(this.pistol);
-            this.All.Add(this.rifle);
-            this.All.Add(this.subMachineGun);
-            this.All.Add(this.shotgun);
-            this.All.Add(this.assaultRifle);
-            this.All.Add(this.driveWater);
-            this.All.Add(this.closeCombatInitiative);
-            this.All.Add(this.distanceWeaponInitiative);
-            this.All.Add(this.physicalProwessInitiative);
-            this.All.Add(this.bowSpecialAttack);
-            this.All.Add(this.senseImprovement);
-            this.All.Add(this.firstAid);
-            this.All.Add(this.treatment);
-            this.All.Add(this.mechanicalEngineering);
-            this.All.Add(this.electricalEngineering);
-            this.All.Add(this.materialMetamorphose);
-            this.All.Add(this.biologicalMetamorphose);
-            this.All.Add(this.psychologicalModification);
-            this.All.Add(this.materialCreation);
-            this.All.Add(this.materialLocation);
-            this.All.Add(this.nanoEnergyPool);
-            this.All.Add(this.lrEnergyWeapon);
-            this.All.Add(this.lrMultipleWeapon);
-            this.All.Add(this.disarmTrap);
-            this.All.Add(this.perception);
-            this.All.Add(this.adventuring);
-            this.All.Add(this.swim);
-            this.All.Add(this.driveAir);
-            this.All.Add(this.mapNavigation);
-            this.All.Add(this.tutoring);
-            this.All.Add(this.brawl);
-            this.All.Add(this.riposte);
-            this.All.Add(this.dimach);
-            this.All.Add(this.parry);
-            this.All.Add(this.sneakAttack);
-            this.All.Add(this.fastAttack);
-            this.All.Add(this.burst);
-            this.All.Add(this.nanoProwessInitiative);
-            this.All.Add(this.flingShot);
-            this.All.Add(this.aimedShot);
-            this.All.Add(this.bodyDevelopment);
-            this.All.Add(this.duck);
-            this.All.Add(this.dodge);
-            this.All.Add(this.evade);
-            this.All.Add(this.runSpeed);
-            this.All.Add(this.fieldQuantumPhysics);
-            this.All.Add(this.weaponSmithing);
-            this.All.Add(this.pharmaceuticals);
-            this.All.Add(this.nanoProgramming);
-            this.All.Add(this.computerLiteracy);
-            this.All.Add(this.psychology);
-            this.All.Add(this.chemistry);
-            this.All.Add(this.concealment);
-            this.All.Add(this.breakingEntry);
-            this.All.Add(this.driveGround);
-            this.All.Add(this.fullAuto);
-            this.All.Add(this.nanoAC);
-            this.All.Add(this.alienLevel);
-            this.All.Add(this.healthChangeBest);
-            this.All.Add(this.healthChangeWorst);
-            this.All.Add(this.healthChange);
-            this.All.Add(this.currentMovementMode);
-            this.All.Add(this.prevMovementMode);
-            this.All.Add(this.autoLockTimeDefault);
-            this.All.Add(this.autoUnlockTimeDefault);
-            this.All.Add(this.moreFlags);
-            this.All.Add(this.alienNextXP);
-            this.All.Add(this.npcFlags);
-            this.All.Add(this.currentNCU);
-            this.All.Add(this.maxNCU);
-            this.All.Add(this.specialization);
-            this.All.Add(this.effectIcon);
-            this.All.Add(this.buildingType);
-            this.All.Add(this.buildingInstance);
-            this.All.Add(this.cardOwnerType);
-            this.All.Add(this.cardOwnerInstance);
-            this.All.Add(this.buildingComplexInst);
-            this.All.Add(this.exitInstance);
-            this.All.Add(this.nextDoorInBuilding);
-            this.All.Add(this.lastConcretePlayfieldInstance);
-            this.All.Add(this.extenalPlayfieldInstance);
-            this.All.Add(this.extenalDoorInstance);
-            this.All.Add(this.inPlay);
-            this.All.Add(this.accessKey);
-            this.All.Add(this.petMaster);
-            this.All.Add(this.orientationMode);
-            this.All.Add(this.sessionTime);
-            this.All.Add(this.rp);
-            this.All.Add(this.conformity);
-            this.All.Add(this.aggressiveness);
-            this.All.Add(this.stability);
-            this.All.Add(this.extroverty);
-            this.All.Add(this.breedHostility);
-            this.All.Add(this.reflectProjectileAC);
-            this.All.Add(this.reflectMeleeAC);
-            this.All.Add(this.reflectEnergyAC);
-            this.All.Add(this.reflectChemicalAC);
-            this.All.Add(this.rechargeDelay);
-            this.All.Add(this.equipDelay);
-            this.All.Add(this.maxEnergy);
-            this.All.Add(this.teamSide);
-            this.All.Add(this.currentNano);
-            this.All.Add(this.gmLevel);
-            this.All.Add(this.reflectRadiationAC);
-            this.All.Add(this.reflectColdAC);
-            this.All.Add(this.reflectNanoAC);
-            this.All.Add(this.reflectFireAC);
-            this.All.Add(this.currBodyLocation);
-            this.All.Add(this.maxNanoEnergy);
-            this.All.Add(this.accumulatedDamage);
-            this.All.Add(this.canChangeClothes);
-            this.All.Add(this.features);
-            this.All.Add(this.reflectPoisonAC);
-            this.All.Add(this.shieldProjectileAC);
-            this.All.Add(this.shieldMeleeAC);
-            this.All.Add(this.shieldEnergyAC);
-            this.All.Add(this.shieldChemicalAC);
-            this.All.Add(this.shieldRadiationAC);
-            this.All.Add(this.shieldColdAC);
-            this.All.Add(this.shieldNanoAC);
-            this.All.Add(this.shieldFireAC);
-            this.All.Add(this.shieldPoisonAC);
-            this.All.Add(this.berserkMode);
-            this.All.Add(this.insurancePercentage);
-            this.All.Add(this.changeSideCount);
-            this.All.Add(this.absorbProjectileAC);
-            this.All.Add(this.absorbMeleeAC);
-            this.All.Add(this.absorbEnergyAC);
-            this.All.Add(this.absorbChemicalAC);
-            this.All.Add(this.absorbRadiationAC);
-            this.All.Add(this.absorbColdAC);
-            this.All.Add(this.absorbFireAC);
-            this.All.Add(this.absorbPoisonAC);
-            this.All.Add(this.absorbNanoAC);
-            this.All.Add(this.temporarySkillReduction);
-            this.All.Add(this.birthDate);
-            this.All.Add(this.lastSaved);
-            this.All.Add(this.soundVolume);
-            this.All.Add(this.petCounter);
-            this.All.Add(this.metersWalked);
-            this.All.Add(this.questLevelsSolved);
-            this.All.Add(this.monsterLevelsKilled);
-            this.All.Add(this.pvPLevelsKilled);
-            this.All.Add(this.missionBits1);
-            this.All.Add(this.missionBits2);
-            this.All.Add(this.accessGrant);
-            this.All.Add(this.doorFlags);
-            this.All.Add(this.clanHierarchy);
-            this.All.Add(this.questStat);
-            this.All.Add(this.clientActivated);
-            this.All.Add(this.personalResearchLevel);
-            this.All.Add(this.globalResearchLevel);
-            this.All.Add(this.personalResearchGoal);
-            this.All.Add(this.globalResearchGoal);
-            this.All.Add(this.turnSpeed);
-            this.All.Add(this.liquidType);
-            this.All.Add(this.gatherSound);
-            this.All.Add(this.castSound);
-            this.All.Add(this.travelSound);
-            this.All.Add(this.hitSound);
-            this.All.Add(this.secondaryItemTemplate);
-            this.All.Add(this.equippedWeapons);
-            this.All.Add(this.xpKillRange);
-            this.All.Add(this.amsModifier);
-            this.All.Add(this.dmsModifier);
-            this.All.Add(this.projectileDamageModifier);
-            this.All.Add(this.meleeDamageModifier);
-            this.All.Add(this.energyDamageModifier);
-            this.All.Add(this.chemicalDamageModifier);
-            this.All.Add(this.radiationDamageModifier);
-            this.All.Add(this.itemHateValue);
-            this.All.Add(this.damageBonus);
-            this.All.Add(this.maxDamage);
-            this.All.Add(this.minDamage);
-            this.All.Add(this.attackRange);
-            this.All.Add(this.hateValueModifyer);
-            this.All.Add(this.trapDifficulty);
-            this.All.Add(this.statOne);
-            this.All.Add(this.numAttackEffects);
-            this.All.Add(this.defaultAttackType);
-            this.All.Add(this.itemSkill);
-            this.All.Add(this.itemDelay);
-            this.All.Add(this.itemOpposedSkill);
-            this.All.Add(this.itemSIS);
-            this.All.Add(this.interactionRadius);
-            this.All.Add(this.placement);
-            this.All.Add(this.lockDifficulty);
-            this.All.Add(this.members);
-            this.All.Add(this.minMembers);
-            this.All.Add(this.clanPrice);
-            this.All.Add(this.missionBits3);
-            this.All.Add(this.clanType);
-            this.All.Add(this.clanInstance);
-            this.All.Add(this.voteCount);
-            this.All.Add(this.memberType);
-            this.All.Add(this.memberInstance);
-            this.All.Add(this.globalClanType);
-            this.All.Add(this.globalClanInstance);
-            this.All.Add(this.coldDamageModifier);
-            this.All.Add(this.clanUpkeepInterval);
-            this.All.Add(this.timeSinceUpkeep);
-            this.All.Add(this.clanFinalized);
-            this.All.Add(this.nanoDamageModifier);
-            this.All.Add(this.fireDamageModifier);
-            this.All.Add(this.poisonDamageModifier);
-            this.All.Add(this.npCostModifier);
-            this.All.Add(this.xpModifier);
-            this.All.Add(this.breedLimit);
-            this.All.Add(this.genderLimit);
-            this.All.Add(this.levelLimit);
-            this.All.Add(this.playerKilling);
-            this.All.Add(this.teamAllowed);
-            this.All.Add(this.weaponDisallowedType);
-            this.All.Add(this.weaponDisallowedInstance);
-            this.All.Add(this.taboo);
-            this.All.Add(this.compulsion);
-            this.All.Add(this.skillDisabled);
-            this.All.Add(this.clanItemType);
-            this.All.Add(this.clanItemInstance);
-            this.All.Add(this.debuffFormula);
-            this.All.Add(this.pvpRating);
-            this.All.Add(this.savedXP);
-            this.All.Add(this.doorBlockTime);
-            this.All.Add(this.overrideTexture);
-            this.All.Add(this.overrideMaterial);
-            this.All.Add(this.deathReason);
-            this.All.Add(this.damageOverrideType);
-            this.All.Add(this.brainType);
-            this.All.Add(this.xpBonus);
-            this.All.Add(this.healInterval);
-            this.All.Add(this.healDelta);
-            this.All.Add(this.monsterTexture);
-            this.All.Add(this.hasAlwaysLootable);
-            this.All.Add(this.tradeLimit);
-            this.All.Add(this.faceTexture);
-            this.All.Add(this.specialCondition);
-            this.All.Add(this.autoAttackFlags);
-            this.All.Add(this.nextXP);
-            this.All.Add(this.teleportPauseMilliSeconds);
-            this.All.Add(this.sisCap);
-            this.All.Add(this.animSet);
-            this.All.Add(this.attackType);
-            this.All.Add(this.nanoFocusLevel);
-            this.All.Add(this.npcHash);
-            this.All.Add(this.collisionRadius);
-            this.All.Add(this.outerRadius);
-            this.All.Add(this.monsterData);
-            this.All.Add(this.monsterScale);
-            this.All.Add(this.hitEffectType);
-            this.All.Add(this.resurrectDest);
-            this.All.Add(this.nanoInterval);
-            this.All.Add(this.nanoDelta);
-            this.All.Add(this.reclaimItem);
-            this.All.Add(this.gatherEffectType);
-            this.All.Add(this.visualBreed);
-            this.All.Add(this.visualProfession);
-            this.All.Add(this.visualSex);
-            this.All.Add(this.ritualTargetInst);
-            this.All.Add(this.skillTimeOnSelectedTarget);
-            this.All.Add(this.lastSaveXP);
-            this.All.Add(this.extendedTime);
-            this.All.Add(this.burstRecharge);
-            this.All.Add(this.fullAutoRecharge);
-            this.All.Add(this.gatherAbstractAnim);
-            this.All.Add(this.castTargetAbstractAnim);
-            this.All.Add(this.castSelfAbstractAnim);
-            this.All.Add(this.criticalIncrease);
-            this.All.Add(this.rangeIncreaserWeapon);
-            this.All.Add(this.rangeIncreaserNF);
-            this.All.Add(this.skillLockModifier);
-            this.All.Add(this.interruptModifier);
-            this.All.Add(this.acgEntranceStyles);
-            this.All.Add(this.chanceOfBreakOnSpellAttack);
-            this.All.Add(this.chanceOfBreakOnDebuff);
-            this.All.Add(this.dieAnim);
-            this.All.Add(this.towerType);
-            this.All.Add(this.expansion);
-            this.All.Add(this.lowresMesh);
-            this.All.Add(this.criticalDecrease);
-            this.All.Add(this.oldTimeExist);
-            this.All.Add(this.resistModifier);
-            this.All.Add(this.chestFlags);
-            this.All.Add(this.primaryTemplateID);
-            this.All.Add(this.numberOfItems);
-            this.All.Add(this.selectedTargetType);
-            this.All.Add(this.corpseHash);
-            this.All.Add(this.ammoName);
-            this.All.Add(this.rotation);
-            this.All.Add(this.catAnim);
-            this.All.Add(this.catAnimFlags);
-            this.All.Add(this.displayCATAnim);
-            this.All.Add(this.displayCATMesh);
-            this.All.Add(this.school);
-            this.All.Add(this.nanoSpeed);
-            this.All.Add(this.nanoPoints);
-            this.All.Add(this.trainSkill);
-            this.All.Add(this.trainSkillCost);
-            this.All.Add(this.isFightingMe);
-            this.All.Add(this.nextFormula);
-            this.All.Add(this.multipleCount);
-            this.All.Add(this.effectType);
-            this.All.Add(this.impactEffectType);
-            this.All.Add(this.corpseType);
-            this.All.Add(this.corpseInstance);
-            this.All.Add(this.corpseAnimKey);
-            this.All.Add(this.unarmedTemplateInstance);
-            this.All.Add(this.tracerEffectType);
-            this.All.Add(this.ammoType);
-            this.All.Add(this.charRadius);
-            this.All.Add(this.chanceOfUse);
-            this.All.Add(this.currentState);
-            this.All.Add(this.armourType);
-            this.All.Add(this.restModifier);
-            this.All.Add(this.buyModifier);
-            this.All.Add(this.sellModifier);
-            this.All.Add(this.castEffectType);
-            this.All.Add(this.npcBrainState);
-            this.All.Add(this.waitState);
-            this.All.Add(this.selectedTarget);
-            this.All.Add(this.missionBits4);
-            this.All.Add(this.ownerInstance);
-            this.All.Add(this.charState);
-            this.All.Add(this.readOnly);
-            this.All.Add(this.damageType);
-            this.All.Add(this.collideCheckInterval);
-            this.All.Add(this.playfieldType);
-            this.All.Add(this.npcCommand);
-            this.All.Add(this.initiativeType);
-            this.All.Add(this.charTmp1);
-            this.All.Add(this.charTmp2);
-            this.All.Add(this.charTmp3);
-            this.All.Add(this.charTmp4);
-            this.All.Add(this.npcCommandArg);
-            this.All.Add(this.nameTemplate);
-            this.All.Add(this.desiredTargetDistance);
-            this.All.Add(this.vicinityRange);
-            this.All.Add(this.npcIsSurrendering);
-            this.All.Add(this.stateMachine);
-            this.All.Add(this.npcSurrenderInstance);
-            this.All.Add(this.npcHasPatrolList);
-            this.All.Add(this.npcVicinityChars);
-            this.All.Add(this.proximityRangeOutdoors);
-            this.All.Add(this.npcFamily);
-            this.All.Add(this.commandRange);
-            this.All.Add(this.npcHatelistSize);
-            this.All.Add(this.npcNumPets);
-            this.All.Add(this.odMinSizeAdd);
-            this.All.Add(this.effectRed);
-            this.All.Add(this.effectGreen);
-            this.All.Add(this.effectBlue);
-            this.All.Add(this.odMaxSizeAdd);
-            this.All.Add(this.durationModifier);
-            this.All.Add(this.npcCryForHelpRange);
-            this.All.Add(this.losHeight);
-            this.All.Add(this.petReq1);
-            this.All.Add(this.petReq2);
-            this.All.Add(this.petReq3);
-            this.All.Add(this.mapOptions);
-            this.All.Add(this.mapAreaPart1);
-            this.All.Add(this.mapAreaPart2);
-            this.All.Add(this.fixtureFlags);
-            this.All.Add(this.fallDamage);
-            this.All.Add(this.reflectReturnedProjectileAC);
-            this.All.Add(this.reflectReturnedMeleeAC);
-            this.All.Add(this.reflectReturnedEnergyAC);
-            this.All.Add(this.reflectReturnedChemicalAC);
-            this.All.Add(this.reflectReturnedRadiationAC);
-            this.All.Add(this.reflectReturnedColdAC);
-            this.All.Add(this.reflectReturnedNanoAC);
-            this.All.Add(this.reflectReturnedFireAC);
-            this.All.Add(this.reflectReturnedPoisonAC);
-            this.All.Add(this.proximityRangeIndoors);
-            this.All.Add(this.petReqVal1);
-            this.All.Add(this.petReqVal2);
-            this.All.Add(this.petReqVal3);
-            this.All.Add(this.targetFacing);
-            this.All.Add(this.backstab);
-            this.All.Add(this.originatorType);
-            this.All.Add(this.questInstance);
-            this.All.Add(this.questIndex1);
-            this.All.Add(this.questIndex2);
-            this.All.Add(this.questIndex3);
-            this.All.Add(this.questIndex4);
-            this.All.Add(this.questIndex5);
-            this.All.Add(this.qtDungeonInstance);
-            this.All.Add(this.qtNumMonsters);
-            this.All.Add(this.qtKilledMonsters);
-            this.All.Add(this.animPos);
-            this.All.Add(this.animPlay);
-            this.All.Add(this.animSpeed);
-            this.All.Add(this.qtKillNumMonsterID1);
-            this.All.Add(this.qtKillNumMonsterCount1);
-            this.All.Add(this.qtKillNumMonsterID2);
-            this.All.Add(this.qtKillNumMonsterCount2);
-            this.All.Add(this.qtKillNumMonsterID3);
-            this.All.Add(this.qtKillNumMonsterCount3);
-            this.All.Add(this.questIndex0);
-            this.All.Add(this.questTimeout);
-            this.All.Add(this.towerNpcHash);
-            this.All.Add(this.petType);
-            this.All.Add(this.onTowerCreation);
-            this.All.Add(this.ownedTowers);
-            this.All.Add(this.towerInstance);
-            this.All.Add(this.attackShield);
-            this.All.Add(this.specialAttackShield);
-            this.All.Add(this.npcVicinityPlayers);
-            this.All.Add(this.npcUseFightModeRegenRate);
-            this.All.Add(this.rnd);
-            this.All.Add(this.socialStatus);
-            this.All.Add(this.lastRnd);
-            this.All.Add(this.itemDelayCap);
-            this.All.Add(this.rechargeDelayCap);
-            this.All.Add(this.percentRemainingHealth);
-            this.All.Add(this.percentRemainingNano);
-            this.All.Add(this.targetDistance);
-            this.All.Add(this.teamCloseness);
-            this.All.Add(this.numberOnHateList);
-            this.All.Add(this.conditionState);
-            this.All.Add(this.expansionPlayfield);
-            this.All.Add(this.shadowBreed);
-            this.All.Add(this.npcFovStatus);
-            this.All.Add(this.dudChance);
-            this.All.Add(this.healMultiplier);
-            this.All.Add(this.nanoDamageMultiplier);
-            this.All.Add(this.nanoVulnerability);
-            this.All.Add(this.amsCap);
-            this.All.Add(this.procInitiative1);
-            this.All.Add(this.procInitiative2);
-            this.All.Add(this.procInitiative3);
-            this.All.Add(this.procInitiative4);
-            this.All.Add(this.factionModifier);
-            this.All.Add(this.missionBits8);
-            this.All.Add(this.missionBits9);
-            this.All.Add(this.stackingLine2);
-            this.All.Add(this.stackingLine3);
-            this.All.Add(this.stackingLine4);
-            this.All.Add(this.stackingLine5);
-            this.All.Add(this.stackingLine6);
-            this.All.Add(this.stackingOrder);
-            this.All.Add(this.procNano1);
-            this.All.Add(this.procNano2);
-            this.All.Add(this.procNano3);
-            this.All.Add(this.procNano4);
-            this.All.Add(this.procChance1);
-            this.All.Add(this.procChance2);
-            this.All.Add(this.procChance3);
-            this.All.Add(this.procChance4);
-            this.All.Add(this.otArmedForces);
-            this.All.Add(this.clanSentinels);
-            this.All.Add(this.otMed);
-            this.All.Add(this.clanGaia);
-            this.All.Add(this.otTrans);
-            this.All.Add(this.clanVanguards);
-            this.All.Add(this.gos);
-            this.All.Add(this.otFollowers);
-            this.All.Add(this.otOperator);
-            this.All.Add(this.otUnredeemed);
-            this.All.Add(this.clanDevoted);
-            this.All.Add(this.clanConserver);
-            this.All.Add(this.clanRedeemed);
-            this.All.Add(this.sk);
-            this.All.Add(this.lastSK);
-            this.All.Add(this.nextSK);
-            this.All.Add(this.playerOptions);
-            this.All.Add(this.lastPerkResetTime);
-            this.All.Add(this.currentTime);
-            this.All.Add(this.shadowBreedTemplate);
-            this.All.Add(this.npcVicinityFamily);
-            this.All.Add(this.npcScriptAmsScale);
-            this.All.Add(this.apartmentsAllowed);
-            this.All.Add(this.apartmentsOwned);
-            this.All.Add(this.apartmentAccessCard);
-            this.All.Add(this.mapAreaPart3);
-            this.All.Add(this.mapAreaPart4);
-            this.All.Add(this.numberOfTeamMembers);
-            this.All.Add(this.actionCategory);
-            this.All.Add(this.currentPlayfield);
-            this.All.Add(this.districtNano);
-            this.All.Add(this.districtNanoInterval);
-            this.All.Add(this.unsavedXP);
-            this.All.Add(this.regainXPPercentage);
-            this.All.Add(this.tempSaveTeamID);
-            this.All.Add(this.tempSavePlayfield);
-            this.All.Add(this.tempSaveX);
-            this.All.Add(this.tempSaveY);
-            this.All.Add(this.extendedFlags);
-            this.All.Add(this.shopPrice);
-            this.All.Add(this.newbieHP);
-            this.All.Add(this.hpLevelUp);
-            this.All.Add(this.hpPerSkill);
-            this.All.Add(this.newbieNP);
-            this.All.Add(this.npLevelUp);
-            this.All.Add(this.npPerSkill);
-            this.All.Add(this.maxShopItems);
-            this.All.Add(this.playerID);
-            this.All.Add(this.shopRent);
-            this.All.Add(this.synergyHash);
-            this.All.Add(this.shopFlags);
-            this.All.Add(this.shopLastUsed);
-            this.All.Add(this.shopType);
-            this.All.Add(this.lockDownTime);
-            this.All.Add(this.leaderLockDownTime);
-            this.All.Add(this.invadersKilled);
-            this.All.Add(this.killedByInvaders);
-            this.All.Add(this.missionBits10);
-            this.All.Add(this.missionBits11);
-            this.All.Add(this.missionBits12);
-            this.All.Add(this.houseTemplate);
-            this.All.Add(this.percentFireDamage);
-            this.All.Add(this.percentColdDamage);
-            this.All.Add(this.percentMeleeDamage);
-            this.All.Add(this.percentProjectileDamage);
-            this.All.Add(this.percentPoisonDamage);
-            this.All.Add(this.percentRadiationDamage);
-            this.All.Add(this.percentEnergyDamage);
-            this.All.Add(this.percentChemicalDamage);
-            this.All.Add(this.totalDamage);
-            this.All.Add(this.trackProjectileDamage);
-            this.All.Add(this.trackMeleeDamage);
-            this.All.Add(this.trackEnergyDamage);
-            this.All.Add(this.trackChemicalDamage);
-            this.All.Add(this.trackRadiationDamage);
-            this.All.Add(this.trackColdDamage);
-            this.All.Add(this.trackPoisonDamage);
-            this.All.Add(this.trackFireDamage);
-            this.All.Add(this.npcSpellArg1);
-            this.All.Add(this.npcSpellRet1);
-            this.All.Add(this.cityInstance);
-            this.All.Add(this.distanceToSpawnpoint);
-            this.All.Add(this.cityTerminalRechargePercent);
-            this.All.Add(this.unreadMailCount);
-            this.All.Add(this.lastMailCheckTime);
-            this.All.Add(this.advantageHash1);
-            this.All.Add(this.advantageHash2);
-            this.All.Add(this.advantageHash3);
-            this.All.Add(this.advantageHash4);
-            this.All.Add(this.advantageHash5);
-            this.All.Add(this.shopIndex);
-            this.All.Add(this.shopID);
-            this.All.Add(this.isVehicle);
-            this.All.Add(this.damageToNano);
-            this.All.Add(this.accountFlags);
-            this.All.Add(this.damageToNanoMultiplier);
-            this.All.Add(this.mechData);
-            this.All.Add(this.vehicleAC);
-            this.All.Add(this.vehicleDamage);
-            this.All.Add(this.vehicleHealth);
-            this.All.Add(this.vehicleSpeed);
-            this.All.Add(this.battlestationSide);
-            this.All.Add(this.victoryPoints);
-            this.All.Add(this.battlestationRep);
-            this.All.Add(this.petState);
-            this.All.Add(this.paidPoints);
-            this.All.Add(this.visualFlags);
-            this.All.Add(this.pvpDuelKills);
-            this.All.Add(this.pvpDuelDeaths);
-            this.All.Add(this.pvpProfessionDuelKills);
-            this.All.Add(this.pvpProfessionDuelDeaths);
-            this.All.Add(this.pvpRankedSoloKills);
-            this.All.Add(this.pvpRankedSoloDeaths);
-            this.All.Add(this.pvpRankedTeamKills);
-            this.All.Add(this.pvpRankedTeamDeaths);
-            this.All.Add(this.pvpSoloScore);
-            this.All.Add(this.pvpTeamScore);
-            this.All.Add(this.pvpDuelScore);
-            this.All.Add(this.acgItemSeed);
-            this.All.Add(this.acgItemLevel);
-            this.All.Add(this.acgItemTemplateID);
-            this.All.Add(this.acgItemTemplateID2);
-            this.All.Add(this.acgItemCategoryID);
-            this.All.Add(this.hasKnuBotData);
-            this.All.Add(this.questBoothDifficulty);
-            this.All.Add(this.questAsMinimumRange);
-            this.All.Add(this.questAsMaximumRange);
-            this.All.Add(this.visualLodLevel);
-            this.All.Add(this.targetDistanceChange);
-            this.All.Add(this.tideRequiredDynelID);
-            this.All.Add(this.streamCheckMagic);
-            this.All.Add(this.type);
-            this.All.Add(this.instance);
-            this.All.Add(this.weaponsStyle);
-            this.All.Add(this.shoulderMeshRight);
-            this.All.Add(this.shoulderMeshLeft);
-            this.All.Add(this.weaponMeshRight);
-            this.All.Add(this.weaponMeshLeft);
-            this.All.Add(this.overrideTextureAttractor);
-            this.All.Add(this.overrideTextureBack);
-            this.All.Add(this.overrideTextureHead);
-            this.All.Add(this.overrideTextureShoulderpadLeft);
-            this.All.Add(this.overrideTextureShoulderpadRight);
-            this.All.Add(this.overrideTextureWeaponLeft);
-            this.All.Add(this.overrideTextureWeaponRight);
+            this.all.Add(this.flags);
+            this.all.Add(this.life);
+            this.all.Add(this.volumeMass);
+            this.all.Add(this.attackSpeed);
+            this.all.Add(this.breed);
+            this.all.Add(this.clan);
+            this.all.Add(this.team);
+            this.all.Add(this.state);
+            this.all.Add(this.timeExist);
+            this.all.Add(this.mapFlags);
+            this.all.Add(this.professionLevel);
+            this.all.Add(this.previousHealth);
+            this.all.Add(this.mesh);
+            this.all.Add(this.anim);
+            this.all.Add(this.name);
+            this.all.Add(this.info);
+            this.all.Add(this.strength);
+            this.all.Add(this.agility);
+            this.all.Add(this.stamina);
+            this.all.Add(this.intelligence);
+            this.all.Add(this.sense);
+            this.all.Add(this.psychic);
+            this.all.Add(this.ams);
+            this.all.Add(this.staticInstance);
+            this.all.Add(this.maxMass);
+            this.all.Add(this.staticType);
+            this.all.Add(this.energy);
+            this.all.Add(this.health);
+            this.all.Add(this.height);
+            this.all.Add(this.dms);
+            this.all.Add(this.can);
+            this.all.Add(this.face);
+            this.all.Add(this.hairMesh);
+            this.all.Add(this.side);
+            this.all.Add(this.deadTimer);
+            this.all.Add(this.accessCount);
+            this.all.Add(this.attackCount);
+            this.all.Add(this.titleLevel);
+            this.all.Add(this.backMesh);
+            this.all.Add(this.alienXP);
+            this.all.Add(this.fabricType);
+            this.all.Add(this.catMesh);
+            this.all.Add(this.parentType);
+            this.all.Add(this.parentInstance);
+            this.all.Add(this.beltSlots);
+            this.all.Add(this.bandolierSlots);
+            this.all.Add(this.fatness);
+            this.all.Add(this.clanLevel);
+            this.all.Add(this.insuranceTime);
+            this.all.Add(this.inventoryTimeout);
+            this.all.Add(this.aggDef);
+            this.all.Add(this.xp);
+            this.all.Add(this.ip);
+            this.all.Add(this.level);
+            this.all.Add(this.inventoryId);
+            this.all.Add(this.timeSinceCreation);
+            this.all.Add(this.lastXP);
+            this.all.Add(this.age);
+            this.all.Add(this.sex);
+            this.all.Add(this.profession);
+            this.all.Add(this.cash);
+            this.all.Add(this.alignment);
+            this.all.Add(this.attitude);
+            this.all.Add(this.headMesh);
+            this.all.Add(this.missionBits5);
+            this.all.Add(this.missionBits6);
+            this.all.Add(this.missionBits7);
+            this.all.Add(this.veteranPoints);
+            this.all.Add(this.monthsPaid);
+            this.all.Add(this.speedPenalty);
+            this.all.Add(this.totalMass);
+            this.all.Add(this.itemType);
+            this.all.Add(this.repairDifficulty);
+            this.all.Add(this.price);
+            this.all.Add(this.metaType);
+            this.all.Add(this.itemClass);
+            this.all.Add(this.repairSkill);
+            this.all.Add(this.currentMass);
+            this.all.Add(this.icon);
+            this.all.Add(this.primaryItemType);
+            this.all.Add(this.primaryItemInstance);
+            this.all.Add(this.secondaryItemType);
+            this.all.Add(this.secondaryItemInstance);
+            this.all.Add(this.userType);
+            this.all.Add(this.userInstance);
+            this.all.Add(this.areaType);
+            this.all.Add(this.areaInstance);
+            this.all.Add(this.defaultPos);
+            this.all.Add(this.race);
+            this.all.Add(this.projectileAC);
+            this.all.Add(this.meleeAC);
+            this.all.Add(this.energyAC);
+            this.all.Add(this.chemicalAC);
+            this.all.Add(this.radiationAC);
+            this.all.Add(this.coldAC);
+            this.all.Add(this.poisonAC);
+            this.all.Add(this.fireAC);
+            this.all.Add(this.stateAction);
+            this.all.Add(this.itemAnim);
+            this.all.Add(this.martialArts);
+            this.all.Add(this.meleeMultiple);
+            this.all.Add(this.onehBluntWeapons);
+            this.all.Add(this.onehEdgedWeapon);
+            this.all.Add(this.meleeEnergyWeapon);
+            this.all.Add(this.twohEdgedWeapons);
+            this.all.Add(this.piercing);
+            this.all.Add(this.twohBluntWeapons);
+            this.all.Add(this.throwingKnife);
+            this.all.Add(this.grenade);
+            this.all.Add(this.thrownGrapplingWeapons);
+            this.all.Add(this.bow);
+            this.all.Add(this.pistol);
+            this.all.Add(this.rifle);
+            this.all.Add(this.subMachineGun);
+            this.all.Add(this.shotgun);
+            this.all.Add(this.assaultRifle);
+            this.all.Add(this.driveWater);
+            this.all.Add(this.closeCombatInitiative);
+            this.all.Add(this.distanceWeaponInitiative);
+            this.all.Add(this.physicalProwessInitiative);
+            this.all.Add(this.bowSpecialAttack);
+            this.all.Add(this.senseImprovement);
+            this.all.Add(this.firstAid);
+            this.all.Add(this.treatment);
+            this.all.Add(this.mechanicalEngineering);
+            this.all.Add(this.electricalEngineering);
+            this.all.Add(this.materialMetamorphose);
+            this.all.Add(this.biologicalMetamorphose);
+            this.all.Add(this.psychologicalModification);
+            this.all.Add(this.materialCreation);
+            this.all.Add(this.materialLocation);
+            this.all.Add(this.nanoEnergyPool);
+            this.all.Add(this.lrEnergyWeapon);
+            this.all.Add(this.lrMultipleWeapon);
+            this.all.Add(this.disarmTrap);
+            this.all.Add(this.perception);
+            this.all.Add(this.adventuring);
+            this.all.Add(this.swim);
+            this.all.Add(this.driveAir);
+            this.all.Add(this.mapNavigation);
+            this.all.Add(this.tutoring);
+            this.all.Add(this.brawl);
+            this.all.Add(this.riposte);
+            this.all.Add(this.dimach);
+            this.all.Add(this.parry);
+            this.all.Add(this.sneakAttack);
+            this.all.Add(this.fastAttack);
+            this.all.Add(this.burst);
+            this.all.Add(this.nanoProwessInitiative);
+            this.all.Add(this.flingShot);
+            this.all.Add(this.aimedShot);
+            this.all.Add(this.bodyDevelopment);
+            this.all.Add(this.duck);
+            this.all.Add(this.dodge);
+            this.all.Add(this.evade);
+            this.all.Add(this.runSpeed);
+            this.all.Add(this.fieldQuantumPhysics);
+            this.all.Add(this.weaponSmithing);
+            this.all.Add(this.pharmaceuticals);
+            this.all.Add(this.nanoProgramming);
+            this.all.Add(this.computerLiteracy);
+            this.all.Add(this.psychology);
+            this.all.Add(this.chemistry);
+            this.all.Add(this.concealment);
+            this.all.Add(this.breakingEntry);
+            this.all.Add(this.driveGround);
+            this.all.Add(this.fullAuto);
+            this.all.Add(this.nanoAC);
+            this.all.Add(this.alienLevel);
+            this.all.Add(this.healthChangeBest);
+            this.all.Add(this.healthChangeWorst);
+            this.all.Add(this.healthChange);
+            this.all.Add(this.currentMovementMode);
+            this.all.Add(this.prevMovementMode);
+            this.all.Add(this.autoLockTimeDefault);
+            this.all.Add(this.autoUnlockTimeDefault);
+            this.all.Add(this.moreFlags);
+            this.all.Add(this.alienNextXP);
+            this.all.Add(this.npcFlags);
+            this.all.Add(this.currentNCU);
+            this.all.Add(this.maxNCU);
+            this.all.Add(this.specialization);
+            this.all.Add(this.effectIcon);
+            this.all.Add(this.buildingType);
+            this.all.Add(this.buildingInstance);
+            this.all.Add(this.cardOwnerType);
+            this.all.Add(this.cardOwnerInstance);
+            this.all.Add(this.buildingComplexInst);
+            this.all.Add(this.exitInstance);
+            this.all.Add(this.nextDoorInBuilding);
+            this.all.Add(this.lastConcretePlayfieldInstance);
+            this.all.Add(this.extenalPlayfieldInstance);
+            this.all.Add(this.extenalDoorInstance);
+            this.all.Add(this.inPlay);
+            this.all.Add(this.accessKey);
+            this.all.Add(this.petMaster);
+            this.all.Add(this.orientationMode);
+            this.all.Add(this.sessionTime);
+            this.all.Add(this.rp);
+            this.all.Add(this.conformity);
+            this.all.Add(this.aggressiveness);
+            this.all.Add(this.stability);
+            this.all.Add(this.extroverty);
+            this.all.Add(this.breedHostility);
+            this.all.Add(this.reflectProjectileAC);
+            this.all.Add(this.reflectMeleeAC);
+            this.all.Add(this.reflectEnergyAC);
+            this.all.Add(this.reflectChemicalAC);
+            this.all.Add(this.rechargeDelay);
+            this.all.Add(this.equipDelay);
+            this.all.Add(this.maxEnergy);
+            this.all.Add(this.teamSide);
+            this.all.Add(this.currentNano);
+            this.all.Add(this.gmLevel);
+            this.all.Add(this.reflectRadiationAC);
+            this.all.Add(this.reflectColdAC);
+            this.all.Add(this.reflectNanoAC);
+            this.all.Add(this.reflectFireAC);
+            this.all.Add(this.currBodyLocation);
+            this.all.Add(this.maxNanoEnergy);
+            this.all.Add(this.accumulatedDamage);
+            this.all.Add(this.canChangeClothes);
+            this.all.Add(this.features);
+            this.all.Add(this.reflectPoisonAC);
+            this.all.Add(this.shieldProjectileAC);
+            this.all.Add(this.shieldMeleeAC);
+            this.all.Add(this.shieldEnergyAC);
+            this.all.Add(this.shieldChemicalAC);
+            this.all.Add(this.shieldRadiationAC);
+            this.all.Add(this.shieldColdAC);
+            this.all.Add(this.shieldNanoAC);
+            this.all.Add(this.shieldFireAC);
+            this.all.Add(this.shieldPoisonAC);
+            this.all.Add(this.berserkMode);
+            this.all.Add(this.insurancePercentage);
+            this.all.Add(this.changeSideCount);
+            this.all.Add(this.absorbProjectileAC);
+            this.all.Add(this.absorbMeleeAC);
+            this.all.Add(this.absorbEnergyAC);
+            this.all.Add(this.absorbChemicalAC);
+            this.all.Add(this.absorbRadiationAC);
+            this.all.Add(this.absorbColdAC);
+            this.all.Add(this.absorbFireAC);
+            this.all.Add(this.absorbPoisonAC);
+            this.all.Add(this.absorbNanoAC);
+            this.all.Add(this.temporarySkillReduction);
+            this.all.Add(this.birthDate);
+            this.all.Add(this.lastSaved);
+            this.all.Add(this.soundVolume);
+            this.all.Add(this.petCounter);
+            this.all.Add(this.metersWalked);
+            this.all.Add(this.questLevelsSolved);
+            this.all.Add(this.monsterLevelsKilled);
+            this.all.Add(this.pvPLevelsKilled);
+            this.all.Add(this.missionBits1);
+            this.all.Add(this.missionBits2);
+            this.all.Add(this.accessGrant);
+            this.all.Add(this.doorFlags);
+            this.all.Add(this.clanHierarchy);
+            this.all.Add(this.questStat);
+            this.all.Add(this.clientActivated);
+            this.all.Add(this.personalResearchLevel);
+            this.all.Add(this.globalResearchLevel);
+            this.all.Add(this.personalResearchGoal);
+            this.all.Add(this.globalResearchGoal);
+            this.all.Add(this.turnSpeed);
+            this.all.Add(this.liquidType);
+            this.all.Add(this.gatherSound);
+            this.all.Add(this.castSound);
+            this.all.Add(this.travelSound);
+            this.all.Add(this.hitSound);
+            this.all.Add(this.secondaryItemTemplate);
+            this.all.Add(this.equippedWeapons);
+            this.all.Add(this.xpKillRange);
+            this.all.Add(this.amsModifier);
+            this.all.Add(this.dmsModifier);
+            this.all.Add(this.projectileDamageModifier);
+            this.all.Add(this.meleeDamageModifier);
+            this.all.Add(this.energyDamageModifier);
+            this.all.Add(this.chemicalDamageModifier);
+            this.all.Add(this.radiationDamageModifier);
+            this.all.Add(this.itemHateValue);
+            this.all.Add(this.damageBonus);
+            this.all.Add(this.maxDamage);
+            this.all.Add(this.minDamage);
+            this.all.Add(this.attackRange);
+            this.all.Add(this.hateValueModifyer);
+            this.all.Add(this.trapDifficulty);
+            this.all.Add(this.statOne);
+            this.all.Add(this.numAttackEffects);
+            this.all.Add(this.defaultAttackType);
+            this.all.Add(this.itemSkill);
+            this.all.Add(this.itemDelay);
+            this.all.Add(this.itemOpposedSkill);
+            this.all.Add(this.itemSIS);
+            this.all.Add(this.interactionRadius);
+            this.all.Add(this.placement);
+            this.all.Add(this.lockDifficulty);
+            this.all.Add(this.members);
+            this.all.Add(this.minMembers);
+            this.all.Add(this.clanPrice);
+            this.all.Add(this.missionBits3);
+            this.all.Add(this.clanType);
+            this.all.Add(this.clanInstance);
+            this.all.Add(this.voteCount);
+            this.all.Add(this.memberType);
+            this.all.Add(this.memberInstance);
+            this.all.Add(this.globalClanType);
+            this.all.Add(this.globalClanInstance);
+            this.all.Add(this.coldDamageModifier);
+            this.all.Add(this.clanUpkeepInterval);
+            this.all.Add(this.timeSinceUpkeep);
+            this.all.Add(this.clanFinalized);
+            this.all.Add(this.nanoDamageModifier);
+            this.all.Add(this.fireDamageModifier);
+            this.all.Add(this.poisonDamageModifier);
+            this.all.Add(this.npCostModifier);
+            this.all.Add(this.xpModifier);
+            this.all.Add(this.breedLimit);
+            this.all.Add(this.genderLimit);
+            this.all.Add(this.levelLimit);
+            this.all.Add(this.playerKilling);
+            this.all.Add(this.teamAllowed);
+            this.all.Add(this.weaponDisallowedType);
+            this.all.Add(this.weaponDisallowedInstance);
+            this.all.Add(this.taboo);
+            this.all.Add(this.compulsion);
+            this.all.Add(this.skillDisabled);
+            this.all.Add(this.clanItemType);
+            this.all.Add(this.clanItemInstance);
+            this.all.Add(this.debuffFormula);
+            this.all.Add(this.pvpRating);
+            this.all.Add(this.savedXP);
+            this.all.Add(this.doorBlockTime);
+            this.all.Add(this.overrideTexture);
+            this.all.Add(this.overrideMaterial);
+            this.all.Add(this.deathReason);
+            this.all.Add(this.damageOverrideType);
+            this.all.Add(this.brainType);
+            this.all.Add(this.xpBonus);
+            this.all.Add(this.healInterval);
+            this.all.Add(this.healDelta);
+            this.all.Add(this.monsterTexture);
+            this.all.Add(this.hasAlwaysLootable);
+            this.all.Add(this.tradeLimit);
+            this.all.Add(this.faceTexture);
+            this.all.Add(this.specialCondition);
+            this.all.Add(this.autoAttackFlags);
+            this.all.Add(this.nextXP);
+            this.all.Add(this.teleportPauseMilliSeconds);
+            this.all.Add(this.sisCap);
+            this.all.Add(this.animSet);
+            this.all.Add(this.attackType);
+            this.all.Add(this.nanoFocusLevel);
+            this.all.Add(this.npcHash);
+            this.all.Add(this.collisionRadius);
+            this.all.Add(this.outerRadius);
+            this.all.Add(this.monsterData);
+            this.all.Add(this.monsterScale);
+            this.all.Add(this.hitEffectType);
+            this.all.Add(this.resurrectDest);
+            this.all.Add(this.nanoInterval);
+            this.all.Add(this.nanoDelta);
+            this.all.Add(this.reclaimItem);
+            this.all.Add(this.gatherEffectType);
+            this.all.Add(this.visualBreed);
+            this.all.Add(this.visualProfession);
+            this.all.Add(this.visualSex);
+            this.all.Add(this.ritualTargetInst);
+            this.all.Add(this.skillTimeOnSelectedTarget);
+            this.all.Add(this.lastSaveXP);
+            this.all.Add(this.extendedTime);
+            this.all.Add(this.burstRecharge);
+            this.all.Add(this.fullAutoRecharge);
+            this.all.Add(this.gatherAbstractAnim);
+            this.all.Add(this.castTargetAbstractAnim);
+            this.all.Add(this.castSelfAbstractAnim);
+            this.all.Add(this.criticalIncrease);
+            this.all.Add(this.rangeIncreaserWeapon);
+            this.all.Add(this.rangeIncreaserNF);
+            this.all.Add(this.skillLockModifier);
+            this.all.Add(this.interruptModifier);
+            this.all.Add(this.acgEntranceStyles);
+            this.all.Add(this.chanceOfBreakOnSpellAttack);
+            this.all.Add(this.chanceOfBreakOnDebuff);
+            this.all.Add(this.dieAnim);
+            this.all.Add(this.towerType);
+            this.all.Add(this.expansion);
+            this.all.Add(this.lowresMesh);
+            this.all.Add(this.criticalDecrease);
+            this.all.Add(this.oldTimeExist);
+            this.all.Add(this.resistModifier);
+            this.all.Add(this.chestFlags);
+            this.all.Add(this.primaryTemplateID);
+            this.all.Add(this.numberOfItems);
+            this.all.Add(this.selectedTargetType);
+            this.all.Add(this.corpseHash);
+            this.all.Add(this.ammoName);
+            this.all.Add(this.rotation);
+            this.all.Add(this.catAnim);
+            this.all.Add(this.catAnimFlags);
+            this.all.Add(this.displayCATAnim);
+            this.all.Add(this.displayCATMesh);
+            this.all.Add(this.school);
+            this.all.Add(this.nanoSpeed);
+            this.all.Add(this.nanoPoints);
+            this.all.Add(this.trainSkill);
+            this.all.Add(this.trainSkillCost);
+            this.all.Add(this.isFightingMe);
+            this.all.Add(this.nextFormula);
+            this.all.Add(this.multipleCount);
+            this.all.Add(this.effectType);
+            this.all.Add(this.impactEffectType);
+            this.all.Add(this.corpseType);
+            this.all.Add(this.corpseInstance);
+            this.all.Add(this.corpseAnimKey);
+            this.all.Add(this.unarmedTemplateInstance);
+            this.all.Add(this.tracerEffectType);
+            this.all.Add(this.ammoType);
+            this.all.Add(this.charRadius);
+            this.all.Add(this.chanceOfUse);
+            this.all.Add(this.currentState);
+            this.all.Add(this.armourType);
+            this.all.Add(this.restModifier);
+            this.all.Add(this.buyModifier);
+            this.all.Add(this.sellModifier);
+            this.all.Add(this.castEffectType);
+            this.all.Add(this.npcBrainState);
+            this.all.Add(this.waitState);
+            this.all.Add(this.selectedTarget);
+            this.all.Add(this.missionBits4);
+            this.all.Add(this.ownerInstance);
+            this.all.Add(this.charState);
+            this.all.Add(this.readOnly);
+            this.all.Add(this.damageType);
+            this.all.Add(this.collideCheckInterval);
+            this.all.Add(this.playfieldType);
+            this.all.Add(this.npcCommand);
+            this.all.Add(this.initiativeType);
+            this.all.Add(this.charTmp1);
+            this.all.Add(this.charTmp2);
+            this.all.Add(this.charTmp3);
+            this.all.Add(this.charTmp4);
+            this.all.Add(this.npcCommandArg);
+            this.all.Add(this.nameTemplate);
+            this.all.Add(this.desiredTargetDistance);
+            this.all.Add(this.vicinityRange);
+            this.all.Add(this.npcIsSurrendering);
+            this.all.Add(this.stateMachine);
+            this.all.Add(this.npcSurrenderInstance);
+            this.all.Add(this.npcHasPatrolList);
+            this.all.Add(this.npcVicinityChars);
+            this.all.Add(this.proximityRangeOutdoors);
+            this.all.Add(this.npcFamily);
+            this.all.Add(this.commandRange);
+            this.all.Add(this.npcHatelistSize);
+            this.all.Add(this.npcNumPets);
+            this.all.Add(this.odMinSizeAdd);
+            this.all.Add(this.effectRed);
+            this.all.Add(this.effectGreen);
+            this.all.Add(this.effectBlue);
+            this.all.Add(this.odMaxSizeAdd);
+            this.all.Add(this.durationModifier);
+            this.all.Add(this.npcCryForHelpRange);
+            this.all.Add(this.losHeight);
+            this.all.Add(this.petReq1);
+            this.all.Add(this.petReq2);
+            this.all.Add(this.petReq3);
+            this.all.Add(this.mapOptions);
+            this.all.Add(this.mapAreaPart1);
+            this.all.Add(this.mapAreaPart2);
+            this.all.Add(this.fixtureFlags);
+            this.all.Add(this.fallDamage);
+            this.all.Add(this.reflectReturnedProjectileAC);
+            this.all.Add(this.reflectReturnedMeleeAC);
+            this.all.Add(this.reflectReturnedEnergyAC);
+            this.all.Add(this.reflectReturnedChemicalAC);
+            this.all.Add(this.reflectReturnedRadiationAC);
+            this.all.Add(this.reflectReturnedColdAC);
+            this.all.Add(this.reflectReturnedNanoAC);
+            this.all.Add(this.reflectReturnedFireAC);
+            this.all.Add(this.reflectReturnedPoisonAC);
+            this.all.Add(this.proximityRangeIndoors);
+            this.all.Add(this.petReqVal1);
+            this.all.Add(this.petReqVal2);
+            this.all.Add(this.petReqVal3);
+            this.all.Add(this.targetFacing);
+            this.all.Add(this.backstab);
+            this.all.Add(this.originatorType);
+            this.all.Add(this.questInstance);
+            this.all.Add(this.questIndex1);
+            this.all.Add(this.questIndex2);
+            this.all.Add(this.questIndex3);
+            this.all.Add(this.questIndex4);
+            this.all.Add(this.questIndex5);
+            this.all.Add(this.qtDungeonInstance);
+            this.all.Add(this.qtNumMonsters);
+            this.all.Add(this.qtKilledMonsters);
+            this.all.Add(this.animPos);
+            this.all.Add(this.animPlay);
+            this.all.Add(this.animSpeed);
+            this.all.Add(this.qtKillNumMonsterID1);
+            this.all.Add(this.qtKillNumMonsterCount1);
+            this.all.Add(this.qtKillNumMonsterID2);
+            this.all.Add(this.qtKillNumMonsterCount2);
+            this.all.Add(this.qtKillNumMonsterID3);
+            this.all.Add(this.qtKillNumMonsterCount3);
+            this.all.Add(this.questIndex0);
+            this.all.Add(this.questTimeout);
+            this.all.Add(this.towerNpcHash);
+            this.all.Add(this.petType);
+            this.all.Add(this.onTowerCreation);
+            this.all.Add(this.ownedTowers);
+            this.all.Add(this.towerInstance);
+            this.all.Add(this.attackShield);
+            this.all.Add(this.specialAttackShield);
+            this.all.Add(this.npcVicinityPlayers);
+            this.all.Add(this.npcUseFightModeRegenRate);
+            this.all.Add(this.rnd);
+            this.all.Add(this.socialStatus);
+            this.all.Add(this.lastRnd);
+            this.all.Add(this.itemDelayCap);
+            this.all.Add(this.rechargeDelayCap);
+            this.all.Add(this.percentRemainingHealth);
+            this.all.Add(this.percentRemainingNano);
+            this.all.Add(this.targetDistance);
+            this.all.Add(this.teamCloseness);
+            this.all.Add(this.numberOnHateList);
+            this.all.Add(this.conditionState);
+            this.all.Add(this.expansionPlayfield);
+            this.all.Add(this.shadowBreed);
+            this.all.Add(this.npcFovStatus);
+            this.all.Add(this.dudChance);
+            this.all.Add(this.healMultiplier);
+            this.all.Add(this.nanoDamageMultiplier);
+            this.all.Add(this.nanoVulnerability);
+            this.all.Add(this.amsCap);
+            this.all.Add(this.procInitiative1);
+            this.all.Add(this.procInitiative2);
+            this.all.Add(this.procInitiative3);
+            this.all.Add(this.procInitiative4);
+            this.all.Add(this.factionModifier);
+            this.all.Add(this.missionBits8);
+            this.all.Add(this.missionBits9);
+            this.all.Add(this.stackingLine2);
+            this.all.Add(this.stackingLine3);
+            this.all.Add(this.stackingLine4);
+            this.all.Add(this.stackingLine5);
+            this.all.Add(this.stackingLine6);
+            this.all.Add(this.stackingOrder);
+            this.all.Add(this.procNano1);
+            this.all.Add(this.procNano2);
+            this.all.Add(this.procNano3);
+            this.all.Add(this.procNano4);
+            this.all.Add(this.procChance1);
+            this.all.Add(this.procChance2);
+            this.all.Add(this.procChance3);
+            this.all.Add(this.procChance4);
+            this.all.Add(this.otArmedForces);
+            this.all.Add(this.clanSentinels);
+            this.all.Add(this.otMed);
+            this.all.Add(this.clanGaia);
+            this.all.Add(this.otTrans);
+            this.all.Add(this.clanVanguards);
+            this.all.Add(this.gos);
+            this.all.Add(this.otFollowers);
+            this.all.Add(this.otOperator);
+            this.all.Add(this.otUnredeemed);
+            this.all.Add(this.clanDevoted);
+            this.all.Add(this.clanConserver);
+            this.all.Add(this.clanRedeemed);
+            this.all.Add(this.sk);
+            this.all.Add(this.lastSK);
+            this.all.Add(this.nextSK);
+            this.all.Add(this.playerOptions);
+            this.all.Add(this.lastPerkResetTime);
+            this.all.Add(this.currentTime);
+            this.all.Add(this.shadowBreedTemplate);
+            this.all.Add(this.npcVicinityFamily);
+            this.all.Add(this.npcScriptAmsScale);
+            this.all.Add(this.apartmentsAllowed);
+            this.all.Add(this.apartmentsOwned);
+            this.all.Add(this.apartmentAccessCard);
+            this.all.Add(this.mapAreaPart3);
+            this.all.Add(this.mapAreaPart4);
+            this.all.Add(this.numberOfTeamMembers);
+            this.all.Add(this.actionCategory);
+            this.all.Add(this.currentPlayfield);
+            this.all.Add(this.districtNano);
+            this.all.Add(this.districtNanoInterval);
+            this.all.Add(this.unsavedXP);
+            this.all.Add(this.regainXPPercentage);
+            this.all.Add(this.tempSaveTeamID);
+            this.all.Add(this.tempSavePlayfield);
+            this.all.Add(this.tempSaveX);
+            this.all.Add(this.tempSaveY);
+            this.all.Add(this.extendedFlags);
+            this.all.Add(this.shopPrice);
+            this.all.Add(this.newbieHP);
+            this.all.Add(this.hpLevelUp);
+            this.all.Add(this.hpPerSkill);
+            this.all.Add(this.newbieNP);
+            this.all.Add(this.npLevelUp);
+            this.all.Add(this.npPerSkill);
+            this.all.Add(this.maxShopItems);
+            this.all.Add(this.playerID);
+            this.all.Add(this.shopRent);
+            this.all.Add(this.synergyHash);
+            this.all.Add(this.shopFlags);
+            this.all.Add(this.shopLastUsed);
+            this.all.Add(this.shopType);
+            this.all.Add(this.lockDownTime);
+            this.all.Add(this.leaderLockDownTime);
+            this.all.Add(this.invadersKilled);
+            this.all.Add(this.killedByInvaders);
+            this.all.Add(this.missionBits10);
+            this.all.Add(this.missionBits11);
+            this.all.Add(this.missionBits12);
+            this.all.Add(this.houseTemplate);
+            this.all.Add(this.percentFireDamage);
+            this.all.Add(this.percentColdDamage);
+            this.all.Add(this.percentMeleeDamage);
+            this.all.Add(this.percentProjectileDamage);
+            this.all.Add(this.percentPoisonDamage);
+            this.all.Add(this.percentRadiationDamage);
+            this.all.Add(this.percentEnergyDamage);
+            this.all.Add(this.percentChemicalDamage);
+            this.all.Add(this.totalDamage);
+            this.all.Add(this.trackProjectileDamage);
+            this.all.Add(this.trackMeleeDamage);
+            this.all.Add(this.trackEnergyDamage);
+            this.all.Add(this.trackChemicalDamage);
+            this.all.Add(this.trackRadiationDamage);
+            this.all.Add(this.trackColdDamage);
+            this.all.Add(this.trackPoisonDamage);
+            this.all.Add(this.trackFireDamage);
+            this.all.Add(this.npcSpellArg1);
+            this.all.Add(this.npcSpellRet1);
+            this.all.Add(this.cityInstance);
+            this.all.Add(this.distanceToSpawnpoint);
+            this.all.Add(this.cityTerminalRechargePercent);
+            this.all.Add(this.unreadMailCount);
+            this.all.Add(this.lastMailCheckTime);
+            this.all.Add(this.advantageHash1);
+            this.all.Add(this.advantageHash2);
+            this.all.Add(this.advantageHash3);
+            this.all.Add(this.advantageHash4);
+            this.all.Add(this.advantageHash5);
+            this.all.Add(this.shopIndex);
+            this.all.Add(this.shopID);
+            this.all.Add(this.isVehicle);
+            this.all.Add(this.damageToNano);
+            this.all.Add(this.accountFlags);
+            this.all.Add(this.damageToNanoMultiplier);
+            this.all.Add(this.mechData);
+            this.all.Add(this.vehicleAC);
+            this.all.Add(this.vehicleDamage);
+            this.all.Add(this.vehicleHealth);
+            this.all.Add(this.vehicleSpeed);
+            this.all.Add(this.battlestationSide);
+            this.all.Add(this.victoryPoints);
+            this.all.Add(this.battlestationRep);
+            this.all.Add(this.petState);
+            this.all.Add(this.paidPoints);
+            this.all.Add(this.visualFlags);
+            this.all.Add(this.pvpDuelKills);
+            this.all.Add(this.pvpDuelDeaths);
+            this.all.Add(this.pvpProfessionDuelKills);
+            this.all.Add(this.pvpProfessionDuelDeaths);
+            this.all.Add(this.pvpRankedSoloKills);
+            this.all.Add(this.pvpRankedSoloDeaths);
+            this.all.Add(this.pvpRankedTeamKills);
+            this.all.Add(this.pvpRankedTeamDeaths);
+            this.all.Add(this.pvpSoloScore);
+            this.all.Add(this.pvpTeamScore);
+            this.all.Add(this.pvpDuelScore);
+            this.all.Add(this.acgItemSeed);
+            this.all.Add(this.acgItemLevel);
+            this.all.Add(this.acgItemTemplateID);
+            this.all.Add(this.acgItemTemplateID2);
+            this.all.Add(this.acgItemCategoryID);
+            this.all.Add(this.hasKnuBotData);
+            this.all.Add(this.questBoothDifficulty);
+            this.all.Add(this.questAsMinimumRange);
+            this.all.Add(this.questAsMaximumRange);
+            this.all.Add(this.visualLodLevel);
+            this.all.Add(this.targetDistanceChange);
+            this.all.Add(this.tideRequiredDynelID);
+            this.all.Add(this.streamCheckMagic);
+            this.all.Add(this.objectType);
+            this.all.Add(this.instance);
+            this.all.Add(this.weaponsStyle);
+            this.all.Add(this.shoulderMeshRight);
+            this.all.Add(this.shoulderMeshLeft);
+            this.all.Add(this.weaponMeshRight);
+            this.all.Add(this.weaponMeshLeft);
+            this.all.Add(this.overrideTextureAttractor);
+            this.all.Add(this.overrideTextureBack);
+            this.all.Add(this.overrideTextureHead);
+            this.all.Add(this.overrideTextureShoulderpadLeft);
+            this.all.Add(this.overrideTextureShoulderpadRight);
+            this.all.Add(this.overrideTextureWeaponLeft);
+            this.all.Add(this.overrideTextureWeaponRight);
             #endregion
 
             #region Trickles and effects
@@ -2686,7 +2739,7 @@ namespace ZoneEngine.Misc
             this.level.Affects.Add(this.ip.StatNumber);
             #endregion
 
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 c.SetParent(parent);
             }
@@ -3399,7 +3452,7 @@ namespace ZoneEngine.Misc
             this.playerID.DoNotDontWriteToSql = true;
             this.professionLevel.DoNotDontWriteToSql = true;
             this.gmLevel.DoNotDontWriteToSql = true;
-            this.type.DoNotDontWriteToSql = true;
+            this.objectType.DoNotDontWriteToSql = true;
             this.instance.DoNotDontWriteToSql = true;
             #endregion
         }
@@ -8932,11 +8985,11 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat Type
+        public ClassStat ObjectType
         {
             get
             {
-                return this.type;
+                return this.objectType;
             }
         }
 
@@ -9059,6 +9112,14 @@ namespace ZoneEngine.Misc
                 return this.weaponStyleRight;
             }
         }
+
+        public List<ClassStat> All
+        {
+            get
+            {
+                return all;
+            }
+        }
         #endregion
 
         #region SetAbilityTricklers
@@ -9098,7 +9159,7 @@ namespace ZoneEngine.Misc
         #region Get Stat object by number
         public ClassStat GetStatbyNumber(int number)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != number)
                 {
@@ -9111,7 +9172,7 @@ namespace ZoneEngine.Misc
         #endregion
 
         #region Announce Statchange to player(s)
-        public void Send(object sender, ClassStat.StatChangedEventArgs e)
+        public void Send(object sender, StatChangedEventArgs e)
         {
             if (!((Character)((ClassStat)sender).Parent).dontdotimers)
             {
@@ -9136,7 +9197,7 @@ namespace ZoneEngine.Misc
         /// <returns>Stat's value</returns>
         public int Get(int number)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != number)
                 {
@@ -9154,7 +9215,7 @@ namespace ZoneEngine.Misc
         /// <param name="newValue">Stat's new value</param>
         public void Set(int number, uint newValue)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != number)
                 {
@@ -9177,7 +9238,7 @@ namespace ZoneEngine.Misc
         public int Get(string name)
         {
             int statid = StatsList.GetStatId(name.ToLower());
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statid)
                 {
@@ -9196,7 +9257,7 @@ namespace ZoneEngine.Misc
         public void Set(string name, uint newValue)
         {
             int statid = StatsList.GetStatId(name.ToLower());
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statid)
                 {
@@ -9212,7 +9273,7 @@ namespace ZoneEngine.Misc
         public int GetID(string name)
         {
             int statid = StatsList.GetStatId(name.ToLower());
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statid)
                 {
@@ -9246,7 +9307,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         public void WriteStatstoSQL()
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.DoNotDontWriteToSql)
                 {
@@ -9260,7 +9321,7 @@ namespace ZoneEngine.Misc
         #region Get/Set Stat Modifier
         public int GetModifier(int stat)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -9273,7 +9334,7 @@ namespace ZoneEngine.Misc
 
         public void SetModifier(int stat, int value)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -9290,7 +9351,7 @@ namespace ZoneEngine.Misc
         #region Get/Set Stat Percentage Modifier
         public int GetPercentageModifier(int stat)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -9303,7 +9364,7 @@ namespace ZoneEngine.Misc
 
         public void SetPercentageModifier(int stat, int value)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -9320,7 +9381,7 @@ namespace ZoneEngine.Misc
         #region Get/Set Stat Base Value
         public uint GetBaseValue(int stat)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -9333,7 +9394,7 @@ namespace ZoneEngine.Misc
 
         public void SetBaseValue(int stat, uint value)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != stat)
                 {
@@ -9351,7 +9412,7 @@ namespace ZoneEngine.Misc
         #region Clear Modifiers for recalculation
         public void ClearModifiers()
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 c.StatModifier = 0;
                 c.StatPercentageModifier = 100;
@@ -9363,7 +9424,7 @@ namespace ZoneEngine.Misc
         #region Set Trickle values
         public void SetTrickle(int statId, int value)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statId)
                 {
@@ -9379,7 +9440,7 @@ namespace ZoneEngine.Misc
         #region send stat value by ID
         public void Send(Client client, int statId)
         {
-            foreach (ClassStat c in this.All)
+            foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statId)
                 {
@@ -9405,7 +9466,7 @@ namespace ZoneEngine.Misc
 
         public void ClearChangedFlags()
         {
-            foreach (ClassStat cs in this.All)
+            foreach (ClassStat cs in this.all)
             {
                 cs.Changed = false;
             }

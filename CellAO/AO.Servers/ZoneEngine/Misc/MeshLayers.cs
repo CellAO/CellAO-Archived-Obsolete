@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Misc
@@ -83,30 +82,24 @@ namespace ZoneEngine.Misc
         public void RemoveMesh(int position, int mesh, int overridetexture, int layer)
         {
             int key = (position << 16) + layer;
-            try
-            {
-                this.Mesh.Remove(key);
-                this.Override.Remove(key);
-            }
-            catch
-            {
-            }
+            this.Mesh.Remove(key);
+            this.Override.Remove(key);
         }
 
         public List<AOMeshs> GetMeshs()
         {
-            List<AOMeshs> am = new List<AOMeshs>();
-            int c = 0;
-            for (c = 0; c < this.Mesh.Count; c++)
+            List<AOMeshs> meshList = new List<AOMeshs>();
+            int counter;
+            for (counter = 0; counter < this.Mesh.Count; counter++)
             {
-                AOMeshs _am = new AOMeshs();
-                _am.Position = this.Mesh.ElementAt(c).Key >> 16;
-                _am.Mesh = this.Mesh.ElementAt(c).Value;
-                _am.OverrideTexture = this.Override.ElementAt(c).Value;
-                _am.Layer = this.Mesh.ElementAt(c).Key & 0xffff;
-                am.Add(_am);
+                AOMeshs aoMesh = new AOMeshs();
+                aoMesh.Position = this.Mesh.ElementAt(counter).Key >> 16;
+                aoMesh.Mesh = this.Mesh.ElementAt(counter).Value;
+                aoMesh.OverrideTexture = this.Override.ElementAt(counter).Value;
+                aoMesh.Layer = this.Mesh.ElementAt(counter).Key & 0xffff;
+                meshList.Add(aoMesh);
             }
-            return am;
+            return meshList;
         }
 
         public AOMeshs GetMeshAtPosition(int pos)
@@ -116,12 +109,12 @@ namespace ZoneEngine.Misc
                 if ((key >> 16) == pos)
                 {
                     // Just return mesh with highest priority (0 = highest)
-                    AOMeshs ma = new AOMeshs();
-                    ma.Layer = key & 0xffff;
-                    ma.Position = key >> 16;
-                    ma.Mesh = this.Mesh[key];
-                    ma.OverrideTexture = this.Override[key];
-                    return ma;
+                    AOMeshs aoMeshs = new AOMeshs();
+                    aoMeshs.Layer = key & 0xffff;
+                    aoMeshs.Position = key >> 16;
+                    aoMeshs.Mesh = this.Mesh[key];
+                    aoMeshs.OverrideTexture = this.Override[key];
+                    return aoMeshs;
                 }
             }
             // No mesh at this position found
@@ -130,45 +123,44 @@ namespace ZoneEngine.Misc
 
         public static List<AOMeshs> GetMeshs(Character character, bool showsocial, bool socialonly)
         {
-            List<AOMeshs> _meshs;
-            List<AOMeshs> _socials;
+            List<AOMeshs> meshs;
+            List<AOMeshs> socials;
             List<AOMeshs> output = new List<AOMeshs>();
 
-            bool LeftPadVisible;
-            bool RightPadVisible;
-            bool DoubleLeftPad;
-            bool DoubleRightPad;
-            bool ShowHelmet;
+            bool leftPadVisible;
+            bool rightPadVisible;
+            bool doubleLeftPad;
+            bool doubleRightPad;
 
             lock (character)
             {
-                _meshs = character.MeshLayer.GetMeshs();
-                _socials = character.SocialMeshLayer.GetMeshs();
+                meshs = character.MeshLayer.GetMeshs();
+                socials = character.SocialMeshLayer.GetMeshs();
 
-                int VisualFlags = character.Stats.VisualFlags.Value;
-                RightPadVisible = ((VisualFlags & 0x1) > 0);
-                LeftPadVisible = ((VisualFlags & 0x2) > 0);
-                ShowHelmet = ((VisualFlags & 0x4) > 0);
-                DoubleLeftPad = ((VisualFlags & 0x8) > 0);
-                DoubleRightPad = ((VisualFlags & 0x10) > 0);
+                int visualFlags = character.Stats.VisualFlags.Value;
+                rightPadVisible = ((visualFlags & 0x1) > 0);
+                leftPadVisible = ((visualFlags & 0x2) > 0);
+                bool showHelmet = ((visualFlags & 0x4) > 0);
+                doubleLeftPad = ((visualFlags & 0x8) > 0);
+                doubleRightPad = ((visualFlags & 0x10) > 0);
 
-                if (!ShowHelmet)
+                if (!showHelmet)
                 {
-                    if (_meshs.ElementAt(0).Position == 0) // Helmet there?
+                    if (meshs.ElementAt(0).Position == 0) // Helmet there?
                         // This probably needs to be looked at (glasses/visors)
                     {
-                        if (_meshs.ElementAt(0).Mesh != character.Stats.HeadMesh.StatBaseValue) // Dont remove the head :)
+                        if (meshs.ElementAt(0).Mesh != character.Stats.HeadMesh.StatBaseValue) // Dont remove the head :)
                         {
-                            _meshs.RemoveAt(0);
+                            meshs.RemoveAt(0);
                         }
                     }
 
-                    if (_socials.ElementAt(0).Position == 0) // Helmet there?
+                    if (socials.ElementAt(0).Position == 0) // Helmet there?
                         // This probably needs to be looked at (glasses/visors)
                     {
-                        if (_socials.ElementAt(0).Mesh != character.Stats.HeadMesh.StatBaseValue) // Dont remove the head :)
+                        if (socials.ElementAt(0).Mesh != character.Stats.HeadMesh.StatBaseValue) // Dont remove the head :)
                         {
-                            _socials.RemoveAt(0);
+                            socials.RemoveAt(0);
                         }
                     }
                 }
@@ -181,75 +173,72 @@ namespace ZoneEngine.Misc
             #region Applying visual flags
             if (socialonly)
             {
-                _meshs.Clear();
+                meshs.Clear();
             }
             if ((!socialonly) && (!showsocial))
             {
-                _socials.Clear();
+                socials.Clear();
             }
 
-            AOMeshs leftshoulder = null;
-            AOMeshs rightshoulder = null;
-            int rightshouldernum = -1;
-            int leftshouldernum = -1;
+            AOMeshs leftShoulder = null;
+            AOMeshs rightShoulder = null;
+            int rightShoulderNum = -1;
+            int leftShoulderNum = -1;
 
-            for (int c1 = 0; c1 < _meshs.Count; c1++)
+            for (int counter1 = 0; counter1 < meshs.Count; counter1++)
             {
-                AOMeshs m = _meshs.ElementAt(c1);
+                AOMeshs m = meshs.ElementAt(counter1);
                 if (m.Position == 3)
                 {
-                    if (!RightPadVisible)
+                    if (!rightPadVisible)
                     {
-                        _meshs.RemoveAt(c1);
-                        c1--;
+                        meshs.RemoveAt(counter1);
+                        counter1--;
                         continue;
                     }
                     else
                     {
-                        rightshoulder = m;
-                        rightshouldernum = c1;
+                        rightShoulder = m;
+                        rightShoulderNum = counter1;
                     }
                 }
                 if (m.Position == 4)
                 {
-                    if (!LeftPadVisible)
+                    if (!leftPadVisible)
                     {
-                        _meshs.RemoveAt(c1);
-                        c1--;
+                        meshs.RemoveAt(counter1);
+                        counter1--;
                         continue;
                     }
                     else
                     {
-                        leftshouldernum = c1;
-                        leftshoulder = m;
+                        leftShoulderNum = counter1;
+                        leftShoulder = m;
                     }
                 }
             }
             #endregion
 
-            AOMeshs cloth;
-            AOMeshs social;
-
-            int c = 0;
-            for (c = 0; c < 7; c++)
+            int counter;
+            for (counter = 0; counter < 7; counter++)
             {
-                cloth = null;
-                social = null;
+                AOMeshs cloth = null;
+                AOMeshs social = null;
 
-                foreach (AOMeshs m in _meshs)
+                foreach (AOMeshs aoMeshs in meshs)
                 {
-                    if (m.Position == c)
+                    if (aoMeshs.Position == counter)
                     {
-                        cloth = m;
+                        cloth = aoMeshs;
                         break;
                     }
                 }
 
-                foreach (AOMeshs m in _socials)
+                foreach (AOMeshs aoMeshs in socials)
                 {
-                    if (m.Position == c)
+                    if (aoMeshs.Position == counter)
                     {
-                        social = m;
+                        social = aoMeshs;
                     }
                 }
 
@@ -287,7 +276,7 @@ namespace ZoneEngine.Misc
                     output.Add(cloth);
 
                     // Moved check for Double pads here
-                    if ((cloth.Position == 3) && DoubleRightPad)
+                    if ((cloth.Position == 3) && doubleRightPad)
                     {
                         AOMeshs temp = new AOMeshs();
                         temp.Position = 4;
@@ -297,7 +286,7 @@ namespace ZoneEngine.Misc
                         output.Add(temp);
                     }
 
-                    if ((cloth.Position == 4) && DoubleLeftPad)
+                    if ((cloth.Position == 4) && doubleLeftPad)
                     {
                         AOMeshs temp = new AOMeshs();
                         temp.Position = 3;

@@ -29,7 +29,7 @@ namespace ZoneEngine.Misc
     /// <summary>
     /// 
     /// </summary>
-    public class Announce
+    public static class Announce
     {
         /// <summary>
         /// 

@@ -34,7 +34,7 @@ namespace ZoneEngine.Misc
 
     using AO.Core;
 
-    public class DoorHandler
+    public static class DoorHandler
     {
         public static int CacheAllFromDB()
         {
@@ -66,10 +66,9 @@ namespace ZoneEngine.Misc
 
         public static Doors DoorinRange(int playfield, AOCoord coord, float range)
         {
-            int pf;
             foreach (Doors door in Program.zoneServer.Doors)
             {
-                pf = door.ID & 0xffff;
+                int pf = door.ID & 0xffff;
                 if (pf != playfield)
                 {
                     continue;
@@ -83,27 +82,27 @@ namespace ZoneEngine.Misc
             return null;
         }
 
-        public static Doors FindCorrespondingDoor(Doors _door, Character ch)
+        public static Doors FindCorrespondingDoor(Doors door, Character ch)
         {
-            if (_door.teleport_to_ID == 0)
+            if (door.teleport_to_ID == 0)
             {
                 uint lastconcrete = ch.Stats.ExtenalDoorInstance.StatBaseValue;
-                foreach (Doors door in Program.zoneServer.Doors)
+                foreach (Doors doors in Program.zoneServer.Doors)
                 {
-                    if (lastconcrete == (uint)door.ID)
+                    if (lastconcrete == (uint)doors.ID)
                     {
-                        return door;
+                        return doors;
                     }
                 }
             }
 
-            foreach (Doors door in Program.zoneServer.Doors)
+            foreach (Doors doors in Program.zoneServer.Doors)
             {
-                if (door != _door)
+                if (doors != door)
                 {
-                    if (door.ID == _door.teleport_to_ID)
+                    if (doors.ID == door.teleport_to_ID)
                     {
-                        return door;
+                        return doors;
                     }
                 }
             }
@@ -120,21 +119,21 @@ namespace ZoneEngine.Misc
                 return;
             }
             cli.SendChatText(
-                "Door " + door.ID.ToString() + " Heading before: " + door.hX.ToString() + " " + door.hY.ToString() + " "
-                + door.hZ.ToString() + " " + door.hW.ToString());
-            AOCoord a = new AOCoord();
-            a.x = cli.Character.Coordinates.x - door.Coordinates.x;
-            a.y = cli.Character.Coordinates.y - door.Coordinates.y;
-            a.z = cli.Character.Coordinates.z - door.Coordinates.z;
+                string.Format("Door {0} Heading before: {1} {2} {3} {4}", door.ID, door.hX, door.hY, door.hZ, door.hW));
+            AOCoord a = new AOCoord
+                {
+                    x = cli.Character.Coordinates.x - door.Coordinates.x,
+                    y = cli.Character.Coordinates.y - door.Coordinates.y,
+                    z = cli.Character.Coordinates.z - door.Coordinates.z
+                };
             Quaternion q = new Quaternion(a.x, a.y, a.z, 0);
             cli.SendChatText(
-                "Door " + door.ID.ToString() + " Heading now: " + q.x.ToString() + " " + q.y.ToString() + " "
-                + q.z.ToString() + " " + q.w.ToString());
+                string.Format("Door {0} Heading now: {1} {2} {3} {4}", door.ID, q.x, q.y, q.z, q.w));
             ms.SqlUpdate(
                 "UPDATE doors SET HX=" + String.Format(CultureInfo.InvariantCulture, "'{0}'", q.x) + ", HY="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", q.y) + ", HZ="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", q.z) + ", HW="
-                + String.Format(CultureInfo.InvariantCulture, "'{0}'", q.w) + " WHERE ID=" + door.ID.ToString() + ";");
+                + String.Format(CultureInfo.InvariantCulture, "'{0}'", q.w) + " WHERE ID=" + door.ID + ";");
             door.hX = (float)q.x;
             door.hY = (float)q.y;
             door.hZ = (float)q.z;
