@@ -6896,18 +6896,11 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="#PlayFieldsLoadXML(System.String)">
+           <Member Name="#PlayFieldsLoadXml(System.String)">
             <Messages>
-             <Message Id="XML" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>XML</Item>
-               <Item>'WallCollision.PlayFieldsLoadXML(string)'</Item>
-               <Item>Xml</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 21:12:59Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'WallCollision.PlayFieldsLoadXML(string)'</Item>
+               <Item>'WallCollision.PlayFieldsLoadXml(string)'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -6965,18 +6958,11 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="#WallsLoadXML(System.String)">
+           <Member Name="#WallsLoadXml(System.String)">
             <Messages>
-             <Message Id="XML" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>XML</Item>
-               <Item>'WallCollision.WallsLoadXML(string)'</Item>
-               <Item>Xml</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 21:12:59Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'WallCollision.WallsLoadXML(string)'</Item>
+               <Item>'WallCollision.WallsLoadXml(string)'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -21845,22 +21831,6 @@
                <Item>&#xD;&#xA;&#xD;&#xA;ClassStat..ctor(Int32, UInt32, String, Boolean, Boolean, Boolean)&#xD;&#xA;ClassStat.set_Value(Int32):Void&#xD;&#xA;ClassStat.Set(Int32):Void&#xD;&#xA;ClassStat.Set(UInt32):Void&#xD;&#xA;ClassStat.get_Value():Int32</Item>
               </Issue>
              </Message>
-             <Message Id="Default" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:30:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'ClassStat.ClassStat(int, uint, string, bool, bool, bool)'</Item>
-               <Item>Default</Item>
-               <Item>'Default'</Item>
-               <Item>default</Item>
-              </Issue>
-             </Message>
-             <Message Id="Number" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:30:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'ClassStat.ClassStat(int, uint, string, bool, bool, bool)'</Item>
-               <Item>Number</Item>
-               <Item>'Number'</Item>
-               <Item>number</Item>
-              </Issue>
-             </Message>
              <Message Id="name" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:30:36Z" FixCategory="DependsOnFix">
               <Issue>
                <Item>'name'</Item>
@@ -21887,11 +21857,11 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="#changed">
+           <Member Name="#Changed">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-15 17:30:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-15 21:26:00Z">
               <Issue>
-               <Item>'ClassStat.changed'</Item>
+               <Item>'ClassStat.Changed'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -21959,11 +21929,11 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="#StatDefault">
+           <Member Name="#StatDefaultValue">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-15 17:30:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-15 21:26:00Z">
               <Issue>
-               <Item>'ClassStat.StatDefault'</Item>
+               <Item>'ClassStat.StatDefaultValue'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -23239,31 +23209,15 @@
                <Item>&#xD;&#xA;&#xD;&#xA;Stat_IP..ctor(Int32, Int32, String, Boolean, Boolean, Boolean)&#xD;&#xA;ClassStat.set_Value(Int32):Void</Item>
               </Issue>
              </Message>
-             <Message Id="Default" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'Stat_IP.Stat_IP(int, int, string, bool, bool, bool)'</Item>
-               <Item>Default</Item>
-               <Item>'Default'</Item>
-               <Item>default</Item>
-              </Issue>
-             </Message>
-             <Message Id="Number" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'Stat_IP.Stat_IP(int, int, string, bool, bool, bool)'</Item>
-               <Item>Number</Item>
-               <Item>'Number'</Item>
-               <Item>number</Item>
-              </Issue>
-             </Message>
-             <Message Id="announce" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message Id="announceToPlayfield" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:35:49Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'announce'</Item>
+               <Item>'announceToPlayfield'</Item>
                <Item>'Stat_IP.Stat_IP(int, int, string, bool, bool, bool)'</Item>
               </Issue>
              </Message>
-             <Message Id="dontwrite" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message Id="doNotWrite" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:35:49Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'dontwrite'</Item>
+               <Item>'doNotWrite'</Item>
                <Item>'Stat_IP.Stat_IP(int, int, string, bool, bool, bool)'</Item>
               </Issue>
              </Message>
@@ -23273,9 +23227,9 @@
                <Item>'Stat_IP.Stat_IP(int, int, string, bool, bool, bool)'</Item>
               </Issue>
              </Message>
-             <Message Id="sendbase" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message Id="sendBaseValue" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:35:49Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'sendbase'</Item>
+               <Item>'sendBaseValue'</Item>
                <Item>'Stat_IP.Stat_IP(int, int, string, bool, bool, bool)'</Item>
               </Issue>
              </Message>
@@ -23666,67 +23620,6 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="Stat_NP">
-          <Messages>
-           <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-08-15 17:12:36Z">
-            <Issue Name="Type">
-             <Item>'Stat_NP'</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="#.ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Boolean)">
-            <Messages>
-             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2012-08-15 17:12:36Z">
-              <Issue>
-               <Item>'Stat_NP.Stat_NP(int, int, string, bool, bool, bool)'</Item>
-               <Item>&#xD;&#xA;&#xD;&#xA;Stat_NP..ctor(Int32, Int32, String, Boolean, Boolean, Boolean)&#xD;&#xA;ClassStat.set_Value(Int32):Void</Item>
-              </Issue>
-             </Message>
-             <Message Id="Default" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'Stat_NP.Stat_NP(int, int, string, bool, bool, bool)'</Item>
-               <Item>Default</Item>
-               <Item>'Default'</Item>
-               <Item>default</Item>
-              </Issue>
-             </Message>
-             <Message Id="Number" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'Stat_NP.Stat_NP(int, int, string, bool, bool, bool)'</Item>
-               <Item>Number</Item>
-               <Item>'Number'</Item>
-               <Item>number</Item>
-              </Issue>
-             </Message>
-             <Message Id="announce" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
-              <Issue>
-               <Item>'announce'</Item>
-               <Item>'Stat_NP.Stat_NP(int, int, string, bool, bool, bool)'</Item>
-              </Issue>
-             </Message>
-             <Message Id="dontwrite" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
-              <Issue>
-               <Item>'dontwrite'</Item>
-               <Item>'Stat_NP.Stat_NP(int, int, string, bool, bool, bool)'</Item>
-              </Issue>
-             </Message>
-             <Message Id="name" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
-              <Issue>
-               <Item>'name'</Item>
-               <Item>'Stat_NP.Stat_NP(int, int, string, bool, bool, bool)'</Item>
-              </Issue>
-             </Message>
-             <Message Id="sendbase" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
-              <Issue>
-               <Item>'sendbase'</Item>
-               <Item>'Stat_NP.Stat_NP(int, int, string, bool, bool, bool)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="Stat_Skill">
           <Messages>
            <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-08-15 17:12:36Z">
@@ -23874,14 +23767,6 @@
                <Item>default</Item>
               </Issue>
              </Message>
-             <Message Id="Number" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'Stat_WeaponsStyle.Stat_WeaponsStyle(int, int, string, bool, bool, bool)'</Item>
-               <Item>Number</Item>
-               <Item>'Number'</Item>
-               <Item>number</Item>
-              </Issue>
-             </Message>
              <Message Id="announce" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
               <Issue>
                <Item>'announce'</Item>
@@ -23904,6 +23789,52 @@
               <Issue>
                <Item>'sendbase'</Item>
                <Item>'Stat_WeaponsStyle.Stat_WeaponsStyle(int, int, string, bool, bool, bool)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="StatNanoPoints">
+          <Members>
+           <Member Name="#.ctor(System.Int32,System.Int32,System.String,System.Boolean,System.Boolean,System.Boolean)">
+            <Messages>
+             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2012-08-15 21:26:00Z">
+              <Issue>
+               <Item>'StatNanoPoints.StatNanoPoints(int, int, string, bool, bool, bool)'</Item>
+               <Item>&#xD;&#xA;&#xD;&#xA;StatNanoPoints..ctor(Int32, Int32, String, Boolean, Boolean, Boolean)&#xD;&#xA;ClassStat.set_Value(Int32):Void</Item>
+              </Issue>
+             </Message>
+             <Message Id="Default" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 21:26:00Z">
+              <Issue Name="MemberParameter">
+               <Item>'StatNanoPoints.StatNanoPoints(int, int, string, bool, bool, bool)'</Item>
+               <Item>Default</Item>
+               <Item>'Default'</Item>
+               <Item>default</Item>
+              </Issue>
+             </Message>
+             <Message Id="announce" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:26:00Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'announce'</Item>
+               <Item>'StatNanoPoints.StatNanoPoints(int, int, string, bool, bool, bool)'</Item>
+              </Issue>
+             </Message>
+             <Message Id="dontWrite" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:26:00Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'dontWrite'</Item>
+               <Item>'StatNanoPoints.StatNanoPoints(int, int, string, bool, bool, bool)'</Item>
+              </Issue>
+             </Message>
+             <Message Id="name" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:26:00Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'name'</Item>
+               <Item>'StatNanoPoints.StatNanoPoints(int, int, string, bool, bool, bool)'</Item>
+              </Issue>
+             </Message>
+             <Message Id="sendBaseValue" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:26:00Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'sendBaseValue'</Item>
+               <Item>'StatNanoPoints.StatNanoPoints(int, int, string, bool, bool, bool)'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -23960,13 +23891,6 @@
           </Members>
          </Type>
          <Type Name="VendorHandler">
-          <Messages>
-           <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Created="2012-08-15 17:12:36Z">
-            <Issue>
-             <Item>'VendorHandler'</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="#CacheAllFromDB()">
             <Messages>
@@ -24180,58 +24104,6 @@
            </Message>
           </Messages>
           <Members>
-           <Member Name="#HasNano(System.Int32,ZoneEngine.Client)">
-            <Messages>
-             <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameterAbbreviation">
-               <Item>'ChatCmd.HasNano(int, Client)'</Item>
-               <Item>ID</Item>
-               <Item>'nanoID'</Item>
-               <Item>Id</Item>
-              </Issue>
-             </Message>
-             <Message Id="client" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'ChatCmd.HasNano(int, Client)'</Item>
-               <Item>client</Item>
-               <Item>'m_client'</Item>
-               <Item>Client</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'ChatCmd.HasNano(int, Client)'</Item>
-               <Item>'m_client'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#ItemExists(System.Int32,ZoneEngine.Client)">
-            <Messages>
-             <Message Id="Placement" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'ChatCmd.ItemExists(int, Client)'</Item>
-               <Item>Placement</Item>
-               <Item>'Placement'</Item>
-               <Item>placement</Item>
-              </Issue>
-             </Message>
-             <Message Id="client" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'ChatCmd.ItemExists(int, Client)'</Item>
-               <Item>client</Item>
-               <Item>'m_client'</Item>
-               <Item>Client</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'ChatCmd.ItemExists(int, Client)'</Item>
-               <Item>'m_client'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="#Read(System.Byte[]&amp;,ZoneEngine.Client)">
             <Messages>
              <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Created="2012-08-15 17:12:36Z">
@@ -24584,18 +24456,10 @@
             <Messages>
              <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Created="2012-08-15 17:12:36Z">
               <Issue>
-               <Item>'KnuBottarget'</Item>
+               <Item>'knubotTarget'</Item>
                <Item>'KnuBotStartTrade.Send(Client, NonPlayerCharacterClass, string, int)'</Item>
                <Item>'NonPlayerCharacterClass'</Item>
                <Item>'Dynel'</Item>
-              </Issue>
-             </Message>
-             <Message Id="Knu" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'KnuBotStartTrade.Send(Client, NonPlayerCharacterClass, string, int)'</Item>
-               <Item>Knu</Item>
-               <Item>'KnuBottarget'</Item>
-               <Item>knu</Item>
               </Issue>
              </Message>
             </Messages>
@@ -24825,101 +24689,101 @@
          </Type>
          <Type Name="RaidClass">
           <Members>
-           <Member Name="#NumOfTeams">
+           <Member Name="#numberOfTeams">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.NumOfTeams'</Item>
+               <Item>'RaidClass.numberOfTeams'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#RaidEnabled">
+           <Member Name="#raidEnabled">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.RaidEnabled'</Item>
+               <Item>'RaidClass.raidEnabled'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#RaidID">
+           <Member Name="#raidID">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.RaidID'</Item>
+               <Item>'RaidClass.raidID'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#RaidLeader">
+           <Member Name="#raidLeader">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.RaidLeader'</Item>
+               <Item>'RaidClass.raidLeader'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#RaidLocks">
+           <Member Name="#raidLocks">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.RaidLocks'</Item>
+               <Item>'RaidClass.raidLocks'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#Team1ID">
+           <Member Name="#team1ID">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.Team1ID'</Item>
+               <Item>'RaidClass.team1ID'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#Team2ID">
+           <Member Name="#team2ID">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.Team2ID'</Item>
+               <Item>'RaidClass.team2ID'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#Team3ID">
+           <Member Name="#team3ID">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.Team3ID'</Item>
+               <Item>'RaidClass.team3ID'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#Team4ID">
+           <Member Name="#team4ID">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.Team4ID'</Item>
+               <Item>'RaidClass.team4ID'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#Team5ID">
+           <Member Name="#team5ID">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.Team5ID'</Item>
+               <Item>'RaidClass.team5ID'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#Team6ID">
+           <Member Name="#team6ID">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'RaidClass.Team6ID'</Item>
+               <Item>'RaidClass.team6ID'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -24928,73 +24792,52 @@
          </Type>
          <Type Name="SkillUpdate">
           <Members>
-           <Member Name="#calcHP(ZoneEngine.Client)">
+           <Member Name="#CalculateHitPoints(ZoneEngine.Client)">
             <Messages>
-             <Message Id="calc" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>calc</Item>
-               <Item>'SkillUpdate.calcHP(Client)'</Item>
-               <Item>Calc</Item>
-              </Issue>
-             </Message>
-             <Message Id="Body" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-15 17:12:36Z">
+             <Message Id="Body" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-15 21:35:49Z">
               <Issue Name="Body">
-               <Item>'SkillUpdate.calcHP(Client)'</Item>
+               <Item>'SkillUpdate.CalculateHitPoints(Client)'</Item>
                <Item>'int[,]'</Item>
               </Issue>
              </Message>
-             <Message Id="level" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="level" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 21:35:49Z">
               <Issue>
-               <Item>'SkillUpdate.calcHP(Client)'</Item>
+               <Item>'SkillUpdate.CalculateHitPoints(Client)'</Item>
                <Item>'level'</Item>
                <Item>'uint'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#calcIP(ZoneEngine.Client)">
+           <Member Name="#CalculateIP(ZoneEngine.Client)">
             <Messages>
-             <Message Id="calc" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>calc</Item>
-               <Item>'SkillUpdate.calcIP(Client)'</Item>
-               <Item>Calc</Item>
-              </Issue>
-             </Message>
-             <Message Id="Body" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-15 17:12:36Z">
+             <Message Id="Body" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-15 21:35:49Z">
               <Issue Name="Body">
-               <Item>'SkillUpdate.calcIP(Client)'</Item>
+               <Item>'SkillUpdate.CalculateIP(Client)'</Item>
                <Item>'double[,]'</Item>
               </Issue>
               <Issue Name="Body">
-               <Item>'SkillUpdate.calcIP(Client)'</Item>
+               <Item>'SkillUpdate.CalculateIP(Client)'</Item>
                <Item>'double[,]'</Item>
               </Issue>
               <Issue Name="Body">
-               <Item>'SkillUpdate.calcIP(Client)'</Item>
+               <Item>'SkillUpdate.CalculateIP(Client)'</Item>
                <Item>'double[,]'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#calcNP(ZoneEngine.Client)">
+           <Member Name="#CalculateNanoPoints(ZoneEngine.Client)">
             <Messages>
-             <Message Id="calc" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>calc</Item>
-               <Item>'SkillUpdate.calcNP(Client)'</Item>
-               <Item>Calc</Item>
-              </Issue>
-             </Message>
-             <Message Id="Body" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-15 17:12:36Z">
+             <Message Id="Body" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-15 21:35:49Z">
               <Issue Name="Body">
-               <Item>'SkillUpdate.calcNP(Client)'</Item>
+               <Item>'SkillUpdate.CalculateNanoPoints(Client)'</Item>
                <Item>'int[,]'</Item>
               </Issue>
              </Message>
-             <Message Id="level" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="level" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 21:35:49Z">
               <Issue>
-               <Item>'SkillUpdate.calcNP(Client)'</Item>
+               <Item>'SkillUpdate.CalculateNanoPoints(Client)'</Item>
                <Item>'level'</Item>
                <Item>'uint'</Item>
               </Issue>
@@ -25027,17 +24870,6 @@
                <Item>'SkillUpdate.Read(ref byte[], Client)'</Item>
                <Item>'unknown1'</Item>
                <Item>'byte'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#sendstat(ZoneEngine.Client,System.Int32,System.Int32,System.Boolean)">
-            <Messages>
-             <Message Id="sendstat" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>sendstat</Item>
-               <Item>'SkillUpdate.sendstat(Client, int, int, bool)'</Item>
-               <Item>Sendstat</Item>
               </Issue>
              </Message>
             </Messages>
@@ -25115,60 +24947,29 @@
          </Type>
          <Type Name="TeamClass">
           <Members>
-           <Member Name="#GenerateNewTeamID(ZoneEngine.Client,AO.Core.Identity)">
+           <Member Name="#GenerateNewTeamId(ZoneEngine.Client,AO.Core.Identity)">
             <Messages>
-             <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberAbbreviation">
-               <Item>ID</Item>
-               <Item>'TeamClass.GenerateNewTeamID(Client, Identity)'</Item>
-               <Item>Id</Item>
-              </Issue>
-             </Message>
-             <Message Id="Recieving" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.GenerateNewTeamID(Client, Identity)'</Item>
-               <Item>Recieving</Item>
-               <Item>'RecievingPlayer'</Item>
-               <Item>recieving</Item>
-              </Issue>
-             </Message>
-             <Message Id="Sending" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.GenerateNewTeamID(Client, Identity)'</Item>
-               <Item>Sending</Item>
-               <Item>'SendingPlayer'</Item>
-               <Item>sending</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 21:26:00Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'TeamClass.GenerateNewTeamID(Client, Identity)'</Item>
+               <Item>'TeamClass.GenerateNewTeamId(Client, Identity)'</Item>
               </Issue>
              </Message>
-             <Message Id="RecievingPlayer" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message Id="recievingPlayer" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:26:00Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'RecievingPlayer'</Item>
-               <Item>'TeamClass.GenerateNewTeamID(Client, Identity)'</Item>
+               <Item>'recievingPlayer'</Item>
+               <Item>'TeamClass.GenerateNewTeamId(Client, Identity)'</Item>
               </Issue>
              </Message>
-             <Message Id="SendingPlayer" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message Id="sendingPlayer" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:26:00Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'SendingPlayer'</Item>
-               <Item>'TeamClass.GenerateNewTeamID(Client, Identity)'</Item>
+               <Item>'sendingPlayer'</Item>
+               <Item>'TeamClass.GenerateNewTeamId(Client, Identity)'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
            <Member Name="#LeaveTeam(ZoneEngine.Client)">
             <Messages>
-             <Message Id="Sending" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.LeaveTeam(Client)'</Item>
-               <Item>Sending</Item>
-               <Item>'SendingPlayer'</Item>
-               <Item>sending</Item>
-              </Issue>
-             </Message>
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
               <Issue>
                <Item>'TeamClass.LeaveTeam(Client)'</Item>
@@ -25176,20 +24977,20 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="#LootMode">
+           <Member Name="#lootMode">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'TeamClass.LootMode'</Item>
+               <Item>'TeamClass.lootMode'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#NumOfPlayers">
+           <Member Name="#numberOfPlayers">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'TeamClass.NumOfPlayers'</Item>
+               <Item>'TeamClass.numberOfPlayers'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -25250,22 +25051,6 @@
            </Member>
            <Member Name="#SendTeamRequest(ZoneEngine.Client,AO.Core.Identity)">
             <Messages>
-             <Message Id="Recieving" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.SendTeamRequest(Client, Identity)'</Item>
-               <Item>Recieving</Item>
-               <Item>'RecievingPlayer'</Item>
-               <Item>recieving</Item>
-              </Issue>
-             </Message>
-             <Message Id="Sending" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.SendTeamRequest(Client, Identity)'</Item>
-               <Item>Sending</Item>
-               <Item>'SendingPlayer'</Item>
-               <Item>sending</Item>
-              </Issue>
-             </Message>
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
               <Issue>
                <Item>'TeamClass.SendTeamRequest(Client, Identity)'</Item>
@@ -25273,190 +25058,74 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="#TeamID">
+           <Member Name="#teamID">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'TeamClass.TeamID'</Item>
+               <Item>'TeamClass.teamID'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#TeamLeader">
+           <Member Name="#teamLeader">
             <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 17:12:36Z">
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2012-08-15 20:18:52Z">
               <Issue>
-               <Item>'TeamClass.TeamLeader'</Item>
+               <Item>'TeamClass.teamLeader'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#TRPTM(System.Int32,ZoneEngine.Client,AO.Core.Identity,System.String)">
+           <Member Name="#TeamReplyPacketTeamMember(System.Int32,ZoneEngine.Client,AO.Core.Identity,System.String)">
             <Messages>
-             <Message Id="Char" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRPTM(int, Client, Identity, string)'</Item>
-               <Item>Char</Item>
-               <Item>'CharName'</Item>
-               <Item>char</Item>
-              </Issue>
-             </Message>
-             <Message Id="Destination" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRPTM(int, Client, Identity, string)'</Item>
-               <Item>Destination</Item>
-               <Item>'DestinationClient'</Item>
-               <Item>destination</Item>
-              </Issue>
-             </Message>
-             <Message Id="Recieving" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRPTM(int, Client, Identity, string)'</Item>
-               <Item>Recieving</Item>
-               <Item>'RecievingPlayer'</Item>
-               <Item>recieving</Item>
-              </Issue>
-             </Message>
-             <Message Id="Sending" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRPTM(int, Client, Identity, string)'</Item>
-               <Item>Sending</Item>
-               <Item>'SendingPlayer'</Item>
-               <Item>sending</Item>
-              </Issue>
-             </Message>
-             <Message Id="TRPTM" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>TRPTM</Item>
-               <Item>'TeamClass.TRPTM(int, Client, Identity, string)'</Item>
-               <Item>Trptm</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 20:18:52Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'TeamClass.TRPTM(int, Client, Identity, string)'</Item>
+               <Item>'TeamClass.TeamReplyPacketTeamMember(int, Client, Identity, string)'</Item>
               </Issue>
              </Message>
-             <Message Id="CharName" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message Id="charName" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 20:18:52Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'CharName'</Item>
-               <Item>'TeamClass.TRPTM(int, Client, Identity, string)'</Item>
+               <Item>'charName'</Item>
+               <Item>'TeamClass.TeamReplyPacketTeamMember(int, Client, Identity, string)'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#TRPTMI(System.Int32,ZoneEngine.Client,AO.Core.Identity)">
+           <Member Name="#TeamReplyPacketTeamMemberInfo(System.Int32,ZoneEngine.Client,AO.Core.Identity)">
             <Messages>
-             <Message Id="Destination" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRPTMI(int, Client, Identity)'</Item>
-               <Item>Destination</Item>
-               <Item>'DestinationClient'</Item>
-               <Item>destination</Item>
-              </Issue>
-             </Message>
-             <Message Id="Recieving" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRPTMI(int, Client, Identity)'</Item>
-               <Item>Recieving</Item>
-               <Item>'RecievingPlayer'</Item>
-               <Item>recieving</Item>
-              </Issue>
-             </Message>
-             <Message Id="Sending" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRPTMI(int, Client, Identity)'</Item>
-               <Item>Sending</Item>
-               <Item>'SendingPlayer'</Item>
-               <Item>sending</Item>
-              </Issue>
-             </Message>
-             <Message Id="TRPTMI" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>TRPTMI</Item>
-               <Item>'TeamClass.TRPTMI(int, Client, Identity)'</Item>
-               <Item>Trptmi</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 20:18:52Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'TeamClass.TRPTMI(int, Client, Identity)'</Item>
+               <Item>'TeamClass.TeamReplyPacketTeamMemberInfo(int, Client, Identity)'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#TRRCA15(ZoneEngine.Client,AO.Core.Identity)">
+           <Member Name="#TeamRequestReply(ZoneEngine.Client,AO.Core.Identity)">
             <Messages>
-             <Message Id="Recieving" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRRCA15(Client, Identity)'</Item>
-               <Item>Recieving</Item>
-               <Item>'RecievingPlayer'</Item>
-               <Item>recieving</Item>
-              </Issue>
-             </Message>
-             <Message Id="Sending" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRRCA15(Client, Identity)'</Item>
-               <Item>Sending</Item>
-               <Item>'SendingPlayer'</Item>
-               <Item>sending</Item>
-              </Issue>
-             </Message>
-             <Message Id="TRRCA" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>TRRCA</Item>
-               <Item>'TeamClass.TRRCA15(Client, Identity)'</Item>
-               <Item>Trrca</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 20:18:52Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'TeamClass.TRRCA15(Client, Identity)'</Item>
+               <Item>'TeamClass.TeamRequestReply(Client, Identity)'</Item>
               </Issue>
              </Message>
-             <Message Id="RecievingPlayer" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message Id="recievingPlayer" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 20:18:52Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'RecievingPlayer'</Item>
-               <Item>'TeamClass.TRRCA15(Client, Identity)'</Item>
+               <Item>'recievingPlayer'</Item>
+               <Item>'TeamClass.TeamRequestReply(Client, Identity)'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#TRRCA23(ZoneEngine.Client,AO.Core.Identity)">
+           <Member Name="#TeamRequestReplyCharacterAction23(ZoneEngine.Client,AO.Core.Identity)">
             <Messages>
-             <Message Id="Recieving" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRRCA23(Client, Identity)'</Item>
-               <Item>Recieving</Item>
-               <Item>'RecievingPlayer'</Item>
-               <Item>recieving</Item>
-              </Issue>
-             </Message>
-             <Message Id="Sending" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'TeamClass.TRRCA23(Client, Identity)'</Item>
-               <Item>Sending</Item>
-               <Item>'SendingPlayer'</Item>
-               <Item>sending</Item>
-              </Issue>
-             </Message>
-             <Message Id="TRRCA" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>TRRCA</Item>
-               <Item>'TeamClass.TRRCA23(Client, Identity)'</Item>
-               <Item>Trrca</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-15 20:18:52Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'TeamClass.TRRCA23(Client, Identity)'</Item>
+               <Item>'TeamClass.TeamRequestReplyCharacterAction23(Client, Identity)'</Item>
               </Issue>
              </Message>
-             <Message Id="RecievingPlayer" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message Id="recievingPlayer" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 20:18:52Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'RecievingPlayer'</Item>
-               <Item>'TeamClass.TRRCA23(Client, Identity)'</Item>
+               <Item>'recievingPlayer'</Item>
+               <Item>'TeamClass.TeamRequestReplyCharacterAction23(Client, Identity)'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -25538,149 +25207,144 @@
          </Type>
          <Type Name="AppearanceUpdate">
           <Members>
-           <Member Name="#Appearance_Update(ZoneEngine.Character)">
+           <Member Name="#AnnounceAppearanceUpdate(ZoneEngine.Character)">
             <Messages>
-             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
-              </Issue>
-             </Message>
-             <Message Id="BackMeshValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="BackMeshValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'BackMeshValue'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="DoubleLeftPad" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="DoubleLeftPad" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'DoubleLeftPad'</Item>
                <Item>'bool'</Item>
               </Issue>
              </Message>
-             <Message Id="DoubleRightPad" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="DoubleRightPad" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'DoubleRightPad'</Item>
                <Item>'bool'</Item>
               </Issue>
              </Message>
-             <Message Id="HairMeshValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="HairMeshValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'HairMeshValue'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="HeadMeshBaseValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="HeadMeshBaseValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'HeadMeshBaseValue'</Item>
                <Item>'uint'</Item>
               </Issue>
              </Message>
-             <Message Id="HeadMeshValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="HeadMeshValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'HeadMeshValue'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="LeftPadVisible" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="LeftPadVisible" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'LeftPadVisible'</Item>
                <Item>'bool'</Item>
               </Issue>
              </Message>
-             <Message Id="OverrideTextureAttractor" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="OverrideTextureAttractor" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'OverrideTextureAttractor'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="OverrideTextureBack" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="OverrideTextureBack" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'OverrideTextureBack'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="OverrideTextureHead" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="OverrideTextureHead" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'OverrideTextureHead'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="OverrideTextureShoulderpadLeft" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="OverrideTextureShoulderpadLeft" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'OverrideTextureShoulderpadLeft'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="OverrideTextureShoulderpadRight" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="OverrideTextureShoulderpadRight" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'OverrideTextureShoulderpadRight'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="OverrideTextureWeaponLeft" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="OverrideTextureWeaponLeft" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'OverrideTextureWeaponLeft'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="OverrideTextureWeaponRight" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="OverrideTextureWeaponRight" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'OverrideTextureWeaponRight'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="RightPadVisible" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="RightPadVisible" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'RightPadVisible'</Item>
                <Item>'bool'</Item>
               </Issue>
              </Message>
-             <Message Id="ShoulderMeshRightValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="ShoulderMeshRightValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'ShoulderMeshRightValue'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="TexturesCount" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="TexturesCount" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'TexturesCount'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="WeaponMeshLeftValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="WeaponMeshLeftValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'WeaponMeshLeftValue'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="WeaponMeshRightValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="WeaponMeshRightValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'WeaponMeshRightValue'</Item>
                <Item>'int'</Item>
               </Issue>
              </Message>
-             <Message Id="showhelmet" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 17:12:36Z">
+             <Message Id="showhelmet" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-15 19:35:00Z">
               <Issue>
-               <Item>'AppearanceUpdate.Appearance_Update(Character)'</Item>
+               <Item>'AppearanceUpdate.AnnounceAppearanceUpdate(Character)'</Item>
                <Item>'showhelmet'</Item>
                <Item>'bool'</Item>
               </Issue>
@@ -25734,45 +25398,11 @@
          </Type>
          <Type Name="FormatFeedbackMessage">
           <Members>
-           <Member Name="#b85(System.Int32)">
+           <Member Name="#ByteToChar(System.Byte)">
             <Messages>
-             <Message Id="b" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>b</Item>
-               <Item>'FormatFeedbackMessage.b85(int)'</Item>
-               <Item>B</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#b85_5(System.Int32)">
-            <Messages>
-             <Message Id="b" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>b</Item>
-               <Item>'FormatFeedbackMessage.b85_5(int)'</Item>
-               <Item>B</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>'FormatFeedbackMessage.b85_5(int)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#bytetochar(System.Byte)">
-            <Messages>
-             <Message Id="bytetochar" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>bytetochar</Item>
-               <Item>'FormatFeedbackMessage.bytetochar(byte)'</Item>
-               <Item>Bytetochar</Item>
-              </Issue>
-             </Message>
-             <Message Id="b" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-15 17:12:36Z">
+             <Message Id="b" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-15 21:03:51Z">
               <Issue Name="MemberParameterMoreMeaningfulName">
-               <Item>'FormatFeedbackMessage.bytetochar(byte)'</Item>
+               <Item>'FormatFeedbackMessage.ByteToChar(byte)'</Item>
                <Item>'b'</Item>
               </Issue>
              </Message>
@@ -25804,17 +25434,6 @@
                <Item>'string'</Item>
                <Item>'FormatFeedbackMessage.Send(Client, int, int, object[])'</Item>
                <Item>castclass</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#shorttochar(System.Int16)">
-            <Messages>
-             <Message Id="shorttochar" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>shorttochar</Item>
-               <Item>'FormatFeedbackMessage.shorttochar(short)'</Item>
-               <Item>Shorttochar</Item>
               </Issue>
              </Message>
             </Messages>
@@ -25874,18 +25493,10 @@
             <Messages>
              <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Created="2012-08-15 17:12:36Z">
               <Issue>
-               <Item>'KnuBottarget'</Item>
+               <Item>'knubotTarget'</Item>
                <Item>'KnuBotAnswerList.Send(Client, NonPlayerCharacterClass, string[])'</Item>
                <Item>'NonPlayerCharacterClass'</Item>
                <Item>'Dynel'</Item>
-              </Issue>
-             </Message>
-             <Message Id="Knu" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'KnuBotAnswerList.Send(Client, NonPlayerCharacterClass, string[])'</Item>
-               <Item>Knu</Item>
-               <Item>'KnuBottarget'</Item>
-               <Item>knu</Item>
               </Issue>
              </Message>
             </Messages>
@@ -25905,18 +25516,10 @@
             <Messages>
              <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Created="2012-08-15 17:12:36Z">
               <Issue>
-               <Item>'KnuBottarget'</Item>
+               <Item>'knubotTarget'</Item>
                <Item>'KnuBotAppendText.Send(Client, NonPlayerCharacterClass, string)'</Item>
                <Item>'NonPlayerCharacterClass'</Item>
                <Item>'Dynel'</Item>
-              </Issue>
-             </Message>
-             <Message Id="Knu" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'KnuBotAppendText.Send(Client, NonPlayerCharacterClass, string)'</Item>
-               <Item>Knu</Item>
-               <Item>'KnuBottarget'</Item>
-               <Item>knu</Item>
               </Issue>
              </Message>
             </Messages>
@@ -25951,18 +25554,10 @@
             <Messages>
              <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Created="2012-08-15 17:12:36Z">
               <Issue>
-               <Item>'KnuBottarget'</Item>
+               <Item>'knubotTarget'</Item>
                <Item>'KnuBotOpenChatWindow.Send(Client, NonPlayerCharacterClass)'</Item>
                <Item>'NonPlayerCharacterClass'</Item>
                <Item>'Dynel'</Item>
-              </Issue>
-             </Message>
-             <Message Id="Knu" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'KnuBotOpenChatWindow.Send(Client, NonPlayerCharacterClass)'</Item>
-               <Item>Knu</Item>
-               <Item>'KnuBottarget'</Item>
-               <Item>knu</Item>
               </Issue>
              </Message>
             </Messages>
@@ -25982,18 +25577,10 @@
             <Messages>
              <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Created="2012-08-15 17:12:36Z">
               <Issue>
-               <Item>'KnuBottarget'</Item>
+               <Item>'knubotTarget'</Item>
                <Item>'KnuBotRejectedItems.Send(Client, NonPlayerCharacterClass, AOItem[])'</Item>
                <Item>'NonPlayerCharacterClass'</Item>
                <Item>'Dynel'</Item>
-              </Issue>
-             </Message>
-             <Message Id="Knu" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'KnuBotRejectedItems.Send(Client, NonPlayerCharacterClass, AOItem[])'</Item>
-               <Item>Knu</Item>
-               <Item>'KnuBottarget'</Item>
-               <Item>knu</Item>
               </Issue>
              </Message>
             </Messages>
@@ -26013,7 +25600,7 @@
             <Messages>
              <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Created="2012-08-15 17:12:36Z">
               <Issue>
-               <Item>'vm'</Item>
+               <Item>'vendingMachine'</Item>
                <Item>'ShopInventory.Send(Client, VendingMachine)'</Item>
                <Item>'VendingMachine'</Item>
                <Item>'Character'</Item>
@@ -26025,34 +25612,12 @@
          </Type>
          <Type Name="SimpleCharFullUpdate">
           <Members>
-           <Member Name="#SendToPf(ZoneEngine.Client)">
-            <Messages>
-             <Message Id="Pf" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>Pf</Item>
-               <Item>'SimpleCharFullUpdate.SendToPf(Client)'</Item>
-               <Item>PF</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#SendToPfOthers(ZoneEngine.Client)">
-            <Messages>
-             <Message Id="Pf" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="Member">
-               <Item>Pf</Item>
-               <Item>'SimpleCharFullUpdate.SendToPfOthers(Client)'</Item>
-               <Item>PF</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="#WritePacket(ZoneEngine.Character,System.Int32)">
             <Messages>
              <Message TypeName="AvoidExcessiveLocals" Category="Microsoft.Performance" CheckId="CA1809" Created="2012-08-15 17:12:36Z">
               <Issue Name="Compiler">
                <Item>'SimpleCharFullUpdate.WritePacket(Character, int)'</Item>
-               <Item>88</Item>
+               <Item>86</Item>
                <Item>8</Item>
               </Issue>
              </Message>
@@ -26192,7 +25757,7 @@
             <Messages>
              <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Created="2012-08-15 17:12:36Z">
               <Issue>
-               <Item>'vm'</Item>
+               <Item>'vendingMachine'</Item>
                <Item>'SimpleItemFullUpdate.SendOwner(Client, VendingMachine, int)'</Item>
                <Item>'VendingMachine'</Item>
                <Item>'Character'</Item>
@@ -26209,7 +25774,7 @@
             <Messages>
              <Message TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011" Created="2012-08-15 17:12:36Z">
               <Issue>
-               <Item>'vm'</Item>
+               <Item>'vendingMachine'</Item>
                <Item>'SimpleItemFullUpdate.SendPlayField(Client, VendingMachine, int)'</Item>
                <Item>'VendingMachine'</Item>
                <Item>'Character'</Item>
@@ -26224,38 +25789,10 @@
            </Member>
            <Member Name="#UpdateItemsCache(ZoneEngine.Character)">
             <Messages>
-             <Message Id="ch" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="DependsOnFix">
+             <Message Id="character" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:03:51Z" FixCategory="DependsOnFix">
               <Issue>
-               <Item>'ch'</Item>
+               <Item>'character'</Item>
                <Item>'SimpleItemFullUpdate.UpdateItemsCache(Character)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="Stat">
-          <Members>
-           <Member Name="#SendBulk(ZoneEngine.Character,System.Collections.Generic.Dictionary`2&lt;System.Int32,System.UInt32&gt;)">
-            <Messages>
-             <Message Id="Stats" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'Stat.SendBulk(Character, Dictionary&lt;int, uint&gt;)'</Item>
-               <Item>Stats</Item>
-               <Item>'StatsToUpdate'</Item>
-               <Item>stats</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#SendBulk(ZoneEngine.Client,System.Collections.Generic.Dictionary`2&lt;System.Int32,System.UInt32&gt;)">
-            <Messages>
-             <Message Id="Stats" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'Stat.SendBulk(Client, Dictionary&lt;int, uint&gt;)'</Item>
-               <Item>Stats</Item>
-               <Item>'StatsToUpdate'</Item>
-               <Item>stats</Item>
               </Issue>
              </Message>
             </Messages>
@@ -26321,9 +25858,9 @@
           <Members>
            <Member Name="#Send(ZoneEngine.Client,AO.Core.AOItem,System.Int32,System.Int32,System.Boolean)">
             <Messages>
-             <Message Id="fromsocial" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 17:12:36Z" FixCategory="NonBreaking">
+             <Message Id="fromSocial" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2012-08-15 21:03:51Z" FixCategory="NonBreaking">
               <Issue>
-               <Item>'fromsocial'</Item>
+               <Item>'fromSocial'</Item>
                <Item>'Unequip.Send(Client, AOItem, int, int, bool)'</Item>
               </Issue>
              </Message>
@@ -26339,22 +25876,6 @@
             </Issue>
            </Message>
           </Messages>
-          <Members>
-           <Member Name="#Send(ZoneEngine.Character,System.Int32,System.Int32)">
-            <Messages>
-             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-08-15 17:12:36Z">
-              <Issue Name="MemberParameter">
-               <Item>'UploadNanoupdate.Send(Character, int, int)'</Item>
-               <Item>'_id'</Item>
-              </Issue>
-              <Issue Name="MemberParameter">
-               <Item>'UploadNanoupdate.Send(Character, int, int)'</Item>
-               <Item>'_type'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
          </Type>
          <Type Name="VendingMachineFullUpdate">
           <Messages>
