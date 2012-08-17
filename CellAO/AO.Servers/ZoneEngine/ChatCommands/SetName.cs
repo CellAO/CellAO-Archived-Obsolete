@@ -67,7 +67,7 @@ namespace ZoneEngine.ChatCommands
 
             string newName = fullArgs.Substring(args[0].Length + 1 + args[1].Length + 1);
 
-            if (FindClient.FindClientByID(target.Instance, out mClient))
+            if (FindClient.FindClientById(target.Instance, out mClient))
             {
                 switch (args[1].ToLower())
                 {

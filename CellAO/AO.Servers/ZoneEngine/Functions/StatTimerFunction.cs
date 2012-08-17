@@ -82,13 +82,13 @@ namespace ZoneEngine.Functions
                     cs.Changed = false;
                 }
             }
-            if (ch.client == null)
+            if (ch.Client == null)
             {
                 Stat.SendBulk(ch, statstoupdate);
             }
             else
             {
-                Stat.SendBulk(ch.client, statstoupdate);
+                Stat.SendBulk(ch.Client, statstoupdate);
             }
             return true;
         }

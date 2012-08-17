@@ -27,6 +27,8 @@ namespace ZoneEngine
     using System.Diagnostics;
     using System.Reflection;
     using System.Runtime.InteropServices;
+    using System.Security;
+    using System.Security.Permissions;
 
     public static class AssemblyInfoclass
     {
@@ -159,6 +161,7 @@ namespace ZoneEngine
 
         public static string FileVersion
         {
+            [SecurityCritical]
             get
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
@@ -188,6 +191,7 @@ namespace ZoneEngine
 
         public static string FileName
         {
+            [SecurityCritical]
             get
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
@@ -195,9 +199,9 @@ namespace ZoneEngine
                 return fvi.OriginalFilename;
             }
         }
-
         public static string FilePath
         {
+            [SecurityCritical]
             get
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();

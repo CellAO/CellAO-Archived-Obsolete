@@ -124,7 +124,7 @@ namespace ZoneEngine.PacketHandlers
                     //LookAt
                     if (dyn != null)
                     {
-                        ((Character)dyn).setTarget(packet);
+                        ((Character)dyn).SetTarget(packet);
                     }
                     break;
                 case 0x25192476:

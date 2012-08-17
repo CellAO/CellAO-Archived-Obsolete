@@ -39,7 +39,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Client FindClientByID(int id)
+        public static Client FindClientById(int id)
         {
             foreach (Client client in Program.zoneServer.Clients)
             {
@@ -58,7 +58,7 @@ namespace ZoneEngine.Misc
         /// <param name="id"></param>
         /// <param name="client"></param>
         /// <returns></returns>
-        public static bool FindClientByID(int id, out Client client)
+        public static bool FindClientById(int id, out Client client)
         {
             foreach (Client client1 in Program.zoneServer.Clients)
             {

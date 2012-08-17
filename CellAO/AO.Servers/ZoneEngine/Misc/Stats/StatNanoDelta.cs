@@ -50,7 +50,7 @@ namespace ZoneEngine.Misc
                 // Whats this? TODO: Find the original routine again
                 this.StatBaseValue = nanoDelta;
 
-                if (!this.Parent.startup)
+                if (!this.Parent.Starting)
                 {
                     this.AffectStats();
                 }

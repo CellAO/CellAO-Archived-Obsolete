@@ -91,7 +91,7 @@ namespace ZoneEngine.Functions
             coordheading a = this.FindEntry(to_pf, (Int32)arg2);
             if (a.Coordinates.x != -1)
             {
-                ((Character)Self).client.Teleport(a.Coordinates, a.Heading, to_pf);
+                ((Character)Self).Client.Teleport(a.Coordinates, a.Heading, to_pf);
                 return true;
             }
             return false;
@@ -101,7 +101,7 @@ namespace ZoneEngine.Functions
         {
             coordheading ret = new coordheading();
             ret.Coordinates.x = -1;
-            foreach (WallCollision.Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
+            foreach (Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
             {
                 if (l.ID != DestinationNumber)
                 {

@@ -39,16 +39,16 @@ namespace ZoneEngine
 
         public void SetAllOffline()
         {
-            SqlWrapper sql = new SqlWrapper();
-            sql.SqlUpdate("UPDATE characters SET Online = 0");
-            sql.sqlclose();
+            SqlWrapper sqlWrapper = new SqlWrapper();
+            sqlWrapper.SqlUpdate("UPDATE characters SET Online = 0");
+            sqlWrapper.sqlclose();
         }
 
-        public void SetOffline(int charID)
+        public void SetOffline(int charId)
         {
-            SqlWrapper sql = new SqlWrapper();
-            sql.SqlUpdate("UPDATE characters SET Online = 0 WHERE ID = " + charID + ";");
-            sql.sqlclose();
+            SqlWrapper sqlWrapper = new SqlWrapper();
+            sqlWrapper.SqlUpdate("UPDATE characters SET Online = 0 WHERE ID = " + charId + ";");
+            sqlWrapper.sqlclose();
         }
     }
 }

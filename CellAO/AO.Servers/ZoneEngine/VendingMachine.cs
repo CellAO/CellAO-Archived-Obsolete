@@ -53,13 +53,13 @@ namespace ZoneEngine
             this.rawCoord = new AOCoord();
             this.rawHeading = new Quaternion(0, 0, 0, 0);
             this.HASH = hash;
-            this.dontdotimers = true;
+            this.DoNotDoTimers = true;
             this.Stats = new CharacterStats(this);
             if (this.ID != 0)
             {
                 LoadTemplate(hash); // All shops will have level 1
             }
-            this.dontdotimers = false;
+            this.DoNotDoTimers = false;
         }
 
         public VendingMachine(int _id, int _playfield, int template)
@@ -72,13 +72,13 @@ namespace ZoneEngine
             this.rawCoord = new AOCoord();
             this.rawHeading = new Quaternion(0, 0, 0, 0);
             this.TemplateID = template;
-            this.dontdotimers = true;
+            this.DoNotDoTimers = true;
             this.Stats = new CharacterStats(this);
             if (this.ID != 0)
             {
                 this.LoadTemplate(this.TemplateID); // All shops will have level 1
             }
-            this.dontdotimers = false;
+            this.DoNotDoTimers = false;
         }
 
         #region fillInventory
@@ -241,11 +241,11 @@ namespace ZoneEngine
             SqlWrapper Sql = new SqlWrapper();
             // Fix from Moin, thx
             Sql.SqlInsert(
-                "INSERT INTO " + this.getSQLTablefromDynelType() + " (ID, Playfield, TemplateID, Hash) VALUES ("
+                "INSERT INTO " + this.GetSqlTablefromDynelType() + " (ID, Playfield, TemplateID, Hash) VALUES ("
                 + this.ID.ToString() + "," + this.PlayField.ToString() + "," + this.TemplateID.ToString() + ",'"
                 + this.HASH + "')");
-            this.writeCoordinatestoSQL();
-            this.WriteHeadingToSQL();
+            this.WriteCoordinatesToSql();
+            this.WriteHeadingToSql();
         }
         #endregion
 
@@ -255,12 +255,12 @@ namespace ZoneEngine
         /// </summary>
         public new void Purge()
         {
-            if ((this.ID != 0) && (this.needpurge))
+            if ((this.ID != 0) && (this.NeedPurge))
             {
-                this.needpurge = false;
+                this.NeedPurge = false;
 
-                this.writeCoordinatestoSQL();
-                this.WriteHeadingToSQL();
+                this.WriteCoordinatesToSql();
+                this.WriteHeadingToSql();
             }
         }
         #endregion

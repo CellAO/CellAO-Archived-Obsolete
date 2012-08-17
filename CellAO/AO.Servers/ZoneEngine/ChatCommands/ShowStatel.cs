@@ -70,7 +70,7 @@ namespace ZoneEngine.ChatCommands
                     string Fargs = "";
                     foreach (string arg in sf.Arguments)
                     {
-                        if (Fargs != "")
+                        if (Fargs.Length > 0)
                         {
                             Fargs = Fargs + ", ";
                         }

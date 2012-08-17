@@ -57,7 +57,7 @@ namespace ZoneEngine.Misc
                 at.Strain = 1;
 
                 int nanoDelta = character.Stats.NanoDelta.Value;
-                if (character.moveMode == Character.MoveMode.Sit)
+                if (character.MoveMode == MoveModes.Sit)
                 {
                     int nanoDelta2 = nanoDelta >> 1;
                     nanoDelta = nanoDelta + nanoDelta2;
@@ -74,7 +74,7 @@ namespace ZoneEngine.Misc
                 at.Function.Arguments.Add(0);
                 character.Timers.Add(at);
 
-                if (!this.Parent.startup)
+                if (!this.Parent.Starting)
                 {
                     this.AffectStats();
                 }

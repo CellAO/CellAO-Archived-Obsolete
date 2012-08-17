@@ -58,19 +58,19 @@ namespace ZoneEngine
             writer.Close();
             stream.Dispose();
 
-            Server.SendMessage(0x0F, toSend);
+            server.SendMessage(0x0F, toSend);
         }
 
-        public static void StartLink(int Port)
+        public static void StartLink(int linkPort)
         {
-            port = Port;
+            port = linkPort;
             Thread t = new Thread(LinkThread);
             t.Start();
         }
 
         public static void LinkThread()
         {
-            Server = new ISCServer(port);
+            server = new ISCServer(port);
             // Prevent the thread from running out
             while (true)
             {
@@ -80,6 +80,18 @@ namespace ZoneEngine
 
         private static int port;
 
-        public static ISCServer Server;
+        private static ISCServer server;
+
+        public static ISCServer Server
+        {
+            get
+            {
+                return server;
+            }
+            set
+            {
+                server = value;
+            }
+        }
     }
 }

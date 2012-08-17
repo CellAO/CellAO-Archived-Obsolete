@@ -49,7 +49,7 @@ namespace ZoneEngine.NonPlayerCharacter
             mMonster.rawCoord = cli.Character.rawCoord;
             mMonster.rawHeading = cli.Character.rawHeading;
             mMonster.PlayField = cli.Character.PlayField;
-            mMonster.addHPNPtick();
+            mMonster.AddHpnpTick();
             if (String.IsNullOrEmpty(mMonster.Name))
             {
                 return;
@@ -132,12 +132,12 @@ namespace ZoneEngine.NonPlayerCharacter
             AOAddMeshs tempa;
 
             // TODO:COUNT
-            string SQL = "SELECT count(*) FROM `mobspawns`";
-            npcall = msql.SqlCount(SQL);
+            string Sql = "SELECT count(*) FROM `mobspawns`";
+            npcall = msql.SqlCount(Sql);
 
             Console.Write("Reading spawns: 0/" + npcall.ToString());
-            SQL = "SELECT * FROM `mobspawns`";
-            DataTable dt = msql.ReadDatatable(SQL);
+            Sql = "SELECT * FROM `mobspawns`";
+            DataTable dt = msql.ReadDatatable(Sql);
             msql = new SqlWrapper();
             DataTable dtstats = msql.ReadDatatable("SELECT * from mobspawns_stats ORDER BY id, stat ASC");
             msql = new SqlWrapper();
@@ -147,7 +147,7 @@ namespace ZoneEngine.NonPlayerCharacter
             foreach (DataRow row in dt.Rows)
             {
                 mMonster = new NonPlayerCharacterClass(0, 0);
-                mMonster.startup = true;
+                mMonster.Starting = true;
                 mMonster.ID = (Int32)row["ID"];
 
                 mMonster.PlayField = (Int32)row["Playfield"];
@@ -158,14 +158,14 @@ namespace ZoneEngine.NonPlayerCharacter
                     ;
                 mMonster.readcoordsheadingfast(row);
                 statcount = mMonster.ReadStatsfast(dtstats, statcount);
-                invcount = mMonster.readInventoryfromSQLfast(dtinventory, invcount);
-                //                mMonster.readMeshsfromSQL();
-                //                mMonster.readNanosfromSQL();
-                //                mMonster.readTimersfromSQL();
-                //                mMonster.readWaypointsfromSQL();
-                //                mMonster.readWeaponpairsfromSQL();
+                invcount = mMonster.readInventoryfromSqlfast(dtinventory, invcount);
+                //                mMonster.readMeshsfromSql();
+                //                mMonster.readNanosfromSql();
+                //                mMonster.readTimersfromSql();
+                //                mMonster.readWaypointsfromSql();
+                //                mMonster.readWeaponpairsfromSql();
 
-                mMonster.readTexturesfromSQLfast(row);
+                mMonster.readTexturesfromSqlfast(row);
                 byte[] tempb;
                 if (!(row[15] is DBNull))
                 {
@@ -262,7 +262,7 @@ namespace ZoneEngine.NonPlayerCharacter
                         tempa = null;
                     }
                 }
-                mMonster.startup = false;
+                mMonster.Starting = false;
 
                 Program.zoneServer.Monsters.Add(mMonster);
                 npcCount += 1;

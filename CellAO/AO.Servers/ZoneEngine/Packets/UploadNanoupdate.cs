@@ -52,7 +52,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(0);
 
             byte[] packet = packetWriter.Finish();
-            character.client.SendCompressed(packet);
+            character.Client.SendCompressed(packet);
         }
     }
 }

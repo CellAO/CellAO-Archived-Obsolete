@@ -144,7 +144,7 @@ namespace ZoneEngine.PacketHandlers
                 case 105: // If action == Info Request
                     {
                         Client tPlayer = null;
-                        if (FindClient.FindClientByID(m_ident.Instance, out tPlayer))
+                        if (FindClient.FindClientById(m_ident.Instance, out tPlayer))
                         {
                             #region Titles
                             uint LegacyScore = tPlayer.Character.Stats.PvpRating.StatBaseValue;
@@ -343,7 +343,7 @@ namespace ZoneEngine.PacketHandlers
                 case 121: // If action == Stop Logout
                     {
                         //Stop current logout timer and send stop logout packet
-                        client.Character.updateMoveType((byte)client.Character.prevMoveMode);
+                        client.Character.UpdateMoveType((byte)client.Character.PreviousMoveMode);
                         client.CancelLogOut();
                     }
                     break;
@@ -352,7 +352,7 @@ namespace ZoneEngine.PacketHandlers
                     #region stand
                 case 87: // If action == Stand
                     {
-                        client.Character.updateMoveType(37);
+                        client.Character.UpdateMoveType(37);
                         //Send stand up packet, and cancel timer/send stop logout packet if timer is enabled
                         client.StandCancelLogout();
                     }
@@ -424,9 +424,9 @@ namespace ZoneEngine.PacketHandlers
                     #region Delete Item
                 case 0x70:
                     mys.SqlDelete(
-                        "DELETE FROM " + client.Character.getSQLTablefromDynelType() + "inventory WHERE placement="
+                        "DELETE FROM " + client.Character.GetSqlTablefromDynelType() + "inventory WHERE placement="
                         + m_ident.Instance.ToString() + " AND container=" + m_ident.Type.ToString());
-                    InventoryEntries i_del = client.Character.getInventoryAt(m_ident.Instance);
+                    InventoryEntries i_del = client.Character.GetInventoryAt(m_ident.Instance);
                     client.Character.Inventory.Remove(i_del);
                     byte[] action2 = new byte[0x37];
                     Array.Copy(packet, action2, 0x37);
@@ -441,24 +441,24 @@ namespace ZoneEngine.PacketHandlers
                     #region Split item
                 case 0x34:
                     int nextid = client.Character.GetNextFreeInventory(m_ident.Type);
-                    InventoryEntries i = client.Character.getInventoryAt(m_ident.Instance);
+                    InventoryEntries i = client.Character.GetInventoryAt(m_ident.Instance);
                     i.Item.MultipleCount -= unknown3;
                     InventoryEntries i2 = new InventoryEntries();
                     i2.Item = i.Item.ShallowCopy();
                     i2.Item.MultipleCount = unknown3;
                     i2.Placement = nextid;
                     client.Character.Inventory.Add(i2);
-                    client.Character.writeInventorytoSQL();
+                    client.Character.WriteInventoryToSql();
                     break;
                     #endregion
 
                     #region Join item
                 case 0x35:
-                    InventoryEntries j1 = client.Character.getInventoryAt(m_ident.Instance);
-                    InventoryEntries j2 = client.Character.getInventoryAt(unknown3);
+                    InventoryEntries j1 = client.Character.GetInventoryAt(m_ident.Instance);
+                    InventoryEntries j2 = client.Character.GetInventoryAt(unknown3);
                     j1.Item.MultipleCount += j2.Item.MultipleCount;
                     client.Character.Inventory.Remove(j2);
-                    client.Character.writeInventorytoSQL();
+                    client.Character.WriteInventoryToSql();
 
                     byte[] joined = new byte[0x37];
                     Array.Copy(packet, joined, 0x37);
@@ -539,19 +539,19 @@ namespace ZoneEngine.PacketHandlers
 
                     #region Tradeskill Source Changed
                 case 0xdc:
-                    TSReceiver.TSSourceChanged(client, unknown2, unknown3);
+                    TradeSkillReceiver.TradeSkillSourceChanged(client, unknown2, unknown3);
                     break;
                     #endregion
 
                     #region Tradeskill Target Changed
                 case 0xdd:
-                    TSReceiver.TSTargetChanged(client, unknown2, unknown3);
+                    TradeSkillReceiver.TradeSkillTargetChanged(client, unknown2, unknown3);
                     break;
                     #endregion
 
                     #region Tradeskill Build Pressed
                 case 0xde:
-                    TSReceiver.TSBuildPressed(client, m_ident.Instance);
+                    TradeSkillReceiver.TradeSkillBuildPressed(client, m_ident.Instance);
                     break;
                     #endregion
 

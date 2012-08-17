@@ -40,54 +40,6 @@ namespace ZoneEngine
     #region Tradeskill Class
     public class Tradeskill
     {
-        #region SkillInfo Class
-        public class SkillInfo
-        {
-            public int Skill { get; set; }
-
-            public int Percent { get; set; }
-
-            public int PerBump { get; set; }
-
-            public int Value { get; set; }
-
-            public int Requirement { get; set; }
-
-            public string Name { get; set; }
-
-            public SkillInfo(
-                int skill, int skillpercent, int skillperbump, int skillvalue, int skillrequirement, string skillname)
-            {
-                this.Skill = skill;
-                this.Percent = skillpercent;
-                this.PerBump = skillperbump;
-                this.Value = skillvalue;
-                this.Requirement = skillrequirement;
-                this.Name = skillname;
-            }
-        }
-        #endregion
-
-        #region ResultInfo Class
-        public class ResultInfo
-        {
-            public int LowQL { get; set; }
-
-            public int HighQL { get; set; }
-
-            public int LowID { get; set; }
-
-            public int HighID { get; set; }
-
-            public ResultInfo(int lowql, int highql, int lowid, int highid)
-            {
-                this.LowQL = lowql;
-                this.HighQL = highql;
-                this.LowID = lowid;
-                this.HighID = highid;
-            }
-        }
-        #endregion
 
         #region Properties & Instance Variables
         // High IDs only.
@@ -98,46 +50,46 @@ namespace ZoneEngine
         // For things like Tier armor, Engineer pistol etc... 0 = Don't check.
         private readonly int TargetMinQL;
 
-        public int ResultLID { get; set; }
+        public int ResultLowId { get; set; }
 
-        public int ResultHID { get; set; }
+        public int ResultHighId { get; set; }
 
-        private readonly string SourceName;
+        private readonly string sourceName;
 
-        private readonly string TargetName;
+        private readonly string targetName;
 
-        private readonly string ResultName;
+        private readonly string resultName;
 
-        public List<SkillInfo> Skills;
+        public List<TradeSkillSkillInfo> Skills;
 
-        private readonly int MaxBump;
+        private readonly int maxBump;
 
         // 0 = Do not check for range, 1 = Source must be greater than or equal to target, anything else is checked.
-        private readonly int RangePercent;
+        private readonly int rangePercent;
 
         // Bit 0 = Delete source, Bit 1 = Delete target.
-        private readonly int DeleteFlag;
+        private readonly int deleteFlag;
 
-        private readonly int MinXP;
+        private readonly int minXP;
 
-        private readonly int MaxXP;
+        private readonly int maxXP;
 
         // For the tradeskill window
         public int MinQL { get; set; }
 
         public int MaxQL { get; set; }
 
-        private readonly Client Cli;
+        private readonly Client client;
 
-        private readonly int SourcePlacement;
+        private readonly int sourcePlacement;
 
-        private readonly int TargetPlacement;
+        private readonly int targetPlacement;
 
-        private readonly AOItem Source;
+        private readonly AOItem source;
 
-        private readonly AOItem Target;
+        private readonly AOItem target;
 
-        public bool isTradeskill;
+        public bool IsTradeSkill { get; set; }
 
         private readonly bool isDeleteSource;
 
@@ -147,37 +99,37 @@ namespace ZoneEngine
 
         public static Dictionary<int, string> ItemNames = new Dictionary<int, string>();
 
-        private readonly List<ResultInfo> ResultProperties = new List<ResultInfo>();
+        private readonly List<TradeSkillResultInfo> resultProperties = new List<TradeSkillResultInfo>();
         #endregion
 
         #region Constructor
-        public Tradeskill(Client cli, int src_loc, int tgt_loc)
+        public Tradeskill(Client client, int srcLocation, int targetLocation)
         {
-            this.Cli = cli;
-            this.SourcePlacement = src_loc;
-            this.TargetPlacement = tgt_loc;
-            this.Source = this.Cli.Character.getInventoryAt(src_loc).Item;
-            this.Target = this.Cli.Character.getInventoryAt(tgt_loc).Item;
+            this.client = client;
+            this.sourcePlacement = srcLocation;
+            this.targetPlacement = targetLocation;
+            this.source = this.client.Character.GetInventoryAt(srcLocation).Item;
+            this.target = this.client.Character.GetInventoryAt(targetLocation).Item;
 
-            this.SourceID = this.Source.HighID;
-            this.TargetID = this.Target.HighID;
+            this.SourceID = this.source.HighID;
+            this.TargetID = this.target.HighID;
 
-            this.isTradeskill = false;
+            this.IsTradeSkill = false;
 
             SqlWrapper wrapper = new SqlWrapper();
             DataTable dt =
                 wrapper.ReadDatatable(
-                    "SELECT * FROM tradeskill WHERE ID1 = " + this.Source.HighID + " AND ID2 = " + this.Target.HighID
+                    "SELECT * FROM tradeskill WHERE ID1 = " + this.source.HighID + " AND ID2 = " + this.target.HighID
                     + ";");
             wrapper.Dispose();
             DataRowCollection drc = dt.Rows;
 
             if (drc.Count > 0)
             {
-                this.isTradeskill = true;
+                this.IsTradeSkill = true;
 
-                this.SourceName = GetItemName(this.Source.LowID, this.Source.HighID, this.Source.Quality);
-                this.TargetName = GetItemName(this.Target.LowID, this.Target.HighID, this.Target.Quality);
+                this.sourceName = GetItemName(this.source.LowID, this.source.HighID, this.source.Quality);
+                this.targetName = GetItemName(this.target.LowID, this.target.HighID, this.target.Quality);
 
                 this.TargetMinQL = (int)drc[0][2];
 
@@ -195,27 +147,27 @@ namespace ZoneEngine
                     int highid = itemids.ElementAt(i * 2 + 1);
                     int lowql = ItemHandler.interpolate(lowid, highid, 1).Quality;
                     int highql = ItemHandler.interpolate(lowid, highid, 300).Quality;
-                    this.ResultProperties.Add(new ResultInfo(lowql, highql, lowid, highid));
+                    this.resultProperties.Add(new TradeSkillResultInfo(lowql, highql, lowid, highid));
                 }
 
-                this.RangePercent = (int)drc[0][4];
-                this.DeleteFlag = (int)drc[0][5];
+                this.rangePercent = (int)drc[0][4];
+                this.deleteFlag = (int)drc[0][5];
                 string skill = (string)drc[0][6];
                 string skillpercent = (string)drc[0][7];
                 string skillperbump = (string)drc[0][8];
-                this.MaxBump = (int)drc[0][9];
-                this.MinXP = (int)drc[0][10];
-                this.MaxXP = (int)drc[0][11];
+                this.maxBump = (int)drc[0][9];
+                this.minXP = (int)drc[0][10];
+                this.maxXP = (int)drc[0][11];
                 int isImplant = (int)drc[0][12];
 
-                this.isDeleteSource = ((this.DeleteFlag & 1) == 1);
-                this.isDeleteTarget = (((this.DeleteFlag >> 1) & 1) == 1);
+                this.isDeleteSource = ((this.deleteFlag & 1) == 1);
+                this.isDeleteTarget = (((this.deleteFlag >> 1) & 1) == 1);
 
                 string[] skills = skill.Split(',');
                 string[] skillpercents = skillpercent.Split(',');
                 string[] skillperbumps = skillperbump.Split(',');
 
-                this.Skills = new List<SkillInfo>();
+                this.Skills = new List<TradeSkillSkillInfo>();
 
                 if (skills[0] != string.Empty)
                 {
@@ -224,12 +176,12 @@ namespace ZoneEngine
                         if (skills[0].Trim() != string.Empty)
                         {
                             this.Skills.Add(
-                                new SkillInfo(
+                                new TradeSkillSkillInfo(
                                     Convert.ToInt32(skills[i]),
                                     Convert.ToInt32(skillpercents[i]),
                                     Convert.ToInt32(skillperbumps[i]),
-                                    this.Cli.Character.Stats.GetStatbyNumber(Convert.ToInt32(skills[i])).Value,
-                                    (int)Math.Ceiling(Convert.ToInt32(skillpercents[i]) / 100M * this.Target.Quality),
+                                    this.client.Character.Stats.GetStatbyNumber(Convert.ToInt32(skills[i])).Value,
+                                    (int)Math.Ceiling(Convert.ToInt32(skillpercents[i]) / 100M * this.target.Quality),
                                     StatsList.GetStatName(Convert.ToInt32(skills[i]))));
                         }
                     }
@@ -239,53 +191,53 @@ namespace ZoneEngine
 
                 if (isImplant > 0)
                 {
-                    if (this.Target.Quality >= 250)
+                    if (this.target.Quality >= 250)
                     {
-                        this.MaxBump = 5;
+                        this.maxBump = 5;
                     }
-                    else if (this.Target.Quality >= 201)
+                    else if (this.target.Quality >= 201)
                     {
-                        this.MaxBump = 4;
+                        this.maxBump = 4;
                     }
-                    else if (this.Target.Quality >= 150)
+                    else if (this.target.Quality >= 150)
                     {
-                        this.MaxBump = 3;
+                        this.maxBump = 3;
                     }
-                    else if (this.Target.Quality >= 100)
+                    else if (this.target.Quality >= 100)
                     {
-                        this.MaxBump = 2;
+                        this.maxBump = 2;
                     }
-                    else if (this.Target.Quality >= 50)
+                    else if (this.target.Quality >= 50)
                     {
-                        this.MaxBump = 1;
+                        this.maxBump = 1;
                     }
                     else
                     {
-                        this.MaxBump = 0;
+                        this.maxBump = 0;
                     }
                 }
 
-                foreach (SkillInfo skillinfo in this.Skills)
+                foreach (TradeSkillSkillInfo skillinfo in this.Skills)
                 {
                     if (skillinfo.PerBump != 0)
                     {
                         leastBump = Math.Min(
-                            (skillinfo.Value - skillinfo.Requirement) / skillinfo.PerBump, this.MaxBump);
+                            (skillinfo.Value - skillinfo.Requirement) / skillinfo.PerBump, this.maxBump);
                     }
                 }
 
-                this.MinQL = this.Target.Quality;
+                this.MinQL = this.target.Quality;
                 this.MaxQL = Math.Min(
-                    this.Target.Quality + leastBump,
+                    this.target.Quality + leastBump,
                     ItemHandler.interpolate(
-                        this.ResultProperties.ElementAt(this.ResultProperties.Count - 1).LowID,
-                        this.ResultProperties.ElementAt(this.ResultProperties.Count - 1).HighID,
+                        this.resultProperties.ElementAt(this.resultProperties.Count - 1).LowID,
+                        this.resultProperties.ElementAt(this.resultProperties.Count - 1).HighID,
                         300).Quality);
 
                 this.Quality = this.MaxQL;
 
                 this.SetResultIDS(this.Quality);
-                this.ResultName = GetItemName(this.ResultLID, this.ResultHID, this.Quality);
+                this.resultName = GetItemName(this.ResultLowId, this.ResultHighId, this.Quality);
             }
         }
         #endregion
@@ -293,11 +245,11 @@ namespace ZoneEngine
         #region Set Result Lo & Hi AOID
         private void SetResultIDS(int quality)
         {
-            this.ResultLID =
-                this.ResultProperties.Where(m => m.LowQL <= quality && m.HighQL >= quality).Select(m => m).ElementAt(0).
+            this.ResultLowId =
+                this.resultProperties.Where(m => m.LowQL <= quality && m.HighQL >= quality).Select(m => m).ElementAt(0).
                     LowID;
-            this.ResultHID =
-                this.ResultProperties.Where(m => m.LowQL <= quality && m.HighQL >= quality).Select(m => m).ElementAt(0).
+            this.ResultHighId =
+                this.resultProperties.Where(m => m.LowQL <= quality && m.HighQL >= quality).Select(m => m).ElementAt(0).
                     HighID;
         }
         #endregion
@@ -305,7 +257,7 @@ namespace ZoneEngine
         #region Build Methods
         public bool ClickBuild()
         {
-            if (this.isTradeskill)
+            if (this.IsTradeSkill)
             {
                 if (this.ValidateTargetQL())
                 {
@@ -316,49 +268,49 @@ namespace ZoneEngine
                     {
                         if (this.srcHi)
                         {
-                            this.Cli.SendChatText(this.SourceName + " must be at least " + this.Target.Quality + ".");
+                            this.client.SendChatText(this.sourceName + " must be at least " + this.target.Quality + ".");
                             return false;
                         }
                         else
                         {
-                            this.Cli.SendChatText(
+                            this.client.SendChatText(
                                 string.Format(
                                     "\"{0}\" is of a too low quality level. With \"{3}\" at quality of {2} , the \"{0}\" must be at least at quality {1}.",
-                                    this.SourceName,
+                                    this.sourceName,
                                     (int)
                                     Math.Ceiling(
-                                        this.Target.Quality - this.RangePercent * (decimal)this.Target.Quality / 100M),
-                                    this.Target.Quality,
-                                    this.TargetName));
+                                        this.target.Quality - this.rangePercent * (decimal)this.target.Quality / 100M),
+                                    this.target.Quality,
+                                    this.targetName));
                             return false;
                         }
                     }
                 }
                 else
                 {
-                    this.Cli.SendChatText(
-                        string.Format("\"{0}\" must be at least at quality {1}.", this.TargetName, this.TargetMinQL));
+                    this.client.SendChatText(
+                        string.Format("\"{0}\" must be at least at quality {1}.", this.targetName, this.TargetMinQL));
                     return false;
                 }
             }
             else
             {
-                this.Cli.SendChatText("It is not possible to assemble those two items. Maybe the order was wrong?");
-                this.Cli.SendChatText("No combination found!");
+                this.client.SendChatText("It is not possible to assemble those two items. Maybe the order was wrong?");
+                this.client.SendChatText("No combination found!");
                 return false;
             }
 
             string lacking = string.Empty;
             bool isLacking = false;
-            foreach (SkillInfo skillinfo in this.Skills)
+            foreach (TradeSkillSkillInfo skillinfo in this.Skills)
             {
                 if (!this.ValidateSkill(skillinfo.Skill, skillinfo.Value, skillinfo.Requirement))
                 {
                     lacking +=
                         string.Format(
                             "It is theoretically possible to combine \"{0}\" with \"{1}\" but you need at least {2} in {3}.\n",
-                            this.SourceName,
-                            this.TargetName,
+                            this.sourceName,
+                            this.targetName,
                             skillinfo.Requirement,
                             skillinfo.Name);
                     isLacking = true;
@@ -367,7 +319,7 @@ namespace ZoneEngine
             if (isLacking)
             {
                 lacking += "Combine failed!";
-                this.Cli.SendChatText(lacking.Trim());
+                this.client.SendChatText(lacking.Trim());
                 return false;
             }
 
@@ -377,13 +329,13 @@ namespace ZoneEngine
             {
                 if (this.isDeleteSource)
                 {
-                    this.DeleteItem(this.SourcePlacement);
+                    this.DeleteItem(this.sourcePlacement);
                 }
                 if (this.isDeleteTarget)
                 {
-                    this.DeleteItem(this.TargetPlacement);
+                    this.DeleteItem(this.targetPlacement);
                 }
-                this.Cli.SendChatText(this.GetSuccessMsg(placement));
+                this.client.SendChatText(this.GetSuccessMsg(placement));
 
                 int xp = this.CalculateXP();
 
@@ -399,7 +351,7 @@ namespace ZoneEngine
 
         public bool WindowBuild()
         {
-            if (this.isTradeskill)
+            if (this.IsTradeSkill)
             {
                 if (this.ValidateTargetQL())
                 {
@@ -421,7 +373,7 @@ namespace ZoneEngine
                 return false;
             }
 
-            foreach (SkillInfo skillinfo in this.Skills)
+            foreach (TradeSkillSkillInfo skillinfo in this.Skills)
             {
                 if (!this.ValidateSkill(skillinfo.Skill, skillinfo.Value, skillinfo.Requirement))
                 {
@@ -435,13 +387,13 @@ namespace ZoneEngine
             {
                 if (this.isDeleteSource)
                 {
-                    this.DeleteItem(this.SourcePlacement);
+                    this.DeleteItem(this.sourcePlacement);
                 }
                 if (this.isDeleteTarget)
                 {
-                    this.DeleteItem(this.TargetPlacement);
+                    this.DeleteItem(this.targetPlacement);
                 }
-                this.Cli.SendChatText(this.GetSuccessMsg(placement));
+                this.client.SendChatText(this.GetSuccessMsg(placement));
 
                 int xp = this.CalculateXP();
 
@@ -502,29 +454,29 @@ namespace ZoneEngine
 
         public bool ValidateRange()
         {
-            if (this.RangePercent != 0)
+            if (this.rangePercent != 0)
             {
-                if (this.RangePercent == 1)
+                if (this.rangePercent == 1)
                 {
-                    if (this.Source.Quality >= this.Target.Quality)
+                    if (this.source.Quality >= this.target.Quality)
                     {
                         return true;
                     }
                     else
                     {
-                        this.sMinQl = this.Target.Quality;
+                        this.sMinQl = this.target.Quality;
                         this.srcHi = true;
                         return false;
                     }
                 }
-                if ((this.Target.Quality - (decimal)this.Source.Quality) / this.Target.Quality
-                    <= this.RangePercent / 100M)
+                if ((this.target.Quality - (decimal)this.source.Quality) / this.target.Quality
+                    <= this.rangePercent / 100M)
                 {
                     return true;
                 }
                 else
                 {
-                    this.sMinQl = this.Target.Quality - this.RangePercent * this.Target.Quality / 100;
+                    this.sMinQl = this.target.Quality - this.rangePercent * this.target.Quality / 100;
                     return false;
                 }
             }
@@ -552,7 +504,7 @@ namespace ZoneEngine
 
         private bool ValidateTargetQL()
         {
-            if (this.TargetMinQL >= this.Target.Quality || this.TargetMinQL == 0)
+            if (this.TargetMinQL >= this.target.Quality || this.TargetMinQL == 0)
             {
                 return true;
             }
@@ -568,10 +520,10 @@ namespace ZoneEngine
         {
             return string.Format(
                 "You combined \"{0}\" with \"{1}\" and the result is a quality level {2} \"{3}\".",
-                this.SourceName,
-                this.TargetName,
-                this.Cli.Character.getInventoryAt(placement).Item.Quality,
-                this.ResultName);
+                this.sourceName,
+                this.targetName,
+                this.client.Character.GetInventoryAt(placement).Item.Quality,
+                this.resultName);
         }
 
         public static int GetSourceProcessesCount(int id)
@@ -601,7 +553,7 @@ namespace ZoneEngine
         public string GetFeedbackMsg()
         {
             bool isLacking = false;
-            foreach (SkillInfo skillinfo in this.Skills)
+            foreach (TradeSkillSkillInfo skillinfo in this.Skills)
             {
                 if (!this.ValidateSkill(skillinfo.Skill, skillinfo.Value, skillinfo.Requirement))
                 {
@@ -614,16 +566,16 @@ namespace ZoneEngine
                 string s = string.Empty;
                 s += string.Format(
                     "The {0} must be at least quality level {1} to combine with the {2} level {3}.",
-                    this.SourceName,
-                    (int)Math.Ceiling(this.Target.Quality - this.RangePercent * (decimal)this.Target.Quality / 100M),
-                    this.TargetName,
-                    this.Target.Quality);
+                    this.sourceName,
+                    (int)Math.Ceiling(this.target.Quality - this.rangePercent * (decimal)this.target.Quality / 100M),
+                    this.targetName,
+                    this.target.Quality);
                 return s;
             }
             else if (isLacking)
             {
                 string s = string.Empty;
-                foreach (SkillInfo skillinfo in this.Skills)
+                foreach (TradeSkillSkillInfo skillinfo in this.Skills)
                 {
                     s += "You need at least " + skillinfo.Requirement + " in " + skillinfo.Name
                          + " to combine these two items.\n\n";
@@ -642,15 +594,15 @@ namespace ZoneEngine
         private int SpawnItem()
         {
             int firstfree = 64;
-            firstfree = this.Cli.Character.GetNextFreeInventory(104);
+            firstfree = this.client.Character.GetNextFreeInventory(104);
             if (firstfree <= 93)
             {
                 InventoryEntries mi = new InventoryEntries();
-                AOItem it = ItemHandler.GetItemTemplate(Convert.ToInt32(this.ResultLID));
+                AOItem it = ItemHandler.GetItemTemplate(Convert.ToInt32(this.ResultLowId));
                 mi.Placement = firstfree;
                 mi.Container = 104;
-                mi.Item.LowID = Convert.ToInt32(this.ResultLID);
-                mi.Item.HighID = Convert.ToInt32(this.ResultHID);
+                mi.Item.LowID = Convert.ToInt32(this.ResultLowId);
+                mi.Item.HighID = Convert.ToInt32(this.ResultHighId);
                 mi.Item.Quality = Convert.ToInt32(this.Quality);
                 if (it.ItemType != 1)
                 {
@@ -677,38 +629,38 @@ namespace ZoneEngine
                         mi.Item.Stats.Add(aoi);
                     }
                 }
-                this.Cli.Character.Inventory.Add(mi);
-                AddTemplate.Send(this.Cli, mi);
+                this.client.Character.Inventory.Add(mi);
+                AddTemplate.Send(this.client, mi);
 
                 return firstfree;
             }
             else
             {
-                this.Cli.SendChatText("Your Inventory is full");
+                this.client.SendChatText("Your Inventory is full");
                 return 0;
             }
         }
 
         private void DeleteItem(int placement)
         {
-            Packets.DeleteItem.Send(this.Cli.Character, 104, placement);
-            this.Cli.Character.Inventory.Remove(this.Cli.Character.getInventoryAt(placement));
+            Packets.DeleteItem.Send(this.client.Character, 104, placement);
+            this.client.Character.Inventory.Remove(this.client.Character.GetInventoryAt(placement));
         }
         #endregion
 
         #region CalculateXP
         private int CalculateXP()
         {
-            int absMinQL = ItemHandler.interpolate(this.ResultLID, this.ResultHID, 1).Quality;
-            int absMaxQL = ItemHandler.interpolate(this.ResultLID, this.ResultHID, 300).Quality;
+            int absMinQL = ItemHandler.interpolate(this.ResultLowId, this.ResultHighId, 1).Quality;
+            int absMaxQL = ItemHandler.interpolate(this.ResultLowId, this.ResultHighId, 300).Quality;
 
             if (absMaxQL == absMinQL)
             {
-                return this.MaxXP;
+                return this.maxXP;
             }
             else
             {
-                return ((this.MaxXP - this.MinXP) / (absMaxQL - absMinQL)) * (this.Quality - absMinQL) + this.MinXP;
+                return ((this.maxXP - this.minXP) / (absMaxQL - absMinQL)) * (this.Quality - absMinQL) + this.minXP;
             }
         }
         #endregion
@@ -716,64 +668,44 @@ namespace ZoneEngine
     #endregion
 
     #region TSReceiver Class
-    public static class TSReceiver
+    public static class TradeSkillReceiver
     {
-        #region TSInfo Class
-        public class TSInfo
-        {
-            public Client Cli { get; set; }
-
-            public int Location { get; set; }
-
-            public int Container { get; set; }
-
-            public int Placement { get; set; }
-
-            public TSInfo(Client cli, int location, int container, int placement)
-            {
-                this.Cli = cli;
-                this.Location = location;
-                this.Container = container;
-                this.Placement = placement;
-            }
-        }
-        #endregion
 
         #region Properties & Instance Variables
-        private static readonly List<TSInfo> tsInfo = new List<TSInfo>();
+        private static readonly List<TradeSkillInfo> TradeSkillInfos = new List<TradeSkillInfo>();
         #endregion
 
         #region Packet Handlers
-        public static void TSSourceChanged(Client client, int container, int placement)
+        public static void TradeSkillSourceChanged(Client client, int container, int placement)
         {
             if (container != 0 && placement != 0)
             {
-                tsInfo.Add(new TSInfo(client, 0, container, placement));
+                TradeSkillInfos.Add(new TradeSkillInfo(client, 0, container, placement));
 
-                AOItem it = client.Character.getInventoryAt(placement).Item;
+                AOItem it = client.Character.GetInventoryAt(placement).Item;
 
                 TradeskillPacket.SendSource(client.Character, Tradeskill.GetSourceProcessesCount(it.HighID));
 
-                var l1 = tsInfo.Where(m => m.Cli == client && m.Location == 0).Select(m => m);
-                var l2 = tsInfo.Where(m => m.Cli == client && m.Location == 1).Select(m => m);
+                var l1 = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 0).Select(m => m);
+                var l2 = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 1).Select(m => m);
 
                 if (l1.Count() == 1 && l2.Count() == 1)
                 {
-                    TSInfo info1 = l1.ElementAt(0);
-                    TSInfo info2 = l2.ElementAt(0);
+                    TradeSkillInfo info1 = l1.ElementAt(0);
+                    TradeSkillInfo info2 = l2.ElementAt(0);
 
                     Tradeskill ts = new Tradeskill(client, info1.Placement, info2.Placement);
 
-                    if (ts.isTradeskill)
+                    if (ts.IsTradeSkill)
                     {
                         if (ts.ValidateRange())
                         {
-                            foreach (Tradeskill.SkillInfo si in ts.Skills)
+                            foreach (TradeSkillSkillInfo si in ts.Skills)
                             {
                                 TradeskillPacket.SendRequirement(client.Character, si);
                             }
                             TradeskillPacket.SendResult(
-                                client.Character, ts.MinQL, ts.MaxQL, ts.ResultLID, ts.ResultHID);
+                                client.Character, ts.MinQL, ts.MaxQL, ts.ResultLowId, ts.ResultHighId);
                         }
                         else
                         {
@@ -788,40 +720,40 @@ namespace ZoneEngine
             }
             else if (container == 0 && placement == 0)
             {
-                tsInfo.RemoveAll(m => (m.Cli == client) && (m.Location == 0));
+                TradeSkillInfos.RemoveAll(m => (m.Cli == client) && (m.Location == 0));
             }
         }
 
-        public static void TSTargetChanged(Client client, int container, int placement)
+        public static void TradeSkillTargetChanged(Client client, int container, int placement)
         {
             if (container != 0 && placement != 0)
             {
-                tsInfo.Add(new TSInfo(client, 1, container, placement));
+                TradeSkillInfos.Add(new TradeSkillInfo(client, 1, container, placement));
 
-                AOItem it = client.Character.getInventoryAt(placement).Item;
+                AOItem it = client.Character.GetInventoryAt(placement).Item;
 
                 TradeskillPacket.SendTarget(client.Character, Tradeskill.GetTargetProcessesCount(it.HighID));
 
-                var l1 = tsInfo.Where(m => m.Cli == client && m.Location == 0).Select(m => m);
-                var l2 = tsInfo.Where(m => m.Cli == client && m.Location == 1).Select(m => m);
+                var l1 = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 0).Select(m => m);
+                var l2 = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 1).Select(m => m);
 
                 if (l1.Count() == 1 && l2.Count() == 1)
                 {
-                    TSInfo info1 = l1.ElementAt(0);
-                    TSInfo info2 = l2.ElementAt(0);
+                    TradeSkillInfo info1 = l1.ElementAt(0);
+                    TradeSkillInfo info2 = l2.ElementAt(0);
 
                     Tradeskill ts = new Tradeskill(client, info1.Placement, info2.Placement);
 
-                    if (ts.isTradeskill)
+                    if (ts.IsTradeSkill)
                     {
                         if (ts.ValidateRange())
                         {
-                            foreach (Tradeskill.SkillInfo si in ts.Skills)
+                            foreach (TradeSkillSkillInfo si in ts.Skills)
                             {
                                 TradeskillPacket.SendRequirement(client.Character, si);
                             }
                             TradeskillPacket.SendResult(
-                                client.Character, ts.MinQL, ts.MaxQL, ts.ResultLID, ts.ResultHID);
+                                client.Character, ts.MinQL, ts.MaxQL, ts.ResultLowId, ts.ResultHighId);
                         }
                         else
                         {
@@ -836,18 +768,18 @@ namespace ZoneEngine
             }
             else if (container == 0 && placement == 0)
             {
-                tsInfo.RemoveAll(m => (m.Cli == client) && (m.Location == 1));
+                TradeSkillInfos.RemoveAll(m => (m.Cli == client) && (m.Location == 1));
             }
         }
 
-        public static void TSBuildPressed(Client client, int quality)
+        public static void TradeSkillBuildPressed(Client client, int quality)
         {
-            int src = tsInfo.Where(m => m.Cli == client && m.Location == 0).Select(m => m).ElementAt(0).Placement;
-            int tgt = tsInfo.Where(m => m.Cli == client && m.Location == 1).Select(m => m).ElementAt(0).Placement;
+            int src = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 0).Select(m => m).ElementAt(0).Placement;
+            int tgt = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 1).Select(m => m).ElementAt(0).Placement;
 
             Tradeskill ts = new Tradeskill(client, src, tgt);
 
-            if (ts.isTradeskill)
+            if (ts.IsTradeSkill)
             {
                 ts.Quality = quality;
                 ts.WindowBuild();
@@ -857,9 +789,80 @@ namespace ZoneEngine
                 client.SendChatText("It is not possible to assemble those two items. Maybe the order was wrong?");
                 client.SendChatText("No combination found!");
             }
-            tsInfo.RemoveAll(m => m.Cli == client);
+            TradeSkillInfos.RemoveAll(m => m.Cli == client);
         }
         #endregion
     }
     #endregion
+
+    #region TSInfo Class
+    public class TradeSkillInfo
+    {
+        public Client Cli { get; set; }
+
+        public int Location { get; set; }
+
+        public int Container { get; set; }
+
+        public int Placement { get; set; }
+
+        public TradeSkillInfo(Client cli, int location, int container, int placement)
+        {
+            this.Cli = cli;
+            this.Location = location;
+            this.Container = container;
+            this.Placement = placement;
+        }
+    }
+    #endregion
+
+    #region SkillInfo Class
+    public class TradeSkillSkillInfo
+    {
+        public int Skill { get; set; }
+
+        public int Percent { get; set; }
+
+        public int PerBump { get; set; }
+
+        public int Value { get; set; }
+
+        public int Requirement { get; set; }
+
+        public string Name { get; set; }
+
+        public TradeSkillSkillInfo(
+            int skill, int skillpercent, int skillperbump, int skillvalue, int skillrequirement, string skillname)
+        {
+            this.Skill = skill;
+            this.Percent = skillpercent;
+            this.PerBump = skillperbump;
+            this.Value = skillvalue;
+            this.Requirement = skillrequirement;
+            this.Name = skillname;
+        }
+    }
+    #endregion
+
+    #region ResultInfo Class
+    public class TradeSkillResultInfo
+    {
+        public int LowQL { get; set; }
+
+        public int HighQL { get; set; }
+
+        public int LowID { get; set; }
+
+        public int HighID { get; set; }
+
+        public TradeSkillResultInfo(int lowql, int highql, int lowid, int highid)
+        {
+            this.LowQL = lowql;
+            this.HighQL = highql;
+            this.LowID = lowid;
+            this.HighID = highid;
+        }
+    }
+    #endregion
+
 }

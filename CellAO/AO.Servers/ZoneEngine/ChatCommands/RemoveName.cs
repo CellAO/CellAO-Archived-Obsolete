@@ -46,7 +46,7 @@ namespace ZoneEngine.ChatCommands
                 client.SendChatText("Target must be player");
                 return;
             }
-            if (FindClient.FindClientByID(target.Instance, out mClient))
+            if (FindClient.FindClientById(target.Instance, out mClient))
             {
                 mClient.Character.LastName = "";
                 mClient.Character.FirstName = "";

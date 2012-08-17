@@ -62,7 +62,7 @@ namespace ZoneEngine.Misc
 
                 int sitBonusInterval = 0;
                 int healDelta = character.Stats.HealDelta.Value;
-                if (character.moveMode == Character.MoveMode.Sit)
+                if (character.MoveMode == MoveModes.Sit)
                 {
                     sitBonusInterval = 1000;
                     int healDelta2 = healDelta >> 1;
@@ -84,7 +84,7 @@ namespace ZoneEngine.Misc
                 at.Function.Arguments.Add(0);
                 character.Timers.Add(at);
 
-                if (!this.Parent.startup)
+                if (!this.Parent.Starting)
                 {
                     this.AffectStats();
                 }

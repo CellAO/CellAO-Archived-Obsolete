@@ -43,7 +43,7 @@ namespace ZoneEngine.ChatCommands
             {
                 client.SendChatText("--------------------------------------------------");
                 client.SendChatText(
-                    "Timer Debug output  Startup: " + client.Character.startup.ToString() + " NOW: "
+                    "Timer Debug output  Startup: " + client.Character.Starting.ToString() + " NOW: "
                     + DateTime.Now.ToString());
                 foreach (AOTimers at in client.Character.Timers)
                 {

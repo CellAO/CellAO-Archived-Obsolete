@@ -217,7 +217,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         public virtual void CalcTrickle()
         {
-            if (!this.parent.startup)
+            if (!this.parent.Starting)
             {
                 this.AffectStats();
             }
@@ -230,7 +230,7 @@ namespace ZoneEngine.Misc
 
         public void Set(uint value)
         {
-            if ((this.parent == null) || (this.parent.startup))
+            if ((this.parent == null) || (this.parent.Starting))
             {
                 this.StatBaseValue = value;
                 return;
@@ -243,9 +243,9 @@ namespace ZoneEngine.Misc
                 this.StatBaseValue = max;
                 this.OnAfterStatChangedEvent(new StatChangedEventArgs(this, oldvalue, max, this.announceToPlayfield));
                 this.Changed = true;
-                this.WriteStatToSQL();
+                this.WriteStatToSql();
 
-                if (!this.parent.startup)
+                if (!this.parent.Starting)
                 {
                     this.AffectStats();
                 }
@@ -262,11 +262,11 @@ namespace ZoneEngine.Misc
             this.parent = parent;
         }
 
-        #region read and write to SQL
+        #region read and write to Sql
         /// <summary>
-        /// Write Stat to SQL
+        /// Write Stat to Sql
         /// </summary>
-        public void WriteStatToSQL()
+        public void WriteStatToSql()
         {
             if (this.DoNotDontWriteToSql)
             {
@@ -279,7 +279,7 @@ namespace ZoneEngine.Misc
                 if (this.parent is NonPlayerCharacterClass)
                 {
                     sql.SqlInsert(
-                        "INSERT INTO " + (this.parent).getSQLTablefromDynelType()
+                        "INSERT INTO " + (this.parent).GetSqlTablefromDynelType()
                         + "_stats (ID, Playfield, Stat, Value) VALUES (" + id + ","
                         + this.parent.PlayField + "," + this.StatNumber + ","
                         + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
@@ -288,7 +288,7 @@ namespace ZoneEngine.Misc
                 else
                 {
                     sql.SqlInsert(
-                        "INSERT INTO " + (this.parent).getSQLTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
+                        "INSERT INTO " + (this.parent).GetSqlTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
                         + id + "," + this.StatNumber + ","
                         + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
                         + ((Int32)this.StatBaseValue) + ";");
@@ -297,9 +297,9 @@ namespace ZoneEngine.Misc
         }
 
         /// <summary>
-        /// Write Stat to SQL
+        /// Write Stat to Sql
         /// </summary>
-        public void WriteStatToSQL(bool doit)
+        public void WriteStatToSql(bool doit)
         {
             if (this.DoNotDontWriteToSql)
             {
@@ -312,7 +312,7 @@ namespace ZoneEngine.Misc
                 if (this.parent is NonPlayerCharacterClass)
                 {
                     sql.SqlInsert(
-                        "INSERT INTO " + (this.parent).getSQLTablefromDynelType()
+                        "INSERT INTO " + (this.parent).GetSqlTablefromDynelType()
                         + "_stats (ID, Playfield, Stat, Value) VALUES (" + id + "," + this.parent.PlayField
                         + "," + this.StatNumber + "," + ((Int32)this.StatBaseValue)
                         + ") ON DUPLICATE KEY UPDATE Value=" + ((Int32)this.StatBaseValue) + ";");
@@ -320,7 +320,7 @@ namespace ZoneEngine.Misc
                 else
                 {
                     sql.SqlInsert(
-                        "INSERT INTO " + (this.parent).getSQLTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
+                        "INSERT INTO " + (this.parent).GetSqlTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
                         + id + "," + this.StatNumber + ","
                         + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
                         + ((Int32)this.StatBaseValue) + ";");
@@ -329,9 +329,9 @@ namespace ZoneEngine.Misc
         }
 
         /// <summary>
-        /// Read stat from SQL
+        /// Read stat from Sql
         /// </summary>
-        public void ReadStatFromSQL()
+        public void ReadStatFromSql()
         {
             if (this.DoNotDontWriteToSql)
             {
@@ -341,7 +341,7 @@ namespace ZoneEngine.Misc
             int id = this.parent.ID;
             DataTable dt =
                 sql.ReadDatatable(
-                    "SELECT Value FROM " + this.parent.getSQLTablefromDynelType() + " WHERE ID=" + id
+                    "SELECT Value FROM " + this.parent.GetSqlTablefromDynelType() + " WHERE ID=" + id
                     + " AND Stat=" + this.StatNumber + ";");
 
             if (dt.Rows.Count > 0)
@@ -9174,15 +9174,15 @@ namespace ZoneEngine.Misc
         #region Announce Statchange to player(s)
         public void Send(object sender, StatChangedEventArgs e)
         {
-            if (!((Character)((ClassStat)sender).Parent).dontdotimers)
+            if (!((Character)((ClassStat)sender).Parent).DoNotDoTimers)
             {
                 if (e.Stat.SendBaseValue)
                 {
-                    Stat.Send(((Character)e.Stat.Parent).client, e.Stat.StatNumber, e.NewValue, e.AnnounceToPlayfield);
+                    Stat.Send(((Character)e.Stat.Parent).Client, e.Stat.StatNumber, e.NewValue, e.AnnounceToPlayfield);
                 }
                 else
                 {
-                    Stat.Send(((Character)e.Stat.Parent).client, e.Stat.StatNumber, e.NewValue, e.AnnounceToPlayfield);
+                    Stat.Send(((Character)e.Stat.Parent).Client, e.Stat.StatNumber, e.NewValue, e.AnnounceToPlayfield);
                 }
                 e.Stat.Changed = false;
             }
@@ -9285,16 +9285,16 @@ namespace ZoneEngine.Misc
         }
         #endregion
 
-        #region Read all Stats from SQL
+        #region Read all Stats from Sql
         /// <summary>
-        /// Read all stats from SQL
+        /// Read all stats from Sql
         /// </summary>
         public void ReadStatsfromSql()
         {
             SqlWrapper sql = new SqlWrapper();
             DataTable dt =
                 sql.ReadDatatable(
-                    "SELECT Stat,Value FROM " + this.flags.Parent.getSQLTablefromDynelType() + "_stats WHERE ID="
+                    "SELECT Stat,Value FROM " + this.flags.Parent.GetSqlTablefromDynelType() + "_stats WHERE ID="
                     + this.flags.Parent.ID); // Using Flags to address parent object
             foreach (DataRow row in dt.Rows)
             {
@@ -9303,9 +9303,9 @@ namespace ZoneEngine.Misc
         }
 
         /// <summary>
-        /// Write all Stats to SQL
+        /// Write all Stats to Sql
         /// </summary>
-        public void WriteStatstoSQL()
+        public void WriteStatstoSql()
         {
             foreach (ClassStat c in this.all)
             {
@@ -9313,7 +9313,7 @@ namespace ZoneEngine.Misc
                 {
                     continue;
                 }
-                c.WriteStatToSQL(true);
+                c.WriteStatToSql(true);
             }
         }
         #endregion

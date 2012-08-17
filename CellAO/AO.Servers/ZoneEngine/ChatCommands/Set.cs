@@ -75,9 +75,9 @@ namespace ZoneEngine.ChatCommands
             {
                 statOldValue = tempch.Stats.GetBaseValue(statId);
                 tempch.Stats.Set(statId, statNewValue);
-                if (tempch.client != null)
+                if (tempch.Client != null)
                 {
-                    tempch.Stats.Send(tempch.client, statId);
+                    tempch.Stats.Send(tempch.Client, statId);
                 }
             }
             catch

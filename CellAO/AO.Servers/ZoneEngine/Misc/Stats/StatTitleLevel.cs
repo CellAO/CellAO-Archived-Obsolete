@@ -31,7 +31,7 @@ namespace ZoneEngine.Misc
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefaultValue;
+            this.StatBaseValue = this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;
@@ -73,7 +73,7 @@ namespace ZoneEngine.Misc
                     this.Set(1);
                 }
 
-                if (!this.Parent.startup)
+                if (!this.Parent.Starting)
                 {
                     this.AffectStats();
                 }

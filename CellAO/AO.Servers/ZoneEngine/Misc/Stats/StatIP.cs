@@ -84,9 +84,9 @@ namespace ZoneEngine.Misc
                 }
                 baseIP += 1500 + (characterLevel - 1) * 4000;
 
-                this.Set(baseIP - Convert.ToInt32(SkillUpdate.CalculateIP(ch.client)));
+                this.Set(baseIP - Convert.ToInt32(SkillUpdate.CalculateIP(ch.Client)));
 
-                if (!this.Parent.startup)
+                if (!this.Parent.Starting)
                 {
                     this.AffectStats();
                 }

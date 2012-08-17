@@ -88,7 +88,7 @@ namespace ZoneEngine.Misc
                          + (character.Stats.NanoEnergyPool.Value * breedMultiplicatorNanoPoints[breed - 1])));
                 }
             }
-            if (!this.Parent.startup)
+            if (!this.Parent.Starting)
             {
                 this.AffectStats();
             }

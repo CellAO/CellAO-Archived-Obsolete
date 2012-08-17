@@ -79,7 +79,7 @@ namespace ZoneEngine.Misc
         {
             if (this.tradedItems.Count > 0)
             {
-                KnuBotRejectedItems.Send(this.TalkingTo.client, this.Parent, this.tradedItems.ToArray());
+                KnuBotRejectedItems.Send(this.TalkingTo.Client, this.Parent, this.tradedItems.ToArray());
                 this.tradedItems.Clear();
             }
         }
@@ -95,7 +95,7 @@ namespace ZoneEngine.Misc
 
         public virtual void OnKnuBotDeclineTrade(object sender, KnuBotEventArgs e)
         {
-            KnuBotRejectedItems.Send(this.TalkingTo.client, this.Parent, this.tradedItems.ToArray());
+            KnuBotRejectedItems.Send(this.TalkingTo.Client, this.Parent, this.tradedItems.ToArray());
             foreach (AOItem item in this.tradedItems)
             {
                 this.TalkingTo.AddItemToInventory(item);
@@ -131,24 +131,24 @@ namespace ZoneEngine.Misc
         public void AppendText(string message)
         {
             KnuBotAppendText.Send(
-                this.TalkingTo.client,
+                this.TalkingTo.Client,
                 this.Parent,
                 message.Replace("%name", this.TalkingTo.Name).Replace("%myname", this.Parent.Name) + "\n");
         }
 
         public void SendChoices(string[] choices)
         {
-            KnuBotAnswerList.Send(this.TalkingTo.client, this.Parent, choices);
+            KnuBotAnswerList.Send(this.TalkingTo.Client, this.Parent, choices);
         }
 
         public void OpenTrade(string message, int numberofitemslots)
         {
-            PacketHandlers.KnuBotStartTrade.Send(this.TalkingTo.client, this.Parent, message, numberofitemslots);
+            PacketHandlers.KnuBotStartTrade.Send(this.TalkingTo.Client, this.Parent, message, numberofitemslots);
         }
 
         public void OpenChat()
         {
-            Packets.KnuBotOpenChatWindow.Send(this.TalkingTo.client, this.Parent);
+            Packets.KnuBotOpenChatWindow.Send(this.TalkingTo.Client, this.Parent);
         }
 
         public void CloseChat()
@@ -165,7 +165,7 @@ namespace ZoneEngine.Misc
             mi.Container = 104;
             mi.Placement = this.TalkingTo.GetNextFreeInventory(104);
             this.TalkingTo.Inventory.Add(mi);
-            AddTemplate.Send(this.TalkingTo.client, mi);
+            AddTemplate.Send(this.TalkingTo.Client, mi);
         }
 
         public AOFunctions CreateKnuBotFunction(int knubotAction)

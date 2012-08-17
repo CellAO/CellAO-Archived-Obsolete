@@ -218,7 +218,7 @@ namespace ZoneEngine.PacketHandlers
                 toPlacement = counter;
             }
 
-            cli.Character.dontdotimers = true;
+            cli.Character.DoNotDoTimers = true;
             if (toIdentity.Type == 0xdead) // 0xdead only stays for bank at the moment
             {
                 cli.Character.TransferItemtoBank(fromPlacement, toPlacement);
@@ -277,7 +277,7 @@ namespace ZoneEngine.PacketHandlers
                                 //cli.Character.switchItems(cli, fromplacement, toplacement);
                             }
                         }
-                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
+                        cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
                         break;
@@ -286,7 +286,7 @@ namespace ZoneEngine.PacketHandlers
                         cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
                         Unequip.Send(cli, itemFrom, getpage(fromPlacement), fromPlacement, false);
-                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
+                        cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
                         break;
@@ -295,7 +295,7 @@ namespace ZoneEngine.PacketHandlers
                         cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
                         Unequip.Send(cli, itemFrom, getpage(fromPlacement), fromPlacement, false);
-                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
+                        cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
                         break;
@@ -304,14 +304,14 @@ namespace ZoneEngine.PacketHandlers
                         cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
                         Unequip.Send(cli, itemFrom, getpage(fromPlacement), fromPlacement, false);
-                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
+                        cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = true;
                         break;
                     case 0x73:
                         cli.Character.UnequipItem(itemFrom, cli.Character, true, fromPlacement);
 
-                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
+                        cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         break;
                     case 0x69:
@@ -327,7 +327,7 @@ namespace ZoneEngine.PacketHandlers
                         break;
                 }
             }
-            cli.Character.dontdotimers = false;
+            cli.Character.DoNotDoTimers = false;
             if ((fromPlacement < 0x30) || (toPlacement < 0x30)) // Equipmentpages need delays
             {
                 // Delay when equipping/unequipping

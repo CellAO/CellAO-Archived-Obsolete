@@ -40,343 +40,6 @@ namespace ZoneEngine.Collision
     /// </summary>
     public class WallCollision
     {
-        /// <summary>
-        /// This holds 2 coordinates representing a 2d cartesian vector
-        /// </summary>
-        public class Vector2
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            public Vector2()
-            {
-                this.X = 0.0f;
-                this.Z = 0.0f;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public Vector2(Single x, Single z)
-            {
-                this.X = x;
-                this.Z = z;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public Vector2(Vector2 vector)
-            {
-                this.X = vector.X;
-                this.Z = vector.Z;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public Single X;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public Single Z;
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public static Vector2 Subtract(Vector2 vectorA, Vector2 vectorB)
-            {
-                Vector2 vectorC = new Vector2 { X = vectorA.X - vectorB.X, Z = vectorA.Z - vectorB.Z };
-                return vectorC;
-            }
-        }
-
-        /// <summary>
-        /// This holds two 2d vectors made from 2 points that represent a line segment
-        /// </summary>
-        public class LineSegment
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            public LineSegment(Point pointA, Point pointB, Int32 destinationPlayfield, Int32 destinationIndex, Int32 destinationFlags)
-            {
-                this.VectorA = new Vector2(pointA.X, pointA.Z);
-                this.VectorB = new Vector2(pointB.X, pointB.Z);
-                if (pointA.Y > pointB.Y)
-                {
-                    this.Y = pointB.Y;
-                }
-                else
-                {
-                    this.Y = pointA.Y;
-                }
-                this.ZoneToPlayfield = destinationPlayfield;
-                this.ZoneToIndex = destinationIndex;
-                this.Flags = destinationFlags;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public LineSegment(Point pointA, Point pointB, Int32 destinationPlayfield, Int32 destinationIndex)
-            {
-                this.VectorA = new Vector2(pointA.X, pointA.Z);
-                this.VectorB = new Vector2(pointB.X, pointB.Z);
-                if (pointA.Y > pointB.Y)
-                {
-                    this.Y = pointB.Y;
-                }
-                else
-                {
-                    this.Y = pointA.Y;
-                }
-                this.ZoneToPlayfield = destinationPlayfield;
-                this.ZoneToIndex = destinationIndex;
-                this.Flags = pointA.Flags;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public LineSegment(Point pointA, Point pointB)
-            {
-                this.VectorA = new Vector2(pointA.X, pointA.Z);
-                this.VectorB = new Vector2(pointB.X, pointB.Z);
-                if (pointA.Y > pointB.Y)
-                {
-                    this.Y = pointB.Y;
-                }
-                else
-                {
-                    this.Y = pointA.Y;
-                }
-                this.ZoneToPlayfield = pointA.DestinationPlayfield;
-                this.ZoneToIndex = pointA.DestIdx;
-                this.Flags = pointA.Flags;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public LineSegment(Vector2 vectorA, Vector2 vectorB)
-            {
-                this.VectorA = new Vector2(vectorA);
-                this.VectorB = new Vector2(vectorB);
-                this.Y = 0;
-                this.ZoneToPlayfield = 0;
-                this.ZoneToIndex = 0;
-                this.Flags = 0;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public LineSegment()
-            {
-                this.VectorA = new Vector2();
-                this.VectorB = new Vector2();
-                this.Y = 0;
-                this.ZoneToPlayfield = 0;
-                this.ZoneToIndex = 0;
-                this.Flags = 0;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public Vector2 VectorA { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public Vector2 VectorB { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public int Flags { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public int ZoneToPlayfield { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public int ZoneToIndex { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public float Y { get; set; }
-        }
-
-        /// <summary>
-        /// This holds a destination zone and border coordinate
-        /// </summary>
-        public class Point
-        {
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("DestPF")]
-            public Int32 DestinationPlayfield { get; set; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("DestIdx")]
-            public Int32 DestIdx { get; set; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("Flags")]
-            public Int32 Flags { get; set; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("X")]
-            public Single X { get; set; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("Y")]
-            public Single Y { get; set; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("Z")]
-            public Single Z { get; set; }
-        };
-
-        /// <summary>
-        /// This holds a list of points
-        /// </summary>
-        public class Wall
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            [XmlElement("Point")]
-            public List<Point> Points;
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("NumPoints")]
-            public int NumPoints { get; set; }
-        };
-
-        /// <summary>
-        /// This holds a list of walls
-        /// </summary>
-        [XmlRoot("Walls")]
-        public class Walls
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            [XmlElement("Wall")]
-            public List<Wall> walls;
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("NumWalls")]
-            public int NumWalls { get; set; }
-        };
-
-        public class LineStart
-        {
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("X")]
-            public Single X { get; set; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("Y")]
-            public Single Y { get; set; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("Z")]
-            public Single Z { get; set; }
-        };
-
-        public class LineEnd
-        {
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("X")]
-            public Single X { get; set; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("Y")]
-            public Single Y { get; set; }
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("Z")]
-            public Single Z { get; set; }
-        };
-
-        public class Line
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            [XmlElement("Start")]
-            public LineStart LineStartPoint;
-
-            [XmlElement("End")]
-            public LineEnd LineEndPoint;
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("ID")]
-            public int ID { get; set; }
-        };
-
-        public class PlayField
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            [XmlElement("Line")]
-            public List<Line> Lines;
-
-            /// <summary>
-            ///
-            /// </summary>
-            [XmlAttribute("NumLines")]
-            public int NumLines { get; set; }
-        };
-
-        [XmlRoot("Root")]
-        public class Root
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            [XmlElement("PlayField")]
-            public PlayField Playfield;
-        };
 
         /// <summary>
         /// Default value of threshold
@@ -413,7 +76,22 @@ namespace ZoneEngine.Collision
         /// <summary>
         /// Collection of line segments built from the walls collection
         /// </summary>
-        public static Dictionary<Int32, List<LineSegment>> Segments;
+        public static Dictionary<int, List<LineSegment>> Segments
+        {
+            get
+            {
+                return segments;
+            }
+            set
+            {
+                segments = value;
+            }
+        }
+
+        /// <summary>
+        /// Collection of line segments built from the walls collection
+        /// </summary>
+        private static Dictionary<Int32, List<LineSegment>> segments;
 
         private static Dictionary<int, Walls> wallList;
 
@@ -425,7 +103,7 @@ namespace ZoneEngine.Collision
         public WallCollision()
         {
             wallList = new Dictionary<Int32, Walls>();
-            Segments = new Dictionary<Int32, List<LineSegment>>();
+            segments = new Dictionary<Int32, List<LineSegment>>();
             destinations = new Dictionary<Int32, Root>();
 
             this.LoadWalls();
@@ -444,7 +122,7 @@ namespace ZoneEngine.Collision
             {
                 Int32 id = Convert.ToInt32(Path.GetFileNameWithoutExtension(fileInfo.Name));
                 WallList.Add(id, this.WallsLoadXml(fileInfo.FullName));
-                Segments.Add(id, new List<LineSegment>(WallList[id].NumWalls));
+                segments.Add(id, new List<LineSegment>(WallList[id].NumWalls));
             }
         }
 
@@ -489,13 +167,13 @@ namespace ZoneEngine.Collision
             {
                 foreach (Int32 playfield in WallList.Keys)
                 {
-                    foreach (Wall wall in WallList[playfield].walls)
+                    foreach (Wall wall in WallList[playfield].WallList)
                     {
                         Point lastPoint = wall.Points[wall.NumPoints - 1];
                         foreach (Point point in wall.Points)
                         {
                             LineSegment lineSegment = new LineSegment(point, lastPoint);
-                            Segments[playfield].Add(lineSegment);
+                            segments[playfield].Add(lineSegment);
                             lastPoint = point;
                         }
                     }
@@ -517,7 +195,7 @@ namespace ZoneEngine.Collision
             LineSegment clientLineSegment = new LineSegment(A, B);
             try
             {
-                foreach (LineSegment zoneLineSegment in Segments[playfieldId])
+                foreach (LineSegment zoneLineSegment in segments[playfieldId])
                 {
                     if (this.Intersect(clientLineSegment, zoneLineSegment))
                     {
@@ -687,4 +365,360 @@ namespace ZoneEngine.Collision
             return coordinates;
         }
     }
+
+    /// <summary>
+    /// This holds two 2d vectors made from 2 points that represent a line segment
+    /// </summary>
+    public class LineSegment
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public LineSegment(Point pointA, Point pointB, Int32 destinationPlayfield, Int32 destinationIndex, Int32 destinationFlags)
+        {
+            this.VectorA = new Vector2(pointA.X, pointA.Z);
+            this.VectorB = new Vector2(pointB.X, pointB.Z);
+            if (pointA.Y > pointB.Y)
+            {
+                this.Y = pointB.Y;
+            }
+            else
+            {
+                this.Y = pointA.Y;
+            }
+            this.ZoneToPlayfield = destinationPlayfield;
+            this.ZoneToIndex = destinationIndex;
+            this.Flags = destinationFlags;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public LineSegment(Point pointA, Point pointB, Int32 destinationPlayfield, Int32 destinationIndex)
+        {
+            this.VectorA = new Vector2(pointA.X, pointA.Z);
+            this.VectorB = new Vector2(pointB.X, pointB.Z);
+            if (pointA.Y > pointB.Y)
+            {
+                this.Y = pointB.Y;
+            }
+            else
+            {
+                this.Y = pointA.Y;
+            }
+            this.ZoneToPlayfield = destinationPlayfield;
+            this.ZoneToIndex = destinationIndex;
+            this.Flags = pointA.Flags;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public LineSegment(Point pointA, Point pointB)
+        {
+            this.VectorA = new Vector2(pointA.X, pointA.Z);
+            this.VectorB = new Vector2(pointB.X, pointB.Z);
+            if (pointA.Y > pointB.Y)
+            {
+                this.Y = pointB.Y;
+            }
+            else
+            {
+                this.Y = pointA.Y;
+            }
+            this.ZoneToPlayfield = pointA.DestinationPlayfield;
+            this.ZoneToIndex = pointA.DestIdx;
+            this.Flags = pointA.Flags;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public LineSegment(Vector2 vectorA, Vector2 vectorB)
+        {
+            this.VectorA = new Vector2(vectorA);
+            this.VectorB = new Vector2(vectorB);
+            this.Y = 0;
+            this.ZoneToPlayfield = 0;
+            this.ZoneToIndex = 0;
+            this.Flags = 0;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public LineSegment()
+        {
+            this.VectorA = new Vector2();
+            this.VectorB = new Vector2();
+            this.Y = 0;
+            this.ZoneToPlayfield = 0;
+            this.ZoneToIndex = 0;
+            this.Flags = 0;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Vector2 VectorA { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Vector2 VectorB { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Flags { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ZoneToPlayfield { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int ZoneToIndex { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public float Y { get; set; }
+    }
+
+    /// <summary>
+    /// This holds 2 coordinates representing a 2d cartesian vector
+    /// </summary>
+    public class Vector2
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public Vector2()
+        {
+            this.X = 0.0f;
+            this.Z = 0.0f;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Vector2(Single x, Single z)
+        {
+            this.X = x;
+            this.Z = z;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Vector2(Vector2 vector)
+        {
+            this.X = vector.X;
+            this.Z = vector.Z;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Single X;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Single Z;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Vector2 Subtract(Vector2 vectorA, Vector2 vectorB)
+        {
+            Vector2 vectorC = new Vector2 { X = vectorA.X - vectorB.X, Z = vectorA.Z - vectorB.Z };
+            return vectorC;
+        }
+    }
+
+
+    /// <summary>
+    /// This holds a destination zone and border coordinate
+    /// </summary>
+    public class Point
+    {
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("DestPF")]
+        public Int32 DestinationPlayfield { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("DestIdx")]
+        public Int32 DestIdx { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("Flags")]
+        public Int32 Flags { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("X")]
+        public Single X { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("Y")]
+        public Single Y { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("Z")]
+        public Single Z { get; set; }
+    };
+
+    /// <summary>
+    /// This holds a list of points
+    /// </summary>
+    public class Wall
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlElement("Point")]
+        public List<Point> Points { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("NumPoints")]
+        public int NumPoints { get; set; }
+    };
+
+    /// <summary>
+    /// This holds a list of walls
+    /// </summary>
+    [XmlRoot("Walls")]
+    public class Walls
+    {
+        private List<Wall> wallList;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlElement("Wall")]
+        public List<Wall> WallList
+        {
+            get
+            {
+                return this.wallList;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("NumWalls")]
+        public int NumWalls { get; set; }
+    };
+
+    public class LineStart
+    {
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("X")]
+        public Single X { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("Y")]
+        public Single Y { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("Z")]
+        public Single Z { get; set; }
+    };
+
+    public class LineEnd
+    {
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("X")]
+        public Single X { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("Y")]
+        public Single Y { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("Z")]
+        public Single Z { get; set; }
+    };
+
+    public class Line
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlElement("Start")]
+        public LineStart LineStartPoint { get; set; }
+
+        [XmlElement("End")]
+        public LineEnd LineEndPoint { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("ID")]
+        public int ID { get; set; }
+    };
+
+    public class PlayField
+    {
+        private List<Line> lines;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlElement("Line")]
+        public List<Line> Lines
+        {
+            get
+            {
+                return this.lines;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        [XmlAttribute("NumLines")]
+        public int NumLines { get; set; }
+    };
+
+    [XmlRoot("Root")]
+    public class Root
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlElement("PlayField")]
+        public PlayField Playfield;
+    };
+
 }

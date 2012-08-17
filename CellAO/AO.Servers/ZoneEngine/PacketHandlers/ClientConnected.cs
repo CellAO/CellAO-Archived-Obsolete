@@ -75,7 +75,7 @@ namespace ZoneEngine.PacketHandlers
             m_stream.Dispose();
 
             client.Character = new Character(charID, 0);
-            client.Character.client = client;
+            client.Character.Client = client;
             client.Character.ReadNames();
 
             client.Server.Info(
@@ -175,7 +175,7 @@ namespace ZoneEngine.PacketHandlers
             #endregion
 
             // Timers are allowed to update client stats now.
-            client.Character.dontdotimers = false;
+            client.Character.DoNotDoTimers = false;
 
             // spawn all active monsters to client
             NonPlayerCharacterHandler.GetMonstersInPF(client, client.Character.PlayField);
@@ -189,7 +189,7 @@ namespace ZoneEngine.PacketHandlers
             // WeaponItemFullCharUpdate  Maybe the right location , First Check if weapons present usually in equipment
             //Packets.WeaponItemFullUpdate.Send(client, client.Character);
 
-            client.Character.processTimers(DateTime.Now + TimeSpan.FromMilliseconds(200));
+            client.Character.ProcessTimers(DateTime.Now + TimeSpan.FromMilliseconds(200));
 
             client.Character.CalculateSkills();
 

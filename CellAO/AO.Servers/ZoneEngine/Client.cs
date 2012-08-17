@@ -468,12 +468,12 @@ namespace ZoneEngine
             byte[] tpreply = writer.Finish();
             Despawn.DespawnPacket(this.Character.ID);
             this.SendCompressed(tpreply);
-            this.Character.dontdotimers = true;
+            this.Character.DoNotDoTimers = true;
             this.Character.Stats.ExtenalDoorInstance.Value = 0;
             this.Character.Stats.ExtenalPlayfieldInstance.Value = 0;
             this.Character.Stats.LastConcretePlayfieldInstance.Value = 0;
 
-            this.Character.stopMovement();
+            this.Character.StopMovement();
             this.Character.rawCoord = destination;
             this.Character.rawHeading = heading;
             this.Character.PlayField = playfield;
@@ -555,14 +555,14 @@ namespace ZoneEngine
             writer.PushIdentity(dest.Type, dest.Instance);
             writer.PushInt(0);
             byte[] tpreply = writer.Finish();
-            this.Character.dontdotimers = true;
+            this.Character.DoNotDoTimers = true;
             Despawn.DespawnPacket(this.Character.ID);
             this.SendCompressed(tpreply);
-            this.Character.dontdotimers = true;
+            this.Character.DoNotDoTimers = true;
             this.Character.Stats.LastConcretePlayfieldInstance.Value = this.Character.PlayField;
             this.Character.Stats.ExtenalDoorInstance.Value = SG;
 
-            this.Character.stopMovement();
+            this.Character.StopMovement();
             this.Character.rawCoord = destination;
             this.Character.rawHeading = heading;
             this.Character.PlayField = playfield;

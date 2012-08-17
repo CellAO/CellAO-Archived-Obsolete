@@ -54,7 +54,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushInt(0); // Unknown
 
             byte[] packet = packetWriter.Finish();
-            character.client.SendCompressed(packet);
+            character.Client.SendCompressed(packet);
         }
     }
 }

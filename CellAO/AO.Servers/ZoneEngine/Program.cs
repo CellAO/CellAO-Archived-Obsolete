@@ -96,7 +96,7 @@ namespace ZoneEngine
             Console.ResetColor();
             #endregion
 
-            #region Delete old SQLError.log, so it doesnt get too big
+            #region Delete old SqlError.log, so it doesnt get too big
             if (File.Exists("sqlerror.log"))
             {
                 File.Delete("sqlerror.log");
@@ -196,7 +196,7 @@ namespace ZoneEngine
                             break;
                         }
 
-                        //TODO: Add SQL Check.
+                        //TODO: Add Sql Check.
                         csc.Compile(false);
                         StartTheServer();
                         break;
@@ -209,7 +209,7 @@ namespace ZoneEngine
                             break;
                         }
 
-                        //TODO: Add SQL Check.
+                        //TODO: Add Sql Check.
                         csc.Compile(true);
                         StartTheServer();
                         break;
@@ -371,7 +371,7 @@ namespace ZoneEngine
             }
             #endregion
 
-            #region PostgreSQL
+            #region PostgreSql
             if (ms.isnpgsql)
             {
                 while (ms.npgreader.Read())
@@ -472,11 +472,11 @@ namespace ZoneEngine
             }
             catch (MySqlException e)
             {
-                Console.WriteLine("MySQL Error. Server Cannot Start");
+                Console.WriteLine("MySql Error. Server Cannot Start");
                 Console.WriteLine("Exception: " + e.Message);
                 string current = DateTime.Now.ToString("HH:mm:ss");
                 StreamWriter logfile = File.AppendText("ZoneEngineLog.txt");
-                logfile.WriteLine(current + " " + e.Source + " MySQL Error. Server Cannot Start");
+                logfile.WriteLine(current + " " + e.Source + " MySql Error. Server Cannot Start");
                 logfile.WriteLine(current + " " + e.Source + " Exception: " + e.Message);
                 logfile.Close();
                 zoneServer.Stop();

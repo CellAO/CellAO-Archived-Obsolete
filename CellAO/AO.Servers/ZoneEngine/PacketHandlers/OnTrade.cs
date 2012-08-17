@@ -162,8 +162,8 @@ namespace ZoneEngine.PacketHandlers
                     packetWriter.PushByte(4);
                     packetWriter.PushIdentity(client.Character.LastTrade);
                     packetWriter.PushIdentity(client.Character.LastTrade);
-                    client.Character.LastTrade.Type = 0;
-                    client.Character.LastTrade.Instance = 0;
+                    client.Character.LastTrade = new Identity { Instance = 0, Type = 0 };
+
                     byte[] reply2 = packetWriter.Finish();
                     client.SendCompressed(reply2);
                     break;
@@ -242,23 +242,22 @@ namespace ZoneEngine.PacketHandlers
                     {
                         if (action == 5)
                         {
-                            inventoryEntry = character.getInventoryAt(place);
+                            inventoryEntry = character.GetInventoryAt(place);
                             inventoryEntry.Placement = character.GetNextFreeInventory(-2);
                             inventoryEntry.Container = -2;
                         }
                         if (action == 6)
                         {
-                            inventoryEntry = character.getInventoryAt(place, -2);
+                            inventoryEntry = character.GetInventoryAt(place, -2);
                             inventoryEntry.Placement = character.GetNextFreeInventory(104);
                             inventoryEntry.Container = 104;
                         }
                     }
                     else
                     {
-                        InventoryEntries inew = new InventoryEntries
-                            { Container = -1, Placement = character.GetNextFreeInventory(-1) };
+                        InventoryEntries inew = new InventoryEntries { Container = -1, Placement = character.GetNextFreeInventory(-1) };
                         int oldPlacement = ((packet[46] >> 24) + (packet[47] >> 16) + (packet[48] >> 8) + packet[49]);
-                        InventoryEntries totrade = character.getInventoryAt(oldPlacement);
+                        InventoryEntries totrade = character.GetInventoryAt(oldPlacement);
                         inew.Item.LowID = totrade.Item.LowID;
                         inew.Item.HighID = totrade.Item.HighID;
                         inew.Item.MultipleCount = totrade.Item.MultipleCount;

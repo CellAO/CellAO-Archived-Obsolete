@@ -133,7 +133,7 @@ namespace ZoneEngine.PacketHandlers
                 pktTeamRequest.PushShort(0);
 
                 byte[] teamRequestPacket = pktTeamRequest.Finish();
-                Client receiver = FindClient.FindClientByID(recievingPlayer.Instance);
+                Client receiver = FindClient.FindClientById(recievingPlayer.Instance);
                 if (receiver != null)
                 {
                     receiver.SendCompressed(teamRequestPacket);
@@ -184,7 +184,7 @@ namespace ZoneEngine.PacketHandlers
 
             // IF Statement Determining Destination Client to Send Packet To
 
-            Client receiver = FindClient.FindClientByID(sendingPlayer.Character.ID);
+            Client receiver = FindClient.FindClientById(sendingPlayer.Character.ID);
             if (receiver != null)
             {
                 receiver.SendCompressed(characterAction15Packet);
@@ -230,7 +230,7 @@ namespace ZoneEngine.PacketHandlers
                     packetWriter.PushByte(0x61); // Name continued?
                     packetWriter.PushShort(0);
                     byte[] packet = packetWriter.Finish();
-                    Client receiver = FindClient.FindClientByID(recievingPlayer.Instance);
+                    Client receiver = FindClient.FindClientById(recievingPlayer.Instance);
                     if (receiver != null)
                     {
                         receiver.SendCompressed(packet);
@@ -293,7 +293,7 @@ namespace ZoneEngine.PacketHandlers
                     packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
                     packetWriter.PushShort(0);
                     byte[] packet = packetWriter.Finish();
-                    Client receiver = FindClient.FindClientByID(recievingPlayer.Instance);
+                    Client receiver = FindClient.FindClientById(recievingPlayer.Instance);
                     if (receiver != null)
                     {
                         receiver.SendCompressed(packet);
@@ -344,7 +344,7 @@ namespace ZoneEngine.PacketHandlers
 
             // IF Statement Determining Destination Client to Send Packet To
 
-            Client receiver = FindClient.FindClientByID(sendingPlayer.Character.ID);
+            Client receiver = FindClient.FindClientById(sendingPlayer.Character.ID);
             if (receiver != null)
             {
                 receiver.SendCompressed(packet);

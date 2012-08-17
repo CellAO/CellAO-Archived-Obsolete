@@ -63,7 +63,7 @@ namespace ZoneEngine.Functions
         public bool FunctionExecute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
         {
             string text = (string)Arguments[0];
-            SystemText.Send(((Character)Self).client, text, 0);
+            SystemText.Send(((Character)Self).Client, text, 0);
             return true;
         }
     }

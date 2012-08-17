@@ -177,7 +177,7 @@ namespace ZoneEngine.PacketHandlers
                 case 5:
                     {
                         Client tPlayer = null;
-                        if (FindClient.FindClientByID(target.Instance, out tPlayer))
+                        if (FindClient.FindClientById(target.Instance, out tPlayer))
                         {
                             string orgDescription = "", orgObjective = "", orgHistory = "", orgLeaderName = "";
                             int orgGoverningForm = 0, orgLeaderID = 0;
@@ -302,7 +302,7 @@ namespace ZoneEngine.PacketHandlers
                         int targetNewRank = -1;
                         int newPresRank = -1;
                         int oldPresRank = 0;
-                        if (FindClient.FindClientByID(target.Instance, out toPromote))
+                        if (FindClient.FindClientById(target.Instance, out toPromote))
                         {
                             //First we check if target is in the same org as you
                             if (toPromote.Character.OrgId != client.Character.OrgId)
@@ -336,7 +336,7 @@ namespace ZoneEngine.PacketHandlers
                                 {
                                     /* This is a bit more complex.  Here we need to promote new president first
                                          * then we go about demoting old president
-                                         * finally we set the new leader in SQL
+                                         * finally we set the new leader in Sql
                                          * Reset OrgName to set changes
                                          */
 
@@ -350,7 +350,7 @@ namespace ZoneEngine.PacketHandlers
                                     newPresRank = oldPresRank + 1;
                                     demotedFromRank = GetRank(promoteGovForm, (uint)newPresRank);
                                     client.Character.Stats.ClanLevel.Set(newPresRank);
-                                    //Change the leader id in SQL
+                                    //Change the leader id in Sql
                                     string newLeadSql = "UPDATE organizations SET LeaderID = " + toPromote.Character.ID
                                                         + " WHERE ID = " + toPromote.Character.OrgId;
                                     this.ms.SqlUpdate(newLeadSql);
@@ -395,7 +395,7 @@ namespace ZoneEngine.PacketHandlers
                     string demoteSql = "";
                     int targetCurRank = -1;
                     int targetNewerRank = -1;
-                    if (FindClient.FindClientByID(target.Instance, out t_demote))
+                    if (FindClient.FindClientById(target.Instance, out t_demote))
                     {
                         //First we check if target is in the same org as you
                         if (t_demote.Character.OrgId != client.Character.OrgId)
@@ -467,7 +467,7 @@ namespace ZoneEngine.PacketHandlers
                     }
 
                     Client target_player = null;
-                    if (FindClient.FindClientByID(kickeeId, out target_player))
+                    if (FindClient.FindClientById(kickeeId, out target_player))
                     {
                         //Check if CmdStr is actually part of the org
                         uint kickeeOrgId = target_player.Character.OrgId;
@@ -513,7 +513,7 @@ namespace ZoneEngine.PacketHandlers
                 case 14:
                     {
                         Client t_player = null;
-                        if (FindClient.FindClientByID(target.Instance, out t_player))
+                        if (FindClient.FindClientById(target.Instance, out t_player))
                         {
                             PacketWriter writer = new PacketWriter();
                             writer.PushBytes(new byte[] { 0xDF, 0xDF });

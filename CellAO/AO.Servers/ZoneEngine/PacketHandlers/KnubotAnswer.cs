@@ -44,7 +44,7 @@ namespace ZoneEngine.PacketHandlers
             int type = packetReader.PopInt();
             int instance = packetReader.PopInt();
             NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(type, instance);
-            Character character = FindClient.FindClientByID(header.Sender).Character;
+            Character character = FindClient.FindClientById(header.Sender).Character;
             if (npc != null)
             {
                 npc.KnuBotAnswer(character, packetReader.PopInt());

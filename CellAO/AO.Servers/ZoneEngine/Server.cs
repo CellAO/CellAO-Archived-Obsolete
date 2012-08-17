@@ -199,7 +199,7 @@ namespace ZoneEngine
             {
                 foreach (Client cl in this.Clients)
                 {
-                    cl.Character.processTimers(_now);
+                    cl.Character.ProcessTimers(_now);
                 }
             }
             catch
@@ -209,7 +209,7 @@ namespace ZoneEngine
 
             foreach (Character ch in this.Monsters)
             {
-                ch.processTimers(_now);
+                ch.ProcessTimers(_now);
             }
             this.Walker.Enabled = true;
         }

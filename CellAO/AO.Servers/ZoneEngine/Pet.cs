@@ -43,12 +43,12 @@ namespace ZoneEngine
         public Character Owner;
 
         #region Owner (read/write), only needed if we decide to make persistant pets
-        public void readOwnerfromSQL()
+        public void readOwnerfromSql()
         {
             SqlWrapper ms = new SqlWrapper();
 
             DataTable dt =
-                ms.ReadDatatable("SELECT * FROM " + this.getSQLTablefromDynelType() + "owner WHERE ID=" + this.ID.ToString());
+                ms.ReadDatatable("SELECT * FROM " + this.GetSqlTablefromDynelType() + "owner WHERE ID=" + this.ID.ToString());
             if (dt.Rows.Count > 0)
             {
                 //TODO: Add Pet code here
@@ -56,12 +56,12 @@ namespace ZoneEngine
             }
         }
 
-        public void writeOwnertoSQL()
+        public void writeOwnertoSql()
         {
             SqlWrapper ms = new SqlWrapper();
 
             ms.SqlInsert(
-                "INSERT INTO " + this.getSQLTablefromDynelType() + "owner VALUES (" + this.ID.ToString() + ","
+                "INSERT INTO " + this.GetSqlTablefromDynelType() + "owner VALUES (" + this.ID.ToString() + ","
                 + this.Owner.ID.ToString() + ")");
         }
         #endregion

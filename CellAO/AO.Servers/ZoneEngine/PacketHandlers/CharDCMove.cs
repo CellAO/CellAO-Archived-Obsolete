@@ -61,9 +61,9 @@ namespace ZoneEngine.PacketHandlers
             int tmpInt3 = packetReader.PopInt();
             packetReader.Finish();
 
-            if (!client.Character.dontdotimers)
+            if (!client.Character.DoNotDoTimers)
             {
-                WallCollision.LineSegment teleportPlayfield = WallCollision.WallCollisionCheck(
+                LineSegment teleportPlayfield = WallCollision.WallCollisionCheck(
                     coordinates.x, coordinates.z, client.Character.PlayField);
                 if (teleportPlayfield.ZoneToPlayfield >= 1)
                 {
@@ -100,7 +100,7 @@ namespace ZoneEngine.PacketHandlers
 
             client.Character.rawCoord = coordinates;
             client.Character.rawHeading = heading;
-            client.Character.updateMoveType(moveType);
+            client.Character.UpdateMoveType(moveType);
 
             /* Start NV Heading Testing Code
              * Yaw: 0 to 360 Degrees (North turning clockwise to a complete revolution)

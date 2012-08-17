@@ -49,7 +49,7 @@ namespace ZoneEngine.Misc
                 this.StatBaseValue = healDelta[ch.Stats.Breed.Value - 1]
                                      + (uint)Math.Floor((double)(ch.Stats.BodyDevelopment.Value / 100));
 
-                if (!this.Parent.startup)
+                if (!this.Parent.Starting)
                 {
                     this.AffectStats();
                 }

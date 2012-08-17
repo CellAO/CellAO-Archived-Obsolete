@@ -264,7 +264,7 @@ namespace ZoneEngine.PacketHandlers
                     // Use item in inventory
                     if (target.Type == 104)
                     {
-                        InventoryEntries ie = client.Character.getInventoryAt(target.Instance);
+                        InventoryEntries ie = client.Character.GetInventoryAt(target.Instance);
                         AOItem mi = ItemHandler.GetItemTemplate(ie.Item.LowID);
                         // TODO mi.applyon(client.Character, ItemHandler.eventtype_onuse, true, false, ie.Placement);
                         TemplateAction.Send(client.Character, ie);
@@ -337,9 +337,8 @@ namespace ZoneEngine.PacketHandlers
                         reply[0x1c] = 0;
                         reply[0x20] = 1;
 
-                        client.Character.LastTrade.Type = target.Type;
-                        client.Character.LastTrade.Instance = target.Instance;
-
+                        client.Character.LastTrade = target;
+                        
                         PacketWriter pw = new PacketWriter();
                         pw.PushBytes(reply);
                         byte[] rep = pw.Finish();

@@ -44,7 +44,7 @@ namespace ZoneEngine.PacketHandlers
             int type = packetReader.PopInt();
             int instance = packetReader.PopInt();
             NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(type, instance);
-            Character ch = FindClient.FindClientByID(header.Sender).Character;
+            Character ch = FindClient.FindClientById(header.Sender).Character;
             if (npc != null)
             {
                 npc.KnuBotCloseChatWindow(client.Character);
@@ -53,7 +53,7 @@ namespace ZoneEngine.PacketHandlers
 
         public static void Send(Character talkingTo, NonPlayerCharacterClass talker)
         {
-            Client client = talkingTo.client;
+            Client client = talkingTo.Client;
 
             PacketWriter pw = new PacketWriter();
 

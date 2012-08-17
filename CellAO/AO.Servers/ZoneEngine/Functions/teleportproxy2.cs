@@ -66,7 +66,7 @@ namespace ZoneEngine.Functions
 
         public bool FunctionExecute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
         {
-            Client cli = ((Character)Self).client;
+            Client cli = ((Character)Self).Client;
             Identity pfinstance = new Identity();
             Identity R = new Identity();
             Identity dest = new Identity();
@@ -107,7 +107,7 @@ namespace ZoneEngine.Functions
         {
             coordheading ret = new coordheading();
             ret.Coordinates.x = -1;
-            foreach (WallCollision.Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
+            foreach (Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
             {
                 if (l.ID != DestinationNumber)
                 {

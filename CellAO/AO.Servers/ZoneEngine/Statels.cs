@@ -417,7 +417,7 @@ namespace ZoneEngine
             {
                 coordheading ret = new coordheading();
                 ret.Coordinates.x = -1;
-                foreach (WallCollision.Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
+                foreach (Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
                 {
                     if (l.ID != DestinationNumber)
                     {

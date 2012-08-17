@@ -68,7 +68,7 @@ namespace ZoneEngine.Functions
             Identity pfinstance = new Identity();
             Identity id2 = new Identity();
             Identity id3 = new Identity();
-            Client cli = ((Character)Self).client;
+            Client cli = ((Character)Self).Client;
             if (Target is Statels.Statel)
             {
                 pfinstance.Type = Int32.Parse((string)Arguments[0]);

@@ -77,10 +77,10 @@ namespace ZoneEngine.Packets
             client.SendCompressed(packet);
         }
 
-        public static char ByteToChar(byte b)
+        public static char ByteToChar(byte toChar)
         {
             byte[] buffer = new byte[1];
-            buffer[0] = b;
+            buffer[0] = toChar;
             return BitConverter.ToChar(buffer, 0);
         }
 

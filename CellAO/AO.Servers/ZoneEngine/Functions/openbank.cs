@@ -62,7 +62,7 @@ namespace ZoneEngine.Functions
 
         public bool FunctionExecute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
         {
-            BankOpen.Send(((Character)Self).client);
+            BankOpen.Send(((Character)Self).Client);
             return true;
         }
     }

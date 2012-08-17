@@ -80,7 +80,7 @@ namespace ZoneEngine.PacketHandlers
 
         public static bool ItemExists(int placement, Client client)
         {
-            return (client.Character.getInventoryAt(placement) != null);
+            return (client.Character.GetInventoryAt(placement) != null);
         }
         #endregion
     }

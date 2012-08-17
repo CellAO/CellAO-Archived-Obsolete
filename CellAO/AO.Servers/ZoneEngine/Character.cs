@@ -41,12 +41,12 @@ namespace ZoneEngine
         /// <summary>
         /// Character's first name
         /// </summary>
-        public string FirstName;
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Character's last name
         /// </summary>
-        public string LastName;
+        public string LastName { get; set; }
 
         /// <summary>
         /// Organization ID
@@ -56,143 +56,132 @@ namespace ZoneEngine
         /// <summary>
         /// Organization name
         /// </summary>
-        public string OrgName;
+        public string OrgName { get; set; }
 
         /// <summary>
         /// Is Character attacking?
         /// </summary>
-        public int Attacking;
+        public int Attacking { get; set; }
 
         /// <summary>
         /// Movement mode
         /// </summary>
-        public int MovementMode;
+        public int MovementMode { get; set; }
 
         /// <summary>
         /// Don't process timers when true, double use, stats aren't sent back to client(s) when true
         /// </summary>
-        public bool dontdotimers = true;
+        private bool doNotDoTimers = true;
 
         /// <summary>
         /// Identity of the actual target
         /// </summary>
-        public Identity Target;
+        public Identity Target { get; set; }
 
         /// <summary>
         /// Identity of the fighting target
         /// </summary>
-        public Identity FightingTarget;
+        public Identity FightingTarget { get; set; }
 
         /// <summary>
         /// Identity of the followed target
         /// </summary>
-        public Identity FollowTarget;
+        public Identity FollowTarget { get; set; }
 
         /// <summary>
         /// Identity of the last trading target
         /// </summary>
-        public Identity LastTrade;
+        public Identity LastTrade { get; set; }
 
         /// <summary>
         /// Stats
         /// </summary>
-        public CharacterStats Stats;
+        private CharacterStats stats;
 
         /// <summary>
         /// Inventory list
         /// </summary>
-        public List<InventoryEntries> Inventory = new List<InventoryEntries>();
+        private readonly List<InventoryEntries> inventory = new List<InventoryEntries>();
 
         /// <summary>
         /// Active Nanos list
         /// </summary>
-        public List<AONano> ActiveNanos = new List<AONano>();
+        private readonly List<AONano> activeNanos = new List<AONano>();
 
         /// <summary>
         /// Active Timers list (HD/ND, Nano effect timers etc)
         /// </summary>
-        public List<AOTimers> Timers = new List<AOTimers>();
+        private readonly List<AOTimers> timers = new List<AOTimers>();
 
         /// <summary>
         /// Uploaded Nanos list
         /// </summary>
-        public List<AOUploadedNanos> UploadedNanos = new List<AOUploadedNanos>();
+        private readonly List<AOUploadedNanos> uploadedNanos = new List<AOUploadedNanos>();
 
         /// <summary>
         /// Bank inventory
         /// </summary>
-        public List<AOItem> Bank = new List<AOItem>();
+        private readonly List<AOItem> bank = new List<AOItem>();
 
         /// <summary>
         /// Parent client
         /// </summary>
-        public Client client;
+        private Client client;
 
         /// <summary>
         /// Caching Mesh layer structure
         /// </summary>
-        public MeshLayers MeshLayer = new MeshLayers();
+        private MeshLayers meshLayer = new MeshLayers();
 
         /// <summary>
         /// Caching Mesh layer for social tab items
         /// </summary>
-        public MeshLayers SocialMeshLayer = new MeshLayers();
+        private MeshLayers socialMeshLayer = new MeshLayers();
 
         // Not sure what that is... Need to check my notes - Algorithman
         // declare Weaponsm Bool Array
-        public bool[] WeaponsStored = new bool[109];
+        private readonly bool[] weaponsStored = new bool[109];
 
-        public bool[] ItemsStored = new bool[109];
+        private readonly bool[] itemsStored = new bool[109];
 
         // KnuBot Target
-        protected Dynel _kbt;
 
-        public Dynel KnuBotTarget
-        {
-            get
-            {
-                return this._kbt;
-            }
-            set
-            {
-                this._kbt = value;
-            }
-        }
+        public Dynel KnuBotTarget { get; set; }
 
         /// <summary>
         /// Create a new Character Dynel
         /// </summary>
-        /// <param name="_id">ID of player</param>
-        /// <param name="_playfield">initial Playfield number</param>
-        public Character(int _id, int _playfield)
-            : base(_id, _playfield)
+        /// <param name="id">ID of player</param>
+        /// <param name="playfield">initial Playfield number</param>
+        public Character(int id, int playfield)
+            : base(id, playfield)
         {
             lock (this)
             {
-                this.ID = _id;
-                this.PlayField = _playfield;
+                this.ID = id;
+                this.PlayField = playfield;
                 // We're in the character class, so set Identifier 50000
                 this.Type = 50000;
                 this.ourType = 0;
                 if (this.ID != 0)
                 {
-                    this.dontdotimers = true;
-                    this.Stats = new CharacterStats(this);
-                    this.ReadCoordsFromSQL();
-                    this.ReadHeadingFromSQL();
-                    this.Stats.ReadStatsfromSql();
-                    this.ReadSpecialStatsfromSQL();
-                    this.readTimersfromSQL();
-                    this.readInventoryfromSQL();
-                    this.readUploadedNanosfromSQL();
-                    this.readBankContentsfromSQL();
+                    this.doNotDoTimers = true;
+                    this.stats = new CharacterStats(this);
+                    this.ReadCoordsFromSql();
+                    this.ReadHeadingFromSql();
+                    this.stats.ReadStatsfromSql();
+                    this.ReadSpecialStatsFromSql();
+                    this.ReadTimersFromSql();
+                    this.ReadInventoryFromSql();
+                    this.ReadUploadedNanosFromSql();
+                    this.ReadBankContentsFromSql();
                     //                    MeshLayer.AddMesh(0, (Int32)Stats.HeadMesh.StatBaseValue, 0, 8);
                     //                    SocialMeshLayer.AddMesh(0, (Int32)Stats.HeadMesh.StatBaseValue, 0, 8);
                     this.ReadSocialTab();
                     //ApplyInventory();
                     //                    CalculateNextXP();
-                    this.addHPNPtick();
-                    this.startup = false;
+                    this.AddHpnpTick();
+                    this.Starting = false;
                 }
             }
         }
@@ -206,10 +195,10 @@ namespace ZoneEngine
         /// </summary>
         ~Character()
         {
-            this.dontdotimers = true;
+            this.doNotDoTimers = true;
             lock (this)
             {
-                this.writeBankContentstoSQL();
+                this.WriteBankContentsToSql();
                 this.SaveSocialTab();
                 if (this.KnuBotTarget != null)
                 {
@@ -234,9 +223,9 @@ namespace ZoneEngine
             newtimer.Function.dolocalstats = dolocalstats;
             newtimer.Timestamp = time;
             newtimer.Strain = strain;
-            lock (this.Timers)
+            lock (this.timers)
             {
-                this.Timers.Add(newtimer);
+                this.timers.Add(newtimer);
             }
         }
         #endregion
@@ -248,14 +237,14 @@ namespace ZoneEngine
         /// <param name="strain">Strain to remove</param>
         public void PurgeTimer(int strain)
         {
-            lock (this.Timers)
+            lock (this.timers)
             {
-                int c = this.Timers.Count() - 1;
+                int c = this.timers.Count() - 1;
                 while (c >= 0)
                 {
-                    if (this.Timers[c].Strain == strain)
+                    if (this.timers[c].Strain == strain)
                     {
-                        this.Timers.RemoveAt(c);
+                        this.timers.RemoveAt(c);
                     }
                     c--;
                 }
@@ -267,15 +256,15 @@ namespace ZoneEngine
         /// <summary>
         /// Process timers
         /// </summary>
-        /// <param name="_now">Process all timers up to _now</param>
-        public void processTimers(DateTime _now)
+        /// <param name="now">Process all timers up to _now</param>
+        public void ProcessTimers(DateTime now)
         {
             // Current Timer
             int c;
             // Current Strain
             int strain;
             // if Charachter is skipping timers Leave Function
-            if (this.dontdotimers)
+            if (this.doNotDoTimers)
             {
                 return;
             }
@@ -283,28 +272,28 @@ namespace ZoneEngine
             lock (this)
             {
                 // Backwards, easier to maintain integrity when removing something from the list
-                for (c = this.Timers.Count - 1; c >= 0; c--)
+                for (c = this.timers.Count - 1; c >= 0; c--)
                 {
-                    strain = this.Timers[c].Strain;
-                    if (this.Timers[c].Timestamp <= _now)
+                    strain = this.timers[c].Strain;
+                    if (this.timers[c].Timestamp <= now)
                     {
-                        this.ApplyFunction(this.Timers[c].Function);
+                        this.ApplyFunction(this.timers[c].Function);
 
-                        if (this.Timers[c].Function.TickCount >= 0)
+                        if (this.timers[c].Function.TickCount >= 0)
                         {
-                            this.Timers[c].Function.TickCount--;
+                            this.timers[c].Function.TickCount--;
                         }
 
-                        if (this.Timers[c].Function.TickCount == 0)
+                        if (this.timers[c].Function.TickCount == 0)
                         {
                             // Remove Timer if Ticks ran out
-                            this.Timers.RemoveAt(c);
+                            this.timers.RemoveAt(c);
                         }
                         else
                         {
                             // Reinvoke the timer after the TickInterval
-                            this.Timers[c].Timestamp = _now
-                                                       + TimeSpan.FromMilliseconds(this.Timers[c].Function.TickInterval);
+                            this.timers[c].Timestamp = now
+                                                       + TimeSpan.FromMilliseconds(this.timers[c].Function.TickInterval);
                         }
                     }
                 }
@@ -324,17 +313,17 @@ namespace ZoneEngine
             // Stat 5 (ClanLevel) is org rank
             get
             {
-                return this.Stats.Clan.StatBaseValue;
+                return this.stats.Clan.StatBaseValue;
             }
             set
             {
                 string oldOrgName = this.OrgName;
 
-                this.Stats.Clan.Set(value);
+                this.stats.Clan.Set(value);
 
                 if (value == 0)
                 {
-                    this.Stats.ClanLevel.Set(0);
+                    this.stats.ClanLevel.Set(0);
                 }
                 lock (this)
                 {
@@ -358,7 +347,7 @@ namespace ZoneEngine
         /// <summary>
         /// Calculate predition Duration
         /// </summary>
-        public TimeSpan predictionDuration
+        public TimeSpan PredictionDuration
         {
             get
             {
@@ -377,7 +366,7 @@ namespace ZoneEngine
             int turnSpeed;
             double turnTime;
 
-            turnSpeed = this.Stats.TurnSpeed.Value; // Stat #267 TurnSpeed
+            turnSpeed = this.stats.TurnSpeed.Value; // Stat #267 TurnSpeed
 
             if (turnSpeed == 0)
             {
@@ -399,28 +388,28 @@ namespace ZoneEngine
 
             switch (this.moveMode)
             {
-                case MoveMode.Run:
-                    effectiveRunSpeed = this.Stats.RunSpeed.Value; // Stat #156 = RunSpeed
+                case MoveModes.Run:
+                    effectiveRunSpeed = this.stats.RunSpeed.Value; // Stat #156 = RunSpeed
                     break;
 
-                case MoveMode.Walk:
+                case MoveModes.Walk:
                     effectiveRunSpeed = -500;
                     break;
 
-                case MoveMode.Swim:
+                case MoveModes.Swim:
                     // Swim speed is calculated the same as Run Speed except is half as effective
-                    effectiveRunSpeed = this.Stats.Swim.Value >> 1; // Stat #138 = Swim
+                    effectiveRunSpeed = this.stats.Swim.Value >> 1; // Stat #138 = Swim
                     break;
 
-                case MoveMode.Crawl:
+                case MoveModes.Crawl:
                     effectiveRunSpeed = -600;
                     break;
 
-                case MoveMode.Sneak:
+                case MoveModes.Sneak:
                     effectiveRunSpeed = -500;
                     break;
 
-                case MoveMode.Fly:
+                case MoveModes.Fly:
                     effectiveRunSpeed = 2200; // NV: TODO: Propper calc for this!
                     break;
 
@@ -443,19 +432,19 @@ namespace ZoneEngine
             double speed;
             int effectiveRunSpeed;
 
-            if ((this.moveDirection == MoveDirection.None) || (!this.canMove()))
+            if ((this.moveDirection == MoveDirections.None) || (!this.canMove()))
             {
                 return 0;
             }
 
             effectiveRunSpeed = this.calculateEffectiveRunSpeed();
 
-            if (this.moveDirection == MoveDirection.Forwards)
+            if (this.moveDirection == MoveDirections.Forwards)
             {
                 // NV: TODO: Verify this more. Especially with uber-low runspeeds (negative)
                 speed = Math.Max(0, (effectiveRunSpeed * 0.005) + 4);
 
-                if (this.moveMode != MoveMode.Swim)
+                if (this.moveMode != MoveModes.Swim)
                 {
                     speed = Math.Min(15, speed); // Forward speed is capped at 15 units/sec for non-swimming
                 }
@@ -465,7 +454,7 @@ namespace ZoneEngine
                 // NV: TODO: Verify this more. Especially with uber-low runspeeds (negative)
                 speed = -Math.Max(0, (effectiveRunSpeed * 0.0035) + 4);
 
-                if (this.moveMode != MoveMode.Swim)
+                if (this.moveMode != MoveModes.Swim)
                 {
                     speed = Math.Max(-15, speed); // Backwards speed is capped at 15 units/sec for non-swimming
                 }
@@ -480,9 +469,9 @@ namespace ZoneEngine
         /// <returns>Can move=true</returns>
         private bool canMove()
         {
-            if ((this.moveMode == MoveMode.Run) || (this.moveMode == MoveMode.Walk) || (this.moveMode == MoveMode.Swim)
-                || (this.moveMode == MoveMode.Crawl) || (this.moveMode == MoveMode.Sneak)
-                || (this.moveMode == MoveMode.Fly))
+            if ((this.moveMode == MoveModes.Run) || (this.moveMode == MoveModes.Walk) || (this.moveMode == MoveModes.Swim)
+                || (this.moveMode == MoveModes.Crawl) || (this.moveMode == MoveModes.Sneak)
+                || (this.moveMode == MoveModes.Fly))
             {
                 return true;
             }
@@ -500,8 +489,8 @@ namespace ZoneEngine
             int effectiveRunSpeed;
 
             // Note, you can not strafe while swimming or crawling
-            if ((this.strafeDirection == SpinOrStrafeDirection.None) || (this.moveMode == MoveMode.Swim)
-                || (this.moveMode == MoveMode.Crawl) || (!this.canMove()))
+            if ((this.strafeDirection == SpinOrStrafeDirections.None) || (this.moveMode == MoveModes.Swim)
+                || (this.moveMode == MoveModes.Crawl) || (!this.canMove()))
             {
                 return 0;
             }
@@ -511,7 +500,7 @@ namespace ZoneEngine
             // NV: TODO: Update this based off Forward runspeed when that is checked (strafe effective run speed = effective run speed / 2)
             speed = ((effectiveRunSpeed / 2) * 0.005) + 4;
 
-            if (this.strafeDirection == SpinOrStrafeDirection.Left)
+            if (this.strafeDirection == SpinOrStrafeDirections.Left)
             {
                 speed = -speed;
             }
@@ -586,7 +575,7 @@ namespace ZoneEngine
 
             turnTime = this.calculateTurnTime();
 
-            modifiedDuration = this.predictionDuration.TotalSeconds % turnTime;
+            modifiedDuration = this.PredictionDuration.TotalSeconds % turnTime;
 
             angle = 2 * Math.PI * modifiedDuration / turnTime;
 
@@ -600,7 +589,7 @@ namespace ZoneEngine
         {
             get
             {
-                if (this.spinDirection == SpinOrStrafeDirection.None)
+                if (this.spinDirection == SpinOrStrafeDirections.None)
                 {
                     return this.rawHeading;
                 }
@@ -621,90 +610,35 @@ namespace ZoneEngine
             }
         }
 
-        /// <summary>
-        /// Enumeration of Spin or Strafe directions
-        /// </summary>
-        public enum SpinOrStrafeDirection
-        {
-            None,
+        private SpinOrStrafeDirections spinDirection = SpinOrStrafeDirections.None;
 
-            Left,
+        private SpinOrStrafeDirections strafeDirection = SpinOrStrafeDirections.None;
 
-            Right
-        }
+        private MoveDirections moveDirection = MoveDirections.None;
 
-        /// <summary>
-        /// Enumeration of Move directions
-        /// </summary>
-        public enum MoveDirection
-        {
-            None,
+        private MoveModes moveMode = MoveModes.Run; // Run should be an appropriate default for now
 
-            Forwards,
-
-            Backwards
-        }
-
-        /// <summary>
-        /// Enumeration of Move modes
-        /// </summary>
-        public enum MoveMode
-        {
-            None,
-
-            Rooted,
-
-            Walk,
-
-            Run,
-
-            Swim,
-
-            Crawl,
-
-            Sneak,
-
-            Fly,
-
-            Sit,
-
-            SocialTemp, // NV: What is this again exactly?
-            Nothing,
-
-            Sleep,
-
-            Lounge
-        }
-
-        public SpinOrStrafeDirection spinDirection = SpinOrStrafeDirection.None;
-
-        public SpinOrStrafeDirection strafeDirection = SpinOrStrafeDirection.None;
-
-        public MoveDirection moveDirection = MoveDirection.None;
-
-        public MoveMode moveMode = MoveMode.Run; // Run should be an appropriate default for now
-
-        public MoveMode prevMoveMode = MoveMode.Run; // Run should be an appropriate default for now
+        private MoveModes previousMoveMode = MoveModes.Run; // Run should be an appropriate default for now
 
         /// <summary>
         /// Stop movement (before teleporting for example)
         /// </summary>
-        public void stopMovement()
+        public void StopMovement()
         {
             // This should be used to stop the interpolating and save last interpolated value of movement before teleporting
             this.rawCoord = this.Coordinates;
             this.rawHeading = this.Heading;
 
-            this.spinDirection = SpinOrStrafeDirection.None;
-            this.strafeDirection = SpinOrStrafeDirection.None;
-            this.moveDirection = MoveDirection.None;
+            this.spinDirection = SpinOrStrafeDirections.None;
+            this.strafeDirection = SpinOrStrafeDirections.None;
+            this.moveDirection = MoveDirections.None;
         }
 
         /// <summary>
         /// Update move type
         /// </summary>
         /// <param name="moveType">new move type</param>
-        public void updateMoveType(byte moveType)
+        public void UpdateMoveType(byte moveType)
         {
             this.predictionTime = DateTime.Now;
 
@@ -734,49 +668,49 @@ namespace ZoneEngine
             switch (moveType)
             {
                 case 1: // Forward Start
-                    this.moveDirection = MoveDirection.Forwards;
+                    this.moveDirection = MoveDirections.Forwards;
                     break;
                 case 2: // Forward Stop
-                    this.moveDirection = MoveDirection.None;
+                    this.moveDirection = MoveDirections.None;
                     break;
 
                 case 3: // Reverse Start
-                    this.moveDirection = MoveDirection.Backwards;
+                    this.moveDirection = MoveDirections.Backwards;
                     break;
                 case 4: // Reverse Stop
-                    this.moveDirection = MoveDirection.None;
+                    this.moveDirection = MoveDirections.None;
                     break;
 
                 case 5: // Strafe Right Start
-                    this.strafeDirection = SpinOrStrafeDirection.Right;
+                    this.strafeDirection = SpinOrStrafeDirections.Right;
                     break;
                 case 6: // Strafe Stop (Right)
-                    this.strafeDirection = SpinOrStrafeDirection.None;
+                    this.strafeDirection = SpinOrStrafeDirections.None;
                     break;
 
                 case 7: // Strafe Left Start
-                    this.strafeDirection = SpinOrStrafeDirection.Left;
+                    this.strafeDirection = SpinOrStrafeDirections.Left;
                     break;
                 case 8: // Strafe Stop (Left)
-                    this.strafeDirection = SpinOrStrafeDirection.None;
+                    this.strafeDirection = SpinOrStrafeDirections.None;
                     break;
 
                 case 9: // Turn Right Start
-                    this.spinDirection = SpinOrStrafeDirection.Right;
+                    this.spinDirection = SpinOrStrafeDirections.Right;
                     break;
                 case 10: // Mouse Turn Right Start
                     break;
                 case 11: // Turn Stop (Right)
-                    this.spinDirection = SpinOrStrafeDirection.None;
+                    this.spinDirection = SpinOrStrafeDirections.None;
                     break;
 
                 case 12: // Turn Left Start
-                    this.spinDirection = SpinOrStrafeDirection.Left;
+                    this.spinDirection = SpinOrStrafeDirections.Left;
                     break;
                 case 13: // Mouse Turn Left Start
                     break;
                 case 14: // Turn Stop (Left)
-                    this.spinDirection = SpinOrStrafeDirection.None;
+                    this.spinDirection = SpinOrStrafeDirections.None;
                     break;
 
                 case 15: // Jump Start
@@ -804,30 +738,30 @@ namespace ZoneEngine
                 case 23: // Switch To Frozen Mode
                     break;
                 case 24: // Switch To Walk Mode
-                    this.moveMode = MoveMode.Walk;
+                    this.moveMode = MoveModes.Walk;
                     break;
                 case 25: // Switch To Run Mode
-                    this.moveMode = MoveMode.Run;
+                    this.moveMode = MoveModes.Run;
                     break;
                 case 26: // Switch To Swim Mode
                     break;
                 case 27: // Switch To Crawl Mode
-                    this.prevMoveMode = this.moveMode;
-                    this.moveMode = MoveMode.Crawl;
+                    this.previousMoveMode = this.moveMode;
+                    this.moveMode = MoveModes.Crawl;
                     break;
                 case 28: // Switch To Sneak Mode
-                    this.prevMoveMode = this.moveMode;
-                    this.moveMode = MoveMode.Sneak;
+                    this.previousMoveMode = this.moveMode;
+                    this.moveMode = MoveModes.Sneak;
                     break;
                 case 29: // Switch To Fly Mode
                     break;
                 case 30: // Switch To Sit Ground Mode
-                    this.prevMoveMode = this.moveMode;
-                    this.moveMode = MoveMode.Sit;
-                    this.Stats.NanoDelta.CalcTrickle();
-                    this.Stats.HealDelta.CalcTrickle();
-                    this.Stats.NanoInterval.CalcTrickle();
-                    this.Stats.HealInterval.CalcTrickle();
+                    this.previousMoveMode = this.moveMode;
+                    this.moveMode = MoveModes.Sit;
+                    this.stats.NanoDelta.CalcTrickle();
+                    this.stats.HealDelta.CalcTrickle();
+                    this.stats.NanoInterval.CalcTrickle();
+                    this.stats.HealInterval.CalcTrickle();
                     break;
 
                 case 31: // ? 19 = 20 = 22 = 31 = 32
@@ -836,30 +770,30 @@ namespace ZoneEngine
                     break;
 
                 case 33: // Switch To Sleep Mode
-                    this.moveMode = MoveMode.Sleep;
+                    this.moveMode = MoveModes.Sleep;
                     break;
                 case 34: // Switch To Lounge Mode
-                    this.moveMode = MoveMode.Lounge;
+                    this.moveMode = MoveModes.Lounge;
                     break;
 
                 case 35: // Leave Swim Mode
                     break;
                 case 36: // Leave Sneak Mode
-                    this.moveMode = this.prevMoveMode;
+                    this.moveMode = this.previousMoveMode;
                     break;
                 case 37: // Leave Sit Mode
-                    this.moveMode = this.prevMoveMode;
-                    this.Stats.NanoDelta.CalcTrickle();
-                    this.Stats.HealDelta.CalcTrickle();
-                    this.Stats.NanoInterval.CalcTrickle();
-                    this.Stats.HealInterval.CalcTrickle();
+                    this.moveMode = this.previousMoveMode;
+                    this.stats.NanoDelta.CalcTrickle();
+                    this.stats.HealDelta.CalcTrickle();
+                    this.stats.NanoInterval.CalcTrickle();
+                    this.stats.HealInterval.CalcTrickle();
                     break;
                 case 38: // Leave Frozen Mode
                     break;
                 case 39: // Leave Fly Mode
                     break;
                 case 40: // Leave Crawl Mode
-                    this.moveMode = this.prevMoveMode;
+                    this.moveMode = this.previousMoveMode;
                     break;
                 case 41: // Leave Sleep Mode
                     break;
@@ -880,15 +814,15 @@ namespace ZoneEngine
         {
             get
             {
-                if ((this.moveDirection == MoveDirection.None) && (this.strafeDirection == SpinOrStrafeDirection.None))
+                if ((this.moveDirection == MoveDirections.None) && (this.strafeDirection == SpinOrStrafeDirections.None))
                 {
                     return this.rawCoord;
                 }
-                else if (this.spinDirection == SpinOrStrafeDirection.None)
+                else if (this.spinDirection == SpinOrStrafeDirections.None)
                 {
                     Vector3 moveVector = this.calculateMoveVector();
 
-                    moveVector = moveVector * this.predictionDuration.TotalSeconds;
+                    moveVector = moveVector * this.PredictionDuration.TotalSeconds;
 
                     return new AOCoord(this.rawCoord.coordinate + moveVector);
                 }
@@ -900,7 +834,7 @@ namespace ZoneEngine
                     double y;
                     double duration;
 
-                    duration = this.predictionDuration.TotalSeconds;
+                    duration = this.PredictionDuration.TotalSeconds;
 
                     moveVector = this.calculateMoveVector();
                     turnArcAngle = this.calculateTurnArcAngle();
@@ -908,7 +842,7 @@ namespace ZoneEngine
                     // This is calculated seperately as height is unaffected by turning
                     y = this.rawCoord.coordinate.y + (moveVector.y * duration);
 
-                    if (this.spinDirection == SpinOrStrafeDirection.Left)
+                    if (this.spinDirection == SpinOrStrafeDirections.Left)
                     {
                         positionFromCentreOfTurningCircle = new Vector3(moveVector.z, y, -moveVector.x);
                     }
@@ -927,6 +861,216 @@ namespace ZoneEngine
                 }
             }
         }
+
+        /// <summary>
+        /// Active Nanos list
+        /// </summary>
+        public List<AONano> ActiveNanos
+        {
+            get
+            {
+                return activeNanos;
+            }
+        }
+
+        /// <summary>
+        /// Active Timers list (HD/ND, Nano effect timers etc)
+        /// </summary>
+        public List<AOTimers> Timers
+        {
+            get
+            {
+                return timers;
+            }
+        }
+
+        /// <summary>
+        /// Uploaded Nanos list
+        /// </summary>
+        public List<AOUploadedNanos> UploadedNanos
+        {
+            get
+            {
+                return uploadedNanos;
+            }
+        }
+
+        /// <summary>
+        /// Bank inventory
+        /// </summary>
+        public List<AOItem> Bank
+        {
+            get
+            {
+                return bank;
+            }
+        }
+
+        /// <summary>
+        /// Parent client
+        /// </summary>
+        public Client Client
+        {
+            get
+            {
+                return this.client;
+            }
+            set
+            {
+                this.client = value;
+            }
+        }
+
+        /// <summary>
+        /// Caching Mesh layer structure
+        /// </summary>
+        public MeshLayers MeshLayer
+        {
+            get
+            {
+                return meshLayer;
+            }
+        }
+
+        /// <summary>
+        /// Caching Mesh layer for social tab items
+        /// </summary>
+        public MeshLayers SocialMeshLayer
+        {
+            get
+            {
+                return socialMeshLayer;
+            }
+        }
+
+        public bool[] WeaponsStored
+        {
+            get
+            {
+                return weaponsStored;
+            }
+        }
+
+        public bool[] ItemsStored
+        {
+            get
+            {
+                return itemsStored;
+            }
+        }
+
+        /// <summary>
+        /// Don't process timers when true, double use, stats aren't sent back to client(s) when true
+        /// </summary>
+        public bool DoNotDoTimers
+        {
+            get
+            {
+                return doNotDoTimers;
+            }
+            set
+            {
+                doNotDoTimers = value;
+            }
+        }
+
+        /// <summary>
+        /// Stats
+        /// </summary>
+        public CharacterStats Stats
+        {
+            get
+            {
+                return stats;
+            }
+            set
+            {
+                stats = value;
+            }
+        }
+
+        /// <summary>
+        /// Inventory list
+        /// </summary>
+        public List<InventoryEntries> Inventory
+        {
+            get
+            {
+                return inventory;
+            }
+        }
+
+        public MoveModes MoveMode
+        {
+            get
+            {
+                return moveMode;
+            }
+            set
+            {
+                moveMode = value;
+            }
+        }
+
+        public MoveModes PreviousMoveMode
+        {
+            get
+            {
+                return previousMoveMode;
+            }
+            set
+            {
+                previousMoveMode = value;
+            }
+        }
+
+        public MoveDirections MoveDirection
+        {
+            get
+            {
+                return moveDirection;
+            }
+            set
+            {
+                moveDirection = value;
+            }
+        }
+
+        public SpinOrStrafeDirections StrafeDirection
+        {
+            get
+            {
+                return strafeDirection;
+            }
+            set
+            {
+                strafeDirection = value;
+            }
+        }
+
+        public SpinOrStrafeDirections SpinDirection
+        {
+            get
+            {
+                return spinDirection;
+            }
+            set
+            {
+                spinDirection = value;
+            }
+        }
+
+        public bool NeedPurge
+        {
+            get
+            {
+                return needPurge;
+            }
+            set
+            {
+                needPurge = value;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -941,7 +1085,7 @@ namespace ZoneEngine
             {
                 try
                 {
-                    this.Stats.WriteStatstoSQL();
+                    this.stats.WriteStatstoSql();
                     return true;
                 }
                 catch
@@ -963,7 +1107,7 @@ namespace ZoneEngine
                 SqlWrapper Sql = new SqlWrapper();
                 DataTable dt =
                     Sql.ReadDatatable(
-                        "SELECT `Name`, `FirstName`, `LastName` FROM " + this.getSQLTablefromDynelType()
+                        "SELECT `Name`, `FirstName`, `LastName` FROM " + this.GetSqlTablefromDynelType()
                         + " WHERE ID = '" + this.ID + "' LIMIT 1");
                 if (dt.Rows.Count == 1)
                 {
@@ -975,7 +1119,7 @@ namespace ZoneEngine
                 // Read stat# 5 (Clan) - OrgID from character stats table
                 dt =
                     Sql.ReadDatatable(
-                        "SELECT `Value` FROM " + this.getSQLTablefromDynelType() + "_stats WHERE ID = " + this.ID
+                        "SELECT `Value` FROM " + this.GetSqlTablefromDynelType() + "_stats WHERE ID = " + this.ID
                         + " AND Stat = 5 LIMIT 1");
                 if (dt.Rows.Count == 1)
                 {
@@ -1008,7 +1152,7 @@ namespace ZoneEngine
             try
             {
                 Sql.SqlUpdate(
-                    "UPDATE " + this.getSQLTablefromDynelType() + " SET `Name` = '" + this.Name + "', `FirstName` = '"
+                    "UPDATE " + this.GetSqlTablefromDynelType() + " SET `Name` = '" + this.Name + "', `FirstName` = '"
                     + this.FirstName + "', `LastName` = '" + this.LastName + "' WHERE `ID` = " + "'" + this.ID + "'");
             }
             catch
@@ -1024,17 +1168,17 @@ namespace ZoneEngine
         /// Read inventory from database
         /// TODO: catch exceptions
         /// </summary>
-        public void readInventoryfromSQL()
+        public void ReadInventoryFromSql()
         {
-            lock (this.Inventory)
+            lock (this.inventory)
             {
                 SqlWrapper ms = new SqlWrapper();
                 {
                     InventoryEntries m_inv;
-                    this.Inventory.Clear();
+                    this.inventory.Clear();
                     DataTable dt =
                         ms.ReadDatatable(
-                            "SELECT * FROM " + this.getSQLTablefromDynelType() + "inventory WHERE ID="
+                            "SELECT * FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID="
                             + this.ID.ToString() + " AND container=104 ORDER BY placement ASC;");
                     if (dt.Rows.Count > 0)
                     {
@@ -1050,7 +1194,7 @@ namespace ZoneEngine
                             m_inv.Item.Type = (Int32)row["type"];
                             m_inv.Item.Instance = (Int32)row["instance"];
                             m_inv.Item.Flags = (Int32)row["flags"];
-                            this.Inventory.Add(m_inv);
+                            this.inventory.Add(m_inv);
                         }
                     }
                 }
@@ -1061,27 +1205,27 @@ namespace ZoneEngine
         /// Write inventory to database
         /// TODO: catch exceptions
         /// </summary>
-        public void writeInventorytoSQL()
+        public void WriteInventoryToSql()
         {
-            lock (this.Inventory)
+            lock (this.inventory)
             {
                 SqlWrapper ms = new SqlWrapper();
                 int count;
                 ms.SqlDelete(
-                    "DELETE FROM " + this.getSQLTablefromDynelType() + "inventory WHERE ID=" + this.ID.ToString()
+                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID=" + this.ID.ToString()
                     + " AND container=104;");
-                for (count = 0; count < this.Inventory.Count; count++)
+                for (count = 0; count < this.inventory.Count; count++)
                 {
-                    if (this.Inventory[count].Container != -1) // dont save possible trade leftovers
+                    if (this.inventory[count].Container != -1) // dont save possible trade leftovers
                     {
                         ms.SqlInsert(
-                            "INSERT INTO " + this.getSQLTablefromDynelType()
+                            "INSERT INTO " + this.GetSqlTablefromDynelType()
                             + "inventory (ID,placement,flags,multiplecount,lowid,highid,quality,container) values ("
-                            + this.ID.ToString() + "," + this.Inventory[count].Placement.ToString() + ",1,"
-                            + this.Inventory[count].Item.MultipleCount.ToString() + ","
-                            + this.Inventory[count].Item.LowID.ToString() + ","
-                            + this.Inventory[count].Item.HighID.ToString() + ","
-                            + this.Inventory[count].Item.Quality.ToString() + ",104);");
+                            + this.ID.ToString() + "," + this.inventory[count].Placement.ToString() + ",1,"
+                            + this.inventory[count].Item.MultipleCount.ToString() + ","
+                            + this.inventory[count].Item.LowID.ToString() + ","
+                            + this.inventory[count].Item.HighID.ToString() + ","
+                            + this.inventory[count].Item.Quality.ToString() + ",104);");
                     }
                 }
             }
@@ -1093,20 +1237,20 @@ namespace ZoneEngine
         /// <param name="packetWriter">packet writer</param>
         public void WriteInventoryToPacket(PacketWriter packetWriter)
         {
-            lock (this.Inventory)
+            lock (this.inventory)
             {
-                packetWriter.Push3F1Count(this.Inventory.Count);
+                packetWriter.Push3F1Count(this.inventory.Count);
                 int count;
-                for (count = 0; count < this.Inventory.Count; count++)
+                for (count = 0; count < this.inventory.Count; count++)
                 {
-                    packetWriter.PushInt(this.Inventory[count].Placement);
-                    packetWriter.PushShort((short)this.Inventory[count].Item.Flags);
-                    packetWriter.PushShort((short)this.Inventory[count].Item.MultipleCount);
-                    packetWriter.PushIdentity(this.Inventory[count].Item.Type, this.Inventory[count].Item.Instance);
-                    packetWriter.PushInt(this.Inventory[count].Item.LowID);
-                    packetWriter.PushInt(this.Inventory[count].Item.HighID);
-                    packetWriter.PushInt(this.Inventory[count].Item.Quality);
-                    packetWriter.PushInt(this.Inventory[count].Item.Nothing);
+                    packetWriter.PushInt(this.inventory[count].Placement);
+                    packetWriter.PushShort((short)this.inventory[count].Item.Flags);
+                    packetWriter.PushShort((short)this.inventory[count].Item.MultipleCount);
+                    packetWriter.PushIdentity(this.inventory[count].Item.Type, this.inventory[count].Item.Instance);
+                    packetWriter.PushInt(this.inventory[count].Item.LowID);
+                    packetWriter.PushInt(this.inventory[count].Item.HighID);
+                    packetWriter.PushInt(this.inventory[count].Item.Quality);
+                    packetWriter.PushInt(this.inventory[count].Item.Nothing);
                 }
             }
         }
@@ -1117,35 +1261,35 @@ namespace ZoneEngine
         /// Write timers to database
         /// TODO: catch exceptions
         /// </summary>
-        public void writeTimerstoSQL()
+        public void WriteTimersToSql()
         {
-            lock (this.Timers)
+            lock (this.timers)
             {
                 SqlWrapper ms = new SqlWrapper();
                 int count;
 
                 // remove HP and NP tick
-                count = this.Timers.Count;
+                count = this.timers.Count;
                 while (count > 0)
                 {
                     count--;
-                    if ((this.Timers[count].Strain == 0) || (this.Timers[count].Strain == 1))
+                    if ((this.timers[count].Strain == 0) || (this.timers[count].Strain == 1))
                     {
-                        this.Timers.RemoveAt(count);
+                        this.timers.RemoveAt(count);
                     }
                 }
 
-                ms.SqlDelete("DELETE FROM " + this.getSQLTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString());
+                ms.SqlDelete("DELETE FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString());
                 TimeSpan ts;
                 DateTime n = DateTime.Now;
 
-                for (count = 0; count < this.Timers.Count; count++)
+                for (count = 0; count < this.timers.Count; count++)
                 {
-                    ts = this.Timers[count].Timestamp - n;
+                    ts = this.timers[count].Timestamp - n;
                     ms.SqlInsert(
-                        "INSERT INTO " + this.getSQLTablefromDynelType() + "timers VALUES (" + this.ID.ToString() + ","
-                        + this.Timers[count].Strain + "," + this.Timers[count].Timestamp.Second.ToString() + ",X'"
-                        + this.Timers[count].Function.ToBlob() + "');");
+                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "timers VALUES (" + this.ID.ToString() + ","
+                        + this.timers[count].Strain + "," + this.timers[count].Timestamp.Second.ToString() + ",X'"
+                        + this.timers[count].Function.ToBlob() + "');");
                 }
             }
         }
@@ -1154,36 +1298,37 @@ namespace ZoneEngine
         /// Read timers from database
         /// TODO: catch exceptions
         /// </summary>
-        public void readTimersfromSQL()
+        public void ReadTimersFromSql()
         {
-            lock (this.Timers)
+            lock (this.timers)
             {
                 SqlWrapper ms = new SqlWrapper();
-                TimeSpan ts;
-                DateTime n = DateTime.Now;
-                AOTimers m_timer;
+                TimeSpan timeSpan;
+                DateTime now = DateTime.Now;
                 byte[] blob = new byte[10240];
-                this.Timers.Clear();
+                this.timers.Clear();
 
                 ms.SqlRead(
-                    "SELECT * FROM " + this.getSQLTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString() + ";");
+                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString() + ";");
                 DataTable dt =
                     ms.ReadDatatable(
-                        "SELECT * FROM " + this.getSQLTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString()
+                        "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString()
                         + ";");
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
                     {
-                        ts = TimeSpan.FromSeconds((Int32)row["timespan"]);
-                        m_timer = new AOTimers();
-                        m_timer.Timestamp = DateTime.Now + ts;
-                        m_timer.Strain = (Int32)row["strain"];
-                        m_timer.Function = new AOFunctions();
+                        timeSpan = TimeSpan.FromSeconds((Int32)row["timespan"]);
+                        AOTimers aoTimer = new AOTimers
+                            {
+                                Timestamp = DateTime.Now + timeSpan,
+                                Strain = (Int32)row["strain"],
+                                Function = new AOFunctions()
+                            };
                         MemoryStream memstream = new MemoryStream((byte[])row[3]);
                         BinaryFormatter bin = new BinaryFormatter();
 
-                        m_timer.Function = (AOFunctions)bin.Deserialize(memstream);
+                        aoTimer.Function = (AOFunctions)bin.Deserialize(memstream);
                     }
                 }
             }
@@ -1195,17 +1340,17 @@ namespace ZoneEngine
         /// Read nanos from database
         /// TODO: catch exceptions
         /// </summary>
-        public void readNanosfromSQL()
+        public void ReadNanosFromSql()
         {
-            lock (this.ActiveNanos)
+            lock (this.activeNanos)
             {
-                SqlWrapper ms = new SqlWrapper();
+                SqlWrapper sqlWrapper = new SqlWrapper();
                 {
                     AONano m_an;
 
                     DataTable dt =
-                        ms.ReadDatatable(
-                            "SELECT * FROM " + this.getSQLTablefromDynelType() + "activenanos WHERE ID="
+                        sqlWrapper.ReadDatatable(
+                            "SELECT * FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID="
                             + this.ID.ToString());
                     if (dt.Rows.Count > 0)
                     {
@@ -1214,7 +1359,7 @@ namespace ZoneEngine
                             m_an = new AONano();
                             m_an.ID = (Int32)row["nanoID"];
                             m_an.NanoStrain = (Int32)row["strain"];
-                            this.ActiveNanos.Add(m_an);
+                            this.activeNanos.Add(m_an);
                         }
                     }
                 }
@@ -1225,21 +1370,21 @@ namespace ZoneEngine
         /// Write nanos to database
         /// TODO: catch exceptions
         /// </summary>
-        public void writeNanostoSQL()
+        public void WriteNanosToSql()
         {
-            lock (this.ActiveNanos)
+            lock (this.activeNanos)
             {
-                SqlWrapper ms = new SqlWrapper();
+                SqlWrapper sqlWrapper = new SqlWrapper();
                 int count;
 
-                ms.SqlDelete(
-                    "DELETE FROM " + this.getSQLTablefromDynelType() + "activenanos WHERE ID=" + this.ID.ToString());
-                for (count = 0; count < this.ActiveNanos.Count; count++)
+                sqlWrapper.SqlDelete(
+                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID=" + this.ID.ToString());
+                for (count = 0; count < this.activeNanos.Count; count++)
                 {
-                    ms.SqlInsert(
-                        "INSERT INTO " + this.getSQLTablefromDynelType() + "activenanos VALUES (" + this.ID.ToString()
-                        + "," + this.ActiveNanos[count].ID.ToString() + ","
-                        + this.ActiveNanos[count].NanoStrain.ToString() + ")");
+                    sqlWrapper.SqlInsert(
+                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "activenanos VALUES (" + this.ID.ToString()
+                        + "," + this.activeNanos[count].ID.ToString() + ","
+                        + this.activeNanos[count].NanoStrain.ToString() + ")");
                 }
             }
         }
@@ -1268,7 +1413,7 @@ namespace ZoneEngine
                     }
                     counter++;
                 }
-                foreach (AOTimers t in this.Timers)
+                foreach (AOTimers t in this.timers)
                 {
                     if (t.Strain == -1)
                     {
@@ -1281,10 +1426,10 @@ namespace ZoneEngine
                 // Todo: another packet has to be sent, defining how to hold the weapon
                 if (it.ItemType == Constants.itemtype_Weapon)
                 {
-                    this.Stats.WeaponsStyle.Value |= it.GetWeaponStyle();
+                    this.stats.WeaponsStyle.Value |= it.GetWeaponStyle();
                     if (tosocialtab)
                     {
-                        this.Stats.WeaponsStyle.Value = it.GetWeaponStyle();
+                        this.stats.WeaponsStyle.Value = it.GetWeaponStyle();
                     }
 
                     counter = 0;
@@ -1304,13 +1449,13 @@ namespace ZoneEngine
                         {
                             if (location == 6)
                             {
-                                this.Stats.WeaponMeshRight.Set((uint)it.Stats[f].Value); // Weaponmesh
-                                this.MeshLayer.AddMesh(1, it.Stats[f].Value, 0, 4);
+                                this.stats.WeaponMeshRight.Set((uint)it.Stats[f].Value); // Weaponmesh
+                                this.meshLayer.AddMesh(1, it.Stats[f].Value, 0, 4);
                             }
                             else
                             {
-                                this.Stats.WeaponMeshLeft.Set((uint)it.Stats[f].Value); // Weaponmesh
-                                this.MeshLayer.AddMesh(2, it.Stats[f].Value, 0, 4);
+                                this.stats.WeaponMeshLeft.Set((uint)it.Stats[f].Value); // Weaponmesh
+                                this.meshLayer.AddMesh(2, it.Stats[f].Value, 0, 4);
                             }
                         }
                         else
@@ -1325,7 +1470,7 @@ namespace ZoneEngine
                                 {
                                     this.SocialTab.Add(1006, it.Stats[f].Value);
                                 }
-                                this.SocialMeshLayer.AddMesh(1, it.Stats[f].Value, 0, 4);
+                                this.socialMeshLayer.AddMesh(1, it.Stats[f].Value, 0, 4);
                             }
                             else
                             {
@@ -1337,7 +1482,7 @@ namespace ZoneEngine
                                 {
                                     this.SocialTab.Add(1007, it.Stats[f].Value);
                                 }
-                                this.SocialMeshLayer.AddMesh(2, it.Stats[f].Value, 0, 4);
+                                this.socialMeshLayer.AddMesh(2, it.Stats[f].Value, 0, 4);
                             }
                         }
                     }
@@ -1380,10 +1525,10 @@ namespace ZoneEngine
                 // Todo: another packet has to be sent, defining how to hold the weapon
                 if (it.ItemType == Constants.itemtype_Weapon)
                 {
-                    this.Stats.WeaponsStyle.Value |= it.GetWeaponStyle();
+                    this.stats.WeaponsStyle.Value |= it.GetWeaponStyle();
                     if (tosocialtab)
                     {
-                        this.Stats.WeaponsStyle.Value = it.GetWeaponStyle();
+                        this.stats.WeaponsStyle.Value = it.GetWeaponStyle();
                     }
 
                     counter = 0;
@@ -1403,13 +1548,13 @@ namespace ZoneEngine
                         {
                             if (location == 6)
                             {
-                                this.Stats.WeaponMeshRight.Set((uint)it.Stats[f].Value); // Weaponmesh
-                                this.MeshLayer.AddMesh(1, it.Stats[f].Value, 0, 4);
+                                this.stats.WeaponMeshRight.Set((uint)it.Stats[f].Value); // Weaponmesh
+                                this.meshLayer.AddMesh(1, it.Stats[f].Value, 0, 4);
                             }
                             else
                             {
-                                this.Stats.WeaponMeshLeft.Set((uint)it.Stats[f].Value); // Weaponmesh
-                                this.MeshLayer.AddMesh(2, it.Stats[f].Value, 0, 4);
+                                this.stats.WeaponMeshLeft.Set((uint)it.Stats[f].Value); // Weaponmesh
+                                this.meshLayer.AddMesh(2, it.Stats[f].Value, 0, 4);
                             }
                         }
                         else
@@ -1424,7 +1569,7 @@ namespace ZoneEngine
                                 {
                                     this.SocialTab.Add(1006, it.Stats[f].Value);
                                 }
-                                this.SocialMeshLayer.AddMesh(1, it.Stats[f].Value, 0, 4);
+                                this.socialMeshLayer.AddMesh(1, it.Stats[f].Value, 0, 4);
                             }
                             else
                             {
@@ -1436,7 +1581,7 @@ namespace ZoneEngine
                                 {
                                     this.SocialTab.Add(1007, it.Stats[f].Value);
                                 }
-                                this.SocialMeshLayer.AddMesh(2, it.Stats[f].Value, 0, 4);
+                                this.socialMeshLayer.AddMesh(2, it.Stats[f].Value, 0, 4);
                             }
                         }
                     }
@@ -1515,37 +1660,37 @@ namespace ZoneEngine
         /// TODO: catch exceptions
         /// </summary>
         /// <param name="cli">Client</param>
-        /// <param name="_from">From location</param>
-        /// <param name="_to">To location</param>
-        public void switchItems(Client cli, int _from, int _to)
+        /// <param name="fromPlacement">From location</param>
+        /// <param name="toPlacement">To location</param>
+        public void SwitchItems(int fromPlacement, int toPlacement)
         {
-            lock (cli)
+            lock (this)
             {
                 SqlWrapper mySql = new SqlWrapper();
-                InventoryEntries afrom = this.getInventoryAt(_from);
-                InventoryEntries ato = this.getInventoryAt(_to);
+                InventoryEntries afrom = this.GetInventoryAt(fromPlacement);
+                InventoryEntries ato = this.GetInventoryAt(toPlacement);
                 if (afrom != null)
                 {
-                    afrom.Placement = _to;
+                    afrom.Placement = toPlacement;
                 }
                 if (ato != null)
                 {
-                    ato.Placement = _from;
+                    ato.Placement = fromPlacement;
                 }
 
                 mySql.SqlUpdate(
-                    "UPDATE " + this.getSQLTablefromDynelType() + "inventory SET placement=255 where (ID="
-                    + cli.Character.ID.ToString() + ") AND (placement=" + _from.ToString() + ")");
+                    "UPDATE " + this.GetSqlTablefromDynelType() + "inventory SET placement=255 where (ID="
+                    + ID.ToString() + ") AND (placement=" + fromPlacement.ToString() + ")");
                 mySql.SqlUpdate(
-                    "UPDATE " + this.getSQLTablefromDynelType() + "inventory SET placement=" + _from.ToString()
-                    + " where (ID=" + cli.Character.ID.ToString() + ") AND (placement=" + _to.ToString() + ")");
+                    "UPDATE " + this.GetSqlTablefromDynelType() + "inventory SET placement=" + fromPlacement.ToString()
+                    + " where (ID=" + ID.ToString() + ") AND (placement=" + toPlacement.ToString() + ")");
                 mySql.SqlUpdate(
-                    "UPDATE " + this.getSQLTablefromDynelType() + "inventory SET placement=" + _to.ToString()
-                    + " where (ID=" + cli.Character.ID.ToString() + ") AND (placement=255)");
+                    "UPDATE " + this.GetSqlTablefromDynelType() + "inventory SET placement=" + toPlacement.ToString()
+                    + " where (ID=" + ID.ToString() + ") AND (placement=255)");
             }
 
             // If its a switch from or to equipment pages then recalculate the skill modifiers
-            if ((_from < 64) || (_to < 64))
+            if ((fromPlacement < 64) || (toPlacement < 64))
             {
                 this.CalculateSkills();
             }
@@ -1556,21 +1701,20 @@ namespace ZoneEngine
         /// <summary>
         /// Transfer Item to bank account
         /// </summary>
-        /// <param name="_from">from inventory location</param>
-        /// <param name="_to">to bank location</param>
-        public void TransferItemtoBank(int _from, int _to)
+        /// <param name="fromPlacement">from inventory location</param>
+        /// <param name="toPlacement">to bank location</param>
+        public void TransferItemtoBank(int fromPlacement, int toPlacement)
         {
             lock (this)
             {
-                InventoryEntries afrom = this.getInventoryAt(_from);
+                InventoryEntries afrom = this.GetInventoryAt(fromPlacement);
 
-                AOItem tobank = new AOItem();
-                tobank = afrom.Item.ShallowCopy();
-                tobank.Flags = this.GetNextFreeInventory(0x69);
-                this.Inventory.Remove(afrom);
-                this.Bank.Add(tobank);
-                this.writeBankContentstoSQL();
-                this.writeInventorytoSQL();
+                AOItem toBank = afrom.Item.ShallowCopy();
+                toBank.Flags = this.GetNextFreeInventory(0x69);
+                this.inventory.Remove(afrom);
+                this.bank.Add(toBank);
+                this.WriteBankContentsToSql();
+                this.WriteInventoryToSql();
             }
         }
         #endregion
@@ -1579,41 +1723,41 @@ namespace ZoneEngine
         /// <summary>
         /// Transfer item from bank account to inventory
         /// </summary>
-        /// <param name="_from">from bank location</param>
-        /// <param name="_to">to inventory location</param>
-        public void TransferItemfromBank(int _from, int _to)
+        /// <param name="fromPlacement">from bank location</param>
+        /// <param name="toPlacement">to inventory location</param>
+        public void TransferItemfromBank(int fromPlacement, int toPlacement)
         {
             lock (this)
             {
                 int placement = this.GetNextFreeInventory(0x68);
 
-                AOItem tempitem = null;
-                foreach (AOItem aoi in this.Bank)
+                AOItem tempItem = null;
+                foreach (AOItem item in this.bank)
                 {
-                    if (aoi.Flags == _from)
+                    if (item.Flags == fromPlacement)
                     {
-                        tempitem = aoi;
+                        tempItem = item;
                         break;
                     }
                 }
-                if (tempitem == null)
+                if (tempItem == null)
                 {
                     Console.WriteLine("Not valid item...");
                     return;
                 }
 
                 InventoryEntries mi = new InventoryEntries();
-                AOItem it = ItemHandler.GetItemTemplate(tempitem.LowID);
+                AOItem it = ItemHandler.GetItemTemplate(tempItem.LowID);
                 mi.Placement = placement;
                 mi.Container = 104;
-                mi.Item.LowID = tempitem.LowID;
-                mi.Item.HighID = tempitem.HighID;
-                mi.Item.Quality = tempitem.Quality;
-                mi.Item.MultipleCount = Math.Max(1, tempitem.MultipleCount);
-                this.Inventory.Add(mi);
-                this.Bank.Remove(tempitem);
-                this.writeBankContentstoSQL();
-                this.writeInventorytoSQL();
+                mi.Item.LowID = tempItem.LowID;
+                mi.Item.HighID = tempItem.HighID;
+                mi.Item.Quality = tempItem.Quality;
+                mi.Item.MultipleCount = Math.Max(1, tempItem.MultipleCount);
+                this.inventory.Add(mi);
+                this.bank.Remove(tempItem);
+                this.WriteBankContentsToSql();
+                this.WriteInventoryToSql();
             }
         }
         #endregion
@@ -1639,13 +1783,13 @@ namespace ZoneEngine
                 int c;
                 int c2;
                 int c3;
-                int oldhealth = this.Stats.Health.Value;
-                int oldnano = this.Stats.CurrentNano.Value;
+                int oldhealth = this.stats.Health.Value;
+                int oldnano = this.stats.CurrentNano.Value;
                 AOItem m_item;
 
-                this.SocialMeshLayer = new MeshLayers();
+                this.socialMeshLayer = new MeshLayers();
                 this.Textures = new List<AOTextures>();
-                this.MeshLayer = new MeshLayers();
+                this.meshLayer = new MeshLayers();
                 this.SocialTab = new Dictionary<int, int>();
                 this.SocialTab.Add(0, 0);
                 this.SocialTab.Add(1, 0);
@@ -1661,18 +1805,18 @@ namespace ZoneEngine
                 this.SocialTab.Add(1007, 0);
 
                 // Clear Modifiers (adds and percentages)
-                this.Stats.ClearModifiers();
-                this.MeshLayer.AddMesh(0, this.Stats.HeadMesh.Value, 0, 4);
-                this.SocialMeshLayer.AddMesh(0, this.Stats.HeadMesh.Value, 0, 4);
+                this.stats.ClearModifiers();
+                this.meshLayer.AddMesh(0, this.stats.HeadMesh.Value, 0, 4);
+                this.socialMeshLayer.AddMesh(0, this.stats.HeadMesh.Value, 0, 4);
 
                 // Apply all modifying item functions to localstats
-                for (c = 0; c < this.Inventory.Count; c++)
+                for (c = 0; c < this.inventory.Count; c++)
                 {
                     // only process items in the equipment pages (<64)
-                    if (this.Inventory[c].Placement < 64)
+                    if (this.inventory[c].Placement < 64)
                     {
                         m_item = ItemHandler.interpolate(
-                            this.Inventory[c].Item.LowID, this.Inventory[c].Item.HighID, this.Inventory[c].Item.Quality);
+                            this.inventory[c].Item.LowID, this.inventory[c].Item.HighID, this.inventory[c].Item.Quality);
                         for (c2 = 0; c2 < m_item.Events.Count; c2++)
                         {
                             if (m_item.Events[c2].EventType == Constants.eventtype_onwear)
@@ -1682,7 +1826,7 @@ namespace ZoneEngine
                                     if (this.CheckRequirements(this, m_item.Events[c2].Functions[c3], false))
                                     {
                                         AOFunctions aof_withparams = m_item.Events[c2].Functions[c3].ShallowCopy();
-                                        aof_withparams.Arguments.Add(this.Inventory[c].Placement);
+                                        aof_withparams.Arguments.Add(this.inventory[c].Placement);
                                         Program.FunctionC.CallFunction(
                                             aof_withparams.FunctionType,
                                             this,
@@ -1704,28 +1848,28 @@ namespace ZoneEngine
                 }
 
                 // Adding nano skill effects
-                for (c = 0; c < this.ActiveNanos.Count; c++)
+                for (c = 0; c < this.activeNanos.Count; c++)
                 {
                     // TODO: Nanohandler, similar to Itemhandler
                     // and calling the skill/attribute modifying functions
                 }
 
                 // Calculating the trickledown
-                this.Stats.Strength.AffectStats();
-                this.Stats.Agility.AffectStats();
-                this.Stats.Stamina.AffectStats();
-                this.Stats.Intelligence.AffectStats();
-                this.Stats.Sense.AffectStats();
-                this.Stats.Psychic.AffectStats();
+                this.stats.Strength.AffectStats();
+                this.stats.Agility.AffectStats();
+                this.stats.Stamina.AffectStats();
+                this.stats.Intelligence.AffectStats();
+                this.stats.Sense.AffectStats();
+                this.stats.Psychic.AffectStats();
 
-                this.Stats.Health.StatBaseValue = this.Stats.Health.GetMaxValue((uint)oldhealth);
-                this.Stats.CurrentNano.StatBaseValue = this.Stats.CurrentNano.GetMaxValue((uint)oldnano);
+                this.stats.Health.StatBaseValue = this.stats.Health.GetMaxValue((uint)oldhealth);
+                this.stats.CurrentNano.StatBaseValue = this.stats.CurrentNano.GetMaxValue((uint)oldnano);
             }
         }
         #endregion
 
         #region Purge
-        public bool needpurge = true;
+        private bool needPurge = true;
 
         /// <summary>
         /// Write data to database when purging character object
@@ -1734,17 +1878,17 @@ namespace ZoneEngine
         {
             lock (this)
             {
-                if ((this.ID != 0) && (this.needpurge))
+                if ((this.ID != 0) && (this.needPurge))
                 {
-                    this.needpurge = false;
+                    this.needPurge = false;
 
-                    this.WriteCoordinatesToSQL();
-                    this.WriteHeadingToSQL();
+                    this.WriteCoordinatesToSql();
+                    this.WriteHeadingToSql();
                     this.WriteStats();
-                    this.writeNanostoSQL();
-                    this.writeInventorytoSQL();
-                    this.writeTimerstoSQL();
-                    this.writeUploadedNanostoSQL();
+                    this.WriteNanosToSql();
+                    this.WriteInventoryToSql();
+                    this.WriteTimersToSql();
+                    this.WriteUploadedNanosToSql();
                     if (this.KnuBotTarget != null)
                     {
                         ((NonPlayerCharacterClass)this.KnuBotTarget).KnuBot.TalkingTo = null;
@@ -1772,7 +1916,7 @@ namespace ZoneEngine
         /// <returns>Location number</returns>
         public int GetNextFreeInventory(int container)
         {
-            lock (this.Inventory)
+            lock (this.inventory)
             {
                 int c = 0;
                 if (container == 104)
@@ -1786,7 +1930,7 @@ namespace ZoneEngine
                     while (!foundfreeslot)
                     {
                         foundfreeslot = true;
-                        foreach (AOItem i in this.Bank)
+                        foreach (AOItem i in this.bank)
                         {
                             if (i.Flags == c)
                             {
@@ -1804,7 +1948,7 @@ namespace ZoneEngine
                     while (!foundfreeslot)
                     {
                         foundfreeslot = true;
-                        foreach (InventoryEntries i in this.Inventory)
+                        foreach (InventoryEntries i in this.inventory)
                         {
                             if (i.Placement == c)
                             {
@@ -1832,11 +1976,11 @@ namespace ZoneEngine
         /// </summary>
         /// <param name="place">Location</param>
         /// <returns>InventoryEntry</returns>
-        public InventoryEntries getInventoryAt(int place)
+        public InventoryEntries GetInventoryAt(int place)
         {
-            lock (this.Inventory)
+            lock (this.inventory)
             {
-                foreach (InventoryEntries i in this.Inventory)
+                foreach (InventoryEntries i in this.inventory)
                 {
                     if (i.Placement == place)
                     {
@@ -1847,11 +1991,11 @@ namespace ZoneEngine
             }
         }
 
-        public InventoryEntries getInventoryAt(int place, int container)
+        public InventoryEntries GetInventoryAt(int place, int container)
         {
-            lock (this.Inventory)
+            lock (this.inventory)
             {
-                foreach (InventoryEntries i in this.Inventory)
+                foreach (InventoryEntries i in this.inventory)
                 {
                     if ((i.Placement == place) && (i.Container == container))
                     {
@@ -1867,31 +2011,31 @@ namespace ZoneEngine
         /// <summary>
         /// Upload a nano
         /// </summary>
-        /// <param name="_id">Nano-ID</param>
-        public void UploadNano(int _id)
+        /// <param name="nanoId">Nano-ID</param>
+        public void UploadNano(int nanoId)
         {
-            lock (this.UploadedNanos)
+            lock (this.uploadedNanos)
             {
-                AOUploadedNanos au = new AOUploadedNanos();
-                au.Nano = _id;
-                this.UploadedNanos.Remove(au); // In case its in already :)
-                this.UploadedNanos.Add(au);
+                AOUploadedNanos au = new AOUploadedNanos { Nano = nanoId };
+                this.uploadedNanos.Remove(au); // In case its in already :)
+                this.uploadedNanos.Add(au);
             }
+            WriteUploadedNanosToSql();
         }
 
         /// <summary>
         /// Write uploaded nanos to database
         /// TODO: catch exceptions
         /// </summary>
-        public void writeUploadedNanostoSQL()
+        public void WriteUploadedNanosToSql()
         {
-            lock (this.UploadedNanos)
+            lock (this.uploadedNanos)
             {
-                foreach (AOUploadedNanos au in this.UploadedNanos)
+                foreach (AOUploadedNanos au in this.uploadedNanos)
                 {
-                    SqlWrapper Sql = new SqlWrapper();
-                    Sql.SqlInsert(
-                        "REPLACE INTO " + this.getSQLTablefromDynelType() + "uploadednanos VALUES ("
+                    SqlWrapper sqlWrapper = new SqlWrapper();
+                    sqlWrapper.SqlInsert(
+                        "REPLACE INTO " + this.GetSqlTablefromDynelType() + "uploadednanos VALUES ("
                         + this.ID.ToString() + "," + au.Nano.ToString() + ")");
                 }
             }
@@ -1901,23 +2045,22 @@ namespace ZoneEngine
         /// Read uploaded nanos from database
         /// TODO: catch exceptions
         /// </summary>
-        public void readUploadedNanosfromSQL()
+        public void ReadUploadedNanosFromSql()
         {
-            lock (this.UploadedNanos)
+            lock (this.uploadedNanos)
             {
-                this.UploadedNanos.Clear();
+                this.uploadedNanos.Clear();
                 SqlWrapper Sql = new SqlWrapper();
                 DataTable dt =
                     Sql.ReadDatatable(
-                        "SELECT nano FROM " + this.getSQLTablefromDynelType() + "uploadednanos WHERE ID="
+                        "SELECT nano FROM " + this.GetSqlTablefromDynelType() + "uploadednanos WHERE ID="
                         + this.ID.ToString());
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
                     {
-                        AOUploadedNanos au = new AOUploadedNanos();
-                        au.Nano = (Int32)row["Nano"];
-                        this.UploadedNanos.Add(au);
+                        AOUploadedNanos au = new AOUploadedNanos { Nano = (Int32)row["Nano"] };
+                        this.uploadedNanos.Add(au);
                     }
                 }
             }
@@ -1928,12 +2071,12 @@ namespace ZoneEngine
         /// <summary>
         /// Initialize HP and NP timers (HD/ND ticks)
         /// </summary>
-        public void addHPNPtick()
+        public void AddHpnpTick()
         {
-            lock (this.Timers)
+            lock (this.timers)
             {
-                this.Stats.HealInterval.CalcTrickle();
-                this.Stats.NanoInterval.CalcTrickle();
+                this.stats.HealInterval.CalcTrickle();
+                this.stats.NanoInterval.CalcTrickle();
                 AOTimers at = new AOTimers();
                 at.Strain = -1;
                 at.Timestamp = DateTime.Now + TimeSpan.FromMilliseconds(100);
@@ -1941,7 +2084,7 @@ namespace ZoneEngine
                 at.Function.TickCount = -2;
                 at.Function.TickInterval = 100;
                 at.Function.FunctionType = 1; // MAIN stat send timer
-                this.Timers.Add(at);
+                this.timers.Add(at);
                 /*
                 PurgeTimer(0);
                 PurgeTimer(1);
@@ -1973,7 +2116,7 @@ namespace ZoneEngine
         /// Set target
         /// </summary>
         /// <param name="packet">data packet</param>
-        public void setTarget(byte[] packet)
+        public void SetTarget(byte[] packet)
         {
             lock (this)
             {
@@ -1994,12 +2137,12 @@ namespace ZoneEngine
         /// <param name="ie"></param>
         public void InventoryReplaceAdd(InventoryEntries ie)
         {
-            lock (this.Inventory)
+            lock (this.inventory)
             {
                 AOItem it = ItemHandler.GetItemTemplate(ie.Item.LowID);
                 //            if (it.isStackable())
                 {
-                    foreach (InventoryEntries ia in this.Inventory)
+                    foreach (InventoryEntries ia in this.inventory)
                     {
                         if ((ia.Item.LowID == ie.Item.LowID) && (ia.Item.HighID == ie.Item.HighID)
                             && (ia.Container == -1))
@@ -2007,13 +2150,13 @@ namespace ZoneEngine
                             ia.Item.MultipleCount += ie.Item.MultipleCount;
                             if (ia.Item.MultipleCount == 0)
                             {
-                                this.Inventory.Remove(ia);
+                                this.inventory.Remove(ia);
                             }
                             return;
                         }
                     }
                 }
-                this.Inventory.Add(ie);
+                this.inventory.Add(ie);
             }
         }
         #endregion
@@ -2023,12 +2166,12 @@ namespace ZoneEngine
         /// Read bank account from database
         /// TODO: catch exceptions
         /// </summary>
-        public void readBankContentsfromSQL()
+        public void ReadBankContentsFromSql()
         {
-            lock (this.Bank)
+            lock (this.bank)
             {
                 SqlWrapper ms = new SqlWrapper();
-                this.Bank.Clear();
+                this.bank.Clear();
                 DataTable dt =
                     ms.ReadDatatable("SELECT * FROM bank WHERE charID=" + this.ID.ToString() + " ORDER BY InventoryID ASC");
                 if (dt.Rows.Count > 0)
@@ -2054,7 +2197,7 @@ namespace ZoneEngine
                             counter += 8;
                             item.Stats.Add(tempItemAttribute);
                         }
-                        this.Bank.Add(item);
+                        this.bank.Add(item);
                     }
                 }
             }
@@ -2079,54 +2222,57 @@ namespace ZoneEngine
         /// Write bank contents to database
         /// TODO: catch exceptions
         /// </summary>
-        public void writeBankContentstoSQL()
+        public void WriteBankContentsToSql()
         {
-            SqlWrapper ms = new SqlWrapper();
-            ms.SqlDelete("DELETE FROM bank WHERE charID=" + this.ID.ToString());
-            foreach (AOItem temp in this.Bank)
+            lock (this.bank)
             {
-                string insert = "INSERT INTO bank VALUES(" + this.ID.ToString() + "," + temp.Flags.ToString() + ","
-                                + temp.LowID.ToString() + "," + temp.HighID.ToString() + ","
-                                + temp.MultipleCount.ToString() + "," + temp.Quality.ToString() + ","
-                                + temp.Type.ToString() + "," + temp.Instance.ToString() + ",X'";
-                foreach (AOItemAttribute tempattr in temp.Stats)
+                SqlWrapper sqlWrapper = new SqlWrapper();
+                sqlWrapper.SqlDelete("DELETE FROM bank WHERE charID=" + this.ID.ToString());
+                foreach (AOItem item in this.bank)
                 {
-                    insert = insert + this.reverseString(tempattr.Stat.ToString("X8"))
-                             + this.reverseString(tempattr.Stat.ToString("X8"));
+                    string insert = "INSERT INTO bank VALUES(" + this.ID.ToString() + "," + item.Flags.ToString() + ","
+                                    + item.LowID.ToString() + "," + item.HighID.ToString() + ","
+                                    + item.MultipleCount.ToString() + "," + item.Quality.ToString() + ","
+                                    + item.Type.ToString() + "," + item.Instance.ToString() + ",X'";
+                    foreach (AOItemAttribute tempattr in item.Stats)
+                    {
+                        insert = insert + this.reverseString(tempattr.Stat.ToString("X8"))
+                                 + this.reverseString(tempattr.Stat.ToString("X8"));
+                    }
+                    insert = insert + "');";
+                    sqlWrapper.SqlInsert(insert);
                 }
-                insert = insert + "');";
-                ms.SqlInsert(insert);
             }
         }
         #endregion
 
-        #region ReadSpecialStatsfromSQL
+        #region ReadSpecialStatsfromSql
         /// <summary>
         /// Read special stats (GM, Account, Expansions etc)
         /// TODO: catch exceptions
         /// </summary>
-        public void ReadSpecialStatsfromSQL()
+        public void ReadSpecialStatsFromSql()
         {
             lock (this)
             {
-                SqlWrapper sql = new SqlWrapper();
+                SqlWrapper sqlWrapper = new SqlWrapper();
                 DataTable dt =
-                    sql.ReadDatatable(
+                    sqlWrapper.ReadDatatable(
                         "SELECT `ID`, `Expansions`, `AccountFlags`, `GM` FROM `login` WHERE `Username` = (SELECT `Username` FROM `characters` WHERE `ID` = "
                         + this.ID + ");");
                 if (dt.Rows.Count > 0)
                 {
                     // Stat 607 is PlayerID
-                    this.Stats.SetBaseValue(607, (UInt32)(Int32)dt.Rows[0][0]);
+                    this.stats.SetBaseValue(607, (UInt32)(Int32)dt.Rows[0][0]);
 
                     // Stat 389 is Expansion
-                    this.Stats.SetBaseValue(389, UInt32.Parse((string)dt.Rows[0][1]));
+                    this.stats.SetBaseValue(389, UInt32.Parse((string)dt.Rows[0][1]));
 
                     // Stat 660 is AccountFlags
-                    this.Stats.SetBaseValue(660, (UInt32)(Int32)dt.Rows[0][2]);
+                    this.stats.SetBaseValue(660, (UInt32)(Int32)dt.Rows[0][2]);
 
                     // Stat 215 is GmLevel
-                    this.Stats.SetBaseValue(215, (UInt32)(Int32)dt.Rows[0][3]);
+                    this.stats.SetBaseValue(215, (UInt32)(Int32)dt.Rows[0][3]);
                 }
             }
         }
@@ -2140,13 +2286,12 @@ namespace ZoneEngine
         {
             lock (this)
             {
-                AOItem it;
-                foreach (InventoryEntries ie in this.Inventory)
+                foreach (InventoryEntries ie in this.inventory)
                 {
                     if (ie.Placement < 64) // only process equipped items 
                     {
-                        it = ItemHandler.interpolate(ie.Item.LowID, ie.Item.HighID, ie.Item.Quality);
-                        this.FakeEquipItem(it, this, ie.Placement >= 48, ie.Placement);
+                        AOItem item = ItemHandler.interpolate(ie.Item.LowID, ie.Item.HighID, ie.Item.Quality);
+                        this.FakeEquipItem(item, this, ie.Placement >= 48, ie.Placement);
                     }
                 }
             }
@@ -2235,58 +2380,54 @@ namespace ZoneEngine
         /// </summary>
         public void CalculateNextXP()
         {
-            int level = this.Stats.Level.Value;
-            int ailevel = this.Stats.AlienLevel.Value;
+            int level = this.stats.Level.Value;
+            int ailevel = this.stats.AlienLevel.Value;
 
             double needaixp = Program.zoneServer.XPproLevel.tableAIXP[ailevel, 2];
-            this.Stats.AlienNextXp.StatBaseValue = Convert.ToUInt32(needaixp);
+            this.stats.AlienNextXp.StatBaseValue = Convert.ToUInt32(needaixp);
 
             if (level < 200) //we get XP
             {
                 double needrkxp = Program.zoneServer.XPproLevel.tableRKXP[level - 1, 2];
-                this.Stats.NextXp.StatBaseValue = Convert.ToUInt32(needrkxp);
+                this.stats.NextXp.StatBaseValue = Convert.ToUInt32(needrkxp);
             }
             if (level > 199) //we get SK
             {
                 level -= 200;
                 double needslsk = Program.zoneServer.XPproLevel.tableSLSK[level, 2];
-                this.Stats.NextSk.StatBaseValue = Convert.ToUInt32(needslsk);
+                this.stats.NextSk.StatBaseValue = Convert.ToUInt32(needslsk);
             }
         }
         #endregion
 
         #region Get Characters Target
-        public Character GetTarget()
+        public Character TargetCharacter()
         {
             return (Character)FindDynel.FindDynelByID(this.Target.Type, this.Target.Instance);
         }
         #endregion
 
         #region Get Characters fighting target
-        public Character GetFightingTarget()
+        public Character FightingCharacter()
         {
             return (Character)FindDynel.FindDynelByID(this.FightingTarget.Type, this.FightingTarget.Instance);
         }
         #endregion
 
         #region Requirement Check
-        public bool CheckRequirements(Character ch, AOFunctions aof, bool CheckAll)
+        public bool CheckRequirements(Character ch, AOFunctions aof, bool checkAll)
         {
             Character reqtarget = null;
-            bool reqs_met = true;
-            int childop = -1; // Starting value
-            bool foundCharRelated = false;
-            if ((aof.FunctionType == Constants.functiontype_hairmesh)
-                || (aof.FunctionType == Constants.functiontype_backmesh)
-                || (aof.FunctionType == Constants.functiontype_texture)
-                || (aof.FunctionType == Constants.functiontype_attractormesh)
-                || (aof.FunctionType == Constants.functiontype_catmesh)
-                || (aof.FunctionType == Constants.functiontype_changebodymesh)
-                || (aof.FunctionType == Constants.functiontype_shouldermesh)
-                || (aof.FunctionType == Constants.functiontype_headmesh)) // I hope i got them all
-            {
-                foundCharRelated = true;
-            }
+            bool requirementsMet = true;
+            int childOperator = -1; // Starting value
+            bool foundCharRelated = (aof.FunctionType == Constants.functiontype_hairmesh)
+                                    || (aof.FunctionType == Constants.functiontype_backmesh)
+                                    || (aof.FunctionType == Constants.functiontype_texture)
+                                    || (aof.FunctionType == Constants.functiontype_attractormesh)
+                                    || (aof.FunctionType == Constants.functiontype_catmesh)
+                                    || (aof.FunctionType == Constants.functiontype_changebodymesh)
+                                    || (aof.FunctionType == Constants.functiontype_shouldermesh)
+                                    || (aof.FunctionType == Constants.functiontype_headmesh);
 
             foreach (AORequirements aor in aof.Requirements)
             {
@@ -2309,12 +2450,12 @@ namespace ZoneEngine
                         }
                     case Constants.itemtarget_fightingtarget:
                         {
-                            reqtarget = ch.GetFightingTarget();
+                            reqtarget = ch.FightingCharacter();
                             break;
                         }
                     case Constants.itemtarget_selectedtarget:
                         {
-                            reqtarget = ch.GetTarget();
+                            reqtarget = ch.TargetCharacter();
                             break;
                         }
                     case Constants.itemtarget_self:
@@ -2335,7 +2476,7 @@ namespace ZoneEngine
                     // Target not found, cant check reqs -> FALSE
                 }
 
-                int statval = reqtarget.Stats.Get(aor.Statnumber);
+                int statval = reqtarget.stats.Get(aor.Statnumber);
                 bool reqresult = true;
                 switch (aor.Operator)
                 {
@@ -2398,42 +2539,42 @@ namespace ZoneEngine
                         }
                 }
 
-                switch (childop)
+                switch (childOperator)
                 {
                     case Constants.operator_and:
                         {
-                            reqs_met &= reqresult;
+                            requirementsMet &= reqresult;
                             break;
                         }
                     case Constants.operator_or:
                         {
-                            reqs_met &= reqresult;
+                            requirementsMet &= reqresult;
                             break;
                         }
                     case -1:
                         {
-                            reqs_met = reqresult;
+                            requirementsMet = reqresult;
                             break;
                         }
                     default:
                         break;
                 }
-                childop = aor.ChildOperator;
+                childOperator = aor.ChildOperator;
             }
 
-            if (!CheckAll)
+            if (!checkAll)
             {
                 if (foundCharRelated)
                 {
-                    reqs_met &= foundCharRelated;
+                    requirementsMet &= foundCharRelated;
                 }
                 else
                 {
-                    reqs_met = true;
+                    requirementsMet = true;
                 }
             }
 
-            return reqs_met;
+            return requirementsMet;
         }
         #endregion
 
@@ -2495,13 +2636,13 @@ namespace ZoneEngine
         #endregion
 
         #region ReApply Inventory
-        public void ReEquip()
+        public void REApplyEquip()
         {
             // Prevent server to send values back to client, its just recalculating here
-            this.dontdotimers = true;
+            this.doNotDoTimers = true;
 
             // Clear all stat modifiers/Percentagemodifiers
-            foreach (ClassStat cs in this.Stats.All)
+            foreach (ClassStat cs in this.stats.All)
             {
                 cs.StatModifier = 0;
                 cs.StatPercentageModifier = 100;
@@ -2519,8 +2660,63 @@ namespace ZoneEngine
             ie.Container = 0x68;
             ie.Item = item.ShallowCopy();
             ie.Placement = nextfreespot;
-            this.Inventory.Add(ie);
+            this.inventory.Add(ie);
         }
         #endregion
     }
+    /// <summary>
+    /// Enumeration of Spin or Strafe directions
+    /// </summary>
+    public enum SpinOrStrafeDirections
+    {
+        None,
+
+        Left,
+
+        Right
+    }
+
+    /// <summary>
+    /// Enumeration of Move directions
+    /// </summary>
+    public enum MoveDirections
+    {
+        None,
+
+        Forwards,
+
+        Backwards
+    }
+
+    /// <summary>
+    /// Enumeration of Move modes
+    /// </summary>
+    public enum MoveModes
+    {
+        None,
+
+        Rooted,
+
+        Walk,
+
+        Run,
+
+        Swim,
+
+        Crawl,
+
+        Sneak,
+
+        Fly,
+
+        Sit,
+
+        SocialTemp, // NV: What is this again exactly?
+        Nothing,
+
+        Sleep,
+
+        Lounge
+    }
+
 }

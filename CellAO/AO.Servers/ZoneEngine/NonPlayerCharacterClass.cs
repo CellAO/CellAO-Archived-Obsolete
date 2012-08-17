@@ -82,9 +82,9 @@ namespace ZoneEngine
             this.AdditionalMeshs = new List<AOAddMeshs>();
             this.Weaponpairs = new List<AOWeaponpairs>();
             this.Stats = new CharacterStats(this);
-            this.startup = false;
-            this.addHPNPtick();
-            this.dontdotimers = false;
+            this.Starting = false;
+            this.AddHpnpTick();
+            this.DoNotDoTimers = false;
         }
 
         public NonPlayerCharacterClass()
@@ -96,14 +96,14 @@ namespace ZoneEngine
         /// Read waypoints from database
         /// TODO: catch exceptions
         /// </summary>
-        public void readWaypointsfromSQL()
+        public void readWaypointsfromSql()
         {
             SqlWrapper ms = new SqlWrapper();
             AOCoord m_wp;
 
             DataTable dt =
                 ms.ReadDatatable(
-                    "SELECT * FROM " + this.getSQLTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString());
+                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString());
 
             foreach (DataRow row in dt.Rows)
             {
@@ -116,17 +116,17 @@ namespace ZoneEngine
         /// Write waypoints to database
         /// TODO: catch exceptions, replace the string formats with something more convenient
         /// </summary>
-        public void writeWaypointstoSQL()
+        public void writeWaypointstoSql()
         {
             SqlWrapper ms = new SqlWrapper();
             int count;
 
-            ms.SqlDelete("DELETE FROM " + this.getSQLTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString());
+            ms.SqlDelete("DELETE FROM " + this.GetSqlTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString());
 
             for (count = 0; count < this.Waypoints.Count; count++)
             {
                 ms.SqlInsert(
-                    "INSERT INTO " + this.getSQLTablefromDynelType() + "waypoints VALUES (" + this.ID.ToString() + ","
+                    "INSERT INTO " + this.GetSqlTablefromDynelType() + "waypoints VALUES (" + this.ID.ToString() + ","
                     + this.PlayField.ToString() + ","
                     + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Waypoints[count].x) + ","
                     + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Waypoints[count].y) + ","
@@ -143,17 +143,17 @@ namespace ZoneEngine
         /// Write weaponpairs to database
         /// TODO: catch exceptions
         /// </summary>
-        public void WriteWeaponpairstoSQL()
+        public void WriteWeaponpairstoSql()
         {
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
                 + " AND playfield=" + this.PlayField.ToString() + ";");
             int c;
             for (c = 0; c < this.Weaponpairs.Count; c++)
             {
                 Sql.SqlInsert(
-                    "INSERT INTO " + this.getSQLTablefromDynelType() + "weaponpairs VALUES (" + this.ID.ToString() + ","
+                    "INSERT INTO " + this.GetSqlTablefromDynelType() + "weaponpairs VALUES (" + this.ID.ToString() + ","
                     + this.PlayField.ToString() + "," + this.Weaponpairs[c].value1.ToString() + ","
                     + this.Weaponpairs[c].value2.ToString() + "," + this.Weaponpairs[c].value3.ToString() + ","
                     + this.Weaponpairs[c].value4.ToString() + ");");
@@ -164,14 +164,14 @@ namespace ZoneEngine
         /// Read weaponpairs from database
         /// TODO: catch exceptions
         /// </summary>
-        public void readWeaponpairsfromSQL()
+        public void readWeaponpairsfromSql()
         {
             AOWeaponpairs m_wp;
             SqlWrapper Sql = new SqlWrapper();
             this.Weaponpairs.Clear();
             DataTable dt =
                 Sql.ReadDatatable(
-                    "SELECT * FROM " + this.getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
+                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
                     + " AND playfield=" + this.PlayField.ToString());
 
             foreach (DataRow row in dt.Rows)
@@ -191,17 +191,17 @@ namespace ZoneEngine
         /// Write meshs to database
         /// TODO: catch exceptions
         /// </summary>
-        public void writeMeshstoSQL()
+        public void writeMeshstoSql()
         {
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             int c;
             for (c = 0; c < this.Meshs.Count; c++)
             {
                 Sql.SqlInsert(
-                    "INSERT INTO " + this.getSQLTablefromDynelType() + "meshs VALUES (" + this.ID.ToString() + ","
+                    "INSERT INTO " + this.GetSqlTablefromDynelType() + "meshs VALUES (" + this.ID.ToString() + ","
                     + this.PlayField.ToString() + "," + this.Meshs[c].Position.ToString() + ","
                     + this.Meshs[c].Mesh.ToString() + "," + this.Meshs[c].OverrideTexture.ToString() + ")");
             }
@@ -211,14 +211,14 @@ namespace ZoneEngine
         /// Read meshs from database
         /// TODO: catch exceptions
         /// </summary>
-        public void readMeshsfromSQL()
+        public void readMeshsfromSql()
         {
             SqlWrapper Sql = new SqlWrapper();
             this.Meshs.Clear();
             AOMeshs m_m;
             DataTable dt =
                 Sql.ReadDatatable(
-                    "SELECT * from " + this.getSQLTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
+                    "SELECT * from " + this.GetSqlTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
                     + " AND playfield=" + this.PlayField.ToString());
 
             foreach (DataRow row in dt.Rows)
@@ -231,14 +231,14 @@ namespace ZoneEngine
         }
         #endregion
 
-        #region Write Main Stats to SQL
+        #region Write Main Stats to Sql
         /// <summary>
         /// Write main stats to database
         /// TODO: catch exceptions, maybe change this thing to REPLACE INTO
         /// </summary>
-        public void writeMainStatstoSQL()
+        public void writeMainStatstoSql()
         {
-            string sqlquery = "UPDATE " + this.getSQLTablefromDynelType() + " SET Name='" + AddSlashes(this.Name) + "'";
+            string sqlquery = "UPDATE " + this.GetSqlTablefromDynelType() + " SET Name='" + AddSlashes(this.Name) + "'";
             foreach (AOTextures at in this.Textures)
             {
                 sqlquery += ",Textures" + at.place.ToString() + "=" + at.Texture.ToString();
@@ -258,18 +258,18 @@ namespace ZoneEngine
         {
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlInsert(
-                "INSERT INTO " + this.getSQLTablefromDynelType() + " (ID, Playfield) VALUES (" + this.ID.ToString()
+                "INSERT INTO " + this.GetSqlTablefromDynelType() + " (ID, Playfield) VALUES (" + this.ID.ToString()
                 + "," + this.PlayField.ToString() + ")");
-            this.writeCoordinatestoSQL();
-            this.WriteHeadingToSQL();
-            this.writeMainStatstoSQL();
+            this.WriteCoordinatesToSql();
+            this.WriteHeadingToSql();
+            this.writeMainStatstoSql();
 
             this.WriteStats();
-            this.writeInventorytoSQL();
-            this.writeNanostoSQL();
-            this.writeWaypointstoSQL();
-            this.WriteWeaponpairstoSQL();
-            this.writeMeshstoSQL();
+            this.WriteInventoryToSql();
+            this.WriteNanosToSql();
+            this.writeWaypointstoSql();
+            this.WriteWeaponpairstoSql();
+            this.writeMeshstoSql();
         }
         #endregion
 
@@ -292,28 +292,28 @@ namespace ZoneEngine
         {
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + " AND playfield="
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + " AND playfield="
                 + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + "inventory WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID=" + this.ID.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + "activenanos WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID=" + this.ID.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.getSQLTablefromDynelType() + "_stats WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "_stats WHERE ID=" + this.ID.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
         }
         #endregion
@@ -360,29 +360,12 @@ namespace ZoneEngine
         }
         #endregion
 
-        #region WriteCoordinatestoSQL
-        /// <summary>
-        /// Write NPC coordinates to database
-        /// TODO: catch exceptions, replace string.formats
-        /// </summary>
-        public new void writeCoordinatestoSQL()
-        {
-            SqlWrapper Sql = new SqlWrapper();
-            Sql.SqlUpdate(
-                "UPDATE " + this.getSQLTablefromDynelType() + " SET playfield=" + this.PlayField.ToString() + ", X="
-                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.x) + ", Y="
-                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.y) + ", Z="
-                + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.z) + " WHERE ID="
-                + this.ID.ToString() + ";");
-        }
-        #endregion
-
-        #region readTexturesfromSQL
+        #region readTexturesfromSql
         // New one with id AND playfield as filter
         /// <summary>
         /// Read NPC textures from database
         /// </summary>
-        public new void readTexturesfromSQL()
+        public new void readTexturesfromSql()
         {
             SqlWrapper ms = new SqlWrapper();
             AOTextures m_tex;
@@ -391,7 +374,7 @@ namespace ZoneEngine
             DataTable dt =
                 ms.ReadDatatable(
                     "SELECT textures0, textures1, textures2, textures3, textures4 from "
-                    + this.getSQLTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + " AND playfield="
+                    + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + " AND playfield="
                     + this.PlayField.ToString());
             if (dt.Rows.Count > 0)
             {
@@ -413,13 +396,13 @@ namespace ZoneEngine
         }
         #endregion
 
-        #region readTexturesfromSQLfast
+        #region readTexturesfromSqlfast
         // New one with id AND playfield as filter
         /// <summary>
         /// Read textures from database row
         /// </summary>
         /// <param name="row">database row</param>
-        public void readTexturesfromSQLfast(DataRow row)
+        public void readTexturesfromSqlfast(DataRow row)
         {
             this.Textures.Clear();
             AOTextures m_tex;
@@ -471,7 +454,7 @@ namespace ZoneEngine
             DataTable dt = ms.ReadDatatable("SELECT * FROM mobtemplate where hash='" + hash + "'");
             if (dt.Rows.Count > 0)
             {
-                this.startup = true;
+                this.Starting = true;
                 level = (UInt32)Math.Min(Math.Max(level, (Int32)dt.Rows[0]["MinLvl"]), (Int32)dt.Rows[0]["MaxLvl"]);
                 this.Stats.Level.Set(level);
                 this.Stats.Side.Set((Int32)dt.Rows[0]["Side"]);
@@ -502,7 +485,7 @@ namespace ZoneEngine
 
                 m_t = new AOTextures(4, (Int32)dt.Rows[0]["TextureLegs"]);
                 this.Textures.Add(m_t);
-                this.startup = false;
+                this.Starting = false;
             }
         }
         #endregion
@@ -515,7 +498,7 @@ namespace ZoneEngine
         public void AddWaypoint(AOCoord coord)
         {
             this.Waypoints.Add(coord);
-            this.writeWaypointstoSQL();
+            this.writeWaypointstoSql();
         }
         #endregion
 
@@ -560,7 +543,7 @@ namespace ZoneEngine
         }
         #endregion
 
-        #region readInventoryfromSQLfast
+        #region readInventoryfromSqlfast
         /// <summary>
         /// Read NPC's inventory from datable object
         /// TODO: actually READ ;)
@@ -568,7 +551,7 @@ namespace ZoneEngine
         /// <param name="dt">Datatable object</param>
         /// <param name="startcount">start at row</param>
         /// <returns></returns>
-        public int readInventoryfromSQLfast(DataTable dt, int startcount)
+        public int readInventoryfromSqlfast(DataTable dt, int startcount)
         {
             int count = startcount;
             while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.ID))

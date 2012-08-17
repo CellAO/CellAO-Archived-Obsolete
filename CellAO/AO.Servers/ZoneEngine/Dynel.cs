@@ -120,7 +120,7 @@ namespace ZoneEngine
         /// <summary>
         /// Startup flag, true while Dynel is in 'creation' or 'loading' mode
         /// </summary>
-        public bool startup = true;
+        public bool Starting = true;
 
         //        public AOKnuBot KnuBot;     // TODO: Create a proper class for KnuBot contents
 
@@ -152,10 +152,10 @@ namespace ZoneEngine
         }
 
         /// <summary>
-        /// Get SQL Table prefix
+        /// Get Sql Table prefix
         /// </summary>
         /// <returns>Prefix of the table we want to read or write</returns>
-        public string getSQLTablefromDynelType()
+        public string GetSqlTablefromDynelType()
         {
             /// maybe we should do this as a List, then new classes could self-register their tables
             switch (this.ourType)
@@ -243,9 +243,9 @@ namespace ZoneEngine
         }
 
         /// <summary>
-        /// Read Coordinates from SQL Table
+        /// Read Coordinates from Sql Table
         /// </summary>
-        public void ReadCoordsFromSQL()
+        public void ReadCoordsFromSql()
         {
             SqlWrapper ms = new SqlWrapper();
 
@@ -253,9 +253,9 @@ namespace ZoneEngine
             {
                 return;
             }
-            string SQLTable = this.getSQLTablefromDynelType();
+            string SqlTable = this.GetSqlTablefromDynelType();
             DataTable dt =
-                ms.ReadDatatable("SELECT Playfield, X,Y,Z from " + SQLTable + " WHERE ID=" + this.ID.ToString() + ";");
+                ms.ReadDatatable("SELECT Playfield, X,Y,Z from " + SqlTable + " WHERE ID=" + this.ID.ToString() + ";");
 
             if (dt.Rows.Count > 0)
             {
@@ -276,14 +276,14 @@ namespace ZoneEngine
         }
 
         /// <summary>
-        /// Write Coordinates to SQL Table
+        /// Write Coordinates to Sql Table
         /// </summary>
-        public void WriteCoordinatesToSQL()
+        public virtual void WriteCoordinatesToSql()
         {
             SqlWrapper ms = new SqlWrapper();
 
             ms.SqlUpdate(
-                "UPDATE " + this.getSQLTablefromDynelType() + " SET playfield=" + this.PlayField.ToString() + ", X="
+                "UPDATE " + this.GetSqlTablefromDynelType() + " SET playfield=" + this.PlayField.ToString() + ", X="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.x) + ", Y="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.y) + ", Z="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.z) + " WHERE ID="
@@ -305,9 +305,9 @@ namespace ZoneEngine
         }
 
         /// <summary>
-        /// Read Heading from SQL Table
+        /// Read Heading from Sql Table
         /// </summary>
-        public void ReadHeadingFromSQL()
+        public void ReadHeadingFromSql()
         {
             SqlWrapper ms = new SqlWrapper();
 
@@ -315,10 +315,10 @@ namespace ZoneEngine
             {
                 return;
             }
-            string SQLTable = this.getSQLTablefromDynelType();
+            string SqlTable = this.GetSqlTablefromDynelType();
             DataTable dt =
                 ms.ReadDatatable(
-                    "SELECT HeadingX,HeadingY,HeadingZ,HeadingW from " + SQLTable + " WHERE ID=" + this.ID.ToString()
+                    "SELECT HeadingX,HeadingY,HeadingZ,HeadingW from " + SqlTable + " WHERE ID=" + this.ID.ToString()
                     + ";");
 
             if (dt.Rows.Count > 0)
@@ -343,13 +343,13 @@ namespace ZoneEngine
         }
 
         /// <summary>
-        /// Write Heading to SQL Table
+        /// Write Heading to Sql Table
         /// </summary>
-        public void WriteHeadingToSQL()
+        public void WriteHeadingToSql()
         {
             SqlWrapper ms = new SqlWrapper();
             ms.SqlUpdate(
-                "UPDATE " + this.getSQLTablefromDynelType() + " SET HeadingX="
+                "UPDATE " + this.GetSqlTablefromDynelType() + " SET HeadingX="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.x) + ", HeadingY="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.y) + ", HeadingZ="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.z) + ", HeadingW="
@@ -375,9 +375,9 @@ namespace ZoneEngine
         }
 
         /// <summary>
-        /// Read Textures from SQL Table
+        /// Read Textures from Sql Table
         /// </summary>
-        public void ReadTexturesFromSQL()
+        public void ReadTexturesFromSql()
         {
             SqlWrapper ms = new SqlWrapper();
             AOTextures textures;
@@ -386,7 +386,7 @@ namespace ZoneEngine
             DataTable dt =
                 ms.ReadDatatable(
                     "SELECT textures0, textures1, textures2, textures3, textures4 from "
-                    + this.getSQLTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + ";");
+                    + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + ";");
             if (dt.Rows.Count > 0)
             {
                 textures = new AOTextures(0, (Int32)dt.Rows[0][0]);
@@ -423,9 +423,9 @@ namespace ZoneEngine
         }
 
         /// <summary>
-        /// Write Textures to SQL Table
+        /// Write Textures to Sql Table
         /// </summary>
-        public void WriteTexturesToSQL()
+        public void WriteTexturesToSql()
         {
             SqlWrapper ms = new SqlWrapper();
             int count;
@@ -440,7 +440,7 @@ namespace ZoneEngine
                 }
             }
             ms.SqlUpdate(
-                "UPDATE " + this.getSQLTablefromDynelType() + " SET " + upd + " WHERE ID=" + this.ID.ToString() + ";");
+                "UPDATE " + this.GetSqlTablefromDynelType() + " SET " + upd + " WHERE ID=" + this.ID.ToString() + ";");
         }
         #endregion
 

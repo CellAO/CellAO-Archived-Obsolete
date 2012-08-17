@@ -64,7 +64,7 @@ namespace ZoneEngine.Functions
 
         public bool FunctionExecute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
         {
-            Client cli = ((Character)Self).client;
+            Client cli = ((Character)Self).Client;
             Quaternion q = new Quaternion(0, 1, 0, 0);
             AOCoord a = new AOCoord();
             Int32 pf;

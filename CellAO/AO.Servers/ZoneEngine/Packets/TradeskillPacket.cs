@@ -51,10 +51,10 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(0);
             packetWriter.PushByte(0);
             byte[] pack = packetWriter.Finish();
-            character.client.SendCompressed(pack);
+            character.Client.SendCompressed(pack);
         }
 
-        public static void SendRequirement(Character character, Tradeskill.SkillInfo skillInfo)
+        public static void SendRequirement(Character character, TradeSkillSkillInfo tradeSkillSkillInfo)
         {
             PacketWriter packetWriter = new PacketWriter();
 
@@ -72,12 +72,12 @@ namespace ZoneEngine.Packets
             packetWriter.PushInt(0);
             packetWriter.PushInt(0);
             packetWriter.PushInt(0);
-            packetWriter.PushInt(skillInfo.Skill);
-            packetWriter.PushInt(skillInfo.Requirement);
+            packetWriter.PushInt(tradeSkillSkillInfo.Skill);
+            packetWriter.PushInt(tradeSkillSkillInfo.Requirement);
             packetWriter.PushByte(0);
             packetWriter.PushByte(0);
             byte[] packet = packetWriter.Finish();
-            character.client.SendCompressed(packet);
+            character.Client.SendCompressed(packet);
         }
 
         public static void SendSource(Character character, int count)
@@ -103,7 +103,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(0);
             packetWriter.PushByte(0);
             byte[] packet = packetWriter.Finish();
-            character.client.SendCompressed(packet);
+            character.Client.SendCompressed(packet);
         }
 
         public static void SendTarget(Character character, int count)
@@ -129,7 +129,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(0);
             packetWriter.PushByte(0);
             byte[] packet = packetWriter.Finish();
-            character.client.SendCompressed(packet);
+            character.Client.SendCompressed(packet);
         }
 
         public static void SendOutOfRange(Character character, int min)
@@ -155,7 +155,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(0);
             packetWriter.PushByte(0);
             byte[] packet = packetWriter.Finish();
-            character.client.SendCompressed(packet);
+            character.Client.SendCompressed(packet);
         }
 
         public static void SendNotTradeskill(Character character)
@@ -181,7 +181,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(0);
             packetWriter.PushByte(0);
             byte[] packet = packetWriter.Finish();
-            character.client.SendCompressed(packet);
+            character.Client.SendCompressed(packet);
         }
     }
 }

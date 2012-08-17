@@ -53,11 +53,11 @@ namespace ZoneEngine.ChatCommands
                     {
                         for (int i = 2; i < args.Length; i++)
                         {
-                            if (filter != "")
+                            if (filter.Length > 0)
                             {
                                 filter = filter + " AND ";
                             }
-                            if (filter == "")
+                            if (filter.Length == 0)
                             {
                                 filter = "WHERE ";
                             }

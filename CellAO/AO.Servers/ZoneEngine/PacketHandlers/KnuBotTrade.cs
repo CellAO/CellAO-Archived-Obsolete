@@ -44,7 +44,7 @@ namespace ZoneEngine.PacketHandlers
             Identity identity = packetReader.PopIdentity();
 
             NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(identity.Type, identity.Instance);
-            Character character = FindClient.FindClientByID(header.Sender).Character;
+            Character character = FindClient.FindClientById(header.Sender).Character;
 
             packetReader.PopInt();
             packetReader.PopInt();
@@ -52,7 +52,7 @@ namespace ZoneEngine.PacketHandlers
             int container = packetReader.PopInt();
             int place = packetReader.PopInt();
 
-            InventoryEntries ie = character.getInventoryAt(place);
+            InventoryEntries ie = character.GetInventoryAt(place);
             AOItem aoi = ie.Item.ShallowCopy();
             character.Inventory.Remove(ie); // Silent remove, no message given to client. Client handles this on its own
             npc.KnuBotTrade(character, aoi);

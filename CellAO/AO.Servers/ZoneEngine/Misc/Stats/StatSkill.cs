@@ -56,7 +56,7 @@ namespace ZoneEngine.Misc
                          + senseTrickle * characterStats.Sense.Value + agilityTrickle * characterStats.Agility.Value
                          + intelligenceTrickle * characterStats.Intelligence.Value + psychicTrickle * characterStats.Psychic.Value) / 4));
 
-            if (!this.Parent.startup)
+            if (!this.Parent.Starting)
             {
                 this.AffectStats();
             }

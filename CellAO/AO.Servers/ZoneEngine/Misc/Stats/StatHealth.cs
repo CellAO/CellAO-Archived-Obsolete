@@ -91,7 +91,7 @@ namespace ZoneEngine.Misc
 
                 //ch.Stats.Health.StatBaseValue = (UInt32)Math.Min(ch.Stats.Health.Value, StatBaseValue);
             }
-            if (!this.Parent.startup)
+            if (!this.Parent.Starting)
             {
                 this.AffectStats();
             }
