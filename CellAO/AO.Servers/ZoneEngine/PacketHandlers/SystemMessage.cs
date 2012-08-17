@@ -47,7 +47,7 @@ namespace ZoneEngine.PacketHandlers
         /// <param name="client"></param>
         /// <param name="packet"></param>
         /// <param name="messageNumber"></param>
-        public void Parse(Client client, ref byte[] packet, int messageNumber)
+        public void Parse(Client client, byte[] packet, int messageNumber)
         {
             switch (messageNumber)
             {
@@ -59,11 +59,11 @@ namespace ZoneEngine.PacketHandlers
                                 0xDF, 0xDF, 0x7F, 0x00, 0x00, 0x01, 0x00, 0x10, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                                 0x00
                             };
-                        client.Send(ref connected);
+                        client.Send(connected);
 
                         // and off we go to ClientConnected
-                        ClientConnected tmp_ClientConnected = new ClientConnected();
-                        tmp_ClientConnected.Read(ref packet, client);
+                        ClientConnected tmpClientConnected = new ClientConnected();
+                        tmpClientConnected.Read(packet, client);
                     }
                     break;
                 default:

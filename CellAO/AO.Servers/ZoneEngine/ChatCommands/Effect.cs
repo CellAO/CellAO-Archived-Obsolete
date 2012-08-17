@@ -77,7 +77,7 @@ namespace ZoneEngine.ChatCommands
             packet.PushIdentity(50000, client.Character.ID);
             byte[] reply = packet.Finish();
             //done creating the packet
-            Announce.Playfield(client.Character.PlayField, ref reply);
+            Announce.Playfield(client.Character.PlayField, reply);
         }
 
         public override void CommandHelp(Client client)

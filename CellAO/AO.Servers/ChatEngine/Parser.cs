@@ -94,7 +94,7 @@ namespace ChatEngine
                     new ChannelDataSet().Read(client, packet);
                     break;
                 case 65:
-                    ChannelMessage.Read(client, ref packet);
+                    ChannelMessage.Read(client, packet);
                     break;
                 case 66:
                     new ChannelMode().Read(client, packet);
@@ -107,7 +107,7 @@ namespace ChatEngine
                 case 100:
 
                     // Ping
-                    client.Send(ref packet);
+                    client.Send(packet);
                     break;
                 case 110:
                     break;

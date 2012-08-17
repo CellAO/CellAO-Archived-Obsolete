@@ -39,54 +39,54 @@ namespace ZoneEngine.PacketHandlers
         /// </summary>
         /// <param name="packet"></param>
         /// <param name="client"></param>
-        public static void Read(ref byte[] packet, Client client, Dynel dyn)
+        public static void Read(byte[] packet, Client client, Dynel dynel)
         {
-            PacketWriter _writer = new PacketWriter();
-            PacketReader _reader = new PacketReader(ref packet);
+            PacketWriter packetWriter = new PacketWriter();
+            PacketReader packetReader = new PacketReader(packet);
 
-            Header header = _reader.PopHeader();
-            byte unknown1 = _reader.PopByte();
-            byte unknown2 = _reader.PopByte();
-            Identity tofollow = _reader.PopIdentity();
-            int unknown3 = _reader.PopInt();
-            int unknown4 = _reader.PopInt();
-            int unknown5 = _reader.PopInt();
-            int unknown6 = _reader.PopInt();
-            byte unknown7 = _reader.PopByte();
-            _reader.Finish();
+            Header header = packetReader.PopHeader();
+            byte unknown1 = packetReader.PopByte();
+            byte unknown2 = packetReader.PopByte();
+            Identity tofollow = packetReader.PopIdentity();
+            int unknown3 = packetReader.PopInt();
+            int unknown4 = packetReader.PopInt();
+            int unknown5 = packetReader.PopInt();
+            int unknown6 = packetReader.PopInt();
+            byte unknown7 = packetReader.PopByte();
+            packetReader.Finish();
 
             /* start of packet */
-            _writer.PushByte(0xDF);
-            _writer.PushByte(0xDF);
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushByte(0xDF);
             /* packet type */
-            _writer.PushShort(10);
+            packetWriter.PushShort(10);
             /* unknown */
-            _writer.PushShort(1);
+            packetWriter.PushShort(1);
             /* packet length (writer takes care of this) */
-            _writer.PushShort(0);
+            packetWriter.PushShort(0);
             /* server ID */
-            _writer.PushInt(3086);
+            packetWriter.PushInt(3086);
             // Announcer takes care of ID's
-            _writer.PushInt(0);
+            packetWriter.PushInt(0);
             /* packet ID */
-            _writer.PushInt(0x260f3671);
+            packetWriter.PushInt(0x260f3671);
             /* affected dynel identity */
-            _writer.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushIdentity(50000, client.Character.ID);
             /* ? */
-            _writer.PushByte(0);
+            packetWriter.PushByte(0);
             /* movement type */
-            _writer.PushByte(unknown2);
+            packetWriter.PushByte(unknown2);
             // Target's Identity
-            _writer.PushIdentity(tofollow);
-            _writer.PushInt(unknown3);
-            _writer.PushInt(unknown4);
-            _writer.PushInt(unknown5);
-            _writer.PushInt(unknown6);
-            _writer.PushByte(0);
-            _writer.PushByte(0);
+            packetWriter.PushIdentity(tofollow);
+            packetWriter.PushInt(unknown3);
+            packetWriter.PushInt(unknown4);
+            packetWriter.PushInt(unknown5);
+            packetWriter.PushInt(unknown6);
+            packetWriter.PushByte(0);
+            packetWriter.PushByte(0);
 
-            byte[] reply = _writer.Finish();
-            Announce.Playfield(client.Character.PlayField, ref reply);
+            byte[] reply = packetWriter.Finish();
+            Announce.Playfield(client.Character.PlayField, reply);
         }
     }
 }

@@ -137,7 +137,7 @@ namespace ChatEngine
         {
             Client client1 = (Client)client;
 
-            byte[] mWelcome = new byte[]
+            byte[] welcomePacket = new byte[]
                 {
                     0x00, 0x00, 0x00, 0x22, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
                     // Server Salt (32 Bytes)
@@ -160,12 +160,12 @@ namespace ChatEngine
                     salt[i] = 42; // So we change it to something nicer
                 }
 
-                mWelcome[6 + i] = salt[i];
+                welcomePacket[6 + i] = salt[i];
 
                 client1.ServerSalt += string.Format("{0:x2}", salt[i]);
             }
 
-            client1.Send(ref mWelcome);
+            client1.Send(welcomePacket);
 
             return true;
         }

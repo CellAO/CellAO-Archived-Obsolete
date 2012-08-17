@@ -236,8 +236,8 @@ namespace ZoneEngine
         /// <summary>
         /// Read Coordinates from a packet reader
         /// </summary>
-        /// <param name="packet">Packetreader ref</param>
-        public void readCoordsfromPacket(ref PacketReader packet)
+        /// <param name="packet">Packet reader</param>
+        public void ReadCoordsFromPacket(PacketReader packet)
         {
             this.rawCoord = packet.PopCoord();
         }
@@ -245,7 +245,7 @@ namespace ZoneEngine
         /// <summary>
         /// Read Coordinates from SQL Table
         /// </summary>
-        public void readCoordsfromSQL()
+        public void ReadCoordsFromSQL()
         {
             SqlWrapper ms = new SqlWrapper();
 
@@ -269,8 +269,8 @@ namespace ZoneEngine
         /// <summary>
         /// Write Coordinates to packet
         /// </summary>
-        /// <param name="packet">Packet ref to write to</param>
-        public void writeCoordinatestoPacket(ref PacketWriter packet)
+        /// <param name="packet">Packet writer</param>
+        public void WriteCoordinatesToPacket(PacketWriter packet)
         {
             packet.PushCoord(this.Coordinates);
         }
@@ -278,7 +278,7 @@ namespace ZoneEngine
         /// <summary>
         /// Write Coordinates to SQL Table
         /// </summary>
-        public void writeCoordinatestoSQL()
+        public void WriteCoordinatesToSQL()
         {
             SqlWrapper ms = new SqlWrapper();
 
@@ -295,8 +295,8 @@ namespace ZoneEngine
         /// <summary>
         /// Read Heading from packet
         /// </summary>
-        /// <param name="packet">Packetreader ref</param>
-        public void readHeadingfromPacket(ref PacketReader packet)
+        /// <param name="packet">Packet reader</param>
+        public void ReadHeadingFromPacket(PacketReader packet)
         {
             this.Heading.x = packet.PopFloat();
             this.Heading.y = packet.PopFloat();
@@ -307,7 +307,7 @@ namespace ZoneEngine
         /// <summary>
         /// Read Heading from SQL Table
         /// </summary>
-        public void readHeadingfromSQL()
+        public void ReadHeadingFromSQL()
         {
             SqlWrapper ms = new SqlWrapper();
 
@@ -333,8 +333,8 @@ namespace ZoneEngine
         /// <summary>
         /// Write Heading to packetwriter
         /// </summary>
-        /// <param name="packet">Packetwriter ref</param>
-        public void writeHeadingtoPacket(ref PacketWriter packet)
+        /// <param name="packet">Packet writer</param>
+        public void WriteHeadingToPacket(PacketWriter packet)
         {
             packet.PushFloat((float)this.Heading.x);
             packet.PushFloat((float)this.Heading.y);
@@ -345,7 +345,7 @@ namespace ZoneEngine
         /// <summary>
         /// Write Heading to SQL Table
         /// </summary>
-        public void writeHeadingtoSQL()
+        public void WriteHeadingToSQL()
         {
             SqlWrapper ms = new SqlWrapper();
             ms.SqlUpdate(
@@ -362,14 +362,14 @@ namespace ZoneEngine
         /// <summary>
         /// Read Textures from Packetreader
         /// </summary>
-        /// <param name="packet">Packetreader ref</param>
-        public void readTexturesfromPacket(ref PacketReader packet)
+        /// <param name="packet">Packet reader</param>
+        public void readTexturesfromPacket(PacketReader packet)
         {
             int count = packet.Pop3F1Count();
-            AOTextures m_tex;
+            AOTextures textures;
             while (count > 0)
             {
-                m_tex = new AOTextures(packet.PopInt(), packet.PopInt());
+                textures = new AOTextures(packet.PopInt(), packet.PopInt());
                 count--;
             }
         }
@@ -377,10 +377,10 @@ namespace ZoneEngine
         /// <summary>
         /// Read Textures from SQL Table
         /// </summary>
-        public void readTexturesfromSQL()
+        public void ReadTexturesFromSQL()
         {
             SqlWrapper ms = new SqlWrapper();
-            AOTextures m_tex;
+            AOTextures textures;
             this.Textures.Clear();
 
             DataTable dt =
@@ -389,28 +389,28 @@ namespace ZoneEngine
                     + this.getSQLTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + ";");
             if (dt.Rows.Count > 0)
             {
-                m_tex = new AOTextures(0, (Int32)dt.Rows[0][0]);
-                this.Textures.Add(m_tex);
+                textures = new AOTextures(0, (Int32)dt.Rows[0][0]);
+                this.Textures.Add(textures);
 
-                m_tex = new AOTextures(1, (Int32)dt.Rows[0][1]);
-                this.Textures.Add(m_tex);
+                textures = new AOTextures(1, (Int32)dt.Rows[0][1]);
+                this.Textures.Add(textures);
 
-                m_tex = new AOTextures(2, (Int32)dt.Rows[0][2]);
-                this.Textures.Add(m_tex);
+                textures = new AOTextures(2, (Int32)dt.Rows[0][2]);
+                this.Textures.Add(textures);
 
-                m_tex = new AOTextures(3, (Int32)dt.Rows[0][3]);
-                this.Textures.Add(m_tex);
+                textures = new AOTextures(3, (Int32)dt.Rows[0][3]);
+                this.Textures.Add(textures);
 
-                m_tex = new AOTextures(4, (Int32)dt.Rows[0][4]);
-                this.Textures.Add(m_tex);
+                textures = new AOTextures(4, (Int32)dt.Rows[0][4]);
+                this.Textures.Add(textures);
             }
         }
 
         /// <summary>
         /// Write Textures to PacketWriter
         /// </summary>
-        /// <param name="packet">PacketWriter ref</param>
-        public void writeTexturestoPacket(ref PacketWriter packet)
+        /// <param name="packet">Packet Writer</param>
+        public void WriteTexturesToPacket(PacketWriter packet)
         {
             packet.Push3F1Count(this.Textures.Count);
             int count;
@@ -425,7 +425,7 @@ namespace ZoneEngine
         /// <summary>
         /// Write Textures to SQL Table
         /// </summary>
-        public void writeTexturestoSQL()
+        public void WriteTexturesToSQL()
         {
             SqlWrapper ms = new SqlWrapper();
             int count;

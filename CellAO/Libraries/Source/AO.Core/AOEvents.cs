@@ -82,7 +82,7 @@ namespace AO.Core
         /// <param name="blob"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public int readEventfromBlob(ref byte[] blob, int offset)
+        public int readEventfromBlob(byte[] blob, int offset)
         {
             int c = offset;
 
@@ -96,7 +96,7 @@ namespace AO.Core
             while (c2 > 0)
             {
                 m_aof = new AOFunctions();
-                c = m_aof.ReadFunctionfromBlob(ref blob, c);
+                c = m_aof.ReadFunctionfromBlob(blob, c);
                 Functions.Add(m_aof);
                 c2--;
             }

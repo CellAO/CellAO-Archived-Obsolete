@@ -34,20 +34,20 @@ namespace ZoneEngine.PacketHandlers
 
     public class KnuBotFinishTrade
     {
-        public static void Read(ref byte[] packet, Client client)
+        public static void Read(byte[] packet, Client client)
         {
-            PacketReader _reader = new PacketReader(ref packet);
+            PacketReader packetReader = new PacketReader(packet);
 
-            Header header = _reader.PopHeader();
-            _reader.PopByte();
-            _reader.PopShort();
-            int type = _reader.PopInt();
-            int instance = _reader.PopInt();
+            Header header = packetReader.PopHeader();
+            packetReader.PopByte();
+            packetReader.PopShort();
+            int type = packetReader.PopInt();
+            int instance = packetReader.PopInt();
             NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(type, instance);
             Character ch = FindClient.FindClientByID(header.Sender).Character;
             if (npc != null)
             {
-                npc.KnuBotFinishTrade(ch, _reader.PopInt());
+                npc.KnuBotFinishTrade(ch, packetReader.PopInt());
             }
         }
     }

@@ -42,7 +42,7 @@ namespace ZoneEngine.PacketHandlers
         /// </summary>
         /// <param name="packet"></param>
         /// <param name="client"></param>
-        public static void Read(ref byte[] packet, Client client)
+        public static void Read(byte[] packet, Client client)
         {
             byte[] socialAction = new byte[0x29];
 
@@ -52,7 +52,7 @@ namespace ZoneEngine.PacketHandlers
 
             socialAction[0x20] = 1;
 
-            Announce.Playfield(client.Character.PlayField, ref socialAction);
+            Announce.Playfield(client.Character.PlayField, socialAction);
         }
     }
 }

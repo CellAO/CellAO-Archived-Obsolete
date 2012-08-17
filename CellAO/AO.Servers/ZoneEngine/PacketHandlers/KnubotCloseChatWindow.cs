@@ -34,9 +34,9 @@ namespace ZoneEngine.PacketHandlers
 
     public class KnuBotCloseChatWindow
     {
-        public static void Read(ref byte[] packet, Client client)
+        public static void Read(byte[] packet, Client client)
         {
-            PacketReader packetReader = new PacketReader(ref packet);
+            PacketReader packetReader = new PacketReader(packet);
 
             Header header = packetReader.PopHeader();
             packetReader.PopByte();

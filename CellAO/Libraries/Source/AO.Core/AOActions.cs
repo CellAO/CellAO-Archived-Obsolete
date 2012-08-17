@@ -80,7 +80,7 @@ namespace AO.Core
         /// 
 
         #region Action read from blob
-        public int readActionfromBlob(ref byte[] blob, int offset)
+        public int readActionfromBlob(byte[] blob, int offset)
         {
             int c = offset;
 
@@ -95,7 +95,7 @@ namespace AO.Core
             while (c2 > 0)
             {
                 m_aor = new AORequirements();
-                c = m_aor.readRequirementfromBlob(ref blob, c);
+                c = m_aor.readRequirementfromBlob(blob, c);
                 c2--;
             }
             return c;

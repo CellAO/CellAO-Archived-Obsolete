@@ -37,9 +37,9 @@ namespace ZoneEngine.PacketHandlers
 
     public static class Vicinity
     {
-        public static void Read(ref byte[] packet, Client cli)
+        public static void Read(byte[] packet, Client cli)
         {
-            PacketReader reader = new PacketReader(ref packet);
+            PacketReader reader = new PacketReader(packet);
             reader.PopShort(); //magic 0xDFDF
             short pktType = reader.PopShort();
             if (pktType != 0x0005)

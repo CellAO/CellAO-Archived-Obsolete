@@ -299,9 +299,9 @@ namespace Cell.Core
         /// Asynchronously sends a packet of data to the client.
         /// </summary>
         /// <param name="packet">An array of bytes containing the packet to be sent.</param>
-        public virtual void Send(ref byte[] packet)
+        public virtual void Send(byte[] packet)
         {
-            Send(ref packet, 0, packet.Length);
+            Send(packet, 0, packet.Length);
         }
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace Cell.Core
         /// <param name="packet">An array of bytes containing the packet to be sent.</param>
         /// <param name="length">The number of bytes to send starting at offset.</param>
         /// <param name="offset">The offset into packet where the sending begins.</param>
-        public void Send(ref byte[] packet, int offset, int length)
+        public void Send(byte[] packet, int offset, int length)
         {
             if (m_tcpSock.Connected)
             {

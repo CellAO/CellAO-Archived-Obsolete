@@ -245,7 +245,7 @@ namespace ZoneEngine
                 + this.ID.ToString() + "," + this.PlayField.ToString() + "," + this.TemplateID.ToString() + ",'"
                 + this.HASH + "')");
             this.writeCoordinatestoSQL();
-            this.writeHeadingtoSQL();
+            this.WriteHeadingToSQL();
         }
         #endregion
 
@@ -260,7 +260,7 @@ namespace ZoneEngine
                 this.needpurge = false;
 
                 this.writeCoordinatestoSQL();
-                this.writeHeadingtoSQL();
+                this.WriteHeadingToSQL();
             }
         }
         #endregion

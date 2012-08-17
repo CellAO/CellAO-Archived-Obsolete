@@ -53,7 +53,7 @@ namespace ZoneEngine.Packets
             writer.PushShort((short)character.OrgName.Length);
             writer.PushBytes(Encoding.ASCII.GetBytes(character.OrgName));
             byte[] mReply = writer.Finish();
-            Announce.Playfield(character.PlayField, ref mReply);
+            Announce.Playfield(character.PlayField, mReply);
         }
     }
 }

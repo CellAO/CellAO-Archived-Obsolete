@@ -36,17 +36,17 @@ namespace ZoneEngine.PacketHandlers
         /// </summary>
         /// <param name="packet"></param>
         /// <param name="client"></param>
-        public static void Read(ref byte[] packet, Client client)
+        public static void Read(byte[] packet, Client client)
         {
             #region Bytes / Strings / Ints  setup
-            PacketReader reader = new PacketReader(ref packet);
-            var _header = reader.PopHeader();
-            reader.PopByte();
-            int unknown = reader.PopInt();
-            Identity target = reader.PopIdentity();
-            int cmdLength = reader.PopInt();
-            string fullArgs = reader.PopString(cmdLength).TrimEnd(char.MinValue);
-            string temp = "";
+            PacketReader packetReader = new PacketReader(packet);
+            packetReader.PopHeader();
+            packetReader.PopByte();
+            packetReader.PopInt();
+            Identity target = packetReader.PopIdentity();
+            int commandLength = packetReader.PopInt();
+            string fullArgs = packetReader.PopString(commandLength).TrimEnd(char.MinValue);
+            string temp = string.Empty;
             do
             {
                 temp = fullArgs;
@@ -55,19 +55,20 @@ namespace ZoneEngine.PacketHandlers
             while (temp != fullArgs);
 
             string[] cmdArgs = fullArgs.Trim().Split(' ');
-            reader.Finish();
+            packetReader.Finish();
             #endregion
 
             Program.csc.CallChatCommand(cmdArgs[0].ToLower(), client, target, cmdArgs);
         }
 
         #region Checks (These are bools to check if Item is already in Placement or if Nano is already uploaded)
+        // TODO: Move this to character class
         public static bool HasNano(int nanoId, Client client)
         {
             bool found = false;
-            foreach (AOUploadedNanos au in client.Character.UploadedNanos)
+            foreach (AOUploadedNanos uploadedNanos in client.Character.UploadedNanos)
             {
-                if (au.Nano != nanoId)
+                if (uploadedNanos.Nano != nanoId)
                 {
                     continue;
                 }

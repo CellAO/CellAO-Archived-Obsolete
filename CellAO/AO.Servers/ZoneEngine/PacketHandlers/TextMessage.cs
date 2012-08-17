@@ -42,7 +42,7 @@ namespace ZoneEngine.PacketHandlers
         /// <param name="client"></param>
         /// <param name="packet"></param>
         /// <param name="messageNumber"></param>
-        public void Parse(Client client, ref byte[] packet, int messageNumber)
+        public void Parse(Client client, byte[] packet, int messageNumber)
         {
             switch (messageNumber)
             {
@@ -50,7 +50,7 @@ namespace ZoneEngine.PacketHandlers
                 case 3:
                 case 4:
                     // Whisper, Say and Shout
-                    Vicinity.Read(ref packet, client);
+                    Vicinity.Read(packet, client);
                     break;
                 default:
                     client.Server.Warning(client, "Client sent unknown TextMessage {0:x8}", messageNumber.ToString());

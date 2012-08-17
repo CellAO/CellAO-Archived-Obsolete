@@ -34,7 +34,6 @@ namespace ZoneEngine.PacketHandlers
     using System.Text;
 
     using ZoneEngine.NonPlayerCharacter;
-    using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Packets;
 
     /// <summary>
@@ -60,7 +59,7 @@ namespace ZoneEngine.PacketHandlers
         /// </summary>
         /// <param name="packet"></param>
         /// <param name="client"></param>
-        public void Read(ref byte[] packet, Client client)
+        public void Read(byte[] packet, Client client)
         {
             // Don't edit anything in this region
             // unless you are 300% sure you know what you're doing

@@ -180,7 +180,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(0);
 
             byte[] reply = packetWriter.Finish();
-            Announce.Playfield(PlayField, ref reply);
+            Announce.Playfield(PlayField, reply);
         }
     }
 }

@@ -82,7 +82,7 @@ namespace ZoneEngine
         {
             byte[] packet = new byte[numBytes];
             Array.Copy(this.m_readBuffer.Array, this.m_readBuffer.Offset, packet, 0, numBytes);
-            PacketReader reader = new PacketReader(ref packet);
+            PacketReader reader = new PacketReader(packet);
 
             // TODO: make check here to see if packet starts with 0xDFDF
             reader.ReadBytes(2);
@@ -109,23 +109,17 @@ namespace ZoneEngine
             {
                 case 0x01: // SystemMessage
                     {
-                        Program.zoneServer.SystemMessageHandler.Parse(this, ref packet, id);
+                        Program.zoneServer.SystemMessageHandler.Parse(this, packet, id);
                         break;
                     }
                 case 0x05: // TextMessage
                     {
-                        Program.zoneServer.TextMessageHandler.Parse(this, ref packet, id);
+                        Program.zoneServer.TextMessageHandler.Parse(this, packet, id);
                         break;
                     }
                 case 0x0A: // N3Message
                     {
-                        /*
-                        lock (this)
-                        {
-                            Program.zoneServer.N3MessageHandler.Parse(this, ref packet, id);
-                        }
-                        */
-                        Program.zoneServer.N3MessageHandler.Parse(this, ref packet, id);
+                        Program.zoneServer.N3MessageHandler.Parse(this, packet, id);
                         break;
                     }
                 case 0x0B: // PingMessage
@@ -151,14 +145,14 @@ namespace ZoneEngine
         /// 
         /// </summary>
         /// <param name="packet"></param>
-        public override void Send(ref byte[] packet)
+        public override void Send(byte[] packet)
         {
             // 18.1 Fix
             byte[] pn = BitConverter.GetBytes(this.packetNumber++);
             packet[0] = pn[1];
             packet[1] = pn[0];
 
-            base.Send(ref packet);
+            base.Send(packet);
         }
 
         /// <summary>
@@ -297,7 +291,7 @@ namespace ZoneEngine
         /// 
 
         #region Add Core Timer
-        public void AddCoreTimer(int strain, DateTime time, ref AOFunctions aof)
+        public void AddCoreTimer(int strain, DateTime time, AOFunctions aof)
         {
             AOTimers newCoretimer = new AOTimers();
             newCoretimer.Function = aof;
@@ -692,7 +686,7 @@ namespace ZoneEngine
             standUp.PushInt(0);
             standUp.PushShort(0);
             byte[] standUpPacket = standUp.Finish();
-            Announce.Playfield(this.Character.PlayField, ref standUpPacket);
+            Announce.Playfield(this.Character.PlayField, standUpPacket);
             //            SendCompressed(standUpPacket);
 
             if (LogoutTimer.Enabled)

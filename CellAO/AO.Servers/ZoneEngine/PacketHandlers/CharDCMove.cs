@@ -45,62 +45,62 @@ namespace ZoneEngine.PacketHandlers
         /// </summary>
         /// <param name="packet"></param>
         /// <param name="client"></param>
-        public static void Read(ref byte[] packet, Client client)
+        public static void Read(byte[] packet, Client client)
         {
-            PacketWriter _writer = new PacketWriter();
-            PacketReader _reader = new PacketReader(ref packet);
+            PacketWriter packetWriter = new PacketWriter();
+            PacketReader packetReader = new PacketReader(packet);
 
-            Header header = _reader.PopHeader();
-            _reader.PopByte();
-            byte _movetype = _reader.PopByte();
-            Quaternion _heading = _reader.PopQuat();
-            AOCoord _coord = _reader.PopCoord();
+            Header header = packetReader.PopHeader();
+            packetReader.PopByte();
+            byte moveType = packetReader.PopByte();
+            Quaternion heading = packetReader.PopQuat();
+            AOCoord coordinates = packetReader.PopCoord();
             // TODO: Find out what these (tmpInt) are and name them
-            int tmpInt1 = _reader.PopInt();
-            int tmpInt2 = _reader.PopInt();
-            int tmpInt3 = _reader.PopInt();
-            _reader.Finish();
+            int tmpInt1 = packetReader.PopInt();
+            int tmpInt2 = packetReader.PopInt();
+            int tmpInt3 = packetReader.PopInt();
+            packetReader.Finish();
 
             if (!client.Character.dontdotimers)
             {
-                WallCollision.LineSegment teleportPF = WallCollision.WallCollisionCheck(
-                    _coord.x, _coord.z, client.Character.PlayField);
-                if (teleportPF.ZoneToPlayfield >= 1)
+                WallCollision.LineSegment teleportPlayfield = WallCollision.WallCollisionCheck(
+                    coordinates.x, coordinates.z, client.Character.PlayField);
+                if (teleportPlayfield.ZoneToPlayfield >= 1)
                 {
-                    Quaternion newheading = new Quaternion(0, 0, 0, 0);
-                    _coord = WallCollision.GetCoord(teleportPF, _coord.x, _coord.z, _coord, out newheading);
-                    if (teleportPF.Flags != 1337 && client.Character.PlayField != 152
-                        || Math.Abs(client.Character.Coordinates.y - teleportPF.Y) <= 2
-                        || teleportPF.Flags == 1337 && Math.Abs(client.Character.Coordinates.y - teleportPF.Y) <= 6)
+                    Quaternion newHeading = new Quaternion(0, 0, 0, 0);
+                    coordinates = WallCollision.GetCoord(teleportPlayfield, coordinates.x, coordinates.z, coordinates, out newHeading);
+                    if (teleportPlayfield.Flags != 1337 && client.Character.PlayField != 152
+                        || Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 2
+                        || teleportPlayfield.Flags == 1337 && Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 6)
                     {
-                        client.Teleport(_coord, newheading, teleportPF.ZoneToPlayfield);
+                        client.Teleport(coordinates, newHeading, teleportPlayfield.ZoneToPlayfield);
                         Program.zoneServer.Clients.Remove(client);
                     }
                     return;
                 }
 
-                Doors door = null;
+                Doors correspondingDoor = null;
                 if (client.Character.Stats.LastConcretePlayfieldInstance.Value != 0)
                 {
-                    door = DoorHandler.DoorinRange(client.Character.PlayField, client.Character.Coordinates, 1.0f);
-                    if (door != null)
+                    correspondingDoor = DoorHandler.DoorinRange(client.Character.PlayField, client.Character.Coordinates, 1.0f);
+                    if (correspondingDoor != null)
                     {
-                        door = DoorHandler.FindCorrespondingDoor(door, client.Character);
+                        correspondingDoor = DoorHandler.FindCorrespondingDoor(correspondingDoor, client.Character);
                         client.Character.Stats.LastConcretePlayfieldInstance.Value = 0;
-                        AOCoord aoc = door.Coordinates;
-                        aoc.x += door.hX * 3;
-                        aoc.y += door.hY * 3;
-                        aoc.z += door.hZ * 3;
-                        client.Teleport(aoc, client.Character.Heading, door.playfield);
+                        AOCoord aoc = correspondingDoor.Coordinates;
+                        aoc.x += correspondingDoor.hX * 3;
+                        aoc.y += correspondingDoor.hY * 3;
+                        aoc.z += correspondingDoor.hZ * 3;
+                        client.Teleport(aoc, client.Character.Heading, correspondingDoor.playfield);
                         Program.zoneServer.Clients.Remove(client);
                         return;
                     }
                 }
             }
 
-            client.Character.rawCoord = _coord;
-            client.Character.rawHeading = _heading;
-            client.Character.updateMoveType(_movetype);
+            client.Character.rawCoord = coordinates;
+            client.Character.rawHeading = heading;
+            client.Character.updateMoveType(moveType);
 
             /* Start NV Heading Testing Code
              * Yaw: 0 to 360 Degrees (North turning clockwise to a complete revolution)
@@ -116,36 +116,36 @@ namespace ZoneEngine.PacketHandlers
             /* End NV Heading testing code */
 
             /* start of packet */
-            _writer.PushByte(0xDF);
-            _writer.PushByte(0xDF);
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushByte(0xDF);
             /* packet type */
-            _writer.PushShort(10);
+            packetWriter.PushShort(10);
             /* unknown */
-            _writer.PushShort(1);
+            packetWriter.PushShort(1);
             /* packet length (writer takes care of this) */
-            _writer.PushShort(0);
+            packetWriter.PushShort(0);
             /* server ID */
-            _writer.PushInt(3086);
+            packetWriter.PushInt(3086);
             /* receiver (Announce takes care of this) */
-            _writer.PushInt(0);
+            packetWriter.PushInt(0);
             /* packet ID */
-            _writer.PushInt(0x54111123);
+            packetWriter.PushInt(0x54111123);
             /* affected dynel identity */
-            _writer.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushIdentity(50000, client.Character.ID);
             /* ? */
-            _writer.PushByte(0);
+            packetWriter.PushByte(0);
             /* movement type */
-            _writer.PushByte(_movetype);
+            packetWriter.PushByte(moveType);
             /* Heading */
-            _writer.PushQuat(_heading);
+            packetWriter.PushQuat(heading);
             /* Coordinates */
-            _writer.PushCoord(_coord);
+            packetWriter.PushCoord(coordinates);
             // see reading part for comment
-            _writer.PushInt(tmpInt1);
-            _writer.PushInt(tmpInt2);
-            _writer.PushInt(tmpInt3);
-            byte[] reply = _writer.Finish();
-            Announce.Playfield(client.Character.PlayField, ref reply);
+            packetWriter.PushInt(tmpInt1);
+            packetWriter.PushInt(tmpInt2);
+            packetWriter.PushInt(tmpInt3);
+            byte[] reply = packetWriter.Finish();
+            Announce.Playfield(client.Character.PlayField, reply);
 
             if (Statels.StatelppfonEnter.ContainsKey(client.Character.PlayField))
             {

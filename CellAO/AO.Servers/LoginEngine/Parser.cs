@@ -52,13 +52,13 @@ namespace LoginEngine
         public void Parse(Client client, byte[] packet, uint messageNumber)
         {
             #region Setup...
-            PacketReader reader = new PacketReader(ref packet);
+            PacketReader packetReader = new PacketReader(packet);
 
             string encryptedPassword;
             int encPasswordLength;
             byte[] wrongLogin = LoginWrong.GetPacket();
             CheckLogin cbl = new CheckLogin();
-            CharacterName char_name = new CharacterName();
+            CharacterName characterName = new CharacterName();
             #endregion
 
             switch (messageNumber)
@@ -67,10 +67,10 @@ namespace LoginEngine
                     SaltAuthentication salt = new SaltAuthentication();
 
                     // Username and version info
-                    reader.ReadBytes(24);
-                    client.AccountName = Encoding.ASCII.GetString(reader.ReadBytes(40)).TrimEnd(char.MinValue);
-                    client.ClientVersion = Encoding.ASCII.GetString(reader.ReadBytes(20)).TrimEnd(char.MinValue);
-                    reader.Finish();
+                    packetReader.ReadBytes(24);
+                    client.AccountName = Encoding.ASCII.GetString(packetReader.ReadBytes(40)).TrimEnd(char.MinValue);
+                    client.ClientVersion = Encoding.ASCII.GetString(packetReader.ReadBytes(20)).TrimEnd(char.MinValue);
+                    packetReader.Finish();
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine(
@@ -85,11 +85,11 @@ namespace LoginEngine
                 case 0x25:
                     // Username and encrypted password
                     // m_stream.Position = 20;
-                    reader.ReadBytes(20);
-                    string loginAccountName = reader.PopString(40).TrimEnd(char.MinValue);
-                    encPasswordLength = reader.PopInt();
-                    encryptedPassword = reader.PopString(encPasswordLength).TrimEnd(char.MinValue);
-                    reader.Finish();
+                    packetReader.ReadBytes(20);
+                    string loginAccountName = packetReader.PopString(40).TrimEnd(char.MinValue);
+                    encPasswordLength = packetReader.PopInt();
+                    encryptedPassword = packetReader.PopString(encPasswordLength).TrimEnd(char.MinValue);
+                    packetReader.Finish();
 
                     if (cbl.IsLoginAllowed(client, loginAccountName) == false)
                     {
@@ -111,7 +111,7 @@ namespace LoginEngine
                             + "' banned, not a valid username, or sent a malformed Authentication Packet");
                         Console.ResetColor();
 
-                        client.Send(ref wrongLogin);
+                        client.Send(wrongLogin);
 
                         client.Server.DisconnectClient(client);
 
@@ -126,7 +126,7 @@ namespace LoginEngine
                         Console.WriteLine("Client '" + client.AccountName + "' failed Authentication.");
                         Console.ResetColor();
 
-                        client.Send(ref wrongLogin);
+                        client.Send(wrongLogin);
 
                         client.Server.DisconnectClient(client);
 
@@ -145,9 +145,9 @@ namespace LoginEngine
 
                 case 0x16:
                     // Player selected a character and client sends us selected characters ID
-                    reader.ReadBytes(20);
-                    int selectedCharID = reader.PopInt();
-                    reader.Finish();
+                    packetReader.ReadBytes(20);
+                    int selectedCharID = packetReader.PopInt();
+                    packetReader.Finish();
 
                     if (cbl.IsCharacterOnAccount(client, selectedCharID) == false)
                     {
@@ -158,7 +158,7 @@ namespace LoginEngine
                         Console.ResetColor();
 
                         // NV: Is this really what we want to send? Should find out sometime...
-                        client.Send(ref wrongLogin);
+                        client.Send(wrongLogin);
 
                         client.Server.DisconnectClient(client);
 
@@ -169,7 +169,7 @@ namespace LoginEngine
                         Console.WriteLine(
                             "Client '" + client.AccountName
                             + "' is trying to login, but the requested character is already logged in.");
-                        client.Send(ref wrongLogin);
+                        client.Send(wrongLogin);
                         client.Server.DisconnectClient(client);
                         break;
                     }
@@ -209,57 +209,57 @@ namespace LoginEngine
                     writer.PushInt(0);
                     writer.PushInt(0);
                     Byte[] pkt = writer.Finish();
-                    client.Send(ref pkt);
+                    client.Send(pkt);
                     break;
 
                 case 0x55:
                     /* player ask for 'suggest name'; server sends 'random' name. */
-                    char_name.GetRandomName(client, reader.PopInt());
-                    reader.Finish();
+                    characterName.GetRandomName(client, packetReader.PopInt());
+                    packetReader.Finish();
                     break;
 
                 case 0xf:
                     /* client created new character */
-                    Int32 character_id;
-                    bool start_in_sl = false;
-                    char_name.AccountName = client.AccountName;
+                    Int32 characterId;
+                    bool startInShadowLands = false;
+                    characterName.AccountName = client.AccountName;
 
                     /* start reading packet */
 
                     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     // As of 18.5.1 heading for this packet is 69 bytes (65 bytes for lower versions)
                     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    reader.ReadBytes(69);
+                    packetReader.ReadBytes(69);
 
                     /* name length */
-                    int m_name_len = reader.PopInt();
+                    int nameLen = packetReader.PopInt();
                     /* name */
-                    char_name.Name = reader.PopString(m_name_len);
+                    characterName.Name = packetReader.PopString(nameLen);
                     /* breed */
-                    char_name.Breed = reader.PopInt();
+                    characterName.Breed = packetReader.PopInt();
                     /* gender */
-                    char_name.Gender = reader.PopInt();
+                    characterName.Gender = packetReader.PopInt();
                     /* profession */
-                    char_name.Profession = reader.PopInt();
+                    characterName.Profession = packetReader.PopInt();
                     /* level (should always be 0 )*/
-                    char_name.Level = reader.PopInt();
+                    characterName.Level = packetReader.PopInt();
                     /* lets skip some stuff */
-                    int skip_len = reader.PopInt();
-                    reader.ReadBytes(skip_len + 8);
+                    int skipLen = packetReader.PopInt();
+                    packetReader.ReadBytes(skipLen + 8);
                     /* head mesh */
-                    char_name.HeadMesh = reader.PopInt();
+                    characterName.HeadMesh = packetReader.PopInt();
                     /* monster scale */
-                    char_name.MonsterScale = reader.PopInt();
+                    characterName.MonsterScale = packetReader.PopInt();
                     /* fatness */
-                    char_name.Fatness = reader.PopInt();
+                    characterName.Fatness = packetReader.PopInt();
                     /* start in SL? */
-                    int sl = reader.PopInt();
+                    int sl = packetReader.PopInt();
                     if (sl == 1)
                     {
-                        start_in_sl = true;
+                        startInShadowLands = true;
                     }
                     /* close reader and stream */
-                    reader.Finish();
+                    packetReader.Finish();
 
                     /* now you got the data..
                      * do whatever you have to do with it
@@ -272,14 +272,14 @@ namespace LoginEngine
                      * if name doesnt exist, creates default char setup and returns character_id
                      * 
                      */
-                    character_id = char_name.CheckAgainstDatabase();
-                    if (character_id < 1)
+                    characterId = characterName.CheckAgainstDatabase();
+                    if (characterId < 1)
                     {
-                        char_name.SendNameInUse(client);
+                        characterName.SendNameInUse(client);
                     }
                     else
                     {
-                        char_name.SendNameToStartPlayfield(client, start_in_sl, character_id);
+                        characterName.SendNameToStartPlayfield(client, startInShadowLands, characterId);
                     }
 
                     /* reply will work only if character creation
@@ -291,13 +291,13 @@ namespace LoginEngine
                     /* client deletes char */
                     Int32 uid;
                     /* start reading packet */
-                    reader.ReadBytes(20);
-                    uid = reader.PopInt();
-                    char_name.DeleteChar(client, uid);
-                    reader.Finish();
+                    packetReader.ReadBytes(20);
+                    uid = packetReader.PopInt();
+                    characterName.DeleteChar(client, uid);
+                    packetReader.Finish();
                     break;
                 default:
-                    reader.Finish();
+                    packetReader.Finish();
                     client.Server.Warning(client, "Client sent unknown message {0}", messageNumber.ToString());
                     break;
             }

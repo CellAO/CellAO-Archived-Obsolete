@@ -77,7 +77,7 @@ namespace ChatEngine.PacketHandlers
             }
 
             byte[] namelookup = new NameLookupResult().Create(this.playerId, this.playerName);
-            client.Send(ref namelookup);
+            client.Send(namelookup);
             client.KnownClients.Add(this.playerId);
         }
     }

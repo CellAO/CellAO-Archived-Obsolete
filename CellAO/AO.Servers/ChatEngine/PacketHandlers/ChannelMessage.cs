@@ -42,7 +42,7 @@ namespace ChatEngine.PacketHandlers
         /// </param>
         /// <param name="packet">
         /// </param>
-        public static void Read(Client client, ref byte[] packet)
+        public static void Read(Client client, byte[] packet)
         {
             // TODO: Fix this mess.
             ushort data_length = BitConverter.ToUInt16(new[] { packet[3], packet[2] }, 0);
@@ -65,11 +65,11 @@ namespace ChatEngine.PacketHandlers
                 if (!m_client.KnownClients.Contains(client.Character.characterId))
                 {
                     byte[] pname = PlayerName.New(client, client.Character.characterId);
-                    m_client.Send(ref pname);
+                    m_client.Send(pname);
                     m_client.KnownClients.Add(client.Character.characterId);
                 }
 
-                m_client.Send(ref message);
+                m_client.Send(message);
             }
 
             PacketReader reader = new PacketReader(ref packet);
@@ -79,8 +79,8 @@ namespace ChatEngine.PacketHandlers
             reader.ReadUInt16();
             reader.ReadByte();
             string text = reader.ReadString();
-            string ChannelName = ChatChannels.GetChannel(packet).Name;
-            ChatLogger.WriteString(ChannelName, text, client.Character.characterName);
+            string channelName = ChatChannels.GetChannel(packet).Name;
+            ChatLogger.WriteString(channelName, text, client.Character.characterName);
         }
     }
 }

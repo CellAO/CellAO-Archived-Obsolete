@@ -57,9 +57,9 @@ namespace ZoneEngine.PacketHandlers
             return -1;
         }
 
-        public static void Do(ref byte[] packet, Client cli)
+        public static void Do(byte[] packet, Client cli)
         {
-            PacketReader m_reader = new PacketReader(ref packet);
+            PacketReader packetReader = new PacketReader(packet);
             bool noAppearanceUpdate = false;
             /// Container ID's:
             /// 0065 Weaponpage
@@ -76,123 +76,123 @@ namespace ZoneEngine.PacketHandlers
             /// 0790 Playershop Inventory
             /// DEAD Trade Window (incoming)
 
-            m_reader.PopInt();
-            m_reader.PopInt();
-            int sender = m_reader.PopInt();
-            m_reader.PopInt();
-            m_reader.PopInt();
-            Identity from_identity = m_reader.PopIdentity();
-            byte flag = m_reader.PopByte();
-            int c350 = from_identity.Type;
-            int fromid = from_identity.Instance;
+            packetReader.PopInt();
+            packetReader.PopInt();
+            int sender = packetReader.PopInt();
+            packetReader.PopInt();
+            packetReader.PopInt();
+            Identity fromIdentity = packetReader.PopIdentity();
+            byte flag = packetReader.PopByte();
+            int c350 = fromIdentity.Type;
+            int fromId = fromIdentity.Instance;
 
-            int fromcontainerid = m_reader.PopInt();
-            int fromplacement = m_reader.PopInt();
-            Identity to_identity = m_reader.PopIdentity();
-            int toid = to_identity.Instance;
-            c350 = to_identity.Type;
-            int toplacement = m_reader.PopInt();
+            int fromContainerID = packetReader.PopInt();
+            int fromPlacement = packetReader.PopInt();
+            Identity toIdentity = packetReader.PopIdentity();
+            int toid = toIdentity.Instance;
+            c350 = toIdentity.Type;
+            int toPlacement = packetReader.PopInt();
 
-            int c_from = 0;
-            if ((fromcontainerid <= 0x68) || (fromcontainerid == 0x73)) // Inventory or Equipmentpages?
+            int counterFrom = 0;
+            if ((fromContainerID <= 0x68) || (fromContainerID == 0x73)) // Inventory or Equipmentpages?
             {
-                for (c_from = 0;
-                     (c_from < cli.Character.Inventory.Count)
-                     && (fromplacement != cli.Character.Inventory[c_from].Placement);
-                     c_from++)
+                for (counterFrom = 0;
+                     (counterFrom < cli.Character.Inventory.Count)
+                     && (fromPlacement != cli.Character.Inventory[counterFrom].Placement);
+                     counterFrom++)
                 {
                     ;
                 }
             }
             else
             {
-                if (fromcontainerid == 0x69)
+                if (fromContainerID == 0x69)
                 {
-                    for (c_from = 0;
-                         (c_from < cli.Character.Bank.Count) && (fromplacement != cli.Character.Bank[c_from].Flags);
-                         c_from++)
+                    for (counterFrom = 0;
+                         (counterFrom < cli.Character.Bank.Count) && (fromPlacement != cli.Character.Bank[counterFrom].Flags);
+                         counterFrom++)
                     {
                         ;
                     }
                 }
                 else
                 {
-                    c_from = -1;
+                    counterFrom = -1;
                 }
             }
 
             // TODO: Add check for instanced items (fromcontainerid:fromplacement)
-            if (c_from == -1)
+            if (counterFrom == -1)
             {
                 return;
             }
 
-            int c_to;
-            if (to_identity.Type == 0xdead) // Transferring to a trade window??? (only bank trade window yet)
+            int counterTo;
+            if (toIdentity.Type == 0xdead) // Transferring to a trade window??? (only bank trade window yet)
             {
-                c_to = cli.Character.Bank.Count;
+                counterTo = cli.Character.Bank.Count;
             }
             else
             {
-                for (c_to = 0;
-                     (c_to < cli.Character.Inventory.Count) && (toplacement != cli.Character.Inventory[c_to].Placement);
-                     c_to++)
+                for (counterTo = 0;
+                     (counterTo < cli.Character.Inventory.Count) && (toPlacement != cli.Character.Inventory[counterTo].Placement);
+                     counterTo++)
                 {
                     ;
                 }
             }
 
-            AOItem m_from = null;
-            if (c_from < cli.Character.Inventory.Count)
+            AOItem itemFrom = null;
+            if (counterFrom < cli.Character.Inventory.Count)
             {
-                m_from = ItemHandler.interpolate(
-                    cli.Character.Inventory[c_from].Item.LowID,
-                    cli.Character.Inventory[c_from].Item.HighID,
-                    cli.Character.Inventory[c_from].Item.Quality);
+                itemFrom = ItemHandler.interpolate(
+                    cli.Character.Inventory[counterFrom].Item.LowID,
+                    cli.Character.Inventory[counterFrom].Item.HighID,
+                    cli.Character.Inventory[counterFrom].Item.Quality);
             }
 
-            AOItem m_to = null;
-            if (c_to < cli.Character.Inventory.Count)
+            AOItem itemTo = null;
+            if (counterTo < cli.Character.Inventory.Count)
             {
-                m_to = ItemHandler.interpolate(
-                    cli.Character.Inventory[c_to].Item.LowID,
-                    cli.Character.Inventory[c_to].Item.HighID,
-                    cli.Character.Inventory[c_to].Item.Quality);
+                itemTo = ItemHandler.interpolate(
+                    cli.Character.Inventory[counterTo].Item.LowID,
+                    cli.Character.Inventory[counterTo].Item.HighID,
+                    cli.Character.Inventory[counterTo].Item.Quality);
             }
 
             // Calculating delay for equip/unequip/switch gear
             int delay = 0;
 
-            if (m_from != null)
+            if (itemFrom != null)
             {
-                delay += m_from.getItemAttribute(211);
+                delay += itemFrom.getItemAttribute(211);
             }
-            if (m_to != null)
+            if (itemTo != null)
             {
-                delay += m_to.getItemAttribute(211);
+                delay += itemTo.getItemAttribute(211);
             }
             if (delay == 0)
             {
                 delay = 200;
             }
-            int c;
-            if (toplacement == 0x6f) // 0x6f = next free inventory place, we need to send back the actual spot where the item goes
+            int counter;
+            if (toPlacement == 0x6f) // 0x6f = next free inventory place, we need to send back the actual spot where the item goes
                 // something has to be free, client checks for full inventory
             {
-                c = 0;
-                int c2 = 0;
-                int c3 = 0;
-                if (to_identity.Type == 0xdead)
+                counter = 0;
+                int counter2 = 0;
+                int counter3 = 0;
+                if (toIdentity.Type == 0xdead)
                 {
-                    while (c3 == 0)
+                    while (counter3 == 0)
                     {
-                        c3 = 1;
-                        for (c2 = 0; c2 < cli.Character.Bank.Count; c2++)
+                        counter3 = 1;
+                        for (counter2 = 0; counter2 < cli.Character.Bank.Count; counter2++)
                         {
-                            if (cli.Character.Bank[c2].Flags == c) // using flags for placement
+                            if (cli.Character.Bank[counter2].Flags == counter) // using flags for placement
                             {
-                                c++;
-                                c3 = 0;
+                                counter++;
+                                counter3 = 0;
                                 continue;
                             }
                         }
@@ -200,135 +200,135 @@ namespace ZoneEngine.PacketHandlers
                 }
                 else
                 {
-                    c = 64;
-                    while (c3 == 0)
+                    counter = 64;
+                    while (counter3 == 0)
                     {
-                        c3 = 1;
-                        for (c2 = 0; c2 < cli.Character.Inventory.Count; c2++)
+                        counter3 = 1;
+                        for (counter2 = 0; counter2 < cli.Character.Inventory.Count; counter2++)
                         {
-                            if (cli.Character.Inventory[c2].Placement == c)
+                            if (cli.Character.Inventory[counter2].Placement == counter)
                             {
-                                c++;
-                                c3 = 0;
+                                counter++;
+                                counter3 = 0;
                                 continue;
                             }
                         }
                     }
                 }
-                toplacement = c;
+                toPlacement = counter;
             }
 
             cli.Character.dontdotimers = true;
-            if (to_identity.Type == 0xdead) // 0xdead only stays for bank at the moment
+            if (toIdentity.Type == 0xdead) // 0xdead only stays for bank at the moment
             {
-                cli.Character.TransferItemtoBank(fromplacement, toplacement);
+                cli.Character.TransferItemtoBank(fromPlacement, toPlacement);
                 noAppearanceUpdate = true;
             }
             else
             {
-                switch (fromcontainerid)
+                switch (fromContainerID)
                 {
                     case 0x68:
                         // from Inventory
-                        if (toplacement <= 30)
+                        if (toPlacement <= 30)
                         {
                             // to Weaponspage or Armorpage
                             // TODO: Send some animation
-                            if (m_to != null)
+                            if (itemTo != null)
                             {
-                                cli.Character.UnequipItem(m_to, cli.Character, false, fromplacement);
+                                cli.Character.UnequipItem(itemTo, cli.Character, false, fromPlacement);
                                 // send interpolated item
-                                Unequip.Send(cli, m_to, getpage(toplacement), toplacement, false);
+                                Unequip.Send(cli, itemTo, getpage(toPlacement), toPlacement, false);
                                 // client takes care of hotswap
 
-                                cli.Character.EquipItem(m_from, cli.Character, false, toplacement);
-                                Equip.Send(cli, m_from, getpage(toplacement), toplacement);
+                                cli.Character.EquipItem(itemFrom, cli.Character, false, toPlacement);
+                                Equip.Send(cli, itemFrom, getpage(toPlacement), toPlacement);
                             }
                             else
                             {
-                                cli.Character.EquipItem(m_from, cli.Character, false, toplacement);
-                                Equip.Send(cli, m_from, getpage(toplacement), toplacement);
+                                cli.Character.EquipItem(itemFrom, cli.Character, false, toPlacement);
+                                Equip.Send(cli, itemFrom, getpage(toPlacement), toPlacement);
                             }
                         }
                         else
                         {
-                            if (toplacement < 46)
+                            if (toPlacement < 46)
                             {
-                                if (m_to == null)
+                                if (itemTo == null)
                                 {
-                                    cli.Character.EquipItem(m_from, cli.Character, false, toplacement);
-                                    Equip.Send(cli, m_from, getpage(toplacement), toplacement);
+                                    cli.Character.EquipItem(itemFrom, cli.Character, false, toPlacement);
+                                    Equip.Send(cli, itemFrom, getpage(toPlacement), toPlacement);
                                 }
                             }
                             // Equiping to social page
-                            if ((toplacement >= 49) && (toplacement <= 63))
+                            if ((toPlacement >= 49) && (toPlacement <= 63))
                             {
-                                if (m_to != null)
+                                if (itemTo != null)
                                 {
-                                    cli.Character.UnequipItem(m_to, cli.Character, true, fromplacement);
+                                    cli.Character.UnequipItem(itemTo, cli.Character, true, fromPlacement);
                                     // send interpolated item
-                                    cli.Character.EquipItem(m_from, cli.Character, true, toplacement);
+                                    cli.Character.EquipItem(itemFrom, cli.Character, true, toPlacement);
                                 }
                                 else
                                 {
-                                    cli.Character.EquipItem(m_from, cli.Character, true, toplacement);
+                                    cli.Character.EquipItem(itemFrom, cli.Character, true, toPlacement);
                                 }
 
                                 //cli.Character.switchItems(cli, fromplacement, toplacement);
                             }
                         }
-                        cli.Character.switchItems(cli, fromplacement, toplacement);
+                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
                         break;
                     case 0x66:
                         // from Armorpage
-                        cli.Character.UnequipItem(m_from, cli.Character, false, fromplacement);
+                        cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
-                        Unequip.Send(cli, m_from, getpage(fromplacement), fromplacement, false);
-                        cli.Character.switchItems(cli, fromplacement, toplacement);
+                        Unequip.Send(cli, itemFrom, getpage(fromPlacement), fromPlacement, false);
+                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
                         break;
                     case 0x65:
                         // from Weaponspage
-                        cli.Character.UnequipItem(m_from, cli.Character, false, fromplacement);
+                        cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
-                        Unequip.Send(cli, m_from, getpage(fromplacement), fromplacement, false);
-                        cli.Character.switchItems(cli, fromplacement, toplacement);
+                        Unequip.Send(cli, itemFrom, getpage(fromPlacement), fromPlacement, false);
+                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
                         break;
                     case 0x67:
                         // from Implantpage
-                        cli.Character.UnequipItem(m_from, cli.Character, false, fromplacement);
+                        cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
-                        Unequip.Send(cli, m_from, getpage(fromplacement), fromplacement, false);
-                        cli.Character.switchItems(cli, fromplacement, toplacement);
+                        Unequip.Send(cli, itemFrom, getpage(fromPlacement), fromPlacement, false);
+                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = true;
                         break;
                     case 0x73:
-                        cli.Character.UnequipItem(m_from, cli.Character, true, fromplacement);
+                        cli.Character.UnequipItem(itemFrom, cli.Character, true, fromPlacement);
 
-                        cli.Character.switchItems(cli, fromplacement, toplacement);
+                        cli.Character.switchItems(cli, fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         break;
                     case 0x69:
-                        cli.Character.TransferItemfromBank(fromplacement, toplacement);
-                        toplacement = 0x6f; // setting back to 0x6f for packet reply
+                        cli.Character.TransferItemfromBank(fromPlacement, toPlacement);
+                        toPlacement = 0x6f; // setting back to 0x6f for packet reply
                         noAppearanceUpdate = true;
                         break;
                     case 0x6c:
                         // KnuBot Trade Window
-                        cli.Character.TransferItemfromKnuBotTrade(fromplacement, toplacement);
+                        cli.Character.TransferItemfromKnuBotTrade(fromPlacement, toPlacement);
                         break;
                     default:
                         break;
                 }
             }
             cli.Character.dontdotimers = false;
-            if ((fromplacement < 0x30) || (toplacement < 0x30)) // Equipmentpages need delays
+            if ((fromPlacement < 0x30) || (toPlacement < 0x30)) // Equipmentpages need delays
             {
                 // Delay when equipping/unequipping
                 // has to be redone, jumping breaks the equiping/unequiping 
@@ -340,14 +340,14 @@ namespace ZoneEngine.PacketHandlers
             {
                 Thread.Sleep(200); //social has to wait for 0.2 secs too (for helmet update)
             }
-            SwitchItem.Send(cli, fromcontainerid, fromplacement, to_identity, toplacement);
+            SwitchItem.Send(cli, fromContainerID, fromPlacement, toIdentity, toPlacement);
             cli.Character.Stats.ClearChangedFlags();
             if (!noAppearanceUpdate)
             {
                 cli.Character.AppearanceUpdate();
             }
-            m_from = null;
-            m_to = null;
+            itemFrom = null;
+            itemTo = null;
         }
     }
 }

@@ -52,7 +52,6 @@ namespace ZoneEngine
     using ZoneEngine.Functions;
     using ZoneEngine.Misc;
     using ZoneEngine.NonPlayerCharacter;
-    using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Script;
 
     public class Program

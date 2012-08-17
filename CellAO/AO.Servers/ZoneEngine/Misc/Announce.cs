@@ -36,7 +36,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         /// <param name="playfield"></param>
         /// <param name="data"></param>
-        public static void Playfield(int playfield, ref byte[] data)
+        public static void Playfield(int playfield, byte[] data)
         {
             lock (Program.zoneServer.Clients)
             {
@@ -63,7 +63,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         /// <param name="client"></param>
         /// <param name="data"></param>
-        public static void PlayfieldOthers(Client client, ref Byte[] data)
+        public static void PlayfieldOthers(Client client, Byte[] data)
         {
             foreach (Client tempClient in Program.zoneServer.Clients)
             {
@@ -88,7 +88,7 @@ namespace ZoneEngine.Misc
         /// <param name="playfield
         /// "></param>
         /// <param name="data"></param>
-        public static void PlayfieldOthers(int playfield, ref Byte[] data)
+        public static void PlayfieldOthers(int playfield, Byte[] data)
         {
             foreach (Client tempClient in Program.zoneServer.Clients)
             {

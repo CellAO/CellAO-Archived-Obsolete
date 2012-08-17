@@ -40,17 +40,17 @@ namespace AO.Core
     /// </summary>
     public class PacketReader
     {
-        private readonly MemoryStream _stream;
-        private readonly BinaryReader _reader;
+        private readonly MemoryStream stream;
+        private readonly BinaryReader reader;
 
         /// <summary>
         /// Initializes new packet reader
         /// </summary>
         /// <param name="packet">byte array to read from</param>
-        public PacketReader(ref byte[] packet)
+        public PacketReader(byte[] packet)
         {
-            _stream = new MemoryStream(packet);
-            _reader = new BinaryReader(_stream);
+            this.stream = new MemoryStream(packet);
+            this.reader = new BinaryReader(this.stream);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace AO.Core
         /// <returns></returns>
         public byte PopByte()
         {
-            return _reader.ReadByte();
+            return this.reader.ReadByte();
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace AO.Core
         /// <returns></returns>
         public short PopShort()
         {
-            return IPAddress.NetworkToHostOrder(_reader.ReadInt16());
+            return IPAddress.NetworkToHostOrder(this.reader.ReadInt16());
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace AO.Core
         /// <returns></returns>
         public int PopInt()
         {
-            return IPAddress.NetworkToHostOrder(_reader.ReadInt32());
+            return IPAddress.NetworkToHostOrder(this.reader.ReadInt32());
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace AO.Core
         /// <returns></returns>
         public uint PopUInt()
         {
-            return (uint) IPAddress.NetworkToHostOrder(_reader.ReadInt32());
+            return (uint) IPAddress.NetworkToHostOrder(this.reader.ReadInt32());
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace AO.Core
         /// <returns></returns>
         public long PopLong()
         {
-            return IPAddress.NetworkToHostOrder(_reader.ReadInt64());
+            return IPAddress.NetworkToHostOrder(this.reader.ReadInt64());
         }
 
         /// <summary>
@@ -165,8 +165,8 @@ namespace AO.Core
         /// <returns></returns>
         public int Pop3F1Count()
         {
-            int _count = PopInt();
-            return ((_count/1009) - 1);
+            int count = PopInt();
+            return ((count/1009) - 1);
         }
 
         /// <summary>
@@ -175,10 +175,10 @@ namespace AO.Core
         /// <returns></returns>
         public Identity PopIdentity()
         {
-            Identity _ident = new Identity();
-            _ident.Type = PopInt();
-            _ident.Instance = PopInt();
-            return _ident;
+            Identity identity = new Identity();
+            identity.Type = PopInt();
+            identity.Instance = PopInt();
+            return identity;
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace AO.Core
         /// <param name="count">Number of bytes to skip</param>
         public void SkipBytes(int count)
         {
-            _reader.ReadBytes(count);
+            this.reader.ReadBytes(count);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace AO.Core
         /// <returns></returns>
         public byte[] ReadBytes(int count)
         {
-            return _reader.ReadBytes(count);
+            return this.reader.ReadBytes(count);
         }
 
         /// <summary>
@@ -206,16 +206,16 @@ namespace AO.Core
         /// <returns></returns>
         public Header PopHeader()
         {
-            Header _header = new Header();
-            _header.Start = PopShort();
-            _header.Type = PopShort();
-            _header.Unknown = PopShort();
-            _header.Size = PopShort();
-            _header.Sender = PopInt();
-            _header.Receiver = PopInt();
-            _header.ID = PopInt();
-            _header.AffectedId = PopIdentity();
-            return _header;
+            Header header = new Header();
+            header.Start = PopShort();
+            header.Type = PopShort();
+            header.Unknown = PopShort();
+            header.Size = PopShort();
+            header.Sender = PopInt();
+            header.Receiver = PopInt();
+            header.ID = PopInt();
+            header.AffectedId = PopIdentity();
+            return header;
         }
 
         /// <summary>
@@ -224,11 +224,11 @@ namespace AO.Core
         /// <returns></returns>
         public ACGItem PopACGItem()
         {
-            ACGItem _acgitem = new ACGItem();
-            _acgitem.LID = (uint) PopInt();
-            _acgitem.HID = (uint) PopInt();
-            _acgitem.QL = (uint) PopInt();
-            return _acgitem;
+            ACGItem acgItem = new ACGItem();
+            acgItem.LID = (uint) PopInt();
+            acgItem.HID = (uint) PopInt();
+            acgItem.QL = (uint) PopInt();
+            return acgItem;
         }
 
         /// <summary>
@@ -236,8 +236,8 @@ namespace AO.Core
         /// </summary>
         public void Finish()
         {
-            _reader.Close();
-            _stream.Dispose();
+            this.reader.Close();
+            this.stream.Dispose();
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace AO.Core
         /// <returns>position</returns>
         public long Position()
         {
-            return _reader.BaseStream.Position;
+            return this.reader.BaseStream.Position;
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace AO.Core
         /// <returns></returns>
         public long Length()
         {
-            return _reader.BaseStream.Length;
+            return this.reader.BaseStream.Length;
         }
     }
 }

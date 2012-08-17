@@ -37,27 +37,27 @@ namespace ZoneEngine.PacketHandlers
 
     public class GenericCmd
     {
-        private static int _temp1, _count, _action, _temp4;
+        private static int temp1, count, action, temp4;
 
-        private static Identity _user, _target;
+        private static Identity user, target;
 
-        private static Client _sender;
+        private static Client sender;
 
-        public static void Read(ref byte[] packet, Client client, Dynel dyn)
+        public static void Read(byte[] packet, Client client, Dynel dynel)
         {
-            _sender = client;
-            PacketReader reader = new PacketReader(ref packet);
-            Header _header = reader.PopHeader();
-            reader.PopByte();
-            _temp1 = reader.PopInt();
-            _count = reader.PopInt(); // Count of commands sent
-            _action = reader.PopInt();
-            _temp4 = reader.PopInt();
-            _user = reader.PopIdentity();
-            _target = reader.PopIdentity();
-            reader.Finish();
+            sender = client;
+            PacketReader packetReader = new PacketReader(packet);
+            packetReader.PopHeader();
+            packetReader.PopByte();
+            temp1 = packetReader.PopInt();
+            count = packetReader.PopInt(); // Count of commands sent
+            action = packetReader.PopInt();
+            temp4 = packetReader.PopInt();
+            user = packetReader.PopIdentity();
+            target = packetReader.PopIdentity();
+            packetReader.Finish();
             bool feedback = true;
-            switch (_action)
+            switch (action)
             {
                 case 1:
                     // Get
@@ -75,15 +75,15 @@ namespace ZoneEngine.PacketHandlers
                     {
                         foreach (Statels.Statel s in Statels.StatelppfonUse[client.Character.PlayField])
                         {
-                            if (s.onUse(client, _target))
+                            if (s.onUse(client, target))
                             {
                                 return;
                             }
                         }
                     }
                     bool teleport = false;
-                    int pf = 152;
-                    switch (_target.Instance)
+                    int playfield = 152;
+                    switch (target.Instance)
                     {
                             // Need to add feedback to the character 
                             // Are the Newer Grid points in this list???
@@ -103,7 +103,7 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.x = 202;
                                 newcoord.z = 878;
                                 newcoord.y = 16;
-                                pf = 687;
+                                playfield = 687;
                             }
                             break;
 
@@ -118,7 +118,7 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.x = 390;
                                 newcoord.z = 340;
                                 newcoord.y = 0;
-                                pf = 545;
+                                playfield = 545;
                             }
                             break;
 
@@ -133,7 +133,7 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.x = 685;
                                 newcoord.z = 480;
                                 newcoord.y = 73;
-                                pf = 800;
+                                playfield = 800;
                             }
                             break;
                             #endregion
@@ -151,7 +151,7 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.x = 1143;
                                 newcoord.z = 541;
                                 newcoord.y = 8;
-                                pf = 790;
+                                playfield = 790;
                             }
                             break;
 
@@ -167,7 +167,7 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.x = 760;
                                 newcoord.z = 1982;
                                 newcoord.y = 7;
-                                pf = 635;
+                                playfield = 635;
                             }
                             break;
 
@@ -183,7 +183,7 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.x = 370;
                                 newcoord.z = 1564;
                                 newcoord.y = 7;
-                                pf = 630;
+                                playfield = 630;
                             }
                             break;
 
@@ -199,7 +199,7 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.x = 3196;
                                 newcoord.z = 3172;
                                 newcoord.y = 7;
-                                pf = 695;
+                                playfield = 695;
                             }
                             break;
 
@@ -215,7 +215,7 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.x = 3389;
                                 newcoord.z = 800;
                                 newcoord.y = 8;
-                                pf = 695;
+                                playfield = 695;
                             }
                             break;
 
@@ -231,7 +231,7 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.x = 370;
                                 newcoord.z = 1562;
                                 newcoord.y = 7;
-                                pf = 630;
+                                playfield = 630;
                             }
                             break;
 
@@ -239,14 +239,14 @@ namespace ZoneEngine.PacketHandlers
                             newcoord.x = 3569;
                             newcoord.z = 912;
                             newcoord.y = 9;
-                            pf = 695;
+                            playfield = 695;
                             break;
 
                         case -1073282377: //Omni-1 Trade -> Harry's trading outpost (free)
                             newcoord.x = 3290;
                             newcoord.z = 2922;
                             newcoord.y = 7;
-                            pf = 695;
+                            playfield = 695;
                             break;
                             #endregion
 
@@ -258,13 +258,13 @@ namespace ZoneEngine.PacketHandlers
 
                     if (teleport)
                     {
-                        client.Teleport(newcoord, client.Character.Heading, pf);
+                        client.Teleport(newcoord, client.Character.Heading, playfield);
                     }
 
                     // Use item in inventory
-                    if (_target.Type == 104)
+                    if (target.Type == 104)
                     {
-                        InventoryEntries ie = client.Character.getInventoryAt(_target.Instance);
+                        InventoryEntries ie = client.Character.getInventoryAt(target.Instance);
                         AOItem mi = ItemHandler.GetItemTemplate(ie.Item.LowID);
                         // TODO mi.applyon(client.Character, ItemHandler.eventtype_onuse, true, false, ie.Placement);
                         TemplateAction.Send(client.Character, ie);
@@ -282,8 +282,8 @@ namespace ZoneEngine.PacketHandlers
                         {
                             if (aoe.EventType == Constants.eventtype_onuse)
                             {
-                                _sender.Character.ExecuteEvent(
-                                    _sender.Character, _sender.Character, aoe, true, false, 0, CheckReqs.doCheckReqs);
+                                sender.Character.ExecuteEvent(
+                                    sender.Character, sender.Character, aoe, true, false, 0, CheckReqs.doCheckReqs);
                                 SkillUpdate.SendStat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
                                 // Social Status
                                 return;
@@ -314,9 +314,9 @@ namespace ZoneEngine.PacketHandlers
                         // Social Status
                         return;
                     }
-                    else if (_target.Type == 51035) // Shops
+                    else if (target.Type == 51035) // Shops
                     {
-                        VendingMachine vm = VendorHandler.GetVendorById(_target.Instance);
+                        VendingMachine vm = VendorHandler.GetVendorById(target.Instance);
                         ShopInventory.Send(client, vm);
                         Trade.Send(client, client.Character, vm);
                         Trade.Send(client, vm, client.Character);
@@ -337,15 +337,15 @@ namespace ZoneEngine.PacketHandlers
                         reply[0x1c] = 0;
                         reply[0x20] = 1;
 
-                        client.Character.LastTrade.Type = _target.Type;
-                        client.Character.LastTrade.Instance = _target.Instance;
+                        client.Character.LastTrade.Type = target.Type;
+                        client.Character.LastTrade.Instance = target.Instance;
 
                         PacketWriter pw = new PacketWriter();
                         pw.PushBytes(reply);
                         byte[] rep = pw.Finish();
                         client.SendCompressed(rep);
                     }
-                    else if (_target.Type == 51050) // Open corpse
+                    else if (target.Type == 51050) // Open corpse
                     {
                     }
                     break;
@@ -362,21 +362,21 @@ namespace ZoneEngine.PacketHandlers
             {
 #if DEBUG
                 string Feedback1 = string.Format(
-                    "T1 {0}, Count {1}, Action {2}, T4 {3}", _temp1, _count, _action, _temp4);
+                    "T1 {0}, Count {1}, Action {2}, T4 {3}", temp1, count, action, temp4);
                 string Feedback2 = string.Format(
                     "User {0}:{1}, Target {2}:{3} ({4}:{5})",
-                    _user.Type,
-                    _user.Instance,
-                    _target.Type,
-                    (uint)_target.Instance,
-                    _target.Type.ToString("X4"),
-                    ((uint)_target.Instance).ToString("X8"));
+                    user.Type,
+                    user.Instance,
+                    target.Type,
+                    (uint)target.Instance,
+                    target.Type.ToString("X4"),
+                    ((uint)target.Instance).ToString("X8"));
                 Statels.Statel b = null;
                 if (Statels.Statelppf.ContainsKey(client.Character.PlayField))
                 {
                     foreach (Statels.Statel z in Statels.Statelppf[client.Character.PlayField])
                     {
-                        if ((z.Type == _target.Type) && ((Int32)z.Instance == _target.Instance))
+                        if ((z.Type == target.Type) && ((Int32)z.Instance == target.Instance))
                         {
                             b = z;
                             break;
@@ -394,8 +394,8 @@ namespace ZoneEngine.PacketHandlers
                 else
                 {
                     Console.WriteLine(
-                        "No Statel defined in database for #" + _target.Type + ":" + (UInt32)_target.Instance + " ("
-                        + _target.Type.ToString("X4") + ":" + _target.Instance.ToString("X8") + ")");
+                        "No Statel defined in database for #" + target.Type + ":" + (UInt32)target.Instance + " ("
+                        + target.Type.ToString("X4") + ":" + target.Instance.ToString("X8") + ")");
                 }
                 client.SendChatText(Feedback1);
                 client.SendChatText(Feedback2);
@@ -405,7 +405,7 @@ namespace ZoneEngine.PacketHandlers
 
         private static void OnUse()
         {
-            uint _t_instance = BitConverter.ToUInt32(BitConverter.GetBytes(_target.Instance), 0);
+            uint _t_instance = BitConverter.ToUInt32(BitConverter.GetBytes(target.Instance), 0);
 
             //LuaInterface.LuaTable tbl = Program.Script.GetLua().GetTable("PlayfieldSettings");
             /* Removed Lua Hook, Just reply
@@ -741,18 +741,18 @@ namespace ZoneEngine.PacketHandlers
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(_sender.Character.ID);
+            writer.PushInt(sender.Character.ID);
             writer.PushInt(0x52526858);
-            writer.PushIdentity(_user);
+            writer.PushIdentity(user);
             writer.PushByte(0);
             writer.PushInt(1);
-            writer.PushInt(_count);
-            writer.PushInt(_action);
-            writer.PushInt(_temp4);
-            writer.PushIdentity(_user);
-            writer.PushIdentity(_target);
+            writer.PushInt(count);
+            writer.PushInt(action);
+            writer.PushInt(temp4);
+            writer.PushIdentity(user);
+            writer.PushIdentity(target);
             byte[] reply = writer.Finish();
-            _sender.SendCompressed(reply);
+            sender.SendCompressed(reply);
         }
     }
 }

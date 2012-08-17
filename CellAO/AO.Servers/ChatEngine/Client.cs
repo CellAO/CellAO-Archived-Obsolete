@@ -84,9 +84,9 @@ namespace ChatEngine
         /// </summary>
         /// <param name="packet">
         /// </param>
-        public override void Send(ref byte[] packet)
+        public override void Send(byte[] packet)
         {
-            base.Send(ref packet);
+            base.Send(packet);
         }
 
         /// <summary>

@@ -178,8 +178,8 @@ namespace ZoneEngine
                 {
                     this.dontdotimers = true;
                     this.Stats = new CharacterStats(this);
-                    this.readCoordsfromSQL();
-                    this.readHeadingfromSQL();
+                    this.ReadCoordsFromSQL();
+                    this.ReadHeadingFromSQL();
                     this.Stats.ReadStatsfromSql();
                     this.ReadSpecialStatsfromSQL();
                     this.readTimersfromSQL();
@@ -1090,23 +1090,23 @@ namespace ZoneEngine
         /// <summary>
         /// Write inventory data into packetwriter
         /// </summary>
-        /// <param name="writer">ref of the packetwriter</param>
-        public void writeInventorytoPacket(ref PacketWriter writer)
+        /// <param name="packetWriter">packet writer</param>
+        public void WriteInventoryToPacket(PacketWriter packetWriter)
         {
-            int count;
             lock (this.Inventory)
             {
-                writer.Push3F1Count(this.Inventory.Count);
+                packetWriter.Push3F1Count(this.Inventory.Count);
+                int count;
                 for (count = 0; count < this.Inventory.Count; count++)
                 {
-                    writer.PushInt(this.Inventory[count].Placement);
-                    writer.PushShort((short)this.Inventory[count].Item.Flags);
-                    writer.PushShort((short)this.Inventory[count].Item.MultipleCount);
-                    writer.PushIdentity(this.Inventory[count].Item.Type, this.Inventory[count].Item.Instance);
-                    writer.PushInt(this.Inventory[count].Item.LowID);
-                    writer.PushInt(this.Inventory[count].Item.HighID);
-                    writer.PushInt(this.Inventory[count].Item.Quality);
-                    writer.PushInt(this.Inventory[count].Item.Nothing);
+                    packetWriter.PushInt(this.Inventory[count].Placement);
+                    packetWriter.PushShort((short)this.Inventory[count].Item.Flags);
+                    packetWriter.PushShort((short)this.Inventory[count].Item.MultipleCount);
+                    packetWriter.PushIdentity(this.Inventory[count].Item.Type, this.Inventory[count].Item.Instance);
+                    packetWriter.PushInt(this.Inventory[count].Item.LowID);
+                    packetWriter.PushInt(this.Inventory[count].Item.HighID);
+                    packetWriter.PushInt(this.Inventory[count].Item.Quality);
+                    packetWriter.PushInt(this.Inventory[count].Item.Nothing);
                 }
             }
         }
@@ -1738,8 +1738,8 @@ namespace ZoneEngine
                 {
                     this.needpurge = false;
 
-                    this.writeCoordinatestoSQL();
-                    this.writeHeadingtoSQL();
+                    this.WriteCoordinatesToSQL();
+                    this.WriteHeadingToSQL();
                     this.WriteStats();
                     this.writeNanostoSQL();
                     this.writeInventorytoSQL();
@@ -1972,17 +1972,17 @@ namespace ZoneEngine
         /// <summary>
         /// Set target
         /// </summary>
-        /// <param name="packet">ref to datapacket</param>
-        public void setTarget(ref byte[] packet)
+        /// <param name="packet">data packet</param>
+        public void setTarget(byte[] packet)
         {
             lock (this)
             {
-                PacketReader pr = new PacketReader(ref packet);
+                PacketReader packetReader = new PacketReader(packet);
 
-                Header head = pr.PopHeader();
-                pr.PopByte();
-                this.Target = pr.PopIdentity();
-                pr.Finish();
+                packetReader.PopHeader();
+                packetReader.PopByte();
+                this.Target = packetReader.PopIdentity();
+                packetReader.Finish();
             }
         }
         #endregion

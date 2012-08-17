@@ -48,16 +48,16 @@ namespace ZoneEngine.PacketHandlers
         /// </summary>
         /// <param name="packet"></param>
         /// <param name="client"></param>
-        public void Read(ref byte[] packet, Client client)
+        public void Read(byte[] packet, Client client)
         {
-            PacketReader reader = new PacketReader(ref packet);
+            PacketReader reader = new PacketReader(packet);
 
             Header header = reader.PopHeader();
             reader.PopByte();
             byte cmd = reader.PopByte();
             Identity target = reader.PopIdentity();
             int unknown = reader.PopInt();
-            string CmdStr = "";
+            string cmdStr = "";
             byte CmdByte = 0;
 
             #region cmd args
@@ -77,8 +77,8 @@ namespace ZoneEngine.PacketHandlers
                 case 26:
                 case 27:
                 case 28:
-                    short CmdStrLen = reader.PopShort();
-                    CmdStr = reader.PopString(CmdStrLen);
+                    short cmdStrLen = reader.PopShort();
+                    cmdStr = reader.PopString(cmdStrLen);
                     break;
                 case 10:
                     CmdByte = reader.PopByte();
@@ -102,26 +102,26 @@ namespace ZoneEngine.PacketHandlers
                          * name of org is CmdStr
                          */
 
-                        string SqlQuery = "SELECT * FROM organizations WHERE Name='" + CmdStr + "'";
-                        string guild_name = null;
+                        string sqlQuery = "SELECT * FROM organizations WHERE Name='" + cmdStr + "'";
+                        string guildName = null;
                         uint orgID = 0;
-                        dt = this.ms.ReadDatatable(SqlQuery);
+                        dt = this.ms.ReadDatatable(sqlQuery);
                         if (dt.Rows.Count > 0)
                         {
-                            guild_name = (string)dt.Rows[0]["Name"];
+                            guildName = (string)dt.Rows[0]["Name"];
                         }
 
-                        if (guild_name == null)
+                        if (guildName == null)
                         {
-                            client.SendChatText("You have created the guild: " + CmdStr);
+                            client.SendChatText("You have created the guild: " + cmdStr);
 
-                            string CurrDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                            string SqlQuery2 =
+                            string currentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                            string sqlQuery2 =
                                 "INSERT INTO organizations (Name, creation, LeaderID, GovernmentForm) VALUES ('"
-                                + CmdStr + "', '" + CurrDate + "', '" + client.Character.ID + "', '0')";
-                            this.ms.SqlInsert(SqlQuery2);
-                            string SqlQuery3 = "SELECT * FROM organizations WHERE Name='" + CmdStr + "'";
-                            dt = this.ms.ReadDatatable(SqlQuery3);
+                                + cmdStr + "', '" + currentDate + "', '" + client.Character.ID + "', '0')";
+                            this.ms.SqlInsert(sqlQuery2);
+                            string sqlQuery3 = "SELECT * FROM organizations WHERE Name='" + cmdStr + "'";
+                            dt = this.ms.ReadDatatable(sqlQuery3);
                             if (dt.Rows.Count > 0)
                             {
                                 orgID = (UInt32)dt.Rows[0]["ID"];
@@ -151,13 +151,13 @@ namespace ZoneEngine.PacketHandlers
                         break;
                     }
                     string ranksSql = "SELECT GovernmentForm FROM organizations WHERE ID = " + client.Character.OrgId;
-                    int govForm = -1;
+                    int governingForm = -1;
                     dt = this.ms.ReadDatatable(ranksSql);
                     if (dt.Rows.Count > 0)
                     {
-                        govForm = (Int32)dt.Rows[0]["GovernmentForm"];
+                        governingForm = (Int32)dt.Rows[0]["GovernmentForm"];
                     }
-                    client.SendChatText("Current Rank Structure: " + GetRankList(govForm));
+                    client.SendChatText("Current Rank Structure: " + GetRankList(governingForm));
                     break;
                     #endregion
 
@@ -198,67 +198,67 @@ namespace ZoneEngine.PacketHandlers
                                 orgLeaderName = (string)dt.Rows[0][0];
                             }
 
-                            string TextGovForm = null;
+                            string textGovForm = null;
                             if (orgGoverningForm == 0)
                             {
-                                TextGovForm = "Department";
+                                textGovForm = "Department";
                             }
                             else if (orgGoverningForm == 1)
                             {
-                                TextGovForm = "Faction";
+                                textGovForm = "Faction";
                             }
                             else if (orgGoverningForm == 2)
                             {
-                                TextGovForm = "Republic";
+                                textGovForm = "Republic";
                             }
                             else if (orgGoverningForm == 3)
                             {
-                                TextGovForm = "Monarchy";
+                                textGovForm = "Monarchy";
                             }
                             else if (orgGoverningForm == 4)
                             {
-                                TextGovForm = "Anarchism";
+                                textGovForm = "Anarchism";
                             }
                             else if (orgGoverningForm == 5)
                             {
-                                TextGovForm = "Feudalism";
+                                textGovForm = "Feudalism";
                             }
                             else
                             {
-                                TextGovForm = "Department";
+                                textGovForm = "Department";
                             }
                             string orgRank = GetRank(orgGoverningForm, tPlayer.Character.Stats.ClanLevel.StatBaseValue);
-                            PacketWriter writer = new PacketWriter();
-                            writer.PushBytes(new byte[] { 0xDF, 0xDF });
-                            writer.PushShort(10);
-                            writer.PushShort(1);
-                            writer.PushShort(0);
-                            writer.PushInt(3086);
-                            writer.PushInt(client.Character.ID);
-                            writer.PushInt(0x64582A07);
-                            writer.PushIdentity(50000, tPlayer.Character.ID);
-                            writer.PushByte(0);
-                            writer.PushByte(2); // OrgServer case 0x02 (Org Info)
-                            writer.PushInt(0);
-                            writer.PushInt(0);
-                            writer.PushInt(0xDEAA); // Type (org)
-                            writer.PushUInt(tPlayer.Character.OrgId); // org ID
-                            writer.PushShort((short)tPlayer.Character.OrgName.Length);
-                            writer.PushBytes(Encoding.ASCII.GetBytes(tPlayer.Character.OrgName));
-                            writer.PushShort((short)orgDescription.Length);
-                            writer.PushBytes(Encoding.ASCII.GetBytes(orgDescription));
-                            writer.PushShort((short)orgObjective.Length);
-                            writer.PushBytes(Encoding.ASCII.GetBytes(orgObjective));
-                            writer.PushShort((short)orgHistory.Length);
-                            writer.PushBytes(Encoding.ASCII.GetBytes(orgHistory));
-                            writer.PushShort((short)TextGovForm.Length);
-                            writer.PushBytes(Encoding.ASCII.GetBytes(TextGovForm));
-                            writer.PushShort((short)orgLeaderName.Length);
-                            writer.PushBytes(Encoding.ASCII.GetBytes(orgLeaderName));
-                            writer.PushShort((short)orgRank.Length);
-                            writer.PushBytes(Encoding.ASCII.GetBytes(orgRank));
-                            writer.Push3F1Count(0);
-                            byte[] reply = writer.Finish();
+                            PacketWriter packetWriter = new PacketWriter();
+                            packetWriter.PushBytes(new byte[] { 0xDF, 0xDF });
+                            packetWriter.PushShort(10);
+                            packetWriter.PushShort(1);
+                            packetWriter.PushShort(0);
+                            packetWriter.PushInt(3086);
+                            packetWriter.PushInt(client.Character.ID);
+                            packetWriter.PushInt(0x64582A07);
+                            packetWriter.PushIdentity(50000, tPlayer.Character.ID);
+                            packetWriter.PushByte(0);
+                            packetWriter.PushByte(2); // OrgServer case 0x02 (Org Info)
+                            packetWriter.PushInt(0);
+                            packetWriter.PushInt(0);
+                            packetWriter.PushInt(0xDEAA); // Type (org)
+                            packetWriter.PushUInt(tPlayer.Character.OrgId); // org ID
+                            packetWriter.PushShort((short)tPlayer.Character.OrgName.Length);
+                            packetWriter.PushBytes(Encoding.ASCII.GetBytes(tPlayer.Character.OrgName));
+                            packetWriter.PushShort((short)orgDescription.Length);
+                            packetWriter.PushBytes(Encoding.ASCII.GetBytes(orgDescription));
+                            packetWriter.PushShort((short)orgObjective.Length);
+                            packetWriter.PushBytes(Encoding.ASCII.GetBytes(orgObjective));
+                            packetWriter.PushShort((short)orgHistory.Length);
+                            packetWriter.PushBytes(Encoding.ASCII.GetBytes(orgHistory));
+                            packetWriter.PushShort((short)textGovForm.Length);
+                            packetWriter.PushBytes(Encoding.ASCII.GetBytes(textGovForm));
+                            packetWriter.PushShort((short)orgLeaderName.Length);
+                            packetWriter.PushBytes(Encoding.ASCII.GetBytes(orgLeaderName));
+                            packetWriter.PushShort((short)orgRank.Length);
+                            packetWriter.PushBytes(Encoding.ASCII.GetBytes(orgRank));
+                            packetWriter.Push3F1Count(0);
+                            byte[] reply = packetWriter.Finish();
 
                             client.SendCompressed(reply);
                         }
@@ -296,16 +296,16 @@ namespace ZoneEngine.PacketHandlers
                         // some arg in CmdByte. No idea what it is
 
                         //create the target namespace t_promote
-                        Client t_promote = null;
+                        Client toPromote = null;
                         string promoteSql = "";
                         int targetOldRank = -1;
                         int targetNewRank = -1;
                         int newPresRank = -1;
                         int oldPresRank = 0;
-                        if (FindClient.FindClientByID(target.Instance, out t_promote))
+                        if (FindClient.FindClientByID(target.Instance, out toPromote))
                         {
                             //First we check if target is in the same org as you
-                            if (t_promote.Character.OrgId != client.Character.OrgId)
+                            if (toPromote.Character.OrgId != client.Character.OrgId)
                             {
                                 //not in same org
                                 client.SendChatText("Target is not in your organization!");
@@ -313,7 +313,7 @@ namespace ZoneEngine.PacketHandlers
                             }
                             //Target is in same org, are you eligible to promote?  Promoter Rank has to be TargetRank-2 or == 0
                             if ((client.Character.Stats.ClanLevel.Value
-                                 == (t_promote.Character.Stats.ClanLevel.Value - 2))
+                                 == (toPromote.Character.Stats.ClanLevel.Value - 2))
                                 || (client.Character.Stats.ClanLevel.Value == 0))
                             {
                                 //Promoter is eligible. Start the process
@@ -341,22 +341,22 @@ namespace ZoneEngine.PacketHandlers
                                          */
 
                                     // Set new President's Rank
-                                    targetOldRank = t_promote.Character.Stats.ClanLevel.Value;
+                                    targetOldRank = toPromote.Character.Stats.ClanLevel.Value;
                                     targetNewRank = targetOldRank - 1;
                                     promotedToRank = GetRank(promoteGovForm, (uint)targetNewRank);
-                                    t_promote.Character.Stats.ClanLevel.Set(targetNewRank);
+                                    toPromote.Character.Stats.ClanLevel.Set(targetNewRank);
                                     // Demote the old president
                                     oldPresRank = client.Character.Stats.ClanLevel.Value;
                                     newPresRank = oldPresRank + 1;
                                     demotedFromRank = GetRank(promoteGovForm, (uint)newPresRank);
                                     client.Character.Stats.ClanLevel.Set(newPresRank);
                                     //Change the leader id in SQL
-                                    string newLeadSql = "UPDATE organizations SET LeaderID = " + t_promote.Character.ID
-                                                        + " WHERE ID = " + t_promote.Character.OrgId;
+                                    string newLeadSql = "UPDATE organizations SET LeaderID = " + toPromote.Character.ID
+                                                        + " WHERE ID = " + toPromote.Character.OrgId;
                                     this.ms.SqlUpdate(newLeadSql);
                                     client.SendChatText(
-                                        "You've passed leadership of the organization to: " + t_promote.Character.Name);
-                                    t_promote.SendChatText(
+                                        "You've passed leadership of the organization to: " + toPromote.Character.Name);
+                                    toPromote.SendChatText(
                                         "You've been promoted to the rank of " + promotedToRank + " by "
                                         + client.Character.Name);
                                     break;
@@ -364,13 +364,13 @@ namespace ZoneEngine.PacketHandlers
                                 else
                                 {
                                     //Just Promote
-                                    targetOldRank = t_promote.Character.Stats.ClanLevel.Value;
+                                    targetOldRank = toPromote.Character.Stats.ClanLevel.Value;
                                     targetNewRank = targetOldRank - 1;
                                     promotedToRank = GetRank(promoteGovForm, (uint)targetNewRank);
-                                    t_promote.Character.Stats.ClanLevel.Set(targetNewRank);
+                                    toPromote.Character.Stats.ClanLevel.Set(targetNewRank);
                                     client.SendChatText(
-                                        "You've promoted " + t_promote.Character.Name + " to " + promotedToRank);
-                                    t_promote.SendChatText(
+                                        "You've promoted " + toPromote.Character.Name + " to " + promotedToRank);
+                                    toPromote.SendChatText(
                                         "You've been promoted to the rank of " + promotedToRank + " by "
                                         + client.Character.Name);
                                 }
@@ -379,7 +379,7 @@ namespace ZoneEngine.PacketHandlers
                             {
                                 //Promoter not eligible to promote
                                 client.SendChatText(
-                                    "Your Rank is not high enough to promote " + t_promote.Character.Name);
+                                    "Your Rank is not high enough to promote " + toPromote.Character.Name);
                                 break;
                             }
                         }
@@ -458,7 +458,7 @@ namespace ZoneEngine.PacketHandlers
 
                     //create the t_player Client namespace, using CmdStr to find character id, in replacement of target.Instance
                     uint kickedFrom = client.Character.OrgId;
-                    string kickeeSql = "SELECT * FROM characters WHERE Name = '" + CmdStr + "'";
+                    string kickeeSql = "SELECT * FROM characters WHERE Name = '" + cmdStr + "'";
                     int kickeeId = 0;
                     dt = this.ms.ReadDatatable(kickeeSql);
                     if (dt.Rows.Count > 0)
@@ -474,7 +474,7 @@ namespace ZoneEngine.PacketHandlers
                         if (kickeeOrgId != client.Character.OrgId)
                         {
                             //Not part of Org. break out.
-                            client.SendChatText(CmdStr + "is not a member of your organization!");
+                            client.SendChatText(cmdStr + "is not a member of your organization!");
                             break;
                         }
 
@@ -595,7 +595,7 @@ namespace ZoneEngine.PacketHandlers
                     // <tax> is CmdStr
                     // if no <tax>, then just send chat text with current tax info
 
-                    if (CmdStr == null)
+                    if (cmdStr == null)
                     {
                         client.SendChatText("The current organization tax rate is: ");
                         break;
@@ -631,7 +631,7 @@ namespace ZoneEngine.PacketHandlers
                         }
 
                         // org bank add <cash>
-                        int minuscredits_fromplayer = Convert.ToInt32(CmdStr);
+                        int minuscredits_fromplayer = Convert.ToInt32(cmdStr);
                         int characters_credits = client.Character.Stats.Cash.Value;
 
                         if (characters_credits < minuscredits_fromplayer)
@@ -664,7 +664,7 @@ namespace ZoneEngine.PacketHandlers
                         client.SendChatText("You're not the leader of an Organization");
                         break;
                     }
-                    int remove_credits = Convert.ToInt32(CmdStr);
+                    int remove_credits = Convert.ToInt32(cmdStr);
                     long org_bank = 0;
                     dt = this.ms.ReadDatatable("SELECT Bank FROM organizations WHERE ID = " + client.Character.OrgId);
                     if (dt.Rows.Count > 0)
@@ -712,7 +712,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             // org history <history text>
                             this.ms.SqlUpdate(
-                                "UPDATE organizations SET history = '" + CmdStr + "' WHERE ID = '"
+                                "UPDATE organizations SET history = '" + cmdStr + "' WHERE ID = '"
                                 + client.Character.OrgId + "'");
                             client.SendChatText("History Updated");
                         }
@@ -731,7 +731,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             // org objective <objective text>
                             this.ms.SqlUpdate(
-                                "UPDATE organizations SET objective = '" + CmdStr + "' WHERE ID = '"
+                                "UPDATE organizations SET objective = '" + cmdStr + "' WHERE ID = '"
                                 + client.Character.OrgId + "'");
                             client.SendChatText("Objective Updated");
                         }
@@ -750,7 +750,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             // org description <description text>
                             this.ms.SqlUpdate(
-                                "UPDATE organizations SET description = '" + CmdStr + "' WHERE ID = '"
+                                "UPDATE organizations SET description = '" + cmdStr + "' WHERE ID = '"
                                 + client.Character.OrgId + "'");
                             client.SendChatText("Description Updated");
                         }
@@ -772,7 +772,7 @@ namespace ZoneEngine.PacketHandlers
                          */
                         if (client.Character.Stats.ClanLevel.Value == 0)
                         {
-                            string SqlQuery26 = "SELECT * FROM organizations WHERE Name LIKE '" + CmdStr + "' LIMIT 1";
+                            string SqlQuery26 = "SELECT * FROM organizations WHERE Name LIKE '" + cmdStr + "' LIMIT 1";
                             string CurrentOrg = null;
                             dt = this.ms.ReadDatatable(SqlQuery26);
                             if (dt.Rows.Count > 0)
@@ -782,10 +782,10 @@ namespace ZoneEngine.PacketHandlers
 
                             if (CurrentOrg == null)
                             {
-                                string SqlQuery27 = "UPDATE organizations SET Name = '" + CmdStr + "' WHERE ID = '"
+                                string SqlQuery27 = "UPDATE organizations SET Name = '" + cmdStr + "' WHERE ID = '"
                                                     + client.Character.OrgId + "'";
                                 this.ms.SqlUpdate(SqlQuery27);
-                                client.SendChatText("Organization Name Changed to: " + CmdStr);
+                                client.SendChatText("Organization Name Changed to: " + cmdStr);
 
                                 // Forces reloading of org name and the like
                                 // XXXX TODO: Make it reload for all other members in the org
@@ -818,7 +818,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             //first we drop the case on the input, just to be sure.
                             Int32 GovFormNum = -1;
-                            if (CmdStr == null)
+                            if (cmdStr == null)
                             {
                                 //list gov forms
                                 client.SendChatText(
@@ -826,7 +826,7 @@ namespace ZoneEngine.PacketHandlers
                                 break;
                             }
                             //was correct input passed?
-                            switch (CmdStr.ToLower())
+                            switch (cmdStr.ToLower())
                             {
                                 case "department":
                                     GovFormNum = 0;
@@ -847,7 +847,7 @@ namespace ZoneEngine.PacketHandlers
                                     GovFormNum = 5;
                                     break;
                                 default:
-                                    client.SendChatText(CmdStr + " Is an invalid Governing Form!");
+                                    client.SendChatText(cmdStr + " Is an invalid Governing Form!");
                                     client.SendChatText(
                                         "Accepted Governing Forms are: department, faction, republic, monarchy, anarchism, feudalism");
                                     break;
@@ -861,7 +861,7 @@ namespace ZoneEngine.PacketHandlers
                                 {
                                     client.Character.Stats.ClanLevel.Set(GetLowestRank(GovFormNum));
                                 }
-                                client.SendChatText("Governing Form is now: " + CmdStr);
+                                client.SendChatText("Governing Form is now: " + cmdStr);
                                 break;
                             }
                         }

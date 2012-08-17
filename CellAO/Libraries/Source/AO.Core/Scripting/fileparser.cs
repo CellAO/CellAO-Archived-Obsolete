@@ -187,7 +187,7 @@ namespace AO.Core.Scripting
         /// <summary>
         /// Retruns position of the first match and populates out paramater with the matchins result. 
         /// </summary>
-        public static int RegexFind(string text, string patern, ref string match)
+        public static int RegexFind(string text, string patern,ref string match)
         {
             Regex regex = new Regex(patern, regexOptions);
             Match m = regex.Match(text);

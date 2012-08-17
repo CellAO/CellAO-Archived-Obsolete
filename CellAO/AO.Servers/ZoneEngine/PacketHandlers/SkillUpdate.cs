@@ -245,7 +245,7 @@ namespace ZoneEngine.PacketHandlers
             /* announce to playfield? */
             if (announce)
             {
-                Announce.Playfield(client.Character.PlayField, ref reply);
+                Announce.Playfield(client.Character.PlayField, reply);
             }
         }
 
@@ -254,10 +254,10 @@ namespace ZoneEngine.PacketHandlers
         /// </summary>
         /// <param name="packet"></param>
         /// <param name="client"></param>
-        public static void Read(ref byte[] packet, Client client)
+        public static void Read(byte[] packet, Client client)
         {
             PacketWriter packetWriter = new PacketWriter();
-            PacketReader packetReader = new PacketReader(ref packet);
+            PacketReader packetReader = new PacketReader(packet);
 
             Header header = packetReader.PopHeader();
             byte unknown1 = packetReader.PopByte();
@@ -316,12 +316,11 @@ namespace ZoneEngine.PacketHandlers
             packetWriter.PushByte(0);
 
             int count = packetReader.PopInt();
-            int statNumber;
             uint statval;
             List<int> statlist = new List<int>();
             while (count > 0)
             {
-                statNumber = packetReader.PopInt();
+                int statNumber = packetReader.PopInt();
                 statval = packetReader.PopUInt();
                 client.Character.Stats.SetBaseValue(statNumber, statval);
                 statlist.Add(statNumber);

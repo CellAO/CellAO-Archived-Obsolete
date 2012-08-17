@@ -69,7 +69,7 @@ namespace ZoneEngine.Packets
             /* announce to playfield? */
             if (announce)
             {
-                Announce.Playfield(client.Character.PlayField, ref packet);
+                Announce.Playfield(client.Character.PlayField, packet);
             }
 
             return oldValue;
@@ -102,7 +102,7 @@ namespace ZoneEngine.Packets
             /* announce to playfield? */
             if (announce)
             {
-                Announce.PlayfieldOthers(client, ref packet);
+                Announce.PlayfieldOthers(client, packet);
             }
         }
 
@@ -148,7 +148,7 @@ namespace ZoneEngine.Packets
             if (toPlayfield.Count > 0)
             {
                 byte[] packet = packetWriter.Finish();
-                Announce.PlayfieldOthers(ch.PlayField, ref packet);
+                Announce.PlayfieldOthers(ch.PlayField, packet);
             }
         }
 
@@ -211,7 +211,7 @@ namespace ZoneEngine.Packets
             if (toPlayfieldIds.Count > 0)
             {
                 byte[] replyToPlayfield = toPlayfieldWriter.Finish();
-                Announce.PlayfieldOthers(client, ref replyToPlayfield);
+                Announce.PlayfieldOthers(client, replyToPlayfield);
             }
         }
 

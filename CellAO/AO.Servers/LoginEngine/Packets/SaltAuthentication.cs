@@ -73,7 +73,7 @@ namespace LoginEngine.Packets
                 serverSalt += string.Format("{0:x2}", salt[i]);
             }
 
-            client.Send(ref packet);
+            client.Send(packet);
             return serverSalt;
         }
     }

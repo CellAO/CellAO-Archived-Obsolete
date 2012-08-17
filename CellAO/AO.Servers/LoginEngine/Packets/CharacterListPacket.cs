@@ -139,7 +139,7 @@ namespace LoginEngine.Packets
             pwriter.PushInt(expansions);
 
             byte[] reply = pwriter.Finish();
-            client.Send(ref reply);
+            client.Send(reply);
         }
     }
 }

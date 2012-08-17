@@ -162,7 +162,7 @@ namespace AO.Core
         /// <param name="blob"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public int ReadFunctionfromBlob(ref byte[] blob, int offset)
+        public int ReadFunctionfromBlob(byte[] blob, int offset)
         {
             int c = offset;
             FunctionType = BitConverter.ToInt32(blob, c);
@@ -218,7 +218,7 @@ namespace AO.Core
             while (c2 > 0)
             {
                 m_a = new AORequirements();
-                c = m_a.readRequirementfromBlob(ref blob, c);
+                c = m_a.readRequirementfromBlob(blob, c);
                 Requirements.Add(m_a);
                 c2--;
             }

@@ -39,22 +39,22 @@ namespace ZoneEngine.PacketHandlers
 
     public static class CharacterAction
     {
-        public static void Read(ref byte[] packet, Client client)
+        public static void Read(byte[] packet, Client client)
         {
             SqlWrapper mys = new SqlWrapper();
 
             // Packet Reader Unknown Values are Returning 0 Integers, Unable to Store Needed Packet data To Reply.
 
             #region PacketReader
-            PacketReader m_reader = new PacketReader(ref packet);
-            Header m_header = m_reader.PopHeader(); // 0 - 28
-            byte unknown = m_reader.PopByte(); // 29
-            int actionNum = m_reader.PopInt(); // 30 - 33
-            int unknown1 = m_reader.PopInt(); // 34 - 37
-            Identity m_ident = m_reader.PopIdentity(); // 38 - 35
-            int unknown2 = m_reader.PopInt(); // 36 - 39
-            int unknown3 = m_reader.PopInt(); // 40 - 43
-            short unknown4 = m_reader.PopShort(); // 44 - 45
+            PacketReader packetReader = new PacketReader(packet);
+            Header m_header = packetReader.PopHeader(); // 0 - 28
+            byte unknown = packetReader.PopByte(); // 29
+            int actionNum = packetReader.PopInt(); // 30 - 33
+            int unknown1 = packetReader.PopInt(); // 34 - 37
+            Identity m_ident = packetReader.PopIdentity(); // 38 - 35
+            int unknown2 = packetReader.PopInt(); // 36 - 39
+            int unknown3 = packetReader.PopInt(); // 40 - 43
+            short unknown4 = packetReader.PopShort(); // 44 - 45
             #endregion
 
             switch (actionNum)
@@ -79,7 +79,7 @@ namespace ZoneEngine.PacketHandlers
                         castNanoSpell.PushInt(0);
                         castNanoSpell.PushIdentity(50000, client.Character.ID); // Caster
                         byte[] castNanoSpellA = castNanoSpell.Finish();
-                        Announce.Playfield(client.Character.PlayField, ref castNanoSpellA);
+                        Announce.Playfield(client.Character.PlayField, castNanoSpellA);
 
                         // CharacterAction 107
                         PacketWriter characterAction107 = new PacketWriter();
@@ -101,7 +101,7 @@ namespace ZoneEngine.PacketHandlers
                         characterAction107.PushInt(unknown3);
                         characterAction107.PushShort(0);
                         byte[] characterAction107A = characterAction107.Finish();
-                        Announce.Playfield(client.Character.PlayField, ref characterAction107A);
+                        Announce.Playfield(client.Character.PlayField, characterAction107A);
 
                         // CharacterAction 98
                         PacketWriter characterAction98 = new PacketWriter();
@@ -123,7 +123,7 @@ namespace ZoneEngine.PacketHandlers
                         characterAction98.PushInt(0x249F0); // duration?
                         characterAction98.PushShort(0);
                         byte[] characterAction98A = characterAction98.Finish();
-                        Announce.Playfield(client.Character.PlayField, ref characterAction98A);
+                        Announce.Playfield(client.Character.PlayField, characterAction98A);
                     }
                     break;
                     #endregion
@@ -366,8 +366,8 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 24: //Leave Team
                     {
-                        TeamClass Team = new TeamClass();
-                        Team.LeaveTeam(client);
+                        TeamClass team = new TeamClass();
+                        team.LeaveTeam(client);
                     }
                     break;
                 case 25: //Transfer Team Leadership
@@ -378,8 +378,8 @@ namespace ZoneEngine.PacketHandlers
                     {
                         // Send Team Invite Request To Target Player
 
-                        TeamClass Team = new TeamClass();
-                        Team.SendTeamRequest(client, m_ident);
+                        TeamClass team = new TeamClass();
+                        team.SendTeamRequest(client, m_ident);
                     }
                     break;
                 case 28: //Request Reply
@@ -388,8 +388,8 @@ namespace ZoneEngine.PacketHandlers
 
                         // if positive
 
-                        TeamClass Team = new TeamClass();
-                        uint TeamID = Team.GenerateNewTeamId(client, m_ident);
+                        TeamClass team = new TeamClass();
+                        uint teamID = team.GenerateNewTeamId(client, m_ident);
 
                         // Destination Client 0 = Sender, 1 = Reciever
 
@@ -397,26 +397,26 @@ namespace ZoneEngine.PacketHandlers
                         ///////////////////
 
                         // CharAction 15
-                        Team.TeamRequestReply(client, m_ident);
+                        team.TeamRequestReply(client, m_ident);
                         // CharAction 23
-                        Team.TeamRequestReplyCharacterAction23(client, m_ident);
+                        team.TeamRequestReplyCharacterAction23(client, m_ident);
 
                         // TeamMember Packet
-                        Team.TeamReplyPacketTeamMember(1, client, m_ident, "Member1");
+                        team.TeamReplyPacketTeamMember(1, client, m_ident, "Member1");
                         // TeamMemberInfo Packet
-                        Team.TeamReplyPacketTeamMemberInfo(1, client, m_ident);
+                        team.TeamReplyPacketTeamMemberInfo(1, client, m_ident);
                         // TeamMember Packet
-                        Team.TeamReplyPacketTeamMember(1, client, m_ident, "Member2");
+                        team.TeamReplyPacketTeamMember(1, client, m_ident, "Member2");
 
                         // Sender Packets
                         /////////////////
 
                         // TeamMember Packet
-                        Team.TeamReplyPacketTeamMember(0, client, m_ident, "Member1");
+                        team.TeamReplyPacketTeamMember(0, client, m_ident, "Member1");
                         // TeamMemberInfo Packet
-                        Team.TeamReplyPacketTeamMemberInfo(0, client, m_ident);
+                        team.TeamReplyPacketTeamMemberInfo(0, client, m_ident);
                         // TeamMember Packet
-                        Team.TeamReplyPacketTeamMember(0, client, m_ident, "Member2");
+                        team.TeamReplyPacketTeamMember(0, client, m_ident, "Member2");
                     }
                     break;
                     #endregion
@@ -564,12 +564,12 @@ namespace ZoneEngine.PacketHandlers
                         action[9] = 0x00;
                         action[10] = 0x0C;
                         action[11] = 0x0E;
-                        Announce.Playfield(client.Character.PlayField, ref action);
+                        Announce.Playfield(client.Character.PlayField, action);
                     }
                     break;
                     #endregion
             }
-            m_reader.Finish();
+            packetReader.Finish();
         }
     }
 }

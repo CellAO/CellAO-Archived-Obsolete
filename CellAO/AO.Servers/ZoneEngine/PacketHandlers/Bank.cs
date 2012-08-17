@@ -32,11 +32,11 @@ namespace ZoneEngine.PacketHandlers
 
     public static class Bank
     {
-        public static void Read(ref byte[] packet, Client client, Dynel dyn)
+        public static void Read(byte[] packet, Client client, Dynel dyn)
         {
             SqlWrapper ms = new SqlWrapper();
             PacketWriter _writer = new PacketWriter();
-            PacketReader _reader = new PacketReader(ref packet);
+            PacketReader _reader = new PacketReader(packet);
         }
     }
 }

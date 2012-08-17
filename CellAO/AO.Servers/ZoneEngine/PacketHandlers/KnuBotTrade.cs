@@ -34,28 +34,28 @@ namespace ZoneEngine.PacketHandlers
 
     public class KnuBotTrade
     {
-        public static void Read(ref byte[] packet, Client client)
+        public static void Read(byte[] packet, Client client)
         {
-            PacketReader _reader = new PacketReader(ref packet);
+            PacketReader packetReader = new PacketReader(packet);
 
-            Header header = _reader.PopHeader();
-            _reader.PopByte();
-            _reader.PopShort();
-            Identity id = _reader.PopIdentity();
+            Header header = packetReader.PopHeader();
+            packetReader.PopByte();
+            packetReader.PopShort();
+            Identity identity = packetReader.PopIdentity();
 
-            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(id.Type, id.Instance);
-            Character ch = FindClient.FindClientByID(header.Sender).Character;
+            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(identity.Type, identity.Instance);
+            Character character = FindClient.FindClientByID(header.Sender).Character;
 
-            _reader.PopInt();
-            _reader.PopInt();
-            _reader.PopInt();
-            int container = _reader.PopInt();
-            int place = _reader.PopInt();
+            packetReader.PopInt();
+            packetReader.PopInt();
+            packetReader.PopInt();
+            int container = packetReader.PopInt();
+            int place = packetReader.PopInt();
 
-            InventoryEntries ie = ch.getInventoryAt(place);
+            InventoryEntries ie = character.getInventoryAt(place);
             AOItem aoi = ie.Item.ShallowCopy();
-            ch.Inventory.Remove(ie); // Silent remove, no message given to client. Client handles this on its own
-            npc.KnuBotTrade(ch, aoi);
+            character.Inventory.Remove(ie); // Silent remove, no message given to client. Client handles this on its own
+            npc.KnuBotTrade(character, aoi);
         }
     }
 }

@@ -172,7 +172,7 @@ namespace LoginEngine.Packets
             /* first char uppercase */
             reply[22] ^= 32;
             /* send response */
-            client.Send(ref reply);
+            client.Send(reply);
         }
         #endregion
 
@@ -360,7 +360,7 @@ namespace LoginEngine.Packets
             byte[] packetlength = BitConverter.GetBytes(reply.Length);
             reply[7] = packetlength[0];
             /* send response */
-            client.Send(ref reply);
+            client.Send(reply);
         }
         #endregion
 
@@ -411,7 +411,7 @@ namespace LoginEngine.Packets
             reply[7] = packetlength[0];
 
             /* send response */
-            client.Send(ref reply);
+            client.Send(reply);
         }
         #endregion
 
@@ -439,7 +439,7 @@ namespace LoginEngine.Packets
             stream.Dispose();
 
             /* send response */
-            client.Send(ref reply);
+            client.Send(reply);
         }
         #endregion
     }

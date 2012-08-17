@@ -52,7 +52,7 @@ namespace ZoneEngine.Packets
                 {
                     (dyn as NonPlayerCharacterClass).RemoveFromCache();
                 }
-                Announce.PlayfieldOthers(dyn.PlayField, ref packet);
+                Announce.PlayfieldOthers(dyn.PlayField, packet);
             }
         }
     }

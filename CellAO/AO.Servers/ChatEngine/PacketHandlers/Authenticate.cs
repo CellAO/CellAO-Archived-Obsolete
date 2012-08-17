@@ -70,12 +70,12 @@ namespace ChatEngine.PacketHandlers
                 && loginEncryption.IsCharacterOnAccount(userName, characterId))
             {
                 byte[] loginok = new LoginOk().Create();
-                client.Send(ref loginok);
+                client.Send(loginok);
             }
             else
             {
                 byte[] loginerr = new LoginError().Create();
-                client.Send(ref loginerr);
+                client.Send(loginerr);
                 client.Server.DisconnectClient(client);
                 byte[] invalid = BitConverter.GetBytes(characterId);
 
@@ -100,14 +100,14 @@ namespace ChatEngine.PacketHandlers
 
             // and give client its own name lookup
             byte[] pname = PlayerName.New(client, client.Character.characterId);
-            client.Send(ref pname);
+            client.Send(pname);
 
             // send server welcome message to client
             byte[] anonv = new MsgAnonymousVicinity().Create(
                 string.Empty,
                 string.Format(motd, AssemblyInfoclass.Description + " " + AssemblyInfoclass.AssemblyVersion),
                 string.Empty);
-            client.Send(ref anonv);
+            client.Send(anonv);
 
             // tell client to join channel "Global"
             // hardcoded right now
@@ -115,7 +115,7 @@ namespace ChatEngine.PacketHandlers
             {
                 byte[] chanGlobal = new ChannelJoin().Create(
                     channel.Id, channel.Name, channel.ChannelMode, new byte[] { 0x00, 0x00 });
-                client.Send(ref chanGlobal);
+                client.Send(chanGlobal);
             }
 
             // First Attempt at Guild Channel....
@@ -132,10 +132,10 @@ namespace ChatEngine.PacketHandlers
                 List<byte> chn_buf = new List<byte>();
                 chn_buf.Add(0x03);
                 chn_buf.AddRange(BitConverter.GetBytes(client.Character.orgId));
-                byte[] chn_id = chn_buf.ToArray();
-                byte[] guild_channel = new ChannelJoin().Create(
-                    chn_id, client.Character.orgName, 0x8044, new byte[] { 0x00, 0x00 });
-                client.Send(ref guild_channel);
+                byte[] channelId = chn_buf.ToArray();
+                byte[] guildChannel = new ChannelJoin().Create(
+                    channelId, client.Character.orgName, 0x8044, new byte[] { 0x00, 0x00 });
+                client.Send(guildChannel);
             }
 
             // Do Not Delete this just yet!

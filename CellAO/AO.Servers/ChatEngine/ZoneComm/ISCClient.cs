@@ -91,11 +91,11 @@ namespace ChatEngine
                                 {
                                     if (!cli.KnownClients.Contains(senderId))
                                     {
-                                        cli.Send(ref namelookup); // sending a namelookup ahead of the message
+                                        cli.Send(namelookup); // sending a namelookup ahead of the message
                                         cli.KnownClients.Add(senderId);
                                     }
 
-                                    cli.Send(ref packet);
+                                    cli.Send(packet);
                                 }
                             }
                         }

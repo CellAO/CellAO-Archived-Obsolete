@@ -44,32 +44,32 @@ namespace ZoneEngine.PacketHandlers
         /// </summary>
         /// <param name="packet"></param>
         /// <param name="client"></param>
-        public static void Read(ref byte[] packet, Client client)
+        public static void Read(byte[] packet, Client client)
         {
             // client got all the needed data and
             // wants to enter the world. After we
             // reply to this, the character will really be in game
 
-            byte[] chrID = BitConverter.GetBytes(client.Character.ID);
-            Array.Reverse(chrID);
-            PacketWriter _writer = new PacketWriter();
-            _writer.PushByte(0xDF);
-            _writer.PushByte(0xDF);
-            _writer.PushShort(10);
-            _writer.PushShort(1);
-            _writer.PushShort(0);
-            _writer.PushInt(3086);
-            _writer.PushInt(client.Character.ID);
-            _writer.PushInt(0x570C2039);
-            _writer.PushIdentity(50000, client.Character.ID);
-            _writer.PushByte(0);
-            byte[] reply = _writer.Finish();
-            Announce.Playfield(client.Character.PlayField, ref reply);
+            byte[] characterID = BitConverter.GetBytes(client.Character.ID);
+            Array.Reverse(characterID);
+            PacketWriter packetWriter = new PacketWriter();
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushByte(0xDF);
+            packetWriter.PushShort(10);
+            packetWriter.PushShort(1);
+            packetWriter.PushShort(0);
+            packetWriter.PushInt(3086);
+            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(0x570C2039);
+            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushByte(0);
+            byte[] reply = packetWriter.Finish();
+            Announce.Playfield(client.Character.PlayField, reply);
             Dynels.GetDynels(client);
 
-            //Mobs get sent whenever player enters playfield, BUT (!) they are NOT synchronized, because the mobs don't save stuff yet.
-            //for instance: the waypoints the mob went through will NOT be saved and therefore when you re-enter the PF, it will AGAIN
-            //walk the same waypoints.
+            // Mobs get sent whenever player enters playfield, BUT (!) they are NOT synchronized, because the mobs don't save stuff yet.
+            // for instance: the waypoints the mob went through will NOT be saved and therefore when you re-enter the PF, it will AGAIN
+            // walk the same waypoints.
             //TODO: Fix it
             /*foreach (MobType mob in NPCPool.Mobs)
             {

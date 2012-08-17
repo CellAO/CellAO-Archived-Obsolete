@@ -132,14 +132,14 @@ namespace LoginEngine
         /// <param name="packet">
         /// The packet data
         /// </param>
-        public override void Send(ref byte[] packet)
+        public override void Send(byte[] packet)
         {
             // 18.1 Fix - Dont ask why its not in network byte order like ZoneEngine packets, its too early in the morning
             byte[] pn = BitConverter.GetBytes(this.packetNumber++);
             packet[0] = pn[0];
             packet[1] = pn[1];
 
-            base.Send(ref packet);
+            base.Send(packet);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace LoginEngine
         /// <param name="packet">
         /// The packet data
         /// </param>
-        public void Senddirect(ref byte[] packet)
+        public void Senddirect(byte[] packet)
         {
             if (this.m_tcpSock.Connected)
             {

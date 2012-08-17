@@ -75,7 +75,7 @@ namespace ZonEngine.Script.customnpcs
         // The Character parameter is not used here, but has to be defined (yet)
         public void Init(Character ch)
         {
-            NonPlayerCharacter target = (NonPlayerCharacter)ZoneEngine.Misc.FindDynel.FindDynelByID(50000, 100001);
+            NonPlayerCharacterClass target = (NonPlayerCharacterClass)ZoneEngine.Misc.FindDynel.FindDynelByID(50000, 100001);
             if (target != null)
             {
                 target.KnuBot = new KnuBotNPC100001(target);
@@ -91,13 +91,13 @@ namespace ZonEngine.Script.customnpcs
     {
         int lastaction = 0;
 
-        public KnuBotNPC100001(Character target, NonPlayerCharacter _parent)
+        public KnuBotNPC100001(Character target, NonPlayerCharacterClass _parent)
             : base(target, _parent)
         {
         }
 
         // Adding our event handlers
-        public KnuBotNPC100001(NonPlayerCharacter _parent)
+        public KnuBotNPC100001(NonPlayerCharacterClass _parent)
             : base(_parent)
         {
             CallKnuBotCloseChatWindow += MyCloseChatWindow;
@@ -159,8 +159,8 @@ namespace ZonEngine.Script.customnpcs
             switch (lastaction)
             {
                 case 3:
-                    TalkingTo.client.SendChatText("Chosen number " + e._answer.ToString());
-                    switch (e._answer)
+                    TalkingTo.client.SendChatText("Chosen number " + e.Answer.ToString());
+                    switch (e.Answer)
                     {
                         case 0:
                             KnuBotNextAction(30, 100); break;
@@ -183,7 +183,7 @@ namespace ZonEngine.Script.customnpcs
                     }
                     break;
                 case 30:
-                    switch (e._answer)
+                    switch (e.Answer)
                     {
                         // { "15", "25", "60", "100", "150", "175", "200", "220", "Something else" }
                         case 0:
@@ -206,7 +206,7 @@ namespace ZonEngine.Script.customnpcs
                     KnuBotNextAction(1, 100);
                     break;
                 case 31:
-                    switch (e._answer)
+                    switch (e.Answer)
                     {
                         // { "10", "20", "30", "Something else" }
                         case 0:
@@ -219,7 +219,7 @@ namespace ZonEngine.Script.customnpcs
                     KnuBotNextAction(1, 100);
                     break;
                 case 32:
-                    switch (e._answer)
+                    switch (e.Answer)
                     {
                         case 0:
                             Teleport(458, 317, 37, 500, 500);
@@ -240,7 +240,7 @@ namespace ZonEngine.Script.customnpcs
 
                     break;
                 case 33:
-                    switch (e._answer)
+                    switch (e.Answer)
                     {
                         case 0:
                             AppendText("Oh, you like the gold one? Nice choice.");
@@ -255,7 +255,7 @@ namespace ZonEngine.Script.customnpcs
 
         public void MyCloseChatWindow(object sender, KnuBotEventArgs e)
         {
-            parent.PurgeTimer(20000);
+            Parent.PurgeTimer(20000);
         }
 
         public void MyOpenChatWindow(object sender, KnuBotEventArgs e)
@@ -263,7 +263,7 @@ namespace ZonEngine.Script.customnpcs
             lastaction = 0;
             if (TalkingTo != null)
             {
-                TalkingTo = e._sender;
+                TalkingTo = e.Sender;
             }
             Action(0);
         }
@@ -287,7 +287,7 @@ namespace ZonEngine.Script.customnpcs
 
         public void MyStartTrade(object sender, KnuBotEventArgs e)
         {
-            ZoneEngine.PacketHandlers.KnuBotStartTrade.Send(TalkingTo.client, parent, "Wanna trade? Go ahead.", 4);
+            ZoneEngine.PacketHandlers.KnuBotStartTrade.Send(TalkingTo.client, Parent, "Wanna trade? Go ahead.", 4);
         }
     }
     #endregion

@@ -37,9 +37,9 @@ namespace ZoneEngine.PacketHandlers
 
     public static class OnTrade
     {
-        public static void Read(ref byte[] packet, Client client, Dynel dynel)
+        public static void Read(byte[] packet, Client client, Dynel dynel)
         {
-            PacketReader reader = new PacketReader(ref packet);
+            PacketReader reader = new PacketReader(packet);
             PacketWriter packetWriter = new PacketWriter();
             Header header = reader.PopHeader();
             reader.PopByte();

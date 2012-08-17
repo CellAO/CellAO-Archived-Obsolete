@@ -261,7 +261,7 @@ namespace ZoneEngine
                 "INSERT INTO " + this.getSQLTablefromDynelType() + " (ID, Playfield) VALUES (" + this.ID.ToString()
                 + "," + this.PlayField.ToString() + ")");
             this.writeCoordinatestoSQL();
-            this.writeHeadingtoSQL();
+            this.WriteHeadingToSQL();
             this.writeMainStatstoSQL();
 
             this.WriteStats();

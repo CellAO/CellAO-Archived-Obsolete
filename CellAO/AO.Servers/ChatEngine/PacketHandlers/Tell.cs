@@ -66,17 +66,17 @@ namespace ChatEngine.PacketHandlers
                 if (!tellClient.KnownClients.Contains(client.Character.characterId))
                 {
                     byte[] pname = PlayerName.New(client, client.Character.characterId);
-                    tellClient.Send(ref pname);
+                    tellClient.Send(pname);
                     tellClient.KnownClients.Add(client.Character.characterId);
                 }
 
                 byte[] pgroup = new MsgPrivateGroup().Create(client.Character.characterId, this.message, string.Empty);
-                tellClient.Send(ref pgroup);
+                tellClient.Send(pgroup);
             }
             else
             {
                 byte[] sysmsg = new MsgSystem().Create("Player not online.");
-                client.Send(ref sysmsg);
+                client.Send(sysmsg);
             }
         }
     }

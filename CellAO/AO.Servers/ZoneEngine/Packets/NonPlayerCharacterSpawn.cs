@@ -347,7 +347,7 @@ namespace ZoneEngine.Packets
 
             if (wholePlayfield)
             {
-                Announce.Playfield(nonPlayerCharacter.PlayField, ref spawnReply);
+                Announce.Playfield(nonPlayerCharacter.PlayField, spawnReply);
             }
             else
             {

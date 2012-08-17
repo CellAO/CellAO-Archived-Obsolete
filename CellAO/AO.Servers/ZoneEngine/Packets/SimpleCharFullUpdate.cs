@@ -45,7 +45,7 @@ namespace ZoneEngine.Packets
         public static void SendToPlayfield(Client client)
         {
             byte[] packet = GetPacket(client);
-            Announce.Playfield(client.Character.PlayField, ref packet);
+            Announce.Playfield(client.Character.PlayField, packet);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace ZoneEngine.Packets
         public static void SendToOthersInPlayfield(Client client)
         {
             Byte[] packet = GetPacket(client);
-            Announce.PlayfieldOthers(client, ref packet);
+            Announce.PlayfieldOthers(client, packet);
         }
 
         /// <summary>

@@ -119,7 +119,7 @@ namespace AO.Core
         /// <param name="_p"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public int readRequirementfromBlob(ref byte[] _p, int offset)
+        public int readRequirementfromBlob(byte[] _p, int offset)
         {
             int c = offset;
             Target = BitConverter.ToInt32(_p, c);

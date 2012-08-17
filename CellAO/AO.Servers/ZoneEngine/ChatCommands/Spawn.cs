@@ -83,15 +83,16 @@ namespace ZoneEngine.ChatCommands
                     {
                         client.SendChatText(row[0] + " " + row[1]);
                     }
+                    return;
                 }
-
-                return;
             }
 
             if (args.Length == 3)
             {
                 NonPlayerCharacterHandler.SpawnMonster(client, args[1], uint.Parse(args[2]));
+                return;
             }
+            this.CommandHelp(client);
         }
 
         /// <summary>
@@ -127,10 +128,12 @@ namespace ZoneEngine.ChatCommands
             {
                 return true;
             }
-
-            if (args[1].ToLower() != "list")
+            if (args.Length > 1)
             {
-                return false;
+                if (args[1].ToLower() != "list")
+                {
+                    return false;
+                }
             }
 
             return true;

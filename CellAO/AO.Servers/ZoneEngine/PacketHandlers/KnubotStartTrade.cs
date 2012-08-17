@@ -55,9 +55,9 @@ namespace ZoneEngine.PacketHandlers
             cli.SendCompressed(packet);
         }
 
-        public static void Read(ref byte[] packet, Client cli)
+        public static void Read(byte[] packet, Client cli)
         {
-            PacketReader pr = new PacketReader(ref packet);
+            PacketReader pr = new PacketReader(packet);
 
             Header header = pr.PopHeader();
             pr.PopByte();
