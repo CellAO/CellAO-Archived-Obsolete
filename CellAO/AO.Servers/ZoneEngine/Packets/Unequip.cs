@@ -45,10 +45,10 @@ namespace ZoneEngine.Packets
                     action97PacketWriter.PushShort(0x1);
                     action97PacketWriter.PushShort(0);
                     action97PacketWriter.PushInt(3086);
-                    action97PacketWriter.PushInt(client.Character.ID);
+                    action97PacketWriter.PushInt(client.Character.Id);
                     action97PacketWriter.PushInt(0x5E477770);
                     action97PacketWriter.PushInt(50000);
-                    action97PacketWriter.PushInt(client.Character.ID);
+                    action97PacketWriter.PushInt(client.Character.Id);
                     action97PacketWriter.PushByte(0);
                     action97PacketWriter.PushInt(0x61);
                     action97PacketWriter.PushInt(0);
@@ -70,10 +70,10 @@ namespace ZoneEngine.Packets
                     unequipPacketWriter.PushShort(0x1);
                     unequipPacketWriter.PushShort(0);
                     unequipPacketWriter.PushInt(3086);
-                    unequipPacketWriter.PushInt(client.Character.ID);
+                    unequipPacketWriter.PushInt(client.Character.Id);
                     unequipPacketWriter.PushInt(0x35505644);
                     unequipPacketWriter.PushInt(50000);
-                    unequipPacketWriter.PushInt(client.Character.ID);
+                    unequipPacketWriter.PushInt(client.Character.Id);
                     unequipPacketWriter.PushByte(0);
                     unequipPacketWriter.PushInt(item.LowID);
                     unequipPacketWriter.PushInt(item.HighID);

@@ -38,10 +38,10 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(character.Id);
             packetWriter.PushInt(0x35505644);
             packetWriter.PushInt(50000);
-            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(character.Id);
             packetWriter.PushByte(0);
             packetWriter.PushInt(inventoryEntry.Item.LowID);
             packetWriter.PushInt(inventoryEntry.Item.HighID);

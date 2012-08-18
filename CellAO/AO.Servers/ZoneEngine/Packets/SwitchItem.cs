@@ -39,10 +39,10 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(0x0001);
             packetWriter.PushShort(0); // LENGTH
             packetWriter.PushInt(3086); // Server ID
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x47537a24);
             packetWriter.PushInt(50000);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushByte(0);
             packetWriter.PushInt(fromPage); // Send Container ID
             packetWriter.PushInt(fromPlacement);

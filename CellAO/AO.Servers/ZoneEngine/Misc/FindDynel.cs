@@ -38,7 +38,7 @@ namespace ZoneEngine.Misc
                     {
                         foreach (Client cli in Program.zoneServer.Clients)
                         {
-                            if (cli.Character.ID == findId)
+                            if (cli.Character.Id == findId)
                             {
                                 return cli.Character;
                             }
@@ -48,7 +48,7 @@ namespace ZoneEngine.Misc
                     {
                         foreach (NonPlayerCharacterClass np in Program.zoneServer.Monsters)
                         {
-                            if (np.ID == findId)
+                            if (np.Id == findId)
                             {
                                 return np;
                             }
@@ -58,7 +58,7 @@ namespace ZoneEngine.Misc
                 case 51035:
                     foreach (VendingMachine vm in Program.zoneServer.Vendors)
                     {
-                        if (vm.ID == findId)
+                        if (vm.Id == findId)
                         {
                             return vm;
                         }

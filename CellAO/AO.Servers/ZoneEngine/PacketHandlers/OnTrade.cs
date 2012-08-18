@@ -152,10 +152,10 @@ namespace ZoneEngine.PacketHandlers
                     reply0[11] = 14;
 
                     // pushing in Client ID
-                    reply0[12] = (byte)(client.Character.ID >> 24);
-                    reply0[13] = (byte)(client.Character.ID >> 16);
-                    reply0[14] = (byte)(client.Character.ID >> 8);
-                    reply0[15] = (byte)(client.Character.ID);
+                    reply0[12] = (byte)(client.Character.Id >> 24);
+                    reply0[13] = (byte)(client.Character.Id >> 16);
+                    reply0[14] = (byte)(client.Character.Id >> 8);
+                    reply0[15] = (byte)(client.Character.Id);
 
                     packetWriter.PushBytes(reply0);
                     packetWriter.PushByte(1);
@@ -198,10 +198,10 @@ namespace ZoneEngine.PacketHandlers
                     replyCopy[11] = 14;
 
                     // pushing in Client ID
-                    replyCopy[12] = (byte)(client.Character.ID >> 24);
-                    replyCopy[13] = (byte)(client.Character.ID >> 16);
-                    replyCopy[14] = (byte)(client.Character.ID >> 8);
-                    replyCopy[15] = (byte)(client.Character.ID);
+                    replyCopy[12] = (byte)(client.Character.Id >> 24);
+                    replyCopy[13] = (byte)(client.Character.Id >> 16);
+                    replyCopy[14] = (byte)(client.Character.Id >> 8);
+                    replyCopy[15] = (byte)(client.Character.Id);
 
                     packetWriter.PushBytes(replyCopy);
                     byte[] rep1 = packetWriter.Finish();
@@ -228,10 +228,10 @@ namespace ZoneEngine.PacketHandlers
                     reply[11] = 14;
 
                     // pushing in Client ID
-                    reply[12] = (byte)(client.Character.ID >> 24);
-                    reply[13] = (byte)(client.Character.ID >> 16);
-                    reply[14] = (byte)(client.Character.ID >> 8);
-                    reply[15] = (byte)(client.Character.ID);
+                    reply[12] = (byte)(client.Character.Id >> 24);
+                    reply[13] = (byte)(client.Character.Id >> 16);
+                    reply[14] = (byte)(client.Character.Id >> 8);
+                    reply[15] = (byte)(client.Character.Id);
 
                     //PacketWriter pw = new PacketWriter();
                     packetWriter.PushBytes(reply);

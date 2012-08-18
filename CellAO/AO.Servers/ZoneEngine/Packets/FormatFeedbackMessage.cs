@@ -41,7 +41,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushInt(3086);
             packetWriter.PushInt(0);
             packetWriter.PushInt(0x206B4B73);
-            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushIdentity(50000, client.Character.Id);
             packetWriter.PushByte(1);
             packetWriter.PushInt(0);
 

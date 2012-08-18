@@ -47,7 +47,7 @@ namespace ZoneEngine.PacketHandlers
             {
                 PacketWriter packetWriter;
                 if ((clients.Character.PlayField == client.Character.PlayField)
-                    && (clients.Character.ID != client.Character.ID))
+                    && (clients.Character.Id != client.Character.Id))
                 {
                     SimpleCharFullUpdate.SendToOne(clients.Character, client);
 
@@ -60,9 +60,9 @@ namespace ZoneEngine.PacketHandlers
                     packetWriter.PushShort(1);
                     packetWriter.PushShort(0);
                     packetWriter.PushInt(3086);
-                    packetWriter.PushInt(client.Character.ID);
+                    packetWriter.PushInt(client.Character.Id);
                     packetWriter.PushInt(0x570C2039);
-                    packetWriter.PushIdentity(50000, clients.Character.ID);
+                    packetWriter.PushIdentity(50000, clients.Character.Id);
                     packetWriter.PushByte(0);
                     byte[] reply2 = packetWriter.Finish();
                     client.SendCompressed(reply2);

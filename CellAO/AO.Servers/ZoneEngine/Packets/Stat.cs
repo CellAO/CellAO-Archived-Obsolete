@@ -55,9 +55,9 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x2B333D6E);
-            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushIdentity(50000, client.Character.Id);
             packetWriter.PushByte(1);
             packetWriter.PushInt(1);
             packetWriter.PushInt(stat);
@@ -88,9 +88,9 @@ namespace ZoneEngine.Packets
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(client.Character.ID);
+            writer.PushInt(client.Character.Id);
             writer.PushInt(0x2B333D6E);
-            writer.PushIdentity(50000, client.Character.ID);
+            writer.PushIdentity(50000, client.Character.Id);
             writer.PushByte(1);
             writer.PushInt(1);
             writer.PushInt(stat);
@@ -119,9 +119,9 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(ch.ID);
+            packetWriter.PushInt(ch.Id);
             packetWriter.PushInt(0x2B333D6E);
-            packetWriter.PushIdentity(ch.Type, ch.ID);
+            packetWriter.PushIdentity(ch.Type, ch.Id);
             packetWriter.PushByte(1);
 
             List<int> toPlayfield = new List<int>();
@@ -166,9 +166,9 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x2B333D6E);
-            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushIdentity(50000, client.Character.Id);
             packetWriter.PushByte(1);
 
             toPlayfieldWriter.PushBytes(new byte[] { 0xDF, 0xDF, });
@@ -176,9 +176,9 @@ namespace ZoneEngine.Packets
             toPlayfieldWriter.PushShort(1);
             toPlayfieldWriter.PushShort(0);
             toPlayfieldWriter.PushInt(3086);
-            toPlayfieldWriter.PushInt(client.Character.ID);
+            toPlayfieldWriter.PushInt(client.Character.Id);
             toPlayfieldWriter.PushInt(0x2B333D6E);
-            toPlayfieldWriter.PushIdentity(50000, client.Character.ID);
+            toPlayfieldWriter.PushIdentity(50000, client.Character.Id);
             toPlayfieldWriter.PushByte(1);
 
             List<int> toPlayfieldIds = new List<int>();

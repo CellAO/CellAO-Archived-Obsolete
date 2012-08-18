@@ -117,7 +117,7 @@ namespace ZoneEngine.PacketHandlers
                             string currentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             string sqlQuery2 =
                                 "INSERT INTO organizations (Name, creation, LeaderID, GovernmentForm) VALUES ('"
-                                + cmdStr + "', '" + currentDate + "', '" + client.Character.ID + "', '0')";
+                                + cmdStr + "', '" + currentDate + "', '" + client.Character.Id + "', '0')";
                             ms.SqlInsert(sqlQuery2);
                             string sqlQuery3 = "SELECT * FROM organizations WHERE Name='" + cmdStr + "'";
                             dt = ms.ReadDatatable(sqlQuery3);
@@ -233,9 +233,9 @@ namespace ZoneEngine.PacketHandlers
                             packetWriter.PushShort(1);
                             packetWriter.PushShort(0);
                             packetWriter.PushInt(3086);
-                            packetWriter.PushInt(client.Character.ID);
+                            packetWriter.PushInt(client.Character.Id);
                             packetWriter.PushInt(0x64582A07);
-                            packetWriter.PushIdentity(50000, tPlayer.Character.ID);
+                            packetWriter.PushIdentity(50000, tPlayer.Character.Id);
                             packetWriter.PushByte(0);
                             packetWriter.PushByte(2); // OrgServer case 0x02 (Org Info)
                             packetWriter.PushInt(0);
@@ -350,7 +350,7 @@ namespace ZoneEngine.PacketHandlers
                                     demotedFromRank = GetRank(promoteGovForm, (uint)newPresRank);
                                     client.Character.Stats.ClanLevel.Set(newPresRank);
                                     //Change the leader id in Sql
-                                    string newLeadSql = "UPDATE organizations SET LeaderID = " + toPromote.Character.ID
+                                    string newLeadSql = "UPDATE organizations SET LeaderID = " + toPromote.Character.Id
                                                         + " WHERE ID = " + toPromote.Character.OrgId;
                                     ms.SqlUpdate(newLeadSql);
                                     client.SendChatText(
@@ -479,7 +479,7 @@ namespace ZoneEngine.PacketHandlers
 
                         //They are part of the org, so begin the processing...
                         //First we check if the player is online...
-                        string onlineSql = "SELECT online FROM characters WHERE ID = " + client.Character.ID;
+                        string onlineSql = "SELECT online FROM characters WHERE ID = " + client.Character.Id;
                         dt = ms.ReadDatatable(onlineSql);
                         int onlineStatus = 0;
                         if (dt.Rows.Count > 0)
@@ -522,9 +522,9 @@ namespace ZoneEngine.PacketHandlers
                             writer.PushShort(1);
                             writer.PushShort(0);
                             writer.PushInt(3086); //Sender
-                            writer.PushInt(tPlayer.Character.ID); //Receiver
+                            writer.PushInt(tPlayer.Character.Id); //Receiver
                             writer.PushInt(0x64582A07); //Packet ID
-                            writer.PushIdentity(50000, tPlayer.Character.ID); //Target Identity
+                            writer.PushIdentity(50000, tPlayer.Character.Id); //Target Identity
                             writer.PushByte(0);
                             writer.PushByte(5); //OrgServer Case 0x05 (Invite)
                             writer.PushInt(0);

@@ -43,7 +43,7 @@ namespace ZoneEngine.NonPlayerCharacter
             {
                 if (vm.PlayField == playfield)
                 {
-                    freeId = Math.Max(freeId, vm.ID & 0xffff);
+                    freeId = Math.Max(freeId, vm.Id & 0xffff);
                 }
             }
             freeId++;
@@ -81,7 +81,7 @@ namespace ZoneEngine.NonPlayerCharacter
                 mVendor.Hash = (string)row["Hash"];
                 mVendor.Name = (string)row["Name"]
 #if DEBUG
-                               + " " + mVendor.ID.ToString(); // ID is for debug purpose only
+                               + " " + mVendor.Id.ToString(); // ID is for debug purpose only
 #endif
                 ;
                 mVendor.FillInventory();
@@ -103,8 +103,8 @@ namespace ZoneEngine.NonPlayerCharacter
         {
             VendingMachine vm = new VendingMachine(GetNextFreeId(cli.Character.PlayField), cli.Character.PlayField, hash);
             //(cli, hash, level);
-            vm.rawCoord = cli.Character.rawCoord;
-            vm.rawHeading = cli.Character.rawHeading;
+            vm.RawCoord = cli.Character.RawCoord;
+            vm.RawHeading = cli.Character.RawHeading;
             vm.PlayField = cli.Character.PlayField;
             if (String.IsNullOrEmpty(vm.Name))
             {
@@ -140,11 +140,11 @@ namespace ZoneEngine.NonPlayerCharacter
                 {
                     if (retid == 0)
                     {
-                        retid = vm.ID;
+                        retid = vm.Id;
                     }
                     else
                     {
-                        retid = Math.Min(retid, vm.ID);
+                        retid = Math.Min(retid, vm.Id);
                     }
                 }
             }
@@ -172,7 +172,7 @@ namespace ZoneEngine.NonPlayerCharacter
         {
             foreach (VendingMachine vm in Program.zoneServer.Vendors)
             {
-                if (vm.ID == id)
+                if (vm.Id == id)
                 {
                     return vm;
                 }

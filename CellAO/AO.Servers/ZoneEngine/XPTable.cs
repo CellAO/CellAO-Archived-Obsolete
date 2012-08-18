@@ -27,10 +27,10 @@
 
 namespace ZoneEngine
 {
-    public class XPTable
+    public static class XPTable
     {
         #region RK XP
-        public double[,] tableRKXP =
+        public static double[,] TableRKXP =
             {
                 { 1, 0, 1450 }, { 2, 1450, 2600 }, { 3, 4050, 3100 }, { 4, 7150, 4000 },
                 { 5, 11150, 4500 }, { 6, 15650, 5000 }, { 7, 20650, 5500 }, { 8, 26150, 6000 }, { 9, 32150, 6500 },
@@ -94,7 +94,7 @@ namespace ZoneEngine
         #endregion
 
         #region SL XP
-        public int[,] tableSLSK =
+        public static int[,] TableShadowLandsSK =
             {
                 { 200, 0, 80000 }, { 201, 80000, 96000 }, { 202, 176000, 115200 },
                 { 203, 291200, 138240 }, { 204, 429440, 165888 }, { 205, 595328, 199066 }, { 206, 794394, 238879 },
@@ -106,7 +106,7 @@ namespace ZoneEngine
         #endregion
 
         #region AI XP
-        public double[,] tableAIXP =
+        public static double[,] TableAlienXP =
             {
                 { 01, 1500, 1500 }, { 02, 10500, 9000 }, { 03, 33000, 22500 },
                 { 04, 75000, 42000 }, { 05, 142500, 67500 }, { 06, 241500, 99000 }, { 07, 378000, 136500 },

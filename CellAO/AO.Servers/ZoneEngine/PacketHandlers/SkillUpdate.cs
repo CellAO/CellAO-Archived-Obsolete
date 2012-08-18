@@ -231,9 +231,9 @@ namespace ZoneEngine.PacketHandlers
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x2B333D6E);
-            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushIdentity(50000, client.Character.Id);
             packetWriter.PushByte(1);
             packetWriter.PushInt(1);
             packetWriter.PushInt(statnum);

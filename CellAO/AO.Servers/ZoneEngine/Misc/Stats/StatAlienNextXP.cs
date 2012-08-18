@@ -44,7 +44,7 @@ namespace ZoneEngine.Misc
             get
             {
                 int level = ((Character)this.Parent).Stats.AlienLevel.Value;
-                return Convert.ToInt32(Program.zoneServer.XPproLevel.tableAIXP[level, 2]);
+                return Convert.ToInt32(XPTable.TableAlienXP[level, 2]);
             }
             set
             {

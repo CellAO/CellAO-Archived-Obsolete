@@ -40,12 +40,12 @@ namespace ZoneEngine.PacketHandlers
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(cli.Character.ID);
+            packetWriter.PushInt(cli.Character.Id);
             packetWriter.PushInt(0x7864401d);
-            packetWriter.PushIdentity(cli.Character.Type, cli.Character.ID);
+            packetWriter.PushIdentity(cli.Character.Type, cli.Character.Id);
             packetWriter.PushByte(0);
             packetWriter.PushShort(2);
-            packetWriter.PushIdentity(knubotTarget.Type, knubotTarget.ID);
+            packetWriter.PushIdentity(knubotTarget.Type, knubotTarget.Id);
             packetWriter.PushInt(numberOfItems);
             packetWriter.PushInt(message.Length);
             packetWriter.PushString(message);

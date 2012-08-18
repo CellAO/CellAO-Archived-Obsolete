@@ -70,14 +70,14 @@ namespace ZoneEngine.PacketHandlers
                         castNanoSpell.PushShort(1);
                         castNanoSpell.PushShort(0);
                         castNanoSpell.PushInt(3086);
-                        castNanoSpell.PushInt(client.Character.ID);
+                        castNanoSpell.PushInt(client.Character.Id);
                         castNanoSpell.PushInt(0x25314D6D);
-                        castNanoSpell.PushIdentity(50000, client.Character.ID);
+                        castNanoSpell.PushIdentity(50000, client.Character.Id);
                         castNanoSpell.PushByte(0);
                         castNanoSpell.PushInt(unknown3); // Nano ID
                         castNanoSpell.PushIdentity(m_ident); // Target
                         castNanoSpell.PushInt(0);
-                        castNanoSpell.PushIdentity(50000, client.Character.ID); // Caster
+                        castNanoSpell.PushIdentity(50000, client.Character.Id); // Caster
                         byte[] castNanoSpellA = castNanoSpell.Finish();
                         Announce.Playfield(client.Character.PlayField, castNanoSpellA);
 
@@ -89,9 +89,9 @@ namespace ZoneEngine.PacketHandlers
                         characterAction107.PushShort(1);
                         characterAction107.PushShort(0);
                         characterAction107.PushInt(3086);
-                        characterAction107.PushInt(client.Character.ID);
+                        characterAction107.PushInt(client.Character.Id);
                         characterAction107.PushInt(0x5E477770);
-                        characterAction107.PushIdentity(50000, client.Character.ID);
+                        characterAction107.PushIdentity(50000, client.Character.Id);
                         characterAction107.PushByte(0);
                         characterAction107.PushInt(107);
                         characterAction107.PushInt(0);
@@ -111,7 +111,7 @@ namespace ZoneEngine.PacketHandlers
                         characterAction98.PushShort(1);
                         characterAction98.PushShort(0);
                         characterAction98.PushInt(3086);
-                        characterAction98.PushInt(client.Character.ID);
+                        characterAction98.PushInt(client.Character.Id);
                         characterAction98.PushInt(0x5E477770);
                         characterAction98.PushIdentity(m_ident);
                         characterAction98.PushByte(0);
@@ -119,7 +119,7 @@ namespace ZoneEngine.PacketHandlers
                         characterAction98.PushInt(0);
                         characterAction98.PushInt(0xCF1B);
                         characterAction98.PushInt(unknown3);
-                        characterAction98.PushInt(client.Character.ID);
+                        characterAction98.PushInt(client.Character.Id);
                         characterAction98.PushInt(0x249F0); // duration?
                         characterAction98.PushShort(0);
                         byte[] characterAction98A = characterAction98.Finish();
@@ -228,9 +228,9 @@ namespace ZoneEngine.PacketHandlers
                             infoPacket.PushShort(1);
                             infoPacket.PushShort(0);
                             infoPacket.PushInt(3086); // sender (server ID)
-                            infoPacket.PushInt(client.Character.ID); // receiver 
+                            infoPacket.PushInt(client.Character.Id); // receiver 
                             infoPacket.PushInt(0x4D38242E); // packet ID
-                            infoPacket.PushIdentity(50000, tPlayer.Character.ID); // affected identity
+                            infoPacket.PushIdentity(50000, tPlayer.Character.Id); // affected identity
                             infoPacket.PushByte(0); // ?
                             // End packet header
 
@@ -293,9 +293,9 @@ namespace ZoneEngine.PacketHandlers
                                 infoPacket.PushShort(1);
                                 infoPacket.PushShort(0);
                                 infoPacket.PushInt(3086); // sender (server ID)
-                                infoPacket.PushInt(client.Character.ID); // receiver 
+                                infoPacket.PushInt(client.Character.Id); // receiver 
                                 infoPacket.PushInt(0x4D38242E); // packet ID
-                                infoPacket.PushIdentity(50000, npc.ID); // affected identity
+                                infoPacket.PushIdentity(50000, npc.Id); // affected identity
                                 infoPacket.PushByte(0); // ?
                                 // End packet header
 
@@ -490,9 +490,9 @@ namespace ZoneEngine.PacketHandlers
                         Sneak.PushShort(1);
                         Sneak.PushShort(0);
                         Sneak.PushInt(3086); // Send 
-                        Sneak.PushInt(client.Character.ID); // Reciever
+                        Sneak.PushInt(client.Character.Id); // Reciever
                         Sneak.PushInt(0x5e477770); // Packet ID
-                        Sneak.PushIdentity(50000, client.Character.ID); // TYPE / ID
+                        Sneak.PushIdentity(50000, client.Character.Id); // TYPE / ID
                         Sneak.PushInt(0);
                         Sneak.PushByte(0xA2); // Action ID
                         Sneak.PushInt(0);

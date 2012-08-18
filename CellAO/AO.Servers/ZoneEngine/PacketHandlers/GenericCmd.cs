@@ -280,7 +280,7 @@ namespace ZoneEngine.PacketHandlers
                         }
                         foreach (AOEvents aoe in mi.Events)
                         {
-                            if (aoe.EventType == Constants.eventtype_onuse)
+                            if (aoe.EventType == Constants.EventtypeOnUse)
                             {
                                 sender.Character.ExecuteEvent(
                                     sender.Character, sender.Character, aoe, true, false, 0, CheckReqs.doCheckReqs);
@@ -298,10 +298,10 @@ namespace ZoneEngine.PacketHandlers
                         reply[9] = 0x00;
                         reply[10] = 0x0C;
                         reply[11] = 0x0E;
-                        reply[12] = (byte)(client.Character.ID >> 24);
-                        reply[13] = (byte)(client.Character.ID >> 16);
-                        reply[14] = (byte)(client.Character.ID >> 8);
-                        reply[15] = (byte)(client.Character.ID);
+                        reply[12] = (byte)(client.Character.Id >> 24);
+                        reply[13] = (byte)(client.Character.Id >> 16);
+                        reply[14] = (byte)(client.Character.Id >> 8);
+                        reply[15] = (byte)(client.Character.Id);
                         reply[0x1c] = 0;
                         reply[32] = 1;
                         reply[36] = 3;
@@ -330,10 +330,10 @@ namespace ZoneEngine.PacketHandlers
                         reply[9] = 0x00;
                         reply[10] = 0x0C;
                         reply[11] = 0x0E;
-                        reply[12] = (byte)(client.Character.ID >> 24);
-                        reply[13] = (byte)(client.Character.ID >> 16);
-                        reply[14] = (byte)(client.Character.ID >> 8);
-                        reply[15] = (byte)(client.Character.ID);
+                        reply[12] = (byte)(client.Character.Id >> 24);
+                        reply[13] = (byte)(client.Character.Id >> 16);
+                        reply[14] = (byte)(client.Character.Id >> 8);
+                        reply[15] = (byte)(client.Character.Id);
                         reply[0x1c] = 0;
                         reply[0x20] = 1;
 
@@ -384,7 +384,7 @@ namespace ZoneEngine.PacketHandlers
                 }
                 if (b != null)
                 {
-                    foreach (Statels.Statel_Event e in b.Events)
+                    foreach (Statels.StatelEvent e in b.Events)
                     {
                         Console.WriteLine("DebugOutput: \r\n" + e);
                     }
@@ -740,7 +740,7 @@ namespace ZoneEngine.PacketHandlers
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(sender.Character.ID);
+            writer.PushInt(sender.Character.Id);
             writer.PushInt(0x52526858);
             writer.PushIdentity(user);
             writer.PushByte(0);

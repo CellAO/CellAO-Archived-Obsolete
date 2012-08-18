@@ -71,7 +71,7 @@ namespace ZoneEngine.PacketHandlers
             /* packet ID */
             packetWriter.PushInt(0x260f3671);
             /* affected dynel identity */
-            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushIdentity(50000, client.Character.Id);
             /* ? */
             packetWriter.PushByte(0);
             /* movement type */

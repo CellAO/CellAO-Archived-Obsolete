@@ -165,7 +165,7 @@ namespace ZoneEngine
             Client client = (Client)clientBase;
 
             //client.Server.ConnectedClients.Remove(client.CharacterID);
-            byte[] m_ID = BitConverter.GetBytes(client.Character.ID);
+            byte[] m_ID = BitConverter.GetBytes(client.Character.Id);
             Array.Reverse(m_ID);
             Byte[] logoff = new byte[]
                 {
@@ -291,7 +291,6 @@ namespace ZoneEngine
 
         public Timer Walker = new Timer(100);
 
-        public XPTable XPproLevel = new XPTable();
         #endregion
     }
 }

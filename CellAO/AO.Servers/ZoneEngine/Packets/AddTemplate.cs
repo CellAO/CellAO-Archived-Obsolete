@@ -38,9 +38,9 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x052e2f0c);
-            packetWriter.PushIdentity(client.Character.Type, client.Character.ID);
+            packetWriter.PushIdentity(client.Character.Type, client.Character.Id);
             packetWriter.PushByte(0);
             packetWriter.PushInt(inventoryEntry.Item.LowID);
             packetWriter.PushInt(inventoryEntry.Item.HighID);

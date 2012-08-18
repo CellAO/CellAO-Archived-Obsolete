@@ -46,9 +46,9 @@ namespace ZoneEngine.Packets
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(character.ID);
+            writer.PushInt(character.Id);
             writer.PushInt(0x2E2A4A6B);
-            writer.PushIdentity(50000, character.ID);
+            writer.PushIdentity(50000, character.Id);
             writer.PushByte(0);
             writer.PushShort((short)character.OrgName.Length);
             writer.PushBytes(Encoding.ASCII.GetBytes(character.OrgName));

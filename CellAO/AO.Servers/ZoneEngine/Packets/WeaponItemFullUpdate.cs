@@ -49,7 +49,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(0x1);
             packetWriter.PushShort(0); // Length
             packetWriter.PushInt(3086); // Sender
-            packetWriter.PushInt(character.ID); // Reciever
+            packetWriter.PushInt(character.Id); // Reciever
             packetWriter.PushInt(0x3B1D2268); // Packet ID
             packetWriter.PushInt(0xC74A); // Type Weapon (always instanced)
             packetWriter.PushInt(0x45AEE789);
@@ -57,7 +57,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(0);
             packetWriter.PushInt(0xB);
             packetWriter.PushInt(character.Type);
-            packetWriter.PushInt(character.ID); // Reciever
+            packetWriter.PushInt(character.Id); // Reciever
             packetWriter.PushInt(0xC0A);
             packetWriter.PushInt(0xF424F); // constant
             packetWriter.PushShort(0);
@@ -109,14 +109,14 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(0x1);
             packetWriter.PushShort(0); // Length
             packetWriter.PushInt(3086); // Sender
-            packetWriter.PushInt(character.ID); // Reciever
+            packetWriter.PushInt(character.Id); // Reciever
             packetWriter.PushInt(0x3B1D2268); // Packet ID
             packetWriter.PushInt(0xC74A); // .... Weapon maybe?
             packetWriter.PushInt(0x45AEE789); // ID
             packetWriter.PushByte(0);
             packetWriter.PushInt(0xB);
             packetWriter.PushInt(0xC350);
-            packetWriter.PushInt(character.ID); // Reciever
+            packetWriter.PushInt(character.Id); // Reciever
             packetWriter.PushInt(0xC0A);
             packetWriter.PushInt(0xF424F); // constant
             packetWriter.PushShort(0);

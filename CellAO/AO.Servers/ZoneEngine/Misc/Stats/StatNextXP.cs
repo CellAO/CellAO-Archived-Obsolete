@@ -48,7 +48,7 @@ namespace ZoneEngine.Misc
                 {
                     return 0;
                 }
-                return Convert.ToInt32(Program.zoneServer.XPproLevel.tableRKXP[level - 1, 2]);
+                return Convert.ToInt32(XPTable.TableRKXP[level - 1, 2]);
             }
             set
             {

@@ -50,28 +50,28 @@ namespace ZoneEngine
     /// <summary>
     /// Class for static game objects (bank terminals, static shops etc)
     /// </summary>
-    public class Statels
+    public static class Statels
     {
-        private static DataTable dt_functions;
+        private static DataTable dtFunctions;
 
-        private static DataTable dt_events;
+        private static DataTable dtEvents;
 
-        private static DataTable dt_reqs;
+        private static DataTable dtReqs;
 
-        public static DataTable dt_args;
+        private static DataTable dtArgs;
 
-        public static int cnt_args;
+        private static int cntArgs;
 
-        public static int cnt_reqs;
+        private static int cntReqs;
 
-        public static int cnt_events;
+        private static int cntEvents;
 
-        public static int cnt_functions;
+        private static int cntFunctions;
 
         /// <summary>
         /// Statel event class
         /// </summary>
-        public class Statel_Event
+        public class StatelEvent
         {
             public int EventNumber;
 
@@ -84,19 +84,19 @@ namespace ZoneEngine
             /// <param name="statelid">Statel ID</param>
             public void LoadFunctions(Int32 eventid, Int32 statelid)
             {
-                while ((cnt_functions < dt_functions.Rows.Count)
-                       && ((Int32)dt_functions.Rows[cnt_functions][1] == eventid)
-                       && ((Int32)dt_functions.Rows[cnt_functions][2] == statelid))
+                while ((cntFunctions < dtFunctions.Rows.Count)
+                       && ((Int32)dtFunctions.Rows[cntFunctions][1] == eventid)
+                       && ((Int32)dtFunctions.Rows[cntFunctions][2] == statelid))
                 {
                     Statel_Function sf = new Statel_Function();
-                    sf.FunctionNumber = (Int32)dt_functions.Rows[cnt_functions][3];
-                    sf.Target = (Int32)dt_functions.Rows[cnt_functions][4];
-                    sf.TickCount = (Int32)dt_functions.Rows[cnt_functions][5];
-                    sf.TickInterval = (Int32)dt_functions.Rows[cnt_functions][6];
-                    sf.LoadRequirements((Int32)dt_functions.Rows[cnt_functions][0], eventid, statelid);
-                    sf.LoadArguments((Int32)dt_functions.Rows[cnt_functions][0], eventid, statelid);
+                    sf.FunctionNumber = (Int32)dtFunctions.Rows[cntFunctions][3];
+                    sf.Target = (Int32)dtFunctions.Rows[cntFunctions][4];
+                    sf.TickCount = (Int32)dtFunctions.Rows[cntFunctions][5];
+                    sf.TickInterval = (Int32)dtFunctions.Rows[cntFunctions][6];
+                    sf.LoadRequirements((Int32)dtFunctions.Rows[cntFunctions][0], eventid, statelid);
+                    sf.LoadArguments((Int32)dtFunctions.Rows[cntFunctions][0], eventid, statelid);
                     this.Functions.Add(sf);
-                    cnt_functions++;
+                    cntFunctions++;
                 }
             }
 
@@ -370,18 +370,18 @@ namespace ZoneEngine
             /// <param name="statelid">Statel ID</param>
             public void LoadRequirements(int functionid, int eventid, int statelid)
             {
-                while ((cnt_reqs < dt_reqs.Rows.Count) && ((Int32)dt_reqs.Rows[cnt_reqs][1] == functionid)
-                       && ((Int32)dt_reqs.Rows[cnt_reqs][2] == eventid)
-                       && ((Int32)dt_reqs.Rows[cnt_reqs][3] == statelid))
+                while ((cntReqs < dtReqs.Rows.Count) && ((Int32)dtReqs.Rows[cntReqs][1] == functionid)
+                       && ((Int32)dtReqs.Rows[cntReqs][2] == eventid)
+                       && ((Int32)dtReqs.Rows[cntReqs][3] == statelid))
                 {
                     Statel_Function_Requirement sfr = new Statel_Function_Requirement();
-                    sfr.AttributeNumber = (Int32)dt_reqs.Rows[cnt_reqs][4];
-                    sfr.AttributeValue = (Int32)dt_reqs.Rows[cnt_reqs][5];
-                    sfr.Operator = (Int32)dt_reqs.Rows[cnt_reqs][6];
-                    sfr.ChildOperator = (Int32)dt_reqs.Rows[cnt_reqs][7];
-                    sfr.Target = (Int32)dt_reqs.Rows[cnt_reqs][8];
+                    sfr.AttributeNumber = (Int32)dtReqs.Rows[cntReqs][4];
+                    sfr.AttributeValue = (Int32)dtReqs.Rows[cntReqs][5];
+                    sfr.Operator = (Int32)dtReqs.Rows[cntReqs][6];
+                    sfr.ChildOperator = (Int32)dtReqs.Rows[cntReqs][7];
+                    sfr.Target = (Int32)dtReqs.Rows[cntReqs][8];
                     this.Requirements.Add(sfr);
-                    cnt_reqs++;
+                    cntReqs++;
                 }
             }
 
@@ -393,12 +393,12 @@ namespace ZoneEngine
             /// <param name="statelid">Statel ID</param>
             public void LoadArguments(int functionid, int eventid, int statelid)
             {
-                while ((cnt_args < dt_args.Rows.Count) && ((Int32)dt_args.Rows[cnt_args][1] == functionid)
-                       && ((Int32)dt_args.Rows[cnt_args][2] == eventid)
-                       && ((Int32)dt_args.Rows[cnt_args][3] == statelid))
+                while ((cntArgs < dtArgs.Rows.Count) && ((Int32)dtArgs.Rows[cntArgs][1] == functionid)
+                       && ((Int32)dtArgs.Rows[cntArgs][2] == eventid)
+                       && ((Int32)dtArgs.Rows[cntArgs][3] == statelid))
                 {
-                    this.Arguments.Add((string)dt_args.Rows[cnt_args][4]);
-                    cnt_args++;
+                    this.Arguments.Add((string)dtArgs.Rows[cntArgs][4]);
+                    cntArgs++;
                 }
             }
 
@@ -577,13 +577,13 @@ namespace ZoneEngine
             SqlWrapper ms = new SqlWrapper();
             int count = 0;
             DataTable dt = ms.ReadDatatable("SELECT * FROM statels ORDER BY id ASC");
-            dt_args =
+            dtArgs =
                 ms.ReadDatatable(
                     "SELECT * FROM statel_function_arguments ORDER BY statel_id, event_id, function_id, attrid ASC");
-            dt_events = ms.ReadDatatable("SELECT * FROM statel_events ORDER BY statel_id, eventid ASC");
-            dt_reqs =
+            dtEvents = ms.ReadDatatable("SELECT * FROM statel_events ORDER BY statel_id, eventid ASC");
+            dtReqs =
                 ms.ReadDatatable("SELECT * FROM statel_function_reqs ORDER BY statel_id, event_id, function_id, reqid ASC");
-            dt_functions = ms.ReadDatatable("SELECT * FROM statel_functions ORDER BY statel_id, event_id, functionid ASC");
+            dtFunctions = ms.ReadDatatable("SELECT * FROM statel_functions ORDER BY statel_id, event_id, functionid ASC");
             int maxcount = 0;
             ms.sqlclose();
 
@@ -613,14 +613,14 @@ namespace ZoneEngine
                 tempstatel.LoadEvents((Int32)dr[4]);
                 Statelppf[pf].Add(tempstatel);
 
-                foreach (Statel_Event e in tempstatel.Events)
+                foreach (StatelEvent e in tempstatel.Events)
                 {
-                    if ((e.EventNumber == Constants.eventtype_onenter)
-                        || (e.EventNumber == Constants.eventtype_ontargetinvicinity))
+                    if ((e.EventNumber == Constants.EventtypeOnEnter)
+                        || (e.EventNumber == Constants.EventtypeOnTargetInVicinity))
                     {
                         StatelppfonEnter[pf].Add(tempstatel);
                     }
-                    if (e.EventNumber == Constants.eventtype_onuse)
+                    if (e.EventNumber == Constants.EventtypeOnUse)
                     {
                         StatelppfonUse[pf].Add(tempstatel);
                     }
@@ -641,7 +641,7 @@ namespace ZoneEngine
 
         public class Statel
         {
-            public List<Statel_Event> Events = new List<Statel_Event>();
+            public List<StatelEvent> Events = new List<StatelEvent>();
 
             public uint Instance;
 
@@ -655,21 +655,21 @@ namespace ZoneEngine
 
             public void LoadEvents(Int32 statelid)
             {
-                while ((cnt_events < dt_events.Rows.Count) && ((Int32)dt_events.Rows[cnt_events][1] == statelid))
+                while ((cntEvents < dtEvents.Rows.Count) && ((Int32)dtEvents.Rows[cntEvents][1] == statelid))
                 {
-                    Statel_Event e = new Statel_Event();
-                    e.EventNumber = (Int32)dt_events.Rows[cnt_events][2];
-                    e.LoadFunctions((Int32)dt_events.Rows[cnt_events][0], statelid);
+                    StatelEvent e = new StatelEvent();
+                    e.EventNumber = (Int32)dtEvents.Rows[cntEvents][2];
+                    e.LoadFunctions((Int32)dtEvents.Rows[cntEvents][0], statelid);
                     this.Events.Add(e);
-                    cnt_events++;
+                    cntEvents++;
                 }
             }
 
             public bool onEnter(Client cli)
             {
-                foreach (Statel_Event e in this.Events)
+                foreach (StatelEvent e in this.Events)
                 {
-                    if (e.EventNumber != Constants.eventtype_onenter)
+                    if (e.EventNumber != Constants.EventtypeOnEnter)
                     {
                         continue;
                     }
@@ -688,9 +688,9 @@ namespace ZoneEngine
 
             public bool onTargetinVicinity(Client cli)
             {
-                foreach (Statel_Event e in this.Events)
+                foreach (StatelEvent e in this.Events)
                 {
-                    if (e.EventNumber != Constants.eventtype_ontargetinvicinity)
+                    if (e.EventNumber != Constants.EventtypeOnTargetInVicinity)
                     {
                         continue;
                     }
@@ -709,9 +709,9 @@ namespace ZoneEngine
 
             public bool onUse(Client cli, Identity target)
             {
-                foreach (Statel_Event e in this.Events)
+                foreach (StatelEvent e in this.Events)
                 {
-                    if (e.EventNumber != Constants.eventtype_onuse)
+                    if (e.EventNumber != Constants.EventtypeOnUse)
                     {
                         continue;
                     }

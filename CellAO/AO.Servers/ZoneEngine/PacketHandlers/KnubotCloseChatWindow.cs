@@ -63,12 +63,12 @@ namespace ZoneEngine.PacketHandlers
             pw.PushShort(1);
             pw.PushShort(0);
             pw.PushInt(3086);
-            pw.PushInt(client.Character.ID);
+            pw.PushInt(client.Character.Id);
             pw.PushInt(0x270a4c62);
-            pw.PushIdentity(50000, talkingTo.ID);
+            pw.PushIdentity(50000, talkingTo.Id);
             pw.PushByte(0);
             pw.PushShort(2);
-            pw.PushIdentity(50000, talker.ID);
+            pw.PushIdentity(50000, talker.Id);
             pw.PushInt(5);
             pw.PushInt(0);
 

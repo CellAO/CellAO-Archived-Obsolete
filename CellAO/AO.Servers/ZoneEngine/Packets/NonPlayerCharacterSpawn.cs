@@ -69,10 +69,10 @@ namespace ZoneEngine.Packets
             }
             else
             {
-                spawn.PushInt(targetClient.Character.ID);
+                spawn.PushInt(targetClient.Character.Id);
             }
             spawn.PushInt(0x271B3A6B);
-            spawn.PushIdentity(50000, nonPlayerCharacter.ID);
+            spawn.PushIdentity(50000, nonPlayerCharacter.Id);
             spawn.PushByte(0);
             spawn.PushByte(0x39); // version 0x39
             spawn.PushInt(packetflags); // packetflags
@@ -199,7 +199,7 @@ namespace ZoneEngine.Packets
             {
                 packetflags |= 0x10000; // Waypoints
                 spawn.PushInt(0xc350);
-                spawn.PushInt(nonPlayerCharacter.ID);
+                spawn.PushInt(nonPlayerCharacter.Id);
                 spawn.Push3F1Count(nonPlayerCharacter.Waypoints.Count); // Waypoints
                 for (counter = 0; counter < nonPlayerCharacter.Waypoints.Count; counter++)
                 {

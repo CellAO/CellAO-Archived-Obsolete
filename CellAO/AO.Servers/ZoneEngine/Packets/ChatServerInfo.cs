@@ -71,7 +71,7 @@ namespace ZoneEngine.Packets
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(client.Character.ID);
+            writer.PushInt(client.Character.Id);
             writer.PushInt(67);
             writer.PushInt(1);
             writer.PushInt(chatServerIp.Length);

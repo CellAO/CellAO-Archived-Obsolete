@@ -158,12 +158,12 @@ namespace ZoneEngine
         {
             lock (this)
             {
-                this.ID = id;
+                this.Id = id;
                 this.PlayField = playfield;
                 // We're in the character class, so set Identifier 50000
                 this.Type = 50000;
-                this.ourType = 0;
-                if (this.ID != 0)
+                this.OurType = 0;
+                if (this.Id != 0)
                 {
                     this.doNotDoTimers = true;
                     this.stats = new CharacterStats(this);
@@ -534,7 +534,7 @@ namespace ZoneEngine
 
             if (forwardSpeed != 0)
             {
-                forwardMove = Quaternion.RotateVector3(this.rawHeading, Vector3.AxisZ);
+                forwardMove = Quaternion.RotateVector3(this.RawHeading, Vector3.AxisZ);
                 forwardMove.Magnitude = Math.Abs(forwardSpeed);
                 if (forwardSpeed < 0)
                 {
@@ -548,7 +548,7 @@ namespace ZoneEngine
 
             if (strafeSpeed != 0)
             {
-                strafeMove = Quaternion.RotateVector3(this.rawHeading, Vector3.AxisX);
+                strafeMove = Quaternion.RotateVector3(this.RawHeading, Vector3.AxisX);
                 strafeMove.Magnitude = Math.Abs(strafeSpeed);
                 if (strafeSpeed < 0)
                 {
@@ -591,7 +591,7 @@ namespace ZoneEngine
             {
                 if (this.spinDirection == SpinOrStrafeDirections.None)
                 {
-                    return this.rawHeading;
+                    return this.RawHeading;
                 }
                 else
                 {
@@ -602,7 +602,7 @@ namespace ZoneEngine
                     turnArcAngle = this.calculateTurnArcAngle();
                     turnQuaterion = new Quaternion(Vector3.AxisY, turnArcAngle);
 
-                    newHeading = Quaternion.Hamilton(turnQuaterion, this.rawHeading);
+                    newHeading = Quaternion.Hamilton(turnQuaterion, this.RawHeading);
                     newHeading.Normalize();
 
                     return newHeading;
@@ -626,8 +626,8 @@ namespace ZoneEngine
         public void StopMovement()
         {
             // This should be used to stop the interpolating and save last interpolated value of movement before teleporting
-            this.rawCoord = this.Coordinates;
-            this.rawHeading = this.Heading;
+            this.RawCoord = this.Coordinates;
+            this.RawHeading = this.Heading;
 
             this.spinDirection = SpinOrStrafeDirections.None;
             this.strafeDirection = SpinOrStrafeDirections.None;
@@ -816,7 +816,7 @@ namespace ZoneEngine
             {
                 if ((this.moveDirection == MoveDirections.None) && (this.strafeDirection == SpinOrStrafeDirections.None))
                 {
-                    return this.rawCoord;
+                    return this.RawCoord;
                 }
                 else if (this.spinDirection == SpinOrStrafeDirections.None)
                 {
@@ -824,7 +824,7 @@ namespace ZoneEngine
 
                     moveVector = moveVector * this.PredictionDuration.TotalSeconds;
 
-                    return new AOCoord(this.rawCoord.coordinate + moveVector);
+                    return new AOCoord(this.RawCoord.coordinate + moveVector);
                 }
                 else
                 {
@@ -840,7 +840,7 @@ namespace ZoneEngine
                     turnArcAngle = this.calculateTurnArcAngle();
 
                     // This is calculated seperately as height is unaffected by turning
-                    y = this.rawCoord.coordinate.y + (moveVector.y * duration);
+                    y = this.RawCoord.coordinate.y + (moveVector.y * duration);
 
                     if (this.spinDirection == SpinOrStrafeDirections.Left)
                     {
@@ -853,7 +853,7 @@ namespace ZoneEngine
 
                     return
                         new AOCoord(
-                            this.rawCoord.coordinate
+                            this.RawCoord.coordinate
                             +
                             Quaternion.RotateVector3(
                                 new Quaternion(Vector3.AxisY, turnArcAngle), positionFromCentreOfTurningCircle)
@@ -1108,7 +1108,7 @@ namespace ZoneEngine
                 DataTable dt =
                     Sql.ReadDatatable(
                         "SELECT `Name`, `FirstName`, `LastName` FROM " + this.GetSqlTablefromDynelType()
-                        + " WHERE ID = '" + this.ID + "' LIMIT 1");
+                        + " WHERE ID = '" + this.Id + "' LIMIT 1");
                 if (dt.Rows.Count == 1)
                 {
                     this.Name = (string)dt.Rows[0][0];
@@ -1119,7 +1119,7 @@ namespace ZoneEngine
                 // Read stat# 5 (Clan) - OrgID from character stats table
                 dt =
                     Sql.ReadDatatable(
-                        "SELECT `Value` FROM " + this.GetSqlTablefromDynelType() + "_stats WHERE ID = " + this.ID
+                        "SELECT `Value` FROM " + this.GetSqlTablefromDynelType() + "_stats WHERE ID = " + this.Id
                         + " AND Stat = 5 LIMIT 1");
                 if (dt.Rows.Count == 1)
                 {
@@ -1153,7 +1153,7 @@ namespace ZoneEngine
             {
                 Sql.SqlUpdate(
                     "UPDATE " + this.GetSqlTablefromDynelType() + " SET `Name` = '" + this.Name + "', `FirstName` = '"
-                    + this.FirstName + "', `LastName` = '" + this.LastName + "' WHERE `ID` = " + "'" + this.ID + "'");
+                    + this.FirstName + "', `LastName` = '" + this.LastName + "' WHERE `ID` = " + "'" + this.Id + "'");
             }
             catch
             {
@@ -1179,7 +1179,7 @@ namespace ZoneEngine
                     DataTable dt =
                         ms.ReadDatatable(
                             "SELECT * FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID="
-                            + this.ID.ToString() + " AND container=104 ORDER BY placement ASC;");
+                            + this.Id.ToString() + " AND container=104 ORDER BY placement ASC;");
                     if (dt.Rows.Count > 0)
                     {
                         foreach (DataRow row in dt.Rows)
@@ -1212,7 +1212,7 @@ namespace ZoneEngine
                 SqlWrapper ms = new SqlWrapper();
                 int count;
                 ms.SqlDelete(
-                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID=" + this.ID.ToString()
+                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID=" + this.Id.ToString()
                     + " AND container=104;");
                 for (count = 0; count < this.inventory.Count; count++)
                 {
@@ -1221,7 +1221,7 @@ namespace ZoneEngine
                         ms.SqlInsert(
                             "INSERT INTO " + this.GetSqlTablefromDynelType()
                             + "inventory (ID,placement,flags,multiplecount,lowid,highid,quality,container) values ("
-                            + this.ID.ToString() + "," + this.inventory[count].Placement.ToString() + ",1,"
+                            + this.Id.ToString() + "," + this.inventory[count].Placement.ToString() + ",1,"
                             + this.inventory[count].Item.MultipleCount.ToString() + ","
                             + this.inventory[count].Item.LowID.ToString() + ","
                             + this.inventory[count].Item.HighID.ToString() + ","
@@ -1279,7 +1279,7 @@ namespace ZoneEngine
                     }
                 }
 
-                ms.SqlDelete("DELETE FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString());
+                ms.SqlDelete("DELETE FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.ToString());
                 TimeSpan ts;
                 DateTime n = DateTime.Now;
 
@@ -1287,7 +1287,7 @@ namespace ZoneEngine
                 {
                     ts = this.timers[count].Timestamp - n;
                     ms.SqlInsert(
-                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "timers VALUES (" + this.ID.ToString() + ","
+                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "timers VALUES (" + this.Id.ToString() + ","
                         + this.timers[count].Strain + "," + this.timers[count].Timestamp.Second.ToString() + ",X'"
                         + this.timers[count].Function.ToBlob() + "');");
                 }
@@ -1309,10 +1309,10 @@ namespace ZoneEngine
                 this.timers.Clear();
 
                 ms.SqlRead(
-                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString() + ";");
+                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.ToString() + ";");
                 DataTable dt =
                     ms.ReadDatatable(
-                        "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString()
+                        "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.ToString()
                         + ";");
                 if (dt.Rows.Count > 0)
                 {
@@ -1351,7 +1351,7 @@ namespace ZoneEngine
                     DataTable dt =
                         sqlWrapper.ReadDatatable(
                             "SELECT * FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID="
-                            + this.ID.ToString());
+                            + this.Id.ToString());
                     if (dt.Rows.Count > 0)
                     {
                         foreach (DataRow row in dt.Rows)
@@ -1378,11 +1378,11 @@ namespace ZoneEngine
                 int count;
 
                 sqlWrapper.SqlDelete(
-                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID=" + this.ID.ToString());
+                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID=" + this.Id.ToString());
                 for (count = 0; count < this.activeNanos.Count; count++)
                 {
                     sqlWrapper.SqlInsert(
-                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "activenanos VALUES (" + this.ID.ToString()
+                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "activenanos VALUES (" + this.Id.ToString()
                         + "," + this.activeNanos[count].ID.ToString() + ","
                         + this.activeNanos[count].NanoStrain.ToString() + ")");
                 }
@@ -1406,7 +1406,7 @@ namespace ZoneEngine
             {
                 while (counter < it.Events.Count)
                 {
-                    if (it.Events[counter].EventType == Constants.eventtype_onwear)
+                    if (it.Events[counter].EventType == Constants.EventtypeOnWear)
                     {
                         this.ExecuteEvent(
                             this, this, it.Events[counter], true, tosocialtab, location, CheckReqs.doCheckReqs);
@@ -1512,7 +1512,7 @@ namespace ZoneEngine
             {
                 while (counter < it.Events.Count)
                 {
-                    if (it.Events[counter].EventType == Constants.eventtype_onwear)
+                    if (it.Events[counter].EventType == Constants.EventtypeOnWear)
                     {
                         this.ExecuteEvent(
                             this, this, it.Events[counter], false, tosocialtab, location, CheckReqs.doEquipCheckReqs);
@@ -1680,13 +1680,13 @@ namespace ZoneEngine
 
                 mySql.SqlUpdate(
                     "UPDATE " + this.GetSqlTablefromDynelType() + "inventory SET placement=255 where (ID="
-                    + ID.ToString() + ") AND (placement=" + fromPlacement.ToString() + ")");
+                    + this.Id.ToString() + ") AND (placement=" + fromPlacement.ToString() + ")");
                 mySql.SqlUpdate(
                     "UPDATE " + this.GetSqlTablefromDynelType() + "inventory SET placement=" + fromPlacement.ToString()
-                    + " where (ID=" + ID.ToString() + ") AND (placement=" + toPlacement.ToString() + ")");
+                    + " where (ID=" + this.Id.ToString() + ") AND (placement=" + toPlacement.ToString() + ")");
                 mySql.SqlUpdate(
                     "UPDATE " + this.GetSqlTablefromDynelType() + "inventory SET placement=" + toPlacement.ToString()
-                    + " where (ID=" + ID.ToString() + ") AND (placement=255)");
+                    + " where (ID=" + this.Id.ToString() + ") AND (placement=255)");
             }
 
             // If its a switch from or to equipment pages then recalculate the skill modifiers
@@ -1819,7 +1819,7 @@ namespace ZoneEngine
                             this.inventory[c].Item.LowID, this.inventory[c].Item.HighID, this.inventory[c].Item.Quality);
                         for (c2 = 0; c2 < m_item.Events.Count; c2++)
                         {
-                            if (m_item.Events[c2].EventType == Constants.eventtype_onwear)
+                            if (m_item.Events[c2].EventType == Constants.EventtypeOnWear)
                             {
                                 for (c3 = 0; c3 < m_item.Events[c2].Functions.Count; c3++)
                                 {
@@ -1834,10 +1834,10 @@ namespace ZoneEngine
                                             this,
                                             aof_withparams.Arguments.ToArray());
                                     }
-                                    if ((m_item.Events[c2].Functions[c3].FunctionType == Constants.functiontype_modify)
+                                    if ((m_item.Events[c2].Functions[c3].FunctionType == Constants.FunctiontypeModify)
                                         ||
                                         (m_item.Events[c2].Functions[c3].FunctionType
-                                         == Constants.functiontype_modifypercentage))
+                                         == Constants.FunctiontypeModifyPercentage))
                                     {
                                         // TODO ItemHandler.FunctionPack.func_do(this, m_item.ItemEvents[c2].Functions[c3], true, Inventory[c].Placement >= 49, Inventory[c].Placement);
                                     }
@@ -1878,7 +1878,7 @@ namespace ZoneEngine
         {
             lock (this)
             {
-                if ((this.ID != 0) && (this.needPurge))
+                if ((this.Id != 0) && (this.needPurge))
                 {
                     this.needPurge = false;
 
@@ -2036,7 +2036,7 @@ namespace ZoneEngine
                     SqlWrapper sqlWrapper = new SqlWrapper();
                     sqlWrapper.SqlInsert(
                         "REPLACE INTO " + this.GetSqlTablefromDynelType() + "uploadednanos VALUES ("
-                        + this.ID.ToString() + "," + au.Nano.ToString() + ")");
+                        + this.Id.ToString() + "," + au.Nano.ToString() + ")");
                 }
             }
         }
@@ -2054,7 +2054,7 @@ namespace ZoneEngine
                 DataTable dt =
                     Sql.ReadDatatable(
                         "SELECT nano FROM " + this.GetSqlTablefromDynelType() + "uploadednanos WHERE ID="
-                        + this.ID.ToString());
+                        + this.Id.ToString());
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
@@ -2080,7 +2080,7 @@ namespace ZoneEngine
                 AOTimers at = new AOTimers();
                 at.Strain = -1;
                 at.Timestamp = DateTime.Now + TimeSpan.FromMilliseconds(100);
-                at.Function.Target = this.ID;
+                at.Function.Target = this.Id;
                 at.Function.TickCount = -2;
                 at.Function.TickInterval = 100;
                 at.Function.FunctionType = 1; // MAIN stat send timer
@@ -2173,7 +2173,7 @@ namespace ZoneEngine
                 SqlWrapper ms = new SqlWrapper();
                 this.bank.Clear();
                 DataTable dt =
-                    ms.ReadDatatable("SELECT * FROM bank WHERE charID=" + this.ID.ToString() + " ORDER BY InventoryID ASC");
+                    ms.ReadDatatable("SELECT * FROM bank WHERE charID=" + this.Id.ToString() + " ORDER BY InventoryID ASC");
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
@@ -2227,10 +2227,10 @@ namespace ZoneEngine
             lock (this.bank)
             {
                 SqlWrapper sqlWrapper = new SqlWrapper();
-                sqlWrapper.SqlDelete("DELETE FROM bank WHERE charID=" + this.ID.ToString());
+                sqlWrapper.SqlDelete("DELETE FROM bank WHERE charID=" + this.Id.ToString());
                 foreach (AOItem item in this.bank)
                 {
-                    string insert = "INSERT INTO bank VALUES(" + this.ID.ToString() + "," + item.Flags.ToString() + ","
+                    string insert = "INSERT INTO bank VALUES(" + this.Id.ToString() + "," + item.Flags.ToString() + ","
                                     + item.LowID.ToString() + "," + item.HighID.ToString() + ","
                                     + item.MultipleCount.ToString() + "," + item.Quality.ToString() + ","
                                     + item.Type.ToString() + "," + item.Instance.ToString() + ",X'";
@@ -2259,7 +2259,7 @@ namespace ZoneEngine
                 DataTable dt =
                     sqlWrapper.ReadDatatable(
                         "SELECT `ID`, `Expansions`, `AccountFlags`, `GM` FROM `login` WHERE `Username` = (SELECT `Username` FROM `characters` WHERE `ID` = "
-                        + this.ID + ");");
+                        + this.Id + ");");
                 if (dt.Rows.Count > 0)
                 {
                     // Stat 607 is PlayerID
@@ -2310,7 +2310,7 @@ namespace ZoneEngine
                 // Note: Shouldermeshs still are same for left and right, subject to change in the future (as well as weaponmesh)
                 SqlWrapper ms = new SqlWrapper();
                 ms.SqlInsert(
-                    "REPLACE INTO socialtab VALUES (" + this.ID + ", "
+                    "REPLACE INTO socialtab VALUES (" + this.Id + ", "
                     + (this.SocialTab.ContainsKey(0) ? this.SocialTab[0] : 0) + ", "
                     + (this.SocialTab.ContainsKey(1) ? this.SocialTab[1] : 0) + ", "
                     + (this.SocialTab.ContainsKey(2) ? this.SocialTab[2] : 0) + ", "
@@ -2337,7 +2337,7 @@ namespace ZoneEngine
             lock (this.SocialTab)
             {
                 SqlWrapper ms = new SqlWrapper();
-                DataTable dt = ms.ReadDatatable("SELECT * FROM socialtab WHERE charid=" + this.ID);
+                DataTable dt = ms.ReadDatatable("SELECT * FROM socialtab WHERE charid=" + this.Id);
                 if (dt.Rows.Count > 0)
                 {
                     this.SocialTab.Clear();
@@ -2383,18 +2383,18 @@ namespace ZoneEngine
             int level = this.stats.Level.Value;
             int ailevel = this.stats.AlienLevel.Value;
 
-            double needaixp = Program.zoneServer.XPproLevel.tableAIXP[ailevel, 2];
+            double needaixp = XPTable.TableAlienXP[ailevel, 2];
             this.stats.AlienNextXP.StatBaseValue = Convert.ToUInt32(needaixp);
 
             if (level < 200) //we get XP
             {
-                double needrkxp = Program.zoneServer.XPproLevel.tableRKXP[level - 1, 2];
+                double needrkxp = XPTable.TableRKXP[level - 1, 2];
                 this.stats.NextXP.StatBaseValue = Convert.ToUInt32(needrkxp);
             }
             if (level > 199) //we get SK
             {
                 level -= 200;
-                double needslsk = Program.zoneServer.XPproLevel.tableSLSK[level, 2];
+                double needslsk = XPTable.TableShadowLandsSK[level, 2];
                 this.stats.NextSK.StatBaseValue = Convert.ToUInt32(needslsk);
             }
         }
@@ -2420,45 +2420,45 @@ namespace ZoneEngine
             Character reqtarget = null;
             bool requirementsMet = true;
             int childOperator = -1; // Starting value
-            bool foundCharRelated = (aof.FunctionType == Constants.functiontype_hairmesh)
-                                    || (aof.FunctionType == Constants.functiontype_backmesh)
-                                    || (aof.FunctionType == Constants.functiontype_texture)
-                                    || (aof.FunctionType == Constants.functiontype_attractormesh)
-                                    || (aof.FunctionType == Constants.functiontype_catmesh)
-                                    || (aof.FunctionType == Constants.functiontype_changebodymesh)
+            bool foundCharRelated = (aof.FunctionType == Constants.FunctiontypeHairMesh)
+                                    || (aof.FunctionType == Constants.FunctiontypeBackMesh)
+                                    || (aof.FunctionType == Constants.FunctiontypeTexture)
+                                    || (aof.FunctionType == Constants.FunctiontypeAttractorMesh)
+                                    || (aof.FunctionType == Constants.FunctiontypeCatMesh)
+                                    || (aof.FunctionType == Constants.FunctiontypeChangeBodyMesh)
                                     || (aof.FunctionType == Constants.functiontype_shouldermesh)
-                                    || (aof.FunctionType == Constants.functiontype_headmesh);
+                                    || (aof.FunctionType == Constants.FunctiontypeHeadMesh);
 
             foreach (AORequirements aor in aof.Requirements)
             {
                 switch (aor.Target)
                 {
-                    case Constants.itemtarget_user:
+                    case Constants.ItemtargetUser:
                         {
                             reqtarget = ch;
                             break;
                         }
-                    case Constants.itemtarget_wearer:
+                    case Constants.ItemtargetWearer:
                         {
                             reqtarget = ch;
                             break;
                         }
-                    case Constants.itemtarget_target:
+                    case Constants.ItemtargetTarget:
                         {
                             // TODO: pass on target 
                             break;
                         }
-                    case Constants.itemtarget_fightingtarget:
+                    case Constants.ItemtargetFightingtarget:
                         {
                             reqtarget = ch.FightingCharacter();
                             break;
                         }
-                    case Constants.itemtarget_selectedtarget:
+                    case Constants.ItemtargetSelectedtarget:
                         {
                             reqtarget = ch.TargetCharacter();
                             break;
                         }
-                    case Constants.itemtarget_self:
+                    case Constants.ItemtargetSelf:
                         {
                             reqtarget = ch;
                             break;
@@ -2480,52 +2480,52 @@ namespace ZoneEngine
                 bool reqresult = true;
                 switch (aor.Operator)
                 {
-                    case Constants.operator_and:
+                    case Constants.OperatorAnd:
                         {
                             reqresult = ((statval & aor.Value) != 0);
                             break;
                         }
-                    case Constants.operator_or:
+                    case Constants.OperatorOr:
                         {
                             reqresult = ((statval | aor.Value) != 0);
                             break;
                         }
-                    case Constants.operator_equalto:
+                    case Constants.OperatorEqualTo:
                         {
                             reqresult = (statval == aor.Value);
                             break;
                         }
-                    case Constants.operator_lessthan:
+                    case Constants.OperatorLessThan:
                         {
                             reqresult = (statval < aor.Value);
                             break;
                         }
-                    case Constants.operator_greaterthan:
+                    case Constants.OperatorGreaterThan:
                         {
                             reqresult = (statval > aor.Value);
                             break;
                         }
-                    case Constants.operator_unequal:
+                    case Constants.OperatorUnequal:
                         {
                             reqresult = (statval != aor.Value);
                             break;
                         }
-                    case Constants.operator_true:
+                    case Constants.OperatorTrue:
                         {
                             reqresult = true;
                             break;
                         }
-                    case Constants.operator_false:
+                    case Constants.OperatorFalse:
                         {
                             reqresult = false;
                             break;
                         }
-                    case Constants.operator_bitand:
+                    case Constants.OperatorBitAnd:
                         {
                             reqresult = ((statval & aor.Value) != 0);
                             break;
                         }
-                    case Constants.operator_bitor:
+                    case Constants.OperatorBitOr:
                         {
                             reqresult = ((statval | aor.Value) != 0);
                             break;
@@ -2541,12 +2541,12 @@ namespace ZoneEngine
 
                 switch (childOperator)
                 {
-                    case Constants.operator_and:
+                    case Constants.OperatorAnd:
                         {
                             requirementsMet &= reqresult;
                             break;
                         }
-                    case Constants.operator_or:
+                    case Constants.OperatorOr:
                         {
                             requirementsMet &= reqresult;
                             break;
@@ -2611,7 +2611,7 @@ namespace ZoneEngine
 
                     if (reqs_met)
                     {
-                        if (eve.EventType == Constants.eventtype_onwear)
+                        if (eve.EventType == Constants.EventtypeOnWear)
                         {
                             AOFunctions aofcopy = aof.ShallowCopy();
                             aofcopy.Arguments.Add(location);

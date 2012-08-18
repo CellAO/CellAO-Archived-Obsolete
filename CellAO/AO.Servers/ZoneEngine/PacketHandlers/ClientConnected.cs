@@ -81,7 +81,7 @@ namespace ZoneEngine.PacketHandlers
             client.Server.Info(
                 client,
                 "Client connected. ID: {0} IP: {1}",
-                client.Character.ID,
+                client.Character.Id,
                 client.TcpIP + " Character name: " + client.Character.Name);
 
             // now we have to start sending packets like 

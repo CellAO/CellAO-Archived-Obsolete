@@ -2403,189 +2403,6 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="LootHandler">
-          <Members>
-           <Member Name="#FullDropList">
-            <Messages>
-             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'LootHandler.FullDropList'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#GetLoot(ZoneEngine.NonPlayerCharacterClass)">
-            <Messages>
-             <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'string.ToLower()'</Item>
-               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
-               <Item>'string.ToLower(CultureInfo)'</Item>
-              </Issue>
-              <Issue>
-               <Item>'string.ToLower()'</Item>
-               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
-               <Item>'string.ToLower(CultureInfo)'</Item>
-              </Issue>
-              <Issue>
-               <Item>'string.ToLower()'</Item>
-               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
-               <Item>'string.ToLower(CultureInfo)'</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2012-08-18 13:00:17Z">
-              <Issue Name="IFormatProviderAlternate">
-               <Item>'Convert.ToInt32(string)'</Item>
-               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
-               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
-               <Item>'CultureInfo.CurrentCulture'</Item>
-               <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Created="2012-08-18 13:00:17Z">
-              <Issue Name="IsNullOrEmpty">
-               <Item>'string.operator ==(string, string)'</Item>
-               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="LootHandler+LootItem">
-          <Messages>
-           <Message TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034" Created="2012-08-18 13:00:17Z">
-            <Issue>
-             <Item>'LootHandler.LootItem'</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="#.ctor(System.String,System.String,System.String,System.String,System.String,System.String)">
-            <Messages>
-             <Message Id="System.Convert.ToByte(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2012-08-18 13:00:17Z">
-              <Issue Name="IFormatProviderAlternate">
-               <Item>'Convert.ToByte(string)'</Item>
-               <Item>'LootHandler.LootItem.LootItem(string, string, string, string, string, string)'</Item>
-               <Item>'Convert.ToByte(string, IFormatProvider)'</Item>
-               <Item>'CultureInfo.CurrentCulture'</Item>
-               <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2012-08-18 13:00:17Z">
-              <Issue Name="IFormatProviderAlternate">
-               <Item>'Convert.ToInt32(string)'</Item>
-               <Item>'LootHandler.LootItem.LootItem(string, string, string, string, string, string)'</Item>
-               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
-               <Item>'CultureInfo.CurrentCulture'</Item>
-               <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-              <Issue Name="IFormatProviderAlternate">
-               <Item>'Convert.ToInt32(string)'</Item>
-               <Item>'LootHandler.LootItem.LootItem(string, string, string, string, string, string)'</Item>
-               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
-               <Item>'CultureInfo.CurrentCulture'</Item>
-               <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-              <Issue Name="IFormatProviderAlternate">
-               <Item>'Convert.ToInt32(string)'</Item>
-               <Item>'LootHandler.LootItem.LootItem(string, string, string, string, string, string)'</Item>
-               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
-               <Item>'CultureInfo.CurrentCulture'</Item>
-               <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-              <Issue Name="IFormatProviderAlternate">
-               <Item>'Convert.ToInt32(string)'</Item>
-               <Item>'LootHandler.LootItem.LootItem(string, string, string, string, string, string)'</Item>
-               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
-               <Item>'CultureInfo.CurrentCulture'</Item>
-               <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#HighID">
-            <Messages>
-             <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberAbbreviation">
-               <Item>ID</Item>
-               <Item>'LootHandler.LootItem.HighID'</Item>
-               <Item>Id</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#LowID">
-            <Messages>
-             <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberAbbreviation">
-               <Item>ID</Item>
-               <Item>'LootHandler.LootItem.LowID'</Item>
-               <Item>Id</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="LootHandler+PartialSlot">
-          <Messages>
-           <Message TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034" Created="2012-08-18 13:00:17Z">
-            <Issue>
-             <Item>'LootHandler.PartialSlot'</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="#.ctor(System.String,System.String,System.String)">
-            <Messages>
-             <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2012-08-18 13:00:17Z">
-              <Issue Name="IFormatProviderAlternate">
-               <Item>'Convert.ToInt32(string)'</Item>
-               <Item>'LootHandler.PartialSlot.PartialSlot(string, string, string)'</Item>
-               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
-               <Item>'CultureInfo.CurrentCulture'</Item>
-               <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-              <Issue Name="IFormatProviderAlternate">
-               <Item>'Convert.ToInt32(string)'</Item>
-               <Item>'LootHandler.PartialSlot.PartialSlot(string, string, string)'</Item>
-               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
-               <Item>'CultureInfo.CurrentCulture'</Item>
-               <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Chance">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'LootHandler.PartialSlot.Chance'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#HashList">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'LootHandler.PartialSlot.HashList'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Slot">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'LootHandler.PartialSlot.Slot'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="NonPlayerCharacterClass">
           <Members>
            <Member Name="#.ctor(System.Int32,System.Int32)">
@@ -3857,51 +3674,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="#cnt_args">
-            <Messages>
-             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Statels.cnt_args'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#cnt_events">
-            <Messages>
-             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Statels.cnt_events'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#cnt_functions">
-            <Messages>
-             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Statels.cnt_functions'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#cnt_reqs">
-            <Messages>
-             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Statels.cnt_reqs'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#dt_args">
-            <Messages>
-             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Statels.dt_args'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="#Statelppf">
             <Messages>
              <Message TypeName="DoNotNestGenericTypesInMemberSignatures" Category="Microsoft.Design" CheckId="CA1006" Created="2012-08-18 13:00:17Z">
@@ -4041,40 +3813,6 @@
              <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
               <Issue>
                <Item>'Statels.Statel.Type'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="Statels+Statel_Event">
-          <Messages>
-           <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-08-18 13:00:17Z">
-            <Issue Name="Type">
-             <Item>'Statels.Statel_Event'</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034" Created="2012-08-18 13:00:17Z">
-            <Issue>
-             <Item>'Statels.Statel_Event'</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="#EventNumber">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Statels.Statel_Event.EventNumber'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Functions">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Statels.Statel_Event.Functions'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -4275,6 +4013,35 @@
              <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
               <Issue>
                <Item>'Statels.Statel_Function_Requirement.Target'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="Statels+StatelEvent">
+          <Messages>
+           <Message TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034" Created="2012-08-18 14:02:30Z">
+            <Issue>
+             <Item>'Statels.StatelEvent'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#EventNumber">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 14:02:30Z">
+              <Issue>
+               <Item>'Statels.StatelEvent.EventNumber'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#Functions">
+            <Messages>
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 14:02:30Z">
+              <Issue>
+               <Item>'Statels.StatelEvent.Functions'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -5664,42 +5431,6 @@
        </Namespace>
        <Namespace Name="ZoneEngine.Database.Items">
         <Types>
-         <Type Name="ItemsEntry">
-          <Members>
-           <Member Name="#HighID">
-            <Messages>
-             <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberAbbreviation">
-               <Item>ID</Item>
-               <Item>'ItemsEntry.HighID'</Item>
-               <Item>Id</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#LowID">
-            <Messages>
-             <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberAbbreviation">
-               <Item>ID</Item>
-               <Item>'ItemsEntry.LowID'</Item>
-               <Item>Id</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Type">
-            <Messages>
-             <Message TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721" Created="2012-08-18 13:00:17Z">
-              <Issue Name="BaseType">
-               <Item>'ItemsEntry.Type'</Item>
-               <Item>'object.GetType()'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="ItemsList">
           <Members>
            <Member Name="#LoadItems(System.Int32)">
@@ -5708,14 +5439,6 @@
               <Issue>
                <Item>'ItemsList.LoadItems(int)'</Item>
                <Item>'Exception'</Item>
-              </Issue>
-             </Message>
-             <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberParameterAbbreviation">
-               <Item>'ItemsList.LoadItems(int)'</Item>
-               <Item>ID</Item>
-               <Item>'charID'</Item>
-               <Item>Id</Item>
               </Issue>
              </Message>
             </Messages>
@@ -13705,6 +13428,102 @@
            </Member>
           </Members>
          </Type>
+         <Type Name="LootHandler">
+          <Members>
+           <Member Name="#FullDropList">
+            <Messages>
+             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 13:59:01Z">
+              <Issue>
+               <Item>'LootHandler.FullDropList'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#GetLoot(ZoneEngine.NonPlayerCharacterClass)">
+            <Messages>
+             <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2012-08-18 13:59:01Z">
+              <Issue>
+               <Item>'string.ToLower()'</Item>
+               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
+               <Item>'string.ToLower(CultureInfo)'</Item>
+              </Issue>
+              <Issue>
+               <Item>'string.ToLower()'</Item>
+               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
+               <Item>'string.ToLower(CultureInfo)'</Item>
+              </Issue>
+              <Issue>
+               <Item>'string.ToLower()'</Item>
+               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
+               <Item>'string.ToLower(CultureInfo)'</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2012-08-18 13:59:01Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(string)'</Item>
+               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
+               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Created="2012-08-18 13:59:01Z">
+              <Issue Name="IsNullOrEmpty">
+               <Item>'string.operator ==(string, string)'</Item>
+               <Item>'LootHandler.GetLoot(NonPlayerCharacterClass)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="LootItem">
+          <Members>
+           <Member Name="#.ctor(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToByte(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2012-08-18 13:59:43Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToByte(string)'</Item>
+               <Item>'LootItem.LootItem(string, string, string, string, string, string)'</Item>
+               <Item>'Convert.ToByte(string, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2012-08-18 13:59:43Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(string)'</Item>
+               <Item>'LootItem.LootItem(string, string, string, string, string, string)'</Item>
+               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(string)'</Item>
+               <Item>'LootItem.LootItem(string, string, string, string, string, string)'</Item>
+               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(string)'</Item>
+               <Item>'LootItem.LootItem(string, string, string, string, string, string)'</Item>
+               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(string)'</Item>
+               <Item>'LootItem.LootItem(string, string, string, string, string, string)'</Item>
+               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
          <Type Name="MeshLayers">
           <Members>
            <Member Name="#GetMeshs(ZoneEngine.Character,System.Boolean,System.Boolean)">
@@ -13751,6 +13570,30 @@
               <Issue>
                <Item>'overridetexture'</Item>
                <Item>'MeshLayers.RemoveMesh(int, int, int, int)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="PartialSlot">
+          <Members>
+           <Member Name="#.ctor(System.String,System.String,System.String)">
+            <Messages>
+             <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2012-08-18 13:59:01Z">
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(string)'</Item>
+               <Item>'PartialSlot.PartialSlot(string, string, string)'</Item>
+               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
+              </Issue>
+              <Issue Name="IFormatProviderAlternate">
+               <Item>'Convert.ToInt32(string)'</Item>
+               <Item>'PartialSlot.PartialSlot(string, string, string)'</Item>
+               <Item>'Convert.ToInt32(string, IFormatProvider)'</Item>
+               <Item>'CultureInfo.CurrentCulture'</Item>
+               <Item>'CultureInfo.InvariantCulture'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -15815,9 +15658,6 @@
    </Rule>
    <Rule TypeName="PropertiesShouldNotReturnArrays" Category="Microsoft.Performance" CheckId="CA1819">
     <Resolution Name="Default">Change {0} to return a collection or make it a method.</Resolution>
-   </Rule>
-   <Rule TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721">
-    <Resolution Name="BaseType">The property name {0} is confusing given the existence of inherited method {1}. Rename or remove this property.</Resolution>
    </Rule>
    <Rule TypeName="RemoveEmptyFinalizers" Category="Microsoft.Performance" CheckId="CA1821">
     <Resolution Name="Default">{0} implements a finalizer that only calls conditionally emitted methods or the base type finalizer. Remove the finalizer or ensure that it is only conditionally compiled into the assembly. If this violation occurs against a finalizer that is entirely wrapped in a conditionally-emitted block of code, suppress this message.</Resolution>

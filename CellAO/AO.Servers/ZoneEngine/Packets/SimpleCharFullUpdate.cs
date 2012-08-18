@@ -65,7 +65,7 @@ namespace ZoneEngine.Packets
         /// <param name="receiver"></param>
         public static void SendToOne(Character character, Client receiver)
         {
-            Byte[] packet = WritePacket(character, receiver.Character.ID);
+            Byte[] packet = WritePacket(character, receiver.Character.Id);
             receiver.SendCompressed(packet);
         }
 
@@ -76,7 +76,7 @@ namespace ZoneEngine.Packets
         /// <returns></returns>
         public static Byte[] GetPacket(Client client)
         {
-            return WritePacket(client.Character, client.Character.ID);
+            return WritePacket(client.Character, client.Character.Id);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace ZoneEngine.Packets
 
                 charPlayfield = character.PlayField;
                 charCoord = character.Coordinates;
-                charId = character.ID;
+                charId = character.Id;
                 charHeading = character.Heading;
 
                 sideValue = character.Stats.Side.StatBaseValue;

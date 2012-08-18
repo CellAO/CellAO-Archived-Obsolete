@@ -48,7 +48,7 @@ namespace ZoneEngine.Misc
                     {
                         continue;
                     }
-                    byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
+                    byte[] mID = BitConverter.GetBytes(tempClient.Character.Id);
                     data[12] = mID[3];
                     data[13] = mID[2];
                     data[14] = mID[1];
@@ -68,11 +68,11 @@ namespace ZoneEngine.Misc
             foreach (Client tempClient in Program.zoneServer.Clients)
             {
                 if ((tempClient.Character.PlayField != client.Character.PlayField)
-                    || (tempClient.Character.ID == client.Character.ID))
+                    || (tempClient.Character.Id == client.Character.Id))
                 {
                     continue;
                 }
-                Byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
+                Byte[] mID = BitConverter.GetBytes(tempClient.Character.Id);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
@@ -95,7 +95,7 @@ namespace ZoneEngine.Misc
                 {
                     continue;
                 }
-                Byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
+                Byte[] mID = BitConverter.GetBytes(tempClient.Character.Id);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
@@ -114,7 +114,7 @@ namespace ZoneEngine.Misc
         {
             foreach (Client tempClient in Program.zoneServer.Clients)
             {
-                byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
+                byte[] mID = BitConverter.GetBytes(tempClient.Character.Id);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
@@ -133,11 +133,11 @@ namespace ZoneEngine.Misc
         {
             foreach (Client tempClient in Program.zoneServer.Clients)
             {
-                if (tempClient.Character.ID == client.Character.ID)
+                if (tempClient.Character.Id == client.Character.Id)
                 {
                     continue;
                 }
-                byte[] mID = BitConverter.GetBytes(tempClient.Character.ID);
+                byte[] mID = BitConverter.GetBytes(tempClient.Character.Id);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];

@@ -39,17 +39,17 @@ namespace ZoneEngine
 
         public VendingMachine(int id, int playfield, string hash)
         {
-            this.ID = id;
+            this.Id = id;
             this.PlayField = playfield;
             // Vending machines = type 51035
             this.Type = 51035;
-            this.ourType = 3;
-            this.rawCoord = new AOCoord();
-            this.rawHeading = new Quaternion(0, 0, 0, 0);
+            this.OurType = 3;
+            this.RawCoord = new AOCoord();
+            this.RawHeading = new Quaternion(0, 0, 0, 0);
             this.Hash = hash;
             this.DoNotDoTimers = true;
             this.Stats = new CharacterStats(this);
-            if (this.ID != 0)
+            if (this.Id != 0)
             {
                 LoadTemplate(hash); // All shops will have level 1
             }
@@ -58,17 +58,17 @@ namespace ZoneEngine
 
         public VendingMachine(int id, int playfield, int templateId)
         {
-            this.ID = id;
+            this.Id = id;
             this.PlayField = playfield;
             // Vending machines = type 51035
             this.Type = 51035;
-            this.ourType = 3;
-            this.rawCoord = new AOCoord();
-            this.rawHeading = new Quaternion(0, 0, 0, 0);
+            this.OurType = 3;
+            this.RawCoord = new AOCoord();
+            this.RawHeading = new Quaternion(0, 0, 0, 0);
             this.TemplateId = templateId;
             this.DoNotDoTimers = true;
             this.Stats = new CharacterStats(this);
-            if (this.ID != 0)
+            if (this.Id != 0)
             {
                 this.LoadTemplate(this.TemplateId); // All shops will have level 1
             }
@@ -165,7 +165,7 @@ namespace ZoneEngine
             int freeID = 100000; // minimum ID for mobs
             foreach (VendingMachine vm in Program.zoneServer.Vendors)
             {
-                freeID = Math.Max(freeID, vm.ID);
+                freeID = Math.Max(freeID, vm.Id);
             }
             freeID++;
             return freeID;
@@ -237,7 +237,7 @@ namespace ZoneEngine
             // Fix from Moin, thx
             sqlWrapper.SqlInsert(
                 "INSERT INTO " + this.GetSqlTablefromDynelType() + " (ID, Playfield, TemplateID, Hash) VALUES ("
-                + this.ID.ToString() + "," + this.PlayField.ToString() + "," + this.TemplateId.ToString() + ",'"
+                + this.Id.ToString() + "," + this.PlayField.ToString() + "," + this.TemplateId.ToString() + ",'"
                 + this.Hash + "')");
             this.WriteCoordinatesToSql();
             this.WriteHeadingToSql();
@@ -250,7 +250,7 @@ namespace ZoneEngine
         /// </summary>
         public new void Purge()
         {
-            if ((this.ID != 0) && (this.NeedPurge))
+            if ((this.Id != 0) && (this.NeedPurge))
             {
                 this.NeedPurge = false;
 

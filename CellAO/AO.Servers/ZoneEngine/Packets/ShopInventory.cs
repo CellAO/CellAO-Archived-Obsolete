@@ -38,9 +38,9 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x58362220);
-            packetWriter.PushIdentity(vendingMachine.Type, vendingMachine.ID);
+            packetWriter.PushIdentity(vendingMachine.Type, vendingMachine.Id);
             packetWriter.PushByte(1);
             packetWriter.Push3F1Count(vendingMachine.Inventory.Count);
             foreach (InventoryEntries ie in vendingMachine.Inventory)

@@ -42,41 +42,41 @@ namespace ZoneEngine.Database.Items
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="charID"></param>
+        /// <param name="charId"></param>
         /// <returns></returns>
-        public static List<ItemsEntry> LoadItems(int charID)
+        public static List<ItemsEntry> LoadItems(int charId)
         {
-            List<ItemsEntry> Items = new List<ItemsEntry>();
-            SqlWrapper ms = new SqlWrapper();
+            List<ItemsEntry> items = new List<ItemsEntry>();
+            SqlWrapper sqlWrapper = new SqlWrapper();
             try
             {
-                string SqlQuery =
+                string sqlQuery =
                     "SELECT `Placement`, `Flags`, `MultipleCount`, `Type`, `Instance`, `LowID`, `HighID`, `Quality`, `Nothing` FROM `inventory` WHERE ID = "
-                    + "'" + charID + "' ORDER BY Placement ASC";
-                DataTable dt = ms.ReadDatatable(SqlQuery);
+                    + "'" + charId + "' ORDER BY Placement ASC";
+                DataTable dataTable = sqlWrapper.ReadDatatable(sqlQuery);
 
-                foreach (DataRow itemRow in dt.Rows)
+                foreach (DataRow itemRow in dataTable.Rows)
                 {
                     ItemsEntry itemEntry = new ItemsEntry();
                     itemEntry.Placement = (Int32)itemRow["Placement"];
                     itemEntry.Flags = (Int16)itemRow["Flags"];
                     itemEntry.MultipleCount = (Int16)itemRow["MultipleCount"];
-                    itemEntry.Type = (Int32)itemRow["Type"];
+                    itemEntry.ItemType = (Int32)itemRow["Type"];
                     itemEntry.Instance = (Int32)itemRow["Instance"];
-                    itemEntry.LowID = (Int32)itemRow["LowID"];
-                    itemEntry.HighID = (Int32)itemRow["HighID"];
+                    itemEntry.LowId = (Int32)itemRow["LowID"];
+                    itemEntry.HighId = (Int32)itemRow["HighID"];
                     itemEntry.Quality = (Int32)itemRow["Quality"];
                     itemEntry.Nothing = (Int32)itemRow["Nothing"];
 
-                    Items.Add(itemEntry);
+                    items.Add(itemEntry);
                 }
             }
             catch (Exception e)
             {
-                ms.sqlclose();
-                Console.WriteLine("Error: CharacterID: " + charID + "Message: " + e.Message);
+                sqlWrapper.sqlclose();
+                Console.WriteLine("Error: CharacterID: " + charId + "Message: " + e.Message);
             }
-            return Items;
+            return items;
         }
     }
 }

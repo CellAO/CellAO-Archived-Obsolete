@@ -97,8 +97,8 @@ namespace ZoneEngine.PacketHandlers
                 }
             }
 
-            client.Character.rawCoord = coordinates;
-            client.Character.rawHeading = heading;
+            client.Character.RawCoord = coordinates;
+            client.Character.RawHeading = heading;
             client.Character.UpdateMoveType(moveType);
 
             /* Start NV Heading Testing Code
@@ -130,7 +130,7 @@ namespace ZoneEngine.PacketHandlers
             /* packet ID */
             packetWriter.PushInt(0x54111123);
             /* affected dynel identity */
-            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushIdentity(50000, client.Character.Id);
             /* ? */
             packetWriter.PushByte(0);
             /* movement type */

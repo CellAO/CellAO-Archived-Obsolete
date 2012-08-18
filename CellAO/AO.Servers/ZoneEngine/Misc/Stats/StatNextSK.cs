@@ -52,7 +52,7 @@ namespace ZoneEngine.Misc
                 {
                     return 0;
                 }
-                return Convert.ToInt32(Program.zoneServer.XPproLevel.tableSLSK[level - 200, 2]);
+                return Convert.ToInt32(XPTable.TableShadowLandsSK[level - 200, 2]);
             }
             set
             {

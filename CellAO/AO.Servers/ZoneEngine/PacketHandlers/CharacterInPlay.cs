@@ -50,7 +50,7 @@ namespace ZoneEngine.PacketHandlers
             // wants to enter the world. After we
             // reply to this, the character will really be in game
 
-            byte[] characterID = BitConverter.GetBytes(client.Character.ID);
+            byte[] characterID = BitConverter.GetBytes(client.Character.Id);
             Array.Reverse(characterID);
             PacketWriter packetWriter = new PacketWriter();
             packetWriter.PushByte(0xDF);
@@ -59,9 +59,9 @@ namespace ZoneEngine.PacketHandlers
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x570C2039);
-            packetWriter.PushIdentity(50000, client.Character.ID);
+            packetWriter.PushIdentity(50000, client.Character.Id);
             packetWriter.PushByte(0);
             byte[] reply = packetWriter.Finish();
             Announce.Playfield(client.Character.PlayField, reply);

@@ -50,7 +50,7 @@ namespace ZoneEngine.Database.Items
         /// <summary>
         /// 
         /// </summary>
-        public int Type { get; set; }
+        public int ItemType { get; set; }
 
         /// <summary>
         /// 
@@ -60,12 +60,12 @@ namespace ZoneEngine.Database.Items
         /// <summary>
         /// 
         /// </summary>
-        public int LowID { get; set; }
+        public int LowId { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int HighID { get; set; }
+        public int HighId { get; set; }
 
         /// <summary>
         /// 

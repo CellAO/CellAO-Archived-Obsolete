@@ -38,12 +38,12 @@ namespace ZoneEngine.Packets
             pw.PushShort(1);
             pw.PushShort(0);
             pw.PushInt(3086);
-            pw.PushInt(cli.Character.ID);
+            pw.PushInt(cli.Character.Id);
             pw.PushInt(0x55704d31);
-            pw.PushIdentity(cli.Character.Type, cli.Character.ID);
+            pw.PushIdentity(cli.Character.Type, cli.Character.Id);
             pw.PushByte(0);
             pw.PushShort(2);
-            pw.PushIdentity(knubotTarget.Type, knubotTarget.ID);
+            pw.PushIdentity(knubotTarget.Type, knubotTarget.Id);
             pw.PushInt(choices.Length);
             foreach (string choice in choices)
             {

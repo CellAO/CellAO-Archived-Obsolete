@@ -37,13 +37,13 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x36284f6e);
-            packetWriter.PushIdentity(dynel1.Type, dynel1.ID);
+            packetWriter.PushIdentity(dynel1.Type, dynel1.Id);
             packetWriter.PushByte(0);
             packetWriter.PushInt(1); // Knubot sends 2 here
             packetWriter.PushByte(0); // and 2 here too
-            packetWriter.PushIdentity(dynel2.Type, dynel2.ID); // knubot 0
+            packetWriter.PushIdentity(dynel2.Type, dynel2.Id); // knubot 0
             packetWriter.PushIdentity(0xc767, 0x39da2458); // temp bag ID?? Knubot 0, needs more testing....
 
             byte[] packet = packetWriter.Finish();

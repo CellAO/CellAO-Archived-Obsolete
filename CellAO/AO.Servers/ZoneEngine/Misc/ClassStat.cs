@@ -272,7 +272,7 @@ namespace ZoneEngine.Misc
             {
                 return;
             }
-            int id = this.parent.ID;
+            int id = this.parent.Id;
             SqlWrapper sql = new SqlWrapper();
             if (this.Changed)
             {
@@ -305,7 +305,7 @@ namespace ZoneEngine.Misc
             {
                 return;
             }
-            int id = this.parent.ID;
+            int id = this.parent.Id;
             SqlWrapper sql = new SqlWrapper();
             if (doit)
             {
@@ -338,7 +338,7 @@ namespace ZoneEngine.Misc
                 return;
             }
             SqlWrapper sql = new SqlWrapper();
-            int id = this.parent.ID;
+            int id = this.parent.Id;
             DataTable dt =
                 sql.ReadDatatable(
                     "SELECT Value FROM " + this.parent.GetSqlTablefromDynelType() + " WHERE ID=" + id
@@ -9295,7 +9295,7 @@ namespace ZoneEngine.Misc
             DataTable dt =
                 sql.ReadDatatable(
                     "SELECT Stat,Value FROM " + this.flags.Parent.GetSqlTablefromDynelType() + "_stats WHERE ID="
-                    + this.flags.Parent.ID); // Using Flags to address parent object
+                    + this.flags.Parent.Id); // Using Flags to address parent object
             foreach (DataRow row in dt.Rows)
             {
                 this.SetBaseValue((Int32)row[0], (UInt32)((Int32)row[1]));
@@ -9460,7 +9460,7 @@ namespace ZoneEngine.Misc
             }
 
             throw new StatDoesNotExistException(
-                "Stat " + statId + " does not exist.\r\nClient: " + client.Character.ID + "\r\nMethod: Send");
+                "Stat " + statId + " does not exist.\r\nClient: " + client.Character.Id + "\r\nMethod: Send");
         }
         #endregion
 

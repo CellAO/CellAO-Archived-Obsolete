@@ -44,12 +44,12 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x3b132d64);
-            packetWriter.PushIdentity(client.Character.Type, client.Character.ID);
+            packetWriter.PushIdentity(client.Character.Type, client.Character.Id);
             packetWriter.PushByte(0);
             packetWriter.PushShort(2);
-            packetWriter.PushIdentity(knubotTarget.Type, knubotTarget.ID);
+            packetWriter.PushIdentity(knubotTarget.Type, knubotTarget.Id);
             packetWriter.PushInt(1);
             packetWriter.PushInt(0);
 

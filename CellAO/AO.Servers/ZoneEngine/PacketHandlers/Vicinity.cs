@@ -90,7 +90,7 @@ namespace ZoneEngine.PacketHandlers
 
             foreach (Client child in clients)
             {
-                recvers[index] = (UInt32)child.Character.ID;
+                recvers[index] = (UInt32)child.Character.Id;
                 index++;
             }
 

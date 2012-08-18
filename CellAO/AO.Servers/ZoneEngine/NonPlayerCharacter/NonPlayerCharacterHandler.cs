@@ -45,9 +45,9 @@ namespace ZoneEngine.NonPlayerCharacter
             mMonster.PurgeTimer(-1);
             mMonster.PurgeTimer(0);
             mMonster.PurgeTimer(1);
-            mMonster.ID = FindNextFreeId();
-            mMonster.rawCoord = cli.Character.rawCoord;
-            mMonster.rawHeading = cli.Character.rawHeading;
+            mMonster.Id = FindNextFreeId();
+            mMonster.RawCoord = cli.Character.RawCoord;
+            mMonster.RawHeading = cli.Character.RawHeading;
             mMonster.PlayField = cli.Character.PlayField;
             mMonster.AddHpnpTick();
             if (String.IsNullOrEmpty(mMonster.Name))
@@ -82,7 +82,7 @@ namespace ZoneEngine.NonPlayerCharacter
             int freeID = 100000; // minimum ID for mobs
             foreach (NonPlayerCharacterClass mob in Program.zoneServer.Monsters)
             {
-                freeID = Math.Max(freeID, mob.ID);
+                freeID = Math.Max(freeID, mob.Id);
             }
             freeID++;
             return freeID;
@@ -101,7 +101,7 @@ namespace ZoneEngine.NonPlayerCharacter
             }
             foreach (NonPlayerCharacterClass mMonster in Program.zoneServer.Monsters)
             {
-                if (mMonster.ID != monster.Instance)
+                if (mMonster.Id != monster.Instance)
                 {
                     continue;
                 }
@@ -137,11 +137,11 @@ namespace ZoneEngine.NonPlayerCharacter
             foreach (DataRow row in dt.Rows)
             {
                 NonPlayerCharacterClass monster = new NonPlayerCharacterClass(0, 0)
-                    { Starting = true, ID = (Int32)row["ID"], PlayField = (Int32)row["Playfield"] };
+                    { Starting = true, Id = (Int32)row["ID"], PlayField = (Int32)row["Playfield"] };
 
                 monster.Name = (string)row["Name"]
 #if DEBUG
-                                + " " + monster.ID.ToString() // ID is for debug purpose only
+                                + " " + monster.Id.ToString() // ID is for debug purpose only
 #endif
                     ;
                 monster.readcoordsheadingfast(row);

@@ -44,7 +44,7 @@ namespace ZoneEngine.ChatCommands
             if (target.Instance == 0)
             {
                 target.Type = client.Character.Type;
-                target.Instance = client.Character.ID;
+                target.Instance = client.Character.Id;
             }
 
             int statId = StatsList.GetStatId(args[1]);

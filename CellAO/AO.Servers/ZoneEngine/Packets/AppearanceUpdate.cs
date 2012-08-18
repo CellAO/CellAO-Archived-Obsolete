@@ -42,9 +42,9 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0); // Packet size. writer will take care of this
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(character.ID);
+            packetWriter.PushInt(character.Id);
             packetWriter.PushInt(0x41624F0D);
-            packetWriter.PushIdentity(50000, character.ID);
+            packetWriter.PushIdentity(50000, character.Id);
             packetWriter.PushByte(0);
             packetWriter.Push3F1Count(5); // Textures are always transferred
             int c;

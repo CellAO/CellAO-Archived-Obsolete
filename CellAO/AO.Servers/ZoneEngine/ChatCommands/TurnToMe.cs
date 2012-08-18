@@ -83,8 +83,8 @@ namespace ZoneEngine.ChatCommands
                     return;
             }
             v3.y = 0.0000000;
-            _target.rawHeading = _target.rawHeading.GenerateRotationFromDirectionVector(v3.Normalize());
-            client.Teleport(client.Character.rawCoord, client.Character.rawHeading, client.Character.PlayField);
+            _target.RawHeading = _target.RawHeading.GenerateRotationFromDirectionVector(v3.Normalize());
+            client.Teleport(client.Character.RawCoord, client.Character.RawHeading, client.Character.PlayField);
         }
 
         public override void CommandHelp(Client client)

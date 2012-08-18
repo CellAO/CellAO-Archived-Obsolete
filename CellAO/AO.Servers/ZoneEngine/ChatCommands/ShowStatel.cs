@@ -61,7 +61,7 @@ namespace ZoneEngine.ChatCommands
                 return;
             }
             client.SendChatText(o.Type + ":" + o.Instance);
-            foreach (Statels.Statel_Event se in o.Events)
+            foreach (Statels.StatelEvent se in o.Events)
             {
                 client.SendChatText(
                     "Event: " + se.EventNumber.ToString() + " # of Functions: " + se.Functions.Count.ToString());

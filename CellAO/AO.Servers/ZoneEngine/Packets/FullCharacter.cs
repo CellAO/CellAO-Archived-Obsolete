@@ -137,9 +137,9 @@ namespace ZoneEngine.Packets
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(client.Character.ID);
+            writer.PushInt(client.Character.Id);
             writer.PushInt(0x29304349);
-            writer.PushIdentity(50000, client.Character.ID);
+            writer.PushIdentity(50000, client.Character.Id);
             writer.PushByte(0);
             #endregion
 

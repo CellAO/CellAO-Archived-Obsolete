@@ -74,10 +74,10 @@ namespace ZoneEngine
         public NonPlayerCharacterClass(int _id, int _playfield)
             : base(_id, _playfield)
         {
-            this.ID = _id;
+            this.Id = _id;
             this.PlayField = _playfield;
             this.Type = 50000;
-            this.ourType = 1;
+            this.OurType = 1;
             this.Meshs = new List<AOMeshs>();
             this.AdditionalMeshs = new List<AOAddMeshs>();
             this.Weaponpairs = new List<AOWeaponpairs>();
@@ -103,7 +103,7 @@ namespace ZoneEngine
 
             DataTable dt =
                 ms.ReadDatatable(
-                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString());
+                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "waypoints WHERE ID=" + this.Id.ToString());
 
             foreach (DataRow row in dt.Rows)
             {
@@ -121,12 +121,12 @@ namespace ZoneEngine
             SqlWrapper ms = new SqlWrapper();
             int count;
 
-            ms.SqlDelete("DELETE FROM " + this.GetSqlTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString());
+            ms.SqlDelete("DELETE FROM " + this.GetSqlTablefromDynelType() + "waypoints WHERE ID=" + this.Id.ToString());
 
             for (count = 0; count < this.Waypoints.Count; count++)
             {
                 ms.SqlInsert(
-                    "INSERT INTO " + this.GetSqlTablefromDynelType() + "waypoints VALUES (" + this.ID.ToString() + ","
+                    "INSERT INTO " + this.GetSqlTablefromDynelType() + "waypoints VALUES (" + this.Id.ToString() + ","
                     + this.PlayField.ToString() + ","
                     + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Waypoints[count].x) + ","
                     + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Waypoints[count].y) + ","
@@ -147,13 +147,13 @@ namespace ZoneEngine
         {
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "weaponpairs WHERE ID=" + this.Id.ToString()
                 + " AND playfield=" + this.PlayField.ToString() + ";");
             int c;
             for (c = 0; c < this.Weaponpairs.Count; c++)
             {
                 Sql.SqlInsert(
-                    "INSERT INTO " + this.GetSqlTablefromDynelType() + "weaponpairs VALUES (" + this.ID.ToString() + ","
+                    "INSERT INTO " + this.GetSqlTablefromDynelType() + "weaponpairs VALUES (" + this.Id.ToString() + ","
                     + this.PlayField.ToString() + "," + this.Weaponpairs[c].value1.ToString() + ","
                     + this.Weaponpairs[c].value2.ToString() + "," + this.Weaponpairs[c].value3.ToString() + ","
                     + this.Weaponpairs[c].value4.ToString() + ");");
@@ -171,7 +171,7 @@ namespace ZoneEngine
             this.Weaponpairs.Clear();
             DataTable dt =
                 Sql.ReadDatatable(
-                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
+                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "weaponpairs WHERE ID=" + this.Id.ToString()
                     + " AND playfield=" + this.PlayField.ToString());
 
             foreach (DataRow row in dt.Rows)
@@ -195,13 +195,13 @@ namespace ZoneEngine
         {
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "meshs WHERE ID=" + this.Id.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             int c;
             for (c = 0; c < this.Meshs.Count; c++)
             {
                 Sql.SqlInsert(
-                    "INSERT INTO " + this.GetSqlTablefromDynelType() + "meshs VALUES (" + this.ID.ToString() + ","
+                    "INSERT INTO " + this.GetSqlTablefromDynelType() + "meshs VALUES (" + this.Id.ToString() + ","
                     + this.PlayField.ToString() + "," + this.Meshs[c].Position.ToString() + ","
                     + this.Meshs[c].Mesh.ToString() + "," + this.Meshs[c].OverrideTexture.ToString() + ")");
             }
@@ -218,7 +218,7 @@ namespace ZoneEngine
             AOMeshs m_m;
             DataTable dt =
                 Sql.ReadDatatable(
-                    "SELECT * from " + this.GetSqlTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
+                    "SELECT * from " + this.GetSqlTablefromDynelType() + "meshs WHERE ID=" + this.Id.ToString()
                     + " AND playfield=" + this.PlayField.ToString());
 
             foreach (DataRow row in dt.Rows)
@@ -243,7 +243,7 @@ namespace ZoneEngine
             {
                 sqlquery += ",Textures" + at.place.ToString() + "=" + at.Texture.ToString();
             }
-            sqlquery += " WHERE ID=" + this.ID.ToString();
+            sqlquery += " WHERE ID=" + this.Id.ToString();
 
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlUpdate(sqlquery);
@@ -258,7 +258,7 @@ namespace ZoneEngine
         {
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlInsert(
-                "INSERT INTO " + this.GetSqlTablefromDynelType() + " (ID, Playfield) VALUES (" + this.ID.ToString()
+                "INSERT INTO " + this.GetSqlTablefromDynelType() + " (ID, Playfield) VALUES (" + this.Id.ToString()
                 + "," + this.PlayField.ToString() + ")");
             this.WriteCoordinatesToSql();
             this.WriteHeadingToSql();
@@ -292,28 +292,28 @@ namespace ZoneEngine
         {
             SqlWrapper Sql = new SqlWrapper();
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + " AND playfield="
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.Id.ToString() + " AND playfield="
                 + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID=" + this.Id.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID=" + this.Id.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + "meshs WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "meshs WHERE ID=" + this.Id.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + "waypoints WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "waypoints WHERE ID=" + this.Id.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + "weaponpairs WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "weaponpairs WHERE ID=" + this.Id.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
             Sql.SqlDelete(
-                "DELETE FROM " + this.GetSqlTablefromDynelType() + "_stats WHERE ID=" + this.ID.ToString()
+                "DELETE FROM " + this.GetSqlTablefromDynelType() + "_stats WHERE ID=" + this.Id.ToString()
                 + " AND playfield=" + this.PlayField.ToString());
         }
         #endregion
@@ -324,7 +324,7 @@ namespace ZoneEngine
         /// </summary>
         public void Despawn()
         {
-            Packets.Despawn.DespawnPacket(this.ID);
+            Packets.Despawn.DespawnPacket(this.Id);
         }
         #endregion
 
@@ -374,7 +374,7 @@ namespace ZoneEngine
             DataTable dt =
                 ms.ReadDatatable(
                     "SELECT textures0, textures1, textures2, textures3, textures4 from "
-                    + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + " AND playfield="
+                    + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.Id.ToString() + " AND playfield="
                     + this.PlayField.ToString());
             if (dt.Rows.Count > 0)
             {
@@ -516,11 +516,11 @@ namespace ZoneEngine
 
             foreach (Character child in Clients)
             {
-                recvers[index] = (UInt32)child.ID;
+                recvers[index] = (UInt32)child.Id;
                 index++;
             }
 
-            ChatCom.SendVicinity((UInt32)this.ID, 0, recvers, message);
+            ChatCom.SendVicinity((UInt32)this.Id, 0, recvers, message);
         }
         #endregion
 
@@ -534,7 +534,7 @@ namespace ZoneEngine
         public int ReadStatsfast(DataTable dt, int startcount)
         {
             int count = startcount;
-            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.ID))
+            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.Id))
             {
                 this.Stats.SetStatValueByName((Int32)dt.Rows[count][2], (UInt32)(Int32)dt.Rows[count][3]);
                 count++;
@@ -554,7 +554,7 @@ namespace ZoneEngine
         public int readInventoryfromSqlfast(DataTable dt, int startcount)
         {
             int count = startcount;
-            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.ID))
+            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.Id))
             {
                 count++;
             }

@@ -40,7 +40,7 @@ namespace ZoneEngine.ChatCommands
             if (target.Instance == 0)
             {
                 target.Type = client.Character.Type;
-                target.Instance = client.Character.ID;
+                target.Instance = client.Character.Id;
             }
             if (target.Type != 50000)
             {
@@ -79,7 +79,7 @@ namespace ZoneEngine.ChatCommands
                     return;
                 }
 
-                string response = "Character " + targetCharacter.Name + " (" + targetCharacter.ID + "): Stat " + StatsList.GetStatName(statId)
+                string response = "Character " + targetCharacter.Name + " (" + targetCharacter.Id + "): Stat " + StatsList.GetStatName(statId)
                                   + " (" + statId + ") = " + statValue;
 
                 client.SendChatText(response);

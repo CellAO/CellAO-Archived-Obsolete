@@ -39,7 +39,7 @@ namespace ZoneEngine
         {
             lock (this)
             {
-                this.ID = _id;
+                this.Id = _id;
                 this.PlayField = _playfield;
                 //                Stats = new Character_Stats(this);
             }

@@ -43,7 +43,7 @@ namespace ZoneEngine.Misc
         {
             foreach (Client client in Program.zoneServer.Clients)
             {
-                if (client.Character.ID != id)
+                if (client.Character.Id != id)
                 {
                     continue;
                 }
@@ -119,7 +119,7 @@ namespace ZoneEngine.Misc
                 {
                     continue;
                 }
-                if (client1.Character.ID == client.Character.ID)
+                if (client1.Character.Id == client.Character.Id)
                 {
                     continue;
                 }
@@ -151,7 +151,7 @@ namespace ZoneEngine.Misc
                 {
                     continue;
                 }
-                if (client1.Character.ID == client.ID)
+                if (client1.Character.Id == client.Id)
                 {
                     continue;
                 }

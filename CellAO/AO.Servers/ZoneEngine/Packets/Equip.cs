@@ -71,10 +71,10 @@ namespace ZoneEngine.Packets
                     action167packet.PushShort(0x1);
                     action167packet.PushShort(0);
                     action167packet.PushInt(3086);
-                    action167packet.PushInt(cli.Character.ID);
+                    action167packet.PushInt(cli.Character.Id);
                     action167packet.PushInt(0x5E477770);
                     action167packet.PushInt(50000);
-                    action167packet.PushInt(cli.Character.ID);
+                    action167packet.PushInt(cli.Character.Id);
                     action167packet.PushByte(0);
                     action167packet.PushInt(0xA7);
                     action167packet.PushInt(0);
@@ -94,10 +94,10 @@ namespace ZoneEngine.Packets
                     action131packet.PushShort(0x1);
                     action131packet.PushShort(0);
                     action131packet.PushInt(3086);
-                    action131packet.PushInt(cli.Character.ID);
+                    action131packet.PushInt(cli.Character.Id);
                     action131packet.PushInt(0x5E477770);
                     action131packet.PushInt(50000);
-                    action131packet.PushInt(cli.Character.ID);
+                    action131packet.PushInt(cli.Character.Id);
                     action131packet.PushByte(0);
                     action131packet.PushInt(0x83);
                     action131packet.PushInt(0);
@@ -120,10 +120,10 @@ namespace ZoneEngine.Packets
                     equippacket.PushShort(0x1);
                     equippacket.PushShort(0);
                     equippacket.PushInt(3086);
-                    equippacket.PushInt(cli.Character.ID);
+                    equippacket.PushInt(cli.Character.Id);
                     equippacket.PushInt(0x35505644);
                     equippacket.PushInt(50000);
-                    equippacket.PushInt(cli.Character.ID);
+                    equippacket.PushInt(cli.Character.Id);
                     equippacket.PushByte(0);
                     equippacket.PushInt(it.LowID);
                     equippacket.PushInt(it.HighID);

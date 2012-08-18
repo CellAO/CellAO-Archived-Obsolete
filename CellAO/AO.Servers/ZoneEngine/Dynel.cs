@@ -45,67 +45,67 @@ namespace ZoneEngine
         /// <summary>
         /// Unique Dynel ID
         /// </summary>
-        public int ID;
+        public int Id { get; set; }
 
         /// <summary>
         /// Dynel Type (AO Type)
         /// </summary>
-        public int Type;
+        public int Type { get; set; }
 
         /// <summary>
         /// Playfield 
         /// </summary>
-        public int PlayField;
+        public int PlayField { get; set; }
 
         /// <summary>
         /// Resource... Check needed what it should do
         /// </summary>
-        public int resource;
+        public int Resource { get; set; }
 
         /// <summary>
         /// Our Type number
         /// </summary>
-        public int ourType;
+        public int OurType { get; set; }
 
         /// <summary>
         /// Dynel Name (Player Name, Item name, Mob name etc)
         /// </summary>
-        public string Name;
+        public string Name { get; set; }
 
         /// <summary>
         /// Icon Number
         /// </summary>
-        public int Icon;
+        public int Icon { get; set; }
 
         /// <summary>
         /// Mesh Number
         /// </summary>
-        public int Mesh;
+        public int Mesh { get; set; }
 
         /// <summary>
         /// Flags
         /// </summary>
-        public int Flags;
+        public int Flags { get; set; }
 
         /// <summary>
         /// Coordinates
         /// </summary>
-        public AOCoord rawCoord;
+        public AOCoord RawCoord { get; set; }
 
         /// <summary>
         /// Heading
         /// </summary>
-        public Quaternion rawHeading;
+        public Quaternion RawHeading { get; set; }
 
         /// <summary>
         /// Dynel Events
         /// </summary>
-        public List<AOEvents> Events;
+        private readonly List<AOEvents> events;
 
         /// <summary>
         /// Dynel Actions
         /// </summary>
-        public List<AOActions> Actions;
+        private readonly List<AOActions> actions;
 
         /// <summary>
         /// Textures
@@ -127,20 +127,20 @@ namespace ZoneEngine
         /// <summary>
         /// Create a Dynel
         /// </summary>
-        /// <param name="_id">Unique ID</param>
-        /// <param name="_playfield">on Playfield</param>
-        public Dynel(int _id, int _playfield)
+        /// <param name="id">Unique ID</param>
+        /// <param name="playfield">on Playfield</param>
+        public Dynel(int id, int playfield)
         {
             lock (this)
             {
-                this.ID = _id;
+                this.Id = id;
                 this.Type = 0; // empty Dynel has no type, subclasses are setting it
-                this.ourType = 0; // our type to identify the subclasses
-                this.PlayField = _playfield;
-                this.rawCoord = new AOCoord();
-                this.rawHeading = new Quaternion(0, 0, 0, 0);
-                this.Events = new List<AOEvents>();
-                this.Actions = new List<AOActions>();
+                this.OurType = 0; // our type to identify the subclasses
+                this.PlayField = playfield;
+                this.RawCoord = new AOCoord();
+                this.RawHeading = new Quaternion(0, 0, 0, 0);
+                this.events = new List<AOEvents>();
+                this.actions = new List<AOActions>();
                 this.Textures = new List<AOTextures>();
                 this.SocialTab = new Dictionary<int, int>();
             }
@@ -157,8 +157,8 @@ namespace ZoneEngine
         /// <returns>Prefix of the table we want to read or write</returns>
         public string GetSqlTablefromDynelType()
         {
-            /// maybe we should do this as a List, then new classes could self-register their tables
-            switch (this.ourType)
+            // maybe we should do this as a List, then new classes could self-register their tables
+            switch (this.OurType)
             {
                 case 0:
                     return "characters";
@@ -177,8 +177,8 @@ namespace ZoneEngine
         /// <summary>
         /// Returns a string with backslashes before characters that need to be quoted
         /// </summary>
-        /// <param name="InputTxt">Text string need to be escape with slashes</param>
-        public static string AddSlashes(string InputTxt)
+        /// <param name="inputTxt">Text string need to be escape with slashes</param>
+        public static string AddSlashes(string inputTxt)
         {
             // List of characters handled:
             // \000 null
@@ -192,11 +192,11 @@ namespace ZoneEngine
             // \134 backslash
             // \140 grave accent
 
-            string Result = InputTxt;
+            string result = inputTxt;
 
             try
             {
-                Result = Regex.Replace(InputTxt, @"[\000\010\011\012\015\032\042\047\134\140]", "\\$0");
+                result = Regex.Replace(inputTxt, @"[\000\010\011\012\015\032\042\047\134\140]", "\\$0");
             }
             catch (Exception Ex)
             {
@@ -204,7 +204,7 @@ namespace ZoneEngine
                 Console.WriteLine(Ex.Message);
             }
 
-            return Result;
+            return result;
         }
         #endregion
 
@@ -216,7 +216,7 @@ namespace ZoneEngine
         {
             get
             {
-                return this.rawHeading;
+                return this.RawHeading;
             }
         }
 
@@ -227,7 +227,29 @@ namespace ZoneEngine
         {
             get
             {
-                return this.rawCoord;
+                return this.RawCoord;
+            }
+        }
+
+        /// <summary>
+        /// Dynel Events
+        /// </summary>
+        public List<AOEvents> Events
+        {
+            get
+            {
+                return events;
+            }
+        }
+
+        /// <summary>
+        /// Dynel Actions
+        /// </summary>
+        public List<AOActions> Actions
+        {
+            get
+            {
+                return actions;
             }
         }
         #endregion
@@ -239,7 +261,7 @@ namespace ZoneEngine
         /// <param name="packet">Packet reader</param>
         public void ReadCoordsFromPacket(PacketReader packet)
         {
-            this.rawCoord = packet.PopCoord();
+            this.RawCoord = packet.PopCoord();
         }
 
         /// <summary>
@@ -255,7 +277,7 @@ namespace ZoneEngine
             }
             string SqlTable = this.GetSqlTablefromDynelType();
             DataTable dt =
-                ms.ReadDatatable("SELECT Playfield, X,Y,Z from " + SqlTable + " WHERE ID=" + this.ID.ToString() + ";");
+                ms.ReadDatatable("SELECT Playfield, X,Y,Z from " + SqlTable + " WHERE ID=" + this.Id.ToString() + ";");
 
             if (dt.Rows.Count > 0)
             {
@@ -280,14 +302,14 @@ namespace ZoneEngine
         /// </summary>
         public virtual void WriteCoordinatesToSql()
         {
-            SqlWrapper ms = new SqlWrapper();
+            SqlWrapper sqlWrapper = new SqlWrapper();
 
-            ms.SqlUpdate(
+            sqlWrapper.SqlUpdate(
                 "UPDATE " + this.GetSqlTablefromDynelType() + " SET playfield=" + this.PlayField.ToString() + ", X="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.x) + ", Y="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.y) + ", Z="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.z) + " WHERE ID="
-                + this.ID.ToString() + ";");
+                + this.Id.ToString() + ";");
         }
         #endregion
 
@@ -309,24 +331,24 @@ namespace ZoneEngine
         /// </summary>
         public void ReadHeadingFromSql()
         {
-            SqlWrapper ms = new SqlWrapper();
+            SqlWrapper sqlWrapper = new SqlWrapper();
 
             if (this.Type == 0)
             {
                 return;
             }
-            string SqlTable = this.GetSqlTablefromDynelType();
-            DataTable dt =
-                ms.ReadDatatable(
-                    "SELECT HeadingX,HeadingY,HeadingZ,HeadingW from " + SqlTable + " WHERE ID=" + this.ID.ToString()
+            string sqlTable = this.GetSqlTablefromDynelType();
+            DataTable dataTable =
+                sqlWrapper.ReadDatatable(
+                    "SELECT HeadingX,HeadingY,HeadingZ,HeadingW from " + sqlTable + " WHERE ID=" + this.Id.ToString()
                     + ";");
 
-            if (dt.Rows.Count > 0)
+            if (dataTable.Rows.Count > 0)
             {
-                this.Heading.x = (Single)dt.Rows[0][0];
-                this.Heading.y = (Single)dt.Rows[0][1];
-                this.Heading.z = (Single)dt.Rows[0][2];
-                this.Heading.w = (Single)dt.Rows[0][3];
+                this.Heading.x = (Single)dataTable.Rows[0][0];
+                this.Heading.y = (Single)dataTable.Rows[0][1];
+                this.Heading.z = (Single)dataTable.Rows[0][2];
+                this.Heading.w = (Single)dataTable.Rows[0][3];
             }
         }
 
@@ -347,14 +369,14 @@ namespace ZoneEngine
         /// </summary>
         public void WriteHeadingToSql()
         {
-            SqlWrapper ms = new SqlWrapper();
-            ms.SqlUpdate(
+            SqlWrapper sqlWrapper = new SqlWrapper();
+            sqlWrapper.SqlUpdate(
                 "UPDATE " + this.GetSqlTablefromDynelType() + " SET HeadingX="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.x) + ", HeadingY="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.y) + ", HeadingZ="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.z) + ", HeadingW="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.w) + " WHERE ID="
-                + this.ID.ToString() + ";");
+                + this.Id.ToString() + ";");
         }
         #endregion
 
@@ -363,7 +385,7 @@ namespace ZoneEngine
         /// Read Textures from Packetreader
         /// </summary>
         /// <param name="packet">Packet reader</param>
-        public void readTexturesfromPacket(PacketReader packet)
+        public void ReadTexturesfromPacket(PacketReader packet)
         {
             int count = packet.Pop3F1Count();
             AOTextures textures;
@@ -380,16 +402,15 @@ namespace ZoneEngine
         public void ReadTexturesFromSql()
         {
             SqlWrapper ms = new SqlWrapper();
-            AOTextures textures;
             this.Textures.Clear();
 
             DataTable dt =
                 ms.ReadDatatable(
                     "SELECT textures0, textures1, textures2, textures3, textures4 from "
-                    + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.ID.ToString() + ";");
+                    + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.Id.ToString() + ";");
             if (dt.Rows.Count > 0)
             {
-                textures = new AOTextures(0, (Int32)dt.Rows[0][0]);
+                AOTextures textures = new AOTextures(0, (Int32)dt.Rows[0][0]);
                 this.Textures.Add(textures);
 
                 textures = new AOTextures(1, (Int32)dt.Rows[0][1]);
@@ -427,7 +448,7 @@ namespace ZoneEngine
         /// </summary>
         public void WriteTexturesToSql()
         {
-            SqlWrapper ms = new SqlWrapper();
+            SqlWrapper sqlWrapper = new SqlWrapper();
             int count;
             string upd = "";
             for (count = 0; count < this.Textures.Count; count++)
@@ -439,8 +460,8 @@ namespace ZoneEngine
                     upd += ", ";
                 }
             }
-            ms.SqlUpdate(
-                "UPDATE " + this.GetSqlTablefromDynelType() + " SET " + upd + " WHERE ID=" + this.ID.ToString() + ";");
+            sqlWrapper.SqlUpdate(
+                "UPDATE " + this.GetSqlTablefromDynelType() + " SET " + upd + " WHERE ID=" + this.Id.ToString() + ";");
         }
         #endregion
 
@@ -452,17 +473,17 @@ namespace ZoneEngine
         public void SendVicinityChat(string message)
         {
             // Default vicinity radius is 10 -- Midian
-            List<Dynel> Clients = FindClient.GetClientsInRadius(this, 10.0f);
-            UInt32[] recvers = new UInt32[Clients.Count];
+            List<Dynel> clients = FindClient.GetClientsInRadius(this, 10.0f);
+            UInt32[] recvers = new UInt32[clients.Count];
             int index = 0;
 
-            foreach (Character child in Clients)
+            foreach (Character child in clients)
             {
-                recvers[index] = (UInt32)child.ID;
+                recvers[index] = (UInt32)child.Id;
                 index++;
             }
 
-            ChatCom.SendVicinity((UInt32)this.ID, 0, recvers, message);
+            ChatCom.SendVicinity((UInt32)this.Id, 0, recvers, message);
         }
         #endregion
     }

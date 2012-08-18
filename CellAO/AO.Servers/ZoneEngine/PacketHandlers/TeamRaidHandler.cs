@@ -88,14 +88,14 @@ namespace ZoneEngine.PacketHandlers
             pktTeamRequest.PushShort(1); // Unknown 1
             pktTeamRequest.PushShort(0); // Legnth
             pktTeamRequest.PushInt(3086); // Sender
-            pktTeamRequest.PushInt(sendingPlayer.Character.ID); // Reciever
+            pktTeamRequest.PushInt(sendingPlayer.Character.Id); // Reciever
             pktTeamRequest.PushInt(0x5e477770); // Packet ID
-            pktTeamRequest.PushIdentity(50000, sendingPlayer.Character.ID); // TYPE / ID
+            pktTeamRequest.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
             pktTeamRequest.PushByte(0);
             pktTeamRequest.PushInt(0x20); // Action ID
             pktTeamRequest.PushInt(0);
             pktTeamRequest.PushInt(50000);
-            pktTeamRequest.PushInt(sendingPlayer.Character.ID);
+            pktTeamRequest.PushInt(sendingPlayer.Character.Id);
             pktTeamRequest.PushInt(0x2EA0022); // Team ID Variable Goes Here
             pktTeamRequest.PushByte(0xFF);
             pktTeamRequest.PushByte(0xFF);
@@ -109,7 +109,7 @@ namespace ZoneEngine.PacketHandlers
 
         public void SendTeamRequest(Client sendingPlayer, Identity recievingPlayer)
         {
-            if (sendingPlayer.Character.ID != recievingPlayer.Instance)
+            if (sendingPlayer.Character.Id != recievingPlayer.Instance)
             {
                 // Send Team Request To Other Player
 
@@ -127,7 +127,7 @@ namespace ZoneEngine.PacketHandlers
                 pktTeamRequest.PushByte(0x1A); // Action ID
                 pktTeamRequest.PushInt(0);
                 pktTeamRequest.PushInt(recievingPlayer.Type);
-                pktTeamRequest.PushInt(sendingPlayer.Character.ID);
+                pktTeamRequest.PushInt(sendingPlayer.Character.Id);
                 pktTeamRequest.PushInt(0);
                 pktTeamRequest.PushInt(1);
                 pktTeamRequest.PushShort(0);
@@ -169,9 +169,9 @@ namespace ZoneEngine.PacketHandlers
             pktCharAction15.PushShort(1); // Unknown 1
             pktCharAction15.PushShort(0); // Legnth
             pktCharAction15.PushInt(3086); // Sender
-            pktCharAction15.PushInt(sendingPlayer.Character.ID); // Reciever
+            pktCharAction15.PushInt(sendingPlayer.Character.Id); // Reciever
             pktCharAction15.PushInt(0x5e477770); // Packet ID
-            pktCharAction15.PushIdentity(50000, sendingPlayer.Character.ID); // TYPE / ID
+            pktCharAction15.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
             pktCharAction15.PushByte(0);
             pktCharAction15.PushInt(0x15); // Action ID
             pktCharAction15.PushInt(0);
@@ -184,7 +184,7 @@ namespace ZoneEngine.PacketHandlers
 
             // IF Statement Determining Destination Client to Send Packet To
 
-            Client receiver = FindClient.FindClientById(sendingPlayer.Character.ID);
+            Client receiver = FindClient.FindClientById(sendingPlayer.Character.Id);
             if (receiver != null)
             {
                 receiver.SendCompressed(characterAction15Packet);
@@ -206,11 +206,11 @@ namespace ZoneEngine.PacketHandlers
             switch (destinationClient)
             {
                 case 0:
-                    packetWriter.PushInt(sendingPlayer.Character.ID); // Reciever
+                    packetWriter.PushInt(sendingPlayer.Character.Id); // Reciever
                     packetWriter.PushInt(0x46312D2E); // Packet ID
-                    packetWriter.PushIdentity(50000, sendingPlayer.Character.ID); // TYPE / ID
+                    packetWriter.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
                     packetWriter.PushInt(0);
-                    packetWriter.PushIdentity(50000, sendingPlayer.Character.ID);
+                    packetWriter.PushIdentity(50000, sendingPlayer.Character.Id);
                     packetWriter.PushInt(0xDEA9); // Team Window Information ??
                     packetWriter.PushInt(0x7); // team ID??????
                     packetWriter.PushByte(0xFF);
@@ -282,11 +282,11 @@ namespace ZoneEngine.PacketHandlers
             switch (destinationClient)
             {
                 case 0:
-                    packetWriter.PushInt(sendingPlayer.Character.ID); // Reciever
+                    packetWriter.PushInt(sendingPlayer.Character.Id); // Reciever
                     packetWriter.PushInt(0x46312D2E); // Packet ID
-                    packetWriter.PushIdentity(50000, sendingPlayer.Character.ID); // TYPE / ID
+                    packetWriter.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
                     packetWriter.PushInt(0);
-                    packetWriter.PushIdentity(50000, sendingPlayer.Character.ID); // Team Member Information
+                    packetWriter.PushIdentity(50000, sendingPlayer.Character.Id); // Team Member Information
                     packetWriter.PushInt(0x05F4); // HP/NANO?? Actual/MAX???
                     packetWriter.PushInt(0x05F4); // HP/NANO?? Actual/MAX???
                     packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
@@ -329,14 +329,14 @@ namespace ZoneEngine.PacketHandlers
             pktCharAction23.PushShort(1); // Unknown 1
             pktCharAction23.PushShort(0); // Legnth
             pktCharAction23.PushInt(3086); // Sender
-            pktCharAction23.PushInt(sendingPlayer.Character.ID); // Reciever
+            pktCharAction23.PushInt(sendingPlayer.Character.Id); // Reciever
             pktCharAction23.PushInt(0x5e477770); // Packet ID
-            pktCharAction23.PushIdentity(50000, sendingPlayer.Character.ID); // TYPE / ID
+            pktCharAction23.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
             pktCharAction23.PushByte(0);
             pktCharAction23.PushInt(0x23); // Action ID
             pktCharAction23.PushInt(0);
             pktCharAction23.PushInt(50000);
-            pktCharAction23.PushInt(sendingPlayer.Character.ID);
+            pktCharAction23.PushInt(sendingPlayer.Character.Id);
             pktCharAction23.PushInt(0xDEA9); // Team Window Information ??
             pktCharAction23.PushInt(0x2EA0022); // Team ID Variable Goes Here
             pktCharAction23.PushShort(0);
@@ -344,7 +344,7 @@ namespace ZoneEngine.PacketHandlers
 
             // IF Statement Determining Destination Client to Send Packet To
 
-            Client receiver = FindClient.FindClientById(sendingPlayer.Character.ID);
+            Client receiver = FindClient.FindClientById(sendingPlayer.Character.Id);
             if (receiver != null)
             {
                 receiver.SendCompressed(packet);

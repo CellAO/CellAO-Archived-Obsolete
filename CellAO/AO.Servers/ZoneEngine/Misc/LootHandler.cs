@@ -26,7 +26,7 @@
 
 #endregion
 
-namespace ZoneEngine
+namespace ZoneEngine.Misc
 {
     using System;
     using System.Collections.Generic;
@@ -51,51 +51,6 @@ namespace ZoneEngine
 
     public static class LootHandler
     {
-        public class LootItem
-        {
-            public LootItem(string hash, string lowid, string highid, string minql, string maxql, string rangecheck)
-            {
-                this.Hash = hash;
-                this.LowID = Convert.ToInt32(lowid);
-                this.HighID = Convert.ToInt32(highid);
-                this.MinQL = Convert.ToInt32(minql);
-                this.MaxQL = Convert.ToInt32(maxql);
-                this.RangeCheck = Convert.ToBoolean(Convert.ToByte(rangecheck));
-            }
-
-            public string Hash { get; set; }
-
-            public int LowID { get; set; }
-
-            public int HighID { get; set; }
-
-            public int MinQL { get; set; }
-
-            public int MaxQL { get; set; }
-
-            public bool RangeCheck { get; set; }
-        }
-
-        public class PartialSlot
-        {
-            public List<string> HashList;
-
-            public int Slot;
-
-            public int Chance;
-
-            public PartialSlot(string hash, string slot, string chance)
-            {
-                string[] hashArray = hash.Split('+');
-                foreach (string hash1 in hashArray)
-                {
-                    this.HashList.Add(hash1.Trim());
-                }
-                this.Slot = Convert.ToInt32(slot);
-                this.Chance = Convert.ToInt32(chance);
-            }
-        }
-
         public static List<LootItem> FullDropList = new List<LootItem>();
 
         public static void CacheAllFromDB()
@@ -184,7 +139,7 @@ namespace ZoneEngine
                             {
                                 if (
                                     !union.Exists(
-                                        duplicate => duplicate.HighID == li.HighID && duplicate.MaxQL == li.MaxQL))
+                                        duplicate => duplicate.HighId == li.HighId && duplicate.MaxQL == li.MaxQL))
                                 {
                                     union.Add(li);
                                 }
@@ -198,7 +153,7 @@ namespace ZoneEngine
                             int select = rand.Next(-1, union.Count());
 
                             AOItem item = ItemHandler.interpolate(
-                                union.ElementAt(@select).LowID, union.ElementAt(@select).HighID, ql);
+                                union.ElementAt(@select).LowId, union.ElementAt(@select).HighId, ql);
 
                             if (item.ItemType != 1)
                             {
@@ -232,5 +187,56 @@ namespace ZoneEngine
             }
             return drops;
         }
+    }
+    public class PartialSlot
+    {
+        private List<string> hashList = new List<string>();
+
+        public int Slot { get; set; }
+
+        public int Chance { get; set; }
+
+        public List<string> HashList
+        {
+            get
+            {
+                return hashList;
+            }
+        }
+
+        public PartialSlot(string hash, string slot, string chance)
+        {
+            string[] hashArray = hash.Split('+');
+            foreach (string hash1 in hashArray)
+            {
+                this.hashList.Add(hash1.Trim());
+            }
+            this.Slot = Convert.ToInt32(slot);
+            this.Chance = Convert.ToInt32(chance);
+        }
+    }
+    public class LootItem
+    {
+        public LootItem(string hash, string lowid, string highid, string minql, string maxql, string rangecheck)
+        {
+            this.Hash = hash;
+            this.LowId = Convert.ToInt32(lowid);
+            this.HighId = Convert.ToInt32(highid);
+            this.MinQL = Convert.ToInt32(minql);
+            this.MaxQL = Convert.ToInt32(maxql);
+            this.RangeCheck = Convert.ToBoolean(Convert.ToByte(rangecheck));
+        }
+
+        public string Hash { get; set; }
+
+        public int LowId { get; set; }
+
+        public int HighId { get; set; }
+
+        public int MinQL { get; set; }
+
+        public int MaxQL { get; set; }
+
+        public bool RangeCheck { get; set; }
     }
 }

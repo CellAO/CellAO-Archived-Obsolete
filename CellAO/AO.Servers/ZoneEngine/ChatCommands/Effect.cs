@@ -51,7 +51,7 @@ namespace ZoneEngine.ChatCommands
             packet.PushShort(1);
             packet.PushShort(0);
             packet.PushInt(3086);
-            packet.PushInt(client.Character.ID);
+            packet.PushInt(client.Character.Id);
             packet.PushInt(0x4D450114);
             packet.PushIdentity(target);
             packet.PushByte(0);
@@ -74,7 +74,7 @@ namespace ZoneEngine.ChatCommands
             packet.PushInt(0); // GfxFade
             // effect args end
             // effect ends
-            packet.PushIdentity(50000, client.Character.ID);
+            packet.PushIdentity(50000, client.Character.Id);
             byte[] reply = packet.Finish();
             //done creating the packet
             Announce.Playfield(client.Character.PlayField, reply);

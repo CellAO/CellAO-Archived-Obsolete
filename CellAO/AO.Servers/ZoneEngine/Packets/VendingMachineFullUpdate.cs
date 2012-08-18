@@ -38,9 +38,9 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
+            packetWriter.PushInt(client.Character.Id);
             packetWriter.PushInt(0x7f544905); // 20
-            packetWriter.PushIdentity(vendingMachine.Type, vendingMachine.ID);
+            packetWriter.PushIdentity(vendingMachine.Type, vendingMachine.Id);
             packetWriter.PushByte(0);
             packetWriter.PushInt(0xb); // Counter??
             packetWriter.PushInt(0);

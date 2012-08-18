@@ -248,7 +248,7 @@ namespace ZoneEngine
                 }
                 if (c.Character != null)
                 {
-                    if (c.Character.ID == this.Character.ID)
+                    if (c.Character.Id == this.Character.Id)
                     {
                         foundnextclient = true;
                         break;
@@ -258,7 +258,7 @@ namespace ZoneEngine
             if (!foundnextclient)
             {
                 CharStatus charS = new CharStatus();
-                charS.SetOffline(this.Character.ID);
+                charS.SetOffline(this.Character.Id);
             }
         }
         #endregion
@@ -390,9 +390,9 @@ namespace ZoneEngine
             _writer.PushShort(1); /* ? */
             _writer.PushShort(0); /* Packet size (0 for now, PacketWriter takes care of it)*/
             _writer.PushInt(3086); /* Sender (our server ID)*/
-            _writer.PushInt(this.Character.ID); /* Receiver */
+            _writer.PushInt(this.Character.Id); /* Receiver */
             _writer.PushInt(0x50544d19); /* Packet ID */
-            _writer.PushIdentity(50000, this.Character.ID); /* Affected identity */
+            _writer.PushIdentity(50000, this.Character.Id); /* Affected identity */
             _writer.PushByte(1); /* ? */
             _writer.PushInt(0); /* ? */
             _writer.PushInt(MsgCategory); /* Message category ID */
@@ -417,9 +417,9 @@ namespace ZoneEngine
             _writer.PushShort(1);
             _writer.PushShort(0);
             _writer.PushInt(3086);
-            _writer.PushInt(this.Character.ID);
+            _writer.PushInt(this.Character.Id);
             _writer.PushInt(0x5F4B442A);
-            _writer.PushIdentity(50000, this.Character.ID);
+            _writer.PushIdentity(50000, this.Character.Id);
             _writer.PushByte(0);
             _writer.PushShort((short)Text.Length);
             _writer.PushBytes(Encoding.ASCII.GetBytes(Text));
@@ -447,9 +447,9 @@ namespace ZoneEngine
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(this.Character.ID);
+            writer.PushInt(this.Character.Id);
             writer.PushInt(0x43197D22);
-            writer.PushIdentity(50000, this.Character.ID);
+            writer.PushIdentity(50000, this.Character.Id);
             writer.PushByte(0);
             // Header ends
             writer.PushCoord(destination);
@@ -466,7 +466,7 @@ namespace ZoneEngine
             writer.PushInt(0);
             writer.PushInt(0);
             byte[] tpreply = writer.Finish();
-            Despawn.DespawnPacket(this.Character.ID);
+            Despawn.DespawnPacket(this.Character.Id);
             this.SendCompressed(tpreply);
             this.Character.DoNotDoTimers = true;
             this.Character.Stats.ExtenalDoorInstance.Value = 0;
@@ -474,8 +474,8 @@ namespace ZoneEngine
             this.Character.Stats.LastConcretePlayfieldInstance.Value = 0;
 
             this.Character.StopMovement();
-            this.Character.rawCoord = destination;
-            this.Character.rawHeading = heading;
+            this.Character.RawCoord = destination;
+            this.Character.RawHeading = heading;
             this.Character.PlayField = playfield;
             this.Character.Purge(); // Purge character information to DB before client reconnect
 
@@ -503,7 +503,7 @@ namespace ZoneEngine
             writer2.PushShort(1);
             writer2.PushShort(0);
             writer2.PushInt(3086);
-            writer2.PushInt(this.Character.ID);
+            writer2.PushInt(this.Character.Id);
             writer2.PushInt(60);
             writer2.PushInt(zoneIP);
             writer2.PushShort(zonePort);
@@ -537,13 +537,13 @@ namespace ZoneEngine
             writer.PushShort(1);
             writer.PushShort(0);
             writer.PushInt(3086);
-            writer.PushInt(this.Character.ID);
+            writer.PushInt(this.Character.Id);
             writer.PushInt(0x43197D22);
-            writer.PushIdentity(50000, this.Character.ID);
+            writer.PushIdentity(50000, this.Character.Id);
             writer.PushByte(0);
             // Header ends
-            writer.PushCoord(this.Character.rawCoord);
-            writer.PushQuat(this.Character.rawHeading);
+            writer.PushCoord(this.Character.RawCoord);
+            writer.PushQuat(this.Character.RawHeading);
             writer.PushByte(97);
             writer.PushIdentity(pfinstance.Type, pfinstance.Instance);
             writer.PushInt(GS);
@@ -556,17 +556,17 @@ namespace ZoneEngine
             writer.PushInt(0);
             byte[] tpreply = writer.Finish();
             this.Character.DoNotDoTimers = true;
-            Despawn.DespawnPacket(this.Character.ID);
+            Despawn.DespawnPacket(this.Character.Id);
             this.SendCompressed(tpreply);
             this.Character.DoNotDoTimers = true;
             this.Character.Stats.LastConcretePlayfieldInstance.Value = this.Character.PlayField;
             this.Character.Stats.ExtenalDoorInstance.Value = SG;
 
             this.Character.StopMovement();
-            this.Character.rawCoord = destination;
-            this.Character.rawHeading = heading;
+            this.Character.RawCoord = destination;
+            this.Character.RawHeading = heading;
             this.Character.PlayField = playfield;
-            this.Character.resource = 0x3c000;
+            this.Character.Resource = 0x3c000;
             this.Character.Purge(); // Purge character information to DB before client reconnect
 
             IPAddress tempIP;
@@ -594,7 +594,7 @@ namespace ZoneEngine
             writer2.PushShort(1);
             writer2.PushShort(0);
             writer2.PushInt(3086);
-            writer2.PushInt(this.Character.ID);
+            writer2.PushInt(this.Character.Id);
             writer2.PushInt(60);
             writer2.PushInt(zoneIP);
             writer2.PushShort(zonePort);
@@ -635,9 +635,9 @@ namespace ZoneEngine
             stopLogout.PushShort(1);
             stopLogout.PushShort(0);
             stopLogout.PushInt(3086); // Sender (server ID)
-            stopLogout.PushInt(this.Character.ID); // Receiver
+            stopLogout.PushInt(this.Character.Id); // Receiver
             stopLogout.PushInt(0x5E477770); // CharacterAction packet ID
-            stopLogout.PushIdentity(50000, this.Character.ID); // affected identity
+            stopLogout.PushIdentity(50000, this.Character.Id); // affected identity
             stopLogout.PushByte(0);
             // end packet header
 
@@ -670,9 +670,9 @@ namespace ZoneEngine
             standUp.PushShort(1);
             standUp.PushShort(0);
             standUp.PushInt(3086); // Sender (server ID)
-            standUp.PushInt(this.Character.ID); // Receiver
+            standUp.PushInt(this.Character.Id); // Receiver
             standUp.PushInt(0x5E477770); // CharacterAction packet ID
-            standUp.PushIdentity(50000, this.Character.ID); // affected identity
+            standUp.PushIdentity(50000, this.Character.Id); // affected identity
             standUp.PushByte(0);
             // end packet header
 
