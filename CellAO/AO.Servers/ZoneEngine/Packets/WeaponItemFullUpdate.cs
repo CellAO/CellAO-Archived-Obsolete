@@ -30,19 +30,8 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    internal class WeaponItemFullUpdate
+    public static class WeaponItemFullUpdate
     {
-        public static void UpdateWeaponsCache(Character ch)
-        {
-            // What is this? Counting to 109?
-            int CurrentSlot = 64;
-
-            while (CurrentSlot < 109)
-            {
-                CurrentSlot++;
-            }
-        }
-
         public static void SendOwner(Client client, Character character)
         {
             // ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##

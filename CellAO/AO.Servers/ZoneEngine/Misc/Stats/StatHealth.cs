@@ -34,7 +34,7 @@ namespace ZoneEngine.Misc
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefaultValue;
+            this.StatBaseValue = this.StatDefaultValue;
             this.SendBaseValue = sendBaseValue;
             this.DoNotDontWriteToSql = doNotWrite;
             this.AnnounceToPlayfield = announceToPlayfield;

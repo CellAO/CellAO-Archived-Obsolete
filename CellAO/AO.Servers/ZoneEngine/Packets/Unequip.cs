@@ -28,7 +28,7 @@ namespace ZoneEngine.Packets
 
     public static class Unequip
     {
-        public static void Send(Client client, AOItem item, int page, int placement, bool fromSocial)
+        public static void Send(Client client, AOItem item, int page, int placement)
         {
             // tell the client to remove (07) the item modifiers (AC, skills and so on)
             PacketWriter unequipPacketWriter = new PacketWriter();

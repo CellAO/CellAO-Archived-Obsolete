@@ -38,7 +38,7 @@ namespace ZoneEngine.PacketHandlers
     /// <summary>
     /// 
     /// </summary>
-    public static class CharacterDcMove
+    public static class CharacterDCMove
     {
         /// <summary>
         /// TODO: Add a Description of what this Class does.. -Looks at someone else-
@@ -67,7 +67,7 @@ namespace ZoneEngine.PacketHandlers
                     coordinates.x, coordinates.z, client.Character.PlayField);
                 if (teleportPlayfield.ZoneToPlayfield >= 1)
                 {
-                    Quaternion newHeading = new Quaternion(0, 0, 0, 0);
+                    Quaternion newHeading;
                     coordinates = WallCollision.GetCoord(teleportPlayfield, coordinates.x, coordinates.z, coordinates, out newHeading);
                     if (teleportPlayfield.Flags != 1337 && client.Character.PlayField != 152
                         || Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 2
@@ -79,10 +79,9 @@ namespace ZoneEngine.PacketHandlers
                     return;
                 }
 
-                Doors correspondingDoor = null;
                 if (client.Character.Stats.LastConcretePlayfieldInstance.Value != 0)
                 {
-                    correspondingDoor = DoorHandler.DoorinRange(client.Character.PlayField, client.Character.Coordinates, 1.0f);
+                    Doors correspondingDoor = DoorHandler.DoorinRange(client.Character.PlayField, client.Character.Coordinates, 1.0f);
                     if (correspondingDoor != null)
                     {
                         correspondingDoor = DoorHandler.FindCorrespondingDoor(correspondingDoor, client.Character);

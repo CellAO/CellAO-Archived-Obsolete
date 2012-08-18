@@ -39,10 +39,10 @@ namespace ZoneEngine.ChatCommands
     {
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
-            Client mClient = null;
-            if (FindClient.FindClientByName(args[1], out mClient))
+            Client targetClient = null;
+            if ((targetClient = FindClient.FindClientByName(args[1])) != null)
             {
-                mClient.Teleport(client.Character.Coordinates, client.Character.Heading, client.Character.PlayField);
+                targetClient.Teleport(client.Character.Coordinates, client.Character.Heading, client.Character.PlayField);
                 return;
             }
             client.SendChatText("Character '" + args[1] + "' not found.");

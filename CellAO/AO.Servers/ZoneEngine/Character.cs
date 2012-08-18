@@ -2384,18 +2384,18 @@ namespace ZoneEngine
             int ailevel = this.stats.AlienLevel.Value;
 
             double needaixp = Program.zoneServer.XPproLevel.tableAIXP[ailevel, 2];
-            this.stats.AlienNextXp.StatBaseValue = Convert.ToUInt32(needaixp);
+            this.stats.AlienNextXP.StatBaseValue = Convert.ToUInt32(needaixp);
 
             if (level < 200) //we get XP
             {
                 double needrkxp = Program.zoneServer.XPproLevel.tableRKXP[level - 1, 2];
-                this.stats.NextXp.StatBaseValue = Convert.ToUInt32(needrkxp);
+                this.stats.NextXP.StatBaseValue = Convert.ToUInt32(needrkxp);
             }
             if (level > 199) //we get SK
             {
                 level -= 200;
                 double needslsk = Program.zoneServer.XPproLevel.tableSLSK[level, 2];
-                this.stats.NextSk.StatBaseValue = Convert.ToUInt32(needslsk);
+                this.stats.NextSK.StatBaseValue = Convert.ToUInt32(needslsk);
             }
         }
         #endregion
@@ -2403,14 +2403,14 @@ namespace ZoneEngine
         #region Get Characters Target
         public Character TargetCharacter()
         {
-            return (Character)FindDynel.FindDynelByID(this.Target.Type, this.Target.Instance);
+            return (Character)FindDynel.FindDynelById(this.Target.Type, this.Target.Instance);
         }
         #endregion
 
         #region Get Characters fighting target
         public Character FightingCharacter()
         {
-            return (Character)FindDynel.FindDynelByID(this.FightingTarget.Type, this.FightingTarget.Instance);
+            return (Character)FindDynel.FindDynelById(this.FightingTarget.Type, this.FightingTarget.Instance);
         }
         #endregion
 
@@ -2588,7 +2588,7 @@ namespace ZoneEngine
             int location,
             CheckReqs doreqs)
         {
-            Character chartarget = (Character)FindDynel.FindDynelByID(ch.Target.Type, ch.Target.Instance);
+            Character chartarget = (Character)FindDynel.FindDynelById(ch.Target.Type, ch.Target.Instance);
             Boolean reqs_met;
             if (ch != null)
             {

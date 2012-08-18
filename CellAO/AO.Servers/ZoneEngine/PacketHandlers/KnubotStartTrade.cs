@@ -63,7 +63,7 @@ namespace ZoneEngine.PacketHandlers
             pr.PopByte();
             pr.PopShort();
             Identity id = pr.PopIdentity();
-            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(id.Type, id.Instance);
+            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelById(id.Type, id.Instance);
             if (npc != null)
             {
                 npc.KnuBotStartTrade(cli.Character);

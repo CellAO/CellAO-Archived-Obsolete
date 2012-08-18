@@ -53,17 +53,18 @@ namespace ZoneEngine.Packets
                 {
                     message = message + "i" + Encode85By5((Int32)arg);
                 }
-                if (arg is string)
+                string stringArg = arg as string;
+                if (stringArg != null)
                 {
-                    if (((string)arg).Length > 255)
+                    if (stringArg.Length > 255)
                     {
                         message = message + "S";
-                        Int16 len = (Int16)((string)arg).Length;
-                        message = message + ShortToChar(len) + (string)arg;
+                        Int16 len = (Int16)stringArg.Length;
+                        message = message + ShortToChar(len) + stringArg;
                     }
                     else
                     {
-                        message = message + "s" + ByteToChar((byte)(((string)arg).Length));
+                        message = message + "s" + ByteToChar((byte)(stringArg.Length));
                     }
                 }
             }

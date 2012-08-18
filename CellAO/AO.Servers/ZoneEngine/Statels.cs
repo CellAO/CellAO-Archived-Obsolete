@@ -444,7 +444,7 @@ namespace ZoneEngine
                 Character ftarget = null;
                 bool reqresult = true;
                 Character chartarget =
-                    (Character)FindDynel.FindDynelByID(cli.Character.Target.Type, cli.Character.Target.Instance);
+                    (Character)FindDynel.FindDynelById(cli.Character.Target.Type, cli.Character.Target.Instance);
 
                 for (int r = 0; r < this.Requirements.Count; r++)
                 {

@@ -119,7 +119,7 @@ namespace ZoneEngine
                     }
                 case 0x0A: // N3Message
                     {
-                        Program.zoneServer.N3MessageHandler.Parse(this, packet, id);
+                        PacketHandlers.N3Message.Parse(this, packet, id);
                         break;
                     }
                 case 0x0B: // PingMessage

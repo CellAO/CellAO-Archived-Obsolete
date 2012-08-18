@@ -68,7 +68,7 @@ namespace ZoneEngine.ChatCommands
                 catch (FormatException) { }
                 catch (OverflowException) { }
             }
-            Character tempch = (Character)FindDynel.FindDynelByID(target.Type, target.Instance);
+            Character tempch = (Character)FindDynel.FindDynelById(target.Type, target.Instance);
             uint statOldValue;
             try
             {

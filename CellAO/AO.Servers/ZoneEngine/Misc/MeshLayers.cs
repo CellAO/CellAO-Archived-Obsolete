@@ -34,69 +34,85 @@ namespace ZoneEngine.Misc
 
     public class MeshLayers
     {
-        public SortedList<int, int> Mesh = new SortedList<int, int>();
+        private readonly SortedList<int, int> mesh = new SortedList<int, int>();
 
-        public SortedList<int, int> Override = new SortedList<int, int>();
+        private readonly SortedList<int, int> meshOverride = new SortedList<int, int>();
+
+        public SortedList<int, int> Mesh
+        {
+            get
+            {
+                return mesh;
+            }
+        }
+
+        public SortedList<int, int> MeshOverride
+        {
+            get
+            {
+                return this.meshOverride;
+            }
+        }
 
         public int Count()
         {
-            return this.Mesh.Count;
+            return this.mesh.Count;
         }
 
-        public int GetMesh(int number)
+        public int ReturnMesh(int number)
         {
-            return this.Mesh.ElementAt(number).Value;
+            return this.mesh.ElementAt(number).Value;
         }
 
-        public int GetOverride(int number)
+        public int ReturnOverrideMesh(int number)
         {
-            return this.Override.ElementAt(number).Value;
+            return this.meshOverride.ElementAt(number).Value;
         }
 
-        public int GetKey(int number)
+        public int GetMeshKey(int number)
         {
-            return this.Mesh.ElementAt(number).Key;
+            return this.mesh.ElementAt(number).Key;
         }
 
-        public void AddMesh(int position, int mesh, int overridetexture, int layer)
+        public void AddMesh(int position, int meshToAdd, int overridetexture, int layer)
         {
             int key = (position << 16) + layer;
-            if (this.Mesh.ContainsKey(key))
+            if (this.mesh.ContainsKey(key))
             {
-                this.Mesh[key] = mesh;
+                this.mesh[key] = meshToAdd;
             }
             else
             {
-                this.Mesh.Add(key, mesh);
+                this.mesh.Add(key, meshToAdd);
             }
-            if (this.Override.ContainsKey(key))
+            if (this.meshOverride.ContainsKey(key))
             {
-                this.Override[key] = overridetexture;
+                this.meshOverride[key] = overridetexture;
             }
             else
             {
-                this.Override.Add(key, overridetexture);
+                this.meshOverride.Add(key, overridetexture);
             }
         }
 
-        public void RemoveMesh(int position, int mesh, int overridetexture, int layer)
+        public void RemoveMesh(int position, int meshToRemove, int overridetexture, int layer)
         {
             int key = (position << 16) + layer;
-            this.Mesh.Remove(key);
-            this.Override.Remove(key);
+            this.mesh.Remove(key);
+            this.meshOverride.Remove(key);
         }
 
         public List<AOMeshs> GetMeshs()
         {
             List<AOMeshs> meshList = new List<AOMeshs>();
             int counter;
-            for (counter = 0; counter < this.Mesh.Count; counter++)
+            for (counter = 0; counter < this.mesh.Count; counter++)
             {
                 AOMeshs aoMesh = new AOMeshs();
-                aoMesh.Position = this.Mesh.ElementAt(counter).Key >> 16;
-                aoMesh.Mesh = this.Mesh.ElementAt(counter).Value;
-                aoMesh.OverrideTexture = this.Override.ElementAt(counter).Value;
-                aoMesh.Layer = this.Mesh.ElementAt(counter).Key & 0xffff;
+                aoMesh.Position = this.mesh.ElementAt(counter).Key >> 16;
+                aoMesh.Mesh = this.mesh.ElementAt(counter).Value;
+                aoMesh.OverrideTexture = this.meshOverride.ElementAt(counter).Value;
+                aoMesh.Layer = this.mesh.ElementAt(counter).Key & 0xffff;
                 meshList.Add(aoMesh);
             }
             return meshList;
@@ -104,7 +120,7 @@ namespace ZoneEngine.Misc
 
         public AOMeshs GetMeshAtPosition(int pos)
         {
-            foreach (int key in this.Mesh.Keys)
+            foreach (int key in this.mesh.Keys)
             {
                 if ((key >> 16) == pos)
                 {
@@ -112,8 +128,8 @@ namespace ZoneEngine.Misc
                     AOMeshs aoMeshs = new AOMeshs();
                     aoMeshs.Layer = key & 0xffff;
                     aoMeshs.Position = key >> 16;
-                    aoMeshs.Mesh = this.Mesh[key];
-                    aoMeshs.OverrideTexture = this.Override[key];
+                    aoMeshs.Mesh = this.mesh[key];
+                    aoMeshs.OverrideTexture = this.meshOverride[key];
                     return aoMeshs;
                 }
             }

@@ -47,7 +47,7 @@ namespace ZoneEngine.ChatCommands
                 client.SendChatText("Target must be player/monster/NPC");
                 return;
             }
-            Dynel targetDynel = FindDynel.FindDynelByID(target.Type, target.Instance);
+            Dynel targetDynel = FindDynel.FindDynelById(target.Type, target.Instance);
             if (targetDynel != null)
             {
                 Character targetCharacter = (Character)targetDynel;

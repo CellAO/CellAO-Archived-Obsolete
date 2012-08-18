@@ -29,7 +29,7 @@ namespace ZoneEngine.Misc
 {
     public static class FindDynel
     {
-        public static Dynel FindDynelByID(int findType, int findId)
+        public static Dynel FindDynelById(int findType, int findId)
         {
             switch (findType)
             {

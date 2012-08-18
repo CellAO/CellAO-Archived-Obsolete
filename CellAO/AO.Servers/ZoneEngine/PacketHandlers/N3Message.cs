@@ -33,11 +33,8 @@ namespace ZoneEngine.PacketHandlers
     /// <summary>
     /// 
     /// </summary>
-    public class N3Message
+    public static class N3Message
     {
-        #region Constructors
-        #endregion
-
         #region Functions
         /// <summary>
         /// 
@@ -45,7 +42,7 @@ namespace ZoneEngine.PacketHandlers
         /// <param name="client"></param>
         /// <param name="packet"></param>
         /// <param name="messageNumber"></param>
-        public void Parse(Client client, byte[] packet, int messageNumber)
+        public static void Parse(Client client, byte[] packet, int messageNumber)
         {
             // Some of these messages are never sent from
             // client to server, but I left them in just 
@@ -53,10 +50,10 @@ namespace ZoneEngine.PacketHandlers
             // allow server to log/disconnect clients that
             // send unexpected messages. *Suiv*
 
-            int _type = (((packet[20] << 24) + (packet[21] << 16) + (packet[22] << 8) + packet[23]));
-            int _dynID = (((packet[24] << 24) + (packet[25] << 16) + (packet[26] << 8) + packet[27]));
+            int type = (((packet[20] << 24) + (packet[21] << 16) + (packet[22] << 8) + packet[23]));
+            int dynelId = (((packet[24] << 24) + (packet[25] << 16) + (packet[26] << 8) + packet[27]));
 
-            Dynel dyn = FindDynel.FindDynelByID(_type, _dynID);
+            Dynel dynel = FindDynel.FindDynelById(type, dynelId);
             switch (messageNumber)
             {
                 case 0x000a0c5a:
@@ -122,9 +119,9 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x2252445f:
                     //LookAt
-                    if (dyn != null)
+                    if (dynel != null)
                     {
-                        ((Character)dyn).SetTarget(packet);
+                        ((Character)dynel).SetTarget(packet);
                     }
                     break;
                 case 0x25192476:
@@ -138,7 +135,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x260f3671:
                     //FollowTarget
-                    FollowTarget.Read(packet, client, dyn);
+                    FollowTarget.Read(packet, client, dynel);
                     break;
                 case 0x264b514b:
                     //RelocateDynels
@@ -221,7 +218,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x36284f6e:
                     //Trade
-                    OnTrade.Read(packet, client, dyn);
+                    OnTrade.Read(packet, client, dynel);
                     break;
                 case 0x365a5071:
                     //DoorFullUpdate
@@ -382,7 +379,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x52526858:
                     //GenericCmd
-                    GenericCmd.Read(packet, client, dyn);
+                    GenericCmd.Read(packet, client, dynel);
                     break;
                 case 0x5266632a:
                     //PathMoveCmd
@@ -392,7 +389,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x54111123:
                     //CharDCMove
-                    CharacterDcMove.Read(packet, client);
+                    CharacterDCMove.Read(packet, client);
                     break;
                 case 0x55220726:
                     //PlayfieldAllTowers

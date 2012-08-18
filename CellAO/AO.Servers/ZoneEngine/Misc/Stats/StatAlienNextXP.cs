@@ -28,12 +28,12 @@ namespace ZoneEngine.Misc
 
     public class StatAlienNextXP : ClassStat
     {
-        public StatAlienNextXP(int number, int Default, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        public StatAlienNextXP(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
             this.StatNumber = number;
-            this.StatDefaultValue = (uint)Default;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefaultValue;
+            this.StatBaseValue = this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;

@@ -239,7 +239,7 @@ namespace ZoneEngine.PacketHandlers
                             {
                                 cli.Character.UnequipItem(itemTo, cli.Character, false, fromPlacement);
                                 // send interpolated item
-                                Unequip.Send(cli, itemTo, InventoryPage(toPlacement), toPlacement, false);
+                                Unequip.Send(cli, itemTo, InventoryPage(toPlacement), toPlacement);
                                 // client takes care of hotswap
 
                                 cli.Character.EquipItem(itemFrom, cli.Character, false, toPlacement);
@@ -286,7 +286,7 @@ namespace ZoneEngine.PacketHandlers
                         // from Armorpage
                         cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
-                        Unequip.Send(cli, itemFrom, InventoryPage(fromPlacement), fromPlacement, false);
+                        Unequip.Send(cli, itemFrom, InventoryPage(fromPlacement), fromPlacement);
                         cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
@@ -295,7 +295,7 @@ namespace ZoneEngine.PacketHandlers
                         // from Weaponspage
                         cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
-                        Unequip.Send(cli, itemFrom, InventoryPage(fromPlacement), fromPlacement, false);
+                        Unequip.Send(cli, itemFrom, InventoryPage(fromPlacement), fromPlacement);
                         cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
@@ -304,7 +304,7 @@ namespace ZoneEngine.PacketHandlers
                         // from Implantpage
                         cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
-                        Unequip.Send(cli, itemFrom, InventoryPage(fromPlacement), fromPlacement, false);
+                        Unequip.Send(cli, itemFrom, InventoryPage(fromPlacement), fromPlacement);
                         cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = true;

@@ -35,7 +35,7 @@ namespace ZoneEngine.PacketHandlers
     /// <summary>
     /// 
     /// </summary>
-    public class SocialActionCmd
+    public static class SocialActionCmd
     {
         /// <summary>
         /// 

@@ -101,68 +101,74 @@ namespace ZoneEngine.Packets
 
             bool socialonly;
             bool showsocial;
+            /*
             bool showhelmet;
             bool LeftPadVisible;
             bool RightPadVisible;
             bool DoubleLeftPad;
             bool DoubleRightPad;
+            */
 
-            int CharPlayfield;
-            AOCoord CharCoord;
-            int CharID;
-            Quaternion CharHeading;
+            int charPlayfield;
+            AOCoord charCoord;
+            int charId;
+            Quaternion charHeading;
 
-            uint SideValue;
-            uint FatValue;
-            uint BreedValue;
-            uint SexValue;
-            uint RaceValue;
+            uint sideValue;
+            uint fatValue;
+            uint breedValue;
+            uint sexValue;
+            uint raceValue;
 
-            int NameLength;
-            string CharName;
-            int CharFlagsValue;
-            int AccFlagsValue;
+            int nameLength;
+            string charName;
+            int charFlagsValue;
+            int accFlagsValue;
 
-            int ExpansionValue;
-            int CurrentNano;
-            int CurrentHealth;
+            int expansionValue;
+            int currentNano;
+            int currentHealth;
 
-            uint StrengthBaseValue;
-            uint StaminaBaseValue;
-            uint AgilityBaseValue;
-            uint SenseBaseValue;
-            uint IntelligenceBaseValue;
-            uint PsychicBaseValue;
+            uint strengthBaseValue;
+            uint staminaBaseValue;
+            uint agilityBaseValue;
+            uint senseBaseValue;
+            uint intelligenceBaseValue;
+            uint psychicBaseValue;
 
-            int FirstNameLength;
-            int LastNameLength;
-            string FirstName;
-            string LastName;
-            int OrgNameLength;
-            string OrgName;
-            int LevelValue;
-            int HealthValue;
-            int LOSHeight;
+            int firstNameLength;
+            int lastNameLength;
+            string firstName;
+            string lastName;
+            int orgNameLength;
+            string orgName;
+            int levelValue;
+            int healthValue;
+            int losHeight;
 
-            int MonsterData;
-            int MonsterScale;
-            int VisualFlags;
+            int monsterData;
+            int monsterScale;
+            int visualFlags;
 
-            int CurrentMovementMode;
-            uint RunSpeedBaseValue;
+            int currentMovementMode;
+            uint runSpeedBaseValue;
 
-            int TexturesCount;
+            int texturesCount;
+            /*
             int HairMeshValue;
             int WeaponMeshRightValue;
             int WeaponMeshLeftValue;
 
             uint HeadMeshBaseValue;
-            int HeadMeshValue;
-
+             */
+            int headMeshValue;
+            /*
             int BackMeshValue;
             int ShoulderMeshRightValue;
+             */
             //int ShoulderMeshLeftValue;
 
+            /*
             int OverrideTextureHead;
             int OverrideTextureWeaponRight;
             int OverrideTextureWeaponLeft;
@@ -170,7 +176,7 @@ namespace ZoneEngine.Packets
             int OverrideTextureShoulderpadLeft;
             int OverrideTextureBack;
             int OverrideTextureAttractor;
-
+            */
             //NPC Values
 
             int NPCFamily;
@@ -179,7 +185,7 @@ namespace ZoneEngine.Packets
 
             List<AOTextures> textures = new List<AOTextures>();
 
-            List<AOMeshs> meshs = new List<AOMeshs>();
+            List<AOMeshs> meshs;
 
             List<AONano> nanos = new List<AONano>();
 
@@ -187,66 +193,71 @@ namespace ZoneEngine.Packets
             {
                 socialonly = ((character.Stats.VisualFlags.Value & 0x40) > 0);
                 showsocial = ((character.Stats.VisualFlags.Value & 0x20) > 0);
+                /*
                 showhelmet = ((character.Stats.VisualFlags.Value & 0x4) > 0);
                 LeftPadVisible = ((character.Stats.VisualFlags.Value & 0x1) > 0);
                 RightPadVisible = ((character.Stats.VisualFlags.Value & 0x2) > 0);
                 DoubleLeftPad = ((character.Stats.VisualFlags.Value & 0x8) > 0);
                 DoubleRightPad = ((character.Stats.VisualFlags.Value & 0x10) > 0);
+                */
 
-                CharPlayfield = character.PlayField;
-                CharCoord = character.Coordinates;
-                CharID = character.ID;
-                CharHeading = character.Heading;
+                charPlayfield = character.PlayField;
+                charCoord = character.Coordinates;
+                charId = character.ID;
+                charHeading = character.Heading;
 
-                SideValue = character.Stats.Side.StatBaseValue;
-                FatValue = character.Stats.Fatness.StatBaseValue;
-                BreedValue = character.Stats.Breed.StatBaseValue;
-                SexValue = character.Stats.Sex.StatBaseValue;
-                RaceValue = character.Stats.Race.StatBaseValue;
+                sideValue = character.Stats.Side.StatBaseValue;
+                fatValue = character.Stats.Fatness.StatBaseValue;
+                breedValue = character.Stats.Breed.StatBaseValue;
+                sexValue = character.Stats.Sex.StatBaseValue;
+                raceValue = character.Stats.Race.StatBaseValue;
 
-                NameLength = character.Name.Length;
-                CharName = character.Name;
-                CharFlagsValue = character.Stats.Flags.Value;
-                AccFlagsValue = character.Stats.AccountFlags.Value;
+                nameLength = character.Name.Length;
+                charName = character.Name;
+                charFlagsValue = character.Stats.Flags.Value;
+                accFlagsValue = character.Stats.AccountFlags.Value;
 
-                ExpansionValue = character.Stats.Expansion.Value;
-                CurrentNano = character.Stats.CurrentNano.Value;
+                expansionValue = character.Stats.Expansion.Value;
+                currentNano = character.Stats.CurrentNano.Value;
 
-                StrengthBaseValue = character.Stats.Strength.StatBaseValue;
-                StaminaBaseValue = character.Stats.Strength.StatBaseValue;
-                AgilityBaseValue = character.Stats.Strength.StatBaseValue;
-                SenseBaseValue = character.Stats.Strength.StatBaseValue;
-                IntelligenceBaseValue = character.Stats.Strength.StatBaseValue;
-                PsychicBaseValue = character.Stats.Strength.StatBaseValue;
+                strengthBaseValue = character.Stats.Strength.StatBaseValue;
+                staminaBaseValue = character.Stats.Strength.StatBaseValue;
+                agilityBaseValue = character.Stats.Strength.StatBaseValue;
+                senseBaseValue = character.Stats.Strength.StatBaseValue;
+                intelligenceBaseValue = character.Stats.Strength.StatBaseValue;
+                psychicBaseValue = character.Stats.Strength.StatBaseValue;
 
-                FirstNameLength = character.FirstName.Length;
-                LastNameLength = character.LastName.Length;
-                FirstName = character.FirstName;
-                LastName = character.LastName;
-                OrgNameLength = character.OrgName.Length;
-                OrgName = character.OrgName;
-                LevelValue = character.Stats.Level.Value;
-                HealthValue = character.Stats.Life.Value;
+                firstNameLength = character.FirstName.Length;
+                lastNameLength = character.LastName.Length;
+                firstName = character.FirstName;
+                lastName = character.LastName;
+                orgNameLength = character.OrgName.Length;
+                orgName = character.OrgName;
+                levelValue = character.Stats.Level.Value;
+                healthValue = character.Stats.Life.Value;
 
-                MonsterData = character.Stats.MonsterData.Value;
-                MonsterScale = character.Stats.MonsterScale.Value;
-                VisualFlags = character.Stats.VisualFlags.Value;
+                monsterData = character.Stats.MonsterData.Value;
+                monsterScale = character.Stats.MonsterScale.Value;
+                visualFlags = character.Stats.VisualFlags.Value;
 
-                CurrentMovementMode = character.Stats.CurrentMovementMode.Value;
-                RunSpeedBaseValue = character.Stats.RunSpeed.StatBaseValue;
+                currentMovementMode = character.Stats.CurrentMovementMode.Value;
+                runSpeedBaseValue = character.Stats.RunSpeed.StatBaseValue;
 
-                TexturesCount = character.Textures.Count;
+                texturesCount = character.Textures.Count;
+                /*
                 HairMeshValue = character.Stats.HairMesh.Value;
                 WeaponMeshRightValue = character.Stats.WeaponMeshRight.Value;
                 WeaponMeshLeftValue = character.Stats.WeaponMeshLeft.Value;
 
                 HeadMeshBaseValue = character.Stats.HeadMesh.StatBaseValue;
-                HeadMeshValue = character.Stats.HeadMesh.Value;
-
+                 */
+                headMeshValue = character.Stats.HeadMesh.Value;
+                /*
                 BackMeshValue = character.Stats.BackMesh.Value;
                 ShoulderMeshRightValue = character.Stats.ShoulderMeshRight.Value;
+                 */
                 //ShoulderMeshLeftValue = character.Stats.ShoulderMeshLeft.Value;
-
+                /*
                 OverrideTextureHead = character.Stats.OverrideTextureHead.Value;
                 OverrideTextureWeaponRight = character.Stats.OverrideTextureWeaponRight.Value;
                 OverrideTextureWeaponLeft = character.Stats.OverrideTextureWeaponLeft.Value;
@@ -254,7 +265,7 @@ namespace ZoneEngine.Packets
                 OverrideTextureShoulderpadLeft = character.Stats.OverrideTextureShoulderpadLeft.Value;
                 OverrideTextureBack = character.Stats.OverrideTextureBack.Value;
                 OverrideTextureAttractor = character.Stats.OverrideTextureAttractor.Value;
-
+                 */
                 foreach (int num in character.SocialTab.Keys)
                 {
                     socialTab.Add(num, character.SocialTab[num]);
@@ -281,9 +292,9 @@ namespace ZoneEngine.Packets
                     nanos.Add(tempNano);
                 }
 
-                LOSHeight = character.Stats.LosHeight.Value;
+                losHeight = character.Stats.LosHeight.Value;
                 NPCFamily = character.Stats.NpcFamily.Value;
-                CurrentHealth = character.Stats.Health.Value;
+                currentHealth = character.Stats.Health.Value;
             }
             PacketWriter packetWriter = new PacketWriter();
 
@@ -296,7 +307,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushInt(3086); // sender. our server ID
             packetWriter.PushInt(receiver); // receiver
             packetWriter.PushInt(0x271B3A6B); // packet ID
-            packetWriter.PushIdentity(50000, CharID); // affected identity
+            packetWriter.PushIdentity(50000, charId); // affected identity
             packetWriter.PushByte(0); // Unknown?
             // End Packet Header
 
@@ -304,7 +315,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushInt(0); // packet flags (this is set later based on packetFlags variable above)
 
             packetFlags |= 0x40; // Has Playfield ID
-            packetWriter.PushInt(CharPlayfield); // playfield
+            packetWriter.PushInt(charPlayfield); // playfield
 
             if (character.FightingTarget.Instance != 0)
             {
@@ -313,24 +324,24 @@ namespace ZoneEngine.Packets
             }
 
             // Coordinates
-            packetWriter.PushCoord(CharCoord);
+            packetWriter.PushCoord(charCoord);
 
             // Heading Data
             packetFlags |= 0x200; // Has Heading Data Flag
-            packetWriter.PushQuat(CharHeading);
+            packetWriter.PushQuat(charHeading);
 
-            uint appearance = SideValue + (FatValue * 8) + (BreedValue * 32) + (SexValue * 256) + (RaceValue * 1024);
+            uint appearance = sideValue + (fatValue * 8) + (breedValue * 32) + (sexValue * 256) + (raceValue * 1024);
                 // Race
             packetWriter.PushUInt(appearance); // appearance
 
             // Name
-            packetWriter.PushByte((byte)(NameLength + 1));
-            packetWriter.PushBytes(Encoding.ASCII.GetBytes(CharName));
+            packetWriter.PushByte((byte)(nameLength + 1));
+            packetWriter.PushBytes(Encoding.ASCII.GetBytes(charName));
             packetWriter.PushByte(0); // 0 terminator for name
 
-            packetWriter.PushUInt(CharFlagsValue); // Flags
-            packetWriter.PushShort((short)AccFlagsValue);
-            packetWriter.PushShort((short)ExpansionValue);
+            packetWriter.PushUInt(charFlagsValue); // Flags
+            packetWriter.PushShort((short)accFlagsValue);
+            packetWriter.PushShort((short)expansionValue);
 
             if (character is NonPlayerCharacterClass)
             {
@@ -352,14 +363,14 @@ namespace ZoneEngine.Packets
                     packetWriter.PushShort((Int16)NPCFamily);
                 }
 
-                if (LOSHeight < 256)
+                if (losHeight < 256)
                 {
-                    packetWriter.PushByte((byte)LOSHeight);
+                    packetWriter.PushByte((byte)losHeight);
                 }
                 else
                 {
                     packetFlags |= 0x80000;
-                    packetWriter.PushShort((Int16)LOSHeight);
+                    packetWriter.PushShort((Int16)losHeight);
                 }
 
                 //if (packetFlags & 0x2000000)
@@ -381,74 +392,74 @@ namespace ZoneEngine.Packets
             else
             {
                 // Are we a player?
-                packetWriter.PushUInt(CurrentNano); // CurrentNano
+                packetWriter.PushUInt(currentNano); // CurrentNano
                 packetWriter.PushInt(0); // team?
                 packetWriter.PushShort(5); // swim?
 
                 // The checks here are to prevent the client doing weird things if the character has really large or small base attributes
-                if (StrengthBaseValue > 32767) // Strength
+                if (strengthBaseValue > 32767) // Strength
                 {
                     packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    packetWriter.PushShort((short)StrengthBaseValue);
+                    packetWriter.PushShort((short)strengthBaseValue);
                 }
-                if (AgilityBaseValue > 32767) // Agility
+                if (agilityBaseValue > 32767) // Agility
                 {
                     packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    packetWriter.PushShort((short)AgilityBaseValue);
+                    packetWriter.PushShort((short)agilityBaseValue);
                 }
-                if (StaminaBaseValue > 32767) //  Stamina
+                if (staminaBaseValue > 32767) //  Stamina
                 {
                     packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    packetWriter.PushShort((short)StaminaBaseValue);
+                    packetWriter.PushShort((short)staminaBaseValue);
                 }
-                if (IntelligenceBaseValue > 32767) // Intelligence
+                if (intelligenceBaseValue > 32767) // Intelligence
                 {
                     packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    packetWriter.PushShort((short)IntelligenceBaseValue);
+                    packetWriter.PushShort((short)intelligenceBaseValue);
                 }
-                if (SenseBaseValue > 32767) // Sense
+                if (senseBaseValue > 32767) // Sense
                 {
                     packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    packetWriter.PushShort((short)SenseBaseValue);
+                    packetWriter.PushShort((short)senseBaseValue);
                 }
-                if (PsychicBaseValue > 32767) // Psychic
+                if (psychicBaseValue > 32767) // Psychic
                 {
                     packetWriter.PushShort(32767);
                 }
                 else
                 {
-                    packetWriter.PushShort((short)PsychicBaseValue);
+                    packetWriter.PushShort((short)psychicBaseValue);
                 }
 
-                if ((CharFlagsValue & 0x400000) != 0) // has visible names? (Flags)
+                if ((charFlagsValue & 0x400000) != 0) // has visible names? (Flags)
                 {
-                    packetWriter.PushShort((short)FirstNameLength);
-                    packetWriter.PushBytes(Encoding.ASCII.GetBytes(FirstName));
-                    packetWriter.PushShort((short)LastNameLength);
-                    packetWriter.PushBytes(Encoding.ASCII.GetBytes(LastName));
+                    packetWriter.PushShort((short)firstNameLength);
+                    packetWriter.PushBytes(Encoding.ASCII.GetBytes(firstName));
+                    packetWriter.PushShort((short)lastNameLength);
+                    packetWriter.PushBytes(Encoding.ASCII.GetBytes(lastName));
                 }
 
-                if (OrgNameLength != 0)
+                if (orgNameLength != 0)
                 {
                     packetFlags |= 0x4000000; // Has org name data
 
-                    packetWriter.PushShort((short)OrgNameLength);
-                    packetWriter.PushBytes(Encoding.ASCII.GetBytes(OrgName));
+                    packetWriter.PushShort((short)orgNameLength);
+                    packetWriter.PushBytes(Encoding.ASCII.GetBytes(orgName));
                 }
                 else
                 {
@@ -456,28 +467,28 @@ namespace ZoneEngine.Packets
                 }
             }
 
-            if (LevelValue > 127) // Level
+            if (levelValue > 127) // Level
             {
                 packetFlags |= 0x1000; // Has Extended Level
-                packetWriter.PushShort((short)LevelValue);
+                packetWriter.PushShort((short)levelValue);
             }
             else
             {
                 packetFlags &= ~0x1000; // Has Small Level
-                packetWriter.PushByte((byte)LevelValue);
+                packetWriter.PushByte((byte)levelValue);
             }
 
-            if (HealthValue > 32767) // Health
+            if (healthValue > 32767) // Health
             {
                 packetFlags &= ~0x800; // Has Extended Health
-                packetWriter.PushUInt(HealthValue);
+                packetWriter.PushUInt(healthValue);
             }
             else
             {
                 packetFlags |= 0x800; // Has Small Health
-                packetWriter.PushShort((short)HealthValue);
+                packetWriter.PushShort((short)healthValue);
             }
-            int healthdamage = HealthValue - CurrentHealth;
+            int healthdamage = healthValue - currentHealth;
             if (healthdamage < 256)
             {
                 packetFlags |= 0x4000;
@@ -498,22 +509,22 @@ namespace ZoneEngine.Packets
 
             // If player is in grid or fixer grid
             // make him/her/it a nice upside down pyramid
-            if ((CharPlayfield == 152) || (CharPlayfield == 4107))
+            if ((charPlayfield == 152) || (charPlayfield == 4107))
             {
                 packetWriter.PushInt(99902);
             }
             else
             {
-                packetWriter.PushUInt(MonsterData); // Monsterdata
+                packetWriter.PushUInt(monsterData); // Monsterdata
             }
-            packetWriter.PushShort((short)MonsterScale); // Monsterscale
-            packetWriter.PushShort((short)VisualFlags); // VisualFlags
+            packetWriter.PushShort((short)monsterScale); // Monsterscale
+            packetWriter.PushShort((short)visualFlags); // VisualFlags
             packetWriter.PushByte(0); // visible title?
 
             packetWriter.PushInt(42); // 'skipdata' length
             // Start 'skipdata'
             packetWriter.PushBytes(new Byte[] { 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00 });
-            packetWriter.PushByte((byte)CurrentMovementMode); // CurrentMovementMode
+            packetWriter.PushByte((byte)currentMovementMode); // CurrentMovementMode
             packetWriter.PushByte(1); // don't change
             packetWriter.PushShort(1); // ?
             packetWriter.PushShort(1); // ?
@@ -527,21 +538,21 @@ namespace ZoneEngine.Packets
             packetWriter.PushInt(0); //?
             // End 'skipdata'
 
-            if (HeadMeshValue != 0)
+            if (headMeshValue != 0)
             {
                 packetFlags |= 0x80; // Has HeadMesh Flag
-                packetWriter.PushUInt(HeadMeshValue); // Headmesh
+                packetWriter.PushUInt(headMeshValue); // Headmesh
             }
 
-            if ((RunSpeedBaseValue > 127)) // Runspeed
+            if ((runSpeedBaseValue > 127)) // Runspeed
             {
                 packetFlags |= 0x2000;
-                packetWriter.PushShort((short)RunSpeedBaseValue);
+                packetWriter.PushShort((short)runSpeedBaseValue);
             }
             else
             {
                 packetFlags &= ~0x2000;
-                packetWriter.PushByte((byte)RunSpeedBaseValue);
+                packetWriter.PushByte((byte)runSpeedBaseValue);
             }
 
             //if (packetFlags & 0x400)
@@ -621,7 +632,7 @@ namespace ZoneEngine.Packets
                 aotemp.Texture = 0;
                 aotemp.place = c;
                 int c2;
-                for (c2 = 0; c2 < TexturesCount; c2++)
+                for (c2 = 0; c2 < texturesCount; c2++)
                 {
                     if (textures[c2].place == c)
                     {

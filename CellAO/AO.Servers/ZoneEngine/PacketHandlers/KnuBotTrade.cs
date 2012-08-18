@@ -43,7 +43,7 @@ namespace ZoneEngine.PacketHandlers
             packetReader.PopShort();
             Identity identity = packetReader.PopIdentity();
 
-            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(identity.Type, identity.Instance);
+            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelById(identity.Type, identity.Instance);
             Character character = FindClient.FindClientById(header.Sender).Character;
 
             packetReader.PopInt();

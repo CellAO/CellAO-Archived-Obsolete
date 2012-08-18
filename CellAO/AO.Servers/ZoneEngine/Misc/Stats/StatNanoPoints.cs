@@ -28,12 +28,12 @@ namespace ZoneEngine.Misc
 
     public class StatNanoPoints : ClassStat
     {
-        public StatNanoPoints(int number, int Default, string name, bool sendBaseValue, bool dontWrite, bool announce)
+        public StatNanoPoints(int number, int defaultValue, string name, bool sendBaseValue, bool dontWrite, bool announce)
         {
             this.StatNumber = number;
-            this.StatDefaultValue = (uint)Default;
+            this.StatDefaultValue = (uint)defaultValue;
 
-            this.Value = (int)this.StatDefaultValue;
+            this.StatBaseValue = this.StatDefaultValue;
             this.SendBaseValue = true;
             this.DoNotDontWriteToSql = false;
             this.AnnounceToPlayfield = false;

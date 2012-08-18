@@ -53,8 +53,6 @@ namespace ZoneEngine
 
         public TextMessage TextMessageHandler;
 
-        public N3Message N3MessageHandler;
-
         // TODO: Add Ping Message Handler
         // TODO: Add Operator Message Handler
 
@@ -69,7 +67,7 @@ namespace ZoneEngine
         {
             this.SystemMessageHandler = new SystemMessage();
             this.TextMessageHandler = new TextMessage();
-            this.N3MessageHandler = new N3Message();
+
             // TODO: Add Ping Message Handler Construction
             // TODO: Add Operator Message Handler Construction
 

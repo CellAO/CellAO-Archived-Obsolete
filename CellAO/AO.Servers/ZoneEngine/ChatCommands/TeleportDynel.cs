@@ -80,7 +80,7 @@ namespace ZoneEngine.ChatCommands
             }
 
             Client mClient = null;
-            if (!FindClient.FindClientById(target.Instance, out mClient))
+            if ((mClient = FindClient.FindClientById(target.Instance)) == null)
             {
                 client.SendChatText("Target not found");
                 return;

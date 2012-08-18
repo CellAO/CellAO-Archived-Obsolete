@@ -143,7 +143,7 @@ namespace ZoneEngine.PacketHandlers
 
         // Create a New Team ID and Return it to Call
 
-        public uint GenerateNewTeamId(Client sendingPlayer, Identity recievingPlayer)
+        public static uint GenerateNewTeamId(Client sendingPlayer, Identity recievingPlayer)
         {
             // Generate TeamID
 

@@ -93,7 +93,7 @@ namespace ZoneEngine.PacketHandlers
             #region cmd handlers
             switch (cmd)
             {
-                    #region /org create <name>
+                #region /org create <name>
                 case 1:
                     {
                         // org create
@@ -137,9 +137,9 @@ namespace ZoneEngine.PacketHandlers
                             break;
                         }
                     }
-                    #endregion
+                #endregion
 
-                    #region /org ranks
+                #region /org ranks
                 case 2:
                     // org ranks
                     //Displays Org Rank Structure.
@@ -158,25 +158,25 @@ namespace ZoneEngine.PacketHandlers
                     }
                     client.SendChatText("Current Rank Structure: " + GetRankList(governingForm));
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org contract
+                #region /org contract
                 case 3:
                     // org contract
                     break;
-                    #endregion
+                #endregion
 
-                    #region unknown org command 4
+                #region unknown org command 4
                 case 4:
                     Console.WriteLine("Case 4 Started");
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org info
+                #region /org info
                 case 5:
                     {
                         Client tPlayer = null;
-                        if (FindClient.FindClientById(target.Instance, out tPlayer))
+                        if ((tPlayer = FindClient.FindClientById(target.Instance)) != null)
                         {
                             string orgDescription = "", orgObjective = "", orgHistory = "", orgLeaderName = "";
                             int orgGoverningForm = 0, orgLeaderID = 0;
@@ -263,33 +263,33 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org disband
+                #region /org disband
                 case 6:
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org startvote <text> <duration> <entries>
+                #region /org startvote <text> <duration> <entries>
                 case 7:
                     // org startvote <"text"> <duration(minutes)> <entries>
                     // arguments (<text> <duration> and <entries>) are in CmdStr
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org vote info
+                #region /org vote info
                 case 8:
                     // org vote info
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org vote <entry>
+                #region /org vote <entry>
                 case 9:
                     // <entry> is CmdStr
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org promote
+                #region /org promote
                 case 10:
                     {
                         // some arg in CmdByte. No idea what it is
@@ -301,7 +301,7 @@ namespace ZoneEngine.PacketHandlers
                         int targetNewRank = -1;
                         int newPresRank = -1;
                         int oldPresRank = 0;
-                        if (FindClient.FindClientById(target.Instance, out toPromote))
+                        if ((toPromote = FindClient.FindClientById(target.Instance)) != null)
                         {
                             //First we check if target is in the same org as you
                             if (toPromote.Character.OrgId != client.Character.OrgId)
@@ -384,27 +384,27 @@ namespace ZoneEngine.PacketHandlers
                         }
                         break;
                     }
-                    #endregion
+                #endregion
 
-                    #region /org demote
+                #region /org demote
                 case 11:
                     // demote target player
                     //create the target namespace t_demote
-                    Client t_demote = null;
+                    Client toDemote = null;
                     string demoteSql = "";
                     int targetCurRank = -1;
                     int targetNewerRank = -1;
-                    if (FindClient.FindClientById(target.Instance, out t_demote))
+                    if ((toDemote = FindClient.FindClientById(target.Instance)) != null)
                     {
                         //First we check if target is in the same org as you
-                        if (t_demote.Character.OrgId != client.Character.OrgId)
+                        if (toDemote.Character.OrgId != client.Character.OrgId)
                         {
                             //not in same org
                             client.SendChatText("Target is not in your organization!");
                             break;
                         }
                         //Target is in same org, are you eligible to demote?  Promoter Rank has to be TargetRank-2 or == 0
-                        if ((client.Character.Stats.GmLevel.Value == (t_demote.Character.Stats.ClanLevel.Value - 2))
+                        if ((client.Character.Stats.GMLevel.Value == (toDemote.Character.Stats.ClanLevel.Value - 2))
                             || (client.Character.Stats.ClanLevel.Value == 0))
                         {
                             //Promoter is eligible. Start the process
@@ -425,32 +425,32 @@ namespace ZoneEngine.PacketHandlers
                                 client.SendChatText("You can't demote character any lower!");
                                 break;
                             }
-                            targetCurRank = t_demote.Character.Stats.GmLevel.Value;
+                            targetCurRank = toDemote.Character.Stats.GMLevel.Value;
                             targetNewerRank = targetCurRank + 1;
                             demotedToRank = GetRank(demoteGovForm, (uint)targetNewerRank);
-                            t_demote.Character.Stats.ClanLevel.Set(targetNewerRank);
-                            client.SendChatText("You've demoted " + t_demote.Character.Name + " to " + demotedToRank);
-                            t_demote.SendChatText(
+                            toDemote.Character.Stats.ClanLevel.Set(targetNewerRank);
+                            client.SendChatText("You've demoted " + toDemote.Character.Name + " to " + demotedToRank);
+                            toDemote.SendChatText(
                                 "You've been demoted to the rank of " + demotedToRank + " by " + client.Character.Name);
                             break;
                         }
                         else
                         {
                             //Promoter not eligible to promote
-                            client.SendChatText("Your Rank is not high enough to demote " + t_demote.Character.Name);
+                            client.SendChatText("Your Rank is not high enough to demote " + toDemote.Character.Name);
                             break;
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region unknown org command 12
+                #region unknown org command 12
                 case 12:
                     Console.WriteLine("Case 12 Started");
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org kick <name>
+                #region /org kick <name>
                 case 13:
                     // kick <name> from org
                     // <name> is CmdStr
@@ -465,11 +465,11 @@ namespace ZoneEngine.PacketHandlers
                         kickeeId = (Int32)dt.Rows[0]["ID"];
                     }
 
-                    Client target_player = null;
-                    if (FindClient.FindClientById(kickeeId, out target_player))
+                    Client targetPlayer = null;
+                    if ((targetPlayer = FindClient.FindClientById(kickeeId)) != null)
                     {
                         //Check if CmdStr is actually part of the org
-                        uint kickeeOrgId = target_player.Character.OrgId;
+                        uint kickeeOrgId = targetPlayer.Character.OrgId;
                         if (kickeeOrgId != client.Character.OrgId)
                         {
                             //Not part of Org. break out.
@@ -490,29 +490,31 @@ namespace ZoneEngine.PacketHandlers
                         if (onlineStatus == 0)
                         {
                             //Player isn't online. Org Kicks are processed in a different method
+                            // TODO: Offline Org KICK
                             break;
                         }
 
                         //Player is online. Start the kick.
-                        target_player.Character.Stats.ClanLevel.Set(0);
-                        target_player.Character.OrgId = 0;
+                        targetPlayer.Character.Stats.ClanLevel.Set(0);
+                        targetPlayer.Character.OrgId = 0;
                         string kickedFromSql = "SELECT Name FROM organizations WHERE ID = " + client.Character.OrgId;
                         dt = ms.ReadDatatable(kickedFromSql);
-                        string KickedFromName = "";
+                        string kickedFromName = "";
                         if (dt.Rows.Count > 0)
                         {
-                            KickedFromName = (string)dt.Rows[0][0];
+                            kickedFromName = (string)dt.Rows[0][0];
                         }
-                        target_player.SendChatText("You've been kicked from the organization " + KickedFromName);
+                        targetPlayer.SendChatText("You've been kicked from the organization " + kickedFromName);
                     }
+                    // TODO: Offline Org KICK
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org invite
+                #region /org invite
                 case 14:
                     {
-                        Client t_player = null;
-                        if (FindClient.FindClientById(target.Instance, out t_player))
+                        Client tPlayer = null;
+                        if ((tPlayer = FindClient.FindClientById(target.Instance)) != null)
                         {
                             PacketWriter writer = new PacketWriter();
                             writer.PushBytes(new byte[] { 0xDF, 0xDF });
@@ -520,9 +522,9 @@ namespace ZoneEngine.PacketHandlers
                             writer.PushShort(1);
                             writer.PushShort(0);
                             writer.PushInt(3086); //Sender
-                            writer.PushInt(t_player.Character.ID); //Receiver
+                            writer.PushInt(tPlayer.Character.ID); //Receiver
                             writer.PushInt(0x64582A07); //Packet ID
-                            writer.PushIdentity(50000, t_player.Character.ID); //Target Identity
+                            writer.PushIdentity(50000, tPlayer.Character.ID); //Target Identity
                             writer.PushByte(0);
                             writer.PushByte(5); //OrgServer Case 0x05 (Invite)
                             writer.PushInt(0);
@@ -533,13 +535,13 @@ namespace ZoneEngine.PacketHandlers
                             writer.PushInt(0);
                             byte[] reply = writer.Finish();
 
-                            t_player.SendCompressed(reply);
+                            tPlayer.SendCompressed(reply);
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region Org Join
+                #region Org Join
                 case 15:
                     {
                         //target.Instance holds the OrgID of the Org wishing to be joined.
@@ -557,9 +559,9 @@ namespace ZoneEngine.PacketHandlers
                         client.Character.OrgId = (uint)orgIdtoJoin;
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org leave
+                #region /org leave
                 case 16:
                     // org leave
                     // TODO: Disband org if it was leader that left org. -Suiv-
@@ -586,9 +588,9 @@ namespace ZoneEngine.PacketHandlers
                         client.SendChatText("You left the guild");
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org tax | /org tax <tax>
+                #region /org tax | /org tax <tax>
                 case 17:
                     // gets or sets org tax
                     // <tax> is CmdStr
@@ -603,9 +605,9 @@ namespace ZoneEngine.PacketHandlers
                     {
                         break;
                     }
-                    #endregion
+                #endregion
 
-                    #region /org bank
+                #region /org bank
                 case 18:
                     {
                         // org bank
@@ -617,9 +619,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org bank add <cash>
+                #region /org bank add <cash>
                 case 19:
                     {
                         if (client.Character.OrgId == 0)
@@ -650,9 +652,9 @@ namespace ZoneEngine.PacketHandlers
                     }
 
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org bank remove <cash>
+                #region /org bank remove <cash>
                 case 20:
                     // org bank remove <cash>
                     // <cash> is CmdStr
@@ -687,24 +689,24 @@ namespace ZoneEngine.PacketHandlers
                         client.SendChatText("You've removed " + removeCredits + " credits from the organization bank");
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org bank paymembers <cash>
+                #region /org bank paymembers <cash>
                 case 21:
                     // <cash> is CmdStr
                     // give <cash> credits to every org member
                     // credits are taken from org bank
                     // only leader can do it
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org debt
+                #region /org debt
                 case 22:
                     // send player text about how big is his/her tax debt to org
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org history <text>
+                #region /org history <text>
                 case 23:
                     {
                         if (client.Character.Stats.ClanLevel.Value == 0)
@@ -721,9 +723,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org objective <text>
+                #region /org objective <text>
                 case 24:
                     {
                         if (client.Character.Stats.ClanLevel.Value == 0)
@@ -740,9 +742,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org description <text>
+                #region /org description <text>
                 case 25:
                     {
                         if (client.Character.Stats.ClanLevel.Value == 0)
@@ -759,9 +761,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org name <text>
+                #region /org name <text>
                 case 26:
                     {
                         // org name <name>
@@ -803,9 +805,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                         break;
                     }
-                    #endregion
+                #endregion
 
-                    #region /org governingform <text>
+                #region /org governingform <text>
                 case 27:
                     {
                         // org governingform <form>
@@ -872,18 +874,18 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region /org stopvote <text>
+                #region /org stopvote <text>
                 case 28:
                     // <text> is CmdStr
                     break;
-                    #endregion
+                #endregion
 
-                    #region unknown command
+                #region unknown command
                 default:
                     break;
-                    #endregion
+                #endregion
             }
             #endregion
 

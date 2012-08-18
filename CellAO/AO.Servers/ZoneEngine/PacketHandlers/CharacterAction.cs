@@ -59,7 +59,7 @@ namespace ZoneEngine.PacketHandlers
 
             switch (actionNum)
             {
-                    #region Cast nano
+                #region Cast nano
                 case 19: // Cast nano
                     {
                         // CastNanoSpell
@@ -126,10 +126,10 @@ namespace ZoneEngine.PacketHandlers
                         Announce.Playfield(client.Character.PlayField, characterAction98A);
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region search
-                    /* this is here to prevent server crash that is caused by
+                #region search
+                /* this is here to prevent server crash that is caused by
                  * search action if server doesn't reply if something is
                  * found or not */
                 case 66: // If action == search
@@ -138,13 +138,13 @@ namespace ZoneEngine.PacketHandlers
                         client.SendFeedback(110, 136744723);
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region info
+                #region info
                 case 105: // If action == Info Request
                     {
                         Client tPlayer = null;
-                        if (FindClient.FindClientById(m_ident.Instance, out tPlayer))
+                        if ((tPlayer = FindClient.FindClientById(m_ident.Instance)) != null)
                         {
                             #region Titles
                             uint LegacyScore = tPlayer.Character.Stats.PvpRating.StatBaseValue;
@@ -281,7 +281,7 @@ namespace ZoneEngine.PacketHandlers
                         }
                         else
                         {
-                            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(m_ident.Type, m_ident.Instance);
+                            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelById(m_ident.Type, m_ident.Instance);
                             if (npc != null)
                             {
                                 PacketWriter infoPacket = new PacketWriter();
@@ -324,13 +324,13 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region logout
+                #region logout
                 case 120: // If action == Logout
                     {
                         //Start 30 second logout timer if client is not a GM (statid 215)
-                        if (client.Character.Stats.GmLevel.Value == 0)
+                        if (client.Character.Stats.GMLevel.Value == 0)
                         {
                             client.startLogoutTimer();
                         }
@@ -347,9 +347,9 @@ namespace ZoneEngine.PacketHandlers
                         client.CancelLogOut();
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region stand
+                #region stand
                 case 87: // If action == Stand
                     {
                         client.Character.UpdateMoveType(37);
@@ -357,9 +357,9 @@ namespace ZoneEngine.PacketHandlers
                         client.StandCancelLogout();
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region Team
+                #region Team
                 case 22: //Kick Team Member
                     {
                     }
@@ -389,7 +389,7 @@ namespace ZoneEngine.PacketHandlers
                         // if positive
 
                         TeamClass team = new TeamClass();
-                        uint teamID = team.GenerateNewTeamId(client, m_ident);
+                        uint teamID = TeamClass.GenerateNewTeamId(client, m_ident);
 
                         // Destination Client 0 = Sender, 1 = Reciever
 
@@ -419,9 +419,9 @@ namespace ZoneEngine.PacketHandlers
                         team.TeamReplyPacketTeamMember(0, client, m_ident, "Member2");
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region Delete Item
+                #region Delete Item
                 case 0x70:
                     mys.SqlDelete(
                         "DELETE FROM " + client.Character.GetSqlTablefromDynelType() + "inventory WHERE placement="
@@ -436,9 +436,9 @@ namespace ZoneEngine.PacketHandlers
                     action2[11] = 0x0E;
                     client.SendCompressed(action2);
                     break;
-                    #endregion
+                #endregion
 
-                    #region Split item
+                #region Split item
                 case 0x34:
                     int nextid = client.Character.GetNextFreeInventory(m_ident.Type);
                     InventoryEntries i = client.Character.GetInventoryAt(m_ident.Instance);
@@ -450,9 +450,9 @@ namespace ZoneEngine.PacketHandlers
                     client.Character.Inventory.Add(i2);
                     client.Character.WriteInventoryToSql();
                     break;
-                    #endregion
+                #endregion
 
-                    #region Join item
+                #region Join item
                 case 0x35:
                     InventoryEntries j1 = client.Character.GetInventoryAt(m_ident.Instance);
                     InventoryEntries j2 = client.Character.GetInventoryAt(unknown3);
@@ -468,16 +468,16 @@ namespace ZoneEngine.PacketHandlers
                     joined[11] = 0x0E;
                     client.SendCompressed(joined);
                     break;
-                    #endregion
+                #endregion
 
-                    #region Sneak Action
-                    // ###################################################################################
-                    // Spandexpants: This is all i have done so far as to make sneak turn on and off, 
-                    // currently i cannot find a missing packet or link which tells the server the player
-                    // has stopped sneaking, hidden packet or something, will come back to later.
-                    // ###################################################################################
+                #region Sneak Action
+                // ###################################################################################
+                // Spandexpants: This is all i have done so far as to make sneak turn on and off, 
+                // currently i cannot find a missing packet or link which tells the server the player
+                // has stopped sneaking, hidden packet or something, will come back to later.
+                // ###################################################################################
 
-                    // Sneak Packet Received
+                // Sneak Packet Received
 
                 case 163:
                     {
@@ -507,9 +507,9 @@ namespace ZoneEngine.PacketHandlers
                         // TODO: IF SNEAKING IS NOT ALLOWED SEND REJECTION PACKET
                     }
                     break;
-                    #endregion
+                #endregion
 
-                    #region Use Item on Item
+                #region Use Item on Item
                 case 81:
                     {
                         Identity item1 = new Identity();
@@ -525,9 +525,9 @@ namespace ZoneEngine.PacketHandlers
                         cts.ClickBuild();
                         break;
                     }
-                    #endregion
+                #endregion
 
-                    #region Change Visual Flag
+                #region Change Visual Flag
                 case 166:
                     {
                         client.Character.Stats.VisualFlags.Set(unknown3);
@@ -535,27 +535,27 @@ namespace ZoneEngine.PacketHandlers
                         AppearanceUpdate.AnnounceAppearanceUpdate(client.Character);
                         break;
                     }
-                    #endregion
+                #endregion
 
-                    #region Tradeskill Source Changed
+                #region Tradeskill Source Changed
                 case 0xdc:
                     TradeSkillReceiver.TradeSkillSourceChanged(client, unknown2, unknown3);
                     break;
-                    #endregion
+                #endregion
 
-                    #region Tradeskill Target Changed
+                #region Tradeskill Target Changed
                 case 0xdd:
                     TradeSkillReceiver.TradeSkillTargetChanged(client, unknown2, unknown3);
                     break;
-                    #endregion
+                #endregion
 
-                    #region Tradeskill Build Pressed
+                #region Tradeskill Build Pressed
                 case 0xde:
                     TradeSkillReceiver.TradeSkillBuildPressed(client, m_ident.Instance);
                     break;
-                    #endregion
+                #endregion
 
-                    #region default
+                #region default
                 default:
                     {
                         byte[] action = new byte[0x37];
@@ -567,7 +567,7 @@ namespace ZoneEngine.PacketHandlers
                         Announce.Playfield(client.Character.PlayField, action);
                     }
                     break;
-                    #endregion
+                #endregion
             }
             packetReader.Finish();
         }

@@ -331,7 +331,7 @@ namespace ZoneEngine.PacketHandlers
 
             statlist.Add(53); // IP
             uint usedIP = baseIP - (uint)Math.Floor(CalculateIP(client));
-            client.Character.Stats.Ip.StatBaseValue = usedIP;
+            client.Character.Stats.IP.StatBaseValue = usedIP;
 
             // Send the changed stats back to the client
             packetWriter.PushInt(statlist.Count);

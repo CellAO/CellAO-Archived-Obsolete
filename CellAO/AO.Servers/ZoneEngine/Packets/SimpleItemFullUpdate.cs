@@ -28,16 +28,6 @@ namespace ZoneEngine.Packets
 
     public static class SimpleItemFullUpdate
     {
-        public static void UpdateItemsCache(Character character)
-        {
-            int currentSlot = 64;
-
-            while (currentSlot < 109)
-            {
-                currentSlot++;
-            }
-        }
-
         public static void SendPlayField(Client client, VendingMachine vendingMachine, int itemNumber)
         {
             PacketWriter packetWriter = new PacketWriter();

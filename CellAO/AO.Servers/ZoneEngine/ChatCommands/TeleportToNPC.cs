@@ -41,7 +41,7 @@ namespace ZoneEngine.ChatCommands
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
             int id = int.Parse(args[1]);
-            Dynel d = FindDynel.FindDynelByID(50000, id);
+            Dynel d = FindDynel.FindDynelById(50000, id);
             if (d == null)
             {
                 client.SendChatText("Couldn't find Dynel " + id);

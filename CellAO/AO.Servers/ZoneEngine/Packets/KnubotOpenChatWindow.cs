@@ -34,7 +34,7 @@ namespace ZoneEngine.Packets
 
     public static class KnuBotOpenChatWindow
     {
-        public static void Send(Client cli, NonPlayerCharacterClass knubotTarget)
+        public static void Send(Client client, NonPlayerCharacterClass knubotTarget)
         {
             PacketWriter packetWriter = new PacketWriter();
 
@@ -44,9 +44,9 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(cli.Character.ID);
+            packetWriter.PushInt(client.Character.ID);
             packetWriter.PushInt(0x3b132d64);
-            packetWriter.PushIdentity(cli.Character.Type, cli.Character.ID);
+            packetWriter.PushIdentity(client.Character.Type, client.Character.ID);
             packetWriter.PushByte(0);
             packetWriter.PushShort(2);
             packetWriter.PushIdentity(knubotTarget.Type, knubotTarget.ID);
@@ -55,10 +55,10 @@ namespace ZoneEngine.Packets
 
             byte[] packet = packetWriter.Finish();
 
-            cli.SendCompressed(packet);
+            client.SendCompressed(packet);
         }
 
-        public static void Read(byte[] packet, Client client)
+        public static void Read(byte[] packet)
         {
             PacketReader packetReader = new PacketReader(packet);
 
@@ -67,9 +67,9 @@ namespace ZoneEngine.Packets
             packetReader.PopShort();
             int type = packetReader.PopInt();
             int instance = packetReader.PopInt();
-            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelByID(type, instance);
-            Character ch = FindClient.FindClientById(header.Sender).Character;
-            ch.KnuBotTarget = npc;
+            NonPlayerCharacterClass npc = (NonPlayerCharacterClass)FindDynel.FindDynelById(type, instance);
+            Character character = FindClient.FindClientById(header.Sender).Character;
+            character.KnuBotTarget = npc;
         }
     }
 }

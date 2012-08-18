@@ -73,11 +73,11 @@ namespace ZoneEngine
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cli"></param>
-        /// <param name="tosend"></param>
-        public void Broadcast(Client cli, string tosend)
+        /// <param name="client"> </param>
+        /// <param name="toSend"></param>
+        public void Broadcast(Client client, string toSend)
         {
-            Announce.Broadcast(cli, tosend);
+            Announce.Broadcast(client, toSend);
         }
 
         /// <summary>

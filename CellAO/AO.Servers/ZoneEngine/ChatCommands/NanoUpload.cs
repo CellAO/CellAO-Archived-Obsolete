@@ -38,7 +38,7 @@ namespace ZoneEngine.ChatCommands
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
             Client targetClient;
-            if (FindClient.FindClientByName(args[1], out targetClient))
+            if ((targetClient = FindClient.FindClientByName(args[1])) != null)
             {
                 bool hasNano = (this.HasNano(Convert.ToInt32(args[2]), targetClient));
                 if (hasNano == false)

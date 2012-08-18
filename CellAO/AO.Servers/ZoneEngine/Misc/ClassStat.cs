@@ -1259,7 +1259,7 @@ namespace ZoneEngine.Misc
 
         private readonly ClassStat chestFlags = new ClassStat(394, 1234567890, "ChestFlags", false, false, false);
 
-        private readonly ClassStat primaryTemplateID = new ClassStat(
+        private readonly ClassStat primaryTemplateId = new ClassStat(
             395, 1234567890, "PrimaryTemplateID", false, false, false);
 
         private readonly ClassStat numberOfItems = new ClassStat(396, 1234567890, "NumberOfItems", false, false, false);
@@ -1510,13 +1510,13 @@ namespace ZoneEngine.Misc
 
         private readonly ClassStat animSpeed = new ClassStat(502, 1234567890, "AnimSpeed", false, false, false);
 
-        private readonly ClassStat qtKillNumMonsterID1 = new ClassStat(
+        private readonly ClassStat qtKillNumMonsterId1 = new ClassStat(
             503, 1234567890, "QTKillNumMonsterID1", false, false, false);
 
         private readonly ClassStat qtKillNumMonsterCount1 = new ClassStat(
             504, 1234567890, "QTKillNumMonsterCount1", false, false, false);
 
-        private readonly ClassStat qtKillNumMonsterID2 = new ClassStat(
+        private readonly ClassStat qtKillNumMonsterId2 = new ClassStat(
             505, 1234567890, "QTKillNumMonsterID2", false, false, false);
 
         private readonly ClassStat qtKillNumMonsterCount2 = new ClassStat(
@@ -1725,7 +1725,7 @@ namespace ZoneEngine.Misc
 
         private readonly ClassStat regainXPPercentage = new ClassStat(593, 0, "RegainXPPercentage", false, false, false);
 
-        private readonly ClassStat tempSaveTeamID = new ClassStat(594, 0, "TempSaveTeamID", false, false, false);
+        private readonly ClassStat tempSaveTeamId = new ClassStat(594, 0, "TempSaveTeamID", false, false, false);
 
         private readonly ClassStat tempSavePlayfield = new ClassStat(595, 0, "TempSavePlayfield", false, false, false);
 
@@ -1751,7 +1751,7 @@ namespace ZoneEngine.Misc
 
         private readonly ClassStat maxShopItems = new ClassStat(606, 1234567890, "MaxShopItems", false, false, false);
 
-        private readonly ClassStat playerID = new ClassStat(607, 1234567890, "PlayerID", false, true, false);
+        private readonly ClassStat playerId = new ClassStat(607, 1234567890, "PlayerID", false, true, false);
 
         private readonly ClassStat shopRent = new ClassStat(608, 1234567890, "ShopRent", false, false, false);
 
@@ -1864,7 +1864,7 @@ namespace ZoneEngine.Misc
 
         private readonly ClassStat shopIndex = new ClassStat(656, 1234567890, "ShopIndex", false, false, false);
 
-        private readonly ClassStat shopID = new ClassStat(657, 1234567890, "ShopID", false, false, false);
+        private readonly ClassStat shopId = new ClassStat(657, 1234567890, "ShopID", false, false, false);
 
         private readonly ClassStat isVehicle = new ClassStat(658, 1234567890, "IsVehicle", false, false, false);
 
@@ -1927,13 +1927,13 @@ namespace ZoneEngine.Misc
 
         private readonly ClassStat acgItemLevel = new ClassStat(701, 1234567890, "ACGItemLevel", false, false, false);
 
-        private readonly ClassStat acgItemTemplateID = new ClassStat(
+        private readonly ClassStat acgItemTemplateId = new ClassStat(
             702, 1234567890, "ACGItemTemplateID", false, false, false);
 
-        private readonly ClassStat acgItemTemplateID2 = new ClassStat(
+        private readonly ClassStat acgItemTemplateId2 = new ClassStat(
             703, 1234567890, "ACGItemTemplateID2", false, false, false);
 
-        private readonly ClassStat acgItemCategoryID = new ClassStat(
+        private readonly ClassStat acgItemCategoryId = new ClassStat(
             704, 1234567890, "ACGItemCategoryID", false, false, false);
 
         private readonly ClassStat hasKnuBotData = new ClassStat(768, 1234567890, "HasKnuBotData", false, false, false);
@@ -1953,7 +1953,7 @@ namespace ZoneEngine.Misc
         private readonly ClassStat targetDistanceChange = new ClassStat(
             889, 1234567890, "TargetDistanceChange", false, false, false);
 
-        private readonly ClassStat tideRequiredDynelID = new ClassStat(
+        private readonly ClassStat tideRequiredDynelId = new ClassStat(
             900, 1234567890, "TideRequiredDynelID", false, false, false);
 
         private readonly ClassStat streamCheckMagic = new ClassStat(
@@ -2403,7 +2403,7 @@ namespace ZoneEngine.Misc
             this.all.Add(this.oldTimeExist);
             this.all.Add(this.resistModifier);
             this.all.Add(this.chestFlags);
-            this.all.Add(this.primaryTemplateID);
+            this.all.Add(this.primaryTemplateId);
             this.all.Add(this.numberOfItems);
             this.all.Add(this.selectedTargetType);
             this.all.Add(this.corpseHash);
@@ -2511,9 +2511,9 @@ namespace ZoneEngine.Misc
             this.all.Add(this.animPos);
             this.all.Add(this.animPlay);
             this.all.Add(this.animSpeed);
-            this.all.Add(this.qtKillNumMonsterID1);
+            this.all.Add(this.qtKillNumMonsterId1);
             this.all.Add(this.qtKillNumMonsterCount1);
-            this.all.Add(this.qtKillNumMonsterID2);
+            this.all.Add(this.qtKillNumMonsterId2);
             this.all.Add(this.qtKillNumMonsterCount2);
             this.all.Add(this.qtKillNumMonsterID3);
             this.all.Add(this.qtKillNumMonsterCount3);
@@ -2602,7 +2602,7 @@ namespace ZoneEngine.Misc
             this.all.Add(this.districtNanoInterval);
             this.all.Add(this.unsavedXP);
             this.all.Add(this.regainXPPercentage);
-            this.all.Add(this.tempSaveTeamID);
+            this.all.Add(this.tempSaveTeamId);
             this.all.Add(this.tempSavePlayfield);
             this.all.Add(this.tempSaveX);
             this.all.Add(this.tempSaveY);
@@ -2615,7 +2615,7 @@ namespace ZoneEngine.Misc
             this.all.Add(this.npLevelUp);
             this.all.Add(this.npPerSkill);
             this.all.Add(this.maxShopItems);
-            this.all.Add(this.playerID);
+            this.all.Add(this.playerId);
             this.all.Add(this.shopRent);
             this.all.Add(this.synergyHash);
             this.all.Add(this.shopFlags);
@@ -2659,7 +2659,7 @@ namespace ZoneEngine.Misc
             this.all.Add(this.advantageHash4);
             this.all.Add(this.advantageHash5);
             this.all.Add(this.shopIndex);
-            this.all.Add(this.shopID);
+            this.all.Add(this.shopId);
             this.all.Add(this.isVehicle);
             this.all.Add(this.damageToNano);
             this.all.Add(this.accountFlags);
@@ -2688,16 +2688,16 @@ namespace ZoneEngine.Misc
             this.all.Add(this.pvpDuelScore);
             this.all.Add(this.acgItemSeed);
             this.all.Add(this.acgItemLevel);
-            this.all.Add(this.acgItemTemplateID);
-            this.all.Add(this.acgItemTemplateID2);
-            this.all.Add(this.acgItemCategoryID);
+            this.all.Add(this.acgItemTemplateId);
+            this.all.Add(this.acgItemTemplateId2);
+            this.all.Add(this.acgItemCategoryId);
             this.all.Add(this.hasKnuBotData);
             this.all.Add(this.questBoothDifficulty);
             this.all.Add(this.questAsMinimumRange);
             this.all.Add(this.questAsMaximumRange);
             this.all.Add(this.visualLodLevel);
             this.all.Add(this.targetDistanceChange);
-            this.all.Add(this.tideRequiredDynelID);
+            this.all.Add(this.tideRequiredDynelId);
             this.all.Add(this.streamCheckMagic);
             this.all.Add(this.objectType);
             this.all.Add(this.instance);
@@ -3449,7 +3449,7 @@ namespace ZoneEngine.Misc
             #region Setting our special stats to 'dontwriteme'-mode
             this.expansion.DoNotDontWriteToSql = true;
             this.accountFlags.DoNotDontWriteToSql = true;
-            this.playerID.DoNotDontWriteToSql = true;
+            this.playerId.DoNotDontWriteToSql = true;
             this.professionLevel.DoNotDontWriteToSql = true;
             this.gmLevel.DoNotDontWriteToSql = true;
             this.objectType.DoNotDontWriteToSql = true;
@@ -3777,7 +3777,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat AlienXp
+        public ClassStat AlienXP
         {
             get
             {
@@ -3873,7 +3873,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat Xp
+        public ClassStat XP
         {
             get
             {
@@ -3881,7 +3881,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public StatIP Ip
+        public StatIP IP
         {
             get
             {
@@ -3913,7 +3913,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat LastXp
+        public ClassStat LastXP
         {
             get
             {
@@ -4177,7 +4177,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat ProjectileAc
+        public ClassStat ProjectileAC
         {
             get
             {
@@ -4185,7 +4185,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat MeleeAc
+        public ClassStat MeleeAC
         {
             get
             {
@@ -4193,7 +4193,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat EnergyAc
+        public ClassStat EnergyAC
         {
             get
             {
@@ -4201,7 +4201,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat ChemicalAc
+        public ClassStat ChemicalAC
         {
             get
             {
@@ -4209,7 +4209,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat RadiationAc
+        public ClassStat RadiationAC
         {
             get
             {
@@ -4217,7 +4217,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat ColdAc
+        public ClassStat ColdAC
         {
             get
             {
@@ -4225,7 +4225,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat PoisonAc
+        public ClassStat PoisonAC
         {
             get
             {
@@ -4233,7 +4233,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat FireAc
+        public ClassStat FireAC
         {
             get
             {
@@ -4521,7 +4521,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public StatSkill LrEnergyWeapon
+        public StatSkill LREnergyWeapon
         {
             get
             {
@@ -4529,7 +4529,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public StatSkill LrMultipleWeapon
+        public StatSkill LRMultipleWeapon
         {
             get
             {
@@ -4801,7 +4801,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public StatSkill NanoAc
+        public StatSkill NanoAC
         {
             get
             {
@@ -4881,7 +4881,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public StatAlienNextXP AlienNextXp
+        public StatAlienNextXP AlienNextXP
         {
             get
             {
@@ -5049,7 +5049,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat Rp
+        public ClassStat RP
         {
             get
             {
@@ -5097,7 +5097,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat ReflectProjectileAc
+        public ClassStat ReflectProjectileAC
         {
             get
             {
@@ -5105,7 +5105,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat ReflectMeleeAc
+        public ClassStat ReflectMeleeAC
         {
             get
             {
@@ -5113,7 +5113,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat ReflectEnergyAc
+        public ClassStat ReflectEnergyAC
         {
             get
             {
@@ -5177,7 +5177,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat GmLevel
+        public ClassStat GMLevel
         {
             get
             {
@@ -5657,7 +5657,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat XpKillRange
+        public ClassStat XPKillRange
         {
             get
             {
@@ -6009,7 +6009,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat XpModifier
+        public ClassStat XPModifier
         {
             get
             {
@@ -6129,7 +6129,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat SavedXp
+        public ClassStat SavedXP
         {
             get
             {
@@ -6185,7 +6185,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat XpBonus
+        public ClassStat XPBonus
         {
             get
             {
@@ -6257,7 +6257,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public StatNextXP NextXp
+        public StatNextXP NextXP
         {
             get
             {
@@ -6433,7 +6433,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat LastSaveXp
+        public ClassStat LastSaveXP
         {
             get
             {
@@ -6505,7 +6505,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat RangeIncreaserNf
+        public ClassStat RangeIncreaserNF
         {
             get
             {
@@ -6617,11 +6617,11 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat PrimaryTemplateID
+        public ClassStat PrimaryTemplateId
         {
             get
             {
-                return this.primaryTemplateID;
+                return this.primaryTemplateId;
             }
         }
 
@@ -7129,7 +7129,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat OdMinSizeAdd
+        public ClassStat ODMinSizeAdd
         {
             get
             {
@@ -7161,7 +7161,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat OdMaxSizeAdd
+        public ClassStat ODMaxSizeAdd
         {
             get
             {
@@ -7433,7 +7433,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat QtDungeonInstance
+        public ClassStat QTDungeonInstance
         {
             get
             {
@@ -7441,7 +7441,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat QtNumMonsters
+        public ClassStat QTNumMonsters
         {
             get
             {
@@ -7449,7 +7449,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat QtKilledMonsters
+        public ClassStat QTKilledMonsters
         {
             get
             {
@@ -7481,15 +7481,15 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat QtKillNumMonsterID1
+        public ClassStat QTKillNumMonsterId1
         {
             get
             {
-                return this.qtKillNumMonsterID1;
+                return this.qtKillNumMonsterId1;
             }
         }
 
-        public ClassStat QtKillNumMonsterCount1
+        public ClassStat QTKillNumMonsterCount1
         {
             get
             {
@@ -7497,15 +7497,15 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat QtKillNumMonsterID2
+        public ClassStat QTKillNumMonsterId2
         {
             get
             {
-                return this.qtKillNumMonsterID2;
+                return this.qtKillNumMonsterId2;
             }
         }
 
-        public ClassStat QtKillNumMonsterCount2
+        public ClassStat QTKillNumMonsterCount2
         {
             get
             {
@@ -7513,7 +7513,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat QtKillNumMonsterID3
+        public ClassStat QTKillNumMonsterId3
         {
             get
             {
@@ -7521,7 +7521,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat QtKillNumMonsterCount3
+        public ClassStat QTKillNumMonsterCount3
         {
             get
             {
@@ -7881,7 +7881,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat ProcNano2e
+        public ClassStat ProcNano2
         {
             get
             {
@@ -7937,7 +7937,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat OtArmedForces
+        public ClassStat OTArmedForces
         {
             get
             {
@@ -7953,7 +7953,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat OtMed
+        public ClassStat OTMed
         {
             get
             {
@@ -7969,7 +7969,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat OtTrans
+        public ClassStat OTTrans
         {
             get
             {
@@ -7993,7 +7993,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat OtFollowers
+        public ClassStat OTFollowers
         {
             get
             {
@@ -8001,7 +8001,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat OtOperator
+        public ClassStat OTOperator
         {
             get
             {
@@ -8009,7 +8009,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat OtUnredeemed
+        public ClassStat OTUnredeemed
         {
             get
             {
@@ -8041,7 +8041,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat Sk
+        public ClassStat SK
         {
             get
             {
@@ -8049,7 +8049,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat LastSk
+        public ClassStat LastSK
         {
             get
             {
@@ -8057,7 +8057,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public StatNextSK NextSk
+        public StatNextSK NextSK
         {
             get
             {
@@ -8193,7 +8193,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat UnsavedXp
+        public ClassStat UnsavedXP
         {
             get
             {
@@ -8201,7 +8201,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat RegainXpPercentage
+        public ClassStat RegainXPPercentage
         {
             get
             {
@@ -8209,11 +8209,11 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat TempSaveTeamID
+        public ClassStat TempSaveTeamId
         {
             get
             {
-                return this.tempSaveTeamID;
+                return this.tempSaveTeamId;
             }
         }
 
@@ -8265,7 +8265,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat HpLevelUp
+        public ClassStat HPLevelUp
         {
             get
             {
@@ -8273,7 +8273,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat HpPerSkill
+        public ClassStat HPPerSkill
         {
             get
             {
@@ -8281,7 +8281,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat NewbieNp
+        public ClassStat NewbieNP
         {
             get
             {
@@ -8289,7 +8289,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat NpLevelUp
+        public ClassStat NPLevelUp
         {
             get
             {
@@ -8297,7 +8297,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat NpPerSkill
+        public ClassStat NPPerSkill
         {
             get
             {
@@ -8313,11 +8313,11 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat PlayerID
+        public ClassStat PlayerId
         {
             get
             {
-                return this.playerID;
+                return this.playerId;
             }
         }
 
@@ -8665,11 +8665,11 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat ShopID
+        public ClassStat ShopId
         {
             get
             {
-                return this.shopID;
+                return this.shopId;
             }
         }
 
@@ -8897,27 +8897,27 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat AcgItemTemplateID
+        public ClassStat AcgItemTemplateId
         {
             get
             {
-                return this.acgItemTemplateID;
+                return this.acgItemTemplateId;
             }
         }
 
-        public ClassStat AcgItemTemplateID2
+        public ClassStat AcgItemTemplateId2
         {
             get
             {
-                return this.acgItemTemplateID2;
+                return this.acgItemTemplateId2;
             }
         }
 
-        public ClassStat AcgItemCategoryID
+        public ClassStat AcgItemCategoryId
         {
             get
             {
-                return this.acgItemCategoryID;
+                return this.acgItemCategoryId;
             }
         }
 
@@ -8969,11 +8969,11 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat TideRequiredDynelID
+        public ClassStat TideRequiredDynelId
         {
             get
             {
-                return this.tideRequiredDynelID;
+                return this.tideRequiredDynelId;
             }
         }
 

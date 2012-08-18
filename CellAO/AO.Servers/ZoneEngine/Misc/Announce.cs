@@ -34,9 +34,9 @@ namespace ZoneEngine.Misc
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="playfield"></param>
+        /// <param name="sendToPlayfield"></param>
         /// <param name="data"></param>
-        public static void Playfield(int playfield, byte[] data)
+        public static void Playfield(int sendToPlayfield, byte[] data)
         {
             lock (Program.zoneServer.Clients)
             {
@@ -44,7 +44,7 @@ namespace ZoneEngine.Misc
                 {
                     Client tempClient = (Client)Program.zoneServer.Clients[i];
 
-                    if (tempClient.Character.PlayField != playfield)
+                    if (tempClient.Character.PlayField != sendToPlayfield)
                     {
                         continue;
                     }
@@ -85,14 +85,13 @@ namespace ZoneEngine.Misc
         /// <summary>
         /// NPC's send their stats to playfield too
         /// </summary>
-        /// <param name="playfield
-        /// "></param>
+        /// <param name="sendToPlayfield"> </param>
         /// <param name="data"></param>
-        public static void PlayfieldOthers(int playfield, Byte[] data)
+        public static void PlayfieldOthers(int sendToPlayfield, Byte[] data)
         {
             foreach (Client tempClient in Program.zoneServer.Clients)
             {
-                if ((tempClient.Character.PlayField != playfield))
+                if ((tempClient.Character.PlayField != sendToPlayfield))
                 {
                     continue;
                 }
@@ -157,9 +156,12 @@ namespace ZoneEngine.Misc
         /// <param name="message">...</param>
         public static void Broadcast(Client client, string message)
         {
-            foreach (Client tempClient in client.Server.Clients)
+            lock (client.Server.Clients)
             {
-                tempClient.SendChatText("System Message: " + message);
+                foreach (Client tempClient in client.Server.Clients)
+                {
+                    tempClient.SendChatText("System Message: " + message);
+                }
             }
         }
     }

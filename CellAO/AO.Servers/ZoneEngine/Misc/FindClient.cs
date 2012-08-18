@@ -55,27 +55,6 @@ namespace ZoneEngine.Misc
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="client"></param>
-        /// <returns></returns>
-        public static bool FindClientById(int id, out Client client)
-        {
-            foreach (Client client1 in Program.zoneServer.Clients)
-            {
-                if (client1.Character.ID != id)
-                {
-                    continue;
-                }
-                client = client1;
-                return true;
-            }
-            client = null;
-            return false;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public static Client FindClientByName(string name)
@@ -89,27 +68,6 @@ namespace ZoneEngine.Misc
                 return client;
             }
             return null;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="client"></param>
-        /// <returns></returns>
-        public static bool FindClientByName(string name, out Client client)
-        {
-            foreach (Client client1 in Program.zoneServer.Clients)
-            {
-                if (client1.Character.Name.ToLower() != name.ToLower())
-                {
-                    continue;
-                }
-                client = client1;
-                return true;
-            }
-            client = null;
-            return false;
         }
 
         /// <summary>
@@ -129,27 +87,6 @@ namespace ZoneEngine.Misc
                 clientList.Add(client);
             }
             return clientList;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pf"></param>
-        /// <param name="clients"></param>
-        /// <returns></returns>
-        public static bool FindClientsByPlayfield(int pf, out List<Client> clients)
-        {
-            List<Client> clientList = new List<Client>();
-            foreach (Client client in Program.zoneServer.Clients)
-            {
-                if (client.Character.PlayField != pf)
-                {
-                    continue;
-                }
-                clientList.Add(client);
-            }
-            clients = clientList;
-            return clientList.Count >= 1;
         }
 
         /// <summary>

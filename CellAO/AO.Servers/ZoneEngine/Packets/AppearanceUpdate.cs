@@ -51,6 +51,7 @@ namespace ZoneEngine.Packets
 
             bool socialonly;
             bool showsocial;
+            /*
             bool showhelmet;
             bool LeftPadVisible;
             bool RightPadVisible;
@@ -67,11 +68,12 @@ namespace ZoneEngine.Packets
 
             int BackMeshValue;
             int ShoulderMeshRightValue;
+             */
             //int ShoulderMeshRightValue;
 
             int VisualFlags;
             int PlayField;
-
+            /*
             int OverrideTextureHead;
             int OverrideTextureWeaponRight;
             int OverrideTextureWeaponLeft;
@@ -79,7 +81,7 @@ namespace ZoneEngine.Packets
             int OverrideTextureShoulderpadLeft;
             int OverrideTextureBack;
             int OverrideTextureAttractor;
-
+            */
             List<AOTextures> textures = new List<AOTextures>();
 
             Dictionary<int, int> socialTab = new Dictionary<int, int>();
@@ -90,6 +92,7 @@ namespace ZoneEngine.Packets
 
                 socialonly = ((character.Stats.VisualFlags.Value & 0x40) > 0);
                 showsocial = ((character.Stats.VisualFlags.Value & 0x20) > 0);
+                /*
                 showhelmet = ((character.Stats.VisualFlags.Value & 0x4) > 0);
                 LeftPadVisible = ((character.Stats.VisualFlags.Value & 0x1) > 0);
                 RightPadVisible = ((character.Stats.VisualFlags.Value & 0x2) > 0);
@@ -107,8 +110,9 @@ namespace ZoneEngine.Packets
 
                 BackMeshValue = character.Stats.BackMesh.Value;
                 ShoulderMeshRightValue = character.Stats.ShoulderMeshRight.Value;
+                 */
                 //ShoulderMeshLeftValue = character.Stats.ShoulderMeshLeft.Value;
-
+                /*
                 OverrideTextureHead = character.Stats.OverrideTextureHead.Value;
                 OverrideTextureWeaponRight = character.Stats.OverrideTextureWeaponRight.Value;
                 OverrideTextureWeaponLeft = character.Stats.OverrideTextureWeaponLeft.Value;
@@ -116,7 +120,7 @@ namespace ZoneEngine.Packets
                 OverrideTextureShoulderpadLeft = character.Stats.OverrideTextureShoulderpadLeft.Value;
                 OverrideTextureBack = character.Stats.OverrideTextureBack.Value;
                 OverrideTextureAttractor = character.Stats.OverrideTextureAttractor.Value;
-
+                */
                 PlayField = character.PlayField;
 
                 foreach (int num in character.SocialTab.Keys)

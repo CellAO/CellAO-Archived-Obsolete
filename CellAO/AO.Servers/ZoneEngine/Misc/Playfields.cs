@@ -43,7 +43,7 @@ namespace ZoneEngine.Misc
 
         #region XML
         // Generally this shouldn't be used outside of the static constructor
-        public static List<DistrictInfo> LoadXML(string fileName)
+        public static List<DistrictInfo> LoadXml(string fileName)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<DistrictInfo>), new XmlRootAttribute("Districts"));
             TextReader reader = new StreamReader(fileName);
@@ -53,17 +53,17 @@ namespace ZoneEngine.Misc
         }
 
         // This really should only be used for development. Included for completeness.
-        public static void DumpXML(string fileName, PlayfieldInfo pfInfo)
+        public static void DumpXml(string fileName, PlayfieldInfo pfInfo)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<DistrictInfo>), new XmlRootAttribute("Districts"));
             XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
             xsn.Add(String.Empty, String.Empty);
             MemoryStream stream = new MemoryStream();
-            serializer.Serialize(stream, pfInfo.districts, xsn);
+            serializer.Serialize(stream, pfInfo.Districts, xsn);
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(Encoding.ASCII.GetString(stream.GetBuffer()));
             stream.Dispose();
-            xmlDoc.DocumentElement.SetAttribute("Playfield", pfInfo.id.ToString());
+            xmlDoc.DocumentElement.SetAttribute("Playfield", pfInfo.PlayfieldId.ToString());
             xmlDoc.Save(fileName);
         }
 
@@ -73,7 +73,7 @@ namespace ZoneEngine.Misc
             fileName = Path.Combine(fileName, pf + ".xml");
             if (File.Exists(fileName))
             {
-                return LoadXML(fileName);
+                return LoadXml(fileName);
             }
             else
             {
@@ -83,16 +83,64 @@ namespace ZoneEngine.Misc
         #endregion
 
         [XmlElement("Name")]
-        public string districtName = "Nameless District";
+        private string districtName = "Nameless District";
 
         [XmlAttribute("MinLevel")]
-        public int minLevel;
+        private int minLevel;
 
         [XmlAttribute("MaxLevel")]
-        public int maxLevel;
+        private int maxLevel;
 
         [XmlAttribute("SuppressionGas")]
-        public int suppressionGas = 100;
+        private int suppressionGas = 100;
+
+        public string DistrictName
+        {
+            get
+            {
+                return districtName;
+            }
+            set
+            {
+                districtName = value;
+            }
+        }
+
+        public int MinLevel
+        {
+            get
+            {
+                return this.minLevel;
+            }
+            set
+            {
+                this.minLevel = value;
+            }
+        }
+
+        public int MaxLevel
+        {
+            get
+            {
+                return this.maxLevel;
+            }
+            set
+            {
+                this.maxLevel = value;
+            }
+        }
+
+        public int SuppressionGas
+        {
+            get
+            {
+                return this.suppressionGas;
+            }
+            set
+            {
+                this.suppressionGas = value;
+            }
+        }
     }
     #endregion
 
@@ -109,78 +157,162 @@ namespace ZoneEngine.Misc
          * 
          */
 
-        #region Constructor
-        #endregion
-
         /// <summary>
         /// Playfield ID number
         /// </summary>
         [XmlAttribute("id")]
-        public int id
+        public int PlayfieldId
         {
             get
             {
-                return this._id;
+                return this.playfieldId;
             }
             set
             {
-                this._id = value;
+                this.playfieldId = value;
 
-                this.districts = DistrictInfo.LoadDistricts(this._id);
+                this.districts = DistrictInfo.LoadDistricts(this.playfieldId);
             }
         }
 
-        private int _id;
+        private int playfieldId;
 
         /// <summary>
         /// Name of playfield
         /// </summary>
         [XmlElement("Name")]
-        public string name = string.Empty;
+        private string playfieldName = string.Empty;
 
         /// <summary>
         /// What expansion(s) are required to be in this Playfield.
         /// Bits have the same meaning as the Expansions stat. More than one can be set.
         /// </summary>
         [XmlAttribute("expansion")]
-        public int expansion;
+        public int Expansion { get; set; }
 
         /// <summary>
         /// If the Playfield is disabled or not
         /// </summary>
         [XmlAttribute("disabled")]
-        public bool disabled;
+        public bool Disabled { get; set; }
+
+        /// <summary>
+        /// Playfield X coordinate
+        /// </summary>
+        public int X
+        {
+            get
+            {
+                return this.x;
+            }
+            set
+            {
+                this.x = value;
+            }
+        }
+
+        /// <summary>
+        /// Scale X
+        /// </summary>
+        public float XScale
+        {
+            get
+            {
+                return this.xScale;
+            }
+            set
+            {
+                this.xScale = value;
+            }
+        }
+
+        /// <summary>
+        /// Playfield Z coordinate
+        /// </summary>
+        public int Z
+        {
+            get
+            {
+                return this.z;
+            }
+            set
+            {
+                this.z = value;
+            }
+        }
+
+        /// <summary>
+        /// Scale Z
+        /// </summary>
+        public float ZScale
+        {
+            get
+            {
+                return this.zScale;
+            }
+            set
+            {
+                this.zScale = value;
+            }
+        }
+
+        /// <summary>
+        /// DistrictInfo
+        /// </summary>
+        //[XmlElement("District")]
+        public List<DistrictInfo> Districts
+        {
+            get
+            {
+                return this.districts;
+            }
+        }
+
+        /// <summary>
+        /// Name of playfield
+        /// </summary>
+        public string PlayfieldName
+        {
+            get
+            {
+                return playfieldName;
+            }
+            set
+            {
+                playfieldName = value;
+            }
+        }
 
         /// <summary>
         /// Playfield X coordinate
         /// </summary>
         [XmlAttribute("x")]
-        public int x = 100000;
+        private int x = 100000;
 
         /// <summary>
         /// Scale X
         /// </summary>
         [XmlAttribute("xscale")]
-        public Single xscale = 1.0f;
+        private Single xScale = 1.0f;
 
         /// <summary>
         /// Playfield Z coordinate
         /// </summary>
         [XmlAttribute("z")]
-        public int z = 100000;
+        private int z = 100000;
 
         /// <summary>
         /// Scale Z
         /// </summary>
         [XmlAttribute("zscale")]
-        public Single zscale = 1.0f;
+        private Single zScale = 1.0f;
 
         /// <summary>
         /// DistrictInfo
         /// </summary>
         //[XmlElement("District")]
         [XmlIgnore]
-        public List<DistrictInfo> districts;
+        private List<DistrictInfo> districts;
     }
     #endregion
 
@@ -202,6 +334,17 @@ namespace ZoneEngine.Misc
         static Playfields()
         {
             Instance = LoadXml(Path.Combine("XML Data", "Playfields.xml"));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<PlayfieldInfo> PlayfieldInfos
+        {
+            get
+            {
+                return this.playfieldInfos;
+            }
         }
         #endregion
 
@@ -232,7 +375,7 @@ namespace ZoneEngine.Misc
         /// 
         /// </summary>
         [XmlElement("Playfield")]
-        public List<PlayfieldInfo> playfields;
+        private List<PlayfieldInfo> playfieldInfos;
 
         /// <summary>
         /// 
@@ -241,11 +384,11 @@ namespace ZoneEngine.Misc
         /// <returns></returns>
         public static int PlayfieldNameToPlayfieldId(string playfieldName)
         {
-            foreach (PlayfieldInfo pfInfo in Instance.playfields)
+            foreach (PlayfieldInfo pfInfo in Instance.playfieldInfos)
             {
-                if (pfInfo.name == playfieldName)
+                if (pfInfo.PlayfieldName == playfieldName)
                 {
-                    return pfInfo.id;
+                    return pfInfo.PlayfieldId;
                 }
             }
 
@@ -259,11 +402,11 @@ namespace ZoneEngine.Misc
         /// <returns></returns>
         public static string PlayfieldIdToPlayfieldName(int playfieldId)
         {
-            foreach (PlayfieldInfo pfInfo in Instance.playfields)
+            foreach (PlayfieldInfo pfInfo in Instance.playfieldInfos)
             {
-                if (pfInfo.id == playfieldId)
+                if (pfInfo.PlayfieldId == playfieldId)
                 {
-                    return pfInfo.name;
+                    return pfInfo.PlayfieldName;
                 }
             }
 
@@ -277,11 +420,11 @@ namespace ZoneEngine.Misc
         /// <returns></returns>
         public static bool ValidPlayfield(int playfieldId)
         {
-            foreach (PlayfieldInfo pfInfo in Instance.playfields)
+            foreach (PlayfieldInfo pfInfo in Instance.playfieldInfos)
             {
-                if (pfInfo.id == playfieldId)
+                if (pfInfo.PlayfieldId == playfieldId)
                 {
-                    return !pfInfo.disabled;
+                    return !pfInfo.Disabled;
                 }
             }
 
@@ -295,11 +438,11 @@ namespace ZoneEngine.Misc
         /// <returns></returns>
         public static bool ValidPlayfield(string playfieldName)
         {
-            foreach (PlayfieldInfo pfInfo in Instance.playfields)
+            foreach (PlayfieldInfo pfInfo in Instance.playfieldInfos)
             {
-                if (pfInfo.name == playfieldName)
+                if (pfInfo.PlayfieldName == playfieldName)
                 {
-                    return !pfInfo.disabled;
+                    return !pfInfo.Disabled;
                 }
             }
 
@@ -309,11 +452,11 @@ namespace ZoneEngine.Misc
         #region GetPlayfield Coords (needed for playfieldanarchyf packet)
         public static int GetPlayfieldX(int playfieldNumber)
         {
-            foreach (PlayfieldInfo pfInfo in Instance.playfields)
+            foreach (PlayfieldInfo pfInfo in Instance.playfieldInfos)
             {
-                if (pfInfo.id == playfieldNumber)
+                if (pfInfo.PlayfieldId == playfieldNumber)
                 {
-                    return pfInfo.x;
+                    return pfInfo.X;
                 }
             }
 
@@ -322,11 +465,11 @@ namespace ZoneEngine.Misc
 
         public static int GetPlayfieldZ(int playfieldNumber)
         {
-            foreach (PlayfieldInfo pfInfo in Instance.playfields)
+            foreach (PlayfieldInfo pfInfo in Instance.playfieldInfos)
             {
-                if (pfInfo.id == playfieldNumber)
+                if (pfInfo.PlayfieldId == playfieldNumber)
                 {
-                    return pfInfo.z;
+                    return pfInfo.Z;
                 }
             }
 

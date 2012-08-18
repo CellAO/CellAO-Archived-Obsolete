@@ -45,12 +45,13 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(1);
             byte[] packet = packetWriter.Finish();
 
-            Dynel dyn = FindDynel.FindDynelByID(50000, targetId);
+            Dynel dyn = FindDynel.FindDynelById(50000, targetId);
             if (dyn != null)
             {
-                if (dyn is NonPlayerCharacterClass)
+                NonPlayerCharacterClass npc = dyn as NonPlayerCharacterClass;
+                if (npc != null)
                 {
-                    (dyn as NonPlayerCharacterClass).RemoveFromCache();
+                    npc.RemoveFromCache();
                 }
                 Announce.PlayfieldOthers(dyn.PlayField, packet);
             }

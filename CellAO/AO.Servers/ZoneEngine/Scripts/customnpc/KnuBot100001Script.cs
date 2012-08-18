@@ -65,7 +65,7 @@ namespace ZonEngine.Script.customnpcs
         // The Character parameter is not used here, but has to be defined (yet)
         public void Init(Character ch)
         {
-            NonPlayerCharacterClass target = (NonPlayerCharacterClass)FindDynel.FindDynelByID(50000, 100001);
+            NonPlayerCharacterClass target = (NonPlayerCharacterClass)FindDynel.FindDynelById(50000, 100001);
             if (target != null)
             {
                 target.KnuBot = new KnuBotNPC100001(target);

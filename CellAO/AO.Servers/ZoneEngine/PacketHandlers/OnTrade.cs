@@ -49,9 +49,9 @@ namespace ZoneEngine.PacketHandlers
             int container = reader.PopInt();
             int place = reader.PopInt();
 
-            Character character = (Character)FindDynel.FindDynelByID(ident.Type, ident.Instance);
+            Character character = (Character)FindDynel.FindDynelById(ident.Type, ident.Instance);
             Character chaffected =
-                (Character)FindDynel.FindDynelByID(header.AffectedId.Type, header.AffectedId.Instance);
+                (Character)FindDynel.FindDynelById(header.AffectedId.Type, header.AffectedId.Instance);
 
             // If target is a NPC, call its Action 0
             if ((character is NonPlayerCharacterClass) && (action == 0))

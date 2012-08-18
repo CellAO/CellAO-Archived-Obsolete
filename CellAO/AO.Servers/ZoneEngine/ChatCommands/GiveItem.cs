@@ -41,11 +41,11 @@ namespace ZoneEngine.ChatCommands
     {
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
-            Client mClient = null;
-            if (FindClient.FindClientByName(args[1], out mClient))
+            Client targetClient = null;
+            if ((targetClient = FindClient.FindClientByName(args[1])) != null)
             {
                 int firstfree = 64;
-                firstfree = mClient.Character.GetNextFreeInventory(104);
+                firstfree = targetClient.Character.GetNextFreeInventory(104);
                 if (firstfree <= 93)
                 {
                     InventoryEntries mi = new InventoryEntries();
@@ -80,8 +80,8 @@ namespace ZoneEngine.ChatCommands
                             mi.Item.Stats.Add(aoi);
                         }
                     }
-                    mClient.Character.Inventory.Add(mi);
-                    AddTemplate.Send(mClient, mi);
+                    targetClient.Character.Inventory.Add(mi);
+                    AddTemplate.Send(targetClient, mi);
                 }
                 else
                 {
