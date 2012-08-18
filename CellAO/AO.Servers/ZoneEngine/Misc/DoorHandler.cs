@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings..
-
 #endregion
 
 namespace ZoneEngine.Misc
@@ -127,8 +126,7 @@ namespace ZoneEngine.Misc
                     z = cli.Character.Coordinates.z - door.Coordinates.z
                 };
             Quaternion q = new Quaternion(a.x, a.y, a.z, 0);
-            cli.SendChatText(
-                string.Format("Door {0} Heading now: {1} {2} {3} {4}", door.ID, q.x, q.y, q.z, q.w));
+            cli.SendChatText(string.Format("Door {0} Heading now: {1} {2} {3} {4}", door.ID, q.x, q.y, q.z, q.w));
             ms.SqlUpdate(
                 "UPDATE doors SET HX=" + String.Format(CultureInfo.InvariantCulture, "'{0}'", q.x) + ", HY="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", q.y) + ", HZ="

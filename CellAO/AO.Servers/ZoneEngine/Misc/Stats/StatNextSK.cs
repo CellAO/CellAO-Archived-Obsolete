@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Misc
@@ -32,7 +31,8 @@ namespace ZoneEngine.Misc
 
     public class StatNextSK : ClassStat
     {
-        public StatNextSK(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        public StatNextSK(
+            int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;

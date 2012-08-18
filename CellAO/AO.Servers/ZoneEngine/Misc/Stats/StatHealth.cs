@@ -29,7 +29,8 @@ namespace ZoneEngine.Misc
 {
     public class StatHealth : ClassStat
     {
-        public StatHealth(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        public StatHealth(
+            int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;
@@ -85,7 +86,10 @@ namespace ZoneEngine.Misc
                     Set(
                         breedBaseHitPoints[breed - 1]
                         +
-                        (character.Stats.Level.Value * (tableProfessionHitPoints[titleLevel - 1, profession - 1] + breedModificatorHitPoints[breed - 1]))
+                        (character.Stats.Level.Value
+                         *
+                         (tableProfessionHitPoints[titleLevel - 1, profession - 1]
+                          + breedModificatorHitPoints[breed - 1]))
                         + (character.Stats.BodyDevelopment.Value * breedMultiplicatorHitPoints[breed - 1]));
                 }
 

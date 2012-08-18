@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Functions
@@ -112,7 +111,10 @@ namespace ZoneEngine.Functions
                 ret.Coordinates.z = (l.LineStartPoint.Z + l.LineEndPoint.Z) / 2;
                 // TODO: Calculate the right Quaternion for the heading...
                 // - Algorithman
-                Quaternion q = new Quaternion(new Vector3((l.LineEndPoint.X - l.LineStartPoint.X), 1, -(l.LineEndPoint.Z - l.LineStartPoint.Z)));
+                Quaternion q =
+                    new Quaternion(
+                        new Vector3(
+                            (l.LineEndPoint.X - l.LineStartPoint.X), 1, -(l.LineEndPoint.Z - l.LineStartPoint.Z)));
                 ret.Heading.x = q.x;
                 ret.Heading.y = q.y;
                 ret.Heading.z = q.z;

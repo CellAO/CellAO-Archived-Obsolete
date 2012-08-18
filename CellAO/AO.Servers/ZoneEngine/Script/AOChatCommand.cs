@@ -23,11 +23,9 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 #region NameSpace
-
 namespace ZoneEngine.Script
 {
     using System;

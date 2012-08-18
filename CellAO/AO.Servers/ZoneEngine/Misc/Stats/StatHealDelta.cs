@@ -28,7 +28,8 @@ namespace ZoneEngine.Misc
 
     public class StatHealDelta : ClassStat
     {
-        public StatHealDelta(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        public StatHealDelta(
+            int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;

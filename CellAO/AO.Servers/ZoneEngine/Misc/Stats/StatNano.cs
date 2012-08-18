@@ -26,7 +26,8 @@ namespace ZoneEngine.Misc
 {
     public class StatNano : ClassStat
     {
-        public StatNano(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        public StatNano(
+            int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;
@@ -75,7 +76,10 @@ namespace ZoneEngine.Misc
                     // TODO: correct calculation of mob NP
                     this.Set(
                         (uint)
-                        (breedBaseNanoPoints[breed - 1] + (character.Stats.Level.Value * (tableProfessionNanoPoints[6, 8] + breedModificatorNanoPoints[breed - 1]))
+                        (breedBaseNanoPoints[breed - 1]
+                         +
+                         (character.Stats.Level.Value
+                          * (tableProfessionNanoPoints[6, 8] + breedModificatorNanoPoints[breed - 1]))
                          + (character.Stats.NanoEnergyPool.Value * breedMultiplicatorNanoPoints[breed - 1])));
                 }
                 else
@@ -84,7 +88,10 @@ namespace ZoneEngine.Misc
                         (uint)
                         (breedBaseNanoPoints[breed - 1]
                          +
-                         (character.Stats.Level.Value * (tableProfessionNanoPoints[titleLevel - 1, profession - 1] + breedModificatorNanoPoints[breed - 1]))
+                         (character.Stats.Level.Value
+                          *
+                          (tableProfessionNanoPoints[titleLevel - 1, profession - 1]
+                           + breedModificatorNanoPoints[breed - 1]))
                          + (character.Stats.NanoEnergyPool.Value * breedMultiplicatorNanoPoints[breed - 1])));
                 }
             }

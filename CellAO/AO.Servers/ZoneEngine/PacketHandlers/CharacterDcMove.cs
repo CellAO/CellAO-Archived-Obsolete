@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.PacketHandlers
@@ -68,10 +67,13 @@ namespace ZoneEngine.PacketHandlers
                 if (teleportPlayfield.ZoneToPlayfield >= 1)
                 {
                     Quaternion newHeading;
-                    coordinates = WallCollision.GetCoord(teleportPlayfield, coordinates.x, coordinates.z, coordinates, out newHeading);
+                    coordinates = WallCollision.GetCoord(
+                        teleportPlayfield, coordinates.x, coordinates.z, coordinates, out newHeading);
                     if (teleportPlayfield.Flags != 1337 && client.Character.PlayField != 152
                         || Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 2
-                        || teleportPlayfield.Flags == 1337 && Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 6)
+                        ||
+                        teleportPlayfield.Flags == 1337
+                        && Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 6)
                     {
                         client.Teleport(coordinates, newHeading, teleportPlayfield.ZoneToPlayfield);
                         Program.zoneServer.Clients.Remove(client);
@@ -81,7 +83,8 @@ namespace ZoneEngine.PacketHandlers
 
                 if (client.Character.Stats.LastConcretePlayfieldInstance.Value != 0)
                 {
-                    Doors correspondingDoor = DoorHandler.DoorinRange(client.Character.PlayField, client.Character.Coordinates, 1.0f);
+                    Doors correspondingDoor = DoorHandler.DoorinRange(
+                        client.Character.PlayField, client.Character.Coordinates, 1.0f);
                     if (correspondingDoor != null)
                     {
                         correspondingDoor = DoorHandler.FindCorrespondingDoor(correspondingDoor, client.Character);

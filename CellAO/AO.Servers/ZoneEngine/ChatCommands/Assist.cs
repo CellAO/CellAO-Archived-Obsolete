@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.ChatCommands
@@ -42,7 +41,8 @@ namespace ZoneEngine.ChatCommands
             Client targetClient = null;
             if ((targetClient = FindClient.FindClientByName(args[1])) != null)
             {
-                client.Teleport(targetClient.Character.Coordinates, targetClient.Character.Heading, targetClient.Character.PlayField);
+                client.Teleport(
+                    targetClient.Character.Coordinates, targetClient.Character.Heading, targetClient.Character.PlayField);
                 return;
             }
             client.SendChatText("Character '" + args[1] + "' not found.");

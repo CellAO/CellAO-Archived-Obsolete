@@ -37,8 +37,6 @@ namespace ChatEngine.PacketHandlers
     /// </summary>
     public class PlayerNameLookup
     {
-        
-
         /// <summary>
         /// Read and send back Player name lookup packet
         /// </summary>

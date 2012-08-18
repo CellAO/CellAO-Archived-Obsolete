@@ -23,7 +23,6 @@
 #endregion
 
 #region Using
-
 #endregion
 
 namespace ZoneEngine.Misc
@@ -98,11 +97,11 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return districtName;
+                return this.districtName;
             }
             set
             {
-                districtName = value;
+                this.districtName = value;
             }
         }
 
@@ -275,11 +274,11 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return playfieldName;
+                return this.playfieldName;
             }
             set
             {
-                playfieldName = value;
+                this.playfieldName = value;
             }
         }
 

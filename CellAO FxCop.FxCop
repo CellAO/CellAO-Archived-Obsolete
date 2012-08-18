@@ -1987,61 +1987,12 @@
          </Type>
          <Type Name="Dynel">
           <Members>
-           <Member Name="#.ctor(System.Int32,System.Int32)">
-            <Messages>
-             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberParameter">
-               <Item>'Dynel.Dynel(int, int)'</Item>
-               <Item>'_id'</Item>
-              </Issue>
-              <Issue Name="MemberParameter">
-               <Item>'Dynel.Dynel(int, int)'</Item>
-               <Item>'_playfield'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Actions">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.Actions'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="#AddSlashes(System.String)">
             <Messages>
              <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2012-08-18 13:00:17Z">
               <Issue>
                <Item>'Dynel.AddSlashes(string)'</Item>
                <Item>'Exception'</Item>
-              </Issue>
-             </Message>
-             <Message Id="Input" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberParameter">
-               <Item>'Dynel.AddSlashes(string)'</Item>
-               <Item>Input</Item>
-               <Item>'InputTxt'</Item>
-               <Item>input</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Events">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.Events'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Flags">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.Flags'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -2051,78 +2002,6 @@
              <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2012-08-18 13:00:17Z">
               <Issue Certainty="50">
                <Item>'Dynel.GetSqlTablefromDynelType()'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Icon">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.Icon'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#ID">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.ID'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Mesh">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.Mesh'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Name">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.Name'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#ourType">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.ourType'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#PlayField">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.PlayField'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#rawCoord">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.rawCoord'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#rawHeading">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.rawHeading'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -2153,23 +2032,16 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="#readTexturesfromPacket(AO.Core.PacketReader)">
+           <Member Name="#ReadTexturesfromPacket(AO.Core.PacketReader)">
             <Messages>
-             <Message Id="read" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-18 13:00:17Z">
-              <Issue Name="Member">
-               <Item>read</Item>
-               <Item>'Dynel.readTexturesfromPacket(PacketReader)'</Item>
-               <Item>Read</Item>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-18 14:37:23Z" FixCategory="DependsOnFix">
+              <Issue>
+               <Item>'Dynel.ReadTexturesfromPacket(PacketReader)'</Item>
               </Issue>
              </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-18 13:00:17Z" FixCategory="DependsOnFix">
+             <Message Id="textures" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-18 14:37:23Z">
               <Issue>
-               <Item>'Dynel.readTexturesfromPacket(PacketReader)'</Item>
-              </Issue>
-             </Message>
-             <Message Id="textures" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.readTexturesfromPacket(PacketReader)'</Item>
+               <Item>'Dynel.ReadTexturesfromPacket(PacketReader)'</Item>
                <Item>'textures'</Item>
                <Item>'AOTextures'</Item>
               </Issue>
@@ -2185,15 +2057,6 @@
                <Item>'int.ToString(IFormatProvider)'</Item>
                <Item>'CultureInfo.CurrentCulture'</Item>
                <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#resource">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Dynel.resource'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -2227,9 +2090,10 @@
            </Member>
            <Member Name="#Type">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
+             <Message TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721" Created="2012-08-18 14:37:23Z">
+              <Issue Name="BaseType">
                <Item>'Dynel.Type'</Item>
+               <Item>'object.GetType()'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -3607,15 +3471,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="#XPproLevel">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Server.XPproLevel'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="#ZoneBorderHandler">
             <Messages>
              <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
@@ -3646,13 +3501,6 @@
           </Members>
          </Type>
          <Type Name="Statels">
-          <Messages>
-           <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Created="2012-08-18 13:00:17Z">
-            <Issue>
-             <Item>'Statels'</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="#CacheAllStatels()">
             <Messages>
@@ -4501,44 +4349,44 @@
          </Type>
          <Type Name="XPTable">
           <Members>
-           <Member Name="#tableAIXP">
+           <Member Name="#TableAlienXP">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
+             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 15:24:35Z">
               <Issue>
-               <Item>'XPTable.tableAIXP'</Item>
+               <Item>'XPTable.TableAlienXP'</Item>
               </Issue>
              </Message>
-             <Message Id="Member" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-18 13:00:17Z">
+             <Message Id="Member" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-18 15:24:35Z">
               <Issue>
-               <Item>'XPTable.tableAIXP'</Item>
+               <Item>'XPTable.TableAlienXP'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#tableRKXP">
+           <Member Name="#TableRKXP">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
+             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 15:24:35Z">
               <Issue>
-               <Item>'XPTable.tableRKXP'</Item>
+               <Item>'XPTable.TableRKXP'</Item>
               </Issue>
              </Message>
-             <Message Id="Member" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-18 13:00:17Z">
+             <Message Id="Member" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-18 15:24:35Z">
               <Issue>
-               <Item>'XPTable.tableRKXP'</Item>
+               <Item>'XPTable.TableRKXP'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="#tableSLSK">
+           <Member Name="#TableShadowLandsSK">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
+             <Message TypeName="NonConstantFieldsShouldNotBeVisible" Category="Microsoft.Usage" CheckId="CA2211" Created="2012-08-18 15:24:35Z">
               <Issue>
-               <Item>'XPTable.tableSLSK'</Item>
+               <Item>'XPTable.TableShadowLandsSK'</Item>
               </Issue>
              </Message>
-             <Message Id="Member" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-18 13:00:17Z">
+             <Message Id="Member" TypeName="PreferJaggedArraysOverMultidimensional" Category="Microsoft.Performance" CheckId="CA1814" Created="2012-08-18 15:24:35Z">
               <Issue>
-               <Item>'XPTable.tableSLSK'</Item>
+               <Item>'XPTable.TableShadowLandsSK'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -15658,6 +15506,9 @@
    </Rule>
    <Rule TypeName="PropertiesShouldNotReturnArrays" Category="Microsoft.Performance" CheckId="CA1819">
     <Resolution Name="Default">Change {0} to return a collection or make it a method.</Resolution>
+   </Rule>
+   <Rule TypeName="PropertyNamesShouldNotMatchGetMethods" Category="Microsoft.Naming" CheckId="CA1721">
+    <Resolution Name="BaseType">The property name {0} is confusing given the existence of inherited method {1}. Rename or remove this property.</Resolution>
    </Rule>
    <Rule TypeName="RemoveEmptyFinalizers" Category="Microsoft.Performance" CheckId="CA1821">
     <Resolution Name="Default">{0} implements a finalizer that only calls conditionally emitted methods or the base type finalizer. Remove the finalizer or ensure that it is only conditionally compiled into the assembly. If this violation occurs against a finalizer that is entirely wrapped in a conditionally-emitted block of code, suppress this message.</Resolution>

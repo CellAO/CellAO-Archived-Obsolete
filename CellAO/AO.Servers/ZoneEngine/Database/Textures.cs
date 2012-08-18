@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Database
@@ -70,11 +69,11 @@ namespace ZoneEngine.Database
         {
             get
             {
-                return textures0;
+                return this.textures0;
             }
             set
             {
-                textures0 = value;
+                this.textures0 = value;
             }
         }
 
@@ -85,11 +84,11 @@ namespace ZoneEngine.Database
         {
             get
             {
-                return textures1;
+                return this.textures1;
             }
             set
             {
-                textures1 = value;
+                this.textures1 = value;
             }
         }
 
@@ -100,11 +99,11 @@ namespace ZoneEngine.Database
         {
             get
             {
-                return textures2;
+                return this.textures2;
             }
             set
             {
-                textures2 = value;
+                this.textures2 = value;
             }
         }
 
@@ -115,11 +114,11 @@ namespace ZoneEngine.Database
         {
             get
             {
-                return textures3;
+                return this.textures3;
             }
             set
             {
-                textures3 = value;
+                this.textures3 = value;
             }
         }
 
@@ -130,11 +129,11 @@ namespace ZoneEngine.Database
         {
             get
             {
-                return textures4;
+                return this.textures4;
             }
             set
             {
-                textures4 = value;
+                this.textures4 = value;
             }
         }
 

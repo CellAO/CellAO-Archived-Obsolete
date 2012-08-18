@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.PacketHandlers
@@ -110,7 +109,8 @@ namespace ZoneEngine.PacketHandlers
                 if (fromContainerID == 0x69)
                 {
                     for (counterFrom = 0;
-                         (counterFrom < cli.Character.Bank.Count) && (fromPlacement != cli.Character.Bank[counterFrom].Flags);
+                         (counterFrom < cli.Character.Bank.Count)
+                         && (fromPlacement != cli.Character.Bank[counterFrom].Flags);
                          counterFrom++)
                     {
                         ;
@@ -136,7 +136,8 @@ namespace ZoneEngine.PacketHandlers
             else
             {
                 for (counterTo = 0;
-                     (counterTo < cli.Character.Inventory.Count) && (toPlacement != cli.Character.Inventory[counterTo].Placement);
+                     (counterTo < cli.Character.Inventory.Count)
+                     && (toPlacement != cli.Character.Inventory[counterTo].Placement);
                      counterTo++)
                 {
                     ;

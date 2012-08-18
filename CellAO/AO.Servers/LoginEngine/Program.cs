@@ -65,12 +65,10 @@ namespace LoginEngine
 
         public static bool TestEmailRegex(string emailAddress)
         {
-
-            const string PatternStrict = @"^(([^<>()[\]\\.,;:\s@\""]+"
-                                         + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
-                                         + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"
-                                         + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
-                                         + @"[a-zA-Z]{2,}))$";
+            const string PatternStrict =
+                @"^(([^<>()[\]\\.,;:\s@\""]+" + @"(\.[^<>()[\]\\.,;:\s@\""]+)*)|(\"".+\""))@"
+                + @"((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" + @"\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+"
+                + @"[a-zA-Z]{2,}))$";
 
             Regex reStrict = new Regex(PatternStrict);
             return reStrict.IsMatch(emailAddress);
@@ -207,7 +205,7 @@ namespace LoginEngine
                         ct.TextRead("loginisnotrunning.txt");
                         break;
 
-                    #region Help Commands....
+                        #region Help Commands....
                     case "help":
                         ct.TextRead("logincmdhelp.txt");
                         break;
@@ -226,7 +224,7 @@ namespace LoginEngine
                     case "help setpass":
                         ct.TextRead("logincmdhelpsetpass.txt");
                         break;
-                    #endregion
+                        #endregion
 
                     default:
 
@@ -281,7 +279,7 @@ namespace LoginEngine
                             }
 
                             string email = parts[6];
-                            if (email==null)
+                            if (email == null)
                             {
                                 email = String.Empty;
                             }
@@ -317,8 +315,9 @@ namespace LoginEngine
                                 break;
                             }
 
-                            const string FormatString = "INSERT INTO `login` (`CreationDate`, `Flags`,`AccountFlags`,`Username`,`Password`,`Allowed_Characters`,`Expansions`, `GM`, `Email`, `FirstName`, `LastName`) VALUES "
-                                                        + "(NOW(), '0', '0', '{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}');";
+                            const string FormatString =
+                                "INSERT INTO `login` (`CreationDate`, `Flags`,`AccountFlags`,`Username`,`Password`,`Allowed_Characters`,`Expansions`, `GM`, `Email`, `FirstName`, `LastName`) VALUES "
+                                + "(NOW(), '0', '0', '{0}', '{1}', {2}, {3}, {4}, '{5}', '{6}', '{7}');";
 
                             LoginEncryption le = new LoginEncryption();
 
@@ -406,7 +405,7 @@ namespace LoginEngine
                             {
                                 updt.SqlUpdate(sql);
                             }
-                            //yeah this part here, some kind of exception handling for mysql errors
+                                //yeah this part here, some kind of exception handling for mysql errors
                             catch
                             {
                             }

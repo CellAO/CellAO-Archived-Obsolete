@@ -29,7 +29,6 @@ namespace ChatEngine.PacketHandlers
     /// </summary>
     public static class LoginCharacter
     {
-
         /// <summary>
         /// Read Login Character packet
         /// </summary>

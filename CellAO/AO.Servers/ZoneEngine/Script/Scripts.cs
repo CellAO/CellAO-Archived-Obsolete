@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Script
@@ -42,7 +41,7 @@ namespace ZoneEngine.Script
         {
             get
             {
-                return cSharpList;
+                return this.cSharpList;
             }
         }
 
@@ -50,7 +49,7 @@ namespace ZoneEngine.Script
         {
             get
             {
-                return dllList;
+                return this.dllList;
             }
         }
 

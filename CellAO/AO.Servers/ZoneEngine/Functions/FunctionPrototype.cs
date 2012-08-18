@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Functions
@@ -58,11 +57,11 @@ namespace ZoneEngine.Functions
         {
             get
             {
-                return functionNumber;
+                return this.functionNumber;
             }
             set
             {
-                functionNumber = value;
+                this.functionNumber = value;
             }
         }
 
@@ -70,11 +69,11 @@ namespace ZoneEngine.Functions
         {
             get
             {
-                return functionName;
+                return this.functionName;
             }
             set
             {
-                functionName = value;
+                this.functionName = value;
             }
         }
     }
@@ -108,9 +107,18 @@ namespace ZoneEngine.Functions
                     }
                 }
             }
-            catch (MissingMethodException) { return false; }
-            catch (FileNotFoundException) { return false; }
-            catch (FileLoadException) { return false; }
+            catch (MissingMethodException)
+            {
+                return false;
+            }
+            catch (FileNotFoundException)
+            {
+                return false;
+            }
+            catch (FileLoadException)
+            {
+                return false;
+            }
             return true;
         }
 

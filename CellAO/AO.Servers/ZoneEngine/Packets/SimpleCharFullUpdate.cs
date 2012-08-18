@@ -30,7 +30,6 @@ namespace ZoneEngine.Packets
 
     using AO.Core;
 
-    using ZoneEngine.Database;
     using ZoneEngine.Misc;
 
     /// <summary>
@@ -331,7 +330,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushQuat(charHeading);
 
             uint appearance = sideValue + (fatValue * 8) + (breedValue * 32) + (sexValue * 256) + (raceValue * 1024);
-                // Race
+            // Race
             packetWriter.PushUInt(appearance); // appearance
 
             // Name
@@ -523,7 +522,8 @@ namespace ZoneEngine.Packets
 
             packetWriter.PushInt(42); // 'skipdata' length
             // Start 'skipdata'
-            packetWriter.PushBytes(new Byte[] { 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00 });
+            packetWriter.PushBytes(
+                new Byte[] { 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00 });
             packetWriter.PushByte((byte)currentMovementMode); // CurrentMovementMode
             packetWriter.PushByte(1); // don't change
             packetWriter.PushShort(1); // ?

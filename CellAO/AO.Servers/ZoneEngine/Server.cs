@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine
@@ -290,7 +289,6 @@ namespace ZoneEngine
         public List<Doors> Doors;
 
         public Timer Walker = new Timer(100);
-
         #endregion
     }
 }

@@ -79,8 +79,8 @@ namespace ZoneEngine.ChatCommands
                     return;
                 }
 
-                string response = "Character " + targetCharacter.Name + " (" + targetCharacter.Id + "): Stat " + StatsList.GetStatName(statId)
-                                  + " (" + statId + ") = " + statValue;
+                string response = "Character " + targetCharacter.Name + " (" + targetCharacter.Id + "): Stat "
+                                  + StatsList.GetStatName(statId) + " (" + statId + ") = " + statValue;
 
                 client.SendChatText(response);
                 if (statValue != targetCharacter.Stats.StatValueByName(args[1]))

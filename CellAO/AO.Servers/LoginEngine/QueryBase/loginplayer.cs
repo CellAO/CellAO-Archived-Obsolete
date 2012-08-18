@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace LoginEngine.QueryBase
@@ -43,15 +42,15 @@ namespace LoginEngine.QueryBase
 
         private byte[] name, breed, prof, zone;
 
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="recvLogin"></param>
         public void GetCharacterName(string recvLogin)
         {
-            string sqlQuery = "SELECT `Name`, `Breed`, `Profession` FROM `characters` WHERE Username = " + "'" + recvLogin + "'";
-            SqlWrapper ms = new SqlWrapper(); 
+            string sqlQuery = "SELECT `Name`, `Breed`, `Profession` FROM `characters` WHERE Username = " + "'"
+                              + recvLogin + "'";
+            SqlWrapper ms = new SqlWrapper();
             DataTable dt = ms.ReadDatatable(sqlQuery);
 
             foreach (DataRow datarow1 in dt.Rows)
@@ -71,7 +70,7 @@ namespace LoginEngine.QueryBase
         public void GetCharacterZone(string recvLogin)
         {
             string sqlQuery = "SELECT `playfield` FROM `characters` WHERE Username = " + "'" + recvLogin + "'";
-            SqlWrapper ms = new SqlWrapper(); 
+            SqlWrapper ms = new SqlWrapper();
             DataTable dt = ms.ReadDatatable(sqlQuery);
 
             foreach (DataRow datarow2 in dt.Rows)

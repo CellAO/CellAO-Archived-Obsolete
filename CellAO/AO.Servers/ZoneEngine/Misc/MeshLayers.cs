@@ -42,7 +42,7 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return mesh;
+                return this.mesh;
             }
         }
 

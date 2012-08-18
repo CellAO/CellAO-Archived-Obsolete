@@ -47,7 +47,7 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return tradedItems;
+                return this.tradedItems;
             }
         }
 
@@ -344,5 +344,4 @@ namespace ZoneEngine.Misc
             this.Item = item;
         }
     }
-
 }

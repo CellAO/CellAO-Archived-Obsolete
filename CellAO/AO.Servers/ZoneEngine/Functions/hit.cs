@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Functions
@@ -105,7 +104,8 @@ namespace ZoneEngine.Functions
                 random /= 2;
             }
 
-            ((Character)Self).Stats.SetStatValueByName(Statnumber, (uint)(((Character)Self).Stats.StatValueByName(Statnumber) + random));
+            ((Character)Self).Stats.SetStatValueByName(
+                Statnumber, (uint)(((Character)Self).Stats.StatValueByName(Statnumber) + random));
             return true;
         }
     }

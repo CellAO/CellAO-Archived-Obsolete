@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace LoginEngine.QueryBase
@@ -44,7 +43,7 @@ namespace LoginEngine.QueryBase
         {
             get
             {
-                return flagsL;
+                return this.flagsL;
             }
         }
 

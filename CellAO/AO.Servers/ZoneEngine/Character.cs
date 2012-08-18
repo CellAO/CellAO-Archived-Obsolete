@@ -124,11 +124,6 @@ namespace ZoneEngine
         private readonly List<AOItem> bank = new List<AOItem>();
 
         /// <summary>
-        /// Parent client
-        /// </summary>
-        private Client client;
-
-        /// <summary>
         /// Caching Mesh layer structure
         /// </summary>
         private MeshLayers meshLayer = new MeshLayers();
@@ -469,9 +464,9 @@ namespace ZoneEngine
         /// <returns>Can move=true</returns>
         private bool canMove()
         {
-            if ((this.moveMode == MoveModes.Run) || (this.moveMode == MoveModes.Walk) || (this.moveMode == MoveModes.Swim)
-                || (this.moveMode == MoveModes.Crawl) || (this.moveMode == MoveModes.Sneak)
-                || (this.moveMode == MoveModes.Fly))
+            if ((this.moveMode == MoveModes.Run) || (this.moveMode == MoveModes.Walk)
+                || (this.moveMode == MoveModes.Swim) || (this.moveMode == MoveModes.Crawl)
+                || (this.moveMode == MoveModes.Sneak) || (this.moveMode == MoveModes.Fly))
             {
                 return true;
             }
@@ -869,7 +864,7 @@ namespace ZoneEngine
         {
             get
             {
-                return activeNanos;
+                return this.activeNanos;
             }
         }
 
@@ -880,7 +875,7 @@ namespace ZoneEngine
         {
             get
             {
-                return timers;
+                return this.timers;
             }
         }
 
@@ -891,7 +886,7 @@ namespace ZoneEngine
         {
             get
             {
-                return uploadedNanos;
+                return this.uploadedNanos;
             }
         }
 
@@ -902,24 +897,14 @@ namespace ZoneEngine
         {
             get
             {
-                return bank;
+                return this.bank;
             }
         }
 
         /// <summary>
         /// Parent client
         /// </summary>
-        public Client Client
-        {
-            get
-            {
-                return this.client;
-            }
-            set
-            {
-                this.client = value;
-            }
-        }
+        public Client Client { get; set; }
 
         /// <summary>
         /// Caching Mesh layer structure
@@ -928,7 +913,7 @@ namespace ZoneEngine
         {
             get
             {
-                return meshLayer;
+                return this.meshLayer;
             }
         }
 
@@ -939,7 +924,7 @@ namespace ZoneEngine
         {
             get
             {
-                return socialMeshLayer;
+                return this.socialMeshLayer;
             }
         }
 
@@ -947,7 +932,7 @@ namespace ZoneEngine
         {
             get
             {
-                return weaponsStored;
+                return this.weaponsStored;
             }
         }
 
@@ -955,7 +940,7 @@ namespace ZoneEngine
         {
             get
             {
-                return itemsStored;
+                return this.itemsStored;
             }
         }
 
@@ -966,11 +951,11 @@ namespace ZoneEngine
         {
             get
             {
-                return doNotDoTimers;
+                return this.doNotDoTimers;
             }
             set
             {
-                doNotDoTimers = value;
+                this.doNotDoTimers = value;
             }
         }
 
@@ -981,11 +966,11 @@ namespace ZoneEngine
         {
             get
             {
-                return stats;
+                return this.stats;
             }
             set
             {
-                stats = value;
+                this.stats = value;
             }
         }
 
@@ -996,7 +981,7 @@ namespace ZoneEngine
         {
             get
             {
-                return inventory;
+                return this.inventory;
             }
         }
 
@@ -1004,11 +989,11 @@ namespace ZoneEngine
         {
             get
             {
-                return moveMode;
+                return this.moveMode;
             }
             set
             {
-                moveMode = value;
+                this.moveMode = value;
             }
         }
 
@@ -1016,11 +1001,11 @@ namespace ZoneEngine
         {
             get
             {
-                return previousMoveMode;
+                return this.previousMoveMode;
             }
             set
             {
-                previousMoveMode = value;
+                this.previousMoveMode = value;
             }
         }
 
@@ -1028,11 +1013,11 @@ namespace ZoneEngine
         {
             get
             {
-                return moveDirection;
+                return this.moveDirection;
             }
             set
             {
-                moveDirection = value;
+                this.moveDirection = value;
             }
         }
 
@@ -1040,11 +1025,11 @@ namespace ZoneEngine
         {
             get
             {
-                return strafeDirection;
+                return this.strafeDirection;
             }
             set
             {
-                strafeDirection = value;
+                this.strafeDirection = value;
             }
         }
 
@@ -1052,11 +1037,11 @@ namespace ZoneEngine
         {
             get
             {
-                return spinDirection;
+                return this.spinDirection;
             }
             set
             {
-                spinDirection = value;
+                this.spinDirection = value;
             }
         }
 
@@ -1064,11 +1049,11 @@ namespace ZoneEngine
         {
             get
             {
-                return needPurge;
+                return this.needPurge;
             }
             set
             {
-                needPurge = value;
+                this.needPurge = value;
             }
         }
         #endregion
@@ -2020,7 +2005,7 @@ namespace ZoneEngine
                 this.uploadedNanos.Remove(au); // In case its in already :)
                 this.uploadedNanos.Add(au);
             }
-            WriteUploadedNanosToSql();
+            this.WriteUploadedNanosToSql();
         }
 
         /// <summary>
@@ -2173,7 +2158,8 @@ namespace ZoneEngine
                 SqlWrapper ms = new SqlWrapper();
                 this.bank.Clear();
                 DataTable dt =
-                    ms.ReadDatatable("SELECT * FROM bank WHERE charID=" + this.Id.ToString() + " ORDER BY InventoryID ASC");
+                    ms.ReadDatatable(
+                        "SELECT * FROM bank WHERE charID=" + this.Id.ToString() + " ORDER BY InventoryID ASC");
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
@@ -2664,6 +2650,7 @@ namespace ZoneEngine
         }
         #endregion
     }
+
     /// <summary>
     /// Enumeration of Spin or Strafe directions
     /// </summary>
@@ -2718,5 +2705,4 @@ namespace ZoneEngine
 
         Lounge
     }
-
 }

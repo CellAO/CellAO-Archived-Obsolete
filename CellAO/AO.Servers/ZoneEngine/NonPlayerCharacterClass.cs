@@ -25,7 +25,6 @@
 //region Bandit strikes again!!!!
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine

@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace LoginEngine.QueryBase
@@ -39,12 +38,11 @@ namespace LoginEngine.QueryBase
     {
         private string loginN;
 
-
         public string LoginN
         {
             get
             {
-                return loginN;
+                return this.loginN;
             }
         }
 
@@ -55,7 +53,7 @@ namespace LoginEngine.QueryBase
         public void GetLoginName(string recvLogin)
         {
             string SqlQuery = "SELECT Username FROM login WHERE Username = " + "'" + recvLogin + "'";
-            SqlWrapper ms = new SqlWrapper(); 
+            SqlWrapper ms = new SqlWrapper();
             DataTable dt = ms.ReadDatatable(SqlQuery);
 
             foreach (DataRow row in dt.Rows)

@@ -238,7 +238,7 @@ namespace ZoneEngine
         {
             get
             {
-                return events;
+                return this.events;
             }
         }
 
@@ -249,7 +249,7 @@ namespace ZoneEngine
         {
             get
             {
-                return actions;
+                return this.actions;
             }
         }
         #endregion

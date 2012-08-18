@@ -45,6 +45,7 @@ namespace ZoneEngine
     using ComponentAce.Compression.Libs.zlib;
 
     using ZoneEngine.Misc;
+    using ZoneEngine.PacketHandlers;
     using ZoneEngine.Packets;
 
     using Timer = System.Timers.Timer;
@@ -119,7 +120,7 @@ namespace ZoneEngine
                     }
                 case 0x0A: // N3Message
                     {
-                        PacketHandlers.N3Message.Parse(this, packet, id);
+                        N3Message.Parse(this, packet, id);
                         break;
                     }
                 case 0x0B: // PingMessage

@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.ChatCommands
@@ -65,7 +64,8 @@ namespace ZoneEngine.ChatCommands
                         }
                     }
                     SqlWrapper sql = new SqlWrapper();
-                    DataTable dt = sql.ReadDatatable("SELECT Hash, Name FROM vendortemplate " + filter + " order by Name ASC");
+                    DataTable dt =
+                        sql.ReadDatatable("SELECT Hash, Name FROM vendortemplate " + filter + " order by Name ASC");
                     client.SendChatText("List of vendortemplates: ");
                     foreach (DataRow row in dt.Rows)
                     {

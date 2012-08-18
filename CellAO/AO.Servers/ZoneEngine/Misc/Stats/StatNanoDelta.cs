@@ -28,7 +28,8 @@ namespace ZoneEngine.Misc
 
     public class StatNanoDelta : ClassStat
     {
-        public StatNanoDelta(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        public StatNanoDelta(
+            int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;
@@ -46,7 +47,7 @@ namespace ZoneEngine.Misc
                 Character character = (Character)this.Parent;
                 uint[] nanodelta = { 3, 3, 4, 2, 12, 15, 20 };
                 uint nanoDelta = nanodelta[character.Stats.Breed.Value - 1]
-                          + (uint)Math.Floor((double)(character.Stats.NanoEnergyPool.Value / 100));
+                                 + (uint)Math.Floor((double)(character.Stats.NanoEnergyPool.Value / 100));
                 // Whats this? TODO: Find the original routine again
                 this.StatBaseValue = nanoDelta;
 

@@ -28,7 +28,8 @@ namespace ZoneEngine.Misc
 
     public class StatNanoPoints : ClassStat
     {
-        public StatNanoPoints(int number, int defaultValue, string name, bool sendBaseValue, bool dontWrite, bool announce)
+        public StatNanoPoints(
+            int number, int defaultValue, string name, bool sendBaseValue, bool dontWrite, bool announce)
         {
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;

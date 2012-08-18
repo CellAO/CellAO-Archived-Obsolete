@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.PacketHandlers
@@ -259,7 +258,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x3b290771:
                     //SocialActionCmd
-                    SocialActionCmd.Read( packet, client);
+                    SocialActionCmd.Read(packet, client);
                     break;
                 case 0x3b3b2878:
                     //Raid

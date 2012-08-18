@@ -193,7 +193,8 @@ namespace ZoneEngine.PacketHandlers
 
         // Team Reply Packet 46312D2E : TeamMember
 
-        public void TeamReplyPacketTeamMember(int destinationClient, Client sendingPlayer, Identity recievingPlayer, string charName)
+        public void TeamReplyPacketTeamMember(
+            int destinationClient, Client sendingPlayer, Identity recievingPlayer, string charName)
         {
             PacketWriter packetWriter = new PacketWriter();
             packetWriter.PushByte(0xDF);

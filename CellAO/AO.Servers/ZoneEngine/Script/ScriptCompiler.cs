@@ -465,7 +465,8 @@ namespace ZoneEngine.Script
                     if (kv.Key.Substring(kv.Key.IndexOf(":", StringComparison.Ordinal)) == ":" + functionName)
                     {
                         IAOScript aoScript =
-                            (IAOScript)assembly.CreateInstance(kv.Key.Substring(0, kv.Key.IndexOf(":", StringComparison.Ordinal)));
+                            (IAOScript)
+                            assembly.CreateInstance(kv.Key.Substring(0, kv.Key.IndexOf(":", StringComparison.Ordinal)));
                         if (aoScript != null)
                         {
                             kv.Value.InvokeMember(
@@ -490,10 +491,12 @@ namespace ZoneEngine.Script
             {
                 foreach (KeyValuePair<string, Type> kv in this.chatCommands)
                 {
-                    if (kv.Key.Substring(kv.Key.IndexOf(":", StringComparison.Ordinal) + 1).ToUpperInvariant() == commandName.ToUpperInvariant())
+                    if (kv.Key.Substring(kv.Key.IndexOf(":", StringComparison.Ordinal) + 1).ToUpperInvariant()
+                        == commandName.ToUpperInvariant())
                     {
                         AOChatCommand aoc =
-                            (AOChatCommand)assembly.CreateInstance(kv.Key.Substring(0, kv.Key.IndexOf(":", StringComparison.Ordinal)));
+                            (AOChatCommand)
+                            assembly.CreateInstance(kv.Key.Substring(0, kv.Key.IndexOf(":", StringComparison.Ordinal)));
                         if (aoc != null)
                         {
                             // Check GM Level bitwise
@@ -533,8 +536,10 @@ namespace ZoneEngine.Script
                 string[] scriptNames = this.chatCommands.Keys.ToArray();
                 for (int i = 0; i < scriptNames.Length; i++)
                 {
-                    scriptNames[i] = scriptNames[i].Substring(scriptNames[i].IndexOf(":", StringComparison.Ordinal) + 1) + ":"
-                                     + scriptNames[i].Substring(0, scriptNames[i].IndexOf(":", StringComparison.Ordinal));
+                    scriptNames[i] = scriptNames[i].Substring(scriptNames[i].IndexOf(":", StringComparison.Ordinal) + 1)
+                                     + ":"
+                                     +
+                                     scriptNames[i].Substring(0, scriptNames[i].IndexOf(":", StringComparison.Ordinal));
                 }
                 Array.Sort(scriptNames);
 
@@ -546,7 +551,8 @@ namespace ZoneEngine.Script
                     {
                         if (client.Character.Stats.GMLevel.Value >= aoc.GMLevelNeeded())
                         {
-                            client.SendChatText(scriptName.Substring(0, scriptName.IndexOf(":", StringComparison.Ordinal)));
+                            client.SendChatText(
+                                scriptName.Substring(0, scriptName.IndexOf(":", StringComparison.Ordinal)));
                         }
                     }
                 }

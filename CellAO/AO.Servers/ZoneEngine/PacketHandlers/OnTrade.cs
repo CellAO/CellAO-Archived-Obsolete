@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings
-
 #endregion
 
 namespace ZoneEngine.PacketHandlers
@@ -116,7 +115,8 @@ namespace ZoneEngine.PacketHandlers
                         }
                         if (inventoryEntry.Container == -2)
                         {
-                            aoItem = ItemHandler.interpolate(inventoryEntry.Item.LowID, inventoryEntry.Item.HighID, inventoryEntry.Item.Quality);
+                            aoItem = ItemHandler.interpolate(
+                                inventoryEntry.Item.LowID, inventoryEntry.Item.HighID, inventoryEntry.Item.Quality);
                             double multipleCount = aoItem.getItemAttribute(212); // original multiplecount
                             int price = aoItem.getItemAttribute(74);
                             if (multipleCount == 0.0)
@@ -255,7 +255,8 @@ namespace ZoneEngine.PacketHandlers
                     }
                     else
                     {
-                        InventoryEntries inew = new InventoryEntries { Container = -1, Placement = character.GetNextFreeInventory(-1) };
+                        InventoryEntries inew = new InventoryEntries
+                            { Container = -1, Placement = character.GetNextFreeInventory(-1) };
                         int oldPlacement = ((packet[46] >> 24) + (packet[47] >> 16) + (packet[48] >> 8) + packet[49]);
                         InventoryEntries totrade = character.GetInventoryAt(oldPlacement);
                         inew.Item.LowID = totrade.Item.LowID;

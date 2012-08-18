@@ -28,7 +28,8 @@ namespace ZoneEngine.Misc
 
     public class StatSkill : ClassStat
     {
-        public StatSkill(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        public StatSkill(
+            int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;
@@ -54,7 +55,8 @@ namespace ZoneEngine.Misc
                     Math.Floor(
                         (strengthTrickle * characterStats.Strength.Value + staminaTrickle * characterStats.Stamina.Value
                          + senseTrickle * characterStats.Sense.Value + agilityTrickle * characterStats.Agility.Value
-                         + intelligenceTrickle * characterStats.Intelligence.Value + psychicTrickle * characterStats.Psychic.Value) / 4));
+                         + intelligenceTrickle * characterStats.Intelligence.Value
+                         + psychicTrickle * characterStats.Psychic.Value) / 4));
 
             if (!this.Parent.Starting)
             {

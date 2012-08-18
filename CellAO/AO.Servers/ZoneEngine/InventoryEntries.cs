@@ -28,7 +28,7 @@ namespace AO.Core
     {
         public InventoryEntries()
         {
-            Item = new AOItem();
+            this.Item = new AOItem();
         }
 
         public int Container { get; set; }

@@ -44,7 +44,8 @@ namespace ZoneEngine.ChatCommands
                 if (itemExists)
                 {
                     DeleteItem.Send(targetClient.Character, 104, Convert.ToInt32(args[2]));
-                    targetClient.Character.Inventory.Remove(targetClient.Character.GetInventoryAt(Convert.ToInt32(args[2])));
+                    targetClient.Character.Inventory.Remove(
+                        targetClient.Character.GetInventoryAt(Convert.ToInt32(args[2])));
                     return;
                 }
                 targetClient.SendChatText("There exists no item in the slot you choose");

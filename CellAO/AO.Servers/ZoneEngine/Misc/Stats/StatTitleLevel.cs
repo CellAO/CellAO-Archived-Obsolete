@@ -26,7 +26,8 @@ namespace ZoneEngine.Misc
 {
     public class StatTitleLevel : ClassStat
     {
-        public StatTitleLevel(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        public StatTitleLevel(
+            int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;

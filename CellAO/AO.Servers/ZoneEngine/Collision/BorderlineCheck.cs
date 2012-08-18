@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Collision
@@ -40,7 +39,6 @@ namespace ZoneEngine.Collision
     /// </summary>
     public class WallCollision
     {
-
         /// <summary>
         /// Default value of threshold
         /// </summary>
@@ -219,11 +217,16 @@ namespace ZoneEngine.Collision
             Vector2 vectorA2 = lineSegmentA.VectorB;
             Vector2 vectorB1 = lineSegmentB.VectorA;
             Vector2 vectorB2 = lineSegmentB.VectorB;
-            Int32 intersectionA1 = this.Cross2D(Vector2.Subtract(vectorB2, vectorA1), Vector2.Subtract(vectorB1, vectorA1));
-            Int32 intersectionB1 = this.Cross2D(Vector2.Subtract(vectorA1, vectorB1), Vector2.Subtract(vectorA2, vectorB1));
-            Int32 intersectionA2 = this.Cross2D(Vector2.Subtract(vectorB1, vectorA2), Vector2.Subtract(vectorB2, vectorA2));
-            Int32 intersectionB2 = this.Cross2D(Vector2.Subtract(vectorA2, vectorB2), Vector2.Subtract(vectorA1, vectorB2));
-            if (((intersectionA1 <= 0 && intersectionA2 <= 0 && intersectionB1 <= 0 && intersectionB2 <= 0) || (intersectionA1 >= 0 && intersectionA2 >= 0 && intersectionB1 >= 0 && intersectionB2 >= 0))
+            Int32 intersectionA1 = this.Cross2D(
+                Vector2.Subtract(vectorB2, vectorA1), Vector2.Subtract(vectorB1, vectorA1));
+            Int32 intersectionB1 = this.Cross2D(
+                Vector2.Subtract(vectorA1, vectorB1), Vector2.Subtract(vectorA2, vectorB1));
+            Int32 intersectionA2 = this.Cross2D(
+                Vector2.Subtract(vectorB1, vectorA2), Vector2.Subtract(vectorB2, vectorA2));
+            Int32 intersectionB2 = this.Cross2D(
+                Vector2.Subtract(vectorA2, vectorB2), Vector2.Subtract(vectorA1, vectorB2));
+            if (((intersectionA1 <= 0 && intersectionA2 <= 0 && intersectionB1 <= 0 && intersectionB2 <= 0)
+                 || (intersectionA1 >= 0 && intersectionA2 >= 0 && intersectionB1 >= 0 && intersectionB2 >= 0))
                 && !(intersectionA1 == 0 && intersectionA2 == 0 && intersectionB1 == 0 && intersectionB2 == 0))
             {
                 return true;
@@ -244,7 +247,8 @@ namespace ZoneEngine.Collision
             return Program.zoneServer.ZoneBorderHandler.Test(x, z, playfield);
         }
 
-        public static AOCoord GetCoord(LineSegment lineSegment, float x, float z, AOCoord coordinates, out Quaternion newHeading)
+        public static AOCoord GetCoord(
+            LineSegment lineSegment, float x, float z, AOCoord coordinates, out Quaternion newHeading)
         {
             newHeading = new Quaternion(0, 0, 0, 0);
             foreach (Line line in Destinations[lineSegment.ZoneToPlayfield].Playfield.Lines)
@@ -254,7 +258,8 @@ namespace ZoneEngine.Collision
                     int incX = 0;
                     int incZ = 0;
 
-                    Vector3 temp = new Vector3(line.LineEndPoint.X - line.LineStartPoint.X, 0, line.LineEndPoint.Z - line.LineStartPoint.Z);
+                    Vector3 temp = new Vector3(
+                        line.LineEndPoint.X - line.LineStartPoint.X, 0, line.LineEndPoint.Z - line.LineStartPoint.Z);
 
                     double factor = 1.0 / Math.Sqrt(Math.Pow(temp.x, 2) + Math.Pow(temp.z, 2));
                     temp.x = temp.x * factor;
@@ -268,13 +273,17 @@ namespace ZoneEngine.Collision
                             if (lineSegment.VectorA.X > lineSegment.VectorB.X)
                             {
                                 coordinates.x += Math.Abs(line.LineEndPoint.X - line.LineStartPoint.X)
-                                           * (Math.Abs(x - lineSegment.VectorB.X) / Math.Abs(lineSegment.VectorA.X - lineSegment.VectorB.X));
+                                                 *
+                                                 (Math.Abs(x - lineSegment.VectorB.X)
+                                                  / Math.Abs(lineSegment.VectorA.X - lineSegment.VectorB.X));
                                 incZ = 1;
                             }
                             else
                             {
                                 coordinates.x += Math.Abs(line.LineEndPoint.X - line.LineStartPoint.X)
-                                           * (Math.Abs(x - lineSegment.VectorA.X) / Math.Abs(lineSegment.VectorA.X - lineSegment.VectorB.X));
+                                                 *
+                                                 (Math.Abs(x - lineSegment.VectorA.X)
+                                                  / Math.Abs(lineSegment.VectorA.X - lineSegment.VectorB.X));
                                 incZ = -1;
                             }
                         }
@@ -287,13 +296,17 @@ namespace ZoneEngine.Collision
                             if (lineSegment.VectorA.X > lineSegment.VectorB.X)
                             {
                                 coordinates.x += Math.Abs(line.LineEndPoint.X - line.LineStartPoint.X)
-                                           * (Math.Abs(x - lineSegment.VectorB.X) / Math.Abs(lineSegment.VectorA.X - lineSegment.VectorB.X));
+                                                 *
+                                                 (Math.Abs(x - lineSegment.VectorB.X)
+                                                  / Math.Abs(lineSegment.VectorA.X - lineSegment.VectorB.X));
                                 incZ = -1;
                             }
                             else
                             {
                                 coordinates.x += Math.Abs(line.LineEndPoint.X - line.LineStartPoint.X)
-                                           * (Math.Abs(x - lineSegment.VectorA.X) / Math.Abs(lineSegment.VectorA.X - lineSegment.VectorB.X));
+                                                 *
+                                                 (Math.Abs(x - lineSegment.VectorA.X)
+                                                  / Math.Abs(lineSegment.VectorA.X - lineSegment.VectorB.X));
                                 incZ = 1;
                             }
                         }
@@ -306,13 +319,17 @@ namespace ZoneEngine.Collision
                             if (lineSegment.VectorA.Z > lineSegment.VectorB.Z)
                             {
                                 coordinates.z += Math.Abs(line.LineStartPoint.Z - line.LineEndPoint.Z)
-                                           * (Math.Abs(z - lineSegment.VectorB.Z) / Math.Abs(lineSegment.VectorA.Z - lineSegment.VectorB.Z));
+                                                 *
+                                                 (Math.Abs(z - lineSegment.VectorB.Z)
+                                                  / Math.Abs(lineSegment.VectorA.Z - lineSegment.VectorB.Z));
                                 incX = -1;
                             }
                             else
                             {
                                 coordinates.z += Math.Abs(line.LineStartPoint.Z - line.LineEndPoint.Z)
-                                           * (Math.Abs(z - lineSegment.VectorA.Z) / Math.Abs(lineSegment.VectorA.Z - lineSegment.VectorB.Z));
+                                                 *
+                                                 (Math.Abs(z - lineSegment.VectorA.Z)
+                                                  / Math.Abs(lineSegment.VectorA.Z - lineSegment.VectorB.Z));
                                 incX = 1;
                             }
                         }
@@ -325,13 +342,17 @@ namespace ZoneEngine.Collision
                             if (lineSegment.VectorA.Z > lineSegment.VectorB.Z)
                             {
                                 coordinates.z += Math.Abs(line.LineStartPoint.Z - line.LineEndPoint.Z)
-                                           * (Math.Abs(z - lineSegment.VectorB.Z) / Math.Abs(lineSegment.VectorA.Z - lineSegment.VectorB.Z));
+                                                 *
+                                                 (Math.Abs(z - lineSegment.VectorB.Z)
+                                                  / Math.Abs(lineSegment.VectorA.Z - lineSegment.VectorB.Z));
                                 incX = 1;
                             }
                             else
                             {
                                 coordinates.z += Math.Abs(line.LineStartPoint.Z - line.LineEndPoint.Z)
-                                           * (Math.Abs(z - lineSegment.VectorA.Z) / Math.Abs(lineSegment.VectorA.Z - lineSegment.VectorB.Z));
+                                                 *
+                                                 (Math.Abs(z - lineSegment.VectorA.Z)
+                                                  / Math.Abs(lineSegment.VectorA.Z - lineSegment.VectorB.Z));
                                 incX = -1;
                             }
                         }
@@ -374,7 +395,8 @@ namespace ZoneEngine.Collision
         /// <summary>
         /// 
         /// </summary>
-        public LineSegment(Point pointA, Point pointB, Int32 destinationPlayfield, Int32 destinationIndex, Int32 destinationFlags)
+        public LineSegment(
+            Point pointA, Point pointB, Int32 destinationPlayfield, Int32 destinationIndex, Int32 destinationFlags)
         {
             this.VectorA = new Vector2(pointA.X, pointA.Z);
             this.VectorB = new Vector2(pointB.X, pointB.Z);
@@ -539,7 +561,6 @@ namespace ZoneEngine.Collision
             return vectorC;
         }
     }
-
 
     /// <summary>
     /// This holds a destination zone and border coordinate
@@ -720,5 +741,4 @@ namespace ZoneEngine.Collision
         [XmlElement("PlayField")]
         public PlayField Playfield;
     };
-
 }

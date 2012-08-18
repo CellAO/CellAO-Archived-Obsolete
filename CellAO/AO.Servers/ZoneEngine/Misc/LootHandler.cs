@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.Misc
@@ -107,7 +106,8 @@ namespace ZoneEngine.Misc
 
             for (int hashNumber = 0; hashNumber < hashes.Count(); ++hashNumber)
             {
-                list.Add(new PartialSlot(hashes[hashNumber].Trim(), slots[hashNumber].Trim(), percents[hashNumber].Trim()));
+                list.Add(
+                    new PartialSlot(hashes[hashNumber].Trim(), slots[hashNumber].Trim(), percents[hashNumber].Trim()));
             }
 
             for (int slotNumber = 1; slotNumber <= numberOfSlots; ++slotNumber)
@@ -188,9 +188,10 @@ namespace ZoneEngine.Misc
             return drops;
         }
     }
+
     public class PartialSlot
     {
-        private List<string> hashList = new List<string>();
+        private readonly List<string> hashList = new List<string>();
 
         public int Slot { get; set; }
 
@@ -200,7 +201,7 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return hashList;
+                return this.hashList;
             }
         }
 
@@ -215,6 +216,7 @@ namespace ZoneEngine.Misc
             this.Chance = Convert.ToInt32(chance);
         }
     }
+
     public class LootItem
     {
         public LootItem(string hash, string lowid, string highid, string minql, string maxql, string rangecheck)

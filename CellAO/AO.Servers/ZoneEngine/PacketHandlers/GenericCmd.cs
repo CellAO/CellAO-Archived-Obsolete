@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.PacketHandlers
@@ -338,7 +337,7 @@ namespace ZoneEngine.PacketHandlers
                         reply[0x20] = 1;
 
                         client.Character.LastTrade = target;
-                        
+
                         PacketWriter pw = new PacketWriter();
                         pw.PushBytes(reply);
                         byte[] rep = pw.Finish();
@@ -360,8 +359,7 @@ namespace ZoneEngine.PacketHandlers
             if (feedback)
             {
 #if DEBUG
-                string Feedback1 = string.Format(
-                    "T1 {0}, Count {1}, Action {2}, T4 {3}", temp1, count, action, temp4);
+                string Feedback1 = string.Format("T1 {0}, Count {1}, Action {2}, T4 {3}", temp1, count, action, temp4);
                 string Feedback2 = string.Format(
                     "User {0}:{1}, Target {2}:{3} ({4}:{5})",
                     user.Type,

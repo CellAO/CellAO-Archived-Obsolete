@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.ChatCommands
@@ -65,8 +64,12 @@ namespace ZoneEngine.ChatCommands
                     // For values >= 2^31
                     statNewValue = (uint.Parse(args[2]));
                 }
-                catch (FormatException) { }
-                catch (OverflowException) { }
+                catch (FormatException)
+                {
+                }
+                catch (OverflowException)
+                {
+                }
             }
             Character tempch = (Character)FindDynel.FindDynelById(target.Type, target.Instance);
             uint statOldValue;

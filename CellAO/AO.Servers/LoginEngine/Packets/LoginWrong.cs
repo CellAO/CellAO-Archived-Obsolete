@@ -32,7 +32,6 @@ namespace LoginEngine.Packets
     /// </summary>
     public static class LoginWrong
     {
-
         /// <summary>
         /// 
         /// </summary>
@@ -44,6 +43,5 @@ namespace LoginEngine.Packets
                     0x00, 0x00, 0x0d, 0x00, 0x00, 0x00, 0x6a
                 };
         }
-
     }
 }

@@ -101,7 +101,8 @@ namespace ZoneEngine.NonPlayerCharacter
         #region SpawnVendor
         public static void SpawnVendor(Client cli, string hash)
         {
-            VendingMachine vm = new VendingMachine(GetNextFreeId(cli.Character.PlayField), cli.Character.PlayField, hash);
+            VendingMachine vm = new VendingMachine(
+                GetNextFreeId(cli.Character.PlayField), cli.Character.PlayField, hash);
             //(cli, hash, level);
             vm.RawCoord = cli.Character.RawCoord;
             vm.RawHeading = cli.Character.RawHeading;

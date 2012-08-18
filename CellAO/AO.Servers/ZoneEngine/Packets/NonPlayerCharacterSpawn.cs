@@ -32,7 +32,8 @@ namespace ZoneEngine.Packets
 
     public static class NonPlayerCharacterSpawn
     {
-        public static void SpawnNpcToClient(NonPlayerCharacterClass nonPlayerCharacter, Client targetClient, bool wholePlayfield)
+        public static void SpawnNpcToClient(
+            NonPlayerCharacterClass nonPlayerCharacter, Client targetClient, bool wholePlayfield)
         {
             int unknown1 = 0;
             int unknown2 = 0;
@@ -82,8 +83,9 @@ namespace ZoneEngine.Packets
             // Side, Fatness, Breed, Sex, Race
             //   33,      47,     4,  59,    89
             spawn.PushUInt(
-                nonPlayerCharacter.Stats.Side.Value + (nonPlayerCharacter.Stats.Fatness.Value * 8) + (nonPlayerCharacter.Stats.Breed.Value * 32)
-                + (nonPlayerCharacter.Stats.Sex.Value * 256) + (nonPlayerCharacter.Stats.Race.Value * 1024));
+                nonPlayerCharacter.Stats.Side.Value + (nonPlayerCharacter.Stats.Fatness.Value * 8)
+                + (nonPlayerCharacter.Stats.Breed.Value * 32) + (nonPlayerCharacter.Stats.Sex.Value * 256)
+                + (nonPlayerCharacter.Stats.Race.Value * 1024));
             spawn.PushByte((byte)(nonPlayerCharacter.Name.Length + 1));
             spawn.PushBytes(Encoding.ASCII.GetBytes(nonPlayerCharacter.Name));
             spawn.PushByte(0);
@@ -110,7 +112,8 @@ namespace ZoneEngine.Packets
 
             // TODO: set packetflag for Healthsize/damagesize
             spawn.PushUInt(nonPlayerCharacter.Stats.Life.Value); // 1 = Life (max HP)
-            spawn.PushUInt(nonPlayerCharacter.Stats.Health.Value); // 27 = Health left?? (same Size as Health, flag for 1byte not set)
+            spawn.PushUInt(nonPlayerCharacter.Stats.Health.Value);
+                // 27 = Health left?? (same Size as Health, flag for 1byte not set)
 
             // If NPC is in grid or fixer grid
             // make him look like nice upside down pyramid

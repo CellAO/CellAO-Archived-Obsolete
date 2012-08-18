@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine
@@ -48,7 +47,8 @@ namespace ZoneEngine
             SqlWrapper ms = new SqlWrapper();
 
             DataTable dt =
-                ms.ReadDatatable("SELECT * FROM " + this.GetSqlTablefromDynelType() + "owner WHERE ID=" + this.Id.ToString());
+                ms.ReadDatatable(
+                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "owner WHERE ID=" + this.Id.ToString());
             if (dt.Rows.Count > 0)
             {
                 //TODO: Add Pet code here

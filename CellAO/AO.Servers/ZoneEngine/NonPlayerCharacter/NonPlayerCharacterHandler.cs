@@ -131,7 +131,8 @@ namespace ZoneEngine.NonPlayerCharacter
             sqlWrapper = new SqlWrapper();
             DataTable dtstats = sqlWrapper.ReadDatatable("SELECT * from mobspawns_stats ORDER BY id, stat ASC");
             sqlWrapper = new SqlWrapper();
-            DataTable dtinventory = sqlWrapper.ReadDatatable("SELECT * from mobspawnsinventory order by id, placement ASC");
+            DataTable dtinventory =
+                sqlWrapper.ReadDatatable("SELECT * from mobspawnsinventory order by id, placement ASC");
             int statcount = 0;
             int invcount = 0;
             foreach (DataRow row in dt.Rows)
@@ -141,7 +142,7 @@ namespace ZoneEngine.NonPlayerCharacter
 
                 monster.Name = (string)row["Name"]
 #if DEBUG
-                                + " " + monster.Id.ToString() // ID is for debug purpose only
+                               + " " + monster.Id.ToString() // ID is for debug purpose only
 #endif
                     ;
                 monster.readcoordsheadingfast(row);

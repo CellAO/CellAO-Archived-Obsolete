@@ -23,9 +23,7 @@
 #endregion
 
 #region Using
-
 #endregion
-
 
 // TODO: Get rid of this, move things over to ClassStat.cs
 namespace ZoneEngine
@@ -201,7 +199,6 @@ namespace ZoneEngine
 
             return 1234567890;
         }
-
 
         /// <summary>
         /// 

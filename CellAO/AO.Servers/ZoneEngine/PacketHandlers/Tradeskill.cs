@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings
-
 #endregion
 
 namespace ZoneEngine
@@ -40,7 +39,6 @@ namespace ZoneEngine
     #region Tradeskill Class
     public class Tradeskill
     {
-
         #region Properties & Instance Variables
         // High IDs only.
         private int SourceID;
@@ -669,7 +667,6 @@ namespace ZoneEngine
     #region TSReceiver Class
     public static class TradeSkillReceiver
     {
-
         #region Properties & Instance Variables
         private static readonly List<TradeSkillInfo> TradeSkillInfos = new List<TradeSkillInfo>();
         #endregion
@@ -773,8 +770,10 @@ namespace ZoneEngine
 
         public static void TradeSkillBuildPressed(Client client, int quality)
         {
-            int src = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 0).Select(m => m).ElementAt(0).Placement;
-            int tgt = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 1).Select(m => m).ElementAt(0).Placement;
+            int src =
+                TradeSkillInfos.Where(m => m.Cli == client && m.Location == 0).Select(m => m).ElementAt(0).Placement;
+            int tgt =
+                TradeSkillInfos.Where(m => m.Cli == client && m.Location == 1).Select(m => m).ElementAt(0).Placement;
 
             Tradeskill ts = new Tradeskill(client, src, tgt);
 
@@ -863,5 +862,4 @@ namespace ZoneEngine
         }
     }
     #endregion
-
 }

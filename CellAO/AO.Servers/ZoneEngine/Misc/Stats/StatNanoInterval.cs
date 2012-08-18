@@ -30,7 +30,8 @@ namespace ZoneEngine.Misc
 
     public class StatNanoInterval : ClassStat
     {
-        public StatNanoInterval(int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
+        public StatNanoInterval(
+            int number, int defaultValue, string name, bool sendBaseValue, bool doNotWrite, bool announceToPlayfield)
         {
             this.StatNumber = number;
             this.StatDefaultValue = (uint)defaultValue;
@@ -49,7 +50,9 @@ namespace ZoneEngine.Misc
 
                 // calculating Nano and Heal Delta and interval
                 int nanoInterval = 28
-                                   - (Math.Min((int)Math.Floor(Convert.ToDouble(character.Stats.Psychic.Value) / 60), 13) * 2);
+                                   -
+                                   (Math.Min((int)Math.Floor(Convert.ToDouble(character.Stats.Psychic.Value) / 60), 13)
+                                    * 2);
                 character.Stats.NanoInterval.StatBaseValue = (uint)nanoInterval; // Healinterval
 
                 character.PurgeTimer(1);

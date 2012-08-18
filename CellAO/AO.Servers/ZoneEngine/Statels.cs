@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine
@@ -84,8 +83,7 @@ namespace ZoneEngine
             /// <param name="statelid">Statel ID</param>
             public void LoadFunctions(Int32 eventid, Int32 statelid)
             {
-                while ((cntFunctions < dtFunctions.Rows.Count)
-                       && ((Int32)dtFunctions.Rows[cntFunctions][1] == eventid)
+                while ((cntFunctions < dtFunctions.Rows.Count) && ((Int32)dtFunctions.Rows[cntFunctions][1] == eventid)
                        && ((Int32)dtFunctions.Rows[cntFunctions][2] == statelid))
                 {
                     Statel_Function sf = new Statel_Function();
@@ -371,8 +369,7 @@ namespace ZoneEngine
             public void LoadRequirements(int functionid, int eventid, int statelid)
             {
                 while ((cntReqs < dtReqs.Rows.Count) && ((Int32)dtReqs.Rows[cntReqs][1] == functionid)
-                       && ((Int32)dtReqs.Rows[cntReqs][2] == eventid)
-                       && ((Int32)dtReqs.Rows[cntReqs][3] == statelid))
+                       && ((Int32)dtReqs.Rows[cntReqs][2] == eventid) && ((Int32)dtReqs.Rows[cntReqs][3] == statelid))
                 {
                     Statel_Function_Requirement sfr = new Statel_Function_Requirement();
                     sfr.AttributeNumber = (Int32)dtReqs.Rows[cntReqs][4];
@@ -394,8 +391,7 @@ namespace ZoneEngine
             public void LoadArguments(int functionid, int eventid, int statelid)
             {
                 while ((cntArgs < dtArgs.Rows.Count) && ((Int32)dtArgs.Rows[cntArgs][1] == functionid)
-                       && ((Int32)dtArgs.Rows[cntArgs][2] == eventid)
-                       && ((Int32)dtArgs.Rows[cntArgs][3] == statelid))
+                       && ((Int32)dtArgs.Rows[cntArgs][2] == eventid) && ((Int32)dtArgs.Rows[cntArgs][3] == statelid))
                 {
                     this.Arguments.Add((string)dtArgs.Rows[cntArgs][4]);
                     cntArgs++;
@@ -428,7 +424,10 @@ namespace ZoneEngine
                     ret.Coordinates.z = (l.LineStartPoint.Z + l.LineEndPoint.Z) / 2;
                     // TODO: Calculate the right Quaternion for the heading...
                     // - Algorithman
-                    Quaternion q = new Quaternion(new Vector3((l.LineEndPoint.X - l.LineStartPoint.X), 1, -(l.LineEndPoint.Z - l.LineStartPoint.Z)));
+                    Quaternion q =
+                        new Quaternion(
+                            new Vector3(
+                                (l.LineEndPoint.X - l.LineStartPoint.X), 1, -(l.LineEndPoint.Z - l.LineStartPoint.Z)));
                     ret.Heading.x = q.x;
                     ret.Heading.y = q.y;
                     ret.Heading.z = q.z;
@@ -582,8 +581,10 @@ namespace ZoneEngine
                     "SELECT * FROM statel_function_arguments ORDER BY statel_id, event_id, function_id, attrid ASC");
             dtEvents = ms.ReadDatatable("SELECT * FROM statel_events ORDER BY statel_id, eventid ASC");
             dtReqs =
-                ms.ReadDatatable("SELECT * FROM statel_function_reqs ORDER BY statel_id, event_id, function_id, reqid ASC");
-            dtFunctions = ms.ReadDatatable("SELECT * FROM statel_functions ORDER BY statel_id, event_id, functionid ASC");
+                ms.ReadDatatable(
+                    "SELECT * FROM statel_function_reqs ORDER BY statel_id, event_id, function_id, reqid ASC");
+            dtFunctions = ms.ReadDatatable(
+                "SELECT * FROM statel_functions ORDER BY statel_id, event_id, functionid ASC");
             int maxcount = 0;
             ms.sqlclose();
 

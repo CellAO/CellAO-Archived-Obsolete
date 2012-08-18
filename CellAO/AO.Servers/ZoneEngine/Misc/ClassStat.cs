@@ -76,7 +76,6 @@ namespace ZoneEngine.Misc
     #region ClassStat  class for one stat
     public class ClassStat
     {
-
         #region Eventhandlers
         public event EventHandler<StatChangedEventArgs> RaiseBeforeStatChangedEvent;
 
@@ -107,12 +106,10 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return
-                    (int)
-                    Math.Floor((double)
-// ReSharper disable PossibleLossOfFraction
-                        ((this.StatBaseValue + this.StatModifier + this.Trickle) * this.statPercentageModifier / 100));
-// ReSharper restore PossibleLossOfFraction
+                return (int)Math.Floor(
+                    (double) // ReSharper disable PossibleLossOfFraction
+                    ((this.StatBaseValue + this.StatModifier + this.Trickle) * this.statPercentageModifier / 100));
+                // ReSharper restore PossibleLossOfFraction
             }
             set
             {
@@ -124,7 +121,7 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return parent;
+                return this.parent;
             }
         }
 
@@ -136,11 +133,11 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return statPercentageModifier;
+                return this.statPercentageModifier;
             }
             set
             {
-                statPercentageModifier = value;
+                this.statPercentageModifier = value;
             }
         }
 
@@ -154,11 +151,11 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return announceToPlayfield;
+                return this.announceToPlayfield;
             }
             set
             {
-                announceToPlayfield = value;
+                this.announceToPlayfield = value;
             }
         }
 
@@ -170,11 +167,11 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return sendBaseValue;
+                return this.sendBaseValue;
             }
             set
             {
-                sendBaseValue = value;
+                this.sendBaseValue = value;
             }
         }
 
@@ -186,11 +183,11 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return affects;
+                return this.affects;
             }
         }
 
-        private List<int> affects = new List<int>();
+        private readonly List<int> affects = new List<int>();
 
         private Dynel parent;
 
@@ -280,18 +277,16 @@ namespace ZoneEngine.Misc
                 {
                     sql.SqlInsert(
                         "INSERT INTO " + (this.parent).GetSqlTablefromDynelType()
-                        + "_stats (ID, Playfield, Stat, Value) VALUES (" + id + ","
-                        + this.parent.PlayField + "," + this.StatNumber + ","
-                        + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
+                        + "_stats (ID, Playfield, Stat, Value) VALUES (" + id + "," + this.parent.PlayField + ","
+                        + this.StatNumber + "," + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
                         + ((Int32)this.StatBaseValue) + ";");
                 }
                 else
                 {
                     sql.SqlInsert(
                         "INSERT INTO " + (this.parent).GetSqlTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
-                        + id + "," + this.StatNumber + ","
-                        + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
-                        + ((Int32)this.StatBaseValue) + ";");
+                        + id + "," + this.StatNumber + "," + ((Int32)this.StatBaseValue)
+                        + ") ON DUPLICATE KEY UPDATE Value=" + ((Int32)this.StatBaseValue) + ";");
                 }
             }
         }
@@ -313,17 +308,16 @@ namespace ZoneEngine.Misc
                 {
                     sql.SqlInsert(
                         "INSERT INTO " + (this.parent).GetSqlTablefromDynelType()
-                        + "_stats (ID, Playfield, Stat, Value) VALUES (" + id + "," + this.parent.PlayField
-                        + "," + this.StatNumber + "," + ((Int32)this.StatBaseValue)
-                        + ") ON DUPLICATE KEY UPDATE Value=" + ((Int32)this.StatBaseValue) + ";");
+                        + "_stats (ID, Playfield, Stat, Value) VALUES (" + id + "," + this.parent.PlayField + ","
+                        + this.StatNumber + "," + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
+                        + ((Int32)this.StatBaseValue) + ";");
                 }
                 else
                 {
                     sql.SqlInsert(
                         "INSERT INTO " + (this.parent).GetSqlTablefromDynelType() + "_stats (ID, Stat, Value) VALUES ("
-                        + id + "," + this.StatNumber + ","
-                        + ((Int32)this.StatBaseValue) + ") ON DUPLICATE KEY UPDATE Value="
-                        + ((Int32)this.StatBaseValue) + ";");
+                        + id + "," + this.StatNumber + "," + ((Int32)this.StatBaseValue)
+                        + ") ON DUPLICATE KEY UPDATE Value=" + ((Int32)this.StatBaseValue) + ";");
                 }
             }
         }
@@ -341,8 +335,8 @@ namespace ZoneEngine.Misc
             int id = this.parent.Id;
             DataTable dt =
                 sql.ReadDatatable(
-                    "SELECT Value FROM " + this.parent.GetSqlTablefromDynelType() + " WHERE ID=" + id
-                    + " AND Stat=" + this.StatNumber + ";");
+                    "SELECT Value FROM " + this.parent.GetSqlTablefromDynelType() + " WHERE ID=" + id + " AND Stat="
+                    + this.StatNumber + ";");
 
             if (dt.Rows.Count > 0)
             {
@@ -1999,7 +1993,7 @@ namespace ZoneEngine.Misc
         private readonly ClassStat weaponStyleRight = new ClassStat(1016, 0, "WeaponStyleRight", false, false, false);
         #endregion
 
-        private List<ClassStat> all = new List<ClassStat>();
+        private readonly List<ClassStat> all = new List<ClassStat>();
 
         #region Create Stats
         /// <summary>
@@ -9117,7 +9111,7 @@ namespace ZoneEngine.Misc
         {
             get
             {
-                return all;
+                return this.all;
             }
         }
         #endregion

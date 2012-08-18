@@ -23,7 +23,6 @@
 #endregion
 
 #region Usings...
-
 #endregion
 
 namespace ZoneEngine.PacketHandlers
@@ -41,7 +40,6 @@ namespace ZoneEngine.PacketHandlers
     /// </summary>
     public static class OrgClient
     {
-
         /// <summary>
         /// 
         /// </summary>
@@ -87,13 +85,14 @@ namespace ZoneEngine.PacketHandlers
             }
             reader.Finish();
             #endregion
+
             SqlWrapper ms = new SqlWrapper();
             DataTable dt;
 
             #region cmd handlers
             switch (cmd)
             {
-                #region /org create <name>
+                    #region /org create <name>
                 case 1:
                     {
                         // org create
@@ -137,9 +136,9 @@ namespace ZoneEngine.PacketHandlers
                             break;
                         }
                     }
-                #endregion
+                    #endregion
 
-                #region /org ranks
+                    #region /org ranks
                 case 2:
                     // org ranks
                     //Displays Org Rank Structure.
@@ -158,21 +157,21 @@ namespace ZoneEngine.PacketHandlers
                     }
                     client.SendChatText("Current Rank Structure: " + GetRankList(governingForm));
                     break;
-                #endregion
+                    #endregion
 
-                #region /org contract
+                    #region /org contract
                 case 3:
                     // org contract
                     break;
-                #endregion
+                    #endregion
 
-                #region unknown org command 4
+                    #region unknown org command 4
                 case 4:
                     Console.WriteLine("Case 4 Started");
                     break;
-                #endregion
+                    #endregion
 
-                #region /org info
+                    #region /org info
                 case 5:
                     {
                         Client tPlayer = null;
@@ -263,33 +262,33 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region /org disband
+                    #region /org disband
                 case 6:
                     break;
-                #endregion
+                    #endregion
 
-                #region /org startvote <text> <duration> <entries>
+                    #region /org startvote <text> <duration> <entries>
                 case 7:
                     // org startvote <"text"> <duration(minutes)> <entries>
                     // arguments (<text> <duration> and <entries>) are in CmdStr
                     break;
-                #endregion
+                    #endregion
 
-                #region /org vote info
+                    #region /org vote info
                 case 8:
                     // org vote info
                     break;
-                #endregion
+                    #endregion
 
-                #region /org vote <entry>
+                    #region /org vote <entry>
                 case 9:
                     // <entry> is CmdStr
                     break;
-                #endregion
+                    #endregion
 
-                #region /org promote
+                    #region /org promote
                 case 10:
                     {
                         // some arg in CmdByte. No idea what it is
@@ -384,9 +383,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                         break;
                     }
-                #endregion
+                    #endregion
 
-                #region /org demote
+                    #region /org demote
                 case 11:
                     // demote target player
                     //create the target namespace t_demote
@@ -442,15 +441,15 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region unknown org command 12
+                    #region unknown org command 12
                 case 12:
                     Console.WriteLine("Case 12 Started");
                     break;
-                #endregion
+                    #endregion
 
-                #region /org kick <name>
+                    #region /org kick <name>
                 case 13:
                     // kick <name> from org
                     // <name> is CmdStr
@@ -508,9 +507,9 @@ namespace ZoneEngine.PacketHandlers
                     }
                     // TODO: Offline Org KICK
                     break;
-                #endregion
+                    #endregion
 
-                #region /org invite
+                    #region /org invite
                 case 14:
                     {
                         Client tPlayer = null;
@@ -539,9 +538,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region Org Join
+                    #region Org Join
                 case 15:
                     {
                         //target.Instance holds the OrgID of the Org wishing to be joined.
@@ -559,9 +558,9 @@ namespace ZoneEngine.PacketHandlers
                         client.Character.OrgId = (uint)orgIdtoJoin;
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region /org leave
+                    #region /org leave
                 case 16:
                     // org leave
                     // TODO: Disband org if it was leader that left org. -Suiv-
@@ -588,9 +587,9 @@ namespace ZoneEngine.PacketHandlers
                         client.SendChatText("You left the guild");
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region /org tax | /org tax <tax>
+                    #region /org tax | /org tax <tax>
                 case 17:
                     // gets or sets org tax
                     // <tax> is CmdStr
@@ -605,9 +604,9 @@ namespace ZoneEngine.PacketHandlers
                     {
                         break;
                     }
-                #endregion
+                    #endregion
 
-                #region /org bank
+                    #region /org bank
                 case 18:
                     {
                         // org bank
@@ -619,9 +618,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region /org bank add <cash>
+                    #region /org bank add <cash>
                 case 19:
                     {
                         if (client.Character.OrgId == 0)
@@ -652,9 +651,9 @@ namespace ZoneEngine.PacketHandlers
                     }
 
                     break;
-                #endregion
+                    #endregion
 
-                #region /org bank remove <cash>
+                    #region /org bank remove <cash>
                 case 20:
                     // org bank remove <cash>
                     // <cash> is CmdStr
@@ -689,24 +688,24 @@ namespace ZoneEngine.PacketHandlers
                         client.SendChatText("You've removed " + removeCredits + " credits from the organization bank");
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region /org bank paymembers <cash>
+                    #region /org bank paymembers <cash>
                 case 21:
                     // <cash> is CmdStr
                     // give <cash> credits to every org member
                     // credits are taken from org bank
                     // only leader can do it
                     break;
-                #endregion
+                    #endregion
 
-                #region /org debt
+                    #region /org debt
                 case 22:
                     // send player text about how big is his/her tax debt to org
                     break;
-                #endregion
+                    #endregion
 
-                #region /org history <text>
+                    #region /org history <text>
                 case 23:
                     {
                         if (client.Character.Stats.ClanLevel.Value == 0)
@@ -723,9 +722,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region /org objective <text>
+                    #region /org objective <text>
                 case 24:
                     {
                         if (client.Character.Stats.ClanLevel.Value == 0)
@@ -742,9 +741,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region /org description <text>
+                    #region /org description <text>
                 case 25:
                     {
                         if (client.Character.Stats.ClanLevel.Value == 0)
@@ -761,9 +760,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region /org name <text>
+                    #region /org name <text>
                 case 26:
                     {
                         // org name <name>
@@ -805,9 +804,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                         break;
                     }
-                #endregion
+                    #endregion
 
-                #region /org governingform <text>
+                    #region /org governingform <text>
                 case 27:
                     {
                         // org governingform <form>
@@ -874,18 +873,18 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                     break;
-                #endregion
+                    #endregion
 
-                #region /org stopvote <text>
+                    #region /org stopvote <text>
                 case 28:
                     // <text> is CmdStr
                     break;
-                #endregion
+                    #endregion
 
-                #region unknown command
+                    #region unknown command
                 default:
                     break;
-                #endregion
+                    #endregion
             }
             #endregion
 
