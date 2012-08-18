@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    internal class Unequip
+    public static class Unequip
     {
         public static void Send(Client client, AOItem item, int page, int placement, bool fromSocial)
         {

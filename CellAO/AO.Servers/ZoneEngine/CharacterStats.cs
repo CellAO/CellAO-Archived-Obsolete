@@ -26,6 +26,8 @@
 
 #endregion
 
+
+// TODO: Get rid of this, move things over to ClassStat.cs
 namespace ZoneEngine
 {
     using System;
@@ -198,6 +200,30 @@ namespace ZoneEngine
             Console.WriteLine("Unknown statName: " + statName);
 
             return 1234567890;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="statName"></param>
+        /// <returns></returns>
+        public static StatTypes GetStatByName(string statName)
+        {
+            if (statName == string.Empty)
+            {
+                throw new ArgumentNullException("statName cannot be null or empty");
+            }
+
+            foreach (StatTypes stat in Instance.stats)
+            {
+                if (stat.statName.ToLower() == statName.ToLower())
+                {
+                    return stat;
+                }
+            }
+
+            throw new StatDoesNotExistException("Stat with name '" + statName + "' does not exist.");
         }
 
         /// <summary>

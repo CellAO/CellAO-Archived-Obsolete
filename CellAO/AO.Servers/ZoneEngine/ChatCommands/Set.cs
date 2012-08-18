@@ -65,16 +65,15 @@ namespace ZoneEngine.ChatCommands
                     // For values >= 2^31
                     statNewValue = (uint.Parse(args[2]));
                 }
-                catch
-                {
-                }
+                catch (FormatException) { }
+                catch (OverflowException) { }
             }
             Character tempch = (Character)FindDynel.FindDynelByID(target.Type, target.Instance);
             uint statOldValue;
             try
             {
                 statOldValue = tempch.Stats.GetBaseValue(statId);
-                tempch.Stats.Set(statId, statNewValue);
+                tempch.Stats.SetStatValueByName(statId, statNewValue);
                 if (tempch.Client != null)
                 {
                     tempch.Stats.Send(tempch.Client, statId);
@@ -105,12 +104,12 @@ namespace ZoneEngine.ChatCommands
             List<Type> check = new List<Type>();
             check.Add(typeof(int));
             check.Add(typeof(uint));
-            bool check1 = this.CheckArgumentHelper(check, args);
+            bool check1 = CheckArgumentHelper(check, args);
 
             check.Clear();
             check.Add(typeof(string));
             check.Add(typeof(uint));
-            check1 |= this.CheckArgumentHelper(check, args);
+            check1 |= CheckArgumentHelper(check, args);
             return check1;
         }
 
@@ -120,7 +119,7 @@ namespace ZoneEngine.ChatCommands
             return 1;
         }
 
-        public override List<string> GetCommands()
+        public override List<string> ListCommands()
         {
             List<string> temp = new List<string>();
             temp.Add("set");

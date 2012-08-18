@@ -77,11 +77,10 @@ namespace ChatEngine
                             }
                         }
 
-                        byte[] namelookup = new NameLookupResult().Create(senderId, lookup);
+                        byte[] namelookup = NameLookupResult.Create(senderId, lookup);
 
                         Console.WriteLine("Got chat from ZoneEngine: " + msg);
-                        MsgVicinity pkt = new MsgVicinity();
-                        byte[] packet = pkt.Create(senderId, msg, msgType);
+                        byte[] packet = MsgVicinity.Create(senderId, msg, msgType);
 
                         foreach (uint sendto in receivers)
                         {

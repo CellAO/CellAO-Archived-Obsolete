@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The player id unknown.
     /// </summary>
-    public class PlayerIdUnknown
+    public static class PlayerIdUnknown
     {
         /// <summary>
         /// Create a Player ID unknown packet
@@ -38,7 +38,7 @@ namespace ChatEngine.Packets
         /// <returns>
         /// Returns finished packet data
         /// </returns>
-        public byte[] Create(uint playerId)
+        public static byte[] Create(uint playerId)
         {
             PacketWriter writer = new PacketWriter(10);
             writer.WriteUInt32(playerId);

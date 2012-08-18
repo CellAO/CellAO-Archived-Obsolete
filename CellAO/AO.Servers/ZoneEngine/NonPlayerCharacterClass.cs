@@ -365,7 +365,7 @@ namespace ZoneEngine
         /// <summary>
         /// Read NPC textures from database
         /// </summary>
-        public new void readTexturesfromSql()
+        public void ReadTexturesfromSql()
         {
             SqlWrapper ms = new SqlWrapper();
             AOTextures m_tex;
@@ -536,7 +536,7 @@ namespace ZoneEngine
             int count = startcount;
             while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.ID))
             {
-                this.Stats.Set((Int32)dt.Rows[count][2], (UInt32)(Int32)dt.Rows[count][3]);
+                this.Stats.SetStatValueByName((Int32)dt.Rows[count][2], (UInt32)(Int32)dt.Rows[count][3]);
                 count++;
             }
             return count;

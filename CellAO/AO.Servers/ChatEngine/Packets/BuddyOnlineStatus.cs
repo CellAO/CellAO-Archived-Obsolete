@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The buddy online status.
     /// </summary>
-    public class BuddyOnlineStatus
+    public static class BuddyOnlineStatus
     {
         /// <summary>
         /// The create.
@@ -40,7 +40,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(uint playerid, uint online, byte[] status)
+        public static byte[] Create(uint playerid, uint online, byte[] status)
         {
             PacketWriter writer = new PacketWriter(40);
             writer.WriteUInt32(playerid);

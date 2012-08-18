@@ -38,7 +38,7 @@ namespace ZoneEngine.PacketHandlers
     /// <summary>
     /// 
     /// </summary>
-    public class CharDCMove
+    public static class CharacterDcMove
     {
         /// <summary>
         /// TODO: Add a Description of what this Class does.. -Looks at someone else-

@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The msg anonymous vicinity.
     /// </summary>
-    public class MsgAnonymousVicinity
+    public static class MsgAnonymousVicinity
     {
         /// <summary>
         /// The create.
@@ -40,7 +40,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(string arg1, string msg, string blob)
+        public static byte[] Create(string arg1, string msg, string blob)
         {
             PacketWriter writer = new PacketWriter(35);
             writer.WriteString(arg1);

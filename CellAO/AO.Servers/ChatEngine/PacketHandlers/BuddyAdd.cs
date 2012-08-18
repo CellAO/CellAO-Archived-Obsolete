@@ -27,23 +27,8 @@ namespace ChatEngine.PacketHandlers
     /// <summary>
     /// The buddy add.
     /// </summary>
-    public class BuddyAdd
+    public static class BuddyAdd
     {
-        /// <summary>
-        /// The playerId.
-        /// </summary>
-        private uint playerId;
-
-        /// <summary>
-        /// The unknown 1.
-        /// </summary>
-        private ushort unknown1;
-
-        /// <summary>
-        /// The unknown 2.
-        /// </summary>
-        private byte unknown2;
-
         /// <summary>
         /// Read buddy add packet
         /// </summary>
@@ -53,22 +38,22 @@ namespace ChatEngine.PacketHandlers
         /// <param name="packet">
         /// Packet data
         /// </param>
-        public void Read(Client client, byte[] packet)
+        public static void Read(Client client, byte[] packet)
         {
             PacketReader reader = new PacketReader(ref packet);
 
             reader.ReadUInt16(); // Packet ID
             reader.ReadUInt16(); // Data length
-            this.playerId = reader.ReadUInt32();
-            this.unknown1 = reader.ReadUInt16();
-            this.unknown2 = reader.ReadByte();
+            uint playerId = reader.ReadUInt32();
+            ushort unknown1 = reader.ReadUInt16();
+            byte unknown2 = reader.ReadByte();
             client.Server.Debug(
                 client,
                 "{0} >> BuddyAdd: PlayerID {1} Unknown1: {2} Unknown2: {3}",
                 client.Character.characterName,
-                this.playerId,
-                this.unknown1,
-                this.unknown2);
+                playerId,
+                unknown1,
+                unknown2);
             reader.Finish();
         }
     }

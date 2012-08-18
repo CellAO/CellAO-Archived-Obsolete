@@ -27,12 +27,8 @@ namespace ChatEngine.PacketHandlers
     /// <summary>
     /// Login Character
     /// </summary>
-    public class LoginCharacter
+    public static class LoginCharacter
     {
-        /// <summary>
-        /// Player ID
-        /// </summary>
-        private uint playerId;
 
         /// <summary>
         /// Read Login Character packet
@@ -43,15 +39,15 @@ namespace ChatEngine.PacketHandlers
         /// <param name="packet">
         /// packet data
         /// </param>
-        public void Read(Client client, byte[] packet)
+        public static void Read(Client client, byte[] packet)
         {
             PacketReader reader = new PacketReader(ref packet);
 
             reader.ReadUInt16(); // Packet ID
             reader.ReadUInt16(); // Data length
-            this.playerId = reader.ReadUInt32();
+            uint playerId = reader.ReadUInt32();
             client.Server.Debug(
-                client, "{0} >> LoginCharacter: PlayerID: {1}", client.Character.characterName, this.playerId);
+                client, "{0} >> LoginCharacter: PlayerID: {1}", client.Character.characterName, playerId);
             reader.Finish();
         }
     }

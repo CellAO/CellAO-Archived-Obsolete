@@ -27,7 +27,7 @@ namespace ChatEngine.PacketHandlers
     /// <summary>
     /// The authenticate bot.
     /// </summary>
-    public class AuthenticateBot
+    public static class AuthenticateBot
     {
         /// <summary>
         /// The read.
@@ -36,7 +36,7 @@ namespace ChatEngine.PacketHandlers
         /// </param>
         /// <param name="packet">
         /// </param>
-        public void Read(Client client, byte[] packet)
+        public static void Read(Client client, byte[] packet)
         {
             PacketReader reader = new PacketReader(ref packet);
 

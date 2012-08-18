@@ -335,7 +335,7 @@ namespace ZoneEngine
                 {
                     this.DeleteItem(this.targetPlacement);
                 }
-                this.client.SendChatText(this.GetSuccessMsg(placement));
+                this.client.SendChatText(this.SuccessMessage(placement));
 
                 int xp = this.CalculateXP();
 
@@ -393,7 +393,7 @@ namespace ZoneEngine
                 {
                     this.DeleteItem(this.targetPlacement);
                 }
-                this.client.SendChatText(this.GetSuccessMsg(placement));
+                this.client.SendChatText(this.SuccessMessage(placement));
 
                 int xp = this.CalculateXP();
 
@@ -516,7 +516,7 @@ namespace ZoneEngine
         #endregion
 
         #region Feedback Messages
-        private string GetSuccessMsg(int placement)
+        private string SuccessMessage(int placement)
         {
             return string.Format(
                 "You combined \"{0}\" with \"{1}\" and the result is a quality level {2} \"{3}\".",
@@ -526,7 +526,7 @@ namespace ZoneEngine
                 this.resultName);
         }
 
-        public static int GetSourceProcessesCount(int id)
+        public static int SourceProcessesCount(int id)
         {
             int count = 0;
             SqlWrapper wrapper = new SqlWrapper();
@@ -538,7 +538,7 @@ namespace ZoneEngine
             return count;
         }
 
-        public static int GetTargetProcessesCount(int id)
+        public static int TargetProcessesCount(int id)
         {
             int count = 0;
             SqlWrapper wrapper = new SqlWrapper();
@@ -550,7 +550,7 @@ namespace ZoneEngine
             return count;
         }
 
-        public string GetFeedbackMsg()
+        public string FeedbackMessage()
         {
             bool isLacking = false;
             foreach (TradeSkillSkillInfo skillinfo in this.Skills)
@@ -593,17 +593,16 @@ namespace ZoneEngine
         #region Spawn / Delete items
         private int SpawnItem()
         {
-            int firstfree = 64;
-            firstfree = this.client.Character.GetNextFreeInventory(104);
+            int firstfree = this.client.Character.GetNextFreeInventory(104);
             if (firstfree <= 93)
             {
                 InventoryEntries mi = new InventoryEntries();
-                AOItem it = ItemHandler.GetItemTemplate(Convert.ToInt32(this.ResultLowId));
+                AOItem it = ItemHandler.GetItemTemplate(this.ResultLowId);
                 mi.Placement = firstfree;
                 mi.Container = 104;
-                mi.Item.LowID = Convert.ToInt32(this.ResultLowId);
-                mi.Item.HighID = Convert.ToInt32(this.ResultHighId);
-                mi.Item.Quality = Convert.ToInt32(this.Quality);
+                mi.Item.LowID = this.ResultLowId;
+                mi.Item.HighID = this.ResultHighId;
+                mi.Item.Quality = this.Quality;
                 if (it.ItemType != 1)
                 {
                     mi.Item.MultipleCount = Math.Max(1, it.getItemAttribute(212));
@@ -684,7 +683,7 @@ namespace ZoneEngine
 
                 AOItem it = client.Character.GetInventoryAt(placement).Item;
 
-                TradeskillPacket.SendSource(client.Character, Tradeskill.GetSourceProcessesCount(it.HighID));
+                TradeskillPacket.SendSource(client.Character, Tradeskill.SourceProcessesCount(it.HighID));
 
                 var l1 = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 0).Select(m => m);
                 var l2 = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 1).Select(m => m);
@@ -732,7 +731,7 @@ namespace ZoneEngine
 
                 AOItem it = client.Character.GetInventoryAt(placement).Item;
 
-                TradeskillPacket.SendTarget(client.Character, Tradeskill.GetTargetProcessesCount(it.HighID));
+                TradeskillPacket.SendTarget(client.Character, Tradeskill.TargetProcessesCount(it.HighID));
 
                 var l1 = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 0).Select(m => m);
                 var l2 = TradeSkillInfos.Where(m => m.Cli == client && m.Location == 1).Select(m => m);

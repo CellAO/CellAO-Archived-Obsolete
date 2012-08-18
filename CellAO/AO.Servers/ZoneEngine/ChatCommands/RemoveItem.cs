@@ -61,7 +61,7 @@ namespace ZoneEngine.ChatCommands
         public override bool CheckCommandArguments(string[] args)
         {
             List<Type> check = new List<Type> { typeof(string), typeof(int) };
-            return this.CheckArgumentHelper(check, args);
+            return CheckArgumentHelper(check, args);
         }
 
         public override int GMLevelNeeded()
@@ -69,7 +69,7 @@ namespace ZoneEngine.ChatCommands
             return 1;
         }
 
-        public override List<string> GetCommands()
+        public override List<string> ListCommands()
         {
             return new List<string> { "remitem", "delitem" };
         }

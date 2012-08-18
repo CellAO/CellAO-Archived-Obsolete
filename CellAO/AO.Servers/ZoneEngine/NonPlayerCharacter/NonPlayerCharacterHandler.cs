@@ -62,10 +62,10 @@ namespace ZoneEngine.NonPlayerCharacter
         /// <summary>
         /// Spawns all NPCs in playfield to given client.
         /// </summary>
-        /// <param name="cli">Client to spawn NPCs to</param>
+        /// <param name="client">Client to spawn NPCs to</param>
         /// <param name="playfield">Playfield</param>
         /// <returns></returns>
-        public static void GetMonstersInPF(Client cli, int playfield)
+        public static void SpawnMonstersInPlayfieldToClient(Client client, int playfield)
         {
             foreach (NonPlayerCharacterClass mMonster in Program.zoneServer.Monsters)
             {
@@ -73,7 +73,7 @@ namespace ZoneEngine.NonPlayerCharacter
                 {
                     continue;
                 }
-                mMonster.SpawnToClient(cli);
+                mMonster.SpawnToClient(client);
             }
         }
 
@@ -91,7 +91,6 @@ namespace ZoneEngine.NonPlayerCharacter
         /// <summary>
         /// Removes NPC from world.
         /// </summary>
-        /// <param name="cli">Client that despawned NPC</param>
         /// <param name="monster">Monster to remove</param>
         /// <returns></returns>
         public static void DespawnMonster(Identity monster)
@@ -120,162 +119,147 @@ namespace ZoneEngine.NonPlayerCharacter
         public static int CacheAllFromDB()
         {
             int npcCount = 0;
-            long counter;
-            int npcall;
-            NonPlayerCharacterClass mMonster;
-            SqlWrapper msql = new SqlWrapper();
-            AOCoord coord;
-            byte[] btd = new byte[4];
-            AOWeaponpairs tempwp;
-            AONano temprn;
-            AOMeshs tempm;
-            AOAddMeshs tempa;
+            SqlWrapper sqlWrapper = new SqlWrapper();
 
             // TODO:COUNT
-            string Sql = "SELECT count(*) FROM `mobspawns`";
-            npcall = msql.SqlCount(Sql);
+            string sql = "SELECT count(*) FROM `mobspawns`";
+            int numberOfNpc = sqlWrapper.SqlCount(sql);
 
-            Console.Write("Reading spawns: 0/" + npcall.ToString());
-            Sql = "SELECT * FROM `mobspawns`";
-            DataTable dt = msql.ReadDatatable(Sql);
-            msql = new SqlWrapper();
-            DataTable dtstats = msql.ReadDatatable("SELECT * from mobspawns_stats ORDER BY id, stat ASC");
-            msql = new SqlWrapper();
-            DataTable dtinventory = msql.ReadDatatable("SELECT * from mobspawnsinventory order by id, placement ASC");
+            Console.Write("Reading spawns: 0/" + numberOfNpc.ToString());
+            sql = "SELECT * FROM `mobspawns`";
+            DataTable dt = sqlWrapper.ReadDatatable(sql);
+            sqlWrapper = new SqlWrapper();
+            DataTable dtstats = sqlWrapper.ReadDatatable("SELECT * from mobspawns_stats ORDER BY id, stat ASC");
+            sqlWrapper = new SqlWrapper();
+            DataTable dtinventory = sqlWrapper.ReadDatatable("SELECT * from mobspawnsinventory order by id, placement ASC");
             int statcount = 0;
             int invcount = 0;
             foreach (DataRow row in dt.Rows)
             {
-                mMonster = new NonPlayerCharacterClass(0, 0);
-                mMonster.Starting = true;
-                mMonster.ID = (Int32)row["ID"];
+                NonPlayerCharacterClass monster = new NonPlayerCharacterClass(0, 0)
+                    { Starting = true, ID = (Int32)row["ID"], PlayField = (Int32)row["Playfield"] };
 
-                mMonster.PlayField = (Int32)row["Playfield"];
-                mMonster.Name = (string)row["Name"]
+                monster.Name = (string)row["Name"]
 #if DEBUG
-                                + " " + mMonster.ID.ToString() // ID is for debug purpose only
+                                + " " + monster.ID.ToString() // ID is for debug purpose only
 #endif
                     ;
-                mMonster.readcoordsheadingfast(row);
-                statcount = mMonster.ReadStatsfast(dtstats, statcount);
-                invcount = mMonster.readInventoryfromSqlfast(dtinventory, invcount);
+                monster.readcoordsheadingfast(row);
+                statcount = monster.ReadStatsfast(dtstats, statcount);
+                invcount = monster.readInventoryfromSqlfast(dtinventory, invcount);
                 //                mMonster.readMeshsfromSql();
                 //                mMonster.readNanosfromSql();
                 //                mMonster.readTimersfromSql();
                 //                mMonster.readWaypointsfromSql();
                 //                mMonster.readWeaponpairsfromSql();
 
-                mMonster.readTexturesfromSqlfast(row);
-                byte[] tempb;
+                monster.readTexturesfromSqlfast(row);
+                byte[] bytes;
+                long counter;
                 if (!(row[15] is DBNull))
                 {
-                    tempb = (byte[])row[15]; // Waypoints
+                    bytes = (byte[])row[15]; // Waypoints
                     counter = 0;
-                    while (counter < tempb.Length)
+                    while (counter < bytes.Length)
                     {
-                        coord = new AOCoord();
-                        coord.x = BitConverter.ToSingle(tempb, (int)counter);
+                        AOCoord aoCoord = new AOCoord();
+                        aoCoord.x = BitConverter.ToSingle(bytes, (int)counter);
                         counter += 4;
-                        coord.y = BitConverter.ToSingle(tempb, (int)counter);
+                        aoCoord.y = BitConverter.ToSingle(bytes, (int)counter);
                         counter += 4;
-                        coord.z = BitConverter.ToSingle(tempb, (int)counter);
+                        aoCoord.z = BitConverter.ToSingle(bytes, (int)counter);
                         counter += 4;
-                        mMonster.Waypoints.Add(coord);
+                        monster.Waypoints.Add(aoCoord);
                     }
                 }
 
                 if (!(row[16] is DBNull))
                 {
-                    tempb = (byte[])row[16]; // Weaponpairs
+                    bytes = (byte[])row[16]; // Weaponpairs
                     counter = 0;
-                    while (counter < tempb.Length)
+                    while (counter < bytes.Length)
                     {
-                        tempwp = new AOWeaponpairs();
-                        tempwp.value1 = BitConverter.ToInt32(tempb, (int)counter);
+                        AOWeaponpairs tempWeaponpairs = new AOWeaponpairs();
+                        tempWeaponpairs.value1 = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        tempwp.value2 = BitConverter.ToInt32(tempb, (int)counter);
+                        tempWeaponpairs.value2 = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        tempwp.value3 = BitConverter.ToInt32(tempb, (int)counter);
+                        tempWeaponpairs.value3 = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        tempwp.value4 = BitConverter.ToInt32(tempb, (int)counter);
+                        tempWeaponpairs.value4 = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        mMonster.Weaponpairs.Add(tempwp);
+                        monster.Weaponpairs.Add(tempWeaponpairs);
                     }
                 }
 
                 if (!(row[17] is DBNull))
                 {
-                    tempb = (byte[])row[17]; // Running Nanos
+                    bytes = (byte[])row[17]; // Running Nanos
                     counter = 0;
-                    while (counter < tempb.Length)
+                    while (counter < bytes.Length)
                     {
-                        temprn = new AONano();
+                        AONano tempNano = new AONano();
 
-                        temprn.Nanotype = BitConverter.ToInt32(tempb, (int)counter);
+                        tempNano.Nanotype = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        temprn.Instance = BitConverter.ToInt32(tempb, (int)counter);
+                        tempNano.Instance = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        temprn.Value3 = BitConverter.ToInt32(tempb, (int)counter);
+                        tempNano.Value3 = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        temprn.Time1 = BitConverter.ToInt32(tempb, (int)counter);
+                        tempNano.Time1 = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        temprn.Time2 = BitConverter.ToInt32(tempb, (int)counter);
+                        tempNano.Time2 = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        mMonster.ActiveNanos.Add(temprn);
+                        monster.ActiveNanos.Add(tempNano);
                     }
                 }
 
                 if (!(row[18] is DBNull))
                 {
                     counter = 0;
-                    tempb = (byte[])row[18]; // Meshs
-                    while (counter < tempb.Length)
+                    bytes = (byte[])row[18]; // Meshs
+                    while (counter < bytes.Length)
                     {
-                        tempm = new AOMeshs();
-                        tempm.Position = BitConverter.ToInt32(tempb, (int)counter);
+                        AOMeshs tempMeshs = new AOMeshs();
+                        tempMeshs.Position = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        tempm.Mesh = BitConverter.ToInt32(tempb, (int)counter);
+                        tempMeshs.Mesh = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        tempm.OverrideTexture = BitConverter.ToInt32(tempb, (int)counter);
+                        tempMeshs.OverrideTexture = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
 
-                        mMonster.Meshs.Add(tempm);
-                        tempm = null;
+                        monster.Meshs.Add(tempMeshs);
                     }
                 }
 
                 if (!(row[19] is DBNull))
                 {
                     counter = 0;
-                    tempb = (byte[])row[19]; // Additional Meshs
-                    while (counter < tempb.Length)
+                    bytes = (byte[])row[19]; // Additional Meshs
+                    while (counter < bytes.Length)
                     {
-                        tempa = new AOAddMeshs();
-                        tempa.position = tempb[counter++];
-                        tempa.meshvalue1 = BitConverter.ToInt32(tempb, (int)counter);
+                        AOAddMeshs tempAdditionalMeshs = new AOAddMeshs();
+                        tempAdditionalMeshs.position = bytes[counter++];
+                        tempAdditionalMeshs.meshvalue1 = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        tempa.meshvalue2 = BitConverter.ToInt32(tempb, (int)counter);
+                        tempAdditionalMeshs.meshvalue2 = BitConverter.ToInt32(bytes, (int)counter);
                         counter += 4;
-                        tempa.priority = tempb[counter++];
+                        tempAdditionalMeshs.priority = bytes[counter++];
 
-                        mMonster.AdditionalMeshs.Add(tempa);
-                        tempa = null;
+                        monster.AdditionalMeshs.Add(tempAdditionalMeshs);
                     }
                 }
-                mMonster.Starting = false;
+                monster.Starting = false;
 
-                Program.zoneServer.Monsters.Add(mMonster);
+                Program.zoneServer.Monsters.Add(monster);
                 npcCount += 1;
                 if ((npcCount % 100) == 0)
                 {
-                    Console.Write("\rReading spawns: " + npcCount.ToString() + "/" + npcall.ToString());
+                    Console.Write("\rReading spawns: " + npcCount.ToString() + "/" + numberOfNpc.ToString());
                 }
             }
 
             Console.Write("\r                                                    \r");
-            dt = null;
-            dtstats = null;
-            dtinventory = null;
             return npcCount;
         }
     }

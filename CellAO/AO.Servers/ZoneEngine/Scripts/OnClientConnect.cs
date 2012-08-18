@@ -42,7 +42,7 @@ namespace ZoneEngine.Script
     /// Changes to XP, Coin drop, and player vs player should go here
     /// Has to be public or when in assembly form .net wont see it
     /// </summary>
-    public class CSOnClientConnect : AOScript
+    public class CSOnClientConnect : IAOScript
     {
         #region Fields
         #endregion

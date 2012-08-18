@@ -60,7 +60,7 @@ namespace ZoneEngine
 
         public static Server zoneServer;
 
-        public static CScriptCompiler csc;
+        public static ScriptCompiler csc;
 
         public static FunctionCollection FunctionC = new FunctionCollection();
 
@@ -112,7 +112,7 @@ namespace ZoneEngine
             zoneServer = new Server { EnableTCP = true, EnableUDP = false };
 
             #region Script Loading Code Area..
-            csc = new CScriptCompiler();
+            csc = new ScriptCompiler();
             #endregion
 
             try

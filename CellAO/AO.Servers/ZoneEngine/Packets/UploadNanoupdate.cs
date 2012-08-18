@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class UploadNanoupdate
+    public static class UploadNanoupdate
     {
         public static void Send(Character character, int type, int id)
         {

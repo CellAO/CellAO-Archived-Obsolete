@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class Trade
+    public static class Trade
     {
         public static void Send(Client client, Dynel dynel1, Dynel dynel2)
         {

@@ -63,7 +63,7 @@ namespace ZoneEngine.ChatCommands
             List<Type> check = new List<Type>();
             check.Add(typeof(int));
 
-            return this.CheckArgumentHelper(check, args);
+            return CheckArgumentHelper(check, args);
         }
 
         public override int GMLevelNeeded()
@@ -71,7 +71,7 @@ namespace ZoneEngine.ChatCommands
             return 0;
         }
 
-        public override List<string> GetCommands()
+        public override List<string> ListCommands()
         {
             List<string> temp = new List<string>();
             temp.Add("teleporttonpc");

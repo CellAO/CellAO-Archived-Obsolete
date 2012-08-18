@@ -76,7 +76,7 @@ namespace ZoneEngine.Script
         /// Returns a list of commands handled by this class
         /// </summary>
         /// <returns>List of command strings</returns>
-        public abstract List<string> GetCommands();
+        public abstract List<string> ListCommands();
 
         /// <summary>
         /// Checks the command Arguments
@@ -87,51 +87,51 @@ namespace ZoneEngine.Script
         #endregion
 
         #region Helper to check Command Arguments
-        public bool CheckArgumentHelper(List<Type> typelist, string[] args)
+        public static bool CheckArgumentHelper(List<Type> typeList, string[] args)
         {
             // Return false if number of args dont match (first argument is Command, so it doesnt count)
-            if (args.Length - 1 != typelist.Count)
+            if (args.Length - 1 != typeList.Count)
             {
                 return false;
             }
 
             bool argumentsok = true;
-            for (int argcounter = 0; argcounter < typelist.Count; argcounter++)
+            for (int argcounter = 0; argcounter < typeList.Count; argcounter++)
             {
-                if (typelist.ElementAt(argcounter) == typeof(string))
+                if (typeList.ElementAt(argcounter) == typeof(string))
                 {
                     continue;
                 }
 
-                if (typelist.ElementAt(argcounter) == typeof(int))
+                if (typeList.ElementAt(argcounter) == typeof(int))
                 {
                     int temp;
                     argumentsok &= int.TryParse(args[argcounter + 1], out temp);
                     continue;
                 }
 
-                if (typelist.ElementAt(argcounter) == typeof(Int32))
+                if (typeList.ElementAt(argcounter) == typeof(Int32))
                 {
                     Int32 temp;
                     argumentsok &= Int32.TryParse(args[argcounter + 1], out temp);
                     continue;
                 }
 
-                if (typelist.ElementAt(argcounter) == typeof(bool))
+                if (typeList.ElementAt(argcounter) == typeof(bool))
                 {
                     bool temp;
                     argumentsok &= bool.TryParse(args[argcounter + 1], out temp);
                     continue;
                 }
 
-                if (typelist.ElementAt(argcounter) == typeof(uint))
+                if (typeList.ElementAt(argcounter) == typeof(uint))
                 {
                     uint temp;
                     argumentsok &= uint.TryParse(args[argcounter + 1], out temp);
                     continue;
                 }
 
-                if (typelist.ElementAt(argcounter) == typeof(float))
+                if (typeList.ElementAt(argcounter) == typeof(float))
                 {
                     float temp;
                     argumentsok &= float.TryParse(

@@ -32,7 +32,7 @@ namespace ZoneEngine.PacketHandlers
 
     using ZoneEngine.Misc;
 
-    public class KnuBotFinishTrade
+    public static class KnuBotFinishTrade
     {
         public static void Read(byte[] packet, Client client)
         {

@@ -37,15 +37,7 @@ namespace ChatEngine.PacketHandlers
     /// </summary>
     public class PlayerNameLookup
     {
-        /// <summary>
-        /// The player name.
-        /// </summary>
-        private string playerName = string.Empty;
-
-        /// <summary>
-        /// The player ID.
-        /// </summary>
-        private uint playerId = uint.MaxValue;
+        
 
         /// <summary>
         /// Read and send back Player name lookup packet
@@ -56,29 +48,30 @@ namespace ChatEngine.PacketHandlers
         /// <param name="packet">
         /// Packet data
         /// </param>
-        public void Read(Client client, byte[] packet)
+        public static void Read(Client client, byte[] packet)
         {
             PacketReader reader = new PacketReader(ref packet);
 
             reader.ReadUInt16(); // packet ID
             reader.ReadUInt16(); // data length
-            this.playerName = reader.ReadString();
+            uint playerId = uint.MaxValue;
+            string playerName = reader.ReadString();
             client.Server.Debug(
-                client, "{0} >> PlayerNameLookup: PlayerName: {1}", client.Character.characterName, this.playerName);
+                client, "{0} >> PlayerNameLookup: PlayerName: {1}", client.Character.characterName, playerName);
             reader.Finish();
 
             SqlWrapper ms = new SqlWrapper();
-            string sqlQuery = "SELECT `ID` FROM `characters` WHERE `Name` = " + "'" + this.playerName + "'";
+            string sqlQuery = "SELECT `ID` FROM `characters` WHERE `Name` = " + "'" + playerName + "'";
             DataTable dt = ms.ReadDatatable(sqlQuery);
             if (dt.Rows.Count > 0)
             {
                 // Yes, this double cast is correct
-                this.playerId = (uint)(int)dt.Rows[0][0];
+                playerId = (uint)(int)dt.Rows[0][0];
             }
 
-            byte[] namelookup = new NameLookupResult().Create(this.playerId, this.playerName);
+            byte[] namelookup = NameLookupResult.Create(playerId, playerName);
             client.Send(namelookup);
-            client.KnownClients.Add(this.playerId);
+            client.KnownClients.Add(playerId);
         }
     }
 }

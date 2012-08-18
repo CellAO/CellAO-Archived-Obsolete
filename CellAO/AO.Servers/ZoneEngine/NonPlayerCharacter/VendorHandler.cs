@@ -78,13 +78,13 @@ namespace ZoneEngine.NonPlayerCharacter
                 mVendor.Heading.y = (Single)row["HeadingY"];
                 mVendor.Heading.z = (Single)row["HeadingZ"];
                 mVendor.Heading.w = (Single)row["HeadingW"];
-                mVendor.HASH = (string)row["Hash"];
+                mVendor.Hash = (string)row["Hash"];
                 mVendor.Name = (string)row["Name"]
 #if DEBUG
                                + " " + mVendor.ID.ToString(); // ID is for debug purpose only
 #endif
                 ;
-                mVendor.fillInventory();
+                mVendor.FillInventory();
 
                 Program.zoneServer.Vendors.Add(mVendor);
                 npcCount++;

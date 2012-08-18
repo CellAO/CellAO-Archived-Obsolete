@@ -22,22 +22,14 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-
-#endregion
-
 namespace ZoneEngine.PacketHandlers
 {
-    using System;
-
     using AO.Core;
-
-    using ZoneEngine.Misc;
 
     /// <summary>
     /// 
     /// </summary>
-    public class CharInPlay
+    public static class ChatCommandHandler
     {
         /// <summary>
         /// 
@@ -46,39 +38,50 @@ namespace ZoneEngine.PacketHandlers
         /// <param name="client"></param>
         public static void Read(byte[] packet, Client client)
         {
-            // client got all the needed data and
-            // wants to enter the world. After we
-            // reply to this, the character will really be in game
-
-            byte[] characterID = BitConverter.GetBytes(client.Character.ID);
-            Array.Reverse(characterID);
-            PacketWriter packetWriter = new PacketWriter();
-            packetWriter.PushByte(0xDF);
-            packetWriter.PushByte(0xDF);
-            packetWriter.PushShort(10);
-            packetWriter.PushShort(1);
-            packetWriter.PushShort(0);
-            packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.ID);
-            packetWriter.PushInt(0x570C2039);
-            packetWriter.PushIdentity(50000, client.Character.ID);
-            packetWriter.PushByte(0);
-            byte[] reply = packetWriter.Finish();
-            Announce.Playfield(client.Character.PlayField, reply);
-            Dynels.GetDynels(client);
-
-            // Mobs get sent whenever player enters playfield, BUT (!) they are NOT synchronized, because the mobs don't save stuff yet.
-            // for instance: the waypoints the mob went through will NOT be saved and therefore when you re-enter the PF, it will AGAIN
-            // walk the same waypoints.
-            //TODO: Fix it
-            /*foreach (MobType mob in NPCPool.Mobs)
+            #region Bytes / Strings / Ints  setup
+            PacketReader packetReader = new PacketReader(packet);
+            packetReader.PopHeader();
+            packetReader.PopByte();
+            packetReader.PopInt();
+            Identity target = packetReader.PopIdentity();
+            int commandLength = packetReader.PopInt();
+            string fullArgs = packetReader.PopString(commandLength).TrimEnd(char.MinValue);
+            string temp = string.Empty;
+            do
             {
-                //TODO: Make cache - use pf indexing somehow.
-                if (mob.pf == client.Character.pf)
-                {
-                    mob.SendToClient(client);
-                }
-            }*/
+                temp = fullArgs;
+                fullArgs = fullArgs.Replace("  ", " ");
+            }
+            while (temp != fullArgs);
+
+            string[] cmdArgs = fullArgs.Trim().Split(' ');
+            packetReader.Finish();
+            #endregion
+
+            Program.csc.CallChatCommand(cmdArgs[0].ToLower(), client, target, cmdArgs);
         }
+
+        #region Checks (These are bools to check if Item is already in Placement or if Nano is already uploaded)
+        // TODO: Move this to character class
+        public static bool HasNano(int nanoId, Client client)
+        {
+            bool found = false;
+            foreach (AOUploadedNanos uploadedNanos in client.Character.UploadedNanos)
+            {
+                if (uploadedNanos.Nano != nanoId)
+                {
+                    continue;
+                }
+                found = true;
+                break;
+            }
+            return found;
+        }
+
+        public static bool ItemExists(int placement, Client client)
+        {
+            return (client.Character.GetInventoryAt(placement) != null);
+        }
+        #endregion
     }
 }

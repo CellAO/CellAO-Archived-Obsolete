@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class GenericCmd
+    public static class GenericCmd
     {
         public static void Send(Character character, InventoryEntries inventoryEntries)
         {

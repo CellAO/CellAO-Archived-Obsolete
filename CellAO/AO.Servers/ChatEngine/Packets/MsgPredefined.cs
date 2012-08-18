@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The msg predefined.
     /// </summary>
-    public class MsgPredefined
+    public static class MsgPredefined
     {
         /// <summary>
         /// The create.
@@ -42,7 +42,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(uint playerid, uint windowid, uint messageid, string msgargs)
+        public static byte[] Create(uint playerid, uint windowid, uint messageid, string msgargs)
         {
             PacketWriter writer = new PacketWriter(37);
             writer.WriteUInt32(playerid);

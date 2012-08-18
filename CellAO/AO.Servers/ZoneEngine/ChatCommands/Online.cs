@@ -77,7 +77,7 @@ namespace ZoneEngine.ChatCommands
         {
             List<Type> check = new List<Type>();
             check.Add(typeof(int));
-            bool check1 = this.CheckArgumentHelper(check, args);
+            bool check1 = CheckArgumentHelper(check, args);
 
             return check1 || args.Length == 1;
         }
@@ -87,7 +87,7 @@ namespace ZoneEngine.ChatCommands
             return 1;
         }
 
-        public override List<string> GetCommands()
+        public override List<string> ListCommands()
         {
             List<string> temp = new List<string>();
             temp.Add("online");

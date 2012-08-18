@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The channel join.
     /// </summary>
-    public class ChannelJoin
+    public static class ChannelJoin
     {
         /// <summary>
         /// The create.
@@ -42,7 +42,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(byte[] channelid, string channelname, uint flags, byte[] otherdata)
+        public static byte[] Create(byte[] channelid, string channelname, uint flags, byte[] otherdata)
         {
             PacketWriter writer = new PacketWriter(60);
             writer.WriteBytes(channelid);

@@ -336,7 +336,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x47537a24:
                     //ContainerAddItem
-                    ContainerAddItem.Do(packet, client);
+                    ContainerAddItem.AddItemToContainer(packet, client);
                     break;
                 case 0x49222612:
                     //Visibility
@@ -392,7 +392,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x54111123:
                     //CharDCMove
-                    CharDCMove.Read(packet, client);
+                    CharacterDcMove.Read(packet, client);
                     break;
                 case 0x55220726:
                     //PlayfieldAllTowers
@@ -409,7 +409,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x570c2039:
                     //CharInPlay
-                    CharInPlay.Read(packet, client);
+                    CharacterInPlay.Read(packet, client);
                     break;
                 case 0x58362220:
                     //ShopUpdate
@@ -442,7 +442,7 @@ namespace ZoneEngine.PacketHandlers
                     //FullAuto
                     break;
                 case 0x5c525a7b:
-                    ChatCmd.Read(packet, client);
+                    ChatCommandHandler.Read(packet, client);
                     break;
                 case 0x5c654b28:
                     //MissedAttackInfo
@@ -510,8 +510,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x7f4b3108:
                     //OrgClient
-                    OrgClient m_OrgClient = new OrgClient();
-                    m_OrgClient.Read(packet, client);
+                    OrgClient.Read(packet, client);
                     break;
                 case 0x7f544905:
                     //VendingMachineFullUpdate

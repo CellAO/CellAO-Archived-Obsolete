@@ -35,7 +35,7 @@ namespace ZoneEngine.PacketHandlers
     using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Packets;
 
-    public class GenericCmd
+    public static class GenericCmd
     {
         private static int temp1, count, action, temp4;
 
@@ -732,7 +732,7 @@ namespace ZoneEngine.PacketHandlers
             #endregion
         }
 
-        internal static void Reply()
+        public static void Reply()
         {
             PacketWriter writer = new PacketWriter();
             writer.PushBytes(new byte[] { 0xDF, 0xDF });

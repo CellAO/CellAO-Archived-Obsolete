@@ -218,7 +218,7 @@ namespace ZoneEngine.PacketHandlers
                     Array.Copy(packet, reply, 50);
                     if (character.Inventory.Count == 0)
                     {
-                        ((VendingMachine)character).LoadTemplate(((VendingMachine)character).TemplateID);
+                        ((VendingMachine)character).LoadTemplate(((VendingMachine)character).TemplateId);
                     }
 
                     // pushing in server ID

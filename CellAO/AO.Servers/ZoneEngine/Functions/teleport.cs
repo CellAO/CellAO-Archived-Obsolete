@@ -62,25 +62,25 @@ namespace ZoneEngine.Functions
             return this.FunctionName;
         }
 
-        public bool FunctionExecute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
+        public bool FunctionExecute(Dynel self, Dynel caller, object target, object[] arguments)
         {
-            Client cli = ((Character)Self).Client;
+            Client cli = ((Character)self).Client;
             Quaternion q = new Quaternion(0, 1, 0, 0);
             AOCoord a = new AOCoord();
             Int32 pf;
-            if (Target is Statels.Statel)
+            if (target is Statels.Statel)
             {
-                a.x = Int32.Parse((string)Arguments[0]);
-                a.y = Int32.Parse((string)Arguments[1]);
-                a.z = Int32.Parse((string)Arguments[2]);
-                pf = Int32.Parse((string)Arguments[3]);
+                a.x = Int32.Parse((string)arguments[0]);
+                a.y = Int32.Parse((string)arguments[1]);
+                a.z = Int32.Parse((string)arguments[2]);
+                pf = Int32.Parse((string)arguments[3]);
             }
             else
             {
-                a.x = (Int32)Arguments[0];
-                a.y = (Int32)Arguments[1];
-                a.z = (Int32)Arguments[2];
-                pf = (Int32)Arguments[3];
+                a.x = (Int32)arguments[0];
+                a.y = (Int32)arguments[1];
+                a.z = (Int32)arguments[2];
+                pf = (Int32)arguments[3];
             }
             cli.Teleport(a, q, pf);
             return true;

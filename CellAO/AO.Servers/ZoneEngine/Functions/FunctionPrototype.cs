@@ -30,6 +30,7 @@ namespace ZoneEngine.Functions
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
 
@@ -107,10 +108,9 @@ namespace ZoneEngine.Functions
                     }
                 }
             }
-            catch
-            {
-                return false;
-            }
+            catch (MissingMethodException) { return false; }
+            catch (FileNotFoundException) { return false; }
+            catch (FileLoadException) { return false; }
             return true;
         }
 

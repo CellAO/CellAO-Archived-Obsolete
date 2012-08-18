@@ -34,9 +34,9 @@ namespace ZoneEngine.PacketHandlers
 
     using ZoneEngine.Packets;
 
-    internal class ContainerAddItem
+    public static class ContainerAddItem
     {
-        public static int getpage(int placement)
+        public static int InventoryPage(int placement)
         {
             if (placement < 16)
             {
@@ -57,24 +57,25 @@ namespace ZoneEngine.PacketHandlers
             return -1;
         }
 
-        public static void Do(byte[] packet, Client cli)
+        public static void AddItemToContainer(byte[] packet, Client cli)
         {
             PacketReader packetReader = new PacketReader(packet);
             bool noAppearanceUpdate = false;
-            /// Container ID's:
-            /// 0065 Weaponpage
-            /// 0066 Armorpage
-            /// 0067 Implantpage
-            /// 0068 Inventory (places 64-93)
-            /// 0069 Bank
-            /// 006B Backpack
-            /// 006C KnuBot Trade Window
-            /// 006E Overflow window
-            /// 006F Trade Window
-            /// 0073 Socialpage
-            /// 0767 Shop Inventory
-            /// 0790 Playershop Inventory
-            /// DEAD Trade Window (incoming)
+            /* Container ID's:
+             * 0065 Weaponpage
+             * 0066 Armorpage
+             *  0067 Implantpage
+             *  0068 Inventory (places 64-93)
+             *  0069 Bank
+             *  006B Backpack
+             *  006C KnuBot Trade Window
+             *  006E Overflow window
+             *  006F Trade Window
+             *  0073 Socialpage
+             *  0767 Shop Inventory
+             *  0790 Playershop Inventory
+             *  DEAD Trade Window (incoming)
+             */
 
             packetReader.PopInt();
             packetReader.PopInt();
@@ -238,16 +239,16 @@ namespace ZoneEngine.PacketHandlers
                             {
                                 cli.Character.UnequipItem(itemTo, cli.Character, false, fromPlacement);
                                 // send interpolated item
-                                Unequip.Send(cli, itemTo, getpage(toPlacement), toPlacement, false);
+                                Unequip.Send(cli, itemTo, InventoryPage(toPlacement), toPlacement, false);
                                 // client takes care of hotswap
 
                                 cli.Character.EquipItem(itemFrom, cli.Character, false, toPlacement);
-                                Equip.Send(cli, itemFrom, getpage(toPlacement), toPlacement);
+                                Equip.Send(cli, itemFrom, InventoryPage(toPlacement), toPlacement);
                             }
                             else
                             {
                                 cli.Character.EquipItem(itemFrom, cli.Character, false, toPlacement);
-                                Equip.Send(cli, itemFrom, getpage(toPlacement), toPlacement);
+                                Equip.Send(cli, itemFrom, InventoryPage(toPlacement), toPlacement);
                             }
                         }
                         else
@@ -257,7 +258,7 @@ namespace ZoneEngine.PacketHandlers
                                 if (itemTo == null)
                                 {
                                     cli.Character.EquipItem(itemFrom, cli.Character, false, toPlacement);
-                                    Equip.Send(cli, itemFrom, getpage(toPlacement), toPlacement);
+                                    Equip.Send(cli, itemFrom, InventoryPage(toPlacement), toPlacement);
                                 }
                             }
                             // Equiping to social page
@@ -285,7 +286,7 @@ namespace ZoneEngine.PacketHandlers
                         // from Armorpage
                         cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
-                        Unequip.Send(cli, itemFrom, getpage(fromPlacement), fromPlacement, false);
+                        Unequip.Send(cli, itemFrom, InventoryPage(fromPlacement), fromPlacement, false);
                         cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
@@ -294,7 +295,7 @@ namespace ZoneEngine.PacketHandlers
                         // from Weaponspage
                         cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
-                        Unequip.Send(cli, itemFrom, getpage(fromPlacement), fromPlacement, false);
+                        Unequip.Send(cli, itemFrom, InventoryPage(fromPlacement), fromPlacement, false);
                         cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = false;
@@ -303,7 +304,7 @@ namespace ZoneEngine.PacketHandlers
                         // from Implantpage
                         cli.Character.UnequipItem(itemFrom, cli.Character, false, fromPlacement);
                         // send interpolated item
-                        Unequip.Send(cli, itemFrom, getpage(fromPlacement), fromPlacement, false);
+                        Unequip.Send(cli, itemFrom, InventoryPage(fromPlacement), fromPlacement, false);
                         cli.Character.SwitchItems(fromPlacement, toPlacement);
                         cli.Character.CalculateSkills();
                         noAppearanceUpdate = true;

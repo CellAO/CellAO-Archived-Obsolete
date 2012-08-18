@@ -28,7 +28,7 @@ namespace ZoneEngine.PacketHandlers
 
     using ZoneEngine.Misc;
 
-    public class KnuBotStartTrade
+    public static class KnuBotStartTrade
     {
         public static void Send(Client cli, NonPlayerCharacterClass knubotTarget, string message, int numberOfItems)
         {

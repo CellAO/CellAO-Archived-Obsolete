@@ -68,12 +68,12 @@ namespace ZoneEngine.ChatCommands
                 try
                 {
                     statValue = targetCharacter.Stats.GetBaseValue(statId);
-                    effectiveValue = targetCharacter.Stats.Get(statId);
+                    effectiveValue = targetCharacter.Stats.StatValueByName(statId);
                     trickle = targetCharacter.Stats.GetStatbyNumber(statId).Trickle;
                     mod = targetCharacter.Stats.GetStatbyNumber(statId).StatModifier;
                     perc = targetCharacter.Stats.GetStatbyNumber(statId).StatPercentageModifier;
                 }
-                catch
+                catch (StatDoesNotExistException)
                 {
                     client.SendChatText("Unknown Stat Id " + statId);
                     return;
@@ -83,7 +83,7 @@ namespace ZoneEngine.ChatCommands
                                   + " (" + statId + ") = " + statValue;
 
                 client.SendChatText(response);
-                if (statValue != targetCharacter.Stats.Get(args[1]))
+                if (statValue != targetCharacter.Stats.StatValueByName(args[1]))
                 {
                     response = "Effective value Stat " + StatsList.GetStatName(statId) + " (" + statId + ") = "
                                + effectiveValue;
@@ -109,12 +109,12 @@ namespace ZoneEngine.ChatCommands
         {
             // Two different checks return true: <int> <uint> and <string> <uint>
             List<Type> check = new List<Type> { typeof(int) };
-            bool check1 = this.CheckArgumentHelper(check, args);
+            bool check1 = CheckArgumentHelper(check, args);
 
             check.Clear();
             check.Add(typeof(string));
 
-            check1 |= this.CheckArgumentHelper(check, args);
+            check1 |= CheckArgumentHelper(check, args);
             return check1;
         }
 
@@ -124,7 +124,7 @@ namespace ZoneEngine.ChatCommands
             return 1;
         }
 
-        public override List<string> GetCommands()
+        public override List<string> ListCommands()
         {
             List<string> temp = new List<string> { "get" };
             return temp;

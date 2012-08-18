@@ -69,12 +69,12 @@ namespace ChatEngine.PacketHandlers
             if (loginEncryption.IsValidLogin(loginKey, client.ServerSalt, userName)
                 && loginEncryption.IsCharacterOnAccount(userName, characterId))
             {
-                byte[] loginok = new LoginOk().Create();
+                byte[] loginok = LoginOk.Create();
                 client.Send(loginok);
             }
             else
             {
-                byte[] loginerr = new LoginError().Create();
+                byte[] loginerr = LoginError.Create();
                 client.Send(loginerr);
                 client.Server.DisconnectClient(client);
                 byte[] invalid = BitConverter.GetBytes(characterId);
@@ -103,7 +103,7 @@ namespace ChatEngine.PacketHandlers
             client.Send(pname);
 
             // send server welcome message to client
-            byte[] anonv = new MsgAnonymousVicinity().Create(
+            byte[] anonv = MsgAnonymousVicinity.Create(
                 string.Empty,
                 string.Format(motd, AssemblyInfoclass.Description + " " + AssemblyInfoclass.AssemblyVersion),
                 string.Empty);
@@ -113,7 +113,7 @@ namespace ChatEngine.PacketHandlers
             // hardcoded right now
             foreach (ChannelsEntry channel in ChatChannels.ChannelNames)
             {
-                byte[] chanGlobal = new ChannelJoin().Create(
+                byte[] chanGlobal = ChannelJoin.Create(
                     channel.Id, channel.Name, channel.ChannelMode, new byte[] { 0x00, 0x00 });
                 client.Send(chanGlobal);
             }
@@ -129,11 +129,11 @@ namespace ChatEngine.PacketHandlers
             }
             else
             {
-                List<byte> chn_buf = new List<byte>();
-                chn_buf.Add(0x03);
-                chn_buf.AddRange(BitConverter.GetBytes(client.Character.orgId));
-                byte[] channelId = chn_buf.ToArray();
-                byte[] guildChannel = new ChannelJoin().Create(
+                List<byte> channelBuffer = new List<byte>();
+                channelBuffer.Add(0x03);
+                channelBuffer.AddRange(BitConverter.GetBytes(client.Character.orgId));
+                byte[] channelId = channelBuffer.ToArray();
+                byte[] guildChannel = ChannelJoin.Create(
                     channelId, client.Character.orgName, 0x8044, new byte[] { 0x00, 0x00 });
                 client.Send(guildChannel);
             }

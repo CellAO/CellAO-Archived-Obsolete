@@ -107,7 +107,7 @@ namespace ZoneEngine.ChatCommands
             return 1;
         }
 
-        public override List<string> GetCommands()
+        public override List<string> ListCommands()
         {
             List<string> temp = new List<string>();
             temp.Add("showstatel");

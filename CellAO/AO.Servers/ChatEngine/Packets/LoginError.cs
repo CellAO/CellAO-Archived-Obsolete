@@ -27,14 +27,14 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The login error.
     /// </summary>
-    public class LoginError
+    public static class LoginError
     {
         /// <summary>
         /// The create.
         /// </summary>
         /// <returns>
         /// </returns>
-        public byte[] Create()
+        public static byte[] Create()
         {
             PacketWriter writer = new PacketWriter(6);
             return writer.Finish();

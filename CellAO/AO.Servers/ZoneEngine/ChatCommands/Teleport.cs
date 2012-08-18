@@ -48,7 +48,7 @@ namespace ZoneEngine.ChatCommands
 
             AOCoord coord = new AOCoord();
             int pf = client.Character.PlayField;
-            if (this.CheckArgumentHelper(check, args))
+            if (CheckArgumentHelper(check, args))
             {
                 coord = new AOCoord(
                     float.Parse(args[1], NumberStyles.Any, CultureInfo.InvariantCulture),
@@ -64,7 +64,7 @@ namespace ZoneEngine.ChatCommands
             check.Add(typeof(float));
             check.Add(typeof(int));
 
-            if (this.CheckArgumentHelper(check, args))
+            if (CheckArgumentHelper(check, args))
             {
                 coord = new AOCoord(
                     float.Parse(args[1], NumberStyles.Any, CultureInfo.InvariantCulture),
@@ -97,7 +97,7 @@ namespace ZoneEngine.ChatCommands
             check.Add(typeof(float));
             check.Add(typeof(float));
             check.Add(typeof(int));
-            bool check1 = this.CheckArgumentHelper(check, args);
+            bool check1 = CheckArgumentHelper(check, args);
 
             check.Clear();
             check.Add(typeof(float));
@@ -105,7 +105,7 @@ namespace ZoneEngine.ChatCommands
             check.Add(typeof(string));
             check.Add(typeof(float));
             check.Add(typeof(int));
-            check1 |= this.CheckArgumentHelper(check, args);
+            check1 |= CheckArgumentHelper(check, args);
 
             return check1;
         }
@@ -115,7 +115,7 @@ namespace ZoneEngine.ChatCommands
             return 1;
         }
 
-        public override List<string> GetCommands()
+        public override List<string> ListCommands()
         {
             List<string> temp = new List<string>();
             temp.Add("tp");

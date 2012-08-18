@@ -34,24 +34,44 @@ namespace ZoneEngine.Script
     public class Scripts
     {
         //TODO: Place all the Engines Scripting Code in here (Checks, executes and compiles)
-        public Dictionary<string, string> CSList;
+        private readonly Dictionary<string, string> cSharpList;
 
-        public Dictionary<string, string> DLLList;
+        private readonly Dictionary<string, string> dllList;
+
+        public Dictionary<string, string> CSharpList
+        {
+            get
+            {
+                return cSharpList;
+            }
+        }
+
+        public Dictionary<string, string> DllList
+        {
+            get
+            {
+                return dllList;
+            }
+        }
+
+        public Scripts()
+        {
+            this.cSharpList = new Dictionary<string, string>();
+            this.dllList = new Dictionary<string, string>();
+        }
 
         public void CheckScripts()
         {
             DirectoryInfo dirinfo = new DirectoryInfo("Scripts/");
             FileInfo[] csinfo = dirinfo.GetFiles("*.cs");
             FileInfo[] dllinfo = dirinfo.GetFiles("*.dll");
-            this.CSList = new Dictionary<string, string>();
-            this.DLLList = new Dictionary<string, string>();
             foreach (FileInfo fi in csinfo)
             {
-                this.CSList.Add("CSName", fi.Name);
+                this.cSharpList.Add("CSName", fi.Name);
             }
             foreach (FileInfo fi2 in dllinfo)
             {
-                this.DLLList.Add("DllName", fi2.Name);
+                this.dllList.Add("DllName", fi2.Name);
             }
         }
     }

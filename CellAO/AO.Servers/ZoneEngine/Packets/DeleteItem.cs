@@ -30,7 +30,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class DeleteItem
+    public static class DeleteItem
     {
         public static void Send(Character character, int type, int instance)
         {

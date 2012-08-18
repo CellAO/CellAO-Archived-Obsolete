@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The channel leave.
     /// </summary>
-    public class ChannelLeave
+    public static class ChannelLeave
     {
         /// <summary>
         /// The create.
@@ -36,7 +36,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(byte[] channelid)
+        public static byte[] Create(byte[] channelid)
         {
             PacketWriter writer = new PacketWriter(61);
             writer.WriteBytes(channelid);

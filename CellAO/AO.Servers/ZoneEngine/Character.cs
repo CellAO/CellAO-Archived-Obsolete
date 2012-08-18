@@ -2476,7 +2476,7 @@ namespace ZoneEngine
                     // Target not found, cant check reqs -> FALSE
                 }
 
-                int statval = reqtarget.stats.Get(aor.Statnumber);
+                int statval = reqtarget.stats.StatValueByName(aor.Statnumber);
                 bool reqresult = true;
                 switch (aor.Operator)
                 {

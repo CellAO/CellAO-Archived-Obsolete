@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The name lookup result.
     /// </summary>
-    public class NameLookupResult
+    public static class NameLookupResult
     {
         /// <summary>
         /// The create.
@@ -38,7 +38,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(uint playerid, string playername)
+        public static byte[] Create(uint playerid, string playername)
         {
             PacketWriter writer = new PacketWriter(21);
             writer.WriteUInt32(playerid);

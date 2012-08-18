@@ -60,7 +60,7 @@ namespace ZoneEngine.Packets
         /// <param name="statName"></param>
         private static void WriteStat3232(Client client, PacketWriter writer, string statName)
         {
-            WriteStat3232(client, writer, client.Character.Stats.GetID(statName));
+            WriteStat3232(client, writer, client.Character.Stats.StatIdByName(statName));
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace ZoneEngine.Packets
         /// <param name="statName"></param>
         private static void WriteStat816(Client client, PacketWriter writer, string statName)
         {
-            WriteStat816(client, writer, client.Character.Stats.GetID(statName));
+            WriteStat816(client, writer, client.Character.Stats.StatIdByName(statName));
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace ZoneEngine.Packets
         /// <param name="statName"></param>
         private static void WriteStat88(Client client, PacketWriter writer, string statName)
         {
-            WriteStat88(client, writer, client.Character.Stats.GetID(statName));
+            WriteStat88(client, writer, client.Character.Stats.StatIdByName(statName));
         }
         #endregion
 

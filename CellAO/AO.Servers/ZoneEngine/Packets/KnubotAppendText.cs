@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class KnuBotAppendText
+    public static class KnuBotAppendText
     {
         public static void Send(Client cli, NonPlayerCharacterClass knubotTarget, string message)
         {

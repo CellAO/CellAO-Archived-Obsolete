@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The msg vicinity.
     /// </summary>
-    public class MsgVicinity
+    public static class MsgVicinity
     {
         /// <summary>
         /// The create.
@@ -41,7 +41,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(uint playerid, string message, byte chatType)
+        public static byte[] Create(uint playerid, string message, byte chatType)
         {
             PacketWriter writer = new PacketWriter(34);
             writer.WriteUInt32(playerid);

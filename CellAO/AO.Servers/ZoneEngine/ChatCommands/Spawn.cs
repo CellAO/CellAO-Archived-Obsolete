@@ -123,7 +123,7 @@ namespace ZoneEngine.ChatCommands
             List<Type> check = new List<Type>();
             check.Add(typeof(string));
             check.Add(typeof(uint));
-            bool check1 = this.CheckArgumentHelper(check, args);
+            bool check1 = CheckArgumentHelper(check, args);
             if (check1)
             {
                 return true;
@@ -156,7 +156,7 @@ namespace ZoneEngine.ChatCommands
         /// <returns>
         /// Returns the command list
         /// </returns>
-        public override List<string> GetCommands()
+        public override List<string> ListCommands()
         {
             List<string> temp = new List<string> { "spawn" };
             return temp;

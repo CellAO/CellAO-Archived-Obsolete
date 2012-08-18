@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class AddTemplate
+    public static class AddTemplate
     {
         public static void Send(Client client, InventoryEntries inventoryEntry)
         {

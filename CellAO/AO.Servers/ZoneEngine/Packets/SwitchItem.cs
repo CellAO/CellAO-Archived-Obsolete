@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    internal class SwitchItem
+    public static class SwitchItem
     {
         public static void Send(Client client, int fromPage, int fromPlacement, Identity toIdentity, int toPlacement)
         {

@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The private group message.
     /// </summary>
-    public class PrivateGroupMessage
+    public static class PrivateGroupMessage
     {
         /// <summary>
         /// The create.
@@ -42,7 +42,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(uint privategroupid, uint playerid, string message, string blob)
+        public static byte[] Create(uint privategroupid, uint playerid, string message, string blob)
         {
             PacketWriter writer = new PacketWriter(57);
             writer.WriteUInt32(privategroupid);

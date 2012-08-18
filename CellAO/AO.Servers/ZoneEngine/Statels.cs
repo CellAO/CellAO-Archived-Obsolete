@@ -474,7 +474,7 @@ namespace ZoneEngine
                         reqs_met = false;
                         return;
                     }
-                    int statval = ftarget.Stats.Get(this.Requirements[r].AttributeNumber);
+                    int statval = ftarget.Stats.StatValueByName(this.Requirements[r].AttributeNumber);
                     switch (this.Requirements[r].Operator)
                     {
                         case operator_and:

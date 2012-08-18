@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    internal class SystemText
+    public static class SystemText
     {
         public static void Send(Client client, string text, int color)
         {

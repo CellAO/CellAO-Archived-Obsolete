@@ -47,8 +47,8 @@ namespace ZoneEngine.Packets
         {
             PacketWriter packetWriter = new PacketWriter();
 
-            uint oldValue = (uint)client.Character.Stats.Get(stat);
-            client.Character.Stats.Set(stat, value);
+            uint oldValue = (uint)client.Character.Stats.StatValueByName(stat);
+            client.Character.Stats.SetStatValueByName(stat, value);
 
             packetWriter.PushBytes(new byte[] { 0xDF, 0xDF, });
             packetWriter.PushShort(10);

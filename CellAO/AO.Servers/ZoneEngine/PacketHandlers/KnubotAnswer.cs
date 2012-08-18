@@ -32,7 +32,7 @@ namespace ZoneEngine.PacketHandlers
 
     using ZoneEngine.Misc;
 
-    public class KnuBotAnswer
+    public static class KnuBotAnswer
     {
         public static void Read(byte[] packet, Client client)
         {

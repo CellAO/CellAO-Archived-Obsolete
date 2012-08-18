@@ -30,7 +30,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    internal class Equip
+    public static class Equip
     {
         public static void Send(Client cli, AOItem it, int page, int placement)
         {

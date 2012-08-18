@@ -65,14 +65,14 @@ namespace ZoneEngine.PacketHandlers
             // unless you are 300% sure you know what you're doing
 
             #region Do not edit
-            MemoryStream m_stream = new MemoryStream(packet);
-            BinaryReader m_reader = new BinaryReader(m_stream);
-            m_stream.Position = 20;
+            MemoryStream memoryStream = new MemoryStream(packet);
+            BinaryReader binaryReader = new BinaryReader(memoryStream);
+            memoryStream.Position = 20;
             // we get character ID of a client and store
             // it in this ClientBase so we can use it later
-            int charID = IPAddress.NetworkToHostOrder(m_reader.ReadInt32());
-            m_reader.Close();
-            m_stream.Dispose();
+            int charID = IPAddress.NetworkToHostOrder(binaryReader.ReadInt32());
+            binaryReader.Close();
+            memoryStream.Dispose();
 
             client.Character = new Character(charID, 0);
             client.Character.Client = client;
@@ -107,7 +107,7 @@ namespace ZoneEngine.PacketHandlers
             Stat.Send(client, 521, 0, false);
 
             /* Action 167 Animation and Stance Data maybe? */
-            byte[] tmp_array = new byte[]
+            byte[] tempBytes = new byte[]
                 {
                     0xDF, 0xDF, 0x00, 0x0A, 0x00, 0x01, 0x00, 0x37, 0x00, 0x00, 0x0c, 0x0e, chrID[0], chrID[1], chrID[2],
                     chrID[3], 0x5E, 0x47, 0x77, 0x70, // CharacterAction
@@ -115,9 +115,9 @@ namespace ZoneEngine.PacketHandlers
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                     , 0x00, 0x00, 0x01, 0x00, 0x00
                 };
-            client.SendCompressed(tmp_array);
+            client.SendCompressed(tempBytes);
 
-            tmp_array = new byte[]
+            tempBytes = new byte[]
                 {
                     // current in game time
 
@@ -127,7 +127,7 @@ namespace ZoneEngine.PacketHandlers
                     0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xD4, 0x40, // 185408
                     0x47, 0x9C, 0x9B, 0xA8 // 80183.3125
                 };
-            client.SendCompressed(tmp_array);
+            client.SendCompressed(tempBytes);
 
             /* set SocialStatus to 0 */
             Stat.Set(client, 521, 0, false);
@@ -142,7 +142,7 @@ namespace ZoneEngine.PacketHandlers
             /* inventory, items and all that */
             FullCharacter.Send(client);
 
-            tmp_array = new byte[]
+            tempBytes = new byte[]
                 {
                     // this packet gives you (or anyone else)
                     // special attacks like brawl, fling shot and so
@@ -170,7 +170,7 @@ namespace ZoneEngine.PacketHandlers
                     0x00, 0x00, 0x00, 0x64 // 100
                 };
 
-            client.SendCompressed(tmp_array);
+            client.SendCompressed(tempBytes);
             // done
             #endregion
 
@@ -178,7 +178,7 @@ namespace ZoneEngine.PacketHandlers
             client.Character.DoNotDoTimers = false;
 
             // spawn all active monsters to client
-            NonPlayerCharacterHandler.GetMonstersInPF(client, client.Character.PlayField);
+            NonPlayerCharacterHandler.SpawnMonstersInPlayfieldToClient(client, client.Character.PlayField);
 
             if (VendorHandler.GetNumberofVendorsinPlayfield(client.Character.PlayField) > 0)
             {

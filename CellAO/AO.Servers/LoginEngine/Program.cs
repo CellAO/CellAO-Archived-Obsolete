@@ -47,7 +47,7 @@ namespace LoginEngine
     using NLog.Config;
     using NLog.Targets;
 
-    public class Program
+    public static class Program
     {
         private static LoginServer loginLoginServer;
 
@@ -295,7 +295,7 @@ namespace LoginEngine
                             {
                                 if (firstname == null)
                                 {
-                                    throw new Exception();
+                                    throw new ArgumentNullException();
                                 }
                             }
                             catch
@@ -308,7 +308,7 @@ namespace LoginEngine
                             {
                                 if (lastname == null)
                                 {
-                                    throw new Exception();
+                                    throw new ArgumentNullException();
                                 }
                             }
                             catch

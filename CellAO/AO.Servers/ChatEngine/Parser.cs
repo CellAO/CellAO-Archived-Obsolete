@@ -50,19 +50,19 @@ namespace ChatEngine
                 case 2:
 
                     // Chat bot wants to authenticate
-                    new AuthenticateBot().Read(client, packet);
+                    AuthenticateBot.Read(client, packet);
                     break;
                 case 3:
-                    new LoginCharacter().Read(client, packet);
+                    LoginCharacter.Read(client, packet);
                     break;
                 case 21:
-                    new PlayerNameLookup().Read(client, packet);
+                    PlayerNameLookup.Read(client, packet);
                     break;
                 case 30:
-                    new Tell().Read(client, packet);
+                    Tell.Read(client, packet);
                     break;
                 case 40:
-                    new BuddyAdd().Read(client, packet);
+                    BuddyAdd.Read(client, packet);
                     break;
                 case 41:
                     new BuddyRemove().Read(client, packet);

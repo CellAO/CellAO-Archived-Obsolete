@@ -29,18 +29,8 @@ namespace ChatEngine.PacketHandlers
     /// <summary>
     /// The tell.
     /// </summary>
-    public class Tell
+    public static class Tell
     {
-        /// <summary>
-        /// The playerId.
-        /// </summary>
-        private uint playerId;
-
-        /// <summary>
-        /// The message.
-        /// </summary>
-        private string message = string.Empty;
-
         /// <summary>
         /// Read and process Tell message
         /// </summary>
@@ -50,19 +40,19 @@ namespace ChatEngine.PacketHandlers
         /// <param name="packet">
         /// Packet data
         /// </param>
-        public void Read(Client client, byte[] packet)
+        public static void Read(Client client, byte[] packet)
         {
             PacketReader reader = new PacketReader(ref packet);
 
             reader.ReadUInt16();
             reader.ReadUInt16();
-            this.playerId = reader.ReadUInt32();
-            this.message = reader.ReadString();
-            client.Server.Debug(client, "{0} >> Tell: PlayerId: {1}", client.Character.characterName, this.playerId);
+            uint playerId = reader.ReadUInt32();
+            string message = reader.ReadString();
+            client.Server.Debug(client, "{0} >> Tell: PlayerId: {1}", client.Character.characterName, playerId);
             reader.Finish();
-            if (client.Server.ConnectedClients.ContainsKey(this.playerId))
+            if (client.Server.ConnectedClients.ContainsKey(playerId))
             {
-                Client tellClient = (Client)client.Server.ConnectedClients[this.playerId];
+                Client tellClient = (Client)client.Server.ConnectedClients[playerId];
                 if (!tellClient.KnownClients.Contains(client.Character.characterId))
                 {
                     byte[] pname = PlayerName.New(client, client.Character.characterId);
@@ -70,12 +60,12 @@ namespace ChatEngine.PacketHandlers
                     tellClient.KnownClients.Add(client.Character.characterId);
                 }
 
-                byte[] pgroup = new MsgPrivateGroup().Create(client.Character.characterId, this.message, string.Empty);
+                byte[] pgroup = MsgPrivateGroup.Create(client.Character.characterId, message, string.Empty);
                 tellClient.Send(pgroup);
             }
             else
             {
-                byte[] sysmsg = new MsgSystem().Create("Player not online.");
+                byte[] sysmsg = MsgSystem.Create("Player not online.");
                 client.Send(sysmsg);
             }
         }

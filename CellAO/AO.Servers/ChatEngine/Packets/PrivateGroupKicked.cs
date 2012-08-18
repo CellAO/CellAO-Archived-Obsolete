@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The private group kicked.
     /// </summary>
-    public class PrivateGroupKicked
+    public static class PrivateGroupKicked
     {
         /// <summary>
         /// The create.
@@ -36,7 +36,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(uint playerid)
+        public static byte[] Create(uint playerid)
         {
             PacketWriter writer = new PacketWriter(51);
             writer.WriteUInt32(playerid);

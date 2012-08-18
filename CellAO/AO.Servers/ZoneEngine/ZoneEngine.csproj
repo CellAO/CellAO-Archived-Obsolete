@@ -276,9 +276,9 @@
     </Compile>
     <Compile Include="NonPlayerCharacter\VendorHandler.cs" />
     <Compile Include="PacketHandlers\CharacterAction.cs" />
-    <Compile Include="PacketHandlers\CharDCMove.cs" />
-    <Compile Include="PacketHandlers\CharInPlay.cs" />
-    <Compile Include="PacketHandlers\ChatCmd.cs" />
+    <Compile Include="PacketHandlers\CharacterDcMove.cs" />
+    <Compile Include="PacketHandlers\CharacterInPlay.cs" />
+    <Compile Include="PacketHandlers\ChatCommandHandler.cs" />
     <Compile Include="PacketHandlers\Bank.cs" />
     <Compile Include="PacketHandlers\ClientConnected.cs" />
     <Compile Include="PacketHandlers\ContainerAddItem.cs" />
@@ -369,8 +369,8 @@
     <Compile Include="ChatCommands\TeleportDynel.cs" />
     <Compile Include="ChatCommands\TeleportToNpc.cs" />
     <Compile Include="Script\AOChatCommand.cs" />
-    <Compile Include="Script\AOScript.cs" />
-    <Compile Include="Script\CScriptCompiler.cs" />
+    <Compile Include="Script\IAOScript.cs" />
+    <Compile Include="Script\ScriptCompiler.cs" />
     <Compile Include="Script\Dynels.cs" />
     <Compile Include="Script\ScriptAPI.cs" />
     <Compile Include="Script\Scripts.cs" />

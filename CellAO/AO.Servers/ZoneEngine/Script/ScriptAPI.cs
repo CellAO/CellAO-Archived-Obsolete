@@ -89,7 +89,7 @@ namespace ZoneEngine
         /// <param name="announce"></param>
         public void SetStat(Client cli, int stat, uint value, bool announce)
         {
-            cli.Character.Stats.Set(stat, value);
+            cli.Character.Stats.SetStatValueByName(stat, value);
         }
 
         /// <summary>

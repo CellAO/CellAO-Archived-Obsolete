@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The buddy removed.
     /// </summary>
-    public class BuddyRemoved
+    public static class BuddyRemoved
     {
         /// <summary>
         /// The create.
@@ -36,7 +36,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(uint playerid)
+        public static byte[] Create(uint playerid)
         {
             PacketWriter writer = new PacketWriter(41);
             writer.WriteUInt32(playerid);

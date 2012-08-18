@@ -30,7 +30,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    internal class BankOpen
+    public static class BankOpen
     {
         public static void Send(Client client)
         {

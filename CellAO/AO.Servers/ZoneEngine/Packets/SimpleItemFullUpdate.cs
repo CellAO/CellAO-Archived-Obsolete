@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class SimpleItemFullUpdate
+    public static class SimpleItemFullUpdate
     {
         public static void UpdateItemsCache(Character character)
         {
@@ -38,7 +38,7 @@ namespace ZoneEngine.Packets
             }
         }
 
-        public void SendPlayField(Client client, VendingMachine vendingMachine, int itemNumber)
+        public static void SendPlayField(Client client, VendingMachine vendingMachine, int itemNumber)
         {
             PacketWriter packetWriter = new PacketWriter();
 
@@ -78,7 +78,7 @@ namespace ZoneEngine.Packets
             // TODO: Actually send the data, probably research needed
         }
 
-        public void SendOwner(Client client, VendingMachine vendingMachine, int itemNumber)
+        public static void SendOwner(Client client, VendingMachine vendingMachine, int itemNumber)
         {
             PacketWriter packetWriter = new PacketWriter();
 

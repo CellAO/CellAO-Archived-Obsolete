@@ -33,7 +33,7 @@ namespace ZoneEngine.Script
     /// <summary>
     /// The Class in charge of printing information to our consoles
     /// </summary>
-    public interface AOScript
+    public interface IAOScript
     {
         #region Fields
         #endregion

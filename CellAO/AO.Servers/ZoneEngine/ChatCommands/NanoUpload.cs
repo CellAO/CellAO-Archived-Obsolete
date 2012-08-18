@@ -77,7 +77,7 @@ namespace ZoneEngine.ChatCommands
             // Always true, only string arguments
             List<Type> check = new List<Type> { typeof(string), typeof(int) };
 
-            return this.CheckArgumentHelper(check, args);
+            return CheckArgumentHelper(check, args);
         }
 
         public override int GMLevelNeeded()
@@ -85,7 +85,7 @@ namespace ZoneEngine.ChatCommands
             return 1;
         }
 
-        public override List<string> GetCommands()
+        public override List<string> ListCommands()
         {
             List<string> temp = new List<string> { "nanoupload" };
             return temp;

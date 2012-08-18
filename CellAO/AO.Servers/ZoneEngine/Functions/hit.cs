@@ -105,7 +105,7 @@ namespace ZoneEngine.Functions
                 random /= 2;
             }
 
-            ((Character)Self).Stats.Set(Statnumber, (uint)(((Character)Self).Stats.Get(Statnumber) + random));
+            ((Character)Self).Stats.SetStatValueByName(Statnumber, (uint)(((Character)Self).Stats.StatValueByName(Statnumber) + random));
             return true;
         }
     }

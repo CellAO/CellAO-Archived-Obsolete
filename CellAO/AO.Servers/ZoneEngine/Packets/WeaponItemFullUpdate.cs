@@ -34,6 +34,7 @@ namespace ZoneEngine.Packets
     {
         public static void UpdateWeaponsCache(Character ch)
         {
+            // What is this? Counting to 109?
             int CurrentSlot = 64;
 
             while (CurrentSlot < 109)

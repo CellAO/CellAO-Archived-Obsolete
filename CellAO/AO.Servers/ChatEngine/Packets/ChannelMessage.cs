@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The channel message.
     /// </summary>
-    public class ChannelMessage
+    public static class ChannelMessage
     {
         /// <summary>
         /// The create.
@@ -42,7 +42,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(byte[] channelid, uint playerid, string message, string blob)
+        public static byte[] Create(byte[] channelid, uint playerid, string message, string blob)
         {
             PacketWriter writer = new PacketWriter(65);
             writer.WriteBytes(channelid);

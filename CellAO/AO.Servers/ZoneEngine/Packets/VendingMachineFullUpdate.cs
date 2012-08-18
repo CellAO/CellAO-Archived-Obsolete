@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class VendingMachineFullUpdate
+    public static class VendingMachineFullUpdate
     {
         public static void Send(Client client, VendingMachine vendingMachine)
         {
@@ -57,7 +57,7 @@ namespace ZoneEngine.Packets
             packetWriter.PushByte(2);
             packetWriter.PushShort(0x3603);
             packetWriter.PushInt(0x17);
-            packetWriter.PushInt(vendingMachine.TemplateID);
+            packetWriter.PushInt(vendingMachine.TemplateId);
             packetWriter.PushInt(0x2bd);
             packetWriter.PushInt(0); // 111
             packetWriter.PushInt(0x2be);

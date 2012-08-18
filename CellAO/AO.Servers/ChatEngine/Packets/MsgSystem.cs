@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The msg system.
     /// </summary>
-    public class MsgSystem
+    public static class MsgSystem
     {
         /// <summary>
         /// The create.
@@ -36,7 +36,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(string message)
+        public static byte[] Create(string message)
         {
             PacketWriter writer = new PacketWriter(36);
             writer.WriteString(message);

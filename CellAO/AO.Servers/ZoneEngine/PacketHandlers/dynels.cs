@@ -35,7 +35,7 @@ namespace ZoneEngine.PacketHandlers
     /// <summary>
     /// 
     /// </summary>
-    internal static class Dynels
+    public static class Dynels
     {
         /// <summary>
         /// 
@@ -43,26 +43,28 @@ namespace ZoneEngine.PacketHandlers
         /// <param name="client"></param>
         public static void GetDynels(Client client)
         {
-            foreach (Client m_client in client.Server.Clients)
+            foreach (Client clients in client.Server.Clients)
             {
-                PacketWriter _writer;
-                if ((m_client.Character.PlayField == client.Character.PlayField)
-                    && (m_client.Character.ID != client.Character.ID))
+                PacketWriter packetWriter;
+                if ((clients.Character.PlayField == client.Character.PlayField)
+                    && (clients.Character.ID != client.Character.ID))
                 {
-                    SimpleCharFullUpdate.SendToOne(m_client.Character, client);
+                    SimpleCharFullUpdate.SendToOne(clients.Character, client);
 
-                    _writer = new PacketWriter();
-                    _writer.PushByte(0xDF);
-                    _writer.PushByte(0xDF);
-                    _writer.PushShort(10);
-                    _writer.PushShort(1);
-                    _writer.PushShort(0);
-                    _writer.PushInt(3086);
-                    _writer.PushInt(client.Character.ID);
-                    _writer.PushInt(0x570C2039);
-                    _writer.PushIdentity(50000, m_client.Character.ID);
-                    _writer.PushByte(0);
-                    byte[] reply2 = _writer.Finish();
+                    // Send CharacterInPlay packet 
+                    // TODO: Move this out to own file
+                    packetWriter = new PacketWriter();
+                    packetWriter.PushByte(0xDF);
+                    packetWriter.PushByte(0xDF);
+                    packetWriter.PushShort(10);
+                    packetWriter.PushShort(1);
+                    packetWriter.PushShort(0);
+                    packetWriter.PushInt(3086);
+                    packetWriter.PushInt(client.Character.ID);
+                    packetWriter.PushInt(0x570C2039);
+                    packetWriter.PushIdentity(50000, clients.Character.ID);
+                    packetWriter.PushByte(0);
+                    byte[] reply2 = packetWriter.Finish();
                     client.SendCompressed(reply2);
                 }
             }

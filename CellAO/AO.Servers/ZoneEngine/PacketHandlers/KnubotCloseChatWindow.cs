@@ -32,7 +32,7 @@ namespace ZoneEngine.PacketHandlers
 
     using ZoneEngine.Misc;
 
-    public class KnuBotCloseChatWindow
+    public static class KnuBotCloseChatWindow
     {
         public static void Read(byte[] packet, Client client)
         {

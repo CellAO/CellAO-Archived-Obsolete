@@ -6001,7 +6001,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public ClassStat NpCostModifier
+        public ClassStat NPCostModifier
         {
             get
             {
@@ -9195,7 +9195,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         /// <param name="number">Stat number</param>
         /// <returns>Stat's value</returns>
-        public int Get(int number)
+        public int StatValueByName(int number)
         {
             foreach (ClassStat c in this.all)
             {
@@ -9213,7 +9213,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         /// <param name="number">Stat number</param>
         /// <param name="newValue">Stat's new value</param>
-        public void Set(int number, uint newValue)
+        public void SetStatValueByName(int number, uint newValue)
         {
             foreach (ClassStat c in this.all)
             {
@@ -9235,7 +9235,7 @@ namespace ZoneEngine.Misc
         /// </summary>
         /// <param name="name">Name of the Stat</param>
         /// <returns>Stat's value</returns>
-        public int Get(string name)
+        public int StatValueByName(string name)
         {
             int statid = StatsList.GetStatId(name.ToLower());
             foreach (ClassStat c in this.all)
@@ -9252,11 +9252,11 @@ namespace ZoneEngine.Misc
         /// <summary>
         /// Sets Stat's value
         /// </summary>
-        /// <param name="name">Stat's name</param>
+        /// <param name="statName">Stat's name</param>
         /// <param name="newValue">Stat's new value</param>
-        public void Set(string name, uint newValue)
+        public void SetStatValueByName(string statName, uint newValue)
         {
-            int statid = StatsList.GetStatId(name.ToLower());
+            int statid = StatsList.GetStatId(statName.ToLower());
             foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statid)
@@ -9267,12 +9267,12 @@ namespace ZoneEngine.Misc
                 return;
             }
             throw new StatDoesNotExistException(
-                "Stat " + name + " does not exist.\r\nValue: " + newValue + "\r\nMethod: GetID");
+                "Stat " + statName + " does not exist.\r\nValue: " + newValue + "\r\nMethod: GetID");
         }
 
-        public int GetID(string name)
+        public int StatIdByName(string statName)
         {
-            int statid = StatsList.GetStatId(name.ToLower());
+            int statid = StatsList.GetStatId(statName.ToLower());
             foreach (ClassStat c in this.all)
             {
                 if (c.StatNumber != statid)
@@ -9281,7 +9281,7 @@ namespace ZoneEngine.Misc
                 }
                 return c.StatNumber;
             }
-            throw new StatDoesNotExistException("Stat " + name + " does not exist.\r\nMethod: GetID");
+            throw new StatDoesNotExistException("Stat " + statName + " does not exist.\r\nMethod: GetID");
         }
         #endregion
 

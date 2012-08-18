@@ -26,7 +26,7 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
-    public class ShopInventory
+    public static class ShopInventory
     {
         public static void Send(Client client, VendingMachine vendingMachine)
         {

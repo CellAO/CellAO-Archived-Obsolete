@@ -27,7 +27,7 @@ namespace ChatEngine.Packets
     /// <summary>
     /// The authentication seed.
     /// </summary>
-    public class AuthenticationSeed
+    public static class AuthenticationSeed
     {
         /// <summary>
         /// The create.
@@ -36,7 +36,7 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public byte[] Create(string seed)
+        public static byte[] Create(string seed)
         {
             PacketWriter writer = new PacketWriter(0);
             writer.WriteString(seed);
