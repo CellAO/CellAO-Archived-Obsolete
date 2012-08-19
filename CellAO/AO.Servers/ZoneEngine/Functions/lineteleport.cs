@@ -87,7 +87,7 @@ namespace ZoneEngine.Functions
                 arg2 = (UInt32)Arguments[1];
                 to_pf = (Int32)Arguments[2];
             }
-            coordheading a = this.FindEntry(to_pf, (Int32)arg2);
+            CoordHeading a = this.FindEntry(to_pf, (Int32)arg2);
             if (a.Coordinates.x != -1)
             {
                 ((Character)Self).Client.Teleport(a.Coordinates, a.Heading, to_pf);
@@ -96,11 +96,11 @@ namespace ZoneEngine.Functions
             return false;
         }
 
-        public coordheading FindEntry(int Playfield, int DestinationNumber)
+        public CoordHeading FindEntry(int Playfield, int DestinationNumber)
         {
-            coordheading ret = new coordheading();
+            CoordHeading ret = new CoordHeading();
             ret.Coordinates.x = -1;
-            foreach (Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
+            foreach (WallCollision.Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
             {
                 if (l.ID != DestinationNumber)
                 {

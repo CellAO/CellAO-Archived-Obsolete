@@ -204,4 +204,21 @@ namespace AO.Core
         }
         #endregion
     }
+
+    /// <summary>
+    /// Combined class for coordinates and heading
+    /// </summary>
+    public class CoordHeading
+    {
+        /// <summary>
+        /// Holder for coordinates
+        /// </summary>
+        public AOCoord Coordinates = new AOCoord(0, 0, 0);
+
+        /// <summary>
+        /// Holder for heading
+        /// </summary>
+        public Quaternion Heading = new Quaternion(0, 0, 0, 0);
+    }
+
 }

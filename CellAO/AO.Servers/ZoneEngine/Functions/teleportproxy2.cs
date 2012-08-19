@@ -92,7 +92,7 @@ namespace ZoneEngine.Functions
 
             int to_pf = (Int32)((UInt32)(dest.Instance & 0xffff));
             int arg2 = (Int32)((UInt32)(dest.Instance >> 16));
-            coordheading a = this.FindEntry(to_pf, arg2);
+            CoordHeading a = this.FindEntry(to_pf, arg2);
 
             if (a.Coordinates.x != -1)
             {
@@ -102,11 +102,11 @@ namespace ZoneEngine.Functions
             return false;
         }
 
-        public coordheading FindEntry(int Playfield, int DestinationNumber)
+        public CoordHeading FindEntry(int Playfield, int DestinationNumber)
         {
-            coordheading ret = new coordheading();
+            CoordHeading ret = new CoordHeading();
             ret.Coordinates.x = -1;
-            foreach (Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
+            foreach (WallCollision.Line l in WallCollision.Destinations[Playfield].Playfield.Lines)
             {
                 if (l.ID != DestinationNumber)
                 {

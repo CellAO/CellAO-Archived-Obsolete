@@ -22,9 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-#endregion
-
 namespace ZoneEngine.PacketHandlers
 {
     using System;
@@ -62,20 +59,19 @@ namespace ZoneEngine.PacketHandlers
 
             if (!client.Character.DoNotDoTimers)
             {
-                LineSegment teleportPlayfield = WallCollision.WallCollisionCheck(
+                WallCollision.LineSegment teleportPlayfield = WallCollision.WallCollisionCheck(
                     coordinates.x, coordinates.z, client.Character.PlayField);
                 if (teleportPlayfield.ZoneToPlayfield >= 1)
                 {
                     Quaternion newHeading;
-                    coordinates = WallCollision.GetCoord(
-                        teleportPlayfield, coordinates.x, coordinates.z, coordinates, out newHeading);
+                    CoordHeading coordHeading = WallCollision.GetCoord(teleportPlayfield, coordinates.x, coordinates.z, coordinates);
                     if (teleportPlayfield.Flags != 1337 && client.Character.PlayField != 152
                         || Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 2
                         ||
                         teleportPlayfield.Flags == 1337
                         && Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 6)
                     {
-                        client.Teleport(coordinates, newHeading, teleportPlayfield.ZoneToPlayfield);
+                        client.Teleport(coordHeading.Coordinates, coordHeading.Heading, teleportPlayfield.ZoneToPlayfield);
                         Program.zoneServer.Clients.Remove(client);
                     }
                     return;
