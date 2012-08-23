@@ -132,7 +132,18 @@ namespace ChatEngine
             this._packet.AddRange(this._data);
             return this._packet.ToArray();
         }
+
+        public void Write5of8(ulong input)
+        {
+            byte[] temp = BitConverter.GetBytes(input);
+            this.WriteByte(temp[0]);
+            this.WriteByte(temp[1]);
+            this.WriteByte(temp[2]);
+            this.WriteByte(temp[3]);
+            this.WriteByte(temp[4]);
+        }
     }
+    
 
     /// <summary>
     /// The packet reader.

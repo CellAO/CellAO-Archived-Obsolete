@@ -24,6 +24,8 @@
 
 namespace ChatEngine.Lists
 {
+    using System;
+
     /// <summary>
     /// The channels entry.
     /// </summary>
@@ -42,7 +44,7 @@ namespace ChatEngine.Lists
         /// <param name="channelMode">
         /// The channelMode.
         /// </param>
-        public ChannelsEntry(string name, byte[] id, uint channelMode)
+        public ChannelsEntry(string name, ulong id, uint channelMode)
         {
             this.Name = name;
             this.Id = id;
@@ -65,7 +67,7 @@ namespace ChatEngine.Lists
         /// <summary>
         /// The id.
         /// </summary>
-        public byte[] Id { get; set; }
+        public UInt64 Id { get; set; }
 
         /// <summary>
         /// The channelMode.

@@ -1860,37 +1860,6 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="coordheading">
-          <Messages>
-           <Message Id="coordheading" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-18 13:00:17Z">
-            <Issue Name="Type">
-             <Item>coordheading</Item>
-             <Item>'coordheading'</Item>
-             <Item>Coordheading</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="#Coordinates">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'coordheading.Coordinates'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Heading">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'coordheading.Heading'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="Doors">
           <Members>
            <Member Name="#Coordinates">
@@ -4940,201 +4909,6 @@
        </Namespace>
        <Namespace Name="ZoneEngine.Collision">
         <Types>
-         <Type Name="Line">
-          <Members>
-           <Member Name="#ID">
-            <Messages>
-             <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberAbbreviation">
-               <Item>ID</Item>
-               <Item>'Line.ID'</Item>
-               <Item>Id</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="LineEnd">
-          <Members>
-           <Member Name="#X">
-            <Messages>
-             <Message Id="X" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'LineEnd.X'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Y">
-            <Messages>
-             <Message Id="Y" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'LineEnd.Y'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Z">
-            <Messages>
-             <Message Id="Z" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'LineEnd.Z'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="LineSegment">
-          <Members>
-           <Member Name="#Y">
-            <Messages>
-             <Message Id="Y" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'LineSegment.Y'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="LineStart">
-          <Members>
-           <Member Name="#X">
-            <Messages>
-             <Message Id="X" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'LineStart.X'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Y">
-            <Messages>
-             <Message Id="Y" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'LineStart.Y'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Z">
-            <Messages>
-             <Message Id="Z" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'LineStart.Z'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="Point">
-          <Members>
-           <Member Name="#X">
-            <Messages>
-             <Message Id="X" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'Point.X'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Y">
-            <Messages>
-             <Message Id="Y" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'Point.Y'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Z">
-            <Messages>
-             <Message Id="Z" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'Point.Z'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="Root">
-          <Members>
-           <Member Name="#Playfield">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Root.Playfield'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="Vector2">
-          <Members>
-           <Member Name="#.ctor(System.Single,System.Single)">
-            <Messages>
-             <Message Id="x" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberParameterMoreMeaningfulName">
-               <Item>'Vector2.Vector2(float, float)'</Item>
-               <Item>'x'</Item>
-              </Issue>
-             </Message>
-             <Message Id="z" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberParameterMoreMeaningfulName">
-               <Item>'Vector2.Vector2(float, float)'</Item>
-               <Item>'z'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#X">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Vector2.X'</Item>
-              </Issue>
-             </Message>
-             <Message Id="X" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'Vector2.X'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Z">
-            <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Vector2.Z'</Item>
-              </Issue>
-             </Message>
-             <Message Id="Z" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'Vector2.Z'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="Wall">
-          <Members>
-           <Member Name="#Points">
-            <Messages>
-             <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'Wall.Points'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="WallCollision">
           <Members>
            <Member Name="#BuildLineSegments()">
@@ -5142,36 +4916,6 @@
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-18 13:00:17Z" FixCategory="DependsOnFix">
               <Issue>
                <Item>'WallCollision.BuildLineSegments()'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Cross2D(ZoneEngine.Collision.Vector2,ZoneEngine.Collision.Vector2)">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2012-08-18 13:00:17Z" FixCategory="DependsOnFix">
-              <Issue>
-               <Item>'WallCollision.Cross2D(Vector2, Vector2)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#GetCoord(ZoneEngine.Collision.LineSegment,System.Single,System.Single,AO.Core.AOCoord,AO.Core.Quaternion&amp;)">
-            <Messages>
-             <Message Id="4#" TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021" Created="2012-08-18 13:00:17Z">
-              <Issue>
-               <Item>'newHeading'</Item>
-              </Issue>
-             </Message>
-             <Message Id="x" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberParameterMoreMeaningfulName">
-               <Item>'WallCollision.GetCoord(LineSegment, float, float, AOCoord, out Quaternion)'</Item>
-               <Item>'x'</Item>
-              </Issue>
-             </Message>
-             <Message Id="z" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberParameterMoreMeaningfulName">
-               <Item>'WallCollision.GetCoord(LineSegment, float, float, AOCoord, out Quaternion)'</Item>
-               <Item>'z'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -13194,23 +12938,6 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="DistrictInfo">
-          <Members>
-           <Member Name="#DumpXml(System.String,ZoneEngine.Misc.PlayfieldInfo)">
-            <Messages>
-             <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2012-08-18 13:01:39Z">
-              <Issue Name="IFormatProviderAlternateString">
-               <Item>'int.ToString()'</Item>
-               <Item>'DistrictInfo.DumpXml(string, PlayfieldInfo)'</Item>
-               <Item>'int.ToString(IFormatProvider)'</Item>
-               <Item>'CultureInfo.CurrentCulture'</Item>
-               <Item>'CultureInfo.InvariantCulture'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="DoorHandler">
           <Members>
            <Member Name="#UpdateDoorHeading(ZoneEngine.Client)">
@@ -13443,38 +13170,6 @@
                <Item>'CultureInfo.CurrentCulture'</Item>
                <Item>'CultureInfo.InvariantCulture'</Item>
               </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="PlayfieldInfo">
-          <Members>
-           <Member Name="#X">
-            <Messages>
-             <Message Id="X" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'PlayfieldInfo.X'</Item>
-              </Issue>
-              <Notes>
-               <User Name="chris">
-                <Note Id="0" />
-               </User>
-              </Notes>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="#Z">
-            <Messages>
-             <Message Id="Z" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Excluded" Created="2012-08-18 13:00:17Z">
-              <Issue Name="MemberMoreMeaningfulName">
-               <Item>'PlayfieldInfo.Z'</Item>
-              </Issue>
-              <Notes>
-               <User Name="chris">
-                <Note Id="0" />
-               </User>
-              </Notes>
              </Message>
             </Messages>
            </Member>
@@ -15405,7 +15100,6 @@
   </Targets>
   <Notes>
    <User Name="chris">
-    <Note Id="0" Modified="2012-08-18 13:00:40Z">Coordinates</Note>
     <Note Id="1" Modified="2012-08-18 13:33:52Z">Coordinates</Note>
    </User>
   </Notes>
@@ -15415,9 +15109,6 @@
    </Rule>
    <Rule TypeName="AvoidExcessiveLocals" Category="Microsoft.Performance" CheckId="CA1809">
     <Resolution Name="Compiler">{0} has {1} local variables, {2} of which were generated by the compiler. Refactor {0} so that it uses fewer than 64 local variables.</Resolution>
-   </Rule>
-   <Rule TypeName="AvoidOutParameters" Category="Microsoft.Design" CheckId="CA1021">
-    <Resolution Name="Default">Consider a design that does not require that {0} be an out parameter.</Resolution>
    </Rule>
    <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
     <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>

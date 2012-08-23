@@ -19,7 +19,7 @@ namespace ItemNanoSerializer
 
 
             SqlWrapper ms = new SqlWrapper();
-            DataTable dt = ms.ReadDT("SELECT AOID from items order by AOID asc");
+            DataTable dt = ms.ReadDatatable("SELECT AOID from items order by AOID asc");
             TextWriter output = new StreamWriter(@"items_ser.sql", false);
             int c = 0;
             output.WriteLine("CREATE  TABLE `items_ser` (`AOID` INT NOT NULL ,`Data` BLOB NULL ,PRIMARY KEY (`AOID`) );");
@@ -34,14 +34,14 @@ namespace ItemNanoSerializer
                     Console.Write("\r" + it.AOID.ToString() + ":" + c.ToString());
                 c++;
                 AOItem it2 = new AOItem();
-                it2.flags = (int)it.getItemAttribute(30);
-                it2.lowID = it.AOID;
-                it2.highID = it.AOID;
+                it2.Flags = (int)it.getItemAttribute(30);
+                it2.LowID = it.AOID;
+                it2.HighID = it.AOID;
                 it2.Instance = 0;
                 it2.Type = 0;
                 it2.Quality = it.QL;
                 it2.Nothing = 0;
-                it2.multiplecount = 1;
+                it2.MultipleCount = 1;
                 it2.ItemType = it.itemtype;
 
                 foreach (AOItemAttribute aoit in it.attack)

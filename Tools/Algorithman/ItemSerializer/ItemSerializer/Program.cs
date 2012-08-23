@@ -39,7 +39,7 @@ namespace ItemSerializer
         {
 
             SqlWrapper sql = new SqlWrapper();
-            DataTable dt_items = sql.ReadDT("SELECT * FROM Items order by aoid asc");
+            DataTable dt_items = sql.ReadDatatable("SELECT * FROM Items order by aoid asc");
 
             Stream sf = new FileStream("items.dat", FileMode.Create);
 
@@ -79,12 +79,12 @@ namespace ItemSerializer
                 foreach (DataRow itemrow in dt_items.Rows)
                 {
                     AOItem _item = new AOItem();
-                    _item.lowID = (Int32)itemrow[0];
-                    _item.highID = (Int32)itemrow[0];
+                    _item.LowID = (Int32)itemrow[0];
+                    _item.HighID = (Int32)itemrow[0];
                     _item.Quality = (Int32)itemrow[2];
                     _item.ItemType = (Int32)itemrow[3];
 
-                    DataTable dt_itemevents = sql.ReadDT("SELECT * FROM item_events WHERE itemid=" + _item.lowID + " ORDER BY eventid asc");
+                    DataTable dt_itemevents = sql.ReadDatatable("SELECT * FROM item_events WHERE itemid=" + _item.LowID + " ORDER BY eventid asc");
 
                     foreach (DataRow eventrow in dt_itemevents.Rows)
                     {
@@ -92,7 +92,7 @@ namespace ItemSerializer
                         aoe.EventType = (Int32)eventrow[2];
                         int eventid = (Int32)eventrow["eventid"];
 
-                        DataTable dt_itemeventfunctions = sql.ReadDT("SELECT * FROM item_functions WHERE itemid=" + _item.lowID + " AND eventid=" + eventid + " ORDER BY functionid asc");
+                        DataTable dt_itemeventfunctions = sql.ReadDatatable("SELECT * FROM item_functions WHERE itemid=" + _item.LowID + " AND eventid=" + eventid + " ORDER BY functionid asc");
 
                         foreach (DataRow eventfunctionrow in dt_itemeventfunctions.Rows)
                         {
@@ -103,7 +103,7 @@ namespace ItemSerializer
                             aof.TickCount = (Int32)eventfunctionrow[5];
                             aof.TickInterval = (uint)(Int32)eventfunctionrow[6];
 
-                            DataTable functionargs = sql.ReadDT("SELECT * FROM item_function_arguments WHERE functionid=" + eventfuncid + " AND eventid=" + eventid + " AND itemid=" + _item.lowID + " ORDER BY attrid asc");
+                            DataTable functionargs = sql.ReadDatatable("SELECT * FROM item_function_arguments WHERE functionid=" + eventfuncid + " AND eventid=" + eventid + " AND itemid=" + _item.LowID + " ORDER BY attrid asc");
 
                             foreach (DataRow attrs in functionargs.Rows)
                             {
@@ -123,10 +123,10 @@ namespace ItemSerializer
                                             aof.Arguments.Add(s);
                                         }
                                         else
-                                            throw (new NotSupportedException("No Argument value given, all NULL: " + _item.lowID));
+                                            throw (new NotSupportedException("No Argument value given, all NULL: " + _item.LowID));
                             }
 
-                            DataTable reqs = sql.ReadDT("SELECT * from  item_function_reqs WHERE functionid=" + eventfuncid + " AND eventid=" + eventid + " AND itemid=" + _item.lowID + " ORDER BY reqid asc");
+                            DataTable reqs = sql.ReadDatatable("SELECT * from  item_function_reqs WHERE functionid=" + eventfuncid + " AND eventid=" + eventid + " AND itemid=" + _item.LowID + " ORDER BY reqid asc");
 
                             foreach (DataRow rrow in reqs.Rows)
                             {
@@ -145,14 +145,14 @@ namespace ItemSerializer
                         _item.Events.Add(aoe);
                     }
 
-                    DataTable dt_actions = sql.ReadDT("SELECT * FROM item_actions WHERE itemid=" + _item.lowID);
+                    DataTable dt_actions = sql.ReadDatatable("SELECT * FROM item_actions WHERE itemid=" + _item.LowID);
 
                     foreach (DataRow acrow in dt_actions.Rows)
                     {
                         AOActions aoa = new AOActions();
                         aoa.ActionType = (Int32)acrow["actionnum"];
 
-                        DataTable reqs = sql.ReadDT("SELECT * FROM item_action_reqs WHERE itemid=" + _item.lowID + " AND actionid=" + ((Int32)acrow["actionid"]) + " ORDER BY reqid ASC");
+                        DataTable reqs = sql.ReadDatatable("SELECT * FROM item_action_reqs WHERE itemid=" + _item.LowID + " AND actionid=" + ((Int32)acrow["actionid"]) + " ORDER BY reqid ASC");
 
                         foreach (DataRow rrow in reqs.Rows)
                         {
@@ -167,7 +167,7 @@ namespace ItemSerializer
                         _item.Actions.Add(aoa);
                     }
 
-                    DataTable dtdef = sql.ReadDT("SELECT * FROM item_defense_attributes where itemid=" + _item.lowID + " ORDER BY defenseid asc");
+                    DataTable dtdef = sql.ReadDatatable("SELECT * FROM item_defense_attributes where itemid=" + _item.LowID + " ORDER BY defenseid asc");
 
                     foreach (DataRow defrow in dtdef.Rows)
                     {
@@ -177,7 +177,7 @@ namespace ItemSerializer
                         _item.Defend.Add(aoia);
                     }
 
-                    DataTable dtatt = sql.ReadDT("select * FROM item_attack_attributes where itemid=" + _item.lowID + " ORDER BY attackid asc");
+                    DataTable dtatt = sql.ReadDatatable("select * FROM item_attack_attributes where itemid=" + _item.LowID + " ORDER BY attackid asc");
                     foreach (DataRow defrow in dtatt.Rows)
                     {
                         AOItemAttribute aoia = new AOItemAttribute();
@@ -186,7 +186,7 @@ namespace ItemSerializer
                         _item.Defend.Add(aoia);
                     }
 
-                    DataTable attributes = sql.ReadDT("SELECT * FROM item_attributes WHERE itemid=" + _item.lowID + " ORDER BY attributeid asc");
+                    DataTable attributes = sql.ReadDatatable("SELECT * FROM item_attributes WHERE itemid=" + _item.LowID + " ORDER BY attributeid asc");
                     foreach (DataRow atrow in attributes.Rows)
                     {
                         AOItemAttribute aoia = new AOItemAttribute();
@@ -224,7 +224,7 @@ namespace ItemSerializer
         public static void Convertnanos()
         {
             SqlWrapper sql = new SqlWrapper();
-            DataTable dt_items = sql.ReadDT("SELECT * FROM nanos order by aoid asc");
+            DataTable dt_items = sql.ReadDatatable("SELECT * FROM nanos order by aoid asc");
 
             Stream sf = new FileStream("nanos.dat", FileMode.Create);
 
@@ -268,7 +268,7 @@ namespace ItemSerializer
                     _item.NCUCost = (Int32)itemrow[2];
                     _item.ItemType = (Int32)itemrow[3];
 
-                    DataTable dt_itemevents = sql.ReadDT("SELECT * FROM nano_events WHERE nanoid=" + _item.ID + " ORDER BY eventid asc");
+                    DataTable dt_itemevents = sql.ReadDatatable("SELECT * FROM nano_events WHERE nanoid=" + _item.ID + " ORDER BY eventid asc");
 
                     foreach (DataRow eventrow in dt_itemevents.Rows)
                     {
@@ -276,7 +276,7 @@ namespace ItemSerializer
                         aoe.EventType = (Int32)eventrow[2];
                         int eventid = (Int32)eventrow["eventid"];
 
-                        DataTable dt_itemeventfunctions = sql.ReadDT("SELECT * FROM nano_functions WHERE nanoid=" + _item.ID + " AND eventid=" + eventid + " ORDER BY functionid asc");
+                        DataTable dt_itemeventfunctions = sql.ReadDatatable("SELECT * FROM nano_functions WHERE nanoid=" + _item.ID + " AND eventid=" + eventid + " ORDER BY functionid asc");
 
                         foreach (DataRow eventfunctionrow in dt_itemeventfunctions.Rows)
                         {
@@ -287,7 +287,7 @@ namespace ItemSerializer
                             aof.TickCount = (Int32)eventfunctionrow[5];
                             aof.TickInterval = (uint)(Int32)eventfunctionrow[6];
 
-                            DataTable functionargs = sql.ReadDT("SELECT * FROM nano_function_arguments WHERE functionid=" + eventfuncid + " AND eventid=" + eventid + " AND nanoid=" + _item.ID + " ORDER BY attrid asc");
+                            DataTable functionargs = sql.ReadDatatable("SELECT * FROM nano_function_arguments WHERE functionid=" + eventfuncid + " AND eventid=" + eventid + " AND nanoid=" + _item.ID + " ORDER BY attrid asc");
 
                             foreach (DataRow attrs in functionargs.Rows)
                             {
@@ -310,7 +310,7 @@ namespace ItemSerializer
                                             throw (new NotSupportedException("No Argument value given, all NULL: " + _item.ID));
                             }
 
-                            DataTable reqs = sql.ReadDT("SELECT * from  nano_function_reqs WHERE functionid=" + eventfuncid + " AND eventid=" + eventid + " AND nanoid=" + _item.ID + " ORDER BY reqid asc");
+                            DataTable reqs = sql.ReadDatatable("SELECT * from  nano_function_reqs WHERE functionid=" + eventfuncid + " AND eventid=" + eventid + " AND nanoid=" + _item.ID + " ORDER BY reqid asc");
 
                             foreach (DataRow rrow in reqs.Rows)
                             {
@@ -329,14 +329,14 @@ namespace ItemSerializer
                         _item.Events.Add(aoe);
                     }
 
-                    DataTable dt_actions = sql.ReadDT("SELECT * FROM nano_actions WHERE nanoid=" + _item.ID);
+                    DataTable dt_actions = sql.ReadDatatable("SELECT * FROM nano_actions WHERE nanoid=" + _item.ID);
 
                     foreach (DataRow acrow in dt_actions.Rows)
                     {
                         AOActions aoa = new AOActions();
                         aoa.ActionType = (Int32)acrow["actionnum"];
 
-                        DataTable reqs = sql.ReadDT("SELECT * FROM nano_action_reqs WHERE nanoid=" + _item.ID + " AND actionid=" + ((Int32)acrow["actionid"]) + " ORDER BY reqid ASC");
+                        DataTable reqs = sql.ReadDatatable("SELECT * FROM nano_action_reqs WHERE nanoid=" + _item.ID + " AND actionid=" + ((Int32)acrow["actionid"]) + " ORDER BY reqid ASC");
 
                         foreach (DataRow rrow in reqs.Rows)
                         {
@@ -351,7 +351,7 @@ namespace ItemSerializer
                         _item.Actions.Add(aoa);
                     }
 
-                    DataTable dtdef = sql.ReadDT("SELECT * FROM nano_defense_attributes where nanoid=" + _item.ID + " ORDER BY defenseid asc");
+                    DataTable dtdef = sql.ReadDatatable("SELECT * FROM nano_defense_attributes where nanoid=" + _item.ID + " ORDER BY defenseid asc");
 
                     foreach (DataRow defrow in dtdef.Rows)
                     {
@@ -361,7 +361,7 @@ namespace ItemSerializer
                         _item.Defend.Add(aoia);
                     }
 
-                    DataTable dtatt = sql.ReadDT("select * FROM nano_attack_attributes where nanoid=" + _item.ID + " ORDER BY attackid asc");
+                    DataTable dtatt = sql.ReadDatatable("select * FROM nano_attack_attributes where nanoid=" + _item.ID + " ORDER BY attackid asc");
                     foreach (DataRow defrow in dtatt.Rows)
                     {
                         AOItemAttribute aoia = new AOItemAttribute();
@@ -370,7 +370,7 @@ namespace ItemSerializer
                         _item.Defend.Add(aoia);
                     }
 
-                    DataTable attributes = sql.ReadDT("SELECT * FROM nano_attributes WHERE nanoid=" + _item.ID + " ORDER BY attributeid asc");
+                    DataTable attributes = sql.ReadDatatable("SELECT * FROM nano_attributes WHERE nanoid=" + _item.ID + " ORDER BY attributeid asc");
                     foreach (DataRow atrow in attributes.Rows)
                     {
                         AOItemAttribute aoia = new AOItemAttribute();

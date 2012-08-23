@@ -24,6 +24,7 @@
 
 namespace ChatEngine.Lists
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -36,11 +37,13 @@ namespace ChatEngine.Lists
         /// </summary>
         public static readonly List<ChannelsEntry> ChannelNames = new List<ChannelsEntry>
             {
-                new ChannelsEntry("Global", new byte[] { 0x04, 0x00, 0x00, 0x23, 0x28 }, 0x8044),
-                new ChannelsEntry("CellAO News", new byte[] { 0x0c, 0x00, 0x00, 0x07, 0xd0 }, 0x8044)
+                new ChannelsEntry("Global", 0x0400002328, 0x8044),
+                new ChannelsEntry("CellAO News", 0x0c000007d0, 0x8044)
                 
                 // need to change the flags soo only GMs can broadcast to this channel..
             };
+
+
 
         /// <summary>
         /// Get the channel entry
@@ -53,37 +56,56 @@ namespace ChatEngine.Lists
         /// </returns>
         public static ChannelsEntry GetChannel(byte[] packet)
         {
+
+            byte[] temp = new byte[8];
+            Array.Copy(packet, 4, temp, 0, 5);
+
+            ulong chanid = BitConverter.ToUInt64(temp, 0);
+
             foreach (ChannelsEntry ce in ChannelNames)
             {
-                if (packet[4] != ce.Id[0])
+
+                if (ce.Id != chanid)
                 {
                     continue;
                 }
-
-                if (packet[5] != ce.Id[1])
-                {
-                    continue;
-                }
-
-                if (packet[6] != ce.Id[2])
-                {
-                    continue;
-                }
-
-                if (packet[7] != ce.Id[3])
-                {
-                    continue;
-                }
-
-                if (packet[8] != ce.Id[4])
-                {
-                    continue;
-                }
-
                 return ce;
             }
 
             return null;
         }
+
+        public static void CreateTeamChannel(int teamID, uint[] teamMemberIds)
+        {
+            ChannelsEntry channelsEntry = new ChannelsEntry();
+
+        }
+    }
+    public enum ChannelType : ulong
+    {
+        Unknown = 0,
+        Admin = 1,
+        Team = 2 | 0x80,
+        Organization = 3,
+        Leaders = 4,
+        GM = 5,
+        Shopping = 6 | 0x80,
+        General = 7 | 0x80,
+        Towers = 10,
+        Announcements = 12,
+        Raid = 15 | 0x80,
+        Battlestation = 16 | 0x80
+    }
+
+    public enum ChannelFlags : uint
+    {
+        None = 0,
+        CantIgnore = 0x1,
+        CantSend = 0x2,
+        NoInternational = 0x10,
+        NoVoice = 0x20,
+        SendCriteria = 0x40,
+        GroupOnName = 0x80,
+        Muted = 0x1000000,
     }
 }

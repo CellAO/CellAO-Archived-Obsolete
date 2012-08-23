@@ -129,14 +129,13 @@ namespace ChatEngine.PacketHandlers
             }
             else
             {
-                List<byte> channelBuffer = new List<byte>();
-                channelBuffer.Add(0x03);
-                channelBuffer.AddRange(BitConverter.GetBytes(client.Character.orgId));
-                byte[] channelId = channelBuffer.ToArray();
-                byte[] guildChannel = ChannelJoin.Create(
-                    channelId, client.Character.orgName, 0x8044, new byte[] { 0x00, 0x00 });
+                ulong channelBuffer = (ulong)ChannelType.Organization << 32;
+                channelBuffer |= (uint)client.Character.orgId;
+
+                byte[] guildChannel = ChannelJoin.Create(channelBuffer, client.Character.orgName, 0x8044, new byte[] { 0x00, 0x00 });
                 client.Send(guildChannel);
             }
+
 
             // Do Not Delete this just yet!
             // byte[] chn_global = new Packets.ChannelJoin().Create

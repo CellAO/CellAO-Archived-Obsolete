@@ -42,10 +42,10 @@ namespace ChatEngine.Packets
         /// </param>
         /// <returns>
         /// </returns>
-        public static byte[] Create(byte[] channelid, string channelname, uint flags, byte[] otherdata)
+        public static byte[] Create(ulong channelid, string channelname, uint flags, byte[] otherdata)
         {
             PacketWriter writer = new PacketWriter(60);
-            writer.WriteBytes(channelid);
+            writer.Write5of8(channelid);
             writer.WriteString(channelname);
             writer.WriteUInt32(flags);
             writer.WriteBytes(otherdata);

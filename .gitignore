@@ -33,3 +33,10 @@ CellAO/_ReSharper.CellAO
 *.DotSettings
 *.User
 /CellAO/AO.Servers/ChatEngine/Settings.StyleCop
+/Tools/Algorithman/ItemNanoSerializer/ItemNanoSerializer/bin
+/Tools/Algorithman/ItemNanoSerializer/ItemNanoSerializer/obj
+/Tools/Algorithman/ItemNanoSerializer/_ReSharper.ItemNanoSerializer
+/Tools/Algorithman/ItemSerializer/_ReSharper.ItemSerializer
+/Tools/Algorithman/ItemSerializer/ItemSerializer/bin
+/Tools/Algorithman/ItemSerializer/ItemSerializer/obj
+/Tools/Algorithman/ItemSerializer/*.suo

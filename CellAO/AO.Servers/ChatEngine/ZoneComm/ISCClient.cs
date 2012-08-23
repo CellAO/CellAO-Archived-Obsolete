@@ -25,6 +25,7 @@
 namespace ChatEngine
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
 
     using ChatEngine.Packets;
@@ -99,6 +100,22 @@ namespace ChatEngine
                             }
                         }
                     }
+
+                    break;
+
+                    // Add characters to Team chat channel
+                case 0xF0:
+                    PacketReader packetReader = new PacketReader(ref a.Data);
+
+                    List<uint> charIds = new List<uint>();
+                    uint numberofchars = packetReader.ReadUInt32();
+                    while (numberofchars>0)
+                    {
+                        charIds.Add(packetReader.ReadUInt32());
+                    }
+                    uint[] chars = charIds.ToArray();
+
+                    Lists.ChatChannels.CreateTeamChannel(NextTeamId(),chars);
 
                     break;
             }
