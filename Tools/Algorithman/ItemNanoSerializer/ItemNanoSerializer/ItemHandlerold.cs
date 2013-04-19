@@ -781,7 +781,7 @@ namespace ZoneEngine
                 ItemEvents = new List<AOEvents>();
                 SqlWrapper ms = new SqlWrapper();
 
-                DataTable dt = ms.ReadDT("SELECT * FROM items WHERE AOID='" + ID.ToString() + "'");
+                DataTable dt = ms.ReadDatatable("SELECT * FROM items WHERE AOID='" + ID.ToString() + "'");
 
                 if (dt.Rows.Count > 0)
                 {
@@ -845,7 +845,7 @@ namespace ZoneEngine
                     while (c > 0)
                     {
                         tempe = new AOEvents();
-                        blobc = tempe.readEventfromBlob(ref blob, blobc);
+                        blobc = tempe.readEventfromBlob(blob, blobc);
                         ItemEvents.Add(tempe);
                         c--;
                     }

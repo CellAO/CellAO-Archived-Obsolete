@@ -118,6 +118,7 @@ namespace ChatEngine
                     // Commented out to remove compile error.
                     // Lists.ChatChannels.CreateTeamChannel(NextTeamId(),chars);
 
+
                     break;
             }
         }
