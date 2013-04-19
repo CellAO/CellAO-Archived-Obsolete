@@ -115,7 +115,8 @@ namespace ChatEngine
                     }
                     uint[] chars = charIds.ToArray();
 
-                    Lists.ChatChannels.CreateTeamChannel(NextTeamId(),chars);
+                    // Commented out to remove compile error.
+                    // Lists.ChatChannels.CreateTeamChannel(NextTeamId(),chars);
 
                     break;
             }
