@@ -49,11 +49,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CellAO WORK GIT\CellAO\Libraries\Source\AO.Core\AO.Core.csproj">
+    <ProjectReference Include="..\..\..\..\CellAO\Libraries\Source\AO.Core\AO.Core.csproj">
       <Project>{0b1cca26-dd9c-400a-9ef0-1d9423905f4d}</Project>
       <Name>AO.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\CellAO WORK GIT\CellAO\Libraries\Source\zlib\source\zlib.net.csproj">
+    <ProjectReference Include="..\..\..\..\CellAO\Libraries\Source\zlib\source\zlib.net.csproj">
       <Project>{0c89b7a2-a218-49e4-b545-5b044a45f977}</Project>
       <Name>zlib.net</Name>
     </ProjectReference>

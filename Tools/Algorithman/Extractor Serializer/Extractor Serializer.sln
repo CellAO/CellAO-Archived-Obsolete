@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extractor Serializer", "Extractor Serializer\Extractor Serializer.csproj", "{9A27684C-0314-4566-9085-C92412CA41EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AO.Core", "..\CellAO WORK GIT\CellAO\Libraries\Source\AO.Core\AO.Core.csproj", "{0B1CCA26-DD9C-400A-9EF0-1D9423905F4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AO.Core", "..\..\..\CellAO\Libraries\Source\AO.Core\AO.Core.csproj", "{0B1CCA26-DD9C-400A-9EF0-1D9423905F4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zlib.net", "..\CellAO WORK GIT\CellAO\Libraries\Source\zlib\source\zlib.net.csproj", "{0C89B7A2-A218-49E4-B545-5B044A45F977}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zlib.net", "..\..\..\CellAO\Libraries\Source\zlib\source\zlib.net.csproj", "{0C89B7A2-A218-49E4-B545-5B044A45F977}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
