@@ -37,3 +37,9 @@ CellAO/_ReSharper.CellAO
 /Tools/Algorithman/ItemSerializer/ItemSerializer/bin
 /Tools/Algorithman/ItemSerializer/ItemSerializer/obj
 /Tools/Algorithman/ItemSerializer/*.suo
+/Tools/Algorithman/ReadMe.txt
+/Tools/Algorithman/ItemNanoSerializer
+/Tools/Algorithman/ItemSerializer
+/Tools/Algorithman/Xyphos Plugin
+/Tools/Algorithman/AOCell-Plugin.dll
+/Tools/Algorithman/FunctionSets.cfg
