@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{53626C4C-0AED-4C3F-8CB5-DF99065941B5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zlib.net", "Libraries\Source\zlib\source\zlib.net.csproj", "{0C89B7A2-A218-49E4-B545-5B044A45F977}"
@@ -27,9 +27,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLog.netfx40", "Libraries\Source\NLog2\src\NLog\NLog.netfx40.csproj", "{A0BFF0DB-ED9A-4639-AE86-8E709A1EFC66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics", "Libraries\Source\MathNumerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NBug", "Libraries\Source\NBug\NBug\NBug.csproj", "{62CED1D5-F603-40DE-8BF5-3E49D3A392F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2EE7891B-F0E4-4499-91A7-9378460AEE83}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,20 +162,6 @@ Global
 		{A0BFF0DB-ED9A-4639-AE86-8E709A1EFC66}.Release|Win32.ActiveCfg = Release|Any CPU
 		{A0BFF0DB-ED9A-4639-AE86-8E709A1EFC66}.Release|x64.ActiveCfg = Release|Any CPU
 		{A0BFF0DB-ED9A-4639-AE86-8E709A1EFC66}.Release|x86.ActiveCfg = Release|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|Win32.ActiveCfg = Release|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|x64.ActiveCfg = Release|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|x86.ActiveCfg = Release|Any CPU
 		{62CED1D5-F603-40DE-8BF5-3E49D3A392F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{62CED1D5-F603-40DE-8BF5-3E49D3A392F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62CED1D5-F603-40DE-8BF5-3E49D3A392F4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -195,7 +186,6 @@ Global
 		{71AB07AD-4D94-4693-8560-47862E5B6E61} = {53626C4C-0AED-4C3F-8CB5-DF99065941B5}
 		{0107D780-AC28-4EAB-A0B9-CB782F4AAFA5} = {53626C4C-0AED-4C3F-8CB5-DF99065941B5}
 		{A0BFF0DB-ED9A-4639-AE86-8E709A1EFC66} = {53626C4C-0AED-4C3F-8CB5-DF99065941B5}
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695} = {53626C4C-0AED-4C3F-8CB5-DF99065941B5}
 		{62CED1D5-F603-40DE-8BF5-3E49D3A392F4} = {53626C4C-0AED-4C3F-8CB5-DF99065941B5}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
@@ -204,14 +194,13 @@ Global
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = None
 		$1.ResourceNamePolicy = FileFormatDefault
-		$0.TextStylePolicy = $2
+		$0.TextStylePolicy = $4
 		$2.inheritsSet = null
 		$2.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $3
 		$3.inheritsSet = Mono
 		$3.inheritsScope = text/x-csharp
 		$3.scope = text/x-csharp
-		$0.TextStylePolicy = $4
 		$4.FileWidth = 120
 		$4.TabWidth = 4
 		$4.inheritsSet = Mono
