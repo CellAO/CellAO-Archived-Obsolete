@@ -44,3 +44,5 @@ CellAO/_ReSharper.CellAO
 /Tools/Algorithman/AOCell-Plugin.dll
 /Tools/Algorithman/FunctionSets.cfg
 /CellAO/CellAO.v11.suo
+/Tools/Algorithman/Extractor Serializer/Extractor Serializer/bin
+/Tools/Algorithman/Extractor Serializer/Extractor Serializer/obj
