@@ -1288,7 +1288,7 @@ namespace ZoneEngine.Misc
         private readonly ClassStat trainSkillCost = new ClassStat(
             409, 1234567890, "TrainSkillCost", false, false, false);
 
-        private readonly ClassStat isFightingMe = new ClassStat(410, 1234567890, "IsFightingMe", false, false, false);
+        private readonly ClassStat isFightingMe = new ClassStat(410, 0, "IsFightingMe", false, false, false);
 
         private readonly ClassStat nextFormula = new ClassStat(411, 1234567890, "NextFormula", false, false, false);
 
