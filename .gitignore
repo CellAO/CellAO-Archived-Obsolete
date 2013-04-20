@@ -110,3 +110,7 @@ UpgradeLog*.XML
 /CellAO/Libraries/out
 /CellAO/Libraries/Source/NBug
 /CellAO/Libraries/Source/NLog2
+/CellAO/AO.Servers/ChatEngine/Properties/AssemblyInfo.cs
+/CellAO/AO.Servers/LoginEngine/Properties/AssemblyInfo.cs
+/CellAO/AO.Servers/ZoneEngine/Properties/AssemblyInfo.cs
+/CellAO/AO.Servers/ChatEngine/Properties/AssemblyInfo.cs

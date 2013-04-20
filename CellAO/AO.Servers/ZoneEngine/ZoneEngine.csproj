@@ -18,6 +18,8 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -32,8 +34,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -341,7 +341,9 @@
     <Compile Include="Packets\VendingMachineFullUpdate.cs" />
     <Compile Include="Pet.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <Generator>..\..\..\Helpers\RevisionGetter\bin\RevisionGetter.exe</Generator>
+    </Compile>
     <Content Include="Scripts\customnpc\GenericNPC.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -394,6 +396,10 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Helpers\RevisionGetter\RevisionGetter.csproj">
+      <Project>{a4ac6b9e-4e0e-4143-accf-fbca2fc1bad2}</Project>
+      <Name>RevisionGetter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Source\AO.Core\AO.Core.csproj">
       <Project>{0B1CCA26-DD9C-400A-9EF0-1D9423905F4D}</Project>
       <Name>AO.Core</Name>
@@ -2541,7 +2547,7 @@
     </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>"$(ProjectDir)prebuild.bat" "$(ProjectDir)"</PreBuildEvent>
+    <PreBuildEvent>"$(SolutionDir)Helpers\RevisionGetter\bin\RevisionGetter.exe" "$(ProjectDir)\Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

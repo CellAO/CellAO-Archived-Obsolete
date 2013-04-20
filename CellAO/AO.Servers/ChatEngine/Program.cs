@@ -82,18 +82,11 @@ namespace ChatEngine
         private static void Main(string[] args)
         {
             Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description
-                            + " " + AssemblyInfoclass.AssemblyVersion;
+                + " " + AssemblyInfoclass.AssemblyVersion + " " + AssemblyInfoclass.Trademark;
             ConsoleText ct = new ConsoleText();
             ct.TextRead("main.txt");
             Console.WriteLine("Loading " + AssemblyInfoclass.Title + "...");
-            if (IsModified())
-            {
-                Console.WriteLine("Your " + AssemblyInfoclass.Title + " was compiled from modified source code.");
-            }
-            else if (IsMixed())
-            {
-                Console.WriteLine("Your " + AssemblyInfoclass.Title + " uses mixed SVN revisions.");
-            }
+            
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Using ISComm v1.0");

@@ -14,8 +14,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneEngine", "AO.Servers\ZoneEngine\ZoneEngine.csproj", "{D4FDC6E7-0C36-4E77-96B8-7CDDD169E4FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatEngine", "AO.Servers\ChatEngine\ChatEngine.csproj", "{92846635-FE5B-4CCC-B4BC-25C1D0F47C98}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2} = {A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginEngine", "AO.Servers\LoginEngine\LoginEngine.csproj", "{09DB0B4E-67C4-4E61-83BE-6D87637FD06B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2} = {A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{3B2B078B-C7D3-49EC-A7CB-AEF8BAA578B0}"
 	ProjectSection(SolutionItems) = preProject
@@ -31,6 +37,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2EE789
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{084499DB-E027-4288-B86B-4C0F1E04FBED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevisionGetter", "Helpers\RevisionGetter\RevisionGetter.csproj", "{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -144,6 +154,20 @@ Global
 		{09DB0B4E-67C4-4E61-83BE-6D87637FD06B}.Release|Win32.ActiveCfg = Release|Any CPU
 		{09DB0B4E-67C4-4E61-83BE-6D87637FD06B}.Release|x64.ActiveCfg = Release|Any CPU
 		{09DB0B4E-67C4-4E61-83BE-6D87637FD06B}.Release|x86.ActiveCfg = Release|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Release|x64.ActiveCfg = Release|Any CPU
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,6 +177,7 @@ Global
 		{0B1CCA26-DD9C-400A-9EF0-1D9423905F4D} = {53626C4C-0AED-4C3F-8CB5-DF99065941B5}
 		{71AB07AD-4D94-4693-8560-47862E5B6E61} = {53626C4C-0AED-4C3F-8CB5-DF99065941B5}
 		{0107D780-AC28-4EAB-A0B9-CB782F4AAFA5} = {53626C4C-0AED-4C3F-8CB5-DF99065941B5}
+		{A4AC6B9E-4E0E-4143-ACCF-FBCA2FC1BAD2} = {084499DB-E027-4288-B86B-4C0F1E04FBED}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Libraries\Source\zlib\source\zlib.net.csproj

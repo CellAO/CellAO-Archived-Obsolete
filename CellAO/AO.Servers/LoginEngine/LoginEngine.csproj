@@ -169,7 +169,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(ProjectDir)prebuild.bat" "$(ProjectDir)"</PreBuildEvent>
+    <PreBuildEvent>"$(SolutionDir)Helpers\RevisionGetter\bin\RevisionGetter.exe" "$(ProjectDir)\Properties\AssemblyInfo.cs"</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

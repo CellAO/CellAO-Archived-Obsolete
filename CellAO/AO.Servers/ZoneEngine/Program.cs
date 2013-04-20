@@ -77,18 +77,10 @@ namespace ZoneEngine
 
             #region Console Text...
             Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description
-                            + " " + AssemblyInfoclass.AssemblyVersion;
+                            + " " + AssemblyInfoclass.AssemblyVersion+" "+AssemblyInfoclass.Trademark;
             ConsoleText ct = new ConsoleText();
             ct.TextRead("main.txt");
             Console.WriteLine("Loading " + AssemblyInfoclass.Title + "...");
-            if (ismodified())
-            {
-                Console.WriteLine("Your " + AssemblyInfoclass.Title + " was compiled from modified source code.");
-            }
-            else if (ismixed())
-            {
-                Console.WriteLine("Your " + AssemblyInfoclass.Title + " uses mixed SVN revisions.");
-            }
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Using ISComm v1.0");
@@ -483,18 +475,6 @@ namespace ZoneEngine
                 ThreadMgr.Stop();
                 Process.GetCurrentProcess().Kill();
             }
-        }
-
-        public static bool ismodified()
-        {
-            string[] info = AssemblyInfoclass.Trademark.Split(';');
-            return (info[1] == "1");
-        }
-
-        public static bool ismixed()
-        {
-            string[] info = AssemblyInfoclass.Trademark.Split(';');
-            return (info[0] == "1");
         }
     }
 }

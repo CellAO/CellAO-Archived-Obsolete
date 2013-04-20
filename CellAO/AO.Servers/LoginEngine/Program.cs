@@ -78,18 +78,11 @@ namespace LoginEngine
         {
             #region Console Texts...
             Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description
-                            + " " + AssemblyInfoclass.AssemblyVersion;
+                + " " + AssemblyInfoclass.AssemblyVersion + " " + AssemblyInfoclass.Trademark;
+
             ConsoleText ct = new ConsoleText();
             ct.TextRead("main.txt");
             Console.WriteLine("Loading " + AssemblyInfoclass.Title + "...");
-            if (Ismodified())
-            {
-                Console.WriteLine("Your " + AssemblyInfoclass.Title + " was compiled from modified source code.");
-            }
-            else if (Ismixed())
-            {
-                Console.WriteLine("Your " + AssemblyInfoclass.Title + " uses mixed SVN revisions.");
-            }
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("[OK]");
