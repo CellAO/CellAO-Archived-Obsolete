@@ -31,6 +31,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,6 +58,14 @@
     <ApplicationIcon>chat.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NBug, Version=1.1.0.0, Culture=neutral, PublicKeyToken=a4292a325f69b123, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NBug.1.1.1\lib\net40-client\NBug.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NLog.2.0.1.2\lib\net40\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -146,17 +156,10 @@
       <Project>{0107D780-AC28-4EAB-A0B9-CB782F4AAFA5}</Project>
       <Name>ISComm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libraries\Source\NBug\NBug\NBug.csproj">
-      <Project>{62CED1D5-F603-40DE-8BF5-3E49D3A392F4}</Project>
-      <Name>NBug</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Libraries\Source\NLog2\src\NLog\NLog.netfx40.csproj">
-      <Project>{A0BFF0DB-ED9A-4639-AE86-8E709A1EFC66}</Project>
-      <Name>NLog.netfx40</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="SQLTables\buddylist.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -203,6 +206,7 @@
   <PropertyGroup>
     <PreBuildEvent>"$(ProjectDir)prebuild.bat" "$(ProjectDir)"</PreBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

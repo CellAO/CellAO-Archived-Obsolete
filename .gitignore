@@ -108,3 +108,5 @@ Backup*/
 UpgradeLog*.XML
 /CellAO/Libraries/Source/AO.Core/AO.Core.XML
 /CellAO/Libraries/out
+/CellAO/Libraries/Source/NBug
+/CellAO/Libraries/Source/NLog2
