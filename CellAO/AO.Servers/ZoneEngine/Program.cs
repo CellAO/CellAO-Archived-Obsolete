@@ -56,8 +56,6 @@ namespace ZoneEngine
 
     public class Program
     {
-        public static ScriptAPI Script;
-
         public static Server zoneServer;
 
         public static ScriptCompiler csc;

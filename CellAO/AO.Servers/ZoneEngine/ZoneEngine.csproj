@@ -383,9 +383,6 @@
     <Compile Include="Script\AOChatCommand.cs" />
     <Compile Include="Script\IAOScript.cs" />
     <Compile Include="Script\ScriptCompiler.cs" />
-    <Compile Include="Script\Dynels.cs" />
-    <Compile Include="Script\ScriptAPI.cs" />
-    <Compile Include="Script\Scripts.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Statels.cs" />
     <Compile Include="PacketHandlers\Tradeskill.cs" />
