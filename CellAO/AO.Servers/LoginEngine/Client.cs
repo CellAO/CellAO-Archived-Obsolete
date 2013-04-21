@@ -33,6 +33,8 @@ namespace LoginEngine
 
     using Cell.Core;
 
+    using LoginEngine.Packets;
+
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.SystemMessages;
 
@@ -188,15 +190,55 @@ namespace LoginEngine
             Array.Copy(this.m_readBuffer.Array, this.m_readBuffer.Offset, packet, 0, numBytes);
 
             var message = this.messageSerializer.Deserialize(packet);
-            if (message.Body is UserLoginMessage)
+            var userLoginMessage = message.Body as UserLoginMessage;
+            if (userLoginMessage != null)
             {
-                this.OnUserLoginMessage(message.Body as UserLoginMessage);
+                this.OnUserLoginMessage(userLoginMessage);
+                return;
+            }
+
+            var userCredentialsMessage = message.Body as UserCredentialsMessage;
+            if (userCredentialsMessage != null)
+            {
+                this.OnUserCredentialsMessage(userCredentialsMessage);
                 return;
             }
 
             uint messageNumber = this.GetMessageNumber(packet);
             Parser myParser = new Parser();
             myParser.Parse(this, packet, messageNumber);
+        }
+
+        private void OnUserCredentialsMessage(UserCredentialsMessage userCredentialsMessage)
+        {
+            var checkLogin = new CheckLogin();
+            if (checkLogin.IsLoginAllowed(this, userCredentialsMessage.UserName) == false)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(
+                    "Client '" + this.AccountName
+                    + "' banned, not a valid username, or sent a malformed Authentication Packet");
+                Console.ResetColor();
+
+                this.Send(LoginWrong.GetPacket());
+                this.Server.DisconnectClient(this);
+                return;
+            }
+
+            if (checkLogin.IsLoginCorrect(this, userCredentialsMessage.Credentials) == false)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Client '" + this.AccountName + "' failed Authentication.");
+                Console.ResetColor();
+
+                this.Send(LoginWrong.GetPacket());
+                this.Server.DisconnectClient(this);
+                return;
+            }
+            
+            // All's well, send CharacterList Packet
+            var charlist = new CharacterListPacket();
+            charlist.SendPacket(this, this.AccountName);
         }
 
         private void OnUserLoginMessage(UserLoginMessage userLoginMessage)
