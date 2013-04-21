@@ -147,6 +147,7 @@ namespace ZoneEngine
             SettingsOverride.LoadCustomSettings("NBug.Config");
             AppDomain.CurrentDomain.UnhandledException += Handler.UnhandledException;
             TaskScheduler.UnobservedTaskException += Handler.UnobservedTaskException;
+            
             //TODO: ADD More Handlers.
             #endregion
 

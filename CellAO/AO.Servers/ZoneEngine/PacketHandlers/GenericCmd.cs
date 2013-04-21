@@ -1,14 +1,11 @@
 ﻿#region License
+
 // Copyright (c) 2005-2012, CellAO Team
-// 
 // All rights reserved.
-// 
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-// 
 //     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 //     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 //     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-// 
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -22,11 +19,10 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-#endregion
-
 namespace ZoneEngine.PacketHandlers
 {
+    #region Usings ...
+
     using System;
 
     using AO.Core;
@@ -34,14 +30,66 @@ namespace ZoneEngine.PacketHandlers
     using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Packets;
 
+    #endregion
+
+    /// <summary>
+    /// The generic cmd.
+    /// </summary>
     public static class GenericCmd
     {
-        private static int temp1, count, action, temp4;
+        #region Static Fields
 
-        private static Identity user, target;
+        /// <summary>
+        /// The action.
+        /// </summary>
+        private static int action;
 
+        /// <summary>
+        /// The count.
+        /// </summary>
+        private static int count;
+
+        /// <summary>
+        /// The sender.
+        /// </summary>
         private static Client sender;
 
+        /// <summary>
+        /// The target.
+        /// </summary>
+        private static Identity target;
+
+        /// <summary>
+        /// The temp 1.
+        /// </summary>
+        private static int temp1;
+
+        /// <summary>
+        /// The temp 4.
+        /// </summary>
+        private static int temp4;
+
+        /// <summary>
+        /// The user.
+        /// </summary>
+        private static Identity user;
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The read.
+        /// </summary>
+        /// <param name="packet">
+        /// The packet.
+        /// </param>
+        /// <param name="client">
+        /// The client.
+        /// </param>
+        /// <param name="dynel">
+        /// The dynel.
+        /// </param>
         public static void Read(byte[] packet, Client client, Dynel dynel)
         {
             sender = client;
@@ -59,15 +107,18 @@ namespace ZoneEngine.PacketHandlers
             switch (action)
             {
                 case 1:
+
                     // Get
                     break;
                 case 2:
+
                     // Drop
                     break;
                 case 3:
+
                     // Use
                     OnUse();
-                    var newcoord = client.Character.Coordinates;
+                    AOCoord newcoord = client.Character.Coordinates;
                     feedback = false;
 
                     if (Statels.StatelppfonUse.ContainsKey(client.Character.PlayField))
@@ -80,18 +131,16 @@ namespace ZoneEngine.PacketHandlers
                             }
                         }
                     }
+
                     bool teleport = false;
                     int playfield = 152;
                     switch (target.Instance)
                     {
                             // Need to add feedback to the character 
                             // Are the Newer Grid points in this list???
-                            //
                             // No newer Grid points in list, will be replaced by a check against a list of statels read from rdb anyway
                             // - Algorithman
-
-                            #region teleporter tower (Noobisland)
-                        case -1073605919: //Teleport Tower(noobisland)(right)
+                        case -1073605919: // Teleport Tower(noobisland)(right)
                             if (client.Character.Stats.Side.Value != 2)
                             {
                                 client.SendChatText("You need to be omni to use this teleporter!");
@@ -104,9 +153,10 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.y = 16;
                                 playfield = 687;
                             }
+
                             break;
 
-                        case -1073736991: //Teleport Tower(noobisland)(left)
+                        case -1073736991: // Teleport Tower(noobisland)(left)
                             if (client.Character.Stats.Side.Value != 1)
                             {
                                 client.SendChatText("You need to be clan to use this teleporter!");
@@ -119,9 +169,10 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.y = 0;
                                 playfield = 545;
                             }
+
                             break;
 
-                        case -1073671455: //Teleport Tower(noobisland)(middle)
+                        case -1073671455: // Teleport Tower(noobisland)(middle)
                             if (client.Character.Stats.Side.Value != 0)
                             {
                                 client.SendChatText("You need to be neutral to use this teleporter!");
@@ -134,13 +185,13 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.y = 73;
                                 playfield = 800;
                             }
-                            break;
-                            #endregion
 
-                            #region Ferrys
-                        case -1073741189: //2ho -> Stret west
-                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
+                            break;
+
+                        case -1073741189: // 2ho -> Stret west
+                            if (client.Character.Stats.Cash.Value < 50)
                             {
+                                // check if you got enough credits to use the ferry
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
                             }
@@ -152,11 +203,13 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.y = 8;
                                 playfield = 790;
                             }
+
                             break;
 
-                        case -1073478890: //Stret West -> 2ho
-                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
+                        case -1073478890: // Stret West -> 2ho
+                            if (client.Character.Stats.Cash.Value < 50)
                             {
+                                // check if you got enough credits to use the ferry
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
                             }
@@ -168,11 +221,13 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.y = 7;
                                 playfield = 635;
                             }
+
                             break;
 
-                        case -1073216841: //Harry's -> Plesant Meadows
-                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
+                        case -1073216841: // Harry's -> Plesant Meadows
+                            if (client.Character.Stats.Cash.Value < 50)
                             {
+                                // check if you got enough credits to use the ferry
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
                             }
@@ -184,11 +239,13 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.y = 7;
                                 playfield = 630;
                             }
+
                             break;
 
                         case -1073216906: // Plesant Meadows -> Harry's
-                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
+                            if (client.Character.Stats.Cash.Value < 50)
                             {
+                                // check if you got enough credits to use the ferry
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
                             }
@@ -200,11 +257,13 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.y = 7;
                                 playfield = 695;
                             }
+
                             break;
 
-                        case -1073282442: //Pleasant Meadows -> Omni-Tek outpost in Lush Fields
-                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
+                        case -1073282442: // Pleasant Meadows -> Omni-Tek outpost in Lush Fields
+                            if (client.Character.Stats.Cash.Value < 50)
                             {
+                                // check if you got enough credits to use the ferry
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
                             }
@@ -216,11 +275,13 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.y = 8;
                                 playfield = 695;
                             }
+
                             break;
 
-                        case -1073413449: //Omni-Tek outpost in Lush Fields -> Pleasant Meadows
-                            if (client.Character.Stats.Cash.Value < 50) //check if you got enough credits to use the ferry
+                        case -1073413449: // Omni-Tek outpost in Lush Fields -> Pleasant Meadows
+                            if (client.Character.Stats.Cash.Value < 50)
                             {
+                                // check if you got enough credits to use the ferry
                                 client.SendChatText("You need atleast 50 credits to board this ferry!");
                                 teleport = false;
                             }
@@ -232,22 +293,22 @@ namespace ZoneEngine.PacketHandlers
                                 newcoord.y = 7;
                                 playfield = 630;
                             }
+
                             break;
 
-                        case -1073347913: //Harry's trading outpost -> Omni-1 Trade (free)
+                        case -1073347913: // Harry's trading outpost -> Omni-1 Trade (free)
                             newcoord.x = 3569;
                             newcoord.z = 912;
                             newcoord.y = 9;
                             playfield = 695;
                             break;
 
-                        case -1073282377: //Omni-1 Trade -> Harry's trading outpost (free)
+                        case -1073282377: // Omni-1 Trade -> Harry's trading outpost (free)
                             newcoord.x = 3290;
                             newcoord.z = 2922;
                             newcoord.y = 7;
                             playfield = 695;
                             break;
-                            #endregion
 
                         default:
                             feedback = true;
@@ -265,6 +326,7 @@ namespace ZoneEngine.PacketHandlers
                     {
                         InventoryEntries ie = client.Character.GetInventoryAt(target.Instance);
                         AOItem mi = ItemHandler.GetItemTemplate(ie.Item.LowID);
+
                         // TODO mi.applyon(client.Character, ItemHandler.eventtype_onuse, true, false, ie.Placement);
                         TemplateAction.Send(client.Character, ie);
                         if (mi.isConsumable())
@@ -274,9 +336,11 @@ namespace ZoneEngine.PacketHandlers
                             {
                                 client.Character.Inventory.Remove(ie);
                                 DeleteItem.Send(client.Character, ie.Container, ie.Placement);
-                                //                                Packets.Stat.Set(client, 0, client.Character.Stats.GetStat(0),false);
+
+                                // Packets.Stat.Set(client, 0, client.Character.Stats.GetStat(0),false);
                             }
                         }
+
                         foreach (AOEvents aoe in mi.Events)
                         {
                             if (aoe.EventType == Constants.EventtypeOnUse)
@@ -284,10 +348,12 @@ namespace ZoneEngine.PacketHandlers
                                 sender.Character.ExecuteEvent(
                                     sender.Character, sender.Character, aoe, true, false, 0, CheckReqs.doCheckReqs);
                                 SkillUpdate.SendStat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
+
                                 // Social Status
                                 return;
                             }
                         }
+
                         int le = packet[7] + packet[6] * 256;
                         byte[] reply = new byte[le];
                         Array.Copy(packet, reply, le);
@@ -300,7 +366,7 @@ namespace ZoneEngine.PacketHandlers
                         reply[12] = (byte)(client.Character.Id >> 24);
                         reply[13] = (byte)(client.Character.Id >> 16);
                         reply[14] = (byte)(client.Character.Id >> 8);
-                        reply[15] = (byte)(client.Character.Id);
+                        reply[15] = (byte)client.Character.Id;
                         reply[0x1c] = 0;
                         reply[32] = 1;
                         reply[36] = 3;
@@ -310,11 +376,13 @@ namespace ZoneEngine.PacketHandlers
                         byte[] rep = pw.Finish();
                         client.SendCompressed(rep);
                         SkillUpdate.SendStat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
+
                         // Social Status
                         return;
                     }
-                    else if (target.Type == 51035) // Shops
+                    else if (target.Type == 51035)
                     {
+                        // Shops
                         VendingMachine vm = VendorHandler.GetVendorById(target.Instance);
                         ShopInventory.Send(client, vm);
                         Trade.Send(client, client.Character, vm);
@@ -332,7 +400,7 @@ namespace ZoneEngine.PacketHandlers
                         reply[12] = (byte)(client.Character.Id >> 24);
                         reply[13] = (byte)(client.Character.Id >> 16);
                         reply[14] = (byte)(client.Character.Id >> 8);
-                        reply[15] = (byte)(client.Character.Id);
+                        reply[15] = (byte)client.Character.Id;
                         reply[0x1c] = 0;
                         reply[0x20] = 1;
 
@@ -343,30 +411,60 @@ namespace ZoneEngine.PacketHandlers
                         byte[] rep = pw.Finish();
                         client.SendCompressed(rep);
                     }
-                    else if (target.Type == 51050) // Open corpse
+                    else if (target.Type == 51050)
                     {
+                        // Open corpse
                     }
+
                     break;
                 case 4:
+
                     // Repair
                     break;
                 case 5:
+
                     // UseItemOnItem
+#if DEBUG
+                    Console.WriteLine("Use Item on Item not defined yet");
+                    Console.WriteLine("Packet data:");
+                    string line = string.Empty;
+                    int count2 = 0;
+                    foreach (byte packbyte in packet)
+                    {
+                        if ((count2 % 16) == 0)
+                        {
+                            Console.WriteLine(line);
+                            line = string.Empty;
+                        }
+
+                        line = line + packbyte.ToString("X2") + " ";
+                        count2++;
+                    }
+
+                    if (line != string.Empty)
+                    {
+                        Console.WriteLine();
+                    }
+
+                    Console.WriteLine(line);
+
+#endif
                     break;
                 default:
                     break;
             }
+
             if (feedback)
             {
 #if DEBUG
                 string Feedback1 = string.Format("T1 {0}, Count {1}, Action {2}, T4 {3}", temp1, count, action, temp4);
                 string Feedback2 = string.Format(
-                    "User {0}:{1}, Target {2}:{3} ({4}:{5})",
-                    user.Type,
-                    user.Instance,
-                    target.Type,
-                    (uint)target.Instance,
-                    target.Type.ToString("X4"),
+                    "User {0}:{1}, Target {2}:{3} ({4}:{5})", 
+                    user.Type, 
+                    user.Instance, 
+                    target.Type, 
+                    (uint)target.Instance, 
+                    target.Type.ToString("X4"), 
                     ((uint)target.Instance).ToString("X8"));
                 Statels.Statel b = null;
                 if (Statels.Statelppf.ContainsKey(client.Character.PlayField))
@@ -380,12 +478,14 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
                 }
+
                 if (b != null)
                 {
                     foreach (Statels.StatelEvent e in b.Events)
                     {
                         Console.WriteLine("DebugOutput: \r\n" + e);
                     }
+
                     Console.WriteLine(b.Coordinates.ToString());
                 }
                 else
@@ -394,25 +494,58 @@ namespace ZoneEngine.PacketHandlers
                         "No Statel defined in database for #" + target.Type + ":" + (UInt32)target.Instance + " ("
                         + target.Type.ToString("X4") + ":" + target.Instance.ToString("X8") + ")");
                 }
+
                 client.SendChatText(Feedback1);
                 client.SendChatText(Feedback2);
 #endif
             }
         }
 
+        /// <summary>
+        /// The reply.
+        /// </summary>
+        public static void Reply()
+        {
+            PacketWriter writer = new PacketWriter();
+            writer.PushBytes(new byte[] { 0xDF, 0xDF });
+            writer.PushShort(10);
+            writer.PushShort(1);
+            writer.PushShort(0);
+            writer.PushInt(3086);
+            writer.PushInt(sender.Character.Id);
+            writer.PushInt(0x52526858);
+            writer.PushIdentity(user);
+            writer.PushByte(0);
+            writer.PushInt(1);
+            writer.PushInt(count);
+            writer.PushInt(action);
+            writer.PushInt(temp4);
+            writer.PushIdentity(user);
+            writer.PushIdentity(target);
+            byte[] reply = writer.Finish();
+            sender.SendCompressed(reply);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The on use.
+        /// </summary>
         private static void OnUse()
         {
             uint _t_instance = BitConverter.ToUInt32(BitConverter.GetBytes(target.Instance), 0);
 
-            //LuaInterface.LuaTable tbl = Program.Script.GetLua().GetTable("PlayfieldSettings");
+            // LuaInterface.LuaTable tbl = Program.Script.GetLua().GetTable("PlayfieldSettings");
             /* Removed Lua Hook, Just reply
             bool result = Program.Script.CallHook("OnUse", _sender.Character.PlayField, _sender, _target, _t_instance);
             if (result == true)
             {*/
             Reply();
-            //}
 
-            #region Not sure whats going to come of this code.. but wont delete it.
+            // }
+
             /*switch (_sender.Character.pf)
             {
                 case 500:
@@ -727,29 +860,8 @@ namespace ZoneEngine.PacketHandlers
                 default:
                     break;
             }*/
-            #endregion
         }
 
-        public static void Reply()
-        {
-            PacketWriter writer = new PacketWriter();
-            writer.PushBytes(new byte[] { 0xDF, 0xDF });
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(sender.Character.Id);
-            writer.PushInt(0x52526858);
-            writer.PushIdentity(user);
-            writer.PushByte(0);
-            writer.PushInt(1);
-            writer.PushInt(count);
-            writer.PushInt(action);
-            writer.PushInt(temp4);
-            writer.PushIdentity(user);
-            writer.PushIdentity(target);
-            byte[] reply = writer.Finish();
-            sender.SendCompressed(reply);
-        }
+        #endregion
     }
 }
