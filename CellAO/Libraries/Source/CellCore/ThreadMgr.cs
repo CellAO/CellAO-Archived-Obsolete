@@ -147,6 +147,7 @@ namespace Cell.Core
                     catch (Exception ex)
                     {
                         LogManager.GetLogger(CellDef.CORE_LOG_FNAME).ErrorException("", ex);
+                        throw;
                     }
                 }
             }
@@ -157,6 +158,7 @@ namespace Cell.Core
             catch (Exception e)
             {
                 LogManager.GetLogger(CellDef.CORE_LOG_FNAME).ErrorException("", e);
+                throw;
             }
         }
 
@@ -305,6 +307,7 @@ namespace Cell.Core
                 LogManager.GetLogger(CellDef.CORE_LOG_FNAME).ErrorException("", e);
 
                 Console.WriteLine("Error: " + e.ToString());
+                throw;
             }
         }
     }
