@@ -220,7 +220,7 @@ namespace LoginEngine
                     + "' banned, not a valid username, or sent a malformed Authentication Packet");
                 Console.ResetColor();
 
-                this.Send(LoginWrong.GetPacket());
+                this.Send(0x00001f83, new LoginErrorMessage { Error = LoginErrorType.InvalidUserNamePassword });
                 this.Server.DisconnectClient(this);
                 return;
             }
@@ -231,7 +231,7 @@ namespace LoginEngine
                 Console.WriteLine("Client '" + this.AccountName + "' failed Authentication.");
                 Console.ResetColor();
 
-                this.Send(LoginWrong.GetPacket());
+                this.Send(0x00001f83, new LoginErrorMessage { Error = LoginErrorType.InvalidUserNamePassword });
                 this.Server.DisconnectClient(this);
                 return;
             }
@@ -269,10 +269,10 @@ namespace LoginEngine
 
             this.serverSalt = sb.ToString();
             var serverSaltMessage = new ServerSaltMessage { ServerSalt = salt };
-            this.Send(serverSaltMessage);
+            this.Send(0x00002B3F, serverSaltMessage);
         }
 
-        private void Send(MessageBody messageBody)
+        private void Send(int receiver, MessageBody messageBody)
         {
             var message = new Message
                               {
@@ -284,7 +284,7 @@ namespace LoginEngine
                                               PacketType = (PacketType)0x0001,
                                               Unknown = 0x0001,
                                               Sender = 0x00000001,
-                                              Receiver = 0x00002B3F
+                                              Receiver = receiver
                                           }
                               };
             var buffer = this.messageSerializer.Serialize(message);
