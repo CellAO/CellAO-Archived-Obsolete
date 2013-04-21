@@ -81,6 +81,13 @@ namespace ZoneEngine.Functions
                 a.z = (Int32)arguments[2];
                 pf = (Int32)arguments[3];
             }
+
+            // Same playfield teleport sometimes has 0 for pf argument
+            if (pf == 0)
+            {
+                pf = cli.Character.PlayField;
+            }
+
             cli.Teleport(a, q, pf);
             return true;
         }

@@ -56,8 +56,6 @@ namespace ZoneEngine
 
     public class Program
     {
-        public static ScriptAPI Script;
-
         public static Server zoneServer;
 
         public static ScriptCompiler csc;
@@ -149,6 +147,7 @@ namespace ZoneEngine
             SettingsOverride.LoadCustomSettings("NBug.Config");
             AppDomain.CurrentDomain.UnhandledException += Handler.UnhandledException;
             TaskScheduler.UnobservedTaskException += Handler.UnobservedTaskException;
+            
             //TODO: ADD More Handlers.
             #endregion
 
