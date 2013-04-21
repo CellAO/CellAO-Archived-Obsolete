@@ -252,7 +252,6 @@
     <Compile Include="Functions\visualeffect.cs" />
     <Compile Include="Functions\waypoint.cs" />
     <Compile Include="Functions\weaponeffectcolor.cs" />
-    <Compile Include="Doors.cs" />
     <Compile Include="InventoryEntries.cs" />
     <Compile Include="Misc\Announce.cs" />
     <Compile Include="Collision\BorderlineCheck.cs" />

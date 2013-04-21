@@ -120,6 +120,7 @@
     <Compile Include="ConsoleText.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Debughelpers.cs" />
+    <Compile Include="Doors.cs" />
     <Compile Include="GuildEntry.cs" />
     <Compile Include="GuildInfo.cs" />
     <Compile Include="ItemHandler.cs" />
