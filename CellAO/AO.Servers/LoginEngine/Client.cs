@@ -25,18 +25,27 @@
 namespace LoginEngine
 {
     using System;
+    using System.Collections.Generic;
+    using System.Data;
     using System.Globalization;
+    using System.Linq;
     using System.Net.Sockets;
     using System.Text;
 
+    using AO.Core;
     using AO.Core.Components;
 
     using Cell.Core;
 
     using LoginEngine.Packets;
+    using LoginEngine.QueryBase;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.SystemMessages;
+
+    using Header = SmokeLounge.AOtomation.Messaging.Messages.Header;
+    using Identity = SmokeLounge.AOtomation.Messaging.GameData.Identity;
 
     /// <summary>
     /// The client.
@@ -220,7 +229,7 @@ namespace LoginEngine
                     + "' banned, not a valid username, or sent a malformed Authentication Packet");
                 Console.ResetColor();
 
-                this.Send(0x00001f83, new LoginErrorMessage { Error = LoginErrorType.InvalidUserNamePassword });
+                this.Send(0x00001f83, new LoginErrorMessage { Error = LoginError.InvalidUserNamePassword });
                 this.Server.DisconnectClient(this);
                 return;
             }
@@ -231,14 +240,54 @@ namespace LoginEngine
                 Console.WriteLine("Client '" + this.AccountName + "' failed Authentication.");
                 Console.ResetColor();
 
-                this.Send(0x00001f83, new LoginErrorMessage { Error = LoginErrorType.InvalidUserNamePassword });
+                this.Send(0x00001f83, new LoginErrorMessage { Error = LoginError.InvalidUserNamePassword });
                 this.Server.DisconnectClient(this);
                 return;
             }
-            
-            // All's well, send CharacterList Packet
-            var charlist = new CharacterListPacket();
-            charlist.SendPacket(this, this.AccountName);
+
+            var expansions = 0;
+            var allowedCharacters = 0;
+
+            /* This checks your expansions and
+               number of characters allowed (num. of chars doesn't work)*/
+            string sqlQuery = "SELECT `Expansions`,`Allowed_Characters` FROM `login` WHERE Username = '" + accountName
+                              + "'";
+            var ms = new SqlWrapper();
+            var dt = ms.ReadDatatable(sqlQuery);
+            if (dt.Rows.Count > 0)
+            {
+                expansions = int.Parse((string)dt.Rows[0][0]);
+                allowedCharacters = (int)dt.Rows[0][1];
+            }
+
+            var characters = from c in CharacterList.LoadCharacters(this.accountName) 
+                             select new LoginCharacterInfo
+                                        {
+                                            Unknown1 = 4, 
+                                            Id = c.Id,
+                                            PlayfieldProxyVersion = 0x61,
+                                            PlayfieldId = new Identity { IdentityType = IdentityType.Playfield, Instance = c.Playfield },
+                                            PlayfieldAttribute = 1,
+                                            ExitDoor = 0,
+                                            ExitDoorId = Identity.None,
+                                            Unknown2 = 1,
+                                            CharacterInfoVersion = 5,
+                                            CharacterId = c.Id,
+                                            Name = c.Name,
+                                            Breed = (Breed)c.Breed,
+                                            Gender = (Gender)c.Gender,
+                                            Profession = (Profession)c.Profession,
+                                            Level = c.Level,
+                                            AreaName = "area unknown",
+                                            Status = CharacterStatus.Active
+                                        };
+            var characterListMessage = new CharacterListMessage
+                                           {
+                                               Characters = characters.ToArray(),
+                                               AllowedCharacters = allowedCharacters,
+                                               Expansions = expansions
+                                           };
+            this.Send(0x0000615B, characterListMessage);
         }
 
         private void OnUserLoginMessage(UserLoginMessage userLoginMessage)
