@@ -25,15 +25,24 @@
 namespace LoginEngine
 {
     using System;
+    using System.Globalization;
     using System.Net.Sockets;
+    using System.Text;
+
+    using AO.Core.Components;
 
     using Cell.Core;
+
+    using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Messages.SystemMessages;
 
     /// <summary>
     /// The client.
     /// </summary>
     public class Client : ClientBase
     {
+        private readonly IMessageSerializer messageSerializer;
+
         /// <summary>
         /// The packet number.
         /// </summary>
@@ -55,16 +64,19 @@ namespace LoginEngine
         private string serverSalt = string.Empty;
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Client"/> class. 
         /// The client.
         /// </summary>
         /// <param name="srvr">
-        /// Server object
+        ///     Server object
         /// </param>
-        public Client(LoginServer srvr)
+        /// <param name="messageSerializer"></param>
+        public Client(LoginServer srvr, IMessageSerializer messageSerializer)
             : base(srvr)
         {
+            this.messageSerializer = messageSerializer;
         }
 
         /// <summary>
@@ -174,10 +186,69 @@ namespace LoginEngine
         {
             byte[] packet = new byte[numBytes];
             Array.Copy(this.m_readBuffer.Array, this.m_readBuffer.Offset, packet, 0, numBytes);
+
+            var message = this.messageSerializer.Deserialize(packet);
+            if (message.Body is UserLoginMessage)
+            {
+                this.OnUserLoginMessage(message.Body as UserLoginMessage);
+                return;
+            }
+
             uint messageNumber = this.GetMessageNumber(packet);
             Parser myParser = new Parser();
             myParser.Parse(this, packet, messageNumber);
         }
+
+        private void OnUserLoginMessage(UserLoginMessage userLoginMessage)
+        {
+            this.accountName = userLoginMessage.UserName;
+            this.clientVersion = userLoginMessage.ClientVersion;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(
+                "Client '" + this.accountName + "' connected using version '" + this.clientVersion + "'");
+            Console.ResetColor();
+
+            var salt = new byte[0x20];
+            var rand = new Random();
+
+            rand.NextBytes(salt);
+
+            var sb = new StringBuilder();
+            for (int i = 0; i < 32; i++)
+            {
+                // 0x00 Breaks Things
+                if (salt[i] == 0)
+                {
+                    salt[i] = 42; // So we change it to something nicer
+                }
+
+                sb.Append(salt[i].ToString("x2", CultureInfo.InvariantCulture));
+            }
+
+            this.serverSalt = sb.ToString();
+            var serverSaltMessage = new ServerSaltMessage { ServerSalt = salt };
+            this.Send(serverSaltMessage);
+        }
+
+        private void Send(MessageBody messageBody)
+        {
+            var message = new Message
+                              {
+                                  Body = messageBody,
+                                  Header =
+                                      new Header
+                                          {
+                                              MessageId = BitConverter.ToInt16(new byte[] { 0xDF, 0xDF }, 0),
+                                              PacketType = (PacketType)0x0001,
+                                              Unknown = 0x0001,
+                                              Sender = 0x00000001,
+                                              Receiver = 0x00002B3F
+                                          }
+                              };
+            var buffer = this.messageSerializer.Serialize(message);
+            this.Send(buffer);
+        }
+
         #endregion
 
         #region Our own stuff

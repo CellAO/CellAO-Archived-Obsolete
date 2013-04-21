@@ -115,6 +115,8 @@
     <Compile Include="AOWeaponpairs.cs" />
     <Compile Include="BigInteger.cs" />
     <Compile Include="CharacterBase.cs" />
+    <Compile Include="Components\IMessageSerializer.cs" />
+    <Compile Include="Components\MessageSerializer.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigReadWrite.cs" />
     <Compile Include="ConsoleText.cs" />
@@ -195,6 +197,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
+      <Project>{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}</Project>
+      <Name>SmokeLounge.AOtomation.Messaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CellCore\Cell.Core.csproj">
       <Project>{71AB07AD-4D94-4693-8560-47862E5B6E61}</Project>
       <Name>Cell.Core</Name>

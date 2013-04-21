@@ -119,6 +119,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
+      <Project>{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}</Project>
+      <Name>SmokeLounge.AOtomation.Messaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Source\AO.Core\AO.Core.csproj">
       <Project>{0B1CCA26-DD9C-400A-9EF0-1D9423905F4D}</Project>
       <Name>AO.Core</Name>
