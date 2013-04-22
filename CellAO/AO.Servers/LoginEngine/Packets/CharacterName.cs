@@ -203,7 +203,9 @@ namespace LoginEngine.Packets
                 randomNameLength++;
             }
 
-            return sb.ToString();
+            var name = sb.ToString();
+            name = char.ToUpper(name[0]) + name.Substring(1);
+            return name;
         }
 
         #region check if name available;call create new char
