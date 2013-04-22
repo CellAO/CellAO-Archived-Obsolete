@@ -27,9 +27,12 @@
 
 namespace LoginEngine.Packets
 {
+    using System;
+
     /// <summary>
     /// 
     /// </summary>
+    [Obsolete]
     public static class LoginWrong
     {
         /// <summary>

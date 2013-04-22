@@ -236,9 +236,41 @@ namespace LoginEngine
                 return;
             }
 
-            uint messageNumber = this.GetMessageNumber(packet);
-            Parser myParser = new Parser();
-            myParser.Parse(this, packet, messageNumber);
+            var createCharacterMessage = message.Body as CreateCharacterMessage;
+            if (createCharacterMessage != null)
+            {
+                this.OnCreateCharacterMessage(createCharacterMessage);
+                return;
+            }
+
+            var messageNumber = this.GetMessageNumber(packet);
+            this.Server.Warning(this, "Client sent unknown message {0}", messageNumber.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private void OnCreateCharacterMessage(CreateCharacterMessage createCharacterMessage)
+        {
+            var characterName = new CharacterName
+                                    {
+                                        AccountName = this.accountName,
+                                        Name = createCharacterMessage.Name,
+                                        Breed = (int)createCharacterMessage.Breed,
+                                        Gender = (int)createCharacterMessage.Gender,
+                                        Profession = (int)createCharacterMessage.Profession,
+                                        Level = createCharacterMessage.Level,
+                                        HeadMesh = createCharacterMessage.HeadMesh,
+                                        MonsterScale = createCharacterMessage.MonsterScale,
+                                        Fatness = createCharacterMessage.Fatness
+                                    };
+            var characterId = characterName.CheckAgainstDatabase();
+
+            if (characterId < 1)
+            {
+                this.Send(0x0000FFFF, new NameInUseMessage());
+                return;
+            }
+            
+            characterName.SendNameToStartPlayfield(createCharacterMessage.StarterArea == StarterArea.Shadowlands, characterId);
+            this.Send(0x0000FFFF, new CharacterCreatedMessage { CharacterId = characterId });
         }
 
         private void OnDeleteCharacterMessage(DeleteCharacterMessage deleteCharacterMessage)

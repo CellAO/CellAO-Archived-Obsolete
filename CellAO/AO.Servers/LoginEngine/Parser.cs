@@ -37,6 +37,7 @@ namespace LoginEngine
 
     using LoginEngine.Packets;
 
+    [Obsolete]
     public class Parser
     {
         #region Constructors

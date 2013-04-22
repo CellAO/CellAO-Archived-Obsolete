@@ -119,6 +119,7 @@ namespace LoginEngine.Packets
         /// </summary>
         /// <param name="client"></param>
         /// <param name="profession"></param>
+        [Obsolete]
         public void GetRandomName(Client client, Int32 profession)
         {
             MemoryStream stream = new MemoryStream();
@@ -352,6 +353,7 @@ namespace LoginEngine.Packets
         /// </summary>
         /// <param name="client"></param>
         /// <param name="charid"></param>
+        [Obsolete]
         public void DeleteChar(Client client, Int32 charid)
         {
             MemoryStream stream = new MemoryStream();
@@ -426,6 +428,7 @@ namespace LoginEngine.Packets
         /// <param name="client"></param>
         /// <param name="startInSL"></param>
         /// <param name="charid"></param>
+        [Obsolete]
         public void SendNameToStartPlayfield(Client client, bool startInSL, Int32 charid)
         {
             MemoryStream stream = new MemoryStream();
@@ -468,6 +471,26 @@ namespace LoginEngine.Packets
             /* send response */
             client.Send(reply);
         }
+
+        public void SendNameToStartPlayfield(bool startInSL, int charid)
+        {
+            SqlWrapper ms = new SqlWrapper();
+
+            /* set startplayfield */
+            string sqlUpdate = "UPDATE `characters` set ";
+
+            if (startInSL)
+            {
+                sqlUpdate += "`playfield`=4001,`X`=850,`Y`=43,`Z`=565 ";
+            }
+            else
+            {
+                sqlUpdate += "`playfield`=4582,`X`=939,`Y`=20,`Z`=732 ";
+            }
+            sqlUpdate += " where `ID` = " + charid;
+
+            ms.SqlUpdate(sqlUpdate);
+        }
         #endregion
 
         #region send name in use
@@ -475,6 +498,7 @@ namespace LoginEngine.Packets
         /// 
         /// </summary>
         /// <param name="client"></param>
+        [Obsolete]
         public void SendNameInUse(Client client)
         {
             MemoryStream stream = new MemoryStream();

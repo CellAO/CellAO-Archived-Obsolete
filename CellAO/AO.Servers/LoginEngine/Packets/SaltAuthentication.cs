@@ -29,6 +29,7 @@ namespace LoginEngine.Packets
     /// <summary>
     /// The salt authentication.
     /// </summary>
+    [Obsolete]
     public class SaltAuthentication
     {
         /// <summary>

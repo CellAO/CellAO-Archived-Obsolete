@@ -37,6 +37,7 @@ namespace LoginEngine.Packets
     /// <summary>
     /// 
     /// </summary>
+    [Obsolete]
     public class CharacterListPacket
     {
         #region Public Methods and Operators
