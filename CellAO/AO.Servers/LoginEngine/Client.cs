@@ -222,9 +222,28 @@ namespace LoginEngine
                 return;
             }
 
+            var randomNameRequestMessage = message.Body as RandomNameRequestMessage;
+            if (randomNameRequestMessage != null)
+            {
+                this.OnRandomNameRequestMessage(randomNameRequestMessage);
+                return;
+            }
+
             uint messageNumber = this.GetMessageNumber(packet);
             Parser myParser = new Parser();
             myParser.Parse(this, packet, messageNumber);
+        }
+
+        private void OnRandomNameRequestMessage(RandomNameRequestMessage randomNameRequestMessage)
+        {
+            var characterName = new CharacterName();
+            var suggestNameMessage = new SuggestNameMessage
+                                         {
+                                             Name =
+                                                 characterName.GetRandomName(
+                                                     randomNameRequestMessage.Profession)
+                                         };
+            this.Send(0x0000FFFF, suggestNameMessage);
         }
 
         private void OnSelectCharacterMessage(SelectCharacterMessage selectCharacterMessage)

@@ -35,6 +35,8 @@ namespace LoginEngine.Packets
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     /// <summary>
     /// 
     /// </summary>
@@ -174,6 +176,35 @@ namespace LoginEngine.Packets
             client.Send(reply);
         }
         #endregion
+
+        public string GetRandomName(Profession profession)
+        {
+            var random = new Random();
+            byte randomNameLength = 0;
+            var randomLength = (byte)random.Next(3, 8);
+            var sb = new StringBuilder();
+            while (randomNameLength <= randomLength)
+            {
+                if (random.Next(14) > 4)
+                {
+                    sb.Append(optionalOrdCon.Substring(random.Next(0, 18), 1));
+                    randomNameLength++;
+                }
+
+                sb.Append(mandatoryVowel.Substring(random.Next(0, 4), 1));
+                randomNameLength++;
+
+                if (random.Next(14) <= 4)
+                {
+                    continue;
+                }
+
+                sb.Append(optionalOrdEnd.Substring(random.Next(0, 8), 1));
+                randomNameLength++;
+            }
+
+            return sb.ToString();
+        }
 
         #region check if name available;call create new char
         /// <summary>
