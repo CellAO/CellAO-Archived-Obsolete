@@ -229,9 +229,24 @@ namespace LoginEngine
                 return;
             }
 
+            var deleteCharacterMessage = message.Body as DeleteCharacterMessage;
+            if (deleteCharacterMessage != null)
+            {
+                this.OnDeleteCharacterMessage(deleteCharacterMessage);
+                return;
+            }
+
             uint messageNumber = this.GetMessageNumber(packet);
             Parser myParser = new Parser();
             myParser.Parse(this, packet, messageNumber);
+        }
+
+        private void OnDeleteCharacterMessage(DeleteCharacterMessage deleteCharacterMessage)
+        {
+            var characterName = new CharacterName();
+            characterName.DeleteChar(deleteCharacterMessage.CharacterId);
+            var characterDeletedMessage = new CharacterDeletedMessage { CharacterId = deleteCharacterMessage.CharacterId };
+            this.Send(0x0000FFFF, characterDeletedMessage);
         }
 
         private void OnRandomNameRequestMessage(RandomNameRequestMessage randomNameRequestMessage)
@@ -396,7 +411,8 @@ namespace LoginEngine
             var serverSaltMessage = new ServerSaltMessage { ServerSalt = salt };
             this.Send(0x00002B3F, serverSaltMessage);
         }
-
+        
+        // TODO: Investigate if reciever is a timestamp
         private void Send(int receiver, MessageBody messageBody)
         {
             var message = new Message

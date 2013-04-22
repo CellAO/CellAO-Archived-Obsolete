@@ -394,6 +394,29 @@ namespace LoginEngine.Packets
             /* send response */
             client.Send(reply);
         }
+
+        public void DeleteChar(int charid)
+        {
+            var ms = new SqlWrapper();
+
+            try
+            {
+                /* delete char */
+                /* i assume there should be somewhere a flag, caus FC can reenable a deleted char.. */
+                string sqlQuery = "DELETE FROM `characters` WHERE ID = " + charid;
+                ms.SqlDelete(sqlQuery);
+                sqlQuery = "DELETE FROM `characters_stats` WHERE ID = " + charid;
+                ms.SqlDelete(sqlQuery);
+                sqlQuery = "DELETE FROM `organizations` WHERE ID = " + charid;
+                ms.SqlDelete(sqlQuery);
+                sqlQuery = "DELETE FROM `inventory` WHERE ID = " + charid;
+                ms.SqlDelete(sqlQuery);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(this.Name + e.Message);
+            }
+        }
         #endregion
 
         #region send char to pf
