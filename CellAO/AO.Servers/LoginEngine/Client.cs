@@ -288,7 +288,8 @@ namespace LoginEngine
                                          {
                                              Name =
                                                  characterName.GetRandomName(
-                                                     randomNameRequestMessage.Profession)
+                                                     randomNameRequestMessage.Profession),
+                                             Profession = randomNameRequestMessage.Profession
                                          };
             this.Send(0x0000FFFF, suggestNameMessage);
         }
