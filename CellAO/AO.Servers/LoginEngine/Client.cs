@@ -162,7 +162,11 @@ namespace LoginEngine
             // 18.1 Fix - Dont ask why its not in network byte order like ZoneEngine packets, its too early in the morning
             byte[] pn = BitConverter.GetBytes(this.packetNumber++);
             packet[0] = pn[0];
-            packet[1] = pn[1];
+            packet[1] = pn[1];  
+            if (packet.Length % 4 > 0)
+            {
+                Array.Resize(ref packet, packet.Length + (4 - (packet.Length % 4)));
+            }
 
             base.Send(packet);
         }
@@ -289,7 +293,6 @@ namespace LoginEngine
                                              Name =
                                                  characterName.GetRandomName(
                                                      randomNameRequestMessage.Profession),
-                                             Profession = randomNameRequestMessage.Profession
                                          };
             this.Send(0x0000FFFF, suggestNameMessage);
         }

@@ -59,7 +59,7 @@ namespace LoginEngine.QueryBase
             {
                 CharacterEntry charentry = new CharacterEntry();
                 charentry.Id = (Int32)row["ID"];
-                charentry.Name = ((string)row["Name"]).PadRight(11, '\u0000');
+                charentry.Name = ((string)row["Name"]);
                 charentry.Playfield = (Int32)row["playfield"];
                 charentry.Level = (Int32)row["level"];
                 charentry.Breed = (Int32)row["breed"];
