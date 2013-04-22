@@ -29,11 +29,13 @@ namespace LoginEngine
     using System.Data;
     using System.Globalization;
     using System.Linq;
+    using System.Net;
     using System.Net.Sockets;
     using System.Text;
 
     using AO.Core;
     using AO.Core.Components;
+    using AO.Core.Config;
 
     using Cell.Core;
 
@@ -213,9 +215,64 @@ namespace LoginEngine
                 return;
             }
 
+            var selectCharacterMessage = message.Body as SelectCharacterMessage;
+            if (selectCharacterMessage != null)
+            {
+                this.OnSelectCharacterMessage(selectCharacterMessage);
+                return;
+            }
+
             uint messageNumber = this.GetMessageNumber(packet);
             Parser myParser = new Parser();
             myParser.Parse(this, packet, messageNumber);
+        }
+
+        private void OnSelectCharacterMessage(SelectCharacterMessage selectCharacterMessage)
+        {
+            var checkLogin = new CheckLogin();
+            if (checkLogin.IsCharacterOnAccount(this, selectCharacterMessage.CharacterId) == false)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(
+                    "Client '" + this.AccountName + "' tried to log in as CharID " + selectCharacterMessage.CharacterId
+                    + " but it is not on their account!");
+                Console.ResetColor();
+
+                // NV: Is this really what we want to send? Should find out sometime...
+                this.Send(0x00001F83, new LoginErrorMessage { Error = LoginError.InvalidUserNamePassword });
+                this.Server.DisconnectClient(this);
+                return;
+            }
+
+            if (OnlineChars.IsOnline(selectCharacterMessage.CharacterId))
+            {
+                Console.WriteLine(
+                    "Client '" + this.AccountName
+                    + "' is trying to login, but the requested character is already logged in.");
+                this.Send(0x00001F83, new LoginErrorMessage { Error = LoginError.AlreadyLoggedIn });
+                this.Server.DisconnectClient(this);
+                return;
+            }
+
+            OnlineChars.SetOnline(selectCharacterMessage.CharacterId);
+
+            IPAddress zoneIpAdress;
+            if (IPAddress.TryParse(ConfigReadWrite.Instance.CurrentConfig.ZoneIP, out zoneIpAdress) == false)
+            {
+                var zoneHost = Dns.GetHostEntry(ConfigReadWrite.Instance.CurrentConfig.ZoneIP);
+                zoneIpAdress = zoneHost.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+            }
+
+            var zoneRedirectionMessage = new ZoneRedirectionMessage
+                                             {
+                                                 CharacterId = selectCharacterMessage.CharacterId,
+                                                 ServerIpAddress = zoneIpAdress,
+                                                 ServerPort =
+                                                     (ushort)
+                                                     ConfigReadWrite.Instance.CurrentConfig
+                                                                    .ZonePort
+                                             };
+            this.Send(0x0000615B, zoneRedirectionMessage);
         }
 
         private void OnUserCredentialsMessage(UserCredentialsMessage userCredentialsMessage)
@@ -229,7 +286,7 @@ namespace LoginEngine
                     + "' banned, not a valid username, or sent a malformed Authentication Packet");
                 Console.ResetColor();
 
-                this.Send(0x00001f83, new LoginErrorMessage { Error = LoginError.InvalidUserNamePassword });
+                this.Send(0x00001F83, new LoginErrorMessage { Error = LoginError.InvalidUserNamePassword });
                 this.Server.DisconnectClient(this);
                 return;
             }
@@ -240,7 +297,7 @@ namespace LoginEngine
                 Console.WriteLine("Client '" + this.AccountName + "' failed Authentication.");
                 Console.ResetColor();
 
-                this.Send(0x00001f83, new LoginErrorMessage { Error = LoginError.InvalidUserNamePassword });
+                this.Send(0x00001F83, new LoginErrorMessage { Error = LoginError.InvalidUserNamePassword });
                 this.Server.DisconnectClient(this);
                 return;
             }
