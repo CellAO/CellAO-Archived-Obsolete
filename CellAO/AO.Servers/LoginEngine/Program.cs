@@ -42,6 +42,7 @@ namespace LoginEngine
     using MySql.Data.MySqlClient;
 
     using NBug;
+    using NBug.Properties;
 
     using NLog;
     using NLog.Config;
@@ -110,6 +111,8 @@ namespace LoginEngine
             #endregion
 
             #region NBug
+            SettingsOverride.LoadCustomSettings("NBug.Config");
+            NBug.Settings.WriteLogToDisk = true;
             AppDomain.CurrentDomain.UnhandledException += Handler.UnhandledException;
             TaskScheduler.UnobservedTaskException += Handler.UnobservedTaskException;
             //TODO: ADD More Handlers.
