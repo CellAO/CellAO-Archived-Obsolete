@@ -38,8 +38,6 @@ namespace LoginEngine
 
     using LoginEngine.Component;
 
-    /// <summary>
-    /// </summary>
     [Export]
     public class LoginServer : ServerBase
     {
@@ -61,10 +59,6 @@ namespace LoginEngine
 
         #region Public Methods and Operators
 
-        /// <summary>
-        /// </summary>
-        /// <summary>
-        /// </summary>
         public override void Start()
         {
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
@@ -75,23 +69,11 @@ namespace LoginEngine
 
         #region Methods
 
-        /// <summary>
-        /// </summary>
-        /// <returns>
-        ///     The <see cref="ClientBase" />.
-        /// </returns>
         protected override ClientBase CreateClient()
         {
             return this.clientFactory.Create(this);
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="client">
-        /// </param>
-        /// <returns>
-        /// The <see cref="bool"/>.
-        /// </returns>
         protected override bool OnClientConnected(ClientBase client)
         {
             return true;

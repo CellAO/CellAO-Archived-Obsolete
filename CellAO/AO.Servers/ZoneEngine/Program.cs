@@ -37,6 +37,7 @@ namespace ZoneEngine
     using System.Threading.Tasks;
 
     using AO.Core;
+    using AO.Core.Components;
 
     using Cell.Core;
 
@@ -56,6 +57,8 @@ namespace ZoneEngine
 
     public class Program
     {
+        public static readonly IContainer Container = new MefContainer();
+
         public static Server zoneServer;
 
         public static ScriptCompiler csc;
@@ -99,7 +102,9 @@ namespace ZoneEngine
             //System.Console.WriteLine("[ISComm] Linked Successfully! :D");
             #endregion
 
-            zoneServer = new Server { EnableTCP = true, EnableUDP = false };
+            zoneServer = Container.GetInstance<Server>();
+            zoneServer.EnableTCP = true;
+            zoneServer.EnableUDP = false;
 
             #region Script Loading Code Area..
             csc = new ScriptCompiler();

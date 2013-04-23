@@ -23,7 +23,7 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   The client.
+//   Defines the Client type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -31,31 +31,15 @@ namespace LoginEngine
 {
     using System;
     using System.Globalization;
-    using System.Linq;
-    using System.Net;
     using System.Net.Sockets;
-    using System.Text;
 
-    using AO.Core;
     using AO.Core.Components;
-    using AO.Core.Config;
     using AO.Core.Events;
 
     using Cell.Core;
 
-    using LoginEngine.Packets;
-    using LoginEngine.QueryBase;
-
-    using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages;
-    using SmokeLounge.AOtomation.Messaging.Messages.SystemMessages;
 
-    using Header = SmokeLounge.AOtomation.Messaging.Messages.Header;
-    using Identity = SmokeLounge.AOtomation.Messaging.GameData.Identity;
-
-    /// <summary>
-    ///     The client.
-    /// </summary>
     public class Client : ClientBase
     {
         #region Fields
@@ -64,42 +48,18 @@ namespace LoginEngine
 
         private readonly IMessageSerializer messageSerializer;
 
-        /// <summary>
-        ///     The account name.
-        /// </summary>
         private string accountName = string.Empty;
 
-        /// <summary>
-        ///     The client version.
-        /// </summary>
         private string clientVersion = string.Empty;
 
-        /// <summary>
-        ///     The packet number.
-        /// </summary>
         private ushort packetNumber = 1;
 
-        /// <summary>
-        ///     The server salt.
-        /// </summary>
         private string serverSalt = string.Empty;
 
         #endregion
 
         #region Constructors and Destructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Client"/> class.
-        ///     The client.
-        /// </summary>
-        /// <param name="srvr">
-        /// Server object
-        /// </param>
-        /// <param name="messageSerializer">
-        /// </param>
-        /// <param name="bus">
-        /// The bus.
-        /// </param>
         public Client(LoginServer srvr, IMessageSerializer messageSerializer, IBus bus)
             : base(srvr)
         {
@@ -111,9 +71,6 @@ namespace LoginEngine
 
         #region Public Properties
 
-        /// <summary>
-        ///     The account name.
-        /// </summary>
         public string AccountName
         {
             get
@@ -127,9 +84,6 @@ namespace LoginEngine
             }
         }
 
-        /// <summary>
-        ///     The client version.
-        /// </summary>
         public string ClientVersion
         {
             get
@@ -143,9 +97,6 @@ namespace LoginEngine
             }
         }
 
-        /// <summary>
-        ///     The server salt.
-        /// </summary>
         public string ServerSalt
         {
             get
@@ -163,12 +114,6 @@ namespace LoginEngine
 
         #region Public Methods and Operators
 
-        /// <summary>
-        /// Send packet data
-        /// </summary>
-        /// <param name="packet">
-        /// The packet data
-        /// </param>
         public override void Send(byte[] packet)
         {
             // 18.1 Fix - Dont ask why its not in network byte order like ZoneEngine packets, its too early in the morning
@@ -203,12 +148,6 @@ namespace LoginEngine
             this.Send(buffer);
         }
 
-        /// <summary>
-        /// Send packet data direct
-        /// </summary>
-        /// <param name="packet">
-        /// The packet data
-        /// </param>
         public void Senddirect(byte[] packet)
         {
             if (this.m_tcpSock.Connected)
@@ -227,15 +166,6 @@ namespace LoginEngine
 
         #region Methods
 
-        /// <summary>
-        /// Gets the message number.
-        /// </summary>
-        /// <param name="packet">
-        /// The packet data
-        /// </param>
-        /// <returns>
-        /// The get message number.
-        /// </returns>
         protected uint GetMessageNumber(byte[] packet)
         {
             var messageNumberArray = new byte[4];
@@ -247,12 +177,6 @@ namespace LoginEngine
             return reply;
         }
 
-        /// <summary>
-        /// The on receive.
-        /// </summary>
-        /// <param name="numBytes">
-        /// Number of bytes
-        /// </param>
         protected override void OnReceive(int numBytes)
         {
             var packet = new byte[numBytes];
@@ -274,28 +198,17 @@ namespace LoginEngine
             {
                 var messageNumber = this.GetMessageNumber(packet);
                 this.Server.Warning(
-                    this, "Client sent unknown message {0}", messageNumber.ToString(CultureInfo.InvariantCulture));   
+                    this, "Client sent unknown message {0}", messageNumber.ToString(CultureInfo.InvariantCulture));
                 return;
             }
 
             this.bus.Publish(new MessageReceivedEvent(this, message));
         }
 
-        /// <summary>
-        /// The send async complete 2.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender.
-        /// </param>
-        /// <param name="args">
-        /// The args.
-        /// </param>
         private static void SendAsyncComplete2(object sender, SocketAsyncEventArgs args)
         {
         }
 
         #endregion
-
-        
     }
 }

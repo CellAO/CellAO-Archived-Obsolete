@@ -99,13 +99,9 @@
     <Compile Include="MessageHandlers\UserCredentialsHandler.cs" />
     <Compile Include="MessageHandlers\UserLoginHandler.cs" />
     <Compile Include="OnlineChars.cs" />
-    <Compile Include="Packets\CharacterListPacket.cs" />
     <Compile Include="Packets\CharacterName.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Packets\CheckLogin.cs" />
-    <Compile Include="Packets\LoginWrong.cs" />
-    <Compile Include="Packets\SaltAuthentication.cs" />
-    <Compile Include="Parser.cs" />
     <Compile Include="Packets\CharacterEntry.cs" />
     <Compile Include="QueryBase\CharacterList.cs" />
     <Compile Include="QueryBase\LoginFlags.cs" />
@@ -113,7 +109,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryBase\LoginPasswd.cs" />
-    <Compile Include="QueryBase\LoginPlayer.cs" />
     <Compile Include="LoginServer.cs" />
   </ItemGroup>
   <ItemGroup>

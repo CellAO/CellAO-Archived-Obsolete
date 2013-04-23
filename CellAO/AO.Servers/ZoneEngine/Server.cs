@@ -29,6 +29,7 @@ namespace ZoneEngine
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Globalization;
     using System.Net;
     using System.Threading;
@@ -45,6 +46,7 @@ namespace ZoneEngine
     /// <summary>
     /// 
     /// </summary>
+    [Export]
     public class Server : ServerBase
     {
         #region Data Members
