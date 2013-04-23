@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageSerializer.cs" company="CellAO Team">
+// <copyright file="MemBusIoCAdapter.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,52 +23,42 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the MessageSerializer type.
+//   Defines the MemBusIoCAdapter type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace AO.Core.Components
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using System.IO;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
+    using MemBus;
 
-    [Export(typeof(IMessageSerializer))]
-    public class MessageSerializer : IMessageSerializer
+    [Export(typeof(IocAdapter))]
+    public class MemBusIoCAdapter : IocAdapter
     {
         #region Fields
 
-        private readonly SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer serializer;
+        private readonly IContainer container;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public MessageSerializer()
+        [ImportingConstructor]
+        public MemBusIoCAdapter(IContainer container)
         {
-            this.serializer = new SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer();
+            this.container = container;
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public Message Deserialize(byte[] buffer)
+        public IEnumerable<object> GetAllInstances(Type desiredType)
         {
-            using (var stream = new MemoryStream(buffer))
-            {
-                return this.serializer.Deserialize(stream);
-            }
-        }
-
-        public byte[] Serialize(Message message)
-        {
-            using (var stream = new MemoryStream())
-            {
-                this.serializer.Serialize(stream, message);
-                return stream.ToArray();
-            }
+            return this.container.GetAllInstances(desiredType);
         }
 
         #endregion

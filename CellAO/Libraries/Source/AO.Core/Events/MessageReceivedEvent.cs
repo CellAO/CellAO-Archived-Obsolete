@@ -1,6 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageSerializer.cs" company="CellAO Team">
-//   Copyright © 2005-2013 CellAO Team.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MessageReceivedEvent.cs" company="CellAO Team">
+//   Copyright � 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
 //   
@@ -23,51 +23,49 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the MessageSerializer type.
+//   Defines the MessageReceivedEvent type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AO.Core.Components
+namespace AO.Core.Events
 {
-    using System.ComponentModel.Composition;
-    using System.IO;
-
     using SmokeLounge.AOtomation.Messaging.Messages;
 
-    [Export(typeof(IMessageSerializer))]
-    public class MessageSerializer : IMessageSerializer
+    public class MessageReceivedEvent
     {
         #region Fields
 
-        private readonly SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer serializer;
+        private readonly Message message;
+
+        private readonly object sender;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public MessageSerializer()
+        public MessageReceivedEvent(object sender, Message message)
         {
-            this.serializer = new SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer();
+            this.sender = sender;
+            this.message = message;
         }
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Public Properties
 
-        public Message Deserialize(byte[] buffer)
+        public Message Message
         {
-            using (var stream = new MemoryStream(buffer))
+            get
             {
-                return this.serializer.Deserialize(stream);
+                return this.message;
             }
         }
 
-        public byte[] Serialize(Message message)
+        public object Sender
         {
-            using (var stream = new MemoryStream())
+            get
             {
-                this.serializer.Serialize(stream, message);
-                return stream.ToArray();
+                return this.sender;
             }
         }
 

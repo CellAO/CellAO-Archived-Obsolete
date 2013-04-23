@@ -72,6 +72,7 @@
       <HintPath>..\..\Libraries\Binaries\Npgsql2.0.10-bin-ms.net3.5sp1\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -90,6 +91,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfoclass.cs" />
+    <Compile Include="Component\ClientFactory.cs" />
+    <Compile Include="MessageHandlers\CreateCharacterHandler.cs" />
+    <Compile Include="MessageHandlers\DeleteCharacterHandler.cs" />
+    <Compile Include="MessageHandlers\RandomNameRequestHandler.cs" />
+    <Compile Include="MessageHandlers\SelectCharacterHandler.cs" />
+    <Compile Include="MessageHandlers\UserCredentialsHandler.cs" />
+    <Compile Include="MessageHandlers\UserLoginHandler.cs" />
     <Compile Include="OnlineChars.cs" />
     <Compile Include="Packets\CharacterListPacket.cs" />
     <Compile Include="Packets\CharacterName.cs" />
@@ -171,6 +179,7 @@
   <ItemGroup>
     <Content Include="Login.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>"$(SolutionDir)Helpers\RevisionGetter\bin\RevisionGetter.exe" "$(ProjectDir)\Properties\AssemblyInfo.cs"</PreBuildEvent>

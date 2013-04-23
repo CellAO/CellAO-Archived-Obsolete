@@ -36,6 +36,7 @@ namespace LoginEngine
     using System.Threading.Tasks;
 
     using AO.Core;
+    using AO.Core.Components;
 
     using Cell.Core;
 
@@ -49,7 +50,9 @@ namespace LoginEngine
 
     public static class Program
     {
-        private static LoginServer loginLoginServer;
+        private static LoginServer loginServer;
+
+        private static readonly IContainer Container = new MefContainer();
 
         public static bool Ismodified()
         {
@@ -89,14 +92,16 @@ namespace LoginEngine
             Console.ResetColor();
             #endregion
 
+
             //Sying helped figure all this code out, about 5 yearts ago! :P
             bool processedargs = false;
-            loginLoginServer = new LoginServer();
-            loginLoginServer.EnableTCP = true;
-            loginLoginServer.EnableUDP = false;
+            var lol = Container.GetInstance<IMessagePublisher>();
+            loginServer = Container.GetInstance<LoginServer>();
+            loginServer.EnableTCP = true;
+            loginServer.EnableUDP = false;
             try
             {
-                loginLoginServer.TcpIP = IPAddress.Parse(Config.Instance.CurrentConfig.ListenIP);
+                loginServer.TcpIP = IPAddress.Parse(Config.Instance.CurrentConfig.ListenIP);
             }
             catch
             {
@@ -104,7 +109,7 @@ namespace LoginEngine
                 Console.ReadKey();
                 return;
             }
-            loginLoginServer.TcpPort = Convert.ToInt32(Config.Instance.CurrentConfig.LoginPort);
+            loginServer.TcpPort = Convert.ToInt32(Config.Instance.CurrentConfig.LoginPort);
 
             #region NLog
             LoggingConfiguration config = new LoggingConfiguration();
@@ -127,7 +132,7 @@ namespace LoginEngine
             //TODO: ADD More Handlers.
             #endregion
 
-            loginLoginServer.MaximumPendingConnections = 100;
+            loginServer.MaximumPendingConnections = 100;
 
             #region Console Commands
             //Andyzweb: Added checks for start and stop
@@ -145,7 +150,7 @@ namespace LoginEngine
                         {
                             ct.TextRead("autostart.txt");
                             ThreadMgr.Start();
-                            loginLoginServer.Start();
+                            loginServer.Start();
                         }
                     }
                     processedargs = true;
@@ -163,7 +168,7 @@ namespace LoginEngine
                 switch (consoleCommand.ToLower())
                 {
                     case "start":
-                        if (loginLoginServer.Running)
+                        if (loginServer.Running)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             ct.TextRead("loginisrunning.txt");
@@ -171,10 +176,10 @@ namespace LoginEngine
                             break;
                         }
                         ThreadMgr.Start();
-                        loginLoginServer.Start();
+                        loginServer.Start();
                         break;
                     case "stop":
-                        if (!loginLoginServer.Running)
+                        if (!loginServer.Running)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
                             ct.TextRead("loginisnotrunning.txt");
@@ -182,13 +187,13 @@ namespace LoginEngine
                             break;
                         }
                         ThreadMgr.Stop();
-                        loginLoginServer.Stop();
+                        loginServer.Stop();
                         break;
                     case "exit":
                         Process.GetCurrentProcess().Kill();
                         break;
                     case "running":
-                        if (loginLoginServer.Running)
+                        if (loginServer.Running)
                         {
                             //Console.WriteLine("Login Server is running");
                             ct.TextRead("loginisrunning.txt");

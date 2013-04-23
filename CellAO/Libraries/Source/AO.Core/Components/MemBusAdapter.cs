@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageSerializer.cs" company="CellAO Team">
+// <copyright file="MemBusAdapter.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,52 +23,50 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the MessageSerializer type.
+//   Defines the MemBusAdapter type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace AO.Core.Components
 {
+    using System;
     using System.ComponentModel.Composition;
-    using System.IO;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
+    using MemBus;
+    using MemBus.Configurators;
 
-    [Export(typeof(IMessageSerializer))]
-    public class MessageSerializer : IMessageSerializer
+    [Export(typeof(IBus))]
+    public class MemBusAdapter : IBus
     {
         #region Fields
 
-        private readonly SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer serializer;
+        private readonly MemBus.IBus memBus;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public MessageSerializer()
+        [ImportingConstructor]
+        public MemBusAdapter(IocAdapter iocAdapter)
         {
-            this.serializer = new SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer();
+            this.memBus =
+                BusSetup.StartWith<AsyncConfiguration>()
+                        .Apply<IoCSupport>(s => s.SetAdapter(iocAdapter).SetHandlerInterface(typeof(IHandle<>)))
+                        .Construct();
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public Message Deserialize(byte[] buffer)
+        public void Publish(object message)
         {
-            using (var stream = new MemoryStream(buffer))
-            {
-                return this.serializer.Deserialize(stream);
-            }
+            this.memBus.Publish(message);
         }
 
-        public byte[] Serialize(Message message)
+        public IDisposable Subscribe<T>(Action<T> action)
         {
-            using (var stream = new MemoryStream())
-            {
-                this.serializer.Serialize(stream, message);
-                return stream.ToArray();
-            }
+            return this.memBus.Subscribe(action);
         }
 
         #endregion

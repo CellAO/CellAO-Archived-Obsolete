@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageSerializer.cs" company="CellAO Team">
+// <copyright file="MefContainer.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,52 +23,87 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the MessageSerializer type.
+//   Defines the MefContainer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace AO.Core.Components
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using System.IO;
+    using System.ComponentModel.Composition.Hosting;
+    using System.Linq;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    [Export(typeof(IMessageSerializer))]
-    public class MessageSerializer : IMessageSerializer
+    public class MefContainer : IContainer
     {
         #region Fields
 
-        private readonly SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer serializer;
+        private readonly Lazy<CompositionContainer> lazyContainer;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public MessageSerializer()
+        public MefContainer()
         {
-            this.serializer = new SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer();
+            this.lazyContainer = new Lazy<CompositionContainer>(this.Initialize);
+        }
+
+        #endregion
+
+        #region Properties
+
+        private CompositionContainer Container
+        {
+            get
+            {
+                return this.lazyContainer.Value;
+            }
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public Message Deserialize(byte[] buffer)
+        public IEnumerable<object> GetAllInstances(Type serviceType)
         {
-            using (var stream = new MemoryStream(buffer))
-            {
-                return this.serializer.Deserialize(stream);
-            }
+            return this.Container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
         }
 
-        public byte[] Serialize(Message message)
+        public object GetInstance(Type serviceType, string key = null)
         {
-            using (var stream = new MemoryStream())
+            var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
+            var exports = this.Container.GetExportedValues<object>(contract);
+
+            var instance = exports.FirstOrDefault();
+
+            if (instance != null)
             {
-                this.serializer.Serialize(stream, message);
-                return stream.ToArray();
+                return instance;
             }
+
+            throw new Exception(string.Format("Could not locate any instances of contract {0}.", contract));
+        }
+
+        public T GetInstance<T>(string key = null)
+        {
+            return (T)this.GetInstance(typeof(T), key);
+        }
+
+        #endregion
+
+        #region Methods
+
+        private CompositionContainer Initialize()
+        {
+            var catalog =
+                new AggregateCatalog(AppDomain.CurrentDomain.GetAssemblies().Select(x => new AssemblyCatalog(x)));
+            var container = new CompositionContainer(catalog);
+            var batch = new CompositionBatch();
+            batch.AddExportedValue<IContainer>(this);
+            container.Compose(batch);
+            return container;
         }
 
         #endregion

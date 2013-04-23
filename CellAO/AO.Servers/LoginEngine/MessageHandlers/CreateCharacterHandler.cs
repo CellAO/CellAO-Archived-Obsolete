@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageSerializer.cs" company="CellAO Team">
+// <copyright file="CreateCharacterHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,52 +23,54 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the MessageSerializer type.
+//   Defines the CreateCharacterHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AO.Core.Components
+namespace LoginEngine.MessageHandlers
 {
     using System.ComponentModel.Composition;
-    using System.IO;
+
+    using AO.Core.Components;
+
+    using LoginEngine.Packets;
 
     using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Messages.SystemMessages;
 
-    [Export(typeof(IMessageSerializer))]
-    public class MessageSerializer : IMessageSerializer
+    [Export(typeof(IHandleMessage))]
+    public class CreateCharacterHandler : IHandleMessage<CreateCharacterMessage>
     {
-        #region Fields
-
-        private readonly SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer serializer;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        public MessageSerializer()
-        {
-            this.serializer = new SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer();
-        }
-
-        #endregion
-
         #region Public Methods and Operators
 
-        public Message Deserialize(byte[] buffer)
+        public void Handle(object sender, Message message)
         {
-            using (var stream = new MemoryStream(buffer))
-            {
-                return this.serializer.Deserialize(stream);
-            }
-        }
+            var client = (Client)sender;
+            var createCharacterMessage = (CreateCharacterMessage)message.Body;
 
-        public byte[] Serialize(Message message)
-        {
-            using (var stream = new MemoryStream())
+            var characterName = new CharacterName
+                                    {
+                                        AccountName = client.AccountName, 
+                                        Name = createCharacterMessage.Name, 
+                                        Breed = (int)createCharacterMessage.Breed, 
+                                        Gender = (int)createCharacterMessage.Gender, 
+                                        Profession = (int)createCharacterMessage.Profession, 
+                                        Level = createCharacterMessage.Level, 
+                                        HeadMesh = createCharacterMessage.HeadMesh, 
+                                        MonsterScale = createCharacterMessage.MonsterScale, 
+                                        Fatness = (int)createCharacterMessage.Fatness
+                                    };
+            var characterId = characterName.CheckAgainstDatabase();
+
+            if (characterId < 1)
             {
-                this.serializer.Serialize(stream, message);
-                return stream.ToArray();
+                client.Send(0x0000FFFF, new NameInUseMessage());
+                return;
             }
+
+            characterName.SendNameToStartPlayfield(
+                createCharacterMessage.StarterArea == StarterArea.Shadowlands, characterId);
+            client.Send(0x0000FFFF, new CharacterCreatedMessage { CharacterId = characterId });
         }
 
         #endregion

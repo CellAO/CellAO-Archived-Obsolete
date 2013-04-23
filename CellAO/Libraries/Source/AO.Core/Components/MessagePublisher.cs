@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageSerializer.cs" company="CellAO Team">
+// <copyright file="MessagePublisher.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,51 +23,78 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the MessageSerializer type.
+//   Defines the MessagePublisher type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace AO.Core.Components
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using System.IO;
+    using System.Linq;
 
     using SmokeLounge.AOtomation.Messaging.Messages;
 
-    [Export(typeof(IMessageSerializer))]
-    public class MessageSerializer : IMessageSerializer
+    [Export(typeof(IMessagePublisher))]
+    public class MessagePublisher : IMessagePublisher
     {
         #region Fields
 
-        private readonly SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer serializer;
+        private readonly Dictionary<Type, IList<IHandleMessage>> messageHandlers;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public MessageSerializer()
+        [ImportingConstructor]
+        public MessagePublisher([ImportMany] IEnumerable<IHandleMessage> messageHandlers)
         {
-            this.serializer = new SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer();
+            this.messageHandlers = new Dictionary<Type, IList<IHandleMessage>>();
+
+            foreach (var messageHandler in messageHandlers)
+            {
+                var handlerInterface =
+                    messageHandler.GetType()
+                                  .GetInterfaces()
+                                  .FirstOrDefault(i => typeof(IHandleMessage).IsAssignableFrom(i) && i.IsGenericType);
+                if (handlerInterface == null)
+                {
+                    continue;
+                }
+
+                var arg = handlerInterface.GetGenericArguments().FirstOrDefault();
+                if (arg == null)
+                {
+                    continue;
+                }
+
+                IList<IHandleMessage> handlers;
+                if (this.messageHandlers.TryGetValue(arg, out handlers) == false)
+                {
+                    handlers = new List<IHandleMessage>();
+                    this.messageHandlers.Add(arg, handlers);
+                }
+
+                handlers.Add(messageHandler);
+            }
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public Message Deserialize(byte[] buffer)
+        public void Publish(object sender, Message message)
         {
-            using (var stream = new MemoryStream(buffer))
+            IList<IHandleMessage> handlers;
+            if (this.messageHandlers.TryGetValue(message.Body.GetType(), out handlers) == false)
             {
-                return this.serializer.Deserialize(stream);
+                return;
             }
-        }
 
-        public byte[] Serialize(Message message)
-        {
-            using (var stream = new MemoryStream())
+            foreach (var handler in handlers)
             {
-                this.serializer.Serialize(stream, message);
-                return stream.ToArray();
+                handler.Handle(sender, message);
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageSerializer.cs" company="CellAO Team">
+// <copyright file="IHandle.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,53 +23,17 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the MessageSerializer type.
+//   Defines the IHandle type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace AO.Core.Components
 {
-    using System.ComponentModel.Composition;
-    using System.IO;
-
-    using SmokeLounge.AOtomation.Messaging.Messages;
-
-    [Export(typeof(IMessageSerializer))]
-    public class MessageSerializer : IMessageSerializer
+    public interface IHandle<in T>
     {
-        #region Fields
-
-        private readonly SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer serializer;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        public MessageSerializer()
-        {
-            this.serializer = new SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer();
-        }
-
-        #endregion
-
         #region Public Methods and Operators
 
-        public Message Deserialize(byte[] buffer)
-        {
-            using (var stream = new MemoryStream(buffer))
-            {
-                return this.serializer.Deserialize(stream);
-            }
-        }
-
-        public byte[] Serialize(Message message)
-        {
-            using (var stream = new MemoryStream())
-            {
-                this.serializer.Serialize(stream, message);
-                return stream.ToArray();
-            }
-        }
+        void Handle(T obj);
 
         #endregion
     }

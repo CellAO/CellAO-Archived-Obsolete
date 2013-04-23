@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageSerializer.cs" company="CellAO Team">
+// <copyright file="ClientFactory.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,52 +23,43 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the MessageSerializer type.
+//   Defines the ClientFactory type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AO.Core.Components
+namespace LoginEngine.Component
 {
     using System.ComponentModel.Composition;
-    using System.IO;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
+    using AO.Core.Components;
 
-    [Export(typeof(IMessageSerializer))]
-    public class MessageSerializer : IMessageSerializer
+    [Export]
+    public class ClientFactory
     {
         #region Fields
 
-        private readonly SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer serializer;
+        private readonly IBus bus;
+
+        private readonly IMessageSerializer messageSerializer;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public MessageSerializer()
+        [ImportingConstructor]
+        public ClientFactory(IMessageSerializer messageSerializer, IBus bus)
         {
-            this.serializer = new SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer();
+            this.messageSerializer = messageSerializer;
+            this.bus = bus;
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public Message Deserialize(byte[] buffer)
+        public Client Create(LoginServer loginServer)
         {
-            using (var stream = new MemoryStream(buffer))
-            {
-                return this.serializer.Deserialize(stream);
-            }
-        }
-
-        public byte[] Serialize(Message message)
-        {
-            using (var stream = new MemoryStream())
-            {
-                this.serializer.Serialize(stream, message);
-                return stream.ToArray();
-            }
+            return new Client(loginServer, this.messageSerializer, this.bus);
         }
 
         #endregion

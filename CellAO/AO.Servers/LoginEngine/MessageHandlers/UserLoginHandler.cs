@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageSerializer.cs" company="CellAO Team">
+// <copyright file="UserLoginHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,52 +23,58 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the MessageSerializer type.
+//   Defines the UserLoginHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AO.Core.Components
+namespace LoginEngine.MessageHandlers
 {
+    using System;
     using System.ComponentModel.Composition;
-    using System.IO;
+    using System.Globalization;
+    using System.Text;
+
+    using AO.Core.Components;
 
     using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Messages.SystemMessages;
 
-    [Export(typeof(IMessageSerializer))]
-    public class MessageSerializer : IMessageSerializer
+    [Export(typeof(IHandleMessage))]
+    public class UserLoginHandler : IHandleMessage<UserLoginMessage>
     {
-        #region Fields
-
-        private readonly SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer serializer;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        public MessageSerializer()
-        {
-            this.serializer = new SmokeLounge.AOtomation.Messaging.Serialization.MessageSerializer();
-        }
-
-        #endregion
-
         #region Public Methods and Operators
 
-        public Message Deserialize(byte[] buffer)
+        public void Handle(object sender, Message message)
         {
-            using (var stream = new MemoryStream(buffer))
-            {
-                return this.serializer.Deserialize(stream);
-            }
-        }
+            var client = (Client)sender;
+            var userLoginMessage = (UserLoginMessage)message.Body;
+            client.AccountName = userLoginMessage.UserName;
+            client.ClientVersion = userLoginMessage.ClientVersion;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(
+                "Client '" + client.AccountName + "' connected using version '" + client.ClientVersion + "'");
+            Console.ResetColor();
 
-        public byte[] Serialize(Message message)
-        {
-            using (var stream = new MemoryStream())
+            var salt = new byte[0x20];
+            var rand = new Random();
+
+            rand.NextBytes(salt);
+
+            var sb = new StringBuilder();
+            for (var i = 0; i < 32; i++)
             {
-                this.serializer.Serialize(stream, message);
-                return stream.ToArray();
+                // 0x00 Breaks Things
+                if (salt[i] == 0)
+                {
+                    salt[i] = 42; // So we change it to something nicer
+                }
+
+                sb.Append(salt[i].ToString("x2", CultureInfo.InvariantCulture));
             }
+
+            client.ServerSalt = sb.ToString();
+            var serverSaltMessage = new ServerSaltMessage { ServerSalt = salt };
+            client.Send(0x00002B3F, serverSaltMessage);
         }
 
         #endregion

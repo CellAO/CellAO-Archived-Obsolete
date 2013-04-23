@@ -63,6 +63,9 @@
     <Reference Include="MathNet.Numerics.IO">
       <HintPath>..\..\..\packages\MathNet.Numerics.2.5.0\lib\net40\MathNet.Numerics.IO.dll</HintPath>
     </Reference>
+    <Reference Include="MemBus">
+      <HintPath>..\..\..\packages\MemBus.2.0.2\lib\Net40-Client\MemBus.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.2.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Binaries\Mysql\MySql.Data.dll</HintPath>
@@ -82,6 +85,7 @@
       <HintPath>..\..\Binaries\Npgsql2.0.10-bin-ms.net3.5sp1\policy.2.0.Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -115,14 +119,25 @@
     <Compile Include="AOWeaponpairs.cs" />
     <Compile Include="BigInteger.cs" />
     <Compile Include="CharacterBase.cs" />
+    <Compile Include="Components\IBus.cs" />
+    <Compile Include="Components\IContainer.cs" />
+    <Compile Include="Components\IHandle.cs" />
+    <Compile Include="Components\IHandleMessage.cs" />
+    <Compile Include="Components\IMessagePublisher.cs" />
     <Compile Include="Components\IMessageSerializer.cs" />
+    <Compile Include="Components\MefContainer.cs" />
+    <Compile Include="Components\MemBusAdapter.cs" />
+    <Compile Include="Components\MemBusIoCAdapter.cs" />
+    <Compile Include="Components\MessagePublisher.cs" />
     <Compile Include="Components\MessageSerializer.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigReadWrite.cs" />
     <Compile Include="ConsoleText.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Debughelpers.cs" />
-	  <Compile Include="Doors.cs" />
+    <Compile Include="Doors.cs" />
+    <Compile Include="EventHandlers\MessageReceivedHandler.cs" />
+    <Compile Include="Events\MessageReceivedEvent.cs" />
     <Compile Include="GuildEntry.cs" />
     <Compile Include="GuildInfo.cs" />
     <Compile Include="ItemHandler.cs" />
