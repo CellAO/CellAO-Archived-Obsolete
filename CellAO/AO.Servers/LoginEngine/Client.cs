@@ -138,7 +138,7 @@ namespace LoginEngine
                                       new Header
                                           {
                                               MessageId = BitConverter.ToInt16(new byte[] { 0xDF, 0xDF }, 0), 
-                                              PacketType = (PacketType)0x0001, 
+                                              PacketType = messageBody.PacketType, 
                                               Unknown = 0x0001, 
                                               Sender = 0x00000001, 
                                               Receiver = receiver

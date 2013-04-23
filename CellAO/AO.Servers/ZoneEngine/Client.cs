@@ -1,36 +1,37 @@
-#region License
-// Copyright (c) 2005-2012, CellAO Team
-// 
-// All rights reserved.
-// 
-// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-// 
-//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#endregion
-
-#region Usings...
-using Config = AO.Core.Config.ConfigReadWrite;
-
-#endregion
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Client.cs" company="CellAO Team">
+//   Copyright © 2005-2013 CellAO Team.
+//   
+//   All rights reserved.
+//   
+//   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//   
+//       * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//       * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//       * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//   
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+//   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+//   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+//   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+//   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+//   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+//   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+//   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// </copyright>
+// <summary>
+//   Defines the Client type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ZoneEngine
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
@@ -39,133 +40,211 @@ namespace ZoneEngine
     using System.Timers;
 
     using AO.Core;
+    using AO.Core.Components;
+    using AO.Core.Events;
 
     using Cell.Core;
 
     using ComponentAce.Compression.Libs.zlib;
 
+    using SmokeLounge.AOtomation.Messaging.Messages;
+
     using ZoneEngine.Misc;
-    using ZoneEngine.PacketHandlers;
     using ZoneEngine.Packets;
 
+    using Config = AO.Core.Config.ConfigReadWrite;
+    using Header = SmokeLounge.AOtomation.Messaging.Messages.Header;
+    using N3Message = ZoneEngine.PacketHandlers.N3Message;
     using Timer = System.Timers.Timer;
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class Client : ClientBase
     {
-        #region Constructors
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="srvr"></param>
-        public Client(Server srvr)
+        #region Static Fields
+
+        private static Timer LogoutTimer = new Timer();
+
+        #endregion
+
+        #region Fields
+
+        public Character Character = new Character(0, 0);
+
+        public List<AOTimers> CoreTimers = new List<AOTimers>();
+
+        public ushort packetNumber = 1;
+
+        private readonly IBus bus;
+
+        private readonly IMessageSerializer messageSerializer;
+
+        private bool SkipCoreTimers = true;
+
+        private NetworkStream netStream;
+
+        private ZOutputStream zStream;
+
+        private bool zStreamSetup;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        public Client(Server srvr, IMessageSerializer messageSerializer, IBus bus)
             : base(srvr)
         {
+            this.messageSerializer = messageSerializer;
+            this.bus = bus;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public Client()
-            : base(null)
-        {
-        }
         #endregion
 
-        #region Needed overrides
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="numBytes"></param>
-        protected override void OnReceive(int numBytes)
+        // Core Timers Enable Variable
+        #region Public Methods and Operators
+
+        public void AddCoreTimer(int strain, DateTime time, AOFunctions aof)
         {
-            byte[] packet = new byte[numBytes];
-            Array.Copy(this.m_readBuffer.Array, this.m_readBuffer.Offset, packet, 0, numBytes);
-            PacketReader reader = new PacketReader(packet);
+            var newCoretimer = new AOTimers();
+            newCoretimer.Function = aof;
+            newCoretimer.Timestamp = time;
+            newCoretimer.Strain = strain;
+            this.CoreTimers.Add(newCoretimer);
+        }
 
-            // TODO: make check here to see if packet starts with 0xDFDF
-            reader.ReadBytes(2);
+        public void CancelLogOut()
+        {
+            LogoutTimer.Enabled = false;
+            var stopLogout = new PacketWriter();
 
-            // Packet type
-            short type = reader.PopShort();
+            // start packet header
+            stopLogout.PushByte(0xDF);
+            stopLogout.PushByte(0xDF);
+            stopLogout.PushShort(10);
+            stopLogout.PushShort(1);
+            stopLogout.PushShort(0);
+            stopLogout.PushInt(3086); // Sender (server ID)
+            stopLogout.PushInt(this.Character.Id); // Receiver
+            stopLogout.PushInt(0x5E477770); // CharacterAction packet ID
+            stopLogout.PushIdentity(50000, this.Character.Id); // affected identity
+            stopLogout.PushByte(0);
 
-            // Unknown?
-            reader.PopShort();
+            // end packet header
+            stopLogout.PushByte(0);
+            stopLogout.PushShort(0);
+            stopLogout.PushByte(0x7A); // stop logout flag?
+            stopLogout.PushInt(0);
+            stopLogout.PushInt(0);
+            stopLogout.PushInt(0);
+            stopLogout.PushInt(0);
+            stopLogout.PushInt(0);
+            stopLogout.PushShort(0);
+            var stoplogOutPacket = stopLogout.Finish();
+            this.SendCompressed(stoplogOutPacket);
+        }
 
-            // Packet Length
-            reader.PopShort();
+        public override void Cleanup()
+        {
+            base.Cleanup();
 
-            // Sender
-            reader.PopInt();
-
-            // Receiver
-            reader.PopInt();
-
-            // PacketID
-            int id = reader.PopInt();
-
-            switch (type)
+            // AH FINALLY, Man, get some NORMAL names (OnDisconnect maybe?).
+            var foundnextclient = false;
+            foreach (Client c in this.Server.Clients)
             {
-                case 0x01: // SystemMessage
-                    {
-                        Program.zoneServer.SystemMessageHandler.Parse(this, packet, id);
-                        break;
-                    }
-                case 0x05: // TextMessage
-                    {
-                        Program.zoneServer.TextMessageHandler.Parse(this, packet, id);
-                        break;
-                    }
-                case 0x0A: // N3Message
-                    {
-                        N3Message.Parse(this, packet, id);
-                        break;
-                    }
-                case 0x0B: // PingMessage
-                    {
-                        break;
-                    }
-                case 0x0E: // OperatorMessage
-                    {
-                        break;
-                    }
-                default: // UnknownMessage
-                    {
-                        // TODO: Handle Unknown Messages
-                        break;
-                    }
-            }
-            reader.Finish();
-        }
-        #endregion
+                if (this == c)
+                {
+                    continue;
+                }
 
-        #region Misc overrides
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="packet"></param>
+                if (c.Character != null)
+                {
+                    if (c.Character.Id == this.Character.Id)
+                    {
+                        foundnextclient = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!foundnextclient)
+            {
+                var charS = new CharStatus();
+                charS.SetOffline(this.Character.Id);
+            }
+        }
+
+        public void PurgeCoreTimer(int strain)
+        {
+            var c = this.CoreTimers.Count() - 1;
+            while (c >= 0)
+            {
+                if (this.CoreTimers[c].Strain == strain)
+                {
+                    this.CoreTimers.RemoveAt(c);
+                }
+
+                c--;
+            }
+        }
+
+        public void Send(int sender, int receiver, MessageBody messageBody)
+        {
+            var message = new Message
+                              {
+                                  Body = messageBody, 
+                                  Header =
+                                      new Header
+                                          {
+                                              MessageId = BitConverter.ToInt16(new byte[] { 0xDF, 0xDF }, 0), 
+                                              PacketType = messageBody.PacketType, 
+                                              Unknown = 0x0001, 
+                                              Sender = sender, 
+                                              Receiver = receiver
+                                          }
+                              };
+
+            var buffer = this.messageSerializer.Serialize(message);
+            this.Send(buffer);
+        }
+
         public override void Send(byte[] packet)
         {
             // 18.1 Fix
-            byte[] pn = BitConverter.GetBytes(this.packetNumber++);
+            var pn = BitConverter.GetBytes(this.packetNumber++);
             packet[0] = pn[1];
             packet[1] = pn[0];
 
-            base.Send(packet);
+            this.Send(packet);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="packet"></param>
+        public bool SendChatText(string Text)
+        {
+            var _writer = new PacketWriter();
+
+            _writer.PushByte(0xDF);
+            _writer.PushByte(0xDF);
+            _writer.PushShort(10);
+            _writer.PushShort(1);
+            _writer.PushShort(0);
+            _writer.PushInt(3086);
+            _writer.PushInt(this.Character.Id);
+            _writer.PushInt(0x5F4B442A);
+            _writer.PushIdentity(50000, this.Character.Id);
+            _writer.PushByte(0);
+            _writer.PushShort((short)Text.Length);
+            _writer.PushBytes(Encoding.ASCII.GetBytes(Text));
+            _writer.PushShort(0x1000);
+            _writer.PushInt(0);
+            var reply = _writer.Finish();
+            this.SendCompressed(reply);
+            return true;
+        }
+
         public void SendCompressed(byte[] packet)
         {
-            int tries = 0;
-            Boolean done = false;
+            var tries = 0;
+            var done = false;
+
             // 18.1 Fix
-            byte[] pn = BitConverter.GetBytes(this.packetNumber++);
+            var pn = BitConverter.GetBytes(this.packetNumber++);
             packet[0] = pn[1];
             packet[1] = pn[0];
             while ((!done) && (tries < 3))
@@ -193,6 +272,7 @@ namespace ZoneEngine
                     return;
                 }
             }
+
             if (!done)
             {
                 // Old Code, probably not needed anymore
@@ -233,97 +313,239 @@ namespace ZoneEngine
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public override void Cleanup()
+        public bool SendFeedback(int MsgCategory, int MsgNum)
         {
-            base.Cleanup();
-            //AH FINALLY, Man, get some NORMAL names (OnDisconnect maybe?).
-            bool foundnextclient = false;
-            foreach (Client c in this.Server.Clients)
+            var _writer = new PacketWriter();
+            _writer.PushByte(0xDF);
+            _writer.PushByte(0xDF);
+            _writer.PushShort(10); /* Packet type */
+            _writer.PushShort(1); /* ? */
+            _writer.PushShort(0); /* Packet size (0 for now, PacketWriter takes care of it)*/
+            _writer.PushInt(3086); /* Sender (our server ID)*/
+            _writer.PushInt(this.Character.Id); /* Receiver */
+            _writer.PushInt(0x50544d19); /* Packet ID */
+            _writer.PushIdentity(50000, this.Character.Id); /* Affected identity */
+            _writer.PushByte(1); /* ? */
+            _writer.PushInt(0); /* ? */
+            _writer.PushInt(MsgCategory); /* Message category ID */
+            _writer.PushInt(MsgNum); /* message ID */
+            var reply = _writer.Finish();
+            this.SendCompressed(reply);
+            return true;
+        }
+
+        public void StandCancelLogout()
+        {
+            var standUp = new PacketWriter();
+
+            // start packet header
+            standUp.PushByte(0xDF);
+            standUp.PushByte(0xDF);
+            standUp.PushShort(10);
+            standUp.PushShort(1);
+            standUp.PushShort(0);
+            standUp.PushInt(3086); // Sender (server ID)
+            standUp.PushInt(this.Character.Id); // Receiver
+            standUp.PushInt(0x5E477770); // CharacterAction packet ID
+            standUp.PushIdentity(50000, this.Character.Id); // affected identity
+            standUp.PushByte(0);
+
+            // end packet header
+            standUp.PushByte(0);
+            standUp.PushShort(0);
+            standUp.PushByte(0x57); // stand packet flag
+            standUp.PushInt(0);
+            standUp.PushInt(0);
+            standUp.PushInt(0);
+            standUp.PushInt(0);
+            standUp.PushInt(0);
+            standUp.PushShort(0);
+            var standUpPacket = standUp.Finish();
+            Announce.Playfield(this.Character.PlayField, standUpPacket);
+
+            // SendCompressed(standUpPacket);
+            if (LogoutTimer.Enabled)
             {
-                if (this == c)
+                this.CancelLogOut();
+            }
+
+            // If logout timer is running, CancelLogOut method stops it.
+        }
+
+        public bool Teleport(AOCoord destination, Quaternion heading, int playfield)
+        {
+            var writer = new PacketWriter();
+
+            // header starts
+            writer.PushByte(0xDF);
+            writer.PushByte(0xDF);
+            writer.PushShort(10);
+            writer.PushShort(1);
+            writer.PushShort(0);
+            writer.PushInt(3086);
+            writer.PushInt(this.Character.Id);
+            writer.PushInt(0x43197D22);
+            writer.PushIdentity(50000, this.Character.Id);
+            writer.PushByte(0);
+
+            // Header ends
+            writer.PushCoord(destination);
+            writer.PushQuat(heading);
+            writer.PushByte(97);
+            writer.PushIdentity(51100, playfield);
+            writer.PushInt(0);
+            writer.PushInt(0);
+            writer.PushIdentity(40016, playfield);
+            writer.PushInt(0);
+            writer.PushInt(0);
+            writer.PushIdentity(100001, playfield);
+            writer.PushInt(0);
+            writer.PushInt(0);
+            writer.PushInt(0);
+            var tpreply = writer.Finish();
+            Despawn.DespawnPacket(this.Character.Id);
+            this.SendCompressed(tpreply);
+            this.Character.DoNotDoTimers = true;
+            this.Character.Stats.ExtenalDoorInstance.Value = 0;
+            this.Character.Stats.ExtenalPlayfieldInstance.Value = 0;
+            this.Character.Stats.LastConcretePlayfieldInstance.Value = 0;
+
+            this.Character.StopMovement();
+            this.Character.RawCoord = destination;
+            this.Character.RawHeading = heading;
+            this.Character.PlayField = playfield;
+            this.Character.Purge(); // Purge character information to DB before client reconnect
+
+            IPAddress tempIP;
+            if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
+            {
+                var zoneHost = Dns.GetHostEntry(Config.Instance.CurrentConfig.ZoneIP);
+                foreach (var ip in zoneHost.AddressList)
                 {
-                    continue;
-                }
-                if (c.Character != null)
-                {
-                    if (c.Character.Id == this.Character.Id)
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        foundnextclient = true;
+                        tempIP = ip;
                         break;
                     }
                 }
             }
-            if (!foundnextclient)
-            {
-                CharStatus charS = new CharStatus();
-                charS.SetOffline(this.Character.Id);
-            }
+
+            var zoneIP = IPAddress.HostToNetworkOrder(BitConverter.ToInt32(tempIP.GetAddressBytes(), 0));
+            var zonePort = Convert.ToInt16(Config.Instance.CurrentConfig.ZonePort);
+
+            Thread.Sleep(1000);
+            var writer2 = new PacketWriter();
+            writer2.PushByte(0xDF);
+            writer2.PushByte(0xDF);
+            writer2.PushShort(1);
+            writer2.PushShort(1);
+            writer2.PushShort(0);
+            writer2.PushInt(3086);
+            writer2.PushInt(this.Character.Id);
+            writer2.PushInt(60);
+            writer2.PushInt(zoneIP);
+            writer2.PushShort(zonePort);
+            var connect = writer2.Finish();
+            this.SendCompressed(connect);
+            return true;
         }
-        #endregion
 
-        #region Our own stuff
-        /// <summary>
-        /// 
-        /// </summary>
-        public UInt16 packetNumber = 1;
-
-        public Character Character = new Character(0, 0);
-
-        public List<AOTimers> CoreTimers = new List<AOTimers>();
-
-        private bool zStreamSetup;
-
-        private NetworkStream netStream;
-
-        private ZOutputStream zStream;
-
-        // Core Timers Enable Variable
-        private bool SkipCoreTimers = true;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="MsgCategory"></param>
-        /// <param name="MsgNum"></param>
-        /// <returns></returns>
-        /// 
-
-        #region Add Core Timer
-        public void AddCoreTimer(int strain, DateTime time, AOFunctions aof)
+        public bool TeleportProxy(
+            AOCoord destination, 
+            Quaternion heading, 
+            int playfield, 
+            Identity pfinstance, 
+            int GS, 
+            int SG, 
+            Identity R, 
+            Identity dest)
         {
-            AOTimers newCoretimer = new AOTimers();
-            newCoretimer.Function = aof;
-            newCoretimer.Timestamp = time;
-            newCoretimer.Strain = strain;
-            this.CoreTimers.Add(newCoretimer);
-        }
-        #endregion
+            var writer = new PacketWriter();
 
-        #region Purge Core Timer
-        public void PurgeCoreTimer(int strain)
-        {
-            int c = this.CoreTimers.Count() - 1;
-            while (c >= 0)
+            // header starts
+            writer.PushByte(0xDF);
+            writer.PushByte(0xDF);
+            writer.PushShort(10);
+            writer.PushShort(1);
+            writer.PushShort(0);
+            writer.PushInt(3086);
+            writer.PushInt(this.Character.Id);
+            writer.PushInt(0x43197D22);
+            writer.PushIdentity(50000, this.Character.Id);
+            writer.PushByte(0);
+
+            // Header ends
+            writer.PushCoord(this.Character.RawCoord);
+            writer.PushQuat(this.Character.RawHeading);
+            writer.PushByte(97);
+            writer.PushIdentity(pfinstance.Type, pfinstance.Instance);
+            writer.PushInt(GS);
+            writer.PushInt(SG);
+            writer.PushIdentity(40016, playfield);
+
+            // Dont know for sure if its correct to only transfer the playfield here
+            writer.PushInt(0);
+            writer.PushInt(0);
+            writer.PushIdentity(dest.Type, dest.Instance);
+            writer.PushInt(0);
+            var tpreply = writer.Finish();
+            this.Character.DoNotDoTimers = true;
+            Despawn.DespawnPacket(this.Character.Id);
+            this.SendCompressed(tpreply);
+            this.Character.DoNotDoTimers = true;
+            this.Character.Stats.LastConcretePlayfieldInstance.Value = this.Character.PlayField;
+            this.Character.Stats.ExtenalDoorInstance.Value = SG;
+
+            this.Character.StopMovement();
+            this.Character.RawCoord = destination;
+            this.Character.RawHeading = heading;
+            this.Character.PlayField = playfield;
+            this.Character.Resource = 0x3c000;
+            this.Character.Purge(); // Purge character information to DB before client reconnect
+
+            IPAddress tempIP;
+            if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
             {
-                if (this.CoreTimers[c].Strain == strain)
+                var zoneHost = Dns.GetHostEntry(Config.Instance.CurrentConfig.ZoneIP);
+                foreach (var ip in zoneHost.AddressList)
                 {
-                    this.CoreTimers.RemoveAt(c);
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        tempIP = ip;
+                        break;
+                    }
                 }
-                c--;
             }
-        }
-        #endregion
 
-        #region Process Core Timers
+            var zoneIP = IPAddress.HostToNetworkOrder(BitConverter.ToInt32(tempIP.GetAddressBytes(), 0));
+            var zonePort = Convert.ToInt16(Config.Instance.CurrentConfig.ZonePort);
+
+            Thread.Sleep(1000);
+
+            var writer2 = new PacketWriter();
+            writer2.PushByte(0xDF);
+            writer2.PushByte(0xDF);
+            writer2.PushShort(1);
+            writer2.PushShort(1);
+            writer2.PushShort(0);
+            writer2.PushInt(3086);
+            writer2.PushInt(this.Character.Id);
+            writer2.PushInt(60);
+            writer2.PushInt(zoneIP);
+            writer2.PushShort(zonePort);
+            var connect = writer2.Finish();
+            this.SendCompressed(connect);
+            return true;
+        }
+
         public void processCoreTimers(DateTime _now)
         {
             // Current Timer
             int c;
+
             // Current Strain
             int strain;
+
             // if Charachter is skipping timers Leave Function
             if (this.SkipCoreTimers)
             {
@@ -344,21 +566,25 @@ namespace ZoneEngine
                     switch (strain)
                     {
                         case 0:
+
                             // Add new Timer 
                             if (this != null)
                             {
                             }
+
                             break;
 
                         case 1:
                             if (this != null)
                             {
                             }
+
                             break;
                         default:
                             this.CoreTimers[c].Function.Apply(true);
                             break;
                     }
+
                     if (this.CoreTimers[c].Function.TickCount >= 0)
                     {
                         this.CoreTimers[c].Function.TickCount--;
@@ -373,238 +599,12 @@ namespace ZoneEngine
                     {
                         // Reinvoke the timer after the TickInterval
                         this.CoreTimers[c].Timestamp = _now
-                                                       +
-                                                       TimeSpan.FromMilliseconds(
+                                                       + TimeSpan.FromMilliseconds(
                                                            this.CoreTimers[c].Function.TickInterval);
                     }
                 }
             }
         }
-        #endregion
-
-        public bool SendFeedback(int MsgCategory, int MsgNum)
-        {
-            PacketWriter _writer = new PacketWriter();
-            _writer.PushByte(0xDF);
-            _writer.PushByte(0xDF);
-            _writer.PushShort(10); /* Packet type */
-            _writer.PushShort(1); /* ? */
-            _writer.PushShort(0); /* Packet size (0 for now, PacketWriter takes care of it)*/
-            _writer.PushInt(3086); /* Sender (our server ID)*/
-            _writer.PushInt(this.Character.Id); /* Receiver */
-            _writer.PushInt(0x50544d19); /* Packet ID */
-            _writer.PushIdentity(50000, this.Character.Id); /* Affected identity */
-            _writer.PushByte(1); /* ? */
-            _writer.PushInt(0); /* ? */
-            _writer.PushInt(MsgCategory); /* Message category ID */
-            _writer.PushInt(MsgNum); /* message ID */
-            byte[] reply = _writer.Finish();
-            this.SendCompressed(reply);
-            return true;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Text"></param>
-        /// <returns></returns>
-        public bool SendChatText(string Text)
-        {
-            PacketWriter _writer = new PacketWriter();
-
-            _writer.PushByte(0xDF);
-            _writer.PushByte(0xDF);
-            _writer.PushShort(10);
-            _writer.PushShort(1);
-            _writer.PushShort(0);
-            _writer.PushInt(3086);
-            _writer.PushInt(this.Character.Id);
-            _writer.PushInt(0x5F4B442A);
-            _writer.PushIdentity(50000, this.Character.Id);
-            _writer.PushByte(0);
-            _writer.PushShort((short)Text.Length);
-            _writer.PushBytes(Encoding.ASCII.GetBytes(Text));
-            _writer.PushShort(0x1000);
-            _writer.PushInt(0);
-            byte[] reply = _writer.Finish();
-            this.SendCompressed(reply);
-            return true;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="destination"></param>
-        /// <param name="heading"></param>
-        /// <param name="playfield"></param>
-        /// <returns></returns>
-        public bool Teleport(AOCoord destination, Quaternion heading, int playfield)
-        {
-            PacketWriter writer = new PacketWriter();
-            // header starts
-            writer.PushByte(0xDF);
-            writer.PushByte(0xDF);
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(this.Character.Id);
-            writer.PushInt(0x43197D22);
-            writer.PushIdentity(50000, this.Character.Id);
-            writer.PushByte(0);
-            // Header ends
-            writer.PushCoord(destination);
-            writer.PushQuat(heading);
-            writer.PushByte(97);
-            writer.PushIdentity(51100, playfield);
-            writer.PushInt(0);
-            writer.PushInt(0);
-            writer.PushIdentity(40016, playfield);
-            writer.PushInt(0);
-            writer.PushInt(0);
-            writer.PushIdentity(100001, playfield);
-            writer.PushInt(0);
-            writer.PushInt(0);
-            writer.PushInt(0);
-            byte[] tpreply = writer.Finish();
-            Despawn.DespawnPacket(this.Character.Id);
-            this.SendCompressed(tpreply);
-            this.Character.DoNotDoTimers = true;
-            this.Character.Stats.ExtenalDoorInstance.Value = 0;
-            this.Character.Stats.ExtenalPlayfieldInstance.Value = 0;
-            this.Character.Stats.LastConcretePlayfieldInstance.Value = 0;
-
-            this.Character.StopMovement();
-            this.Character.RawCoord = destination;
-            this.Character.RawHeading = heading;
-            this.Character.PlayField = playfield;
-            this.Character.Purge(); // Purge character information to DB before client reconnect
-
-            IPAddress tempIP;
-            if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
-            {
-                IPHostEntry zoneHost = Dns.GetHostEntry(Config.Instance.CurrentConfig.ZoneIP);
-                foreach (IPAddress ip in zoneHost.AddressList)
-                {
-                    if (ip.AddressFamily == AddressFamily.InterNetwork)
-                    {
-                        tempIP = ip;
-                        break;
-                    }
-                }
-            }
-            int zoneIP = IPAddress.HostToNetworkOrder(BitConverter.ToInt32(tempIP.GetAddressBytes(), 0));
-            short zonePort = Convert.ToInt16(Config.Instance.CurrentConfig.ZonePort);
-
-            Thread.Sleep(1000);
-            PacketWriter writer2 = new PacketWriter();
-            writer2.PushByte(0xDF);
-            writer2.PushByte(0xDF);
-            writer2.PushShort(1);
-            writer2.PushShort(1);
-            writer2.PushShort(0);
-            writer2.PushInt(3086);
-            writer2.PushInt(this.Character.Id);
-            writer2.PushInt(60);
-            writer2.PushInt(zoneIP);
-            writer2.PushShort(zonePort);
-            byte[] connect = writer2.Finish();
-            this.SendCompressed(connect);
-            return true;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="destination"></param>
-        /// <param name="heading"></param>
-        /// <param name="playfield"></param>
-        /// <returns></returns>
-        public bool TeleportProxy(
-            AOCoord destination,
-            Quaternion heading,
-            int playfield,
-            Identity pfinstance,
-            int GS,
-            int SG,
-            Identity R,
-            Identity dest)
-        {
-            PacketWriter writer = new PacketWriter();
-            // header starts
-            writer.PushByte(0xDF);
-            writer.PushByte(0xDF);
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(this.Character.Id);
-            writer.PushInt(0x43197D22);
-            writer.PushIdentity(50000, this.Character.Id);
-            writer.PushByte(0);
-            // Header ends
-            writer.PushCoord(this.Character.RawCoord);
-            writer.PushQuat(this.Character.RawHeading);
-            writer.PushByte(97);
-            writer.PushIdentity(pfinstance.Type, pfinstance.Instance);
-            writer.PushInt(GS);
-            writer.PushInt(SG);
-            writer.PushIdentity(40016, playfield);
-            // Dont know for sure if its correct to only transfer the playfield here
-            writer.PushInt(0);
-            writer.PushInt(0);
-            writer.PushIdentity(dest.Type, dest.Instance);
-            writer.PushInt(0);
-            byte[] tpreply = writer.Finish();
-            this.Character.DoNotDoTimers = true;
-            Despawn.DespawnPacket(this.Character.Id);
-            this.SendCompressed(tpreply);
-            this.Character.DoNotDoTimers = true;
-            this.Character.Stats.LastConcretePlayfieldInstance.Value = this.Character.PlayField;
-            this.Character.Stats.ExtenalDoorInstance.Value = SG;
-
-            this.Character.StopMovement();
-            this.Character.RawCoord = destination;
-            this.Character.RawHeading = heading;
-            this.Character.PlayField = playfield;
-            this.Character.Resource = 0x3c000;
-            this.Character.Purge(); // Purge character information to DB before client reconnect
-
-            IPAddress tempIP;
-            if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
-            {
-                IPHostEntry zoneHost = Dns.GetHostEntry(Config.Instance.CurrentConfig.ZoneIP);
-                foreach (IPAddress ip in zoneHost.AddressList)
-                {
-                    if (ip.AddressFamily == AddressFamily.InterNetwork)
-                    {
-                        tempIP = ip;
-                        break;
-                    }
-                }
-            }
-            int zoneIP = IPAddress.HostToNetworkOrder(BitConverter.ToInt32(tempIP.GetAddressBytes(), 0));
-            short zonePort = Convert.ToInt16(Config.Instance.CurrentConfig.ZonePort);
-
-            Thread.Sleep(1000);
-
-            PacketWriter writer2 = new PacketWriter();
-            writer2.PushByte(0xDF);
-            writer2.PushByte(0xDF);
-            writer2.PushShort(1);
-            writer2.PushShort(1);
-            writer2.PushShort(0);
-            writer2.PushInt(3086);
-            writer2.PushInt(this.Character.Id);
-            writer2.PushInt(60);
-            writer2.PushInt(zoneIP);
-            writer2.PushShort(zonePort);
-            byte[] connect = writer2.Finish();
-            this.SendCompressed(connect);
-            return true;
-        }
-
-        private static Timer LogoutTimer = new Timer();
 
         // Starts a 30 second timer
         public void startLogoutTimer()
@@ -614,87 +614,126 @@ namespace ZoneEngine
             LogoutTimer.Enabled = true;
         }
 
+        #endregion
+
+        #region Methods
+
+        protected uint GetMessageNumber(byte[] packet)
+        {
+            var messageNumberArray = new byte[4];
+            messageNumberArray[3] = packet[16];
+            messageNumberArray[2] = packet[17];
+            messageNumberArray[1] = packet[18];
+            messageNumberArray[0] = packet[19];
+            var reply = BitConverter.ToUInt32(messageNumberArray, 0);
+            return reply;
+        }
+
+        protected override void OnReceive(int numBytes)
+        {
+            var packet = new byte[numBytes];
+            Array.Copy(this.m_readBuffer.Array, this.m_readBuffer.Offset, packet, 0, numBytes);
+
+            Message message = null;
+            try
+            {
+                message = this.messageSerializer.Deserialize(packet);
+            }
+            catch (Exception)
+            {
+                var messageNumber = this.GetMessageNumber(packet);
+                this.Server.Warning(
+                    this, "Client sent malformed message {0}", messageNumber.ToString(CultureInfo.InvariantCulture));
+            }
+
+            if (message != null)
+            {
+                this.bus.Publish(new MessageReceivedEvent(this, message));
+                return;
+            }
+
+            var reader = new PacketReader(packet);
+
+            // TODO: make check here to see if packet starts with 0xDFDF
+            reader.ReadBytes(2);
+
+            // Packet type
+            var type = reader.PopShort();
+
+            // Unknown?
+            reader.PopShort();
+
+            // Packet Length
+            reader.PopShort();
+
+            // Sender
+            reader.PopInt();
+
+            // Receiver
+            reader.PopInt();
+
+            // PacketID
+            var id = reader.PopInt();
+
+            switch (type)
+            {
+                case 0x01:
+                    {
+                        // SystemMessage
+                        Program.zoneServer.SystemMessageHandler.Parse(this, packet, id);
+                        break;
+                    }
+
+                case 0x05:
+                    {
+                        // TextMessage
+                        Program.zoneServer.TextMessageHandler.Parse(this, packet, id);
+                        break;
+                    }
+
+                case 0x0A:
+                    {
+                        // N3Message
+                        N3Message.Parse(this, packet, id);
+                        break;
+                    }
+
+                case 0x0B:
+                    {
+                        // PingMessage
+                        break;
+                    }
+
+                case 0x0E:
+                    {
+                        // OperatorMessage
+                        break;
+                    }
+
+                default:
+                    {
+                        var messageNumber = this.GetMessageNumber(packet);
+                        this.Server.Warning(
+                            this, 
+                            "Client sent unknown message {0}", 
+                            messageNumber.ToString(CultureInfo.InvariantCulture));
+                        break;
+                    }
+            }
+
+            reader.Finish();
+        }
+
         // Called after 30 second timer elapses
-        private void LogOut(Object sender, ElapsedEventArgs e)
+        private void LogOut(object sender, ElapsedEventArgs e)
         {
             this.Server.DisconnectClient(this);
         }
 
+        #endregion
+
         /* Called from CharacterAction class in case of 'stop logout packet'
          * Stops the 30 second timer and sends 'stop logout packet' back to client
         */
-
-        public void CancelLogOut()
-        {
-            LogoutTimer.Enabled = false;
-            PacketWriter stopLogout = new PacketWriter();
-
-            // start packet header
-            stopLogout.PushByte(0xDF);
-            stopLogout.PushByte(0xDF);
-            stopLogout.PushShort(10);
-            stopLogout.PushShort(1);
-            stopLogout.PushShort(0);
-            stopLogout.PushInt(3086); // Sender (server ID)
-            stopLogout.PushInt(this.Character.Id); // Receiver
-            stopLogout.PushInt(0x5E477770); // CharacterAction packet ID
-            stopLogout.PushIdentity(50000, this.Character.Id); // affected identity
-            stopLogout.PushByte(0);
-            // end packet header
-
-            stopLogout.PushByte(0);
-            stopLogout.PushShort(0);
-            stopLogout.PushByte(0x7A); // stop logout flag?
-            stopLogout.PushInt(0);
-            stopLogout.PushInt(0);
-            stopLogout.PushInt(0);
-            stopLogout.PushInt(0);
-            stopLogout.PushInt(0);
-            stopLogout.PushShort(0);
-            byte[] stoplogOutPacket = stopLogout.Finish();
-            this.SendCompressed(stoplogOutPacket);
-        }
-
-        /* Called from CharacterAction class in case of 'stand' (0x57)
-         * Sends Stand packet back to client
-         * In case of logout CancelLogOut (above) stops it.
-        */
-
-        public void StandCancelLogout()
-        {
-            PacketWriter standUp = new PacketWriter();
-
-            // start packet header
-            standUp.PushByte(0xDF);
-            standUp.PushByte(0xDF);
-            standUp.PushShort(10);
-            standUp.PushShort(1);
-            standUp.PushShort(0);
-            standUp.PushInt(3086); // Sender (server ID)
-            standUp.PushInt(this.Character.Id); // Receiver
-            standUp.PushInt(0x5E477770); // CharacterAction packet ID
-            standUp.PushIdentity(50000, this.Character.Id); // affected identity
-            standUp.PushByte(0);
-            // end packet header
-
-            standUp.PushByte(0);
-            standUp.PushShort(0);
-            standUp.PushByte(0x57); // stand packet flag
-            standUp.PushInt(0);
-            standUp.PushInt(0);
-            standUp.PushInt(0);
-            standUp.PushInt(0);
-            standUp.PushInt(0);
-            standUp.PushShort(0);
-            byte[] standUpPacket = standUp.Finish();
-            Announce.Playfield(this.Character.PlayField, standUpPacket);
-            //            SendCompressed(standUpPacket);
-
-            if (LogoutTimer.Enabled)
-            {
-                this.CancelLogOut();
-            } // If logout timer is running, CancelLogOut method stops it.
-        }
-        #endregion
     }
 }

@@ -22,8 +22,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#region Usings...
-#endregion
 
 namespace ZoneEngine.PacketHandlers
 {
@@ -31,21 +29,11 @@ namespace ZoneEngine.PacketHandlers
     using System.IO;
     using System.Text;
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class SystemMessage
     {
-        #region Constructors
-        #endregion
 
         #region Functions
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="packet"></param>
-        /// <param name="messageNumber"></param>
+
         public void Parse(Client client, byte[] packet, int messageNumber)
         {
             switch (messageNumber)

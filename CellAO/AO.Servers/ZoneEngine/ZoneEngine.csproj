@@ -90,6 +90,7 @@
     <Compile Include="CharacterStats.cs" />
     <Compile Include="ChatCommands\DebugNano.cs" />
     <Compile Include="ChatCommands\TurnToMe.cs" />
+    <Compile Include="Component\ClientFactory.cs" />
     <Compile Include="DynelItem.cs" />
     <Compile Include="CharStatus.cs" />
     <Compile Include="ChatComm\ChatCom.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Functions\waypoint.cs" />
     <Compile Include="Functions\weaponeffectcolor.cs" />
     <Compile Include="InventoryEntries.cs" />
+    <Compile Include="MessageHandlers\ZoneLoginHandler.cs" />
     <Compile Include="Misc\Announce.cs" />
     <Compile Include="Collision\BorderlineCheck.cs" />
     <Compile Include="Misc\ClassStat.cs" />
@@ -393,6 +395,10 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
+      <Project>{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}</Project>
+      <Name>SmokeLounge.AOtomation.Messaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Helpers\RevisionGetter\RevisionGetter.csproj">
       <Project>{a4ac6b9e-4e0e-4143-accf-fbca2fc1bad2}</Project>
       <Name>RevisionGetter</Name>
