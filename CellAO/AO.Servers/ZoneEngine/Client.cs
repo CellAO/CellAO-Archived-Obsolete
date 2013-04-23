@@ -238,6 +238,26 @@ namespace ZoneEngine
             return true;
         }
 
+        public void SendCompressed(int sender, int receiver, MessageBody messageBody)
+        {
+            var message = new Message
+                              {
+                                  Body = messageBody, 
+                                  Header =
+                                      new Header
+                                          {
+                                              MessageId = BitConverter.ToInt16(new byte[] { 0xDF, 0xDF }, 0), 
+                                              PacketType = messageBody.PacketType, 
+                                              Unknown = 0x0001, 
+                                              Sender = sender, 
+                                              Receiver = receiver
+                                          }
+                              };
+
+            var buffer = this.messageSerializer.Serialize(message);
+            this.SendCompressed(buffer);
+        }
+
         public void SendCompressed(byte[] packet)
         {
             var tries = 0;

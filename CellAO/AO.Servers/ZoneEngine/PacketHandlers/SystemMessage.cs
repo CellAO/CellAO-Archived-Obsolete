@@ -29,6 +29,7 @@ namespace ZoneEngine.PacketHandlers
     using System.IO;
     using System.Text;
 
+    [Obsolete]
     public class SystemMessage
     {
 

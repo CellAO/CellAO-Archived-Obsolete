@@ -34,6 +34,9 @@ namespace ZoneEngine.PacketHandlers
     using System.Net;
     using System.Text;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages.CharacterActionMessages;
+
     using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Packets;
 
@@ -138,6 +141,7 @@ namespace ZoneEngine.PacketHandlers
                                 0x00, 0x00, 0xC3, 0x50, chrID[0], chrID[1], chrID[2], chrID[3], 0x01, 0x00, 0x00, 
                                 0x0F, 0xC4, 
                                 
+                                
                                 // (4036/1009)-1 = 3 special attacks
                                 0x00, 0x00, 0xAA, 0xC0, // 43712
                                 0x00, 0x02, 0x35, 0x69, // 144745
@@ -223,6 +227,23 @@ namespace ZoneEngine.PacketHandlers
             Stat.Send(client, 521, 0, false);
 
             /* Action 167 Animation and Stance Data maybe? */
+            var changeAnimationAndStanceMessage = new ChangeAnimationAndStanceMessage
+                                                      {
+                                                          Identity =
+                                                              new Identity
+                                                                  {
+                                                                      IdentityType
+                                                                          =
+                                                                          IdentityType
+                                                                          .CanbeAffected, 
+                                                                      Instance
+                                                                          =
+                                                                          charID
+                                                                  }, 
+                                                          Unknown5 = 0x00000001
+                                                      };
+            client.SendCompressed(0x00000C0E, charID, changeAnimationAndStanceMessage);
+
             var tempBytes = new byte[]
                                 {
                                     0xDF, 0xDF, 0x00, 0x0A, 0x00, 0x01, 0x00, 0x37, 0x00, 0x00, 0x0c, 0x0e, chrID[0], 
@@ -232,8 +253,8 @@ namespace ZoneEngine.PacketHandlers
                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
                                     0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00
                                 };
-            client.SendCompressed(tempBytes);
 
+            // client.SendCompressed(tempBytes);
             tempBytes = new byte[]
                             {
                                 // current in game time
@@ -266,6 +287,7 @@ namespace ZoneEngine.PacketHandlers
                                 chrID[1], chrID[2], chrID[3], 0x1D, 0x3C, 0x0F, 0x1C, // SpecialAttackWeapon
                                 0x00, 0x00, 0xC3, 0x50, chrID[0], chrID[1], chrID[2], chrID[3], 0x01, 0x00, 0x00, 
                                 0x0F, 0xC4, 
+                                
                                 
                                 // (4036/1009)-1 = 3 special attacks
                                 0x00, 0x00, 0xAA, 0xC0, // 43712
