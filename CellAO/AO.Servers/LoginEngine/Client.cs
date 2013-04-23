@@ -263,7 +263,7 @@ namespace LoginEngine
                                         Level = createCharacterMessage.Level,
                                         HeadMesh = createCharacterMessage.HeadMesh,
                                         MonsterScale = createCharacterMessage.MonsterScale,
-                                        Fatness = createCharacterMessage.Fatness
+                                        Fatness = (int)createCharacterMessage.Fatness
                                     };
             var characterId = characterName.CheckAgainstDatabase();
 
