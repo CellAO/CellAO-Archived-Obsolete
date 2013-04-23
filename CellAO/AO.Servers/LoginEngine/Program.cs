@@ -51,18 +51,6 @@ namespace LoginEngine
     {
         private static LoginServer loginLoginServer;
 
-        public static bool Ismodified()
-        {
-            string[] info = AssemblyInfoclass.Trademark.Split(';');
-            return (info[1] == "1");
-        }
-
-        public static bool Ismixed()
-        {
-            string[] info = AssemblyInfoclass.Trademark.Split(';');
-            return (info[0] == "1");
-        }
-
         public static bool TestEmailRegex(string emailAddress)
         {
             const string PatternStrict =
