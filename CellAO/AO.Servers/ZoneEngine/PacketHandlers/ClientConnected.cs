@@ -217,9 +217,6 @@ namespace ZoneEngine.PacketHandlers
             // builders instead of sending (half) hardcoded
             // packets.
 
-            // lets get char ID as byte array
-            var chrID = BitConverter.GetBytes(IPAddress.HostToNetworkOrder(charID));
-
             /* send chat server info to client */
             ChatServerInfo.Send(client);
 

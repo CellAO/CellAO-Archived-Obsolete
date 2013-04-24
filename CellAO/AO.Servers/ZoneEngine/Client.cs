@@ -212,7 +212,7 @@ namespace ZoneEngine
             packet[0] = pn[1];
             packet[1] = pn[0];
 
-            this.Send(packet);
+            base.Send(packet);
         }
 
         public bool SendChatText(string Text)
@@ -267,6 +267,7 @@ namespace ZoneEngine
             var pn = BitConverter.GetBytes(this.packetNumber++);
             packet[0] = pn[1];
             packet[1] = pn[0];
+
             while ((!done) && (tries < 3))
             {
                 try
