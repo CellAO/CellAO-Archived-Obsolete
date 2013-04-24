@@ -143,6 +143,9 @@ namespace ZoneEngine.PacketHandlers
                                 0x0F, 0xC4, 
                                 
                                 
+                                
+                                
+                                
                                 // (4036/1009)-1 = 3 special attacks
                                 0x00, 0x00, 0xAA, 0xC0, // 43712
                                 0x00, 0x02, 0x35, 0x69, // 144745
@@ -227,29 +230,21 @@ namespace ZoneEngine.PacketHandlers
             client.Character.Stats.SetBaseValue(521, 0);
             Stat.Send(client, 521, 0, false);
 
+            var identity = new Identity { IdentityType = IdentityType.CanbeAffected, Instance = charID };
+
             /* Action 167 Animation and Stance Data maybe? */
             var changeAnimationAndStanceMessage = new ChangeAnimationAndStanceMessage
                                                       {
-                                                          Identity =
-                                                              new Identity
-                                                                  {
-                                                                      IdentityType
-                                                                          =
-                                                                          IdentityType
-                                                                          .CanbeAffected, 
-                                                                      Instance
-                                                                          =
-                                                                          charID
-                                                                  }, 
+                                                          Identity = identity, 
                                                           Unknown5 = 0x00000001
                                                       };
             client.SendCompressed(0x00000C0E, charID, changeAnimationAndStanceMessage);
 
             var gameTimeMessage = new GameTimeMessage
                                       {
-                                          Identity = new Identity { IdentityType = IdentityType.CanbeAffected, Instance = charID },
-                                          Unknown1 = 30024.0f,
-                                          Unknown3 = 185408,
+                                          Identity = identity, 
+                                          Unknown1 = 30024.0f, 
+                                          Unknown3 = 185408, 
                                           Unknown4 = 80183.3125f
                                       };
             client.SendCompressed(0x00000C0E, charID, gameTimeMessage);
@@ -266,37 +261,33 @@ namespace ZoneEngine.PacketHandlers
             /* inventory, items and all that */
             FullCharacter.Send(client);
 
-            var tempBytes = new byte[]
-                            {
-                                // this packet gives you (or anyone else)
-                                // special attacks like brawl, fling shot and so
-                                0xDF, 0xDF, 0x00, 0x0A, 0x00, 0x01, 0x00, 0x65, 0x00, 0x00, 0x0c, 0x0e, chrID[0], 
-                                chrID[1], chrID[2], chrID[3], 0x1D, 0x3C, 0x0F, 0x1C, // SpecialAttackWeapon
-                                0x00, 0x00, 0xC3, 0x50, chrID[0], chrID[1], chrID[2], chrID[3], 0x01, 0x00, 0x00, 
-                                0x0F, 0xC4, 
-                                
-                                
-                                // (4036/1009)-1 = 3 special attacks
-                                0x00, 0x00, 0xAA, 0xC0, // 43712
-                                0x00, 0x02, 0x35, 0x69, // 144745
-                                0x00, 0x00, 0x00, 0x64, // 100
-                                0x4D, 0x41, 0x41, 0x54, // "MAAT"
-                                0x00, 0x00, 0xA4, 0x31, // 42033
-                                0x00, 0x00, 0xA4, 0x30, // 42032
-                                0x00, 0x00, 0x00, 0x90, // 144
-                                0x44, 0x49, 0x49, 0x54, // "DIIT"
-                                0x00, 0x01, 0x12, 0x94, // 70292
-                                0x00, 0x01, 0x12, 0x95, // 70293
-                                0x00, 0x00, 0x00, 0x8E, // 142
-                                0x42, 0x52, 0x41, 0x57, // "BRAW"
-                                0x00, 0x00, 0x00, 0x07, // 7
-                                0x00, 0x00, 0x00, 0x07, // 7
-                                0x00, 0x00, 0x00, 0x07, // 7
-                                0x00, 0x00, 0x00, 0x0E, // 14
-                                0x00, 0x00, 0x00, 0x64 // 100
-                            };
+            var specials = new[]
+                               {
+                                   new SpecialAttackInfo
+                                       {
+                                           Unknown1 = 0x0000AAC0, 
+                                           Unknown2 = 0x00023569, 
+                                           Unknown3 = 0x00000064, 
+                                           Unknown4 = "MAAT"
+                                       }, 
+                                   new SpecialAttackInfo
+                                       {
+                                           Unknown1 = 0x0000A431, 
+                                           Unknown2 = 0x0000A430, 
+                                           Unknown3 = 0x00000090, 
+                                           Unknown4 = "DIIT"
+                                       }, 
+                                   new SpecialAttackInfo
+                                       {
+                                           Unknown1 = 0x00011294, 
+                                           Unknown2 = 0x00011295, 
+                                           Unknown3 = 0x0000008E, 
+                                           Unknown4 = "BRAW"
+                                       }
+                               };
+            var specialAttackWeaponMessage = new SpecialAttackWeaponMessage { Identity = identity, Specials = specials };
 
-            client.SendCompressed(tempBytes);
+            client.SendCompressed(0x00000C0E, charID, specialAttackWeaponMessage);
 
             // done
 
