@@ -78,7 +78,8 @@ namespace ZoneEngine
 
             #region Console Text...
             Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description
-                            + " " + AssemblyInfoclass.AssemblyVersion+" "+AssemblyInfoclass.Trademark;
+                + " " + AssemblyInfoclass.AssemblyVersion + " " + AssemblyInfoclass.Trademark;
+
             ConsoleText ct = new ConsoleText();
             ct.TextRead("main.txt");
             Console.WriteLine("Loading " + AssemblyInfoclass.Title + "...");
@@ -150,9 +151,9 @@ namespace ZoneEngine
 
             #region NBug
             SettingsOverride.LoadCustomSettings("NBug.Config");
+            NBug.Settings.WriteLogToDisk = true;
             AppDomain.CurrentDomain.UnhandledException += Handler.UnhandledException;
             TaskScheduler.UnobservedTaskException += Handler.UnobservedTaskException;
-            
             //TODO: ADD More Handlers.
             #endregion
 
@@ -479,6 +480,18 @@ namespace ZoneEngine
                 ThreadMgr.Stop();
                 Process.GetCurrentProcess().Kill();
             }
+        }
+
+        public static bool ismodified()
+        {
+            string[] info = AssemblyInfoclass.Trademark.Split(';');
+            return (info[1] == "1");
+        }
+
+        public static bool ismixed()
+        {
+            string[] info = AssemblyInfoclass.Trademark.Split(';');
+            return (info[0] == "1");
         }
     }
 }

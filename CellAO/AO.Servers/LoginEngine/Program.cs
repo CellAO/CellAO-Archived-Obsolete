@@ -43,6 +43,7 @@ namespace LoginEngine
     using MySql.Data.MySqlClient;
 
     using NBug;
+    using NBug.Properties;
 
     using NLog;
     using NLog.Config;
@@ -120,8 +121,6 @@ namespace LoginEngine
 
             loginServer.TcpPort = Convert.ToInt32(Config.Instance.CurrentConfig.LoginPort);
 
-            
-
             var config = new LoggingConfiguration();
             var consoleTarget = new ColoredConsoleTarget();
             consoleTarget.Layout = "${date:format=HH\\:MM\\:ss} ${logger} ${message}";
@@ -135,16 +134,13 @@ namespace LoginEngine
             config.LoggingRules.Add(rule2);
             LogManager.Configuration = config;
 
-            
 
-            #region NBug
-
+            SettingsOverride.LoadCustomSettings("NBug.Config");
+            Settings.WriteLogToDisk = true;
             AppDomain.CurrentDomain.UnhandledException += Handler.UnhandledException;
             TaskScheduler.UnobservedTaskException += Handler.UnobservedTaskException;
 
             // TODO: ADD More Handlers.
-            #endregion
-
             loginServer.MaximumPendingConnections = 100;
 
             #region Console Commands
@@ -440,6 +436,7 @@ namespace LoginEngine
                             {
                                 updt.SqlUpdate(sql);
                             }
+                                
                                 
                                 
                                 // yeah this part here, some kind of exception handling for mysql errors
