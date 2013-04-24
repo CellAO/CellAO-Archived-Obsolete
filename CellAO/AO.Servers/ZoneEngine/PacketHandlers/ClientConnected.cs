@@ -35,6 +35,7 @@ namespace ZoneEngine.PacketHandlers
     using System.Text;
 
     using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages.CharacterActionMessages;
 
     using ZoneEngine.NonPlayerCharacter;
@@ -244,28 +245,14 @@ namespace ZoneEngine.PacketHandlers
                                                       };
             client.SendCompressed(0x00000C0E, charID, changeAnimationAndStanceMessage);
 
-            var tempBytes = new byte[]
-                                {
-                                    0xDF, 0xDF, 0x00, 0x0A, 0x00, 0x01, 0x00, 0x37, 0x00, 0x00, 0x0c, 0x0e, chrID[0], 
-                                    chrID[1], chrID[2], chrID[3], 0x5E, 0x47, 0x77, 0x70, // CharacterAction
-                                    0x00, 0x00, 0xC3, 0x50, chrID[0], chrID[1], chrID[2], chrID[3], 0x00, 0x00, 0x00, 0x00
-                                    , 0xA7, // 167
-                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-                                    0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00
-                                };
-
-            // client.SendCompressed(tempBytes);
-            tempBytes = new byte[]
-                            {
-                                // current in game time
-                                0xDF, 0xDF, 0x00, 0x0A, 0x00, 0x01, 0x00, 0x2D, 0x00, 0x00, 0x0c, 0x0e, chrID[0], 
-                                chrID[1], chrID[2], chrID[3], 0x5F, 0x52, 0x41, 0x2E, // GameTime
-                                0x00, 0x00, 0xC3, 0x50, chrID[0], chrID[1], chrID[2], chrID[3], 0x01, 0x46, 0xEA, 
-                                0x90, 0x00, // 30024.0
-                                0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xD4, 0x40, // 185408
-                                0x47, 0x9C, 0x9B, 0xA8 // 80183.3125
-                            };
-            client.SendCompressed(tempBytes);
+            var gameTimeMessage = new GameTimeMessage
+                                      {
+                                          Identity = new Identity { IdentityType = IdentityType.CanbeAffected, Instance = charID },
+                                          Unknown1 = 30024.0f,
+                                          Unknown3 = 185408,
+                                          Unknown4 = 80183.3125f
+                                      };
+            client.SendCompressed(0x00000C0E, charID, gameTimeMessage);
 
             /* set SocialStatus to 0 */
             Stat.Set(client, 521, 0, false);
@@ -279,7 +266,7 @@ namespace ZoneEngine.PacketHandlers
             /* inventory, items and all that */
             FullCharacter.Send(client);
 
-            tempBytes = new byte[]
+            var tempBytes = new byte[]
                             {
                                 // this packet gives you (or anyone else)
                                 // special attacks like brawl, fling shot and so
