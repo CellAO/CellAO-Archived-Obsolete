@@ -61,7 +61,15 @@ namespace ZoneEngine.Packets
                                               Instance = client.Character.Id
                                           }, 
                                   Stats =
-                                      new[] { new StatValue { Stat = (CharacterStat)stat, Value = value } }
+                                      new[]
+                                          {
+                                              new GameTuple<CharacterStat, uint>
+                                                  {
+                                                      Value1 =
+                                                          (CharacterStat)stat, 
+                                                      Value2 = value
+                                                  }
+                                          }
                               };
 
             client.SendCompressed(0x00000C0E, client.Character.Id, message);
@@ -89,12 +97,17 @@ namespace ZoneEngine.Packets
                 }
             }
 
-            var stats = new List<StatValue>();
+            var stats = new List<GameTuple<CharacterStat, uint>>();
             foreach (var keyValuePair in statsToUpdate)
             {
                 if (toPlayfield.Contains(keyValuePair.Key))
                 {
-                    stats.Add(new StatValue { Stat = (CharacterStat)keyValuePair.Key, Value = keyValuePair.Value });
+                    stats.Add(
+                        new GameTuple<CharacterStat, uint>
+                            {
+                                Value1 = (CharacterStat)keyValuePair.Key, 
+                                Value2 = keyValuePair.Value
+                            });
                 }
             }
 
@@ -134,12 +147,16 @@ namespace ZoneEngine.Packets
                 }
             }
 
-            var toPlayfield = new List<StatValue>();
-            var toClient = new List<StatValue>();
+            var toPlayfield = new List<GameTuple<CharacterStat, uint>>();
+            var toClient = new List<GameTuple<CharacterStat, uint>>();
 
             foreach (var keyValuePair in statsToUpdate)
             {
-                var statValue = new StatValue { Stat = (CharacterStat)keyValuePair.Key, Value = keyValuePair.Value };
+                var statValue = new GameTuple<CharacterStat, uint>
+                                    {
+                                        Value1 = (CharacterStat)keyValuePair.Key, 
+                                        Value2 = keyValuePair.Value
+                                    };
                 toClient.Add(statValue);
 
                 if (toPlayfieldIds.Contains(keyValuePair.Key))

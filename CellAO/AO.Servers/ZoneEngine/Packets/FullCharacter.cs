@@ -1,949 +1,911 @@
-﻿#region License
-// Copyright (c) 2005-2012, CellAO Team
-// 
-// All rights reserved.
-// 
-// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-// 
-//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#endregion
-
-#region Usings...
-#endregion
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FullCharacter.cs" company="CellAO Team">
+//   Copyright © 2005-2013 CellAO Team.
+//   
+//   All rights reserved.
+//   
+//   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//   
+//       * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//       * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//       * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//   
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+//   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+//   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+//   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+//   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+//   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+//   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+//   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// </copyright>
+// <summary>
+//   Defines the FullCharacter type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ZoneEngine.Packets
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
-    using AO.Core;
+    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
-    /// <summary>
-    /// 
-    /// </summary>
     public static class FullCharacter
     {
-        #region WriteStat's
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="writer"></param>
-        /// <param name="statId"></param>
-        private static void WriteStat3232(Client client, PacketWriter writer, int statId)
-        {
-            /* Stat */
-            writer.PushInt(statId);
-            /* Value */
-            writer.PushUInt(client.Character.Stats.GetBaseValue(statId));
-        }
+        #region Public Methods and Operators
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="writer"></param>
-        /// <param name="statName"></param>
-        private static void WriteStat3232(Client client, PacketWriter writer, string statName)
-        {
-            WriteStat3232(client, writer, client.Character.Stats.StatIdByName(statName));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="writer"></param>
-        /// <param name="statId"></param>
-        private static void WriteStat816(Client client, PacketWriter writer, int statId)
-        {
-            if (statId > 255)
-            {
-                Console.WriteLine("WriteStat816 statId(" + statId + ") > 255");
-            }
-
-            /* Stat */
-            writer.PushByte((byte)statId);
-            /* Value */
-            writer.PushShort((short)client.Character.Stats.GetBaseValue(statId));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="writer"></param>
-        /// <param name="statName"></param>
-        private static void WriteStat816(Client client, PacketWriter writer, string statName)
-        {
-            WriteStat816(client, writer, client.Character.Stats.StatIdByName(statName));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="writer"></param>
-        /// <param name="statId"></param>
-        private static void WriteStat88(Client client, PacketWriter writer, int statId)
-        {
-            if (statId > 255)
-            {
-                Console.WriteLine("WriteStat88 statId(" + statId + ") > 255");
-            }
-            /* Stat */
-            writer.PushByte((byte)statId);
-            /* Value */
-            writer.PushByte((byte)client.Character.Stats.GetBaseValue(statId));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="writer"></param>
-        /// <param name="statName"></param>
-        private static void WriteStat88(Client client, PacketWriter writer, string statName)
-        {
-            WriteStat88(client, writer, client.Character.Stats.StatIdByName(statName));
-        }
-        #endregion
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="client"></param>
         public static void Send(Client client)
         {
-            PacketWriter writer = new PacketWriter();
+            var fc = new FullCharacterMessage();
+            fc.Identity = new Identity { IdentityType = IdentityType.CanbeAffected, Instance = client.Character.Id };
+            fc.Unknown1 = 25;
 
-            #region Header
-            writer.PushBytes(new byte[] { 0xDF, 0xDF });
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(client.Character.Id);
-            writer.PushInt(0x29304349);
-            writer.PushIdentity(50000, client.Character.Id);
-            writer.PushByte(0);
-            #endregion
-
-            writer.PushInt(25);
-
-            #region Data01 (Inventory)
             /* part 1 of data */
-            int count;
-            writer.Push3F1Count(client.Character.Inventory.Count);
-            for (count = 0; count < client.Character.Inventory.Count; count++)
-            {
-                writer.PushInt(client.Character.Inventory[count].Placement);
-                writer.PushShort((short)client.Character.Inventory[count].Item.Flags);
-                writer.PushShort((short)client.Character.Inventory[count].Item.MultipleCount);
-                writer.PushIdentity(
-                    client.Character.Inventory[count].Item.Type, client.Character.Inventory[count].Item.Instance);
-                writer.PushInt(client.Character.Inventory[count].Item.LowID);
-                writer.PushInt(client.Character.Inventory[count].Item.HighID);
-                writer.PushInt(client.Character.Inventory[count].Item.Quality);
-                writer.PushInt(client.Character.Inventory[count].Item.Nothing);
-            }
-            #endregion
+            var inventory = from ie in client.Character.Inventory
+                            let item = ie.Item
+                            select
+                                new InventorySlot
+                                    {
+                                        Placement = ie.Placement, 
+                                        Flags = (short)item.Flags, 
+                                        Count = (short)item.MultipleCount, 
+                                        Identity =
+                                            new Identity
+                                                {
+                                                    IdentityType = (IdentityType)item.Type, 
+                                                    Instance = item.Instance
+                                                }, 
+                                        ItemLowId = item.LowID, 
+                                        ItemHighId = item.HighID, 
+                                        Quality = item.Quality, 
+                                        Unknown = item.Nothing
+                                    };
+            fc.InventorySlots = inventory.ToArray();
 
-            #region Data02 (Uploaded nanos)
             /* part 2 of data */
             /* number of entries */
-            writer.Push3F1Count(client.Character.UploadedNanos.Count);
-            foreach (AOUploadedNanos au in client.Character.UploadedNanos)
-            {
-                writer.PushInt(au.Nano);
-            }
-            #endregion
+            fc.UploadedNanoIds = client.Character.UploadedNanos.Select(n => n.Nano).ToArray();
 
-            #region Data03 (Empty)
             /* part 3 of data */
             /* number of entries */
-            writer.Push3F1Count(0);
-            #endregion
+            fc.Unknown2 = new object[0];
 
-            #region Unknown
+            
+
             /* No idea what these are */
             /* used to be skill locks + some unknown data */
+
             // TODO: Find out what following 6 ints are
-            writer.PushInt(1);
-            writer.PushInt(0);
-            writer.PushInt(1);
-            writer.PushInt(0);
-            writer.PushInt(1);
-            writer.PushInt(0);
-            #endregion
+            fc.Unknown3 = 1;
+            fc.Unknown4 = 0;
+            fc.Unknown5 = 1;
+            fc.Unknown6 = 0;
+            fc.Unknown7 = 1;
+            fc.Unknown8 = 0;
+
+            
 
             #region Data06 (Stats 1) (32bit - 32bit)
+
             /* part 6 of data (1-st stats block) */
 
             /* Int32 stat number
                Int32 stat value */
-
-            /* number of entries */
-            writer.Push3F1Count(69);
+            var stats1 = new List<GameTuple<int, uint>>();
 
             /* State */
-            WriteStat3232(client, writer, 7);
+            AddStat3232(client, stats1, 7);
 
             /* UnarmedTemplateInstance */
-            WriteStat3232(client, writer, 418);
+            AddStat3232(client, stats1, 418);
 
             /* Invaders Killed */
-            WriteStat3232(client, writer, 615);
+            AddStat3232(client, stats1, 615);
 
             /* KilledByInvaders */
-            WriteStat3232(client, writer, 616);
+            AddStat3232(client, stats1, 616);
 
             /* AccountFlags */
-            WriteStat3232(client, writer, 660);
+            AddStat3232(client, stats1, 660);
 
             /* VP */
-            WriteStat3232(client, writer, 669);
+            AddStat3232(client, stats1, 669);
 
             /* UnsavedXP */
-            WriteStat3232(client, writer, 592);
+            AddStat3232(client, stats1, 592);
 
             /* NanoFocusLevel */
-            WriteStat3232(client, writer, 355);
+            AddStat3232(client, stats1, 355);
 
             /* Specialization */
-            WriteStat3232(client, writer, 182);
+            AddStat3232(client, stats1, 182);
 
             /* ShadowBreedTemplate */
-            WriteStat3232(client, writer, 579);
+            AddStat3232(client, stats1, 579);
 
             /* ShadowBreed */
-            WriteStat3232(client, writer, 532);
+            AddStat3232(client, stats1, 532);
 
             /* LastPerkResetTime */
-            WriteStat3232(client, writer, 577);
+            AddStat3232(client, stats1, 577);
 
             /* SocialStatus */
-            WriteStat3232(client, writer, 521);
+            AddStat3232(client, stats1, 521);
 
             /* PlayerOptions */
-            WriteStat3232(client, writer, 576);
+            AddStat3232(client, stats1, 576);
 
             /* TempSaveTeamID */
-            WriteStat3232(client, writer, 594);
+            AddStat3232(client, stats1, 594);
 
             /* TempSavePlayfield */
-            WriteStat3232(client, writer, 595);
+            AddStat3232(client, stats1, 595);
 
             /* TempSaveX */
-            WriteStat3232(client, writer, 596);
+            AddStat3232(client, stats1, 596);
 
             /* TempSaveY */
-            WriteStat3232(client, writer, 597);
+            AddStat3232(client, stats1, 597);
 
             /* VisualFlags */
-            WriteStat3232(client, writer, 673);
+            AddStat3232(client, stats1, 673);
 
             /* PvPDuelKills */
-            WriteStat3232(client, writer, 674);
+            AddStat3232(client, stats1, 674);
 
             /* PvPDuelDeaths */
-            WriteStat3232(client, writer, 675);
+            AddStat3232(client, stats1, 675);
 
             /* PvPProfessionDuelKills */
-            WriteStat3232(client, writer, 676);
+            AddStat3232(client, stats1, 676);
 
             /* PvPProfessionDuelDeaths */
-            WriteStat3232(client, writer, 677);
+            AddStat3232(client, stats1, 677);
 
             /* PvPRankedSoloKills */
-            WriteStat3232(client, writer, 678);
+            AddStat3232(client, stats1, 678);
 
             /* PvPRankedSoloDeaths */
-            WriteStat3232(client, writer, 679);
+            AddStat3232(client, stats1, 679);
 
             /* PvPRankedTeamKills */
-            WriteStat3232(client, writer, 680);
+            AddStat3232(client, stats1, 680);
 
             /* PvPRankedTeamDeaths */
-            WriteStat3232(client, writer, 681);
+            AddStat3232(client, stats1, 681);
 
             /* PvPSoloScore */
-            WriteStat3232(client, writer, 682);
+            AddStat3232(client, stats1, 682);
 
             /* PvPTeamScore */
-            WriteStat3232(client, writer, 683);
+            AddStat3232(client, stats1, 683);
 
             /* PvPDuelScore */
-            WriteStat3232(client, writer, 684);
+            AddStat3232(client, stats1, 684);
 
-            WriteStat3232(client, writer, 0x289);
-            WriteStat3232(client, writer, 0x28a);
+            AddStat3232(client, stats1, 0x289);
+            AddStat3232(client, stats1, 0x28a);
 
             /* SavedXP */
-            WriteStat3232(client, writer, 334);
+            AddStat3232(client, stats1, 334);
 
             /* Flags */
-            WriteStat3232(client, writer, 0);
+            AddStat3232(client, stats1, 0);
 
             /* Features */
-            WriteStat3232(client, writer, 224);
+            AddStat3232(client, stats1, 224);
 
             /* ApartmentsAllowed */
-            WriteStat3232(client, writer, 582);
+            AddStat3232(client, stats1, 582);
 
             /* ApartmentsOwned */
-            WriteStat3232(client, writer, 583);
+            AddStat3232(client, stats1, 583);
 
             /* MonsterScale */
-            WriteStat3232(client, writer, 360);
+            AddStat3232(client, stats1, 360);
 
             /* VisualProfession */
-            WriteStat3232(client, writer, 368);
+            AddStat3232(client, stats1, 368);
 
             /* NanoAC */
-            WriteStat3232(client, writer, 168);
+            AddStat3232(client, stats1, 168);
 
-            WriteStat3232(client, writer, 214);
-            WriteStat3232(client, writer, 221);
+            AddStat3232(client, stats1, 214);
+            AddStat3232(client, stats1, 221);
+
             /* LastConcretePlayfieldInstance */
-            WriteStat3232(client, writer, 191);
+            AddStat3232(client, stats1, 191);
 
             /* MapOptions */
-            WriteStat3232(client, writer, 470);
+            AddStat3232(client, stats1, 470);
 
             /* MapAreaPart1 */
-            WriteStat3232(client, writer, 471);
+            AddStat3232(client, stats1, 471);
 
             /* MapAreaPart2 */
-            WriteStat3232(client, writer, 472);
+            AddStat3232(client, stats1, 472);
 
             /* MapAreaPart3 */
-            WriteStat3232(client, writer, 585);
+            AddStat3232(client, stats1, 585);
 
             /* MapAreaPart4 */
-            WriteStat3232(client, writer, 586);
+            AddStat3232(client, stats1, 586);
 
             /* MissionBits1 */
-            WriteStat3232(client, writer, 256);
+            AddStat3232(client, stats1, 256);
 
             /* MissionBits2 */
-            WriteStat3232(client, writer, 257);
+            AddStat3232(client, stats1, 257);
 
             /* MissionBits3 */
-            WriteStat3232(client, writer, 303);
+            AddStat3232(client, stats1, 303);
 
             /* MissionBits4 */
-            WriteStat3232(client, writer, 432);
+            AddStat3232(client, stats1, 432);
 
             /* MissionBits5 */
-            WriteStat3232(client, writer, 65);
+            AddStat3232(client, stats1, 65);
 
             /* MissionBits6 */
-            WriteStat3232(client, writer, 66);
+            AddStat3232(client, stats1, 66);
 
             /* MissionBits7 */
-            WriteStat3232(client, writer, 67);
+            AddStat3232(client, stats1, 67);
 
             /* MissionBits8 */
-            WriteStat3232(client, writer, 544);
+            AddStat3232(client, stats1, 544);
 
             /* MissionBits9 */
-            WriteStat3232(client, writer, 545);
+            AddStat3232(client, stats1, 545);
 
             /* MissionBits10 */
-            WriteStat3232(client, writer, 617);
-            WriteStat3232(client, writer, 618);
-            WriteStat3232(client, writer, 619);
-            WriteStat3232(client, writer, 198);
+            AddStat3232(client, stats1, 617);
+            AddStat3232(client, stats1, 618);
+            AddStat3232(client, stats1, 619);
+            AddStat3232(client, stats1, 198);
 
             /* AutoAttackFlags */
-            WriteStat3232(client, writer, 349);
+            AddStat3232(client, stats1, 349);
 
             /* PersonalResearchLevel */
-            WriteStat3232(client, writer, 263);
+            AddStat3232(client, stats1, 263);
 
             /* GlobalResearchLevel */
-            WriteStat3232(client, writer, 264);
+            AddStat3232(client, stats1, 264);
 
             /* PersonalResearchGoal */
-            WriteStat3232(client, writer, 265);
+            AddStat3232(client, stats1, 265);
 
             /* GlobalResearchGoal */
-            WriteStat3232(client, writer, 266);
+            AddStat3232(client, stats1, 266);
 
             /* BattlestationSide */
-            WriteStat3232(client, writer, 668);
+            AddStat3232(client, stats1, 668);
 
             /* BattlestationRep */
-            WriteStat3232(client, writer, 670);
+            AddStat3232(client, stats1, 670);
 
             /* Members */
-            WriteStat3232(client, writer, 300);
+            AddStat3232(client, stats1, 300);
+
+            fc.Stats1 = stats1.ToArray();
+
             #endregion
 
             #region Data07 (Stats 2) (32bit - 32bit)
-            /* number of entries */
-            writer.Push3F1Count(144);
 
             /* Int32 stat number
                Int32 stat value */
+            var stats2 = new List<GameTuple<int, uint>>();
 
             /* VeteranPoints */
-            WriteStat3232(client, writer, 68);
+            AddStat3232(client, stats2, 68);
 
             /* MonthsPaid */
-            WriteStat3232(client, writer, 69);
+            AddStat3232(client, stats2, 69);
 
             /* PaidPoints */
-            WriteStat3232(client, writer, 672);
+            AddStat3232(client, stats2, 672);
 
             /* AutoAttackFlags */
-            WriteStat3232(client, writer, 349);
+            AddStat3232(client, stats2, 349);
 
             /* XPKillRange */
-            WriteStat3232(client, writer, 275);
+            AddStat3232(client, stats2, 275);
 
             /* InPlay */
-            WriteStat3232(client, writer, 194);
+            AddStat3232(client, stats2, 194);
 
             /* Health (current health)*/
-            WriteStat3232(client, writer, 27);
+            AddStat3232(client, stats2, 27);
 
             /* Life (max health)*/
-            WriteStat3232(client, writer, 1);
+            AddStat3232(client, stats2, 1);
 
             /* Psychic */
-            WriteStat3232(client, writer, 21);
+            AddStat3232(client, stats2, 21);
 
             /* Sense */
-            WriteStat3232(client, writer, 20);
+            AddStat3232(client, stats2, 20);
 
             /* Intelligence */
-            WriteStat3232(client, writer, 19);
+            AddStat3232(client, stats2, 19);
 
             /* Stamina */
-            WriteStat3232(client, writer, 18);
+            AddStat3232(client, stats2, 18);
 
             /* Agility */
-            WriteStat3232(client, writer, 17);
+            AddStat3232(client, stats2, 17);
 
             /* Strength */
-            WriteStat3232(client, writer, 16);
+            AddStat3232(client, stats2, 16);
 
             /* Attitude */
-            WriteStat3232(client, writer, 63);
+            AddStat3232(client, stats2, 63);
 
             /* Alignment (Clan Tokens) */
-            WriteStat3232(client, writer, 62);
+            AddStat3232(client, stats2, 62);
 
             /* Cash */
-            WriteStat3232(client, writer, 61);
+            AddStat3232(client, stats2, 61);
 
             /* Profession */
-            WriteStat3232(client, writer, 60);
+            AddStat3232(client, stats2, 60);
 
             /* AggDef */
-            WriteStat3232(client, writer, 51);
+            AddStat3232(client, stats2, 51);
 
             /* Icon */
-            WriteStat3232(client, writer, 79);
+            AddStat3232(client, stats2, 79);
 
             /* Mesh */
-            WriteStat3232(client, writer, 12);
+            AddStat3232(client, stats2, 12);
 
             /* RunSpeed */
-            WriteStat3232(client, writer, 156);
+            AddStat3232(client, stats2, 156);
 
             /* DeadTimer */
-            WriteStat3232(client, writer, 34);
+            AddStat3232(client, stats2, 34);
 
             /* Team */
-            WriteStat3232(client, writer, 6);
+            AddStat3232(client, stats2, 6);
 
             /* Breed */
-            WriteStat3232(client, writer, 4);
+            AddStat3232(client, stats2, 4);
 
             /* Sex */
-            WriteStat3232(client, writer, 59);
+            AddStat3232(client, stats2, 59);
 
             /* LastSaveXP */
-            WriteStat3232(client, writer, 372);
+            AddStat3232(client, stats2, 372);
 
             /* NextXP */
-            WriteStat3232(client, writer, 350);
+            AddStat3232(client, stats2, 350);
 
             /* LastXP */
-            WriteStat3232(client, writer, 57);
+            AddStat3232(client, stats2, 57);
 
             /* Level */
-            WriteStat3232(client, writer, 54);
+            AddStat3232(client, stats2, 54);
 
             /* XP */
-            WriteStat3232(client, writer, 52);
+            AddStat3232(client, stats2, 52);
 
             /* IP */
-            WriteStat3232(client, writer, 53);
+            AddStat3232(client, stats2, 53);
 
             /* CurrentMass */
-            WriteStat3232(client, writer, 78);
+            AddStat3232(client, stats2, 78);
 
             /* ItemType */
-            WriteStat3232(client, writer, 72);
+            AddStat3232(client, stats2, 72);
 
             /* PreviousHealth */
-            WriteStat3232(client, writer, 11);
+            AddStat3232(client, stats2, 11);
 
             /* CurrentState */
-            WriteStat3232(client, writer, 423);
+            AddStat3232(client, stats2, 423);
 
             /* Age */
-            WriteStat3232(client, writer, 58);
+            AddStat3232(client, stats2, 58);
 
             /* Side */
-            WriteStat3232(client, writer, 33);
+            AddStat3232(client, stats2, 33);
 
             /* WaitState */
-            WriteStat3232(client, writer, 430);
+            AddStat3232(client, stats2, 430);
 
             /* DriveWater */
-            WriteStat3232(client, writer, 117);
+            AddStat3232(client, stats2, 117);
 
             /* MeleeMultiple */
-            WriteStat3232(client, writer, 101);
+            AddStat3232(client, stats2, 101);
 
             /* LR_MultipleWeapon */
-            WriteStat3232(client, writer, 134);
+            AddStat3232(client, stats2, 134);
 
             /* LR_EnergyWeapon */
-            WriteStat3232(client, writer, 133);
+            AddStat3232(client, stats2, 133);
 
             /* RadiationAC */
-            WriteStat3232(client, writer, 94);
+            AddStat3232(client, stats2, 94);
 
             /* SenseImprovement */
-            WriteStat3232(client, writer, 122);
+            AddStat3232(client, stats2, 122);
 
             /* BowSpecialAttack */
-            WriteStat3232(client, writer, 121);
+            AddStat3232(client, stats2, 121);
 
             /* Burst */
-            WriteStat3232(client, writer, 148);
+            AddStat3232(client, stats2, 148);
 
             /* FullAuto */
-            WriteStat3232(client, writer, 167);
+            AddStat3232(client, stats2, 167);
 
             /* MapNavigation */
-            WriteStat3232(client, writer, 140);
+            AddStat3232(client, stats2, 140);
 
             /* DriveAir */
-            WriteStat3232(client, writer, 139);
+            AddStat3232(client, stats2, 139);
 
             /* DriveGround */
-            WriteStat3232(client, writer, 166);
+            AddStat3232(client, stats2, 166);
 
             /* BreakingEntry */
-            WriteStat3232(client, writer, 165);
+            AddStat3232(client, stats2, 165);
 
             /* Concealment */
-            WriteStat3232(client, writer, 164);
+            AddStat3232(client, stats2, 164);
 
             /* Chemistry */
-            WriteStat3232(client, writer, 163);
+            AddStat3232(client, stats2, 163);
 
             /* Psychology */
-            WriteStat3232(client, writer, 162);
+            AddStat3232(client, stats2, 162);
 
             /* ComputerLiteracy */
-            WriteStat3232(client, writer, 161);
+            AddStat3232(client, stats2, 161);
 
             /* NanoProgramming */
-            WriteStat3232(client, writer, 160);
+            AddStat3232(client, stats2, 160);
 
             /* Pharmaceuticals */
-            WriteStat3232(client, writer, 159);
+            AddStat3232(client, stats2, 159);
 
             /* WeaponSmithing */
-            WriteStat3232(client, writer, 158);
+            AddStat3232(client, stats2, 158);
 
             /* FieldQuantumPhysics */
-            WriteStat3232(client, writer, 157);
+            AddStat3232(client, stats2, 157);
 
             /* AttackSpeed */
-            WriteStat3232(client, writer, 3);
+            AddStat3232(client, stats2, 3);
 
             /* Evade */
-            WriteStat3232(client, writer, 155);
+            AddStat3232(client, stats2, 155);
 
             /* Dodge */
-            WriteStat3232(client, writer, 154);
+            AddStat3232(client, stats2, 154);
 
             /* Duck */
-            WriteStat3232(client, writer, 153);
+            AddStat3232(client, stats2, 153);
 
             /* BodyDevelopment */
-            WriteStat3232(client, writer, 152);
+            AddStat3232(client, stats2, 152);
 
             /* AimedShot */
-            WriteStat3232(client, writer, 151);
+            AddStat3232(client, stats2, 151);
 
             /* FlingShot */
-            WriteStat3232(client, writer, 150);
+            AddStat3232(client, stats2, 150);
 
             /* NanoProwessInitiative */
-            WriteStat3232(client, writer, 149);
+            AddStat3232(client, stats2, 149);
 
             /* FastAttack */
-            WriteStat3232(client, writer, 147);
+            AddStat3232(client, stats2, 147);
 
             /* SneakAttack */
-            WriteStat3232(client, writer, 146);
+            AddStat3232(client, stats2, 146);
 
             /* Parry */
-            WriteStat3232(client, writer, 145);
+            AddStat3232(client, stats2, 145);
 
             /* Dimach */
-            WriteStat3232(client, writer, 144);
+            AddStat3232(client, stats2, 144);
 
             /* Riposte */
-            WriteStat3232(client, writer, 143);
+            AddStat3232(client, stats2, 143);
 
             /* Brawl */
-            WriteStat3232(client, writer, 142);
+            AddStat3232(client, stats2, 142);
 
             /* Tutoring */
-            WriteStat3232(client, writer, 141);
+            AddStat3232(client, stats2, 141);
 
             /* Swim */
-            WriteStat3232(client, writer, 138);
+            AddStat3232(client, stats2, 138);
 
             /* Adventuring */
-            WriteStat3232(client, writer, 137);
+            AddStat3232(client, stats2, 137);
 
             /* Perception */
-            WriteStat3232(client, writer, 136);
+            AddStat3232(client, stats2, 136);
 
             /* DisarmTraps */
-            WriteStat3232(client, writer, 135);
+            AddStat3232(client, stats2, 135);
 
             /* NanoEnergyPool */
-            WriteStat3232(client, writer, 132);
+            AddStat3232(client, stats2, 132);
 
             /* MaterialLocation */
-            WriteStat3232(client, writer, 131);
+            AddStat3232(client, stats2, 131);
 
             /* MaterialCreation */
-            WriteStat3232(client, writer, 130);
+            AddStat3232(client, stats2, 130);
 
             /* PsychologicalModification */
-            WriteStat3232(client, writer, 129);
+            AddStat3232(client, stats2, 129);
 
             /* BiologicalMetamorphose */
-            WriteStat3232(client, writer, 128);
+            AddStat3232(client, stats2, 128);
 
             /* MaterialMetamorphose */
-            WriteStat3232(client, writer, 127);
+            AddStat3232(client, stats2, 127);
 
             /* ElectricalEngineering */
-            WriteStat3232(client, writer, 126);
+            AddStat3232(client, stats2, 126);
 
             /* MechanicalEngineering */
-            WriteStat3232(client, writer, 125);
+            AddStat3232(client, stats2, 125);
 
             /* Treatment */
-            WriteStat3232(client, writer, 124);
+            AddStat3232(client, stats2, 124);
 
             /* FirstAid */
-            WriteStat3232(client, writer, 123);
+            AddStat3232(client, stats2, 123);
 
             /* PhysicalProwessInitiative */
-            WriteStat3232(client, writer, 120);
+            AddStat3232(client, stats2, 120);
 
             /* DistanceWeaponInitiative */
-            WriteStat3232(client, writer, 119);
+            AddStat3232(client, stats2, 119);
 
             /* CloseCombatInitiative */
-            WriteStat3232(client, writer, 118);
+            AddStat3232(client, stats2, 118);
 
             /* AssaultRifle */
-            WriteStat3232(client, writer, 116);
+            AddStat3232(client, stats2, 116);
 
             /* Shotgun */
-            WriteStat3232(client, writer, 115);
+            AddStat3232(client, stats2, 115);
 
             /* SubMachineGun */
-            WriteStat3232(client, writer, 114);
+            AddStat3232(client, stats2, 114);
 
             /* Rifle */
-            WriteStat3232(client, writer, 113);
+            AddStat3232(client, stats2, 113);
 
             /* Pistol */
-            WriteStat3232(client, writer, 112);
+            AddStat3232(client, stats2, 112);
 
             /* Bow */
-            WriteStat3232(client, writer, 111);
+            AddStat3232(client, stats2, 111);
 
             /* ThrownGrapplingWeapons */
-            WriteStat3232(client, writer, 110);
+            AddStat3232(client, stats2, 110);
 
             /* Grenade */
-            WriteStat3232(client, writer, 109);
+            AddStat3232(client, stats2, 109);
 
             /* ThrowingKnife */
-            WriteStat3232(client, writer, 108);
+            AddStat3232(client, stats2, 108);
 
             /* 2HBluntWeapons */
-            WriteStat3232(client, writer, 107);
+            AddStat3232(client, stats2, 107);
 
             /* Piercing */
-            WriteStat3232(client, writer, 106);
+            AddStat3232(client, stats2, 106);
 
             /* 2HEdgedWeapons */
-            WriteStat3232(client, writer, 105);
+            AddStat3232(client, stats2, 105);
 
             /* MeleeEnergyWeapon */
-            WriteStat3232(client, writer, 104);
+            AddStat3232(client, stats2, 104);
 
             /* 1HEdgedWeapons */
-            WriteStat3232(client, writer, 103);
+            AddStat3232(client, stats2, 103);
 
             /* 1HBluntWeapons */
-            WriteStat3232(client, writer, 102);
+            AddStat3232(client, stats2, 102);
 
             /* MartialArts */
-            WriteStat3232(client, writer, 100);
+            AddStat3232(client, stats2, 100);
 
             /* Alignment (Clan Tokens) */
-            WriteStat3232(client, writer, 62);
+            AddStat3232(client, stats2, 62);
 
             /* MetaType (Omni Tokens) */
-            WriteStat3232(client, writer, 75);
+            AddStat3232(client, stats2, 75);
 
             /* TitleLevel */
-            WriteStat3232(client, writer, 37);
+            AddStat3232(client, stats2, 37);
 
             /* GmLevel */
-            WriteStat3232(client, writer, 215);
+            AddStat3232(client, stats2, 215);
 
             /* FireAC */
-            WriteStat3232(client, writer, 97);
+            AddStat3232(client, stats2, 97);
 
             /* PoisonAC */
-            WriteStat3232(client, writer, 96);
+            AddStat3232(client, stats2, 96);
 
             /* ColdAC */
-            WriteStat3232(client, writer, 95);
+            AddStat3232(client, stats2, 95);
 
             /* RadiationAC */
-            WriteStat3232(client, writer, 94);
+            AddStat3232(client, stats2, 94);
 
             /* ChemicalAC */
-            WriteStat3232(client, writer, 93);
+            AddStat3232(client, stats2, 93);
 
             /* EnergyAC */
-            WriteStat3232(client, writer, 92);
+            AddStat3232(client, stats2, 92);
 
             /* MeleeAC */
-            WriteStat3232(client, writer, 91);
+            AddStat3232(client, stats2, 91);
 
             /* ProjectileAC */
-            WriteStat3232(client, writer, 90);
+            AddStat3232(client, stats2, 90);
 
             /* RP */
-            WriteStat3232(client, writer, 199);
+            AddStat3232(client, stats2, 199);
 
             /* SpecialCondition */
-            WriteStat3232(client, writer, 348);
+            AddStat3232(client, stats2, 348);
 
             /* SK */
-            WriteStat3232(client, writer, 573);
+            AddStat3232(client, stats2, 573);
 
             /* Expansions */
-            WriteStat3232(client, writer, 389);
+            AddStat3232(client, stats2, 389);
 
             /* ClanRedeemed */
-            WriteStat3232(client, writer, 572);
+            AddStat3232(client, stats2, 572);
 
             /* ClanConserver */
-            WriteStat3232(client, writer, 571);
+            AddStat3232(client, stats2, 571);
 
             /* ClanDevoted */
-            WriteStat3232(client, writer, 570);
+            AddStat3232(client, stats2, 570);
 
             /* OTUnredeemed */
-            WriteStat3232(client, writer, 569);
+            AddStat3232(client, stats2, 569);
 
             /* OTOperator */
-            WriteStat3232(client, writer, 568);
+            AddStat3232(client, stats2, 568);
 
             /* OTFollowers */
-            WriteStat3232(client, writer, 567);
+            AddStat3232(client, stats2, 567);
 
             /* GOS */
-            WriteStat3232(client, writer, 566);
+            AddStat3232(client, stats2, 566);
 
             /* ClanVanguards */
-            WriteStat3232(client, writer, 565);
+            AddStat3232(client, stats2, 565);
 
             /* OTTrans */
-            WriteStat3232(client, writer, 564);
+            AddStat3232(client, stats2, 564);
 
             /* ClanGaia */
-            WriteStat3232(client, writer, 563);
+            AddStat3232(client, stats2, 563);
 
             /* OTMed*/
-            WriteStat3232(client, writer, 562);
+            AddStat3232(client, stats2, 562);
 
             /* ClanSentinels */
-            WriteStat3232(client, writer, 561);
+            AddStat3232(client, stats2, 561);
 
             /* OTArmedForces */
-            WriteStat3232(client, writer, 560);
+            AddStat3232(client, stats2, 560);
 
             /* SocialStatus */
-            WriteStat3232(client, writer, 521);
+            AddStat3232(client, stats2, 521);
 
             /* PlayerID */
-            WriteStat3232(client, writer, 607);
+            AddStat3232(client, stats2, 607);
 
             /* KilledByInvaders */
-            WriteStat3232(client, writer, 616);
+            AddStat3232(client, stats2, 616);
 
             /* InvadersKilled */
-            WriteStat3232(client, writer, 615);
+            AddStat3232(client, stats2, 615);
 
             /* AlienLevel */
-            WriteStat3232(client, writer, 169);
+            AddStat3232(client, stats2, 169);
 
             /* AlienNextXP */
-            WriteStat3232(client, writer, 178);
+            AddStat3232(client, stats2, 178);
 
             /* AlienXP */
-            WriteStat3232(client, writer, 40);
+            AddStat3232(client, stats2, 40);
+
+            fc.Stats2 = stats2.ToArray();
+
             #endregion
 
             #region Data08 (Stats 3) (8bit - 8bit)
-            /* number of entries */
-            writer.Push3F1Count(8);
 
             /* Byte stat number
                Byte stat value */
+            var stats3 = new List<GameTuple<byte, byte>>();
 
             /* InsurancePercentage */
-            WriteStat88(client, writer, 236);
+            AddStat88(client, stats3, 236);
 
             /* ProfessionLevel */
-            WriteStat88(client, writer, 10);
+            AddStat88(client, stats3, 10);
 
             /* PrevMovementMode */
-            WriteStat88(client, writer, 174);
+            AddStat88(client, stats3, 174);
 
             /* CurrentMovementMode */
-            WriteStat88(client, writer, 173);
+            AddStat88(client, stats3, 173);
 
             /* Fatness */
-            WriteStat88(client, writer, 47);
+            AddStat88(client, stats3, 47);
 
             /* Race */
-            WriteStat88(client, writer, 89);
+            AddStat88(client, stats3, 89);
 
             /* TeamSide */
-            WriteStat88(client, writer, 213);
+            AddStat88(client, stats3, 213);
 
             /* BeltSlots */
-            WriteStat88(client, writer, 45);
+            AddStat88(client, stats3, 45);
+
+            fc.Stats3 = stats3.ToArray();
+
             #endregion
 
             #region Data09 (Stats 4) (8bit - 16bit)
-            /* number of stats */
-            writer.Push3F1Count(16);
 
             /* Byte stat number
                Int16 (short) stat value */
+            var stats4 = new List<GameTuple<byte, short>>();
 
             /* AbsorbProjectileAC */
-            WriteStat816(client, writer, 238);
+            AddStat816(client, stats4, 238);
 
             /* AbsorbMeleeAC */
-            WriteStat816(client, writer, 239);
+            AddStat816(client, stats4, 239);
 
             /* AbsorbEnergyAC */
-            WriteStat816(client, writer, 240);
+            AddStat816(client, stats4, 240);
 
             /* AbsorbChemicalAC */
-            WriteStat816(client, writer, 241);
+            AddStat816(client, stats4, 241);
 
             /* AbsorbRadiationAC */
-            WriteStat816(client, writer, 242);
+            AddStat816(client, stats4, 242);
 
             /* AbsorbColdAC */
-            WriteStat816(client, writer, 243);
+            AddStat816(client, stats4, 243);
 
             /* AbsorbNanoAC */
-            WriteStat816(client, writer, 246);
+            AddStat816(client, stats4, 246);
 
             /* AbsorbFireAC */
-            WriteStat816(client, writer, 244);
+            AddStat816(client, stats4, 244);
 
             /* AbsorbPoisonAC */
-            WriteStat816(client, writer, 245);
+            AddStat816(client, stats4, 245);
 
             /* TemporarySkillReduction */
-            WriteStat816(client, writer, 247);
+            AddStat816(client, stats4, 247);
 
             /* InsuranceTime */
-            WriteStat816(client, writer, 49);
+            AddStat816(client, stats4, 49);
 
             /* CurrentNano */
-            WriteStat816(client, writer, 214);
+            AddStat816(client, stats4, 214);
 
             /* MaxNanoEnergy */
-            WriteStat816(client, writer, 221);
+            AddStat816(client, stats4, 221);
 
             /* MaxNCU */
-            WriteStat816(client, writer, 181);
+            AddStat816(client, stats4, 181);
 
             /* MapFlags */
-            WriteStat816(client, writer, 9);
+            AddStat816(client, stats4, 9);
 
             /* ChangeSideCount */
-            WriteStat816(client, writer, 237);
+            AddStat816(client, stats4, 237);
+
+            fc.Stats4 = stats4.ToArray();
+
             #endregion
 
             /* ? */
-            writer.PushInt(0);
+            fc.Unknown9 = 0;
+
             /* ? */
-            writer.PushInt(0);
+            fc.Unknown10 = 0;
 
             #region Data10 (Empty)
-            /* number of entries */
-            writer.Push3F1Count(0);
+
+            fc.Unknown11 = new object[0];
+
             #endregion
 
             #region Data11 (Empty)
-            /* number of entries */
-            writer.Push3F1Count(0);
+
+            fc.Unknown12 = new object[0];
+
             #endregion
 
             #region Data12 (Empty)
-            /* number of entries */
-            writer.Push3F1Count(0);
+
+            fc.Unknown13 = new object[0];
+
             #endregion
 
-            byte[] reply = writer.Finish();
-            client.SendCompressed(reply);
+            client.SendCompressed(0x00000C0E, client.Character.Id, fc);
         }
+
+        #endregion
+
+        #region Methods
+
+        private static void AddStat3232(Client client, IList<GameTuple<int, uint>> list, int statId)
+        {
+            var tuple = new GameTuple<int, uint>
+                            {
+                                Value1 = statId, 
+                                Value2 = client.Character.Stats.GetBaseValue(statId)
+                            };
+
+            list.Add(tuple);
+        }
+
+        private static void AddStat816(Client client, IList<GameTuple<byte, short>> list, int statId)
+        {
+            if (statId > 255)
+            {
+                Console.WriteLine("AddStat816 statId(" + statId + ") > 255");
+            }
+
+            var tuple = new GameTuple<byte, short>
+                            {
+                                Value1 = (byte)statId, 
+                                Value2 = (short)client.Character.Stats.GetBaseValue(statId)
+                            };
+
+            list.Add(tuple);
+        }
+
+        private static void AddStat88(Client client, IList<GameTuple<byte, byte>> list, int statId)
+        {
+            if (statId > 255)
+            {
+                Console.WriteLine("AddStat88 statId(" + statId + ") > 255");
+            }
+
+            var tuple = new GameTuple<byte, byte>
+                            {
+                                Value1 = (byte)statId, 
+                                Value2 = (byte)client.Character.Stats.GetBaseValue(statId)
+                            };
+
+            list.Add(tuple);
+        }
+
+        #endregion
     }
 }
