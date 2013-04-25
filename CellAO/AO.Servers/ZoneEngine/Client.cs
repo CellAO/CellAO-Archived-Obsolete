@@ -1,15 +1,15 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Client.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
-//   
+// 
 //   All rights reserved.
-//   
+// 
 //   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-//   
+// 
 //       * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 //       * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 //       * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-//   
+// 
 //   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 //   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 //   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -91,7 +91,7 @@ namespace ZoneEngine
 
         public Client(Server srvr, IMessageSerializer messageSerializer, IBus bus)
             : base(srvr)
-        {
+            {
             this.messageSerializer = messageSerializer;
             this.bus = bus;
         }
@@ -102,16 +102,16 @@ namespace ZoneEngine
         #region Public Methods and Operators
 
         public void AddCoreTimer(int strain, DateTime time, AOFunctions aof)
-        {
+                    {
             var newCoretimer = new AOTimers();
             newCoretimer.Function = aof;
             newCoretimer.Timestamp = time;
             newCoretimer.Strain = strain;
             this.CoreTimers.Add(newCoretimer);
-        }
+                    }
 
         public void CancelLogOut()
-        {
+                    {
             LogoutTimer.Enabled = false;
             var stopLogout = new PacketWriter();
 
@@ -139,10 +139,10 @@ namespace ZoneEngine
             stopLogout.PushShort(0);
             var stoplogOutPacket = stopLogout.Finish();
             this.SendCompressed(stoplogOutPacket);
-        }
+                    }
 
         public override void Cleanup()
-        {
+                    {
             base.Cleanup();
 
             // AH FINALLY, Man, get some NORMAL names (OnDisconnect maybe?).
@@ -152,10 +152,10 @@ namespace ZoneEngine
                 if (this == c)
                 {
                     continue;
-                }
+                    }
 
                 if (c.Character != null)
-                {
+                    {
                     if (c.Character.Id == this.Character.Id)
                     {
                         foundnextclient = true;
@@ -165,11 +165,11 @@ namespace ZoneEngine
             }
 
             if (!foundnextclient)
-            {
+                    {
                 var charS = new CharStatus();
                 charS.SetOffline(this.Character.Id);
             }
-        }
+                    }
 
         public void PurgeCoreTimer(int strain)
         {
@@ -177,13 +177,13 @@ namespace ZoneEngine
             while (c >= 0)
             {
                 if (this.CoreTimers[c].Strain == strain)
-                {
+                    {
                     this.CoreTimers.RemoveAt(c);
                 }
 
                 c--;
             }
-        }
+                    }
 
         public void Send(int sender, int receiver, MessageBody messageBody)
         {
@@ -198,7 +198,7 @@ namespace ZoneEngine
                                               Unknown = 0x0001, 
                                               Sender = sender, 
                                               Receiver = receiver
-                                          }
+            }
                               };
 
             var buffer = this.messageSerializer.Serialize(message);
@@ -332,7 +332,7 @@ namespace ZoneEngine
                 }
                  */
             }
-        }
+                            }
 
         public bool SendFeedback(int MsgCategory, int MsgNum)
         {
@@ -416,7 +416,14 @@ namespace ZoneEngine
             writer.PushIdentity(51100, playfield);
             writer.PushInt(0);
             writer.PushInt(0);
+            if (playfield != this.Character.PlayField)
+            {
             writer.PushIdentity(40016, playfield);
+            }
+            else
+            {
+                writer.PushIdentity(0, 0);
+            }
             writer.PushInt(0);
             writer.PushInt(0);
             writer.PushIdentity(100001, playfield);
@@ -434,6 +441,10 @@ namespace ZoneEngine
             this.Character.StopMovement();
             this.Character.RawCoord = destination;
             this.Character.RawHeading = heading;
+            if (playfield == this.Character.PlayField)
+            {
+                return true;
+            }
             this.Character.PlayField = playfield;
             this.Character.Purge(); // Purge character information to DB before client reconnect
 
@@ -472,13 +483,13 @@ namespace ZoneEngine
         }
 
         public bool TeleportProxy(
-            AOCoord destination, 
-            Quaternion heading, 
-            int playfield, 
-            Identity pfinstance, 
-            int GS, 
-            int SG, 
-            Identity R, 
+            AOCoord destination,
+            Quaternion heading,
+            int playfield,
+            Identity pfinstance,
+            int GS,
+            int SG,
+            Identity R,
             Identity dest)
         {
             var writer = new PacketWriter();
@@ -657,7 +668,7 @@ namespace ZoneEngine
 
             Message message = null;
             try
-            {
+        {
                 message = this.messageSerializer.Deserialize(packet);
             }
             catch (Exception)
@@ -703,7 +714,7 @@ namespace ZoneEngine
                         // N3Message
                         N3Message.Parse(this, packet, id);
                         break;
-                    }
+        }
 
                 case 0x0B:
                     {
@@ -712,7 +723,7 @@ namespace ZoneEngine
                     }
 
                 case 0x0E:
-                    {
+        {
                         // OperatorMessage
                         break;
                     }
@@ -733,7 +744,7 @@ namespace ZoneEngine
 
         // Called after 30 second timer elapses
         private void LogOut(object sender, ElapsedEventArgs e)
-        {
+            {
             this.Server.DisconnectClient(this);
         }
 
