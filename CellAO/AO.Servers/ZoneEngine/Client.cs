@@ -416,14 +416,7 @@ namespace ZoneEngine
             writer.PushIdentity(51100, playfield);
             writer.PushInt(0);
             writer.PushInt(0);
-            if (playfield == this.Character.PlayField)
-            {
-                writer.PushIdentity(0, 0);
-            }
-            else
-            {
-                writer.PushIdentity(40016, playfield);
-            }
+            writer.PushIdentity(40016, playfield);
             writer.PushInt(0);
             writer.PushInt(0);
             writer.PushIdentity(100001, playfield);
@@ -441,43 +434,40 @@ namespace ZoneEngine
             this.Character.StopMovement();
             this.Character.RawCoord = destination;
             this.Character.RawHeading = heading;
-            if (this.Character.PlayField != playfield)
-            {
-                this.Character.PlayField = playfield;
-                this.Character.Purge(); // Purge character information to DB before client reconnect
+            this.Character.PlayField = playfield;
+            this.Character.Purge(); // Purge character information to DB before client reconnect
 
-                IPAddress tempIP;
-                if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
+            IPAddress tempIP;
+            if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
+            {
+                var zoneHost = Dns.GetHostEntry(Config.Instance.CurrentConfig.ZoneIP);
+                foreach (var ip in zoneHost.AddressList)
                 {
-                    var zoneHost = Dns.GetHostEntry(Config.Instance.CurrentConfig.ZoneIP);
-                    foreach (var ip in zoneHost.AddressList)
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        if (ip.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            tempIP = ip;
-                            break;
-                        }
+                        tempIP = ip;
+                        break;
                     }
                 }
-
-                var zoneIP = IPAddress.HostToNetworkOrder(BitConverter.ToInt32(tempIP.GetAddressBytes(), 0));
-                var zonePort = Convert.ToInt16(Config.Instance.CurrentConfig.ZonePort);
-
-                Thread.Sleep(1000);
-                var writer2 = new PacketWriter();
-                writer2.PushByte(0xDF);
-                writer2.PushByte(0xDF);
-                writer2.PushShort(1);
-                writer2.PushShort(1);
-                writer2.PushShort(0);
-                writer2.PushInt(3086);
-                writer2.PushInt(this.Character.Id);
-                writer2.PushInt(60);
-                writer2.PushInt(zoneIP);
-                writer2.PushShort(zonePort);
-                var connect = writer2.Finish();
-                this.SendCompressed(connect);
             }
+
+            var zoneIP = IPAddress.HostToNetworkOrder(BitConverter.ToInt32(tempIP.GetAddressBytes(), 0));
+            var zonePort = Convert.ToInt16(Config.Instance.CurrentConfig.ZonePort);
+
+            Thread.Sleep(1000);
+            var writer2 = new PacketWriter();
+            writer2.PushByte(0xDF);
+            writer2.PushByte(0xDF);
+            writer2.PushShort(1);
+            writer2.PushShort(1);
+            writer2.PushShort(0);
+            writer2.PushInt(3086);
+            writer2.PushInt(this.Character.Id);
+            writer2.PushInt(60);
+            writer2.PushInt(zoneIP);
+            writer2.PushShort(zonePort);
+            var connect = writer2.Finish();
+            this.SendCompressed(connect);
             return true;
         }
 
