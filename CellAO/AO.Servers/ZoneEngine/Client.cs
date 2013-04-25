@@ -459,7 +459,14 @@ namespace ZoneEngine
             writer.PushIdentity(51100, playfield);
             writer.PushInt(0);
             writer.PushInt(0);
-            writer.PushIdentity(40016, playfield);
+            if (playfield != this.Character.PlayField)
+            {
+                writer.PushIdentity(40016, playfield);
+            }
+            else
+            {
+                writer.PushIdentity(0, 0);
+            }
             writer.PushInt(0);
             writer.PushInt(0);
             writer.PushIdentity(100001, playfield);
@@ -477,6 +484,10 @@ namespace ZoneEngine
             this.Character.StopMovement();
             this.Character.RawCoord = destination;
             this.Character.RawHeading = heading;
+            if (playfield == this.Character.PlayField)
+            {
+                return true;
+            }
             this.Character.PlayField = playfield;
             this.Character.Purge(); // Purge character information to DB before client reconnect
 
