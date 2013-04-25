@@ -64,12 +64,12 @@ namespace ZoneEngine.Packets
                                       new[] { new StatValue { Stat = (CharacterStat)stat, Value = value } }
                               };
 
-            client.SendCompressed(3086, client.Character.Id, message);
+            client.SendCompressed(0x00000C0E, client.Character.Id, message);
 
             /* announce to playfield? */
             if (announce)
             {
-                Announce.PlayfieldOthers(client, 3086, message);
+                Announce.PlayfieldOthers(client, 0x00000C0E, message);
             }
         }
 
@@ -115,7 +115,7 @@ namespace ZoneEngine.Packets
                                   Stats = stats.ToArray()
                               };
 
-            Announce.PlayfieldOthers(ch.PlayField, 3086, message);
+            Announce.PlayfieldOthers(ch.PlayField, 0x00000C0E, message);
         }
 
         public static void SendBulk(Client client, Dictionary<int, uint> statsToUpdate)
@@ -165,7 +165,7 @@ namespace ZoneEngine.Packets
             if (toPlayfieldIds.Count > 0)
             {
                 message.Stats = toPlayfield.ToArray();
-                Announce.PlayfieldOthers(client, 3086, message);
+                Announce.PlayfieldOthers(client, 0x00000C0E, message);
             }
         }
 

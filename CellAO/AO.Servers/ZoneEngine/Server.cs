@@ -77,7 +77,6 @@ namespace ZoneEngine
         public Server(ClientFactory clientFactory)
         {
             this.clientFactory = clientFactory;
-            this.SystemMessageHandler = new SystemMessage();
             this.TextMessageHandler = new TextMessage();
 
             // TODO: Add Ping Message Handler Construction

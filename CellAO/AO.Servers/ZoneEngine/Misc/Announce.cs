@@ -113,6 +113,24 @@ namespace ZoneEngine.Misc
             }
         }
 
+        public static void Playfield(int sendToPlayfield, int sender, MessageBody message)
+        {
+            lock (Program.zoneServer.Clients)
+            {
+                for (var i = Program.zoneServer.Clients.Count - 1; i >= 0; i--)
+                {
+                    var tempClient = (Client)Program.zoneServer.Clients[i];
+
+                    if (tempClient.Character.PlayField != sendToPlayfield)
+                    {
+                        continue;
+                    }
+
+                    tempClient.SendCompressed(sender, tempClient.Character.Id, message);
+                }
+            }
+        }
+
         public static void PlayfieldOthers(Client client, byte[] data)
         {
             foreach (Client tempClient in Program.zoneServer.Clients)
