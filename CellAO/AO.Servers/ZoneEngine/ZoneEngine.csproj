@@ -255,6 +255,7 @@
     <Compile Include="Functions\waypoint.cs" />
     <Compile Include="Functions\weaponeffectcolor.cs" />
     <Compile Include="InventoryEntries.cs" />
+    <Compile Include="MessageHandlers\TextHandler.cs" />
     <Compile Include="MessageHandlers\ZoneLoginHandler.cs" />
     <Compile Include="Misc\Announce.cs" />
     <Compile Include="Collision\BorderlineCheck.cs" />
@@ -326,8 +327,6 @@
     <Compile Include="Packets\SwitchItem.cs" />
     <Compile Include="Packets\Unequip.cs" />
     <Compile Include="PacketHandlers\SocialActionCmd.cs" />
-    <Compile Include="PacketHandlers\SystemMessage.cs" />
-    <Compile Include="PacketHandlers\TextMessage.cs" />
     <Compile Include="PacketHandlers\Vicinity.cs" />
     <Compile Include="Packets\ChatServerInfo.cs" />
     <Compile Include="Packets\FullCharacter.cs" />

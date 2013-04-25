@@ -212,7 +212,7 @@ namespace ZoneEngine
             packet[0] = pn[1];
             packet[1] = pn[0];
 
-            base.Send(packet);
+            this.Send(packet);
         }
 
         public bool SendChatText(string Text)
@@ -698,20 +698,6 @@ namespace ZoneEngine
 
             switch (type)
             {
-                case 0x01:
-                    {
-                        // SystemMessage
-                        Program.zoneServer.SystemMessageHandler.Parse(this, packet, id);
-                        break;
-                    }
-
-                case 0x05:
-                    {
-                        // TextMessage
-                        Program.zoneServer.TextMessageHandler.Parse(this, packet, id);
-                        break;
-                    }
-
                 case 0x0A:
                     {
                         // N3Message
