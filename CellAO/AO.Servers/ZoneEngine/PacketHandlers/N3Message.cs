@@ -367,7 +367,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x52526858:
                     //GenericCmd
-                    GenericCmd.Read(packet, client, dynel);
                     break;
                 case 0x5266632a:
                     //PathMoveCmd

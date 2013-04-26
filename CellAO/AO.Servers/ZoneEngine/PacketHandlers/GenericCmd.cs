@@ -1,129 +1,71 @@
-﻿#region License
-
-// Copyright (c) 2005-2012, CellAO Team
-// All rights reserved.
-// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#endregion
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="GenericCmd.cs" company="CellAO Team">
+//   Copyright © 2005-2013 CellAO Team.
+//   
+//   All rights reserved.
+//   
+//   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//   
+//       * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//       * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//       * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//   
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+//   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+//   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+//   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+//   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+//   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+//   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+//   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// </copyright>
+// <summary>
+//   Defines the GenericCmd type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ZoneEngine.PacketHandlers
 {
-    #region Usings ...
-
     using System;
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
+
     using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Packets;
 
-    #endregion
-
-    /// <summary>
-    /// The generic cmd.
-    /// </summary>
     public static class GenericCmd
     {
-        #region Static Fields
-
-        /// <summary>
-        /// The action.
-        /// </summary>
-        private static int action;
-
-        /// <summary>
-        /// The count.
-        /// </summary>
-        private static int count;
-
-        /// <summary>
-        /// The sender.
-        /// </summary>
-        private static Client sender;
-
-        /// <summary>
-        /// The target.
-        /// </summary>
-        private static Identity target;
-
-        /// <summary>
-        /// The temp 1.
-        /// </summary>
-        private static int temp1;
-
-        /// <summary>
-        /// The temp 4.
-        /// </summary>
-        private static int temp4;
-
-        /// <summary>
-        /// The user.
-        /// </summary>
-        private static Identity user;
-
-        #endregion
-
         #region Public Methods and Operators
 
-        /// <summary>
-        /// The read.
-        /// </summary>
-        /// <param name="packet">
-        /// The packet.
-        /// </param>
-        /// <param name="client">
-        /// The client.
-        /// </param>
-        /// <param name="dynel">
-        /// The dynel.
-        /// </param>
-        public static void Read(byte[] packet, Client client, Dynel dynel)
+        public static void Read(GenericCmdMessage message, Client client)
         {
-            sender = client;
-            PacketReader packetReader = new PacketReader(packet);
-            packetReader.PopHeader();
-            packetReader.PopByte();
-            temp1 = packetReader.PopInt();
-            count = packetReader.PopInt(); // Count of commands sent
-            action = packetReader.PopInt();
-            temp4 = packetReader.PopInt();
-            user = packetReader.PopIdentity();
-            target = packetReader.PopIdentity();
-            packetReader.Finish();
-            bool feedback = true;
-            switch (action)
+            var sender = client;
+            var target = new Identity { Type = (int)message.Target.IdentityType, Instance = message.Target.Instance };
+            var feedback = true;
+            switch (message.Action)
             {
-                case 1:
+                case GenericCmdAction.Get:
 
                     // Get
                     break;
-                case 2:
+                case GenericCmdAction.Drop:
 
                     // Drop
                     break;
-                case 3:
+                case GenericCmdAction.Use:
 
                     // Use
-                    OnUse();
-                    AOCoord newcoord = client.Character.Coordinates;
+                    var newcoord = client.Character.Coordinates;
                     feedback = false;
 
                     if (Statels.StatelppfonUse.ContainsKey(client.Character.PlayField))
                     {
-                        foreach (Statels.Statel s in Statels.StatelppfonUse[client.Character.PlayField])
+                        foreach (var s in Statels.StatelppfonUse[client.Character.PlayField])
                         {
                             if (s.onUse(client, target))
                             {
@@ -132,8 +74,8 @@ namespace ZoneEngine.PacketHandlers
                         }
                     }
 
-                    bool teleport = false;
-                    int playfield = 152;
+                    var teleport = false;
+                    var playfield = 152;
                     switch (target.Instance)
                     {
                             // Need to add feedback to the character 
@@ -324,8 +266,8 @@ namespace ZoneEngine.PacketHandlers
                     // Use item in inventory
                     if (target.Type == 104)
                     {
-                        InventoryEntries ie = client.Character.GetInventoryAt(target.Instance);
-                        AOItem mi = ItemHandler.GetItemTemplate(ie.Item.LowID);
+                        var ie = client.Character.GetInventoryAt(target.Instance);
+                        var mi = ItemHandler.GetItemTemplate(ie.Item.LowID);
 
                         // TODO mi.applyon(client.Character, ItemHandler.eventtype_onuse, true, false, ie.Placement);
                         TemplateAction.Send(client.Character, ie);
@@ -341,7 +283,7 @@ namespace ZoneEngine.PacketHandlers
                             }
                         }
 
-                        foreach (AOEvents aoe in mi.Events)
+                        foreach (var aoe in mi.Events)
                         {
                             if (aoe.EventType == Constants.EventtypeOnUse)
                             {
@@ -354,27 +296,19 @@ namespace ZoneEngine.PacketHandlers
                             }
                         }
 
-                        int le = packet[7] + packet[6] * 256;
-                        byte[] reply = new byte[le];
-                        Array.Copy(packet, reply, le);
-                        reply[0] = 0xdf;
-                        reply[1] = 0xdf;
-                        reply[8] = 0x00;
-                        reply[9] = 0x00;
-                        reply[10] = 0x0C;
-                        reply[11] = 0x0E;
-                        reply[12] = (byte)(client.Character.Id >> 24);
-                        reply[13] = (byte)(client.Character.Id >> 16);
-                        reply[14] = (byte)(client.Character.Id >> 8);
-                        reply[15] = (byte)client.Character.Id;
-                        reply[0x1c] = 0;
-                        reply[32] = 1;
-                        reply[36] = 3;
+                        var useReply = new GenericCmdMessage
+                                           {
+                                               Identity = message.Identity, 
+                                               Unknown = 0x00, 
+                                               Action = message.Action, 
+                                               Count = 3, 
+                                               Target = message.Target, 
+                                               Temp1 = 1, 
+                                               Temp4 = message.Temp4, 
+                                               User = message.User
+                                           };
 
-                        PacketWriter pw = new PacketWriter();
-                        pw.PushBytes(reply);
-                        byte[] rep = pw.Finish();
-                        client.SendCompressed(rep);
+                        client.SendCompressed(0x00000C0E, client.Character.Id, useReply);
                         SkillUpdate.SendStat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
 
                         // Social Status
@@ -383,33 +317,26 @@ namespace ZoneEngine.PacketHandlers
                     else if (target.Type == 51035)
                     {
                         // Shops
-                        VendingMachine vm = VendorHandler.GetVendorById(target.Instance);
+                        var vm = VendorHandler.GetVendorById(target.Instance);
                         ShopInventory.Send(client, vm);
                         Trade.Send(client, client.Character, vm);
                         Trade.Send(client, vm, client.Character);
                         Trade.Send(client, vm, client.Character);
-                        int le = packet[7] + packet[6] * 256;
-                        byte[] reply = new byte[le];
-                        Array.Copy(packet, reply, le);
-                        reply[0] = 0xdf;
-                        reply[1] = 0xdf;
-                        reply[8] = 0x00;
-                        reply[9] = 0x00;
-                        reply[10] = 0x0C;
-                        reply[11] = 0x0E;
-                        reply[12] = (byte)(client.Character.Id >> 24);
-                        reply[13] = (byte)(client.Character.Id >> 16);
-                        reply[14] = (byte)(client.Character.Id >> 8);
-                        reply[15] = (byte)client.Character.Id;
-                        reply[0x1c] = 0;
-                        reply[0x20] = 1;
+
+                        var shopReply = new GenericCmdMessage
+                                            {
+                                                Identity = message.Identity, 
+                                                Unknown = 0x00, 
+                                                Action = message.Action, 
+                                                Count = message.Count, 
+                                                Target = message.Target, 
+                                                Temp1 = 1, 
+                                                Temp4 = message.Temp4, 
+                                                User = message.User
+                                            };
 
                         client.Character.LastTrade = target;
-
-                        PacketWriter pw = new PacketWriter();
-                        pw.PushBytes(reply);
-                        byte[] rep = pw.Finish();
-                        client.SendCompressed(rep);
+                        client.SendCompressed(0x00000C0E, client.Character.Id, shopReply);
                     }
                     else if (target.Type == 51050)
                     {
@@ -417,37 +344,26 @@ namespace ZoneEngine.PacketHandlers
                     }
 
                     break;
-                case 4:
+                case GenericCmdAction.Repair:
 
                     // Repair
                     break;
-                case 5:
+                case GenericCmdAction.UseItemOnItem:
 
                     // UseItemOnItem
 #if DEBUG
                     Console.WriteLine("Use Item on Item not defined yet");
                     Console.WriteLine("Packet data:");
-                    string line = string.Empty;
-                    int count2 = 0;
-                    foreach (byte packbyte in packet)
-                    {
-                        if ((count2 % 16) == 0)
-                        {
-                            Console.WriteLine(line);
-                            line = string.Empty;
-                        }
-
-                        line = line + packbyte.ToString("X2") + " ";
-                        count2++;
-                    }
-
-                    if (line != string.Empty)
-                    {
-                        Console.WriteLine();
-                    }
-
-                    Console.WriteLine(line);
-
+                    Console.WriteLine(
+                        "Action: {0} Count: {1} Target: ({2}, {3}), User: ({4}, {5}), Temp1: {6}, Temp4: {7}", 
+                        message.Action, 
+                        message.Count, 
+                        message.Target.IdentityType, 
+                        message.Target.Instance, 
+                        message.User.IdentityType, 
+                        message.User.Instance, 
+                        message.Temp1, 
+                        message.Temp4);
 #endif
                     break;
                 default:
@@ -457,11 +373,12 @@ namespace ZoneEngine.PacketHandlers
             if (feedback)
             {
 #if DEBUG
-                string Feedback1 = string.Format("T1 {0}, Count {1}, Action {2}, T4 {3}", temp1, count, action, temp4);
-                string Feedback2 = string.Format(
+                var Feedback1 = string.Format(
+                    "T1 {0}, Count {1}, Action {2}, T4 {3}", message.Temp1, message.Count, message.Action, message.Temp4);
+                var Feedback2 = string.Format(
                     "User {0}:{1}, Target {2}:{3} ({4}:{5})", 
-                    user.Type, 
-                    user.Instance, 
+                    message.User.IdentityType, 
+                    message.User.Instance, 
                     target.Type, 
                     (uint)target.Instance, 
                     target.Type.ToString("X4"), 
@@ -469,7 +386,7 @@ namespace ZoneEngine.PacketHandlers
                 Statels.Statel b = null;
                 if (Statels.Statelppf.ContainsKey(client.Character.PlayField))
                 {
-                    foreach (Statels.Statel z in Statels.Statelppf[client.Character.PlayField])
+                    foreach (var z in Statels.Statelppf[client.Character.PlayField])
                     {
                         if ((z.Type == target.Type) && ((Int32)z.Instance == target.Instance))
                         {
@@ -481,7 +398,7 @@ namespace ZoneEngine.PacketHandlers
 
                 if (b != null)
                 {
-                    foreach (Statels.StatelEvent e in b.Events)
+                    foreach (var e in b.Events)
                     {
                         Console.WriteLine("DebugOutput: \r\n" + e);
                     }
@@ -499,367 +416,6 @@ namespace ZoneEngine.PacketHandlers
                 client.SendChatText(Feedback2);
 #endif
             }
-        }
-
-        /// <summary>
-        /// The reply.
-        /// </summary>
-        public static void Reply()
-        {
-            PacketWriter writer = new PacketWriter();
-            writer.PushBytes(new byte[] { 0xDF, 0xDF });
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(sender.Character.Id);
-            writer.PushInt(0x52526858);
-            writer.PushIdentity(user);
-            writer.PushByte(0);
-            writer.PushInt(1);
-            writer.PushInt(count);
-            writer.PushInt(action);
-            writer.PushInt(temp4);
-            writer.PushIdentity(user);
-            writer.PushIdentity(target);
-            byte[] reply = writer.Finish();
-            sender.SendCompressed(reply);
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// The on use.
-        /// </summary>
-        private static void OnUse()
-        {
-            uint _t_instance = BitConverter.ToUInt32(BitConverter.GetBytes(target.Instance), 0);
-
-            // LuaInterface.LuaTable tbl = Program.Script.GetLua().GetTable("PlayfieldSettings");
-            /* Removed Lua Hook, Just reply
-            bool result = Program.Script.CallHook("OnUse", _sender.Character.PlayField, _sender, _target, _t_instance);
-            if (result == true)
-            {*/
-            Reply();
-
-            // }
-
-            /*switch (_sender.Character.pf)
-            {
-                case 500:
-                    // Soldier
-                    if ((_target.Type == 51005) && (_t_instance == 3222340084))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 1);
-                            _sender.Character.Stats.SetStat(368, 1);
-                            Reply();
-                        }
-                    }
-                    // Martial Artist
-                    if ((_target.Type == 51005) && (_t_instance == 3222405620))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 2);
-                            _sender.Character.Stats.SetStat(368, 2);
-                            Reply();
-                        }
-                    }
-                    // Engineer
-                    if ((_target.Type == 51005) && (_t_instance == 3222471156))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 3);
-                            _sender.Character.Stats.SetStat(368, 3);
-                            Reply();
-                        }
-                    }
-                    // Fixer 
-                    if ((_target.Type == 51005) && (_t_instance == 3222536692))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 4);
-                            _sender.Character.Stats.SetStat(368, 4);
-                            Reply();
-                        }
-                    }
-                    // Agent
-                    if ((_target.Type == 51005) && (_t_instance == 3222602228))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 5);
-                            _sender.Character.Stats.SetStat(368, 5);
-                            Reply();
-                        }
-                    }
-                    // Adventurer
-                    if ((_target.Type == 51005) && (_t_instance == 3222667764))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 6);
-                            _sender.Character.Stats.SetStat(368, 6);
-                            Reply();
-                        }
-                    }
-                    // Trader
-                    if ((_target.Type == 51005) && (_t_instance == 3222733300))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 7);
-                            _sender.Character.Stats.SetStat(368, 7);
-                            Reply();
-                        }
-                    }
-                    // Bureaucrat
-                    if ((_target.Type == 51005) && (_t_instance == 3222798836))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 8);
-                            _sender.Character.Stats.SetStat(368, 8);
-                            Reply();
-                        }
-                    }
-                    // Enforcer
-                    if ((_target.Type == 51005) && (_t_instance == 3222864372))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 9);
-                            _sender.Character.Stats.SetStat(368, 9);
-                            Reply();
-                        }
-                    }
-                    // Doctor
-                    if ((_target.Type == 51005) && (_t_instance == 3222929908))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 10);
-                            _sender.Character.Stats.SetStat(368, 10);
-                            Reply();
-                        }
-                    }
-                    // Nano Techician
-                    if ((_target.Type == 51005) && (_t_instance == 3222995444))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 11);
-                            _sender.Character.Stats.SetStat(368, 11);
-                            Reply();
-                        }
-                    }
-                    // Meta Phycisist
-                    if ((_target.Type == 51005) && (_t_instance == 3223060980))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 12);
-                            _sender.Character.Stats.SetStat(368, 12);
-                            Reply();
-                        }
-                    }
-                    // Shade
-                    if ((_target.Type == 51005) && (_t_instance == 3223323124))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 15);
-                            _sender.Character.Stats.SetStat(368, 15);
-                            Reply();
-                        }
-                    }
-                    // Keeper
-                    if ((_target.Type == 51005) && (_t_instance == 3223388660))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(60, 14);
-                            _sender.Character.Stats.SetStat(368, 14);
-                            Reply();
-                        }
-                    }
-                    // Neutral
-                    if ((_target.Type == 51005) && (_t_instance == 3223126516))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(33, 0);
-                            Reply();
-                        }
-                    }
-                    // Clan
-                    if ((_target.Type == 51005) && (_t_instance == 3223192052))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(33, 1);
-                            Reply();
-                        }
-                    }
-                    // Omni-Tek
-                    if ((_target.Type == 51005) && (_t_instance == 3223257588))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(33, 2);
-                            Reply();
-                        }
-                    }
-
-                    // Nano Male
-                    if ((_target.Type == 51005) && (_t_instance == 3221553652))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(367, 3);
-                            _sender.Character.Stats.SetStat(369, 2);
-                            _sender.Character.Stats.SetStat(59, 2);
-                            _sender.Character.Stats.SetStat(4, 3);
-                            Reply();
-                        }
-                    }
-                    // Nano Female
-                    if ((_target.Type == 51005) && (_t_instance == 3221619188))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(367, 3);
-                            _sender.Character.Stats.SetStat(369, 3);
-                            _sender.Character.Stats.SetStat(59, 3);
-                            _sender.Character.Stats.SetStat(4, 3);
-                            Reply();
-                        }
-                    }
-                    // Atrox
-                    if ((_target.Type == 51005) && (_t_instance == 3221684724))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(367, 4);
-                            _sender.Character.Stats.SetStat(369, 1);
-                            _sender.Character.Stats.SetStat(59, 1);
-                            _sender.Character.Stats.SetStat(4, 4);
-                            Reply();
-                        }
-                    }
-                    // Opifex Female
-                    if ((_target.Type == 51005) && (_t_instance == 3221488116))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(367, 2);
-                            _sender.Character.Stats.SetStat(369, 3);
-                            _sender.Character.Stats.SetStat(59, 3);
-                            _sender.Character.Stats.SetStat(4, 2);
-                            Reply();
-                        }
-                    }
-                    // Opifex Male
-                    if ((_target.Type == 51005) && (_t_instance == 3221422580))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(367, 2);
-                            _sender.Character.Stats.SetStat(369, 2);
-                            _sender.Character.Stats.SetStat(59, 2);
-                            _sender.Character.Stats.SetStat(4, 2);
-                            Reply();
-                        }
-                    }
-                    // Solitus Female
-                    if ((_target.Type == 51005) && (_t_instance == 3221357044))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(367, 1);
-                            _sender.Character.Stats.SetStat(369, 3);
-                            _sender.Character.Stats.SetStat(59, 3);
-                            _sender.Character.Stats.SetStat(4, 1);
-                            Reply();
-                        }
-                    }
-                    // Solitus Male
-                    if ((_target.Type == 51005) && (_t_instance == 3221291508))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(367, 1);
-                            _sender.Character.Stats.SetStat(369, 2);
-                            _sender.Character.Stats.SetStat(59, 2);
-                            _sender.Character.Stats.SetStat(4, 1);
-                            _sender.Character.Stats.SetStat(58, 99);
-                            Reply();
-                        }
-                    }
-                    // Ectomorph
-                    if ((_target.Type == 51005) && (_t_instance == 3222077940))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(47, 0);
-                            Reply();
-                        }
-                    }
-                    // Mesomorph
-                    if ((_target.Type == 51005) && (_t_instance == 3221946868))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(47, 1);
-                            Reply();
-                        }
-                    }
-                    // Endomorph
-                    if ((_target.Type == 51005) && (_t_instance == 3222012404))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(47, 2);
-                            Reply();
-                        }
-                    }
-                    // Tall
-                    if ((_target.Type == 51005) && (_t_instance == 3222209012))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(360, 110);
-                            Reply();
-                        }
-                    }
-                    // Normalize
-                    if ((_target.Type == 51005) && (_t_instance == 3222143476))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(360, 100);
-                            Reply();
-                        }
-                    }
-                    // Short
-                    if ((_target.Type == 51005) && (_t_instance == 3222274548))
-                    {
-                        if (_sender.Character.Stats.GetStat("GmLevel") > 0)
-                        {
-                            _sender.Character.Stats.SetStat(360, 90);
-                            Reply();
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }*/
         }
 
         #endregion
