@@ -108,7 +108,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x2103247d:
                     //KnuBotAnswer
-                    KnuBotAnswer.Read(packet, client);
                     break;
                 case 0x212c487a:
                     //Quest
