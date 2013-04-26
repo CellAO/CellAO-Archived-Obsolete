@@ -210,7 +210,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x36284f6e:
                     //Trade
-                    OnTrade.Read(packet, client, dynel);
                     break;
                 case 0x365a5071:
                     //DoorFullUpdate
