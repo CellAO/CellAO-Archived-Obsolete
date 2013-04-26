@@ -267,7 +267,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x3e205660:
                     //Skill
-                    SkillUpdate.Read(packet, client);
                     break;
                 case 0x3f3a1914:
                     //LeaveBattle

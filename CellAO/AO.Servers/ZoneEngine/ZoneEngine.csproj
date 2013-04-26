@@ -255,6 +255,7 @@
     <Compile Include="Functions\waypoint.cs" />
     <Compile Include="Functions\weaponeffectcolor.cs" />
     <Compile Include="InventoryEntries.cs" />
+    <Compile Include="MessageHandlers\SkillHandler.cs" />
     <Compile Include="MessageHandlers\SocialActionCmdHandler.cs" />
     <Compile Include="MessageHandlers\KnuBotTradeHandler.cs" />
     <Compile Include="MessageHandlers\TradeHandler.cs" />
