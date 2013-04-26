@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="KnubotStartTrade.cs" company="CellAO Team">
+// <copyright file="KnuBotStartTradeHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,55 +23,32 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the KnuBotStartTrade type.
+//   Defines the KnuBotStartTradeHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ZoneEngine.PacketHandlers
+namespace ZoneEngine.MessageHandlers
 {
-    using AO.Core;
+    using System.ComponentModel.Composition;
 
+    using AO.Core.Components;
+
+    using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
-    using ZoneEngine.Misc;
+    using ZoneEngine.PacketHandlers;
 
-    public static class KnuBotStartTrade
+    [Export(typeof(IHandleMessage))]
+    public class KnuBotStartTradeHandler : IHandleMessage<KnuBotStartTradeMessage>
     {
         #region Public Methods and Operators
 
-        public static void Read(KnuBotStartTradeMessage message, Client cli)
+        public void Handle(object sender, Message message)
         {
-            var npc =
-                (NonPlayerCharacterClass)FindDynel.FindDynelById((int)message.Target.Type, message.Target.Instance);
-            if (npc != null)
-            {
-                npc.KnuBotStartTrade(cli.Character);
-            }
-        }
+            var client = (Client)sender;
+            var knuBotStartTradeMessage = (KnuBotStartTradeMessage)message.Body;
 
-        public static void Send(Client cli, NonPlayerCharacterClass knubotTarget, string message, int numberOfItems)
-        {
-            var packetWriter = new PacketWriter();
-
-            packetWriter.PushByte(0xdf);
-            packetWriter.PushByte(0xdf);
-            packetWriter.PushShort(0xa);
-            packetWriter.PushShort(1);
-            packetWriter.PushShort(0);
-            packetWriter.PushInt(3086);
-            packetWriter.PushInt(cli.Character.Id);
-            packetWriter.PushInt(0x7864401d);
-            packetWriter.PushIdentity(cli.Character.Type, cli.Character.Id);
-            packetWriter.PushByte(0);
-            packetWriter.PushShort(2);
-            packetWriter.PushIdentity(knubotTarget.Type, knubotTarget.Id);
-            packetWriter.PushInt(numberOfItems);
-            packetWriter.PushInt(message.Length);
-            packetWriter.PushString(message);
-
-            var packet = packetWriter.Finish();
-
-            cli.SendCompressed(packet);
+            KnuBotStartTrade.Read(knuBotStartTradeMessage, client);
         }
 
         #endregion

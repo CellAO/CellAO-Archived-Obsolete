@@ -36,7 +36,6 @@ namespace ZoneEngine.MessageHandlers
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
-    using ZoneEngine.Misc;
     using ZoneEngine.PacketHandlers;
 
     [Export(typeof(IHandleMessage))]

@@ -422,7 +422,6 @@ namespace ZoneEngine.PacketHandlers
                     //FullAuto
                     break;
                 case 0x5c525a7b:
-                    ChatCommandHandler.Read(packet, client);
                     break;
                 case 0x5c654b28:
                     //MissedAttackInfo
@@ -477,7 +476,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x7864401d:
                     //KnuBotStartTrade
-                    KnuBotStartTrade.Read(packet, client);
                     break;
                 case 0x7a222202:
                     //GfxTrigger
