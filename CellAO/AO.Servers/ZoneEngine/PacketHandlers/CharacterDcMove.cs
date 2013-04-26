@@ -1,26 +1,31 @@
-﻿#region License
-// Copyright (c) 2005-2012, CellAO Team
-// 
-// All rights reserved.
-// 
-// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-// 
-//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#endregion
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CharacterDcMove.cs" company="CellAO Team">
+//   Copyright © 2005-2013 CellAO Team.
+//   
+//   All rights reserved.
+//   
+//   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//   
+//       * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//       * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//       * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//   
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+//   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+//   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+//   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+//   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+//   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+//   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+//   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// </copyright>
+// <summary>
+//   Defines the CharacterDCMove type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ZoneEngine.PacketHandlers
 {
@@ -28,64 +33,61 @@ namespace ZoneEngine.PacketHandlers
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
+
     using ZoneEngine.Collision;
     using ZoneEngine.Misc;
 
-    /// <summary>
-    /// 
-    /// </summary>
+    using Identity = SmokeLounge.AOtomation.Messaging.GameData.Identity;
+    using Quaternion = AO.Core.Quaternion;
+    using Vector3 = SmokeLounge.AOtomation.Messaging.GameData.Vector3;
+
     public static class CharacterDCMove
     {
-        /// <summary>
-        /// TODO: Add a Description of what this Class does.. -Looks at someone else-
-        /// </summary>
-        /// <param name="packet"></param>
-        /// <param name="client"></param>
-        public static void Read(byte[] packet, Client client)
-        {
-            PacketWriter packetWriter = new PacketWriter();
-            PacketReader packetReader = new PacketReader(packet);
+        #region Public Methods and Operators
 
-            Header header = packetReader.PopHeader();
-            packetReader.PopByte();
-            byte moveType = packetReader.PopByte();
-            Quaternion heading = packetReader.PopQuat();
-            AOCoord coordinates = packetReader.PopCoord();
+        public static void Read(CharDCMoveMessage message, Client client)
+        {
+            var moveType = message.MoveType;
+            var heading = new Quaternion(message.Heading.X, message.Heading.Y, message.Heading.Z, message.Heading.W);
+            var coordinates = new AOCoord(message.Coordinates.X, message.Coordinates.Y, message.Coordinates.Z);
+
             // TODO: Find out what these (tmpInt) are and name them
-            int tmpInt1 = packetReader.PopInt();
-            int tmpInt2 = packetReader.PopInt();
-            int tmpInt3 = packetReader.PopInt();
-            packetReader.Finish();
+            var tmpInt1 = message.Unknown1;
+            var tmpInt2 = message.Unknown2;
+            var tmpInt3 = message.Unknown3;
 
             if (!client.Character.DoNotDoTimers)
             {
-                WallCollision.LineSegment teleportPlayfield = WallCollision.WallCollisionCheck(
+                var teleportPlayfield = WallCollision.WallCollisionCheck(
                     coordinates.x, coordinates.z, client.Character.PlayField);
                 if (teleportPlayfield.ZoneToPlayfield >= 1)
                 {
-                    Quaternion newHeading;
-                    CoordHeading coordHeading = WallCollision.GetCoord(teleportPlayfield, coordinates.x, coordinates.z, coordinates);
+                    var coordHeading = WallCollision.GetCoord(
+                        teleportPlayfield, coordinates.x, coordinates.z, coordinates);
                     if (teleportPlayfield.Flags != 1337 && client.Character.PlayField != 152
                         || Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 2
-                        ||
-                        teleportPlayfield.Flags == 1337
+                        || teleportPlayfield.Flags == 1337
                         && Math.Abs(client.Character.Coordinates.y - teleportPlayfield.Y) <= 6)
                     {
-                        client.Teleport(coordHeading.Coordinates, coordHeading.Heading, teleportPlayfield.ZoneToPlayfield);
+                        client.Teleport(
+                            coordHeading.Coordinates, coordHeading.Heading, teleportPlayfield.ZoneToPlayfield);
                         Program.zoneServer.Clients.Remove(client);
                     }
+
                     return;
                 }
 
                 if (client.Character.Stats.LastConcretePlayfieldInstance.Value != 0)
                 {
-                    Doors correspondingDoor = DoorHandler.DoorinRange(
+                    var correspondingDoor = DoorHandler.DoorinRange(
                         client.Character.PlayField, client.Character.Coordinates, 1.0f);
                     if (correspondingDoor != null)
                     {
                         correspondingDoor = DoorHandler.FindCorrespondingDoor(correspondingDoor, client.Character);
                         client.Character.Stats.LastConcretePlayfieldInstance.Value = 0;
-                        AOCoord aoc = correspondingDoor.Coordinates;
+                        var aoc = correspondingDoor.Coordinates;
                         aoc.x += correspondingDoor.hX * 3;
                         aoc.y += correspondingDoor.hY * 3;
                         aoc.z += correspondingDoor.hZ * 3;
@@ -114,45 +116,50 @@ namespace ZoneEngine.PacketHandlers
             /* End NV Heading testing code */
 
             /* start of packet */
-            packetWriter.PushByte(0xDF);
-            packetWriter.PushByte(0xDF);
-            /* packet type */
-            packetWriter.PushShort(10);
-            /* unknown */
-            packetWriter.PushShort(1);
-            /* packet length (writer takes care of this) */
-            packetWriter.PushShort(0);
-            /* server ID */
-            packetWriter.PushInt(3086);
-            /* receiver (Announce takes care of this) */
-            packetWriter.PushInt(0);
-            /* packet ID */
-            packetWriter.PushInt(0x54111123);
-            /* affected dynel identity */
-            packetWriter.PushIdentity(50000, client.Character.Id);
-            /* ? */
-            packetWriter.PushByte(0);
-            /* movement type */
-            packetWriter.PushByte(moveType);
-            /* Heading */
-            packetWriter.PushQuat(heading);
-            /* Coordinates */
-            packetWriter.PushCoord(coordinates);
-            // see reading part for comment
-            packetWriter.PushInt(tmpInt1);
-            packetWriter.PushInt(tmpInt2);
-            packetWriter.PushInt(tmpInt3);
-            byte[] reply = packetWriter.Finish();
-            Announce.Playfield(client.Character.PlayField, reply);
+            var reply = new CharDCMoveMessage
+                            {
+                                Identity =
+                                    new Identity
+                                        {
+                                            Type = IdentityType.CanbeAffected, 
+                                            Instance = client.Character.Id
+                                        }, 
+                                Unknown = 0x00, 
+                                MoveType = moveType, 
+                                Heading =
+                                    new SmokeLounge.AOtomation.Messaging.GameData.Quaternion
+                                        {
+                                            X =
+                                                heading
+                                                .xf, 
+                                            Y =
+                                                heading
+                                                .yf, 
+                                            Z =
+                                                heading
+                                                .zf, 
+                                            W =
+                                                heading
+                                                .wf
+                                        }, 
+                                Coordinates =
+                                    new Vector3 { X = heading.xf, Y = heading.yf, Z = heading.zf }, 
+                                Unknown1 = tmpInt1, 
+                                Unknown2 = tmpInt2, 
+                                Unknown3 = tmpInt3
+                            };
+
+            Announce.Playfield(client.Character.PlayField, 0x00000C0E, reply);
 
             if (Statels.StatelppfonEnter.ContainsKey(client.Character.PlayField))
             {
-                foreach (Statels.Statel s in Statels.StatelppfonEnter[client.Character.PlayField])
+                foreach (var s in Statels.StatelppfonEnter[client.Character.PlayField])
                 {
                     if (s.onEnter(client))
                     {
                         return;
                     }
+
                     if (s.onTargetinVicinity(client))
                     {
                         return;
@@ -160,5 +167,7 @@ namespace ZoneEngine.PacketHandlers
                 }
             }
         }
+
+        #endregion
     }
 }

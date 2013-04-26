@@ -375,7 +375,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x54111123:
                     //CharDCMove
-                    CharacterDCMove.Read(packet, client);
                     break;
                 case 0x55220726:
                     //PlayfieldAllTowers
