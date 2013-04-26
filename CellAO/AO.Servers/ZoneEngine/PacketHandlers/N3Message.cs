@@ -391,8 +391,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x570c2039:
                     //CharInPlay
-                    CharacterInPlay.Read(packet, client);
-                    break;
+                    break; 
                 case 0x58362220:
                     //ShopUpdate
                     break;

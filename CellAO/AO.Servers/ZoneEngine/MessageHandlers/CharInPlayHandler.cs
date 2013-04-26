@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CharacterInPlay.cs" company="CellAO Team">
+// <copyright file="LookAtHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,54 +23,33 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the CharacterInPlay type.
+//   Defines the LookAtHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ZoneEngine.PacketHandlers
+namespace ZoneEngine.MessageHandlers
 {
-    using System;
+    using System.ComponentModel.Composition;
 
-    using SmokeLounge.AOtomation.Messaging.GameData;
+    using AO.Core.Components;
+
+    using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
     using ZoneEngine.Misc;
+    using ZoneEngine.PacketHandlers;
 
-    public static class CharacterInPlay
+    [Export(typeof(IHandleMessage))]
+    public class CharInPlayHandler : IHandleMessage<CharInPlayMessage>
     {
         #region Public Methods and Operators
 
-        public static void Read(Client client)
+        public void Handle(object sender, Message message)
         {
-            // client got all the needed data and
-            // wants to enter the world. After we
-            // reply to this, the character will really be in game
+            var client = (Client)sender;
+            var charInPlayMessage = (CharInPlayMessage)message.Body;
 
-            var announce = new CharInPlayMessage
-                               {
-                                   Identity =
-                                       new Identity
-                                           {
-                                               Type = IdentityType.CanbeAffected, 
-                                               Instance = client.Character.Id
-                                           }, 
-                                   Unknown = 0x00
-                               };
-            Announce.Playfield(client.Character.PlayField, client.Character.Id, announce);
-            Dynels.GetDynels(client);
-
-            // Mobs get sent whenever player enters playfield, BUT (!) they are NOT synchronized, because the mobs don't save stuff yet.
-            // for instance: the waypoints the mob went through will NOT be saved and therefore when you re-enter the PF, it will AGAIN
-            // walk the same waypoints.
-            // TODO: Fix it
-            /*foreach (MobType mob in NPCPool.Mobs)
-            {
-                //TODO: Make cache - use pf indexing somehow.
-                if (mob.pf == client.Character.pf)
-                {
-                    mob.SendToClient(client);
-                }
-            }*/
+            CharacterInPlay.Read(client);
         }
 
         #endregion

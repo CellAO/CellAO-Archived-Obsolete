@@ -257,6 +257,7 @@
     <Compile Include="InventoryEntries.cs" />
     <Compile Include="MessageHandlers\ContainerAddItemHandler.cs" />
     <Compile Include="MessageHandlers\CharDCMoveHandler.cs" />
+    <Compile Include="MessageHandlers\CharInPlayHandler.cs" />
     <Compile Include="MessageHandlers\GenericCmdHandler.cs" />
     <Compile Include="MessageHandlers\SkillHandler.cs" />
     <Compile Include="MessageHandlers\SocialActionCmdHandler.cs" />
