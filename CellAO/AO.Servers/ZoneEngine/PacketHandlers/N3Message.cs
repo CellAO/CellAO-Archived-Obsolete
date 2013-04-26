@@ -108,7 +108,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x2103247d:
                     //KnuBotAnswer
-                    KnuBotAnswer.Read(packet, client);
                     break;
                 case 0x212c487a:
                     //Quest
@@ -118,10 +117,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x2252445f:
                     //LookAt
-                    if (dynel != null)
-                    {
-                        ((Character)dynel).SetTarget(packet);
-                    }
                     break;
                 case 0x25192476:
                     //ShieldAttack
@@ -134,7 +129,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x260f3671:
                     //FollowTarget
-                    FollowTarget.Read(packet, client, dynel);
                     break;
                 case 0x264b514b:
                     //RelocateDynels
@@ -147,7 +141,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x270a4c62:
                     //KnuBotCloseChatWindow
-                    KnuBotCloseChatWindow.Read(packet, client);
                     break;
                 case 0x271b3a6b:
                     //SimpleCharFullUpdate
@@ -217,7 +210,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x36284f6e:
                     //Trade
-                    OnTrade.Read(packet, client, dynel);
                     break;
                 case 0x365a5071:
                     //DoorFullUpdate
@@ -239,7 +231,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x3a1b2c0c:
                     //KnuBotTrade
-                    KnuBotTrade.Read(packet, client);
                     break;
                 case 0x3a243f41:
                     //DropTemplate
@@ -258,7 +249,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x3b290771:
                     //SocialActionCmd
-                    SocialActionCmd.Read(packet, client);
                     break;
                 case 0x3b3b2878:
                     //Raid
@@ -277,7 +267,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x3e205660:
                     //Skill
-                    SkillUpdate.Read(packet, client);
                     break;
                 case 0x3f3a1914:
                     //LeaveBattle
@@ -332,7 +321,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x47537a24:
                     //ContainerAddItem
-                    ContainerAddItem.AddItemToContainer(packet, client);
                     break;
                 case 0x49222612:
                     //Visibility
@@ -378,7 +366,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x52526858:
                     //GenericCmd
-                    GenericCmd.Read(packet, client, dynel);
                     break;
                 case 0x5266632a:
                     //PathMoveCmd
@@ -388,14 +375,12 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x54111123:
                     //CharDCMove
-                    CharacterDCMove.Read(packet, client);
                     break;
                 case 0x55220726:
                     //PlayfieldAllTowers
                     break;
                 case 0x55682b24:
                     //KnuBotFinishTrade
-                    KnuBotFinishTrade.Read(packet, client);
                     break;
                 case 0x55704d31:
                     //KnuBotAnswerList
@@ -405,8 +390,7 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x570c2039:
                     //CharInPlay
-                    CharacterInPlay.Read(packet, client);
-                    break;
+                    break; 
                 case 0x58362220:
                     //ShopUpdate
                     break;
@@ -438,7 +422,6 @@ namespace ZoneEngine.PacketHandlers
                     //FullAuto
                     break;
                 case 0x5c525a7b:
-                    ChatCommandHandler.Read(packet, client);
                     break;
                 case 0x5c654b28:
                     //MissedAttackInfo
@@ -493,7 +476,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x7864401d:
                     //KnuBotStartTrade
-                    KnuBotStartTrade.Read(packet, client);
                     break;
                 case 0x7a222202:
                     //GfxTrigger

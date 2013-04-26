@@ -57,7 +57,7 @@ namespace ZoneEngine.Packets
                                   Identity =
                                       new Identity
                                           {
-                                              IdentityType = IdentityType.CanbeAffected, 
+                                              Type = IdentityType.CanbeAffected, 
                                               Instance = client.Character.Id
                                           }, 
                                   Stats =
@@ -122,7 +122,7 @@ namespace ZoneEngine.Packets
                                   Identity =
                                       new Identity
                                           {
-                                              IdentityType = (IdentityType)ch.Type, 
+                                              Type = (IdentityType)ch.Type, 
                                               Instance = ch.Id
                                           }, 
                                   Stats = stats.ToArray()
@@ -170,7 +170,7 @@ namespace ZoneEngine.Packets
                                   Identity =
                                       new Identity
                                           {
-                                              IdentityType = IdentityType.CanbeAffected, 
+                                              Type = IdentityType.CanbeAffected, 
                                               Instance = client.Character.Id
                                           }, 
                                   Stats = toClient.ToArray()

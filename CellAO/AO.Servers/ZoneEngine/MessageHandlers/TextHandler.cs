@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vicinity.cs" company="CellAO Team">
+// <copyright file="TextHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,61 +23,49 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the Vicinity type.
+//   Defines the TextHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ZoneEngine.PacketHandlers
+namespace ZoneEngine.MessageHandlers
 {
-    using System;
+    using System.ComponentModel.Composition;
+    using System.Globalization;
 
-    using AO.Core;
+    using AO.Core.Components;
 
-    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages;
 
-    using ZoneEngine.Misc;
+    using ZoneEngine.PacketHandlers;
 
-    public static class Vicinity
+    using TextMessage = SmokeLounge.AOtomation.Messaging.Messages.TextMessage;
+
+    [Export(typeof(IHandleMessage))]
+    public class TextHandler : IHandleMessage<TextMessage>
     {
         #region Public Methods and Operators
 
-        public static void Read(SmokeLounge.AOtomation.Messaging.Messages.TextMessage textMessage, Client client)
+        public void Handle(object sender, Message message)
         {
-#if DEBUG
-            Console.WriteLine("Vicinity: " + textMessage.Message.Text);
-#endif
-            var range = 0f;
-            switch (textMessage.Message.Type)
+            var client = (Client)sender;
+            var textMessage = (TextMessage)message.Body;
+
+            switch (textMessage.Range)
             {
-                case ChatMessageType.Say:
+                case TextMessageRange.Whisper:
+                case TextMessageRange.Say:
+                case TextMessageRange.Shout:
 
-                    // Say
-                    range = 10.0f;
+                    // Whisper, Say and Shout
+                    Vicinity.Read(textMessage, client);
                     break;
-                case ChatMessageType.Whisper:
-
-                    // Whisper
-                    range = 1.5f;
-                    break;
-                case ChatMessageType.Shout:
-
-                    // Shout
-                    range = 60.0f;
+                default:
+                    client.Server.Warning(
+                        client, 
+                        "Client sent unknown TextMessage {0:x8}", 
+                        ((int)textMessage.Range).ToString(CultureInfo.InvariantCulture));
                     break;
             }
-
-            var clients = FindClient.GetClientsInRadius(client, range);
-            var recvers = new uint[clients.Count];
-            var index = 0;
-
-            foreach (var child in clients)
-            {
-                recvers[index] = (uint)child.Character.Id;
-                index++;
-            }
-
-            ChatCom.SendVicinity(
-                (uint)client.Character.Id, (byte)textMessage.Message.Type, recvers, textMessage.Message.Text);
         }
 
         #endregion

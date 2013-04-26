@@ -416,7 +416,15 @@ namespace ZoneEngine
             writer.PushIdentity(51100, playfield);
             writer.PushInt(0);
             writer.PushInt(0);
-            writer.PushIdentity(40016, playfield);
+            if (playfield != this.Character.PlayField)
+            {
+                writer.PushIdentity(40016, playfield);
+            }
+            else
+            {
+                writer.PushIdentity(0, 0);
+            }
+
             writer.PushInt(0);
             writer.PushInt(0);
             writer.PushIdentity(100001, playfield);
@@ -434,6 +442,11 @@ namespace ZoneEngine
             this.Character.StopMovement();
             this.Character.RawCoord = destination;
             this.Character.RawHeading = heading;
+            if (playfield == this.Character.PlayField)
+            {
+                return true;
+            }
+
             this.Character.PlayField = playfield;
             this.Character.Purge(); // Purge character information to DB before client reconnect
 
@@ -698,20 +711,6 @@ namespace ZoneEngine
 
             switch (type)
             {
-                case 0x01:
-                    {
-                        // SystemMessage
-                        Program.zoneServer.SystemMessageHandler.Parse(this, packet, id);
-                        break;
-                    }
-
-                case 0x05:
-                    {
-                        // TextMessage
-                        Program.zoneServer.TextMessageHandler.Parse(this, packet, id);
-                        break;
-                    }
-
                 case 0x0A:
                     {
                         // N3Message

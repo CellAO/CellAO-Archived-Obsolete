@@ -46,7 +46,7 @@ namespace ZoneEngine.Packets
                                   Identity =
                                       new Identity
                                           {
-                                              IdentityType = IdentityType.Playfield2, 
+                                              Type = IdentityType.Playfield2, 
                                               Instance = client.Character.PlayField
                                           }, 
                                   CharacterCoordinates =
@@ -59,13 +59,13 @@ namespace ZoneEngine.Packets
                                   PlayfieldId1 =
                                       new Identity
                                           {
-                                              IdentityType = IdentityType.Playfield1, 
+                                              Type = IdentityType.Playfield1, 
                                               Instance = client.Character.PlayField
                                           }, 
                                   PlayfieldId2 =
                                       new Identity
                                           {
-                                              IdentityType = IdentityType.Playfield2, 
+                                              Type = IdentityType.Playfield2, 
                                               Instance = client.Character.PlayField
                                           }, 
                                   PlayfieldX =

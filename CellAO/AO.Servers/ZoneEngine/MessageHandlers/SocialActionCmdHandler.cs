@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vicinity.cs" company="CellAO Team">
+// <copyright file="SocialActionCmdHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,61 +23,44 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the Vicinity type.
+//   Defines the SocialActionCmdHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ZoneEngine.PacketHandlers
+namespace ZoneEngine.MessageHandlers
 {
     using System;
+    using System.ComponentModel.Composition;
 
-    using AO.Core;
+    using AO.Core.Components;
 
-    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
     using ZoneEngine.Misc;
 
-    public static class Vicinity
+    [Export(typeof(IHandleMessage))]
+    public class SocialActionCmdHandler : IHandleMessage<SocialActionCmdMessage>
     {
         #region Public Methods and Operators
 
-        public static void Read(SmokeLounge.AOtomation.Messaging.Messages.TextMessage textMessage, Client client)
+        public void Handle(object sender, Message message)
         {
-#if DEBUG
-            Console.WriteLine("Vicinity: " + textMessage.Message.Text);
-#endif
-            var range = 0f;
-            switch (textMessage.Message.Type)
-            {
-                case ChatMessageType.Say:
+            var client = (Client)sender;
+            var socialActionCmdMessage = (SocialActionCmdMessage)message.Body;
 
-                    // Say
-                    range = 10.0f;
-                    break;
-                case ChatMessageType.Whisper:
-
-                    // Whisper
-                    range = 1.5f;
-                    break;
-                case ChatMessageType.Shout:
-
-                    // Shout
-                    range = 60.0f;
-                    break;
-            }
-
-            var clients = FindClient.GetClientsInRadius(client, range);
-            var recvers = new uint[clients.Count];
-            var index = 0;
-
-            foreach (var child in clients)
-            {
-                recvers[index] = (uint)child.Character.Id;
-                index++;
-            }
-
-            ChatCom.SendVicinity(
-                (uint)client.Character.Id, (byte)textMessage.Message.Type, recvers, textMessage.Message.Text);
+            var announce = new SocialActionCmdMessage
+                               {
+                                   Identity = socialActionCmdMessage.Identity, 
+                                   Unknown = 0x00, 
+                                   Unknown1 = socialActionCmdMessage.Unknown1, 
+                                   Unknown2 = socialActionCmdMessage.Unknown2, 
+                                   Unknown3 = socialActionCmdMessage.Unknown3, 
+                                   Unknown4 = 0x01, 
+                                   Unknown5 = socialActionCmdMessage.Unknown5, 
+                                   Action = socialActionCmdMessage.Action
+                               };
+            Announce.Playfield(client.Character.PlayField, 0x00000C0E, announce);
         }
 
         #endregion

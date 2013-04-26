@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vicinity.cs" company="CellAO Team">
+// <copyright file="KnuBotTradeHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,61 +23,39 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the Vicinity type.
+//   Defines the KnuBotTradeHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ZoneEngine.PacketHandlers
+namespace ZoneEngine.MessageHandlers
 {
-    using System;
+    using System.ComponentModel.Composition;
 
-    using AO.Core;
+    using AO.Core.Components;
 
-    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
     using ZoneEngine.Misc;
 
-    public static class Vicinity
+    [Export(typeof(IHandleMessage))]
+    public class KnuBotTradeHandler : IHandleMessage<KnuBotTradeMessage>
     {
         #region Public Methods and Operators
 
-        public static void Read(SmokeLounge.AOtomation.Messaging.Messages.TextMessage textMessage, Client client)
+        public void Handle(object sender, Message message)
         {
-#if DEBUG
-            Console.WriteLine("Vicinity: " + textMessage.Message.Text);
-#endif
-            var range = 0f;
-            switch (textMessage.Message.Type)
-            {
-                case ChatMessageType.Say:
+            var client = (Client)sender;
+            var knuBotTradeMessage = (KnuBotTradeMessage)message.Body;
 
-                    // Say
-                    range = 10.0f;
-                    break;
-                case ChatMessageType.Whisper:
+            var target = knuBotTradeMessage.Target;
+            var npc = (NonPlayerCharacterClass)FindDynel.FindDynelById((int)target.Type, target.Instance);
+            var character = FindClient.FindClientById(message.Header.Sender).Character;
 
-                    // Whisper
-                    range = 1.5f;
-                    break;
-                case ChatMessageType.Shout:
-
-                    // Shout
-                    range = 60.0f;
-                    break;
-            }
-
-            var clients = FindClient.GetClientsInRadius(client, range);
-            var recvers = new uint[clients.Count];
-            var index = 0;
-
-            foreach (var child in clients)
-            {
-                recvers[index] = (uint)child.Character.Id;
-                index++;
-            }
-
-            ChatCom.SendVicinity(
-                (uint)client.Character.Id, (byte)textMessage.Message.Type, recvers, textMessage.Message.Text);
+            var ie = character.GetInventoryAt(knuBotTradeMessage.Container.Instance);
+            var aoi = ie.Item.ShallowCopy();
+            character.Inventory.Remove(ie); // Silent remove, no message given to client. Client handles this on its own
+            npc.KnuBotTrade(character, aoi);
         }
 
         #endregion

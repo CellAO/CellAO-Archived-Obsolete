@@ -43,7 +43,7 @@ namespace ZoneEngine.Packets
         public static void Send(Client client)
         {
             var fc = new FullCharacterMessage();
-            fc.Identity = new Identity { IdentityType = IdentityType.CanbeAffected, Instance = client.Character.Id };
+            fc.Identity = new Identity { Type = IdentityType.CanbeAffected, Instance = client.Character.Id };
             fc.Unknown1 = 25;
 
             /* part 1 of data */
@@ -58,7 +58,7 @@ namespace ZoneEngine.Packets
                                         Identity =
                                             new Identity
                                                 {
-                                                    IdentityType = (IdentityType)item.Type, 
+                                                    Type = (IdentityType)item.Type, 
                                                     Instance = item.Instance
                                                 }, 
                                         ItemLowId = item.LowID, 

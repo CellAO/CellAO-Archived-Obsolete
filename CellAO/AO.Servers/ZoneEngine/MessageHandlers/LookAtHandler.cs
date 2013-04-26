@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Vicinity.cs" company="CellAO Team">
+// <copyright file="LookAtHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,61 +23,39 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the Vicinity type.
+//   Defines the LookAtHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ZoneEngine.PacketHandlers
+namespace ZoneEngine.MessageHandlers
 {
-    using System;
+    using System.ComponentModel.Composition;
 
-    using AO.Core;
+    using AO.Core.Components;
 
-    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
     using ZoneEngine.Misc;
 
-    public static class Vicinity
+    [Export(typeof(IHandleMessage))]
+    public class LookAtHandler : IHandleMessage<LookAtMessage>
     {
         #region Public Methods and Operators
 
-        public static void Read(SmokeLounge.AOtomation.Messaging.Messages.TextMessage textMessage, Client client)
+        public void Handle(object sender, Message message)
         {
-#if DEBUG
-            Console.WriteLine("Vicinity: " + textMessage.Message.Text);
-#endif
-            var range = 0f;
-            switch (textMessage.Message.Type)
+            var client = (Client)sender;
+            var lookAtMessage = (LookAtMessage)message.Body;
+
+            var dynel = FindDynel.FindDynelById(
+                (int)lookAtMessage.Identity.Type, lookAtMessage.Identity.Instance);
+            if (dynel == null)
             {
-                case ChatMessageType.Say:
-
-                    // Say
-                    range = 10.0f;
-                    break;
-                case ChatMessageType.Whisper:
-
-                    // Whisper
-                    range = 1.5f;
-                    break;
-                case ChatMessageType.Shout:
-
-                    // Shout
-                    range = 60.0f;
-                    break;
+                return;
             }
 
-            var clients = FindClient.GetClientsInRadius(client, range);
-            var recvers = new uint[clients.Count];
-            var index = 0;
-
-            foreach (var child in clients)
-            {
-                recvers[index] = (uint)child.Character.Id;
-                index++;
-            }
-
-            ChatCom.SendVicinity(
-                (uint)client.Character.Id, (byte)textMessage.Message.Type, recvers, textMessage.Message.Text);
+            ((Character)dynel).SetTarget((int)lookAtMessage.Target.Type, lookAtMessage.Identity.Instance);
         }
 
         #endregion

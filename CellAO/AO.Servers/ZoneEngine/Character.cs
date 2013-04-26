@@ -2097,20 +2097,12 @@ namespace ZoneEngine
         #endregion
 
         #region setTarget
-        /// <summary>
-        /// Set target
-        /// </summary>
-        /// <param name="packet">data packet</param>
-        public void SetTarget(byte[] packet)
+
+        public void SetTarget(int identityType, int instance)
         {
             lock (this)
             {
-                PacketReader packetReader = new PacketReader(packet);
-
-                packetReader.PopHeader();
-                packetReader.PopByte();
-                this.Target = packetReader.PopIdentity();
-                packetReader.Finish();
+                this.Target = new Identity { Type = identityType, Instance = instance };
             }
         }
         #endregion

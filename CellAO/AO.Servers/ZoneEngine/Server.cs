@@ -42,24 +42,17 @@ namespace ZoneEngine
     using ZoneEngine.Collision;
     using ZoneEngine.Component;
     using ZoneEngine.Misc;
-    using ZoneEngine.PacketHandlers;
 
     using Timer = System.Timers.Timer;
 
     [Export]
     public class Server : ServerBase
     {
-        private readonly ClientFactory clientFactory;
-
         #region Fields
 
         public List<Doors> Doors;
 
         public List<NonPlayerCharacterClass> Monsters;
-
-        public SystemMessage SystemMessageHandler;
-
-        public TextMessage TextMessageHandler;
 
         public List<VendingMachine> Vendors;
 
@@ -69,6 +62,8 @@ namespace ZoneEngine
         // TODO: Add Operator Message Handler
         public WallCollision ZoneBorderHandler;
 
+        private readonly ClientFactory clientFactory;
+
         #endregion
 
         #region Constructors and Destructors
@@ -77,7 +72,6 @@ namespace ZoneEngine
         public Server(ClientFactory clientFactory)
         {
             this.clientFactory = clientFactory;
-            this.TextMessageHandler = new TextMessage();
 
             // TODO: Add Ping Message Handler Construction
             // TODO: Add Operator Message Handler Construction
