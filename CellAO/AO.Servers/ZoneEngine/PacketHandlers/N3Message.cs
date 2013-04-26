@@ -129,7 +129,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x260f3671:
                     //FollowTarget
-                    FollowTarget.Read(packet, client, dynel);
                     break;
                 case 0x264b514b:
                     //RelocateDynels

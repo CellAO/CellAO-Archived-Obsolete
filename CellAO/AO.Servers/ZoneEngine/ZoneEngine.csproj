@@ -255,6 +255,7 @@
     <Compile Include="Functions\waypoint.cs" />
     <Compile Include="Functions\weaponeffectcolor.cs" />
     <Compile Include="InventoryEntries.cs" />
+    <Compile Include="MessageHandlers\FollowTargetHandler.cs" />
     <Compile Include="MessageHandlers\KnuBotAnswerHandler.cs" />
     <Compile Include="MessageHandlers\LookAtHandler.cs" />
     <Compile Include="MessageHandlers\TextHandler.cs" />
@@ -298,7 +299,6 @@
     <Compile Include="PacketHandlers\ClientConnected.cs" />
     <Compile Include="PacketHandlers\ContainerAddItem.cs" />
     <Compile Include="PacketHandlers\dynels.cs" />
-    <Compile Include="PacketHandlers\FollowTarget.cs" />
     <Compile Include="PacketHandlers\GenericCmd.cs" />
     <Compile Include="PacketHandlers\KnubotCloseChatWindow.cs" />
     <Compile Include="PacketHandlers\KnuBotFinishTrade.cs" />
