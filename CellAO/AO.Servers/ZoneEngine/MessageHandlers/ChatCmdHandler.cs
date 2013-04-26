@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ChatCommandHandler.cs" company="CellAO Team">
+// <copyright file="ChatCmdHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,58 +23,32 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the ChatCommandHandler type.
+//   Defines the ChatCmdHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ZoneEngine.PacketHandlers
+namespace ZoneEngine.MessageHandlers
 {
-    using AO.Core;
+    using System.ComponentModel.Composition;
 
+    using AO.Core.Components;
+
+    using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
-    public static class ChatCommandHandler
+    using ZoneEngine.PacketHandlers;
+
+    [Export(typeof(IHandleMessage))]
+    public class ChatCmdHandler : IHandleMessage<ChatCmdMessage>
     {
-        // TODO: Move this to character class
         #region Public Methods and Operators
 
-        public static bool HasNano(int nanoId, Client client)
+        public void Handle(object sender, Message message)
         {
-            var found = false;
-            foreach (var uploadedNanos in client.Character.UploadedNanos)
-            {
-                if (uploadedNanos.Nano != nanoId)
-                {
-                    continue;
-                }
+            var client = (Client)sender;
+            var chatCmdMessage = (ChatCmdMessage)message.Body;
 
-                found = true;
-                break;
-            }
-
-            return found;
-        }
-
-        public static bool ItemExists(int placement, Client client)
-        {
-            return client.Character.GetInventoryAt(placement) != null;
-        }
-
-        public static void Read(ChatCmdMessage message, Client client)
-        {
-            var target = new Identity { Instance = message.Identity.Instance, Type = (int)message.Identity.Type };
-            var fullArgs = message.Command.TrimEnd(char.MinValue);
-            var temp = string.Empty;
-            do
-            {
-                temp = fullArgs;
-                fullArgs = fullArgs.Replace("  ", " ");
-            }
-            while (temp != fullArgs);
-
-            var cmdArgs = fullArgs.Trim().Split(' ');
-
-            Program.csc.CallChatCommand(cmdArgs[0].ToLower(), client, target, cmdArgs);
+            ChatCommandHandler.Read(chatCmdMessage, client);
         }
 
         #endregion
