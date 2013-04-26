@@ -141,7 +141,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x270a4c62:
                     //KnuBotCloseChatWindow
-                    KnuBotCloseChatWindow.Read(packet, client);
                     break;
                 case 0x271b3a6b:
                     //SimpleCharFullUpdate
