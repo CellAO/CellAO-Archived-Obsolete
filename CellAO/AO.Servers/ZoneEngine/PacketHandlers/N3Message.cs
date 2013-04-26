@@ -321,7 +321,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x47537a24:
                     //ContainerAddItem
-                    ContainerAddItem.AddItemToContainer(packet, client);
                     break;
                 case 0x49222612:
                     //Visibility

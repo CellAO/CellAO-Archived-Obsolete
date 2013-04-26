@@ -45,7 +45,7 @@ namespace ZoneEngine.PacketHandlers
         public static void Read(GenericCmdMessage message, Client client)
         {
             var sender = client;
-            var target = new Identity { Type = (int)message.Target.IdentityType, Instance = message.Target.Instance };
+            var target = new Identity { Type = (int)message.Target.Type, Instance = message.Target.Instance };
             var feedback = true;
             switch (message.Action)
             {
@@ -357,10 +357,10 @@ namespace ZoneEngine.PacketHandlers
                     Console.WriteLine(
                         "Action: {0} Count: {1} Target: ({2}, {3}), User: ({4}, {5}), Temp1: {6}, Temp4: {7}", 
                         message.Action, 
-                        message.Count, 
-                        message.Target.IdentityType, 
-                        message.Target.Instance, 
-                        message.User.IdentityType, 
+                        message.Count,
+                        message.Target.Type, 
+                        message.Target.Instance,
+                        message.User.Type, 
                         message.User.Instance, 
                         message.Temp1, 
                         message.Temp4);
@@ -376,8 +376,8 @@ namespace ZoneEngine.PacketHandlers
                 var Feedback1 = string.Format(
                     "T1 {0}, Count {1}, Action {2}, T4 {3}", message.Temp1, message.Count, message.Action, message.Temp4);
                 var Feedback2 = string.Format(
-                    "User {0}:{1}, Target {2}:{3} ({4}:{5})", 
-                    message.User.IdentityType, 
+                    "User {0}:{1}, Target {2}:{3} ({4}:{5})",
+                    message.User.Type, 
                     message.User.Instance, 
                     target.Type, 
                     (uint)target.Instance, 

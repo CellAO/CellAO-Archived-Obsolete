@@ -49,7 +49,7 @@ namespace ZoneEngine.MessageHandlers
             var knuBotTradeMessage = (KnuBotTradeMessage)message.Body;
 
             var target = knuBotTradeMessage.Target;
-            var npc = (NonPlayerCharacterClass)FindDynel.FindDynelById((int)target.IdentityType, target.Instance);
+            var npc = (NonPlayerCharacterClass)FindDynel.FindDynelById((int)target.Type, target.Instance);
             var character = FindClient.FindClientById(message.Header.Sender).Character;
 
             var ie = character.GetInventoryAt(knuBotTradeMessage.Container.Instance);

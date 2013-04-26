@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="KnuBotCloseChatWindowHandler.cs" company="CellAO Team">
+// <copyright file="ContainerAddItemHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,7 +23,7 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the KnuBotCloseChatWindowHandler type.
+//   Defines the ContainerAddItemHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -36,26 +36,19 @@ namespace ZoneEngine.MessageHandlers
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
-    using ZoneEngine.Misc;
+    using ZoneEngine.PacketHandlers;
 
     [Export(typeof(IHandleMessage))]
-    public class KnuBotCloseChatWindowHandler : IHandleMessage<KnuBotCloseChatWindowMessage>
+    public class ContainerAddItemHandler : IHandleMessage<ContainerAddItemMessage>
     {
         #region Public Methods and Operators
 
         public void Handle(object sender, Message message)
         {
             var client = (Client)sender;
-            var knuBotAnswerMessage = (KnuBotCloseChatWindowMessage)message.Body;
+            var containerAddItemMessage = (ContainerAddItemMessage)message.Body;
 
-            var npc =
-                (NonPlayerCharacterClass)
-                FindDynel.FindDynelById(
-                    (int)knuBotAnswerMessage.Target.Type, knuBotAnswerMessage.Target.Instance);
-            if (npc != null)
-            {
-                npc.KnuBotCloseChatWindow(client.Character);
-            }
+            ContainerAddItem.AddItemToContainer(containerAddItemMessage, client);
         }
 
         #endregion

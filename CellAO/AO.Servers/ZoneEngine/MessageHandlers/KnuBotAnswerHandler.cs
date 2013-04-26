@@ -51,7 +51,7 @@ namespace ZoneEngine.MessageHandlers
             var npc =
                 (NonPlayerCharacterClass)
                 FindDynel.FindDynelById(
-                    (int)knuBotAnswerMessage.Target.IdentityType, knuBotAnswerMessage.Target.Instance);
+                    (int)knuBotAnswerMessage.Target.Type, knuBotAnswerMessage.Target.Instance);
             var character = FindClient.FindClientById(message.Header.Sender).Character;
             if (npc != null)
             {

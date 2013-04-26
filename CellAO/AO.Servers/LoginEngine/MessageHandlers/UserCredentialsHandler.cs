@@ -104,7 +104,7 @@ namespace LoginEngine.MessageHandlers
                                          PlayfieldId =
                                              new Identity
                                                  {
-                                                     IdentityType = IdentityType.Playfield, 
+                                                     Type = IdentityType.Playfield, 
                                                      Instance = c.Playfield
                                                  }, 
                                          PlayfieldAttribute = 1, 

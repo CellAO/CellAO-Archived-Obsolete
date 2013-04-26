@@ -227,7 +227,7 @@ namespace ZoneEngine.PacketHandlers
             client.Character.Stats.SetBaseValue(521, 0);
             Stat.Send(client, 521, 0, false);
 
-            var identity = new Identity { IdentityType = IdentityType.CanbeAffected, Instance = charID };
+            var identity = new Identity { Type = IdentityType.CanbeAffected, Instance = charID };
 
             /* Action 167 Animation and Stance Data maybe? */
             var changeAnimationAndStanceMessage = new ChangeAnimationAndStanceMessage

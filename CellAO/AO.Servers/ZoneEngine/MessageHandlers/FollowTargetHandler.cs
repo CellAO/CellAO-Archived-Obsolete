@@ -54,7 +54,7 @@ namespace ZoneEngine.MessageHandlers
                                    Identity =
                                        new Identity
                                            {
-                                               IdentityType = IdentityType.CanbeAffected, 
+                                               Type = IdentityType.CanbeAffected, 
                                                Instance = client.Character.Id
                                            }, 
                                    Unknown = 0, 

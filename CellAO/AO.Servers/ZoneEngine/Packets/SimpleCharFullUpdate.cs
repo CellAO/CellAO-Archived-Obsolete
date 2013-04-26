@@ -193,7 +193,7 @@ namespace ZoneEngine.Packets
             var scfu = new SimpleCharFullUpdateMessage();
 
             // affected identity
-            scfu.Identity = new Identity { IdentityType = IdentityType.CanbeAffected, Instance = charId };
+            scfu.Identity = new Identity { Type = IdentityType.CanbeAffected, Instance = charId };
 
             scfu.Version = 57; // SCFU packet version (57/0x39)
             scfu.Flags = SimpleCharFullUpdateFlags.None; // Try setting to 0x042062C8 if you have problems (old value)
@@ -205,7 +205,7 @@ namespace ZoneEngine.Packets
                 scfu.Flags |= SimpleCharFullUpdateFlags.HasFightingTarget;
                 scfu.FightingTarget = new Identity
                                           {
-                                              IdentityType = (IdentityType)character.FightingTarget.Type, 
+                                              Type = (IdentityType)character.FightingTarget.Type, 
                                               Instance = character.FightingTarget.Instance
                                           };
             }
