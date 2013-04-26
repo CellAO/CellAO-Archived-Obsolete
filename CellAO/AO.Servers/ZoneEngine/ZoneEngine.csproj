@@ -258,6 +258,7 @@
     <Compile Include="MessageHandlers\ContainerAddItemHandler.cs" />
     <Compile Include="MessageHandlers\CharDCMoveHandler.cs" />
     <Compile Include="MessageHandlers\CharInPlayHandler.cs" />
+    <Compile Include="MessageHandlers\KnuBotFinishTradeHandler.cs" />
     <Compile Include="MessageHandlers\GenericCmdHandler.cs" />
     <Compile Include="MessageHandlers\SkillHandler.cs" />
     <Compile Include="MessageHandlers\SocialActionCmdHandler.cs" />
@@ -310,7 +311,6 @@
     <Compile Include="PacketHandlers\dynels.cs" />
     <Compile Include="PacketHandlers\GenericCmd.cs" />
     <Compile Include="PacketHandlers\KnubotCloseChatWindow.cs" />
-    <Compile Include="PacketHandlers\KnuBotFinishTrade.cs" />
     <Compile Include="PacketHandlers\N3Message.cs" />
     <Compile Include="PacketHandlers\OrgClient.cs" />
     <Compile Include="PacketHandlers\SkillUpdate.cs" />

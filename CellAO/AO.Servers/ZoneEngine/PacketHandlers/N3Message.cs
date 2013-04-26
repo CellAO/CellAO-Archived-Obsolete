@@ -381,7 +381,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x55682b24:
                     //KnuBotFinishTrade
-                    KnuBotFinishTrade.Read(packet, client);
                     break;
                 case 0x55704d31:
                     //KnuBotAnswerList
