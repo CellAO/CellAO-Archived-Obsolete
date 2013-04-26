@@ -256,6 +256,7 @@
     <Compile Include="Functions\weaponeffectcolor.cs" />
     <Compile Include="InventoryEntries.cs" />
     <Compile Include="MessageHandlers\KnuBotAnswerHandler.cs" />
+    <Compile Include="MessageHandlers\LookAtHandler.cs" />
     <Compile Include="MessageHandlers\TextHandler.cs" />
     <Compile Include="MessageHandlers\ZoneLoginHandler.cs" />
     <Compile Include="Misc\Announce.cs" />

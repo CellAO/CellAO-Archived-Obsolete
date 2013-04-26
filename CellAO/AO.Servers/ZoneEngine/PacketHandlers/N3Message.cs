@@ -117,10 +117,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x2252445f:
                     //LookAt
-                    if (dynel != null)
-                    {
-                        ((Character)dynel).SetTarget(packet);
-                    }
                     break;
                 case 0x25192476:
                     //ShieldAttack

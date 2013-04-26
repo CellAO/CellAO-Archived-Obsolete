@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="KnuBotAnswerHandler.cs" company="CellAO Team">
+// <copyright file="LookAtHandler.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
 //   All rights reserved.
@@ -23,7 +23,7 @@
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
 // <summary>
-//   Defines the KnuBotAnswerHandler type.
+//   Defines the LookAtHandler type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -39,24 +39,23 @@ namespace ZoneEngine.MessageHandlers
     using ZoneEngine.Misc;
 
     [Export(typeof(IHandleMessage))]
-    public class KnuBotAnswerHandler : IHandleMessage<KnuBotAnswerMessage>
+    public class LookAtHandler : IHandleMessage<LookAtMessage>
     {
         #region Public Methods and Operators
 
         public void Handle(object sender, Message message)
         {
             var client = (Client)sender;
-            var knuBotAnswerMessage = (KnuBotAnswerMessage)message.Body;
+            var lookAtMessage = (LookAtMessage)message.Body;
 
-            var npc =
-                (NonPlayerCharacterClass)
-                FindDynel.FindDynelById(
-                    (int)knuBotAnswerMessage.Target.IdentityType, knuBotAnswerMessage.Target.Instance);
-            var character = FindClient.FindClientById(message.Header.Sender).Character;
-            if (npc != null)
+            var dynel = FindDynel.FindDynelById(
+                (int)lookAtMessage.Identity.IdentityType, lookAtMessage.Identity.Instance);
+            if (dynel == null)
             {
-                npc.KnuBotAnswer(character, knuBotAnswerMessage.Answer);
+                return;
             }
+
+            ((Character)dynel).SetTarget((int)lookAtMessage.Target.IdentityType, lookAtMessage.Identity.Instance);
         }
 
         #endregion
