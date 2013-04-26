@@ -231,7 +231,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x3a1b2c0c:
                     //KnuBotTrade
-                    KnuBotTrade.Read(packet, client);
                     break;
                 case 0x3a243f41:
                     //DropTemplate

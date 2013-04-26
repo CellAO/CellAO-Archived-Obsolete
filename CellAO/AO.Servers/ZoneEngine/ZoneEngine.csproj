@@ -255,6 +255,7 @@
     <Compile Include="Functions\waypoint.cs" />
     <Compile Include="Functions\weaponeffectcolor.cs" />
     <Compile Include="InventoryEntries.cs" />
+    <Compile Include="MessageHandlers\KnuBotTradeHandler.cs" />
     <Compile Include="MessageHandlers\TradeHandler.cs" />
     <Compile Include="MessageHandlers\KnuBotCloseChatWindowHandler.cs" />
     <Compile Include="MessageHandlers\FollowTargetHandler.cs" />
@@ -304,7 +305,6 @@
     <Compile Include="PacketHandlers\GenericCmd.cs" />
     <Compile Include="PacketHandlers\KnubotCloseChatWindow.cs" />
     <Compile Include="PacketHandlers\KnuBotFinishTrade.cs" />
-    <Compile Include="PacketHandlers\KnuBotTrade.cs" />
     <Compile Include="PacketHandlers\N3Message.cs" />
     <Compile Include="PacketHandlers\OrgClient.cs" />
     <Compile Include="PacketHandlers\SkillUpdate.cs" />
