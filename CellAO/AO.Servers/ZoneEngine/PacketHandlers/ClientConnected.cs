@@ -234,9 +234,9 @@ namespace ZoneEngine.PacketHandlers
             var message = new CharacterActionMessage
                               {
                                   Identity = identity, 
-                                  CharacterActionType = CharacterActionType.ChangeAnimationAndStance,
+                                  Action = CharacterActionType.ChangeAnimationAndStance,
                                   Target = Identity.None,
-                                  ActionArgs = 
+                                  Parameter = 
                                       new Identity
                                           {
                                               Type = IdentityType.None, 

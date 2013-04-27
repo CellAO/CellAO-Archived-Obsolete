@@ -259,6 +259,7 @@
     <Compile Include="MessageHandlers\CharDCMoveHandler.cs" />
     <Compile Include="MessageHandlers\CharInPlayHandler.cs" />
     <Compile Include="MessageHandlers\ChatCmdHandler.cs" />
+    <Compile Include="MessageHandlers\CharacterActionHandler.cs" />
     <Compile Include="MessageHandlers\KnuBotFinishTradeHandler.cs" />
     <Compile Include="MessageHandlers\GenericCmdHandler.cs" />
     <Compile Include="MessageHandlers\KnuBotStartTradeHandler.cs" />

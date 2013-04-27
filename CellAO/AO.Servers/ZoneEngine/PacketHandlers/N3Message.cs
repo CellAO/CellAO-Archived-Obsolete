@@ -430,7 +430,6 @@ namespace ZoneEngine.PacketHandlers
                     //KnuBotAppendText
                     break;
                 case 0x5e477770:
-                    CharacterAction.Read(packet, client);
                     break;
                 case 0x5e5b6007:
                     //HouseDisappeared
