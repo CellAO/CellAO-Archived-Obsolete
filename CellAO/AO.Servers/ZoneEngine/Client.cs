@@ -214,7 +214,7 @@ namespace ZoneEngine
             packet[0] = pn[1];
             packet[1] = pn[0];
 
-            this.Send(packet);
+            base.Send(packet);
         }
 
         public bool SendChatText(string text)
