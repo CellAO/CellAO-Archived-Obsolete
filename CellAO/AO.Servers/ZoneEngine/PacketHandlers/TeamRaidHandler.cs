@@ -1,40 +1,52 @@
-﻿#region License
-// Copyright (c) 2005-2012, CellAO Team
-// 
-// All rights reserved.
-// 
-// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-// 
-//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#endregion
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TeamRaidHandler.cs" company="CellAO Team">
+//   Copyright © 2005-2013 CellAO Team.
+//   
+//   All rights reserved.
+//   
+//   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//   
+//       * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//       * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//       * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//   
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+//   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+//   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+//   A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+//   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+//   EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+//   PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+//   PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//   LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+//   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// </copyright>
+// <summary>
+//   Defines the RaidClass type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ZoneEngine.PacketHandlers
 {
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
+
     using ZoneEngine.Misc;
+
+    using Identity = AO.Core.Identity;
 
     public class RaidClass
     {
-        private uint raidID;
+        #region Fields
+
+        private int numberOfTeams;
 
         private bool raidEnabled;
 
-        private int numberOfTeams;
+        private uint raidID;
 
         private uint raidLeader;
 
@@ -52,18 +64,18 @@ namespace ZoneEngine.PacketHandlers
 
         private uint team6ID;
 
+        #endregion
+
         // : TODO
     }
 
     public class TeamClass
     {
-        private uint teamID;
-
-        private int numberOfPlayers;
-
-        private uint teamLeader;
+        #region Fields
 
         private int lootMode; // 0 : All, 1 : Alpha, 2 : Leader.
+
+        private int numberOfPlayers;
 
         private uint plr1ID;
 
@@ -77,71 +89,13 @@ namespace ZoneEngine.PacketHandlers
 
         private uint plr6ID;
 
-        public void LeaveTeam(Client sendingPlayer)
-        {
-            // Send Team Request To Other Player
+        private uint teamID;
 
-            PacketWriter pktTeamRequest = new PacketWriter();
-            pktTeamRequest.PushByte(0xDF);
-            pktTeamRequest.PushByte(0xDF); // Header
-            pktTeamRequest.PushShort(0xA); // Packet Type
-            pktTeamRequest.PushShort(1); // Unknown 1
-            pktTeamRequest.PushShort(0); // Legnth
-            pktTeamRequest.PushInt(3086); // Sender
-            pktTeamRequest.PushInt(sendingPlayer.Character.Id); // Reciever
-            pktTeamRequest.PushInt(0x5e477770); // Packet ID
-            pktTeamRequest.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
-            pktTeamRequest.PushByte(0);
-            pktTeamRequest.PushInt(0x20); // Action ID
-            pktTeamRequest.PushInt(0);
-            pktTeamRequest.PushInt(50000);
-            pktTeamRequest.PushInt(sendingPlayer.Character.Id);
-            pktTeamRequest.PushInt(0x2EA0022); // Team ID Variable Goes Here
-            pktTeamRequest.PushByte(0xFF);
-            pktTeamRequest.PushByte(0xFF);
-            pktTeamRequest.PushByte(0xFF);
-            pktTeamRequest.PushByte(0xFF);
-            pktTeamRequest.PushShort(0);
+        private uint teamLeader;
 
-            byte[] teamRequestPacket = pktTeamRequest.Finish();
-            sendingPlayer.SendCompressed(teamRequestPacket);
-        }
+        #endregion
 
-        public void SendTeamRequest(Client sendingPlayer, Identity recievingPlayer)
-        {
-            if (sendingPlayer.Character.Id != recievingPlayer.Instance)
-            {
-                // Send Team Request To Other Player
-
-                PacketWriter pktTeamRequest = new PacketWriter();
-                pktTeamRequest.PushByte(0xDF);
-                pktTeamRequest.PushByte(0xDF); // Header
-                pktTeamRequest.PushShort(0xA); // Packet Type
-                pktTeamRequest.PushShort(1); // Unknown 1
-                pktTeamRequest.PushShort(0); // Legnth
-                pktTeamRequest.PushInt(3086); // Sender
-                pktTeamRequest.PushInt(recievingPlayer.Instance); // Reciever
-                pktTeamRequest.PushInt(0x5e477770); // Packet ID
-                pktTeamRequest.PushIdentity(recievingPlayer); // TYPE / ID
-                pktTeamRequest.PushInt(0);
-                pktTeamRequest.PushByte(0x1A); // Action ID
-                pktTeamRequest.PushInt(0);
-                pktTeamRequest.PushInt(recievingPlayer.Type);
-                pktTeamRequest.PushInt(sendingPlayer.Character.Id);
-                pktTeamRequest.PushInt(0);
-                pktTeamRequest.PushInt(1);
-                pktTeamRequest.PushShort(0);
-
-                byte[] teamRequestPacket = pktTeamRequest.Finish();
-                Client receiver = FindClient.FindClientById(recievingPlayer.Instance);
-                if (receiver != null)
-                {
-                    receiver.SendCompressed(teamRequestPacket);
-                }
-            }
-        }
-
-        // Create a New Team ID and Return it to Call
+        #region Public Methods and Operators
 
         public static uint GenerateNewTeamId(Client sendingPlayer, Identity recievingPlayer)
         {
@@ -152,51 +106,111 @@ namespace ZoneEngine.PacketHandlers
             // Assign current Team Number
 
             // Apply To Variable in Core to be accessed 
-
             uint newTeamId = 7;
             return newTeamId;
         }
 
-        // Team Request Reply : CharAction 15
-
-        public void TeamRequestReply(Client sendingPlayer, Identity recievingPlayer)
+        public void LeaveTeam(Client sendingPlayer)
         {
-            // Accept Team Request CharAction Hex:15
-            PacketWriter pktCharAction15 = new PacketWriter();
-            pktCharAction15.PushByte(0xDF);
-            pktCharAction15.PushByte(0xDF); // Header
-            pktCharAction15.PushShort(0xA); // Packet Type
-            pktCharAction15.PushShort(1); // Unknown 1
-            pktCharAction15.PushShort(0); // Legnth
-            pktCharAction15.PushInt(3086); // Sender
-            pktCharAction15.PushInt(sendingPlayer.Character.Id); // Reciever
-            pktCharAction15.PushInt(0x5e477770); // Packet ID
-            pktCharAction15.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
-            pktCharAction15.PushByte(0);
-            pktCharAction15.PushInt(0x15); // Action ID
-            pktCharAction15.PushInt(0);
-            pktCharAction15.PushInt(0);
-            pktCharAction15.PushInt(0);
-            pktCharAction15.PushInt(0);
-            pktCharAction15.PushInt(0x11); // ??
-            pktCharAction15.PushShort(0);
-            byte[] characterAction15Packet = pktCharAction15.Finish();
+            // Send Team Request To Other Player
+            var message = new CharacterActionMessage
+                              {
+                                  Identity =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  sendingPlayer
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Unknown = 0x00, 
+                                  Action = CharacterActionType.LeaveTeam, 
+                                  Target =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  sendingPlayer
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Parameter1 = 0x02EA0022, // Team ID Variable Goes Here
+                                  Parameter2 = -1, 
+                                  Unknown2 = 0
+                              };
 
-            // IF Statement Determining Destination Client to Send Packet To
+            sendingPlayer.SendCompressed(message);
+        }
 
-            Client receiver = FindClient.FindClientById(sendingPlayer.Character.Id);
-            if (receiver != null)
+        public void SendTeamRequest(Client sendingPlayer, Identity recievingPlayer)
+        {
+            if (sendingPlayer.Character.Id != recievingPlayer.Instance)
             {
-                receiver.SendCompressed(characterAction15Packet);
+                // Send Team Request To Other Player
+                var message = new CharacterActionMessage
+                                  {
+                                      Identity =
+                                          new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                              {
+                                                  Type
+                                                      =
+                                                      (
+                                                      IdentityType
+                                                      )
+                                                      recievingPlayer
+                                                          .Type, 
+                                                  Instance
+                                                      =
+                                                      recievingPlayer
+                                                      .Instance
+                                              }, 
+                                      Unknown = 0x00, 
+                                      Action = CharacterActionType.TeamRequest, 
+                                      Target =
+                                          new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                              {
+                                                  Type
+                                                      =
+                                                      (
+                                                      IdentityType
+                                                      )
+                                                      recievingPlayer
+                                                          .Type, 
+                                                  Instance
+                                                      =
+                                                      sendingPlayer
+                                                      .Character
+                                                      .Id
+                                              }, 
+                                      Parameter1 = 0, 
+                                      Parameter2 = 1, 
+                                      Unknown2 = 0
+                                  };
+
+                var receiver = FindClient.FindClientById(recievingPlayer.Instance);
+                if (receiver != null)
+                {
+                    receiver.SendCompressed(message);
+                }
             }
         }
 
-        // Team Reply Packet 46312D2E : TeamMember
+        // Create a New Team ID and Return it to Call
 
+        // Team Reply Packet 46312D2E : TeamMember
         public void TeamReplyPacketTeamMember(
             int destinationClient, Client sendingPlayer, Identity recievingPlayer, string charName)
         {
-            PacketWriter packetWriter = new PacketWriter();
+            var packetWriter = new PacketWriter();
             packetWriter.PushByte(0xDF);
             packetWriter.PushByte(0xDF); // Header
             packetWriter.PushShort(0xA); // Packet Type
@@ -230,12 +244,13 @@ namespace ZoneEngine.PacketHandlers
                     packetWriter.PushByte(0x6D);
                     packetWriter.PushByte(0x61); // Name continued?
                     packetWriter.PushShort(0);
-                    byte[] packet = packetWriter.Finish();
-                    Client receiver = FindClient.FindClientById(recievingPlayer.Instance);
+                    var packet = packetWriter.Finish();
+                    var receiver = FindClient.FindClientById(recievingPlayer.Instance);
                     if (receiver != null)
                     {
                         receiver.SendCompressed(packet);
                     }
+
                     break;
 
                 case 1:
@@ -262,17 +277,16 @@ namespace ZoneEngine.PacketHandlers
                     packetWriter.PushByte(0x6D);
                     packetWriter.PushByte(0x61); // Name continued?
                     packetWriter.PushShort(0);
-                    byte[] packet2 = packetWriter.Finish();
+                    var packet2 = packetWriter.Finish();
                     sendingPlayer.SendCompressed(packet2);
                     break;
             }
         }
 
         // Team Reply Packet 28784248 : TeamMemberInfo + health and nano?????
-
         public void TeamReplyPacketTeamMemberInfo(int destinationClient, Client sendingPlayer, Identity recievingPlayer)
         {
-            PacketWriter packetWriter = new PacketWriter();
+            var packetWriter = new PacketWriter();
             packetWriter.PushByte(0xDF);
             packetWriter.PushByte(0xDF); // Header
             packetWriter.PushShort(0xA); // Packet Type
@@ -293,12 +307,13 @@ namespace ZoneEngine.PacketHandlers
                     packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
                     packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
                     packetWriter.PushShort(0);
-                    byte[] packet = packetWriter.Finish();
-                    Client receiver = FindClient.FindClientById(recievingPlayer.Instance);
+                    var packet = packetWriter.Finish();
+                    var receiver = FindClient.FindClientById(recievingPlayer.Instance);
                     if (receiver != null)
                     {
                         receiver.SendCompressed(packet);
                     }
+
                     break;
 
                 case 1:
@@ -312,44 +327,93 @@ namespace ZoneEngine.PacketHandlers
                     packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
                     packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
                     packetWriter.PushShort(0);
-                    byte[] packet2 = packetWriter.Finish();
+                    var packet2 = packetWriter.Finish();
                     sendingPlayer.SendCompressed(packet2);
                     break;
             }
         }
 
-        // Team Request Reply : CharAction 23
+        public void TeamRequestReply(Client sendingPlayer, Identity recievingPlayer)
+        {
+            var message = new CharacterActionMessage
+                              {
+                                  Identity =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  sendingPlayer
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Unknown = 0x00, 
+                                  Action = CharacterActionType.TeamRequestReply, 
+                                  Target =
+                                      SmokeLounge.AOtomation.Messaging.GameData.Identity.None, 
+                                  Parameter1 = 0, 
+                                  Parameter2 = 0x11, // ??
+                                  Unknown2 = 0
+                              };
 
+            // IF Statement Determining Destination Client to Send Packet To
+            var receiver = FindClient.FindClientById(sendingPlayer.Character.Id);
+            if (receiver != null)
+            {
+                receiver.SendCompressed(message);
+            }
+        }
+
+        // Team Request Reply : CharAction 23
         public void TeamRequestReplyCharacterAction23(Client sendingPlayer, Identity recievingPlayer)
         {
             // Accept Team Request CharAction Hex:23
-            PacketWriter pktCharAction23 = new PacketWriter();
-            pktCharAction23.PushByte(0xDF);
-            pktCharAction23.PushByte(0xDF); // Header
-            pktCharAction23.PushShort(0xA); // Packet Type
-            pktCharAction23.PushShort(1); // Unknown 1
-            pktCharAction23.PushShort(0); // Legnth
-            pktCharAction23.PushInt(3086); // Sender
-            pktCharAction23.PushInt(sendingPlayer.Character.Id); // Reciever
-            pktCharAction23.PushInt(0x5e477770); // Packet ID
-            pktCharAction23.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
-            pktCharAction23.PushByte(0);
-            pktCharAction23.PushInt(0x23); // Action ID
-            pktCharAction23.PushInt(0);
-            pktCharAction23.PushInt(50000);
-            pktCharAction23.PushInt(sendingPlayer.Character.Id);
-            pktCharAction23.PushInt(0xDEA9); // Team Window Information ??
-            pktCharAction23.PushInt(0x2EA0022); // Team ID Variable Goes Here
-            pktCharAction23.PushShort(0);
-            byte[] packet = pktCharAction23.Finish();
+            var message = new CharacterActionMessage
+                              {
+                                  Identity =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  sendingPlayer
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Unknown = 0x00, 
+                                  Action = CharacterActionType.AcceptTeamRequest, 
+                                  Target =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  sendingPlayer
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Parameter1 = (int)IdentityType.TeamWindow, 
+                                  Parameter2 = 0x2EA0022, // Team ID Variable Goes Here
+                                  Unknown2 = 0
+                              };
 
             // IF Statement Determining Destination Client to Send Packet To
-
-            Client receiver = FindClient.FindClientById(sendingPlayer.Character.Id);
+            var receiver = FindClient.FindClientById(sendingPlayer.Character.Id);
             if (receiver != null)
             {
-                receiver.SendCompressed(packet);
+                receiver.SendCompressed(message);
             }
         }
+
+        #endregion
     }
 }
