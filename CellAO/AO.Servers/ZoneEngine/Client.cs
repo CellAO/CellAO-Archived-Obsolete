@@ -54,7 +54,6 @@ namespace ZoneEngine
 
     using Config = AO.Core.Config.ConfigReadWrite;
     using Header = SmokeLounge.AOtomation.Messaging.Messages.Header;
-    using N3Message = ZoneEngine.PacketHandlers.N3Message;
     using Timer = System.Timers.Timer;
 
     public class Client : ClientBase
@@ -683,68 +682,15 @@ namespace ZoneEngine
                     this, "Client sent malformed message {0}", messageNumber.ToString(CultureInfo.InvariantCulture));
             }
 
-            if (message != null)
+            if (message == null)
             {
-                this.bus.Publish(new MessageReceivedEvent(this, message));
+                var messageNumber = this.GetMessageNumber(packet);
+                this.Server.Warning(
+                    this, "Client sent unknown message {0}", messageNumber.ToString(CultureInfo.InvariantCulture));
                 return;
             }
 
-            var reader = new PacketReader(packet);
-
-            // TODO: make check here to see if packet starts with 0xDFDF
-            reader.ReadBytes(2);
-
-            // Packet type
-            var type = reader.PopShort();
-
-            // Unknown?
-            reader.PopShort();
-
-            // Packet Length
-            reader.PopShort();
-
-            // Sender
-            reader.PopInt();
-
-            // Receiver
-            reader.PopInt();
-
-            // PacketID
-            var id = reader.PopInt();
-
-            switch (type)
-            {
-                case 0x0A:
-                    {
-                        // N3Message
-                        N3Message.Parse(this, packet, id);
-                        break;
-                    }
-
-                case 0x0B:
-                    {
-                        // PingMessage
-                        break;
-                    }
-
-                case 0x0E:
-                    {
-                        // OperatorMessage
-                        break;
-                    }
-
-                default:
-                    {
-                        var messageNumber = this.GetMessageNumber(packet);
-                        this.Server.Warning(
-                            this, 
-                            "Client sent unknown message {0}", 
-                            messageNumber.ToString(CultureInfo.InvariantCulture));
-                        break;
-                    }
-            }
-
-            reader.Finish();
+            this.bus.Publish(new MessageReceivedEvent(this, message));
         }
 
         // Called after 30 second timer elapses

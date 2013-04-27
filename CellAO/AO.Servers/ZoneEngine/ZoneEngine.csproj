@@ -319,7 +319,6 @@
     <Compile Include="PacketHandlers\dynels.cs" />
     <Compile Include="PacketHandlers\GenericCmd.cs" />
     <Compile Include="PacketHandlers\KnubotCloseChatWindow.cs" />
-    <Compile Include="PacketHandlers\N3Message.cs" />
     <Compile Include="PacketHandlers\OrgClient.cs" />
     <Compile Include="PacketHandlers\SkillUpdate.cs" />
     <Compile Include="PacketHandlers\TeamRaidHandler.cs" />
