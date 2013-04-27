@@ -143,7 +143,7 @@ namespace ZoneEngine.PacketHandlers
                                                 .wf
                                         }, 
                                 Coordinates =
-                                    new Vector3 { X = heading.xf, Y = heading.yf, Z = heading.zf }, 
+                                    new Vector3 { X = coordinates.x, Y = coordinates.y, Z = coordinates.z }, 
                                 Unknown1 = tmpInt1, 
                                 Unknown2 = tmpInt2, 
                                 Unknown3 = tmpInt3
