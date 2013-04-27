@@ -801,7 +801,7 @@ namespace Extractor_Serializer
                 R = false;
                 foreach (object oo in this.ParseArgs(func.FunctionType, ref R))
                 {
-                    func.Arguments.Add(oo);
+                    func.Arguments.Values.Add(oo);
                 }
 
                 list.Add(func);
@@ -858,9 +858,9 @@ namespace Extractor_Serializer
                     this.br.Skip(count);
 
                     AOFunctions aof = new AOFunctions();
-                    aof.Arguments.Add(text);
-                    aof.Arguments.Add(num5);
-                    aof.Arguments.Add(num6);
+                    aof.Arguments.Values.Add(text);
+                    aof.Arguments.Values.Add(num5);
+                    aof.Arguments.Values.Add(num6);
                     aof.Target = 255;
                     aof.TickCount = 1;
                     aof.TickInterval = 0;

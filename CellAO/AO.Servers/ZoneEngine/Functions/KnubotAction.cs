@@ -64,7 +64,7 @@ namespace ZoneEngine.Functions
         public AOFunctions CreateKnuBotFunction(int knubotAction)
         {
             AOFunctions aof = new AOFunctions();
-            aof.Arguments.Add(knubotAction);
+            aof.Arguments.Values.Add(knubotAction);
             aof.TickCount = 1;
             aof.TickInterval = 0;
             aof.FunctionType = this.FunctionNumber;

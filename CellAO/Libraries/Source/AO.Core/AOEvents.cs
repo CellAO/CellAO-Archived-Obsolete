@@ -34,7 +34,7 @@ namespace AO.Core
     /// AOEvent
     /// </summary>
     [Serializable]
-    public class AOEvents : ISerializable
+    public class AOEvents
     {
         /// <summary>
         /// Type of the Event (constants in ItemHandler)
@@ -45,7 +45,7 @@ namespace AO.Core
         /// List of Functions of the Event
         /// </summary>
         public List<AOFunctions> Functions = new List<AOFunctions>();
-
+        /*
         /// <summary>
         /// Deserialize AOEvent, internal use only
         /// </summary>
@@ -67,43 +67,13 @@ namespace AO.Core
             info.AddValue("EventType", EventType);
             info.AddValue("Functions", Functions);
         }
-
+        */
         /// <summary>
         /// Empty, not used
         /// </summary>
         public AOEvents()
         {
         }
-
-        #region Read Event from blob
-        /// <summary>
-        /// read from blob, only in there for converting
-        /// </summary>
-        /// <param name="blob"></param>
-        /// <param name="offset"></param>
-        /// <returns></returns>
-        public int readEventfromBlob(byte[] blob, int offset)
-        {
-            int c = offset;
-
-            EventType = BitConverter.ToInt32(blob, c);
-            c += 4;
-
-            // Read Event Functions
-            AOFunctions m_aof;
-            int c2 = BitConverter.ToInt32(blob, c);
-            c += 4;
-            while (c2 > 0)
-            {
-                m_aof = new AOFunctions();
-                c = m_aof.ReadFunctionfromBlob(blob, c);
-                Functions.Add(m_aof);
-                c2--;
-            }
-            return c;
-        }
-        #endregion
-
 /*        public void ExecuteEvent(Character ch, bool dolocalstats, bool tosocialtab, int placement)
         {
 

@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using ComponentAce.Compression.Libs.zlib;
+using MsgPack.Serialization;
 #endregion
 
 namespace AO.Core
@@ -67,11 +68,11 @@ namespace AO.Core
             int packaged = BitConverter.ToInt32(buffer, 0);
 
             BinaryReader br = new BinaryReader(ms);
-            BinaryFormatter bf = new BinaryFormatter();
+            var bf = MessagePackSerializer.Create<List<AONanos>>();
 
             while (true)
             {
-                List<AONanos> templist = (List<AONanos>) bf.Deserialize(ms);
+                List<AONanos> templist = bf.Unpack(ms);
                 NanoList.AddRange(templist);
                 if (templist.Count != packaged)
                 {
@@ -101,7 +102,8 @@ namespace AO.Core
 
             ms.Seek(0, SeekOrigin.Begin);
             BinaryReader br = new BinaryReader(ms);
-            BinaryFormatter bf = new BinaryFormatter();
+            var bf = MessagePackSerializer.Create<List<AONanos>>();
+
 
             byte[] buffer = new byte[4];
             ms.Read(buffer, 0, 4);
@@ -109,7 +111,7 @@ namespace AO.Core
 
             while (true)
             {
-                List<AONanos> templist = (List<AONanos>) bf.Deserialize(ms);
+                List<AONanos> templist = (List<AONanos>) bf.Unpack(ms);
                 NanoList.AddRange(templist);
                 if (templist.Count != packaged)
                 {

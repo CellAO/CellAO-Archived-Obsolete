@@ -36,7 +36,7 @@ namespace AO.Core
     /// AOItem
     /// </summary>
     [Serializable]
-    public class AOItem : ISerializable
+    public class AOItem
     {
         /// <summary>
         /// Item Flags
@@ -159,22 +159,22 @@ namespace AO.Core
                         newAOF.Requirements.Add(newAOR);
                     }
 
-                    foreach (object ob in aof.Arguments)
+                    foreach (object ob in aof.Arguments.Values)
                     {
                         if (ob.GetType() == typeof (string))
                         {
                             string z = (string) ob;
-                            newAOF.Arguments.Add(z);
+                            newAOF.Arguments.Values.Add(z);
                         }
                         if (ob.GetType() == typeof (int))
                         {
                             int i = (int) ob;
-                            newAOF.Arguments.Add(i);
+                            newAOF.Arguments.Values.Add(i);
                         }
                         if (ob.GetType() == typeof (Single))
                         {
                             Single s = (Single) ob;
-                            newAOF.Arguments.Add(s);
+                            newAOF.Arguments.Values.Add(s);
                         }
                     }
                     newAOF.dolocalstats = aof.dolocalstats;
@@ -218,7 +218,7 @@ namespace AO.Core
             }
             return true;
         }
-
+        /*
         #region Serialition stuff
         /// <summary>
         /// Deserialize AOItem, internal use only
@@ -264,7 +264,7 @@ namespace AO.Core
             info.AddValue("Events", Events);
         }
         #endregion
-
+        */
         #region GetWeaponStyle
         /// <summary>
         /// Get WeaponStyle (Stat 274)
@@ -362,7 +362,7 @@ namespace AO.Core
     /// AOItemAttribute
     /// </summary>
     [Serializable]
-    public class AOItemAttribute : ISerializable
+    public class AOItemAttribute
     {
         /// <summary>
         /// Stat number of attribute
@@ -382,7 +382,7 @@ namespace AO.Core
             Stat = 0;
             Value = 0;
         }
-
+        /*
         /// <summary>
         /// Serialization, internal use only
         /// </summary>
@@ -404,5 +404,6 @@ namespace AO.Core
             info.AddValue("Stat", Stat);
             info.AddValue("Value", Value);
         }
+         */
     }
 }

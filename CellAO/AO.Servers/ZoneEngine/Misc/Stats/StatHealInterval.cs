@@ -78,10 +78,10 @@ namespace ZoneEngine.Misc
                 at.Function.TickCount = -2;
                 at.Function.TickInterval = (uint)(character.Stats.HealInterval.Value * 1000 - sitBonusInterval);
                 at.Function.FunctionType = Constants.FunctiontypeHit;
-                at.Function.Arguments.Add(27);
-                at.Function.Arguments.Add(healDelta);
-                at.Function.Arguments.Add(healDelta);
-                at.Function.Arguments.Add(0);
+                at.Function.Arguments.Values.Add(27);
+                at.Function.Arguments.Values.Add(healDelta);
+                at.Function.Arguments.Values.Add(healDelta);
+                at.Function.Arguments.Values.Add(0);
                 character.Timers.Add(at);
 
                 if (!this.Parent.Starting)

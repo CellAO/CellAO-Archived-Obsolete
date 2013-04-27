@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using ComponentAce.Compression.Libs.zlib;
+using MsgPack.Serialization;
 #endregion
 
 namespace AO.Core
@@ -67,11 +68,11 @@ namespace AO.Core
             int packaged = BitConverter.ToInt32(buffer, 0);
 
             BinaryReader br = new BinaryReader(ms);
-            BinaryFormatter bf = new BinaryFormatter();
+            var bf2 = MessagePackSerializer.Create<List<AOItem>>();
 
             while (true)
             {
-                List<AOItem> templist = (List<AOItem>) bf.Deserialize(ms);
+                List<AOItem> templist = bf2.Unpack(ms);
                 ItemList.AddRange(templist);
                 if (templist.Count != packaged)
                 {
@@ -101,7 +102,8 @@ namespace AO.Core
 
             ms.Seek(0, SeekOrigin.Begin);
             BinaryReader br = new BinaryReader(ms);
-            BinaryFormatter bf = new BinaryFormatter();
+            var bf2 = MessagePackSerializer.Create<List<AOItem>>();
+
 
             byte[] buffer = new byte[4];
             ms.Read(buffer, 0, 4);
@@ -109,7 +111,7 @@ namespace AO.Core
 
             while (true)
             {
-                List<AOItem> templist = (List<AOItem>) bf.Deserialize(ms);
+                List<AOItem> templist = bf2.Unpack(ms);
                 ItemList.AddRange(templist);
                 if (templist.Count != packaged)
                 {
@@ -213,23 +215,23 @@ namespace AO.Core
                 while (fnum < interp.Events[evnum].Functions.Count)
                 {
                     anum = 0;
-                    while (anum < interp.Events[evnum].Functions[fnum].Arguments.Count)
+                    while (anum < interp.Events[evnum].Functions[fnum].Arguments.Values.Count)
                     {
-                        if (high.Events[evnum].Functions[fnum].Arguments[anum] is int)
+                        if (high.Events[evnum].Functions[fnum].Arguments.Values[anum] is int)
                         {
                             ival = (factor*
-                                    ((int) high.Events[evnum].Functions[fnum].Arguments[anum] -
-                                     (int) low.Events[evnum].Functions[fnum].Arguments[anum])) +
-                                   (int) low.Events[evnum].Functions[fnum].Arguments[anum];
-                            interp.Events[evnum].Functions[fnum].Arguments[anum] = Convert.ToInt32(ival);
+                                    ((int)high.Events[evnum].Functions[fnum].Arguments.Values[anum]-
+                                     (int)low.Events[evnum].Functions[fnum].Arguments.Values[anum])) +
+                                   (int)low.Events[evnum].Functions[fnum].Arguments.Values[anum];
+                            interp.Events[evnum].Functions[fnum].Arguments.Values[anum] = Convert.ToInt32(ival);
                         }
-                        if (high.Events[evnum].Functions[fnum].Arguments[anum] is Single)
+                        if (high.Events[evnum].Functions[fnum].Arguments.Values[anum] is Single)
                         {
                             fval = (factor*
-                                    ((Single) high.Events[evnum].Functions[fnum].Arguments[anum] -
-                                     (Single) low.Events[evnum].Functions[fnum].Arguments[anum])) +
-                                   (Single) low.Events[evnum].Functions[fnum].Arguments[anum];
-                            interp.Events[evnum].Functions[fnum].Arguments[anum] = fval;
+                                    ((Single)high.Events[evnum].Functions[fnum].Arguments.Values[anum]-
+                                     (Single)low.Events[evnum].Functions[fnum].Arguments.Values[anum])) +
+                                   (Single)low.Events[evnum].Functions[fnum].Arguments.Values[anum];
+                            interp.Events[evnum].Functions[fnum].Arguments.Values[anum] = fval;
                         }
                         anum++;
                     }
