@@ -49,6 +49,7 @@ namespace ZoneEngine
     using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
+    using SmokeLounge.AOtomation.Messaging.Messages.SystemMessages;
 
     using ZoneEngine.Misc;
     using ZoneEngine.Packets;
@@ -58,6 +59,7 @@ namespace ZoneEngine
     using Identity = AO.Core.Identity;
     using Quaternion = AO.Core.Quaternion;
     using Timer = System.Timers.Timer;
+    using Vector3 = SmokeLounge.AOtomation.Messaging.GameData.Vector3;
 
     public class Client : ClientBase
     {
@@ -401,45 +403,85 @@ namespace ZoneEngine
 
         public bool Teleport(AOCoord destination, Quaternion heading, int playfield)
         {
-            var writer = new PacketWriter();
+            var message = new N3TeleportMessage
+                              {
+                                  Identity =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  this
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Unknown = 0x00, 
+                                  Destination =
+                                      new Vector3
+                                          {
+                                              X = destination.x, 
+                                              Y = destination.y, 
+                                              Z = destination.z
+                                          }, 
+                                  Heading =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Quaternion
+                                          {
+                                              X =
+                                                  heading
+                                                  .xf, 
+                                              Y =
+                                                  heading
+                                                  .yf, 
+                                              Z =
+                                                  heading
+                                                  .zf, 
+                                              W =
+                                                  heading
+                                                  .wf
+                                          }, 
+                                  Unknown1 = 0x61, 
+                                  Playfield =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .Playfield1, 
+                                              Instance
+                                                  =
+                                                  playfield
+                                          }, 
+                                  ChangePlayfield =
+                                      playfield != this.Character.PlayField
+                                          ? new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                                {
+                                                    Type
+                                                        =
+                                                        IdentityType
+                                                        .Playfield2, 
+                                                    Instance
+                                                        =
+                                                        playfield
+                                                }
+                                          : SmokeLounge.AOtomation.Messaging.GameData.Identity.None, 
+                                  Playfield2 =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .Playfield3, 
+                                              Instance
+                                                  =
+                                                  playfield
+                                          }, 
+                              };
 
-            // header starts
-            writer.PushByte(0xDF);
-            writer.PushByte(0xDF);
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(this.Character.Id);
-            writer.PushInt(0x43197D22);
-            writer.PushIdentity(50000, this.Character.Id);
-            writer.PushByte(0);
-
-            // Header ends
-            writer.PushCoord(destination);
-            writer.PushQuat(heading);
-            writer.PushByte(97);
-            writer.PushIdentity(51100, playfield);
-            writer.PushInt(0);
-            writer.PushInt(0);
-            if (playfield != this.Character.PlayField)
-            {
-                writer.PushIdentity(40016, playfield);
-            }
-            else
-            {
-                writer.PushIdentity(0, 0);
-            }
-
-            writer.PushInt(0);
-            writer.PushInt(0);
-            writer.PushIdentity(100001, playfield);
-            writer.PushInt(0);
-            writer.PushInt(0);
-            writer.PushInt(0);
-            var tpreply = writer.Finish();
             Despawn.DespawnPacket(this.Character.Id);
-            this.SendCompressed(tpreply);
+            this.SendCompressed(message);
             this.Character.DoNotDoTimers = true;
             this.Character.Stats.ExtenalDoorInstance.Value = 0;
             this.Character.Stats.ExtenalPlayfieldInstance.Value = 0;
@@ -456,37 +498,26 @@ namespace ZoneEngine
             this.Character.PlayField = playfield;
             this.Character.Purge(); // Purge character information to DB before client reconnect
 
-            IPAddress tempIP;
-            if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
+            IPAddress tempIp;
+            if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIp) == false)
             {
                 var zoneHost = Dns.GetHostEntry(Config.Instance.CurrentConfig.ZoneIP);
                 foreach (var ip in zoneHost.AddressList)
                 {
                     if (ip.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        tempIP = ip;
+                        tempIp = ip;
                         break;
                     }
                 }
             }
 
-            var zoneIP = IPAddress.HostToNetworkOrder(BitConverter.ToInt32(tempIP.GetAddressBytes(), 0));
             var zonePort = Convert.ToInt16(Config.Instance.CurrentConfig.ZonePort);
 
             Thread.Sleep(1000);
-            var writer2 = new PacketWriter();
-            writer2.PushByte(0xDF);
-            writer2.PushByte(0xDF);
-            writer2.PushShort(1);
-            writer2.PushShort(1);
-            writer2.PushShort(0);
-            writer2.PushInt(3086);
-            writer2.PushInt(this.Character.Id);
-            writer2.PushInt(60);
-            writer2.PushInt(zoneIP);
-            writer2.PushShort(zonePort);
-            var connect = writer2.Finish();
-            this.SendCompressed(connect);
+
+            var redirect = new ZoneRedirectionMessage { ServerIpAddress = tempIp, ServerPort = (ushort)zonePort };
+            this.SendCompressed(redirect);
             return true;
         }
 
@@ -500,38 +531,102 @@ namespace ZoneEngine
             Identity R, 
             Identity dest)
         {
-            var writer = new PacketWriter();
+            var message = new N3TeleportMessage
+                              {
+                                  Identity =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  this
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Unknown = 0x00, 
+                                  Destination =
+                                      new Vector3
+                                          {
+                                              X = this.Character.RawCoord.x, 
+                                              Y = this.Character.RawCoord.y, 
+                                              Z = this.Character.RawCoord.z
+                                          }, 
+                                  Heading =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Quaternion
+                                          {
+                                              X =
+                                                  this
+                                                  .Character
+                                                  .RawHeading
+                                                  .xf, 
+                                              Y =
+                                                  this
+                                                  .Character
+                                                  .RawHeading
+                                                  .yf, 
+                                              Z =
+                                                  this
+                                                  .Character
+                                                  .RawHeading
+                                                  .zf, 
+                                              W =
+                                                  this
+                                                  .Character
+                                                  .RawHeading
+                                                  .wf
+                                          }, 
+                                  Unknown1 = 0x61, 
+                                  Playfield =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  (
+                                                  IdentityType
+                                                  )
+                                                  pfinstance
+                                                      .Type, 
+                                              Instance
+                                                  =
+                                                  pfinstance
+                                                  .Instance
+                                          }, 
+                                  GameServerId = GS, 
+                                  SgId = SG, 
+                                  ChangePlayfield =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .Playfield2, 
+                                              Instance
+                                                  =
+                                                  playfield
+                                          }, 
+                                  Playfield2 =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  (
+                                                  IdentityType
+                                                  )
+                                                  dest
+                                                      .Type, 
+                                              Instance
+                                                  =
+                                                  dest
+                                                  .Instance
+                                          }, 
+                              };
 
-            // header starts
-            writer.PushByte(0xDF);
-            writer.PushByte(0xDF);
-            writer.PushShort(10);
-            writer.PushShort(1);
-            writer.PushShort(0);
-            writer.PushInt(3086);
-            writer.PushInt(this.Character.Id);
-            writer.PushInt(0x43197D22);
-            writer.PushIdentity(50000, this.Character.Id);
-            writer.PushByte(0);
-
-            // Header ends
-            writer.PushCoord(this.Character.RawCoord);
-            writer.PushQuat(this.Character.RawHeading);
-            writer.PushByte(97);
-            writer.PushIdentity(pfinstance.Type, pfinstance.Instance);
-            writer.PushInt(GS);
-            writer.PushInt(SG);
-            writer.PushIdentity(40016, playfield);
-
-            // Dont know for sure if its correct to only transfer the playfield here
-            writer.PushInt(0);
-            writer.PushInt(0);
-            writer.PushIdentity(dest.Type, dest.Instance);
-            writer.PushInt(0);
-            var tpreply = writer.Finish();
             this.Character.DoNotDoTimers = true;
             Despawn.DespawnPacket(this.Character.Id);
-            this.SendCompressed(tpreply);
+            this.SendCompressed(message);
             this.Character.DoNotDoTimers = true;
             this.Character.Stats.LastConcretePlayfieldInstance.Value = this.Character.PlayField;
             this.Character.Stats.ExtenalDoorInstance.Value = SG;
@@ -543,38 +638,25 @@ namespace ZoneEngine
             this.Character.Resource = 0x3c000;
             this.Character.Purge(); // Purge character information to DB before client reconnect
 
-            IPAddress tempIP;
-            if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIP) == false)
+            IPAddress tempIp;
+            if (IPAddress.TryParse(Config.Instance.CurrentConfig.ZoneIP, out tempIp) == false)
             {
                 var zoneHost = Dns.GetHostEntry(Config.Instance.CurrentConfig.ZoneIP);
                 foreach (var ip in zoneHost.AddressList)
                 {
                     if (ip.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        tempIP = ip;
+                        tempIp = ip;
                         break;
                     }
                 }
             }
 
-            var zoneIP = IPAddress.HostToNetworkOrder(BitConverter.ToInt32(tempIP.GetAddressBytes(), 0));
             var zonePort = Convert.ToInt16(Config.Instance.CurrentConfig.ZonePort);
 
             Thread.Sleep(1000);
-
-            var writer2 = new PacketWriter();
-            writer2.PushByte(0xDF);
-            writer2.PushByte(0xDF);
-            writer2.PushShort(1);
-            writer2.PushShort(1);
-            writer2.PushShort(0);
-            writer2.PushInt(3086);
-            writer2.PushInt(this.Character.Id);
-            writer2.PushInt(60);
-            writer2.PushInt(zoneIP);
-            writer2.PushShort(zonePort);
-            var connect = writer2.Finish();
-            this.SendCompressed(connect);
+            var redirect = new ZoneRedirectionMessage { ServerIpAddress = tempIp, ServerPort = (ushort)zonePort };
+            this.SendCompressed(redirect);
             return true;
         }
 

@@ -87,7 +87,7 @@ namespace LoginEngine.MessageHandlers
                 zoneIpAdress = zoneHost.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
             }
 
-            var zoneRedirectionMessage = new ZoneRedirectionMessage
+            var zoneRedirectionMessage = new ZoneInfoMessage
                                              {
                                                  CharacterId = selectCharacterMessage.CharacterId, 
                                                  ServerIpAddress = zoneIpAdress, 
