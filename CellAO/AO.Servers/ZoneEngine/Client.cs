@@ -35,7 +35,6 @@ namespace ZoneEngine
     using System.Linq;
     using System.Net;
     using System.Net.Sockets;
-    using System.Text;
     using System.Threading;
     using System.Timers;
 
@@ -222,20 +221,19 @@ namespace ZoneEngine
                               {
                                   Identity =
                                       new SmokeLounge.AOtomation.Messaging.GameData.Identity
-                                      {
-                                          Type
-                                              =
-                                              IdentityType
-                                              .CanbeAffected,
-                                          Instance
-                                              =
-                                              this
-                                              .Character
-                                              .Id
-                                      },
-                                  Unknown = 0x00,
-                                  Text = text,
-                                  Unknown1 = 0x1000,
+                                          {
+                                              Type =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  this
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Unknown = 0x00, 
+                                  Text = text, 
+                                  Unknown1 = 0x1000, 
                                   Unknown2 = 0x00000000
                               };
             this.SendCompressed(message);
@@ -340,22 +338,26 @@ namespace ZoneEngine
 
         public bool SendFeedback(int MsgCategory, int MsgNum)
         {
-            var _writer = new PacketWriter();
-            _writer.PushByte(0xDF);
-            _writer.PushByte(0xDF);
-            _writer.PushShort(10); /* Packet type */
-            _writer.PushShort(1); /* ? */
-            _writer.PushShort(0); /* Packet size (0 for now, PacketWriter takes care of it)*/
-            _writer.PushInt(3086); /* Sender (our server ID)*/
-            _writer.PushInt(this.Character.Id); /* Receiver */
-            _writer.PushInt(0x50544d19); /* Packet ID */
-            _writer.PushIdentity(50000, this.Character.Id); /* Affected identity */
-            _writer.PushByte(1); /* ? */
-            _writer.PushInt(0); /* ? */
-            _writer.PushInt(MsgCategory); /* Message category ID */
-            _writer.PushInt(MsgNum); /* message ID */
-            var reply = _writer.Finish();
-            this.SendCompressed(reply);
+            var message = new FeedbackMessage
+                              {
+                                  Identity =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  this
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Unknown = 0x01, 
+                                  Unknown1 = 0x00000000, 
+                                  CategoryId = MsgCategory, 
+                                  MessageId = MsgNum
+                              };
+            this.SendCompressed(message);
             return true;
         }
 
