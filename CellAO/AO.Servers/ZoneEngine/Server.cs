@@ -39,6 +39,9 @@ namespace ZoneEngine
 
     using Cell.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
+
     using ZoneEngine.Collision;
     using ZoneEngine.Component;
     using ZoneEngine.Misc;
@@ -156,15 +159,17 @@ namespace ZoneEngine
             var client = (Client)clientBase;
 
             // client.Server.ConnectedClients.Remove(client.CharacterID);
-            var m_ID = BitConverter.GetBytes(client.Character.Id);
-            Array.Reverse(m_ID);
-            var logoff = new byte[]
-                             {
-                                 0xdf, 0xdf, 0x00, 0x0a, 0x00, 0x01, 0x00, 0x1d, 0x00, 0x00, 0x0c, 0x0e, 0x00, 0x00, 0x00, 
-                                 0x00, 0x36, 0x51, 0x00, 0x78, 0x00, 0x00, 0xc3, 0x50, m_ID[0], m_ID[1], m_ID[2], m_ID[3], 
-                                 0x01
-                             };
-            Announce.PlayfieldOthers(client, logoff);
+            var message = new DespawnMessage
+                              {
+                                  Identity =
+                                      new Identity {
+                                              Type = IdentityType.CanbeAffected,
+                                              Instance = client.Character.Id
+                                          },
+                                  Unknown = 0x01
+                              };
+
+            Announce.PlayfieldOthers(client, message);
 
             client.Character.Purge();
 
