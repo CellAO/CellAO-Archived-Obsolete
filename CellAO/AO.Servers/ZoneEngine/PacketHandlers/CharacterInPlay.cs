@@ -56,7 +56,7 @@ namespace ZoneEngine.PacketHandlers
                                            }, 
                                    Unknown = 0x00
                                };
-            Announce.Playfield(client.Character.PlayField, client.Character.Id, announce);
+            Announce.Playfield(client.Character.PlayField, announce);
             Dynels.GetDynels(client);
 
             // Mobs get sent whenever player enters playfield, BUT (!) they are NOT synchronized, because the mobs don't save stuff yet.

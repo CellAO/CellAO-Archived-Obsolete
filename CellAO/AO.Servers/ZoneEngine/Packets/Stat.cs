@@ -72,12 +72,12 @@ namespace ZoneEngine.Packets
                                           }
                               };
 
-            client.SendCompressed(0x00000C0E, client.Character.Id, message);
+            client.SendCompressed(message);
 
             /* announce to playfield? */
             if (announce)
             {
-                Announce.PlayfieldOthers(client, 0x00000C0E, message);
+                Announce.PlayfieldOthers(client, message);
             }
         }
 
@@ -128,7 +128,7 @@ namespace ZoneEngine.Packets
                                   Stats = stats.ToArray()
                               };
 
-            Announce.PlayfieldOthers(ch.PlayField, 0x00000C0E, message);
+            Announce.PlayfieldOthers(ch.PlayField, message);
         }
 
         public static void SendBulk(Client client, Dictionary<int, uint> statsToUpdate)
@@ -176,13 +176,13 @@ namespace ZoneEngine.Packets
                                   Stats = toClient.ToArray()
                               };
 
-            client.SendCompressed(3086, client.Character.Id, message);
+            client.SendCompressed(message);
 
             /* announce to playfield? */
             if (toPlayfieldIds.Count > 0)
             {
                 message.Stats = toPlayfield.ToArray();
-                Announce.PlayfieldOthers(client, 0x00000C0E, message);
+                Announce.PlayfieldOthers(client, message);
             }
         }
 

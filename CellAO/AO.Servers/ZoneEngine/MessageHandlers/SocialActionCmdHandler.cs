@@ -60,7 +60,7 @@ namespace ZoneEngine.MessageHandlers
                                    Unknown5 = socialActionCmdMessage.Unknown5, 
                                    Action = socialActionCmdMessage.Action
                                };
-            Announce.Playfield(client.Character.PlayField, 0x00000C0E, announce);
+            Announce.Playfield(client.Character.PlayField, announce);
         }
 
         #endregion

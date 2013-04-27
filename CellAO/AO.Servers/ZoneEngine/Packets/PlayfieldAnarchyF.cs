@@ -85,7 +85,7 @@ namespace ZoneEngine.Packets
                                                   };
             }
 
-            client.SendCompressed(0x00000C0E, client.Character.Id, message);
+            client.SendCompressed(message);
         }
 
         #endregion

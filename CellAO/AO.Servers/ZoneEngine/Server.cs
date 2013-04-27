@@ -73,10 +73,18 @@ namespace ZoneEngine
         {
             this.clientFactory = clientFactory;
 
+            this.Id = 0x00000C0E;
+
             // TODO: Add Ping Message Handler Construction
             // TODO: Add Operator Message Handler Construction
             this.ZoneBorderHandler = new WallCollision();
         }
+
+        #endregion
+
+        #region Public Properties
+
+        public int Id { get; set; }
 
         #endregion
 

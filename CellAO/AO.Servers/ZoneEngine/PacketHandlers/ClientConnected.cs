@@ -243,7 +243,7 @@ namespace ZoneEngine.PacketHandlers
                                               Instance = 0x00000001
                                           }
                               };
-            client.SendCompressed(0x00000C0E, charID, message);
+            client.SendCompressed(message);
 
             var gameTimeMessage = new GameTimeMessage
                                       {
@@ -252,7 +252,7 @@ namespace ZoneEngine.PacketHandlers
                                           Unknown3 = 185408, 
                                           Unknown4 = 80183.3125f
                                       };
-            client.SendCompressed(0x00000C0E, charID, gameTimeMessage);
+            client.SendCompressed(gameTimeMessage);
 
             /* set SocialStatus to 0 */
             Stat.Set(client, 521, 0, false);
@@ -292,7 +292,7 @@ namespace ZoneEngine.PacketHandlers
                                };
             var specialAttackWeaponMessage = new SpecialAttackWeaponMessage { Identity = identity, Specials = specials };
 
-            client.SendCompressed(0x00000C0E, charID, specialAttackWeaponMessage);
+            client.SendCompressed(specialAttackWeaponMessage);
 
             // done
 

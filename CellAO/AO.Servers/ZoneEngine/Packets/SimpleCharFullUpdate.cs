@@ -419,13 +419,13 @@ namespace ZoneEngine.Packets
         public static void SendToOne(Character character, Client receiver)
         {
             var message = ConstructMessage(character);
-            receiver.SendCompressed(0x00000C0E, receiver.Character.Id, message);
+            receiver.SendCompressed(message);
         }
 
         public static void SendToPlayfield(Client client)
         {
             var message = ConstructMessage(client);
-            Announce.Playfield(client.Character.PlayField, 0x00000C0E, message);
+            Announce.Playfield(client.Character.PlayField, message);
         }
 
         [Obsolete]

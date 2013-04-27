@@ -126,7 +126,7 @@ namespace ZoneEngine.MessageHandlers
                                 Skills = newStats.ToArray()
                             };
 
-            client.SendCompressed(0x00000C0E, client.Character.Id, reply);
+            client.SendCompressed(reply);
 
             // and save the changes to the statsdb
             client.Character.WriteStats();

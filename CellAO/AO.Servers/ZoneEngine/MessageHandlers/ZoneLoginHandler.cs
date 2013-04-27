@@ -48,7 +48,7 @@ namespace ZoneEngine.MessageHandlers
             var client = (Client)sender;
             var zoneLoginMessage = (ZoneLoginMessage)message.Body;
 
-            client.Send(0x03000000, 0x00000000, new InitiateCompressionMessage());
+            client.Send(new InitiateCompressionMessage());
 
             ClientConnected tmpClientConnected = new ClientConnected();
             tmpClientConnected.Read(zoneLoginMessage.CharacterId, client);

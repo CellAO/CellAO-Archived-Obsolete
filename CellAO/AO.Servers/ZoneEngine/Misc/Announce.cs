@@ -113,7 +113,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public static void Playfield(int sendToPlayfield, int sender, MessageBody message)
+        public static void Playfield(int sendToPlayfield, MessageBody message)
         {
             lock (Program.zoneServer.Clients)
             {
@@ -126,7 +126,7 @@ namespace ZoneEngine.Misc
                         continue;
                     }
 
-                    tempClient.SendCompressed(sender, tempClient.Character.Id, message);
+                    tempClient.SendCompressed(message);
                 }
             }
         }
@@ -177,7 +177,7 @@ namespace ZoneEngine.Misc
             }
         }
 
-        public static void PlayfieldOthers(int sendToPlayfield, int sender, MessageBody message)
+        public static void PlayfieldOthers(int sendToPlayfield, MessageBody message)
         {
             foreach (Client tempClient in Program.zoneServer.Clients)
             {
@@ -186,11 +186,11 @@ namespace ZoneEngine.Misc
                     continue;
                 }
 
-                tempClient.SendCompressed(sender, tempClient.Character.Id, message);
+                tempClient.SendCompressed(message);
             }
         }
 
-        public static void PlayfieldOthers(Client client, int sender, MessageBody message)
+        public static void PlayfieldOthers(Client client, MessageBody message)
         {
             foreach (Client tempClient in Program.zoneServer.Clients)
             {
@@ -200,7 +200,7 @@ namespace ZoneEngine.Misc
                     continue;
                 }
 
-                tempClient.SendCompressed(sender, tempClient.Character.Id, message);
+                tempClient.SendCompressed(message);
             }
         }
 

@@ -75,7 +75,7 @@ namespace ZoneEngine.Packets
             var chatPort = Convert.ToInt32(ConfigReadWrite.Instance.CurrentConfig.ChatPort);
 
             var chatServerInfoMessage = new ChatServerInfoMessage { HostName = chatServerIp, Port = chatPort };
-            client.SendCompressed(0x00000C0E, client.Character.Id, chatServerInfoMessage);
+            client.SendCompressed(chatServerInfoMessage);
         }
 
         #endregion

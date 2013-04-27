@@ -172,7 +172,7 @@ namespace ZoneEngine.MessageHandlers
                                        };
                     client.Character.LastTrade = new AO.Core.Identity { Instance = 0, Type = 0 };
 
-                    client.SendCompressed(0x00000C0E, client.Character.Id, endReply);
+                    client.SendCompressed(endReply);
                     break;
                 case TradeAction.Decline:
 
@@ -206,7 +206,7 @@ namespace ZoneEngine.MessageHandlers
                                                Container = tradeMessage.Container
                                            };
 
-                    client.SendCompressed(0x00000C0E, client.Character.Id, declineReply);
+                    client.SendCompressed(declineReply);
                     break;
                 case TradeAction.AddItem: // add item to trade window
                 case TradeAction.RemoveItem: // remove item from trade window
@@ -224,7 +224,7 @@ namespace ZoneEngine.MessageHandlers
                                         Container = tradeMessage.Container
                                     };
 
-                    client.SendCompressed(0x00000C0E, client.Character.Id, reply);
+                    client.SendCompressed(reply);
 
                     if (client.Character == character)
                     {

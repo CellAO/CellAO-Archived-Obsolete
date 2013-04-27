@@ -856,7 +856,7 @@ namespace ZoneEngine.Packets
 
             #endregion
 
-            client.SendCompressed(0x00000C0E, client.Character.Id, fc);
+            client.SendCompressed(fc);
         }
 
         #endregion

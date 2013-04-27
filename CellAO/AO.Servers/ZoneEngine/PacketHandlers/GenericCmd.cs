@@ -308,7 +308,7 @@ namespace ZoneEngine.PacketHandlers
                                                User = message.User
                                            };
 
-                        client.SendCompressed(0x00000C0E, client.Character.Id, useReply);
+                        client.SendCompressed(useReply);
                         SkillUpdate.SendStat(client, 0x209, client.Character.Stats.SocialStatus.Value, false);
 
                         // Social Status
@@ -336,7 +336,7 @@ namespace ZoneEngine.PacketHandlers
                                             };
 
                         client.Character.LastTrade = target;
-                        client.SendCompressed(0x00000C0E, client.Character.Id, shopReply);
+                        client.SendCompressed(shopReply);
                     }
                     else if (target.Type == 51050)
                     {

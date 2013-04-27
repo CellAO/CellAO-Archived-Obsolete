@@ -67,7 +67,7 @@ namespace ZoneEngine.MessageHandlers
                                    Unknown6 = followTargetMessage.Unknown6,
                                    Unknown7 = followTargetMessage.Unknown7
                                };
-            Announce.Playfield(client.Character.PlayField, 0x00000C0E, announce);
+            Announce.Playfield(client.Character.PlayField, announce);
         }
 
         #endregion

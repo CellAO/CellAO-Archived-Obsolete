@@ -85,6 +85,8 @@ namespace ZoneEngine
 
         private bool zStreamSetup;
 
+        private readonly int serverId;
+
         #endregion
 
         #region Constructors and Destructors
@@ -94,6 +96,7 @@ namespace ZoneEngine
         {
             this.messageSerializer = messageSerializer;
             this.bus = bus;
+            this.serverId = srvr.Id;
         }
 
         #endregion
@@ -185,19 +188,19 @@ namespace ZoneEngine
             }
         }
 
-        public void Send(int sender, int receiver, MessageBody messageBody)
+        public void Send(MessageBody messageBody)
         {
             var message = new Message
                               {
-                                  Body = messageBody, 
+                                  Body = messageBody,
                                   Header =
                                       new Header
                                           {
-                                              MessageId = BitConverter.ToInt16(new byte[] { 0xDF, 0xDF }, 0), 
-                                              PacketType = messageBody.PacketType, 
-                                              Unknown = 0x0001, 
-                                              Sender = sender, 
-                                              Receiver = receiver
+                                              MessageId = BitConverter.ToInt16(new byte[] { 0xDF, 0xDF }, 0),
+                                              PacketType = messageBody.PacketType,
+                                              Unknown = 0x0001,
+                                              Sender = 0x03000000,
+                                              Receiver = 0x00000000
                                           }
                               };
 
@@ -238,7 +241,7 @@ namespace ZoneEngine
             return true;
         }
 
-        public void SendCompressed(int sender, int receiver, MessageBody messageBody)
+        public void SendCompressed(MessageBody messageBody)
         {
             var message = new Message
                               {
@@ -249,8 +252,8 @@ namespace ZoneEngine
                                               MessageId = BitConverter.ToInt16(new byte[] { 0xDF, 0xDF }, 0), 
                                               PacketType = messageBody.PacketType, 
                                               Unknown = 0x0001, 
-                                              Sender = sender, 
-                                              Receiver = receiver
+                                              Sender = this.serverId, 
+                                              Receiver = this.Character.Id
                                           }
                               };
 

@@ -149,7 +149,7 @@ namespace ZoneEngine.PacketHandlers
                                 Unknown3 = tmpInt3
                             };
 
-            Announce.Playfield(client.Character.PlayField, 0x00000C0E, reply);
+            Announce.Playfield(client.Character.PlayField, reply);
 
             if (Statels.StatelppfonEnter.ContainsKey(client.Character.PlayField))
             {

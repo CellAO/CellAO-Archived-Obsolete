@@ -95,7 +95,7 @@ namespace ZoneEngine.PacketHandlers
                                                   Message = message,
                                                   Unknown1 = 2
                                               };
-            client.SendCompressed(3086, client.Character.Id, knuBotStartTradeMessage);
+            client.SendCompressed(knuBotStartTradeMessage);
         }
 
         #endregion
