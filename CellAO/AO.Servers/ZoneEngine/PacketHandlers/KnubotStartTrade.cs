@@ -1,4 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+﻿#region License
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="KnubotStartTrade.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
 //   
@@ -22,56 +23,79 @@
 //   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // </copyright>
-// <summary>
-//   Defines the KnuBotStartTrade type.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
+#endregion
 
 namespace ZoneEngine.PacketHandlers
 {
-    using AO.Core;
+    #region Usings ...
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
     using ZoneEngine.Misc;
 
+    #endregion
+
+    /// <summary>
+    /// </summary>
     public static class KnuBotStartTrade
     {
         #region Public Methods and Operators
 
-        public static void Read(KnuBotStartTradeMessage message, Client cli)
+        /// <summary>
+        /// Reads the KnuBot Start Trade Message from the client and dispatches it to the npc for event handling.
+        /// </summary>
+        /// <param name="message">
+        /// Deserialized Message
+        /// </param>
+        /// <param name="client">
+        /// Client who was asking for trade
+        /// </param>
+        public static void Read(KnuBotStartTradeMessage message, Client client)
         {
             var npc =
                 (NonPlayerCharacterClass)FindDynel.FindDynelById((int)message.Target.Type, message.Target.Instance);
             if (npc != null)
             {
-                npc.KnuBotStartTrade(cli.Character);
+                npc.KnuBotStartTrade(client.Character);
             }
         }
 
-        public static void Send(Client cli, NonPlayerCharacterClass knubotTarget, string message, int numberOfItems)
+        /// <summary>
+        /// Sends back a reply to the KnuBot Start Trade Message
+        /// </summary>
+        /// <param name="client">
+        /// Client who started the trade
+        /// </param>
+        /// <param name="knubotTarget">
+        /// NPC who answers on the trade message
+        /// </param>
+        /// <param name="message">
+        /// Textmessage to display in the chat window
+        /// </param>
+        /// <param name="numberOfItemSlots">
+        /// Number of item slots displayed (1-8?)
+        /// </param>
+        public static void Send(Client client, NonPlayerCharacterClass knubotTarget, string message, int numberOfItemSlots)
         {
-            var packetWriter = new PacketWriter();
-
-            packetWriter.PushByte(0xdf);
-            packetWriter.PushByte(0xdf);
-            packetWriter.PushShort(0xa);
-            packetWriter.PushShort(1);
-            packetWriter.PushShort(0);
-            packetWriter.PushInt(3086);
-            packetWriter.PushInt(cli.Character.Id);
-            packetWriter.PushInt(0x7864401d);
-            packetWriter.PushIdentity(cli.Character.Type, cli.Character.Id);
-            packetWriter.PushByte(0);
-            packetWriter.PushShort(2);
-            packetWriter.PushIdentity(knubotTarget.Type, knubotTarget.Id);
-            packetWriter.PushInt(numberOfItems);
-            packetWriter.PushInt(message.Length);
-            packetWriter.PushString(message);
-
-            var packet = packetWriter.Finish();
-
-            cli.SendCompressed(packet);
+            var knuBotStartTradeMessage = new KnuBotStartTradeMessage
+                                              {
+                                                  Identity =
+                                                  {
+                                                      Type = IdentityType.CanbeAffected,
+                                                      Instance = client.Character.Id
+                                                  },
+                                                  Target =
+                                                      {
+                                                          Type = IdentityType.CanbeAffected,
+                                                          Instance = knubotTarget.Id
+                                                      },
+                                                  NumberOfItemSlotsInTradeWindow = numberOfItemSlots,
+                                                  Message = message,
+                                                  Unknown1 = 2
+                                              };
+            client.SendCompressed(3086, client.Character.Id, knuBotStartTradeMessage);
         }
 
         #endregion

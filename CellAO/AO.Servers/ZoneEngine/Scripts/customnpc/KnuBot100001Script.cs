@@ -124,7 +124,7 @@ namespace ZonEngine.Script.customnpcs
                     break;
                 case 3:
                     this.SendChoices(
-                        new[] { "Boost my level", "Boost my AI level", "Teleportation", "Gimme a Yalmaha", "Good bye" });
+                        new[] { "Boost my level", "Boost my AI level", "Teleportation", "Gimme a Yalmaha", "Wanna gimme somethin'?", "Good bye" });
                     break;
                 case 5:
                     this.CloseChat();
@@ -140,6 +140,9 @@ namespace ZonEngine.Script.customnpcs
                     break;
                 case 33:
                     this.SendChoices(new[] { "Yalmaha XL Gold Flash", "Back" });
+                    break;
+                case 34:
+                    this.OpenTrade("Lets trade!", 4);
                     break;
             }
             this.lastaction = actionnumber;
@@ -166,6 +169,9 @@ namespace ZonEngine.Script.customnpcs
                             this.KnuBotNextAction(33, 100);
                             break;
                         case 4:
+                            this.OpenTrade("Testing trade", 6);
+                            break;
+                        case 5:
                             this.CloseChat();
                             break;
                             /* Other way to do this:
