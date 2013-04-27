@@ -337,6 +337,7 @@ namespace Extractor_Serializer
             sm.Close();
             ds.Close();
 
+            Console.WriteLine();
             Console.WriteLine("Checking Nanos...");
             Console.WriteLine();
             NanoHandler.CacheAllNanos("nanos.dat");
