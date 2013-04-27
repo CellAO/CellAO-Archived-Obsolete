@@ -36,7 +36,6 @@ namespace ZoneEngine.PacketHandlers
 
     using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
-    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages.CharacterActionMessages;
 
     using ZoneEngine.NonPlayerCharacter;
     using ZoneEngine.Packets;
@@ -146,6 +145,8 @@ namespace ZoneEngine.PacketHandlers
                                 
                                 
                                 
+                                
+                                
                                 // (4036/1009)-1 = 3 special attacks
                                 0x00, 0x00, 0xAA, 0xC0, // 43712
                                 0x00, 0x02, 0x35, 0x69, // 144745
@@ -230,12 +231,19 @@ namespace ZoneEngine.PacketHandlers
             var identity = new Identity { Type = IdentityType.CanbeAffected, Instance = charID };
 
             /* Action 167 Animation and Stance Data maybe? */
-            var changeAnimationAndStanceMessage = new ChangeAnimationAndStanceMessage
-                                                      {
-                                                          Identity = identity, 
-                                                          Unknown5 = 0x00000001
-                                                      };
-            client.SendCompressed(0x00000C0E, charID, changeAnimationAndStanceMessage);
+            var message = new CharacterActionMessage
+                              {
+                                  Identity = identity, 
+                                  CharacterActionType = CharacterActionType.ChangeAnimationAndStance,
+                                  Target = Identity.None,
+                                  ActionArgs = 
+                                      new Identity
+                                          {
+                                              Type = IdentityType.None, 
+                                              Instance = 0x00000001
+                                          }
+                              };
+            client.SendCompressed(0x00000C0E, charID, message);
 
             var gameTimeMessage = new GameTimeMessage
                                       {
