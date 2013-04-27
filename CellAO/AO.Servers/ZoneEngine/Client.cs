@@ -47,13 +47,17 @@ namespace ZoneEngine
 
     using ComponentAce.Compression.Libs.zlib;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
     using ZoneEngine.Misc;
     using ZoneEngine.Packets;
 
     using Config = AO.Core.Config.ConfigReadWrite;
     using Header = SmokeLounge.AOtomation.Messaging.Messages.Header;
+    using Identity = AO.Core.Identity;
+    using Quaternion = AO.Core.Quaternion;
     using Timer = System.Timers.Timer;
 
     public class Client : ClientBase
@@ -76,6 +80,8 @@ namespace ZoneEngine
 
         private readonly IMessageSerializer messageSerializer;
 
+        private readonly int serverId;
+
         private bool SkipCoreTimers = true;
 
         private NetworkStream netStream;
@@ -83,8 +89,6 @@ namespace ZoneEngine
         private ZOutputStream zStream;
 
         private bool zStreamSetup;
-
-        private readonly int serverId;
 
         #endregion
 
@@ -115,32 +119,27 @@ namespace ZoneEngine
         public void CancelLogOut()
         {
             LogoutTimer.Enabled = false;
-            var stopLogout = new PacketWriter();
-
-            // start packet header
-            stopLogout.PushByte(0xDF);
-            stopLogout.PushByte(0xDF);
-            stopLogout.PushShort(10);
-            stopLogout.PushShort(1);
-            stopLogout.PushShort(0);
-            stopLogout.PushInt(3086); // Sender (server ID)
-            stopLogout.PushInt(this.Character.Id); // Receiver
-            stopLogout.PushInt(0x5E477770); // CharacterAction packet ID
-            stopLogout.PushIdentity(50000, this.Character.Id); // affected identity
-            stopLogout.PushByte(0);
-
-            // end packet header
-            stopLogout.PushByte(0);
-            stopLogout.PushShort(0);
-            stopLogout.PushByte(0x7A); // stop logout flag?
-            stopLogout.PushInt(0);
-            stopLogout.PushInt(0);
-            stopLogout.PushInt(0);
-            stopLogout.PushInt(0);
-            stopLogout.PushInt(0);
-            stopLogout.PushShort(0);
-            var stoplogOutPacket = stopLogout.Finish();
-            this.SendCompressed(stoplogOutPacket);
+            var message = new CharacterActionMessage
+                              {
+                                  Identity =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .CanbeAffected, 
+                                              Instance
+                                                  =
+                                                  this
+                                                  .Character
+                                                  .Id
+                                          }, 
+                                  Unknown = 0x00, 
+                                  Action = CharacterActionType.StopLogout, 
+                                  Target =
+                                      SmokeLounge.AOtomation.Messaging.GameData.Identity.None
+                              };
+            this.SendCompressed(message);
         }
 
         public override void Cleanup()
@@ -191,14 +190,14 @@ namespace ZoneEngine
         {
             var message = new Message
                               {
-                                  Body = messageBody,
+                                  Body = messageBody, 
                                   Header =
                                       new Header
                                           {
-                                              MessageId = BitConverter.ToInt16(new byte[] { 0xDF, 0xDF }, 0),
-                                              PacketType = messageBody.PacketType,
-                                              Unknown = 0x0001,
-                                              Sender = 0x03000000,
+                                              MessageId = BitConverter.ToInt16(new byte[] { 0xDF, 0xDF }, 0), 
+                                              PacketType = messageBody.PacketType, 
+                                              Unknown = 0x0001, 
+                                              Sender = 0x03000000, 
                                               Receiver = 0x00000000
                                           }
                               };
@@ -214,29 +213,32 @@ namespace ZoneEngine
             packet[0] = pn[1];
             packet[1] = pn[0];
 
-            base.Send(packet);
+            this.Send(packet);
         }
 
-        public bool SendChatText(string Text)
+        public bool SendChatText(string text)
         {
-            var _writer = new PacketWriter();
-
-            _writer.PushByte(0xDF);
-            _writer.PushByte(0xDF);
-            _writer.PushShort(10);
-            _writer.PushShort(1);
-            _writer.PushShort(0);
-            _writer.PushInt(3086);
-            _writer.PushInt(this.Character.Id);
-            _writer.PushInt(0x5F4B442A);
-            _writer.PushIdentity(50000, this.Character.Id);
-            _writer.PushByte(0);
-            _writer.PushShort((short)Text.Length);
-            _writer.PushBytes(Encoding.ASCII.GetBytes(Text));
-            _writer.PushShort(0x1000);
-            _writer.PushInt(0);
-            var reply = _writer.Finish();
-            this.SendCompressed(reply);
+            var message = new ChatTextMessage
+                              {
+                                  Identity =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      {
+                                          Type
+                                              =
+                                              IdentityType
+                                              .CanbeAffected,
+                                          Instance
+                                              =
+                                              this
+                                              .Character
+                                              .Id
+                                      },
+                                  Unknown = 0x00,
+                                  Text = text,
+                                  Unknown1 = 0x1000,
+                                  Unknown2 = 0x00000000
+                              };
+            this.SendCompressed(message);
             return true;
         }
 
