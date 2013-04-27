@@ -262,6 +262,7 @@
     <Compile Include="MessageHandlers\KnuBotFinishTradeHandler.cs" />
     <Compile Include="MessageHandlers\GenericCmdHandler.cs" />
     <Compile Include="MessageHandlers\KnuBotStartTradeHandler.cs" />
+    <Compile Include="MessageHandlers\OrgClientHandler.cs" />
     <Compile Include="MessageHandlers\SkillHandler.cs" />
     <Compile Include="MessageHandlers\SocialActionCmdHandler.cs" />
     <Compile Include="MessageHandlers\KnuBotTradeHandler.cs" />

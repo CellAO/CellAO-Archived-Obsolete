@@ -33,64 +33,21 @@ namespace ZoneEngine.PacketHandlers
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
+
     using ZoneEngine.Misc;
 
-    /// <summary>
-    /// 
-    /// </summary>
     public static class OrgClient
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="packet"></param>
-        /// <param name="client"></param>
-        public static void Read(byte[] packet, Client client)
+
+        public static void Read(OrgClientMessage message, Client client)
         {
-            PacketReader reader = new PacketReader(packet);
-
-            Header header = reader.PopHeader();
-            reader.PopByte();
-            byte cmd = reader.PopByte();
-            Identity target = reader.PopIdentity();
-            int unknown = reader.PopInt();
-            string cmdStr = "";
-            byte CmdByte = 0;
-
-            #region cmd args
-            switch (cmd)
-            {
-                case 1:
-                case 7:
-                case 9:
-                case 13:
-                case 17:
-                case 19:
-                case 20:
-                case 21:
-                case 23:
-                case 24:
-                case 25:
-                case 26:
-                case 27:
-                case 28:
-                    short cmdStrLen = reader.PopShort();
-                    cmdStr = reader.PopString(cmdStrLen);
-                    break;
-                case 10:
-                    CmdByte = reader.PopByte();
-                    break;
-                default:
-                    break;
-            }
-            reader.Finish();
-            #endregion
 
             SqlWrapper ms = new SqlWrapper();
             DataTable dt;
 
             #region cmd handlers
-            switch (cmd)
+            switch ((byte)message.Command)
             {
                     #region /org create <name>
                 case 1:
@@ -100,7 +57,7 @@ namespace ZoneEngine.PacketHandlers
                          * name of org is CmdStr
                          */
 
-                        string sqlQuery = "SELECT * FROM organizations WHERE Name='" + cmdStr + "'";
+                        string sqlQuery = "SELECT * FROM organizations WHERE Name='" + message.CommandArgs + "'";
                         string guildName = null;
                         uint orgID = 0;
                         dt = ms.ReadDatatable(sqlQuery);
@@ -111,14 +68,14 @@ namespace ZoneEngine.PacketHandlers
 
                         if (guildName == null)
                         {
-                            client.SendChatText("You have created the guild: " + cmdStr);
+                            client.SendChatText("You have created the guild: " + message.CommandArgs);
 
                             string currentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             string sqlQuery2 =
                                 "INSERT INTO organizations (Name, creation, LeaderID, GovernmentForm) VALUES ('"
-                                + cmdStr + "', '" + currentDate + "', '" + client.Character.Id + "', '0')";
+                                + message.CommandArgs + "', '" + currentDate + "', '" + client.Character.Id + "', '0')";
                             ms.SqlInsert(sqlQuery2);
-                            string sqlQuery3 = "SELECT * FROM organizations WHERE Name='" + cmdStr + "'";
+                            string sqlQuery3 = "SELECT * FROM organizations WHERE Name='" + message.CommandArgs + "'";
                             dt = ms.ReadDatatable(sqlQuery3);
                             if (dt.Rows.Count > 0)
                             {
@@ -175,7 +132,7 @@ namespace ZoneEngine.PacketHandlers
                 case 5:
                     {
                         Client tPlayer = null;
-                        if ((tPlayer = FindClient.FindClientById(target.Instance)) != null)
+                        if ((tPlayer = FindClient.FindClientById(message.Target.Instance)) != null)
                         {
                             string orgDescription = "", orgObjective = "", orgHistory = "", orgLeaderName = "";
                             int orgGoverningForm = 0, orgLeaderID = 0;
@@ -300,7 +257,7 @@ namespace ZoneEngine.PacketHandlers
                         int targetNewRank = -1;
                         int newPresRank = -1;
                         int oldPresRank = 0;
-                        if ((toPromote = FindClient.FindClientById(target.Instance)) != null)
+                        if ((toPromote = FindClient.FindClientById(message.Target.Instance)) != null)
                         {
                             //First we check if target is in the same org as you
                             if (toPromote.Character.OrgId != client.Character.OrgId)
@@ -393,7 +350,7 @@ namespace ZoneEngine.PacketHandlers
                     string demoteSql = "";
                     int targetCurRank = -1;
                     int targetNewerRank = -1;
-                    if ((toDemote = FindClient.FindClientById(target.Instance)) != null)
+                    if ((toDemote = FindClient.FindClientById(message.Target.Instance)) != null)
                     {
                         //First we check if target is in the same org as you
                         if (toDemote.Character.OrgId != client.Character.OrgId)
@@ -456,7 +413,7 @@ namespace ZoneEngine.PacketHandlers
 
                     //create the t_player Client namespace, using CmdStr to find character id, in replacement of target.Instance
                     uint kickedFrom = client.Character.OrgId;
-                    string kickeeSql = "SELECT * FROM characters WHERE Name = '" + cmdStr + "'";
+                    string kickeeSql = "SELECT * FROM characters WHERE Name = '" + message.CommandArgs + "'";
                     int kickeeId = 0;
                     dt = ms.ReadDatatable(kickeeSql);
                     if (dt.Rows.Count > 0)
@@ -472,7 +429,7 @@ namespace ZoneEngine.PacketHandlers
                         if (kickeeOrgId != client.Character.OrgId)
                         {
                             //Not part of Org. break out.
-                            client.SendChatText(cmdStr + "is not a member of your organization!");
+                            client.SendChatText(message.CommandArgs + "is not a member of your organization!");
                             break;
                         }
 
@@ -513,7 +470,7 @@ namespace ZoneEngine.PacketHandlers
                 case 14:
                     {
                         Client tPlayer = null;
-                        if ((tPlayer = FindClient.FindClientById(target.Instance)) != null)
+                        if ((tPlayer = FindClient.FindClientById(message.Target.Instance)) != null)
                         {
                             PacketWriter writer = new PacketWriter();
                             writer.PushBytes(new byte[] { 0xDF, 0xDF });
@@ -544,7 +501,7 @@ namespace ZoneEngine.PacketHandlers
                 case 15:
                     {
                         //target.Instance holds the OrgID of the Org wishing to be joined.
-                        int orgIdtoJoin = target.Instance;
+                        int orgIdtoJoin = message.Target.Instance;
                         string JoinSql = "SELECT * FROM organizations WHERE ID = '" + orgIdtoJoin + "' LIMIT 1";
                         int gov_form = 0;
                         dt = ms.ReadDatatable(JoinSql);
@@ -595,7 +552,7 @@ namespace ZoneEngine.PacketHandlers
                     // <tax> is CmdStr
                     // if no <tax>, then just send chat text with current tax info
 
-                    if (cmdStr == null)
+                    if (message.CommandArgs == null)
                     {
                         client.SendChatText("The current organization tax rate is: ");
                         break;
@@ -631,7 +588,7 @@ namespace ZoneEngine.PacketHandlers
                         }
 
                         // org bank add <cash>
-                        int minuscredits_fromplayer = Convert.ToInt32(cmdStr);
+                        int minuscredits_fromplayer = Convert.ToInt32(message.CommandArgs);
                         int characters_credits = client.Character.Stats.Cash.Value;
 
                         if (characters_credits < minuscredits_fromplayer)
@@ -664,7 +621,7 @@ namespace ZoneEngine.PacketHandlers
                         client.SendChatText("You're not the leader of an Organization");
                         break;
                     }
-                    int removeCredits = Convert.ToInt32(cmdStr);
+                    int removeCredits = Convert.ToInt32(message.CommandArgs);
                     long orgBank = 0;
                     dt = ms.ReadDatatable("SELECT Bank FROM organizations WHERE ID = " + client.Character.OrgId);
                     if (dt.Rows.Count > 0)
@@ -712,7 +669,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             // org history <history text>
                             ms.SqlUpdate(
-                                "UPDATE organizations SET history = '" + cmdStr + "' WHERE ID = '"
+                                "UPDATE organizations SET history = '" + message.CommandArgs + "' WHERE ID = '"
                                 + client.Character.OrgId + "'");
                             client.SendChatText("History Updated");
                         }
@@ -731,7 +688,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             // org objective <objective text>
                             ms.SqlUpdate(
-                                "UPDATE organizations SET objective = '" + cmdStr + "' WHERE ID = '"
+                                "UPDATE organizations SET objective = '" + message.CommandArgs + "' WHERE ID = '"
                                 + client.Character.OrgId + "'");
                             client.SendChatText("Objective Updated");
                         }
@@ -750,7 +707,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             // org description <description text>
                             ms.SqlUpdate(
-                                "UPDATE organizations SET description = '" + cmdStr + "' WHERE ID = '"
+                                "UPDATE organizations SET description = '" + message.CommandArgs + "' WHERE ID = '"
                                 + client.Character.OrgId + "'");
                             client.SendChatText("Description Updated");
                         }
@@ -772,7 +729,7 @@ namespace ZoneEngine.PacketHandlers
                          */
                         if (client.Character.Stats.ClanLevel.Value == 0)
                         {
-                            string SqlQuery26 = "SELECT * FROM organizations WHERE Name LIKE '" + cmdStr + "' LIMIT 1";
+                            string SqlQuery26 = "SELECT * FROM organizations WHERE Name LIKE '" + message.CommandArgs + "' LIMIT 1";
                             string CurrentOrg = null;
                             dt = ms.ReadDatatable(SqlQuery26);
                             if (dt.Rows.Count > 0)
@@ -782,10 +739,10 @@ namespace ZoneEngine.PacketHandlers
 
                             if (CurrentOrg == null)
                             {
-                                string SqlQuery27 = "UPDATE organizations SET Name = '" + cmdStr + "' WHERE ID = '"
+                                string SqlQuery27 = "UPDATE organizations SET Name = '" + message.CommandArgs + "' WHERE ID = '"
                                                     + client.Character.OrgId + "'";
                                 ms.SqlUpdate(SqlQuery27);
-                                client.SendChatText("Organization Name Changed to: " + cmdStr);
+                                client.SendChatText("Organization Name Changed to: " + message.CommandArgs);
 
                                 // Forces reloading of org name and the like
                                 // XXXX TODO: Make it reload for all other members in the org
@@ -818,7 +775,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             //first we drop the case on the input, just to be sure.
                             Int32 GovFormNum = -1;
-                            if (cmdStr == null)
+                            if (message.CommandArgs == null)
                             {
                                 //list gov forms
                                 client.SendChatText(
@@ -826,7 +783,7 @@ namespace ZoneEngine.PacketHandlers
                                 break;
                             }
                             //was correct input passed?
-                            switch (cmdStr.ToLower())
+                            switch (message.CommandArgs.ToLower())
                             {
                                 case "department":
                                     GovFormNum = 0;
@@ -847,7 +804,7 @@ namespace ZoneEngine.PacketHandlers
                                     GovFormNum = 5;
                                     break;
                                 default:
-                                    client.SendChatText(cmdStr + " Is an invalid Governing Form!");
+                                    client.SendChatText(message.CommandArgs + " Is an invalid Governing Form!");
                                     client.SendChatText(
                                         "Accepted Governing Forms are: department, faction, republic, monarchy, anarchism, feudalism");
                                     break;
@@ -861,7 +818,7 @@ namespace ZoneEngine.PacketHandlers
                                 {
                                     client.Character.Stats.ClanLevel.Set(GetLowestRank(GovFormNum));
                                 }
-                                client.SendChatText("Governing Form is now: " + cmdStr);
+                                client.SendChatText("Governing Form is now: " + message.CommandArgs);
                                 break;
                             }
                         }
@@ -887,8 +844,6 @@ namespace ZoneEngine.PacketHandlers
                     #endregion
             }
             #endregion
-
-            reader.Finish();
         }
 
         internal static string GetRankList(int GoverningForm)

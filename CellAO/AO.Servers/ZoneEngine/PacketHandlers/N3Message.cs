@@ -488,7 +488,6 @@ namespace ZoneEngine.PacketHandlers
                     break;
                 case 0x7f4b3108:
                     //OrgClient
-                    OrgClient.Read(packet, client);
                     break;
                 case 0x7f544905:
                     //VendingMachineFullUpdate
