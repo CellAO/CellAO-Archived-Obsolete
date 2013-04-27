@@ -171,7 +171,7 @@ namespace ZoneEngine.Misc
         public AOFunctions CreateKnuBotFunction(int knubotAction)
         {
             AOFunctions aof = new AOFunctions();
-            aof.Arguments.Add(knubotAction);
+            aof.Arguments.Values.Add(knubotAction);
             aof.TickCount = 1;
             aof.TickInterval = 0;
             aof.FunctionType = 2; // KnuBotActionTimer
@@ -186,10 +186,10 @@ namespace ZoneEngine.Misc
             aof.TickCount = 0;
             aof.TickInterval = 1;
             aof.FunctionType = Constants.FunctiontypeTeleport;
-            aof.Arguments.Add(x);
-            aof.Arguments.Add(y);
-            aof.Arguments.Add(z);
-            aof.Arguments.Add(pf);
+            aof.Arguments.Values.Add(x);
+            aof.Arguments.Values.Add(y);
+            aof.Arguments.Values.Add(z);
+            aof.Arguments.Values.Add(pf);
             this.TalkingTo.AddTimer(20001, DateTime.Now + TimeSpan.FromMilliseconds(delay), aof, false);
         }
 

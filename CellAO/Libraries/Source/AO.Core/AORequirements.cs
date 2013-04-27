@@ -33,7 +33,7 @@ namespace AO.Core
     /// AORequirements
     /// </summary>
     [Serializable]
-    public class AORequirements : ISerializable
+    public class AORequirements
     {
         /// <summary>
         /// Target, from constants
@@ -59,86 +59,11 @@ namespace AO.Core
         /// Child operator
         /// </summary>
         public int ChildOperator;
-
-        /// <summary>
-        /// Deserialization, internal use only
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public AORequirements(SerializationInfo info, StreamingContext context)
-        {
-            Target = (int) info.GetValue("Target", typeof (int));
-            Statnumber = (int) info.GetValue("Statnumber", typeof (int));
-            Operator = (int) info.GetValue("Operator", typeof (int));
-            Value = (int) info.GetValue("Value", typeof (int));
-            ChildOperator = (int) info.GetValue("ChildOperator", typeof (int));
-        }
-
-        /// <summary>
-        /// Serialization, internal use only
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Target", Target);
-            info.AddValue("Statnumber", Statnumber);
-            info.AddValue("Operator", Operator);
-            info.AddValue("Value", Value);
-            info.AddValue("ChildOperator", ChildOperator);
-        }
-
         /// <summary>
         /// Empty
         /// </summary>
         public AORequirements()
         {
         }
-
-        #region Requirement to blob (hex string)
-        /// <summary>
-        /// Old, do not delete yet
-        /// </summary>
-        /// <returns></returns>
-        public string ToBlob()
-        {
-            string output = "";
-            output += Target.ToString("X8");
-            output += Statnumber.ToString("X8");
-            output += Operator.ToString("X8");
-            output += Value.ToString("X8");
-            output += ChildOperator.ToString("X8");
-            return output;
-        }
-        #endregion
-
-        #region Requirement from blob (byte[] with offset)
-        /// <summary>
-        /// Old read, do not delete yet
-        /// </summary>
-        /// <param name="_p"></param>
-        /// <param name="offset"></param>
-        /// <returns></returns>
-        public int readRequirementfromBlob(byte[] _p, int offset)
-        {
-            int c = offset;
-            Target = BitConverter.ToInt32(_p, c);
-            c += 4;
-
-            Statnumber = BitConverter.ToInt32(_p, c);
-            c += 4;
-
-            Operator = BitConverter.ToInt32(_p, c);
-            c += 4;
-
-            Value = BitConverter.ToInt32(_p, c);
-            c += 4;
-
-            ChildOperator = BitConverter.ToInt32(_p, c);
-            c += 4;
-
-            return c;
-        }
-        #endregion
     }
 }

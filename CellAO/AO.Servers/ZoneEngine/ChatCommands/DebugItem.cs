@@ -69,7 +69,7 @@ namespace ZoneEngine.ChatCommands
                 foreach (AOFunctions fu in ev.Functions)
                 {
                     client.SendChatText("  Functionnumber: " + fu.FunctionType);
-                    foreach (object arg in fu.Arguments)
+                    foreach (object arg in fu.Arguments.Values)
                     {
                         client.SendChatText("    Argument: " + arg);
                     }

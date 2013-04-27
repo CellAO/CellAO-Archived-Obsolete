@@ -33,6 +33,7 @@ namespace AO.Core
     /// <summary>
     /// AOActions covers all action types, with their reqs
     /// </summary>
+    [Serializable]
     public class AOActions
     {
         /// <summary>
@@ -51,55 +52,5 @@ namespace AO.Core
         public AOActions()
         {
         }
-
-        /// <summary>
-        /// Deserialize AOEvent, internal use only
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public AOActions(SerializationInfo info, StreamingContext context)
-        {
-            ActionType = (int) info.GetValue("ActionType", typeof (int));
-            Requirements = (List<AORequirements>) info.GetValue("Requirements", typeof (List<AORequirements>));
-        }
-
-        /// <summary>
-        /// Serialization
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("ActionType", ActionType);
-            info.AddValue("Requirements", Requirements);
-        }
-
-
-        /// Methods to do:
-        /// Read Action
-        /// 
-
-        #region Action read from blob
-        public int readActionfromBlob(byte[] blob, int offset)
-        {
-            int c = offset;
-
-            ActionType = BitConverter.ToInt32(blob, c);
-            c += 4;
-
-            int c2 = BitConverter.ToInt32(blob, c);
-            c += 4;
-
-            AORequirements m_aor;
-
-            while (c2 > 0)
-            {
-                m_aor = new AORequirements();
-                c = m_aor.readRequirementfromBlob(blob, c);
-                c2--;
-            }
-            return c;
-        }
-        #endregion
     }
 }

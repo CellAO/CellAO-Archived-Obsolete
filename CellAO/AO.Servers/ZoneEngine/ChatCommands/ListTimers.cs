@@ -47,7 +47,7 @@ namespace ZoneEngine.ChatCommands
                 foreach (AOTimers at in client.Character.Timers)
                 {
                     string func = " Function " + at.Function.FunctionType.ToString() + " Args: ";
-                    foreach (object d in at.Function.Arguments)
+                    foreach (object d in at.Function.Arguments.Values)
                     {
                         func = func + d + ", ";
                     }

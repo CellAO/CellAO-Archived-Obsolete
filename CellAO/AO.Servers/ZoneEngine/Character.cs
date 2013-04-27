@@ -1274,7 +1274,7 @@ namespace ZoneEngine
                     ms.SqlInsert(
                         "INSERT INTO " + this.GetSqlTablefromDynelType() + "timers VALUES (" + this.Id.ToString() + ","
                         + this.timers[count].Strain + "," + this.timers[count].Timestamp.Second.ToString() + ",X'"
-                        + this.timers[count].Function.ToBlob() + "');");
+                        + this.timers[count].Function.Serialize() + "');");
                 }
             }
         }
@@ -1308,12 +1308,11 @@ namespace ZoneEngine
                             {
                                 Timestamp = DateTime.Now + timeSpan,
                                 Strain = (Int32)row["strain"],
-                                Function = new AOFunctions()
                             };
                         MemoryStream memstream = new MemoryStream((byte[])row[3]);
                         BinaryFormatter bin = new BinaryFormatter();
 
-                        aoTimer.Function = (AOFunctions)bin.Deserialize(memstream);
+                        aoTimer.Function = AOFunctions.Deserialize(memstream);
                     }
                 }
             }
@@ -1811,13 +1810,13 @@ namespace ZoneEngine
                                     if (this.CheckRequirements(this, m_item.Events[c2].Functions[c3], false))
                                     {
                                         AOFunctions aof_withparams = m_item.Events[c2].Functions[c3].ShallowCopy();
-                                        aof_withparams.Arguments.Add(this.inventory[c].Placement);
+                                        aof_withparams.Arguments.Values.Add(this.inventory[c].Placement);
                                         Program.FunctionC.CallFunction(
                                             aof_withparams.FunctionType,
                                             this,
                                             this,
                                             this,
-                                            aof_withparams.Arguments.ToArray());
+                                            aof_withparams.Arguments.Values.ToArray());
                                     }
                                     if ((m_item.Events[c2].Functions[c3].FunctionType == Constants.FunctiontypeModify)
                                         ||
@@ -2600,7 +2599,7 @@ namespace ZoneEngine
                         if (eve.EventType == Constants.EventtypeOnWear)
                         {
                             AOFunctions aofcopy = aof.ShallowCopy();
-                            aofcopy.Arguments.Add(location);
+                            aofcopy.Arguments.Values.Add(location);
                             ch.AddTimer(-9, DateTime.Now, aofcopy, dolocalstats);
                         }
                         else
@@ -2617,7 +2616,7 @@ namespace ZoneEngine
         #region Apply Function on character (called mainly from timers)
         public void ApplyFunction(AOFunctions aof)
         {
-            Program.FunctionC.CallFunction(aof.FunctionType, this, this, this, aof.Arguments.ToArray());
+            Program.FunctionC.CallFunction(aof.FunctionType, this, this, this, aof.Arguments.Values.ToArray());
         }
         #endregion
 

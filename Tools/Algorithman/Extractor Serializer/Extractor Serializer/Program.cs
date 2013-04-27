@@ -3,9 +3,52 @@
 //   
 // </copyright>
 // <summary>
-//   The program.
+//   
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
+#region License
+
+// Copyright (c) 2005-2012, CellAO Team
+// All rights reserved.
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#endregion
+
+#region License
+
+// Copyright (c) 2005-2012, CellAO Team
+// All rights reserved.
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+//     * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+//     * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+// EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+// PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#endregion
+
 namespace Extractor_Serializer
 {
     #region Usings ...
@@ -14,12 +57,13 @@ namespace Extractor_Serializer
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
     using System.Text;
 
     using AO.Core;
 
     using ComponentAce.Compression.Libs.zlib;
+
+    using MsgPack.Serialization;
 
     #endregion
 
@@ -28,6 +72,14 @@ namespace Extractor_Serializer
     /// </summary>
     internal class Program
     {
+        #region Constants
+
+        /// <summary>
+        /// </summary>
+        private const int CopyStreamBufferLength = 1 * 1024 * 1024; // 8 MB
+
+        #endregion
+
         #region Static Fields
 
         /// <summary>
@@ -38,8 +90,6 @@ namespace Extractor_Serializer
         #endregion
 
         #region Public Methods and Operators
-
-        private const int CopyStreamBufferLength = 1 * 1024 * 1024; // 8 MB
 
         /// <summary>
         /// The copy stream.
@@ -108,7 +158,7 @@ namespace Extractor_Serializer
         {
             Console.WriteLine("**********************************************************************");
             Console.WriteLine("**                                                                  **");
-            Console.WriteLine("**  AO Item and Nano Extractor/Serializer v0.8beta                  **");
+            Console.WriteLine("**  AO Item and Nano Extractor/Serializer v0.85beta                  **");
             Console.WriteLine("**                                                                  **");
             Console.WriteLine("**********************************************************************");
 
@@ -137,6 +187,11 @@ namespace Extractor_Serializer
                 if (temp.ToLower() == "exit")
                 {
                     return;
+                }
+
+                if (!Directory.Exists(AOPath))
+                {
+                    continue;
                 }
 
                 try
@@ -184,11 +239,11 @@ namespace Extractor_Serializer
             tw.Close();
 
             Console.WriteLine("Number of Items to extract: " + extractor.GetRecordInstances(0xF4254).Length);
-                
-                // ITEM RECORD TYPE
+
+            // ITEM RECORD TYPE
             Console.WriteLine("Number of Nanos to extract: " + extractor.GetRecordInstances(0xFDE85).Length);
-                
-                // NANO RECORD TYPE
+
+            // NANO RECORD TYPE
 
             // Console.WriteLine(extractor.GetRecordInstances(0xF4241).Length); // Playfields
             // Console.WriteLine(extractor.GetRecordInstances(0xF4266).Length); // Nano Strains
@@ -215,9 +270,10 @@ namespace Extractor_Serializer
 
             foreach (int recnum in extractor.GetRecordInstances(0xF4254))
             {
-                rawItemList.Add(
-                    np.ParseItem(0xF4254, recnum, extractor.GetRecordData(0xF4254, recnum), ItemNamesSql));
+                rawItemList.Add(np.ParseItem(0xF4254, recnum, extractor.GetRecordData(0xF4254, recnum), ItemNamesSql));
             }
+
+            Console.WriteLine();
 
             Console.WriteLine();
             Console.WriteLine("Compacting itemnames.sql");
@@ -228,22 +284,25 @@ namespace Extractor_Serializer
                 string toWrite = string.Empty;
                 while ((count < 20) && (ItemNamesSql.Count > 0))
                 {
-                    if (toWrite != "")
+                    if (toWrite.Length > 0)
                     {
                         toWrite += ",";
                     }
+
                     toWrite += ItemNamesSql[0];
                     ItemNamesSql.RemoveAt(0);
                     count++;
                 }
-                if (toWrite != "")
+
+                if (toWrite != string.Empty)
                 {
                     itnsql.WriteLine("INSERT INTO itemnames VALUES " + toWrite + ";");
                 }
             }
+
             itnsql.Close();
 
-
+            // SerializationContext.Default.Serializers.Register(new AOFunctionArgumentsSerializer());
             Console.WriteLine();
             Console.WriteLine("Items extracted: " + rawItemList.Count);
 
@@ -253,30 +312,37 @@ namespace Extractor_Serializer
 
             var ds = new ZOutputStream(sf, zlibConst.Z_BEST_COMPRESSION);
             var sm = new MemoryStream();
-            var bf = new BinaryFormatter();
+            MessagePackSerializer<List<AONanos>> bf = MessagePackSerializer.Create<List<AONanos>>();
 
             var nanoList2 = new List<AONanos>();
 
-            int maxnum = 250;
+            int maxnum = 5000;
             byte[] buffer = BitConverter.GetBytes(maxnum);
             sm.Write(buffer, 0, buffer.Length);
 
             foreach (AONanos nanos in rawNanoList)
             {
                 nanoList2.Add(nanos);
-                if (nanoList2.Count == 250)
+                if (nanoList2.Count == maxnum)
                 {
-                    bf.Serialize(sm, nanoList2);
+                    bf.Pack(sm, nanoList2);
                     sm.Flush();
                     nanoList2.Clear();
                 }
             }
 
-            bf.Serialize(sm, nanoList2);
+            bf.Pack(sm, nanoList2);
             sm.Seek(0, SeekOrigin.Begin);
             CopyStream(sm, ds);
             sm.Close();
             ds.Close();
+
+            Console.WriteLine("Checking Nanos...");
+            Console.WriteLine();
+            NanoHandler.CacheAllNanos("nanos.dat");
+            Console.WriteLine();
+            Console.WriteLine("Nanos: " + NanoHandler.NanoList.Count + " successfully converted");
+
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Creating serialized item data file - please wait");
@@ -285,43 +351,38 @@ namespace Extractor_Serializer
 
             ds = new ZOutputStream(sf, zlibConst.Z_BEST_COMPRESSION);
             sm = new MemoryStream();
-            bf = new BinaryFormatter();
+            MessagePackSerializer<List<AOItem>> bf2 = MessagePackSerializer.Create<List<AOItem>>();
 
             List<AOItem> items = new List<AOItem>();
 
-            maxnum = 250;
+            maxnum = 5000;
             buffer = BitConverter.GetBytes(maxnum);
             sm.Write(buffer, 0, buffer.Length);
 
             foreach (AOItem it in rawItemList)
             {
                 items.Add(it);
-                if (items.Count == 250)
+                if (items.Count == maxnum)
                 {
-                    bf.Serialize(sm, items);
+                    bf2.Pack(sm, items);
                     sm.Flush();
                     items.Clear();
                 }
             }
 
-            bf.Serialize(sm, items);
+            bf2.Pack(sm, items);
             sm.Seek(0, SeekOrigin.Begin);
             CopyStream(sm, ds);
             sm.Close();
             ds.Close();
 
             Console.WriteLine();
-            Console.WriteLine("Checking files...");
+            Console.WriteLine("Checking Items...");
             Console.WriteLine();
 
             ItemHandler.CacheAllItems("items.dat");
 
             Console.WriteLine("Items: " + ItemHandler.ItemList.Count + " successfully converted");
-
-            ItemHandler.ItemList.Clear();
-
-            NanoHandler.CacheAllNanos("nanos.dat");
-            Console.WriteLine("Nanos: " + NanoHandler.NanoList.Count + " successfully converted");
 
             Console.WriteLine();
             Console.WriteLine("Further Instructions:");

@@ -71,10 +71,10 @@ namespace ZoneEngine.Misc
                 at.Function.TickCount = -2;
                 at.Function.TickInterval = (uint)(character.Stats.NanoInterval.Value * 1000);
                 at.Function.FunctionType = Constants.FunctiontypeHit;
-                at.Function.Arguments.Add(214);
-                at.Function.Arguments.Add(nanoDelta);
-                at.Function.Arguments.Add(nanoDelta);
-                at.Function.Arguments.Add(0);
+                at.Function.Arguments.Values.Add(214);
+                at.Function.Arguments.Values.Add(nanoDelta);
+                at.Function.Arguments.Values.Add(nanoDelta);
+                at.Function.Arguments.Values.Add(0);
                 character.Timers.Add(at);
 
                 if (!this.Parent.Starting)
