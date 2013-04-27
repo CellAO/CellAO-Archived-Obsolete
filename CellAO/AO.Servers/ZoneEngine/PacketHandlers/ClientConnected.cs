@@ -236,12 +236,8 @@ namespace ZoneEngine.PacketHandlers
                                   Identity = identity, 
                                   Action = CharacterActionType.ChangeAnimationAndStance,
                                   Target = Identity.None,
-                                  Parameter = 
-                                      new Identity
-                                          {
-                                              Type = IdentityType.None, 
-                                              Instance = 0x00000001
-                                          }
+                                  Parameter1 = 0x00000000,
+                                  Parameter2 = 0x00000001
                               };
             client.SendCompressed(message);
 

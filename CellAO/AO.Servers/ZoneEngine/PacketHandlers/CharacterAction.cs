@@ -34,10 +34,13 @@ namespace ZoneEngine.PacketHandlers
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
     using ZoneEngine.Misc;
     using ZoneEngine.Packets;
+
+    using Identity = AO.Core.Identity;
 
     public static class CharacterAction
     {
@@ -50,13 +53,12 @@ namespace ZoneEngine.PacketHandlers
             var actionNum = (int)packet.Action;
             var unknown1 = packet.Unknown1;
             var m_ident = new Identity { Type = (int)packet.Target.Type, Instance = packet.Target.Instance };
-            var args = new Identity { Type = (int)packet.Parameter.Type, Instance = packet.Parameter.Instance };
+            var args1 = packet.Parameter1;
+            var args2 = packet.Parameter2;
             var unknown2 = packet.Unknown2;
 
             switch (actionNum)
             {
-                    
-
                 case 19:
                     {
                         // Cast nano
@@ -72,7 +74,7 @@ namespace ZoneEngine.PacketHandlers
                         castNanoSpell.PushInt(0x25314D6D);
                         castNanoSpell.PushIdentity(50000, client.Character.Id);
                         castNanoSpell.PushByte(0);
-                        castNanoSpell.PushInt(args.Instance); // Nano ID
+                        castNanoSpell.PushInt(args2); // Nano ID
                         castNanoSpell.PushIdentity(m_ident); // Target
                         castNanoSpell.PushInt(0);
                         castNanoSpell.PushIdentity(50000, client.Character.Id); // Caster
@@ -80,55 +82,70 @@ namespace ZoneEngine.PacketHandlers
                         Announce.Playfield(client.Character.PlayField, castNanoSpellA);
 
                         // CharacterAction 107
-                        var characterAction107 = new PacketWriter();
-                        characterAction107.PushByte(0xDF);
-                        characterAction107.PushByte(0xDF);
-                        characterAction107.PushShort(10);
-                        characterAction107.PushShort(1);
-                        characterAction107.PushShort(0);
-                        characterAction107.PushInt(3086);
-                        characterAction107.PushInt(client.Character.Id);
-                        characterAction107.PushInt(0x5E477770);
-                        characterAction107.PushIdentity(50000, client.Character.Id);
-                        characterAction107.PushByte(0);
-                        characterAction107.PushInt(107);
-                        characterAction107.PushInt(0);
-                        characterAction107.PushInt(0);
-                        characterAction107.PushInt(0);
-                        characterAction107.PushInt(1);
-                        characterAction107.PushInt(args.Instance);
-                        characterAction107.PushShort(0);
-                        var characterAction107A = characterAction107.Finish();
-                        Announce.Playfield(client.Character.PlayField, characterAction107A);
+                        var characterAction107 = new CharacterActionMessage
+                                                     {
+                                                         Identity =
+                                                             new SmokeLounge.AOtomation.Messaging
+                                                             .GameData.Identity
+                                                                 {
+                                                                     Type =
+                                                                         IdentityType
+                                                                         .CanbeAffected, 
+                                                                     Instance =
+                                                                         client
+                                                                         .Character
+                                                                         .Id
+                                                                 }, 
+                                                         Unknown = 0x00, 
+                                                         Action = CharacterActionType.Unknown1, 
+                                                         Unknown1 = 0x00000000, 
+                                                         Target =
+                                                             SmokeLounge.AOtomation.Messaging
+                                                                        .GameData.Identity.None, 
+                                                         Parameter1 = 1, 
+                                                         Parameter2 = args2, 
+                                                         Unknown2 = 0x0000
+                                                     };
+                        Announce.Playfield(client.Character.PlayField, characterAction107);
 
                         // CharacterAction 98
-                        var characterAction98 = new PacketWriter();
-                        characterAction98.PushByte(0xDF);
-                        characterAction98.PushByte(0xDF);
-                        characterAction98.PushShort(10);
-                        characterAction98.PushShort(1);
-                        characterAction98.PushShort(0);
-                        characterAction98.PushInt(3086);
-                        characterAction98.PushInt(client.Character.Id);
-                        characterAction98.PushInt(0x5E477770);
-                        characterAction98.PushIdentity(m_ident);
-                        characterAction98.PushByte(0);
-                        characterAction98.PushInt(98);
-                        characterAction98.PushInt(0);
-                        characterAction98.PushInt(0xCF1B);
-                        characterAction98.PushInt(args.Instance);
-                        characterAction98.PushInt(client.Character.Id);
-                        characterAction98.PushInt(0x249F0); // duration?
-                        characterAction98.PushShort(0);
-                        var characterAction98A = characterAction98.Finish();
-                        Announce.Playfield(client.Character.PlayField, characterAction98A);
+                        var characterAction98 = new CharacterActionMessage
+                                                    {
+                                                        Identity =
+                                                            new SmokeLounge.AOtomation.Messaging.
+                                                            GameData.Identity
+                                                                {
+                                                                    Type =
+                                                                        (
+                                                                        IdentityType
+                                                                        )
+                                                                        m_ident
+                                                                            .Type, 
+                                                                    Instance =
+                                                                        m_ident
+                                                                        .Instance
+                                                                }, 
+                                                        Unknown = 0x00, 
+                                                        Action = CharacterActionType.Unknown2, 
+                                                        Unknown1 = 0x00000000, 
+                                                        Target =
+                                                            new SmokeLounge.AOtomation.Messaging.
+                                                            GameData.Identity
+                                                                {
+                                                                    Type =
+                                                                        IdentityType
+                                                                        .NanoProgram, 
+                                                                    Instance =
+                                                                        args2
+                                                                }, 
+                                                        Parameter1 = client.Character.Id, 
+                                                        Parameter2 = 0x249F0, // duration?
+                                                        Unknown2 = 0x0000
+                                                    };
+                        Announce.Playfield(client.Character.PlayField, characterAction98);
                     }
 
                     break;
-
-                    
-
-                    #region search
 
                     /* this is here to prevent server crash that is caused by
                  * search action if server doesn't reply if something is
@@ -142,18 +159,12 @@ namespace ZoneEngine.PacketHandlers
 
                     break;
 
-                    #endregion
-
-                    #region info
-
                 case 105:
                     {
                         // If action == Info Request
                         Client tPlayer = null;
                         if ((tPlayer = FindClient.FindClientById(m_ident.Instance)) != null)
                         {
-                            #region Titles
-
                             var LegacyScore = tPlayer.Character.Stats.PvpRating.StatBaseValue;
                             string LegacyTitle = null;
                             if (LegacyScore < 1400)
@@ -200,8 +211,6 @@ namespace ZoneEngine.PacketHandlers
                             {
                                 LegacyTitle = "Grand Master";
                             }
-
-                            #endregion
 
                             var orgGoverningForm = 0;
                             var ms = new SqlWrapper();
@@ -339,10 +348,6 @@ namespace ZoneEngine.PacketHandlers
 
                     break;
 
-                    #endregion
-
-                    #region logout
-
                 case 120:
                     {
                         // If action == Logout
@@ -369,10 +374,6 @@ namespace ZoneEngine.PacketHandlers
 
                     break;
 
-                    #endregion
-
-                    #region stand
-
                 case 87:
                     {
                         // If action == Stand
@@ -384,9 +385,7 @@ namespace ZoneEngine.PacketHandlers
 
                     break;
 
-                    #endregion
-
-                    #region Team
+                    
 
                 case 22:
                     {
@@ -461,7 +460,7 @@ namespace ZoneEngine.PacketHandlers
 
                     break;
 
-                    #endregion
+                    
 
                     #region Delete Item
 
@@ -481,10 +480,10 @@ namespace ZoneEngine.PacketHandlers
                 case 0x34:
                     var nextid = client.Character.GetNextFreeInventory(m_ident.Type);
                     var i = client.Character.GetInventoryAt(m_ident.Instance);
-                    i.Item.MultipleCount -= args.Instance;
+                    i.Item.MultipleCount -= args2;
                     var i2 = new InventoryEntries();
                     i2.Item = i.Item.ShallowCopy();
-                    i2.Item.MultipleCount = args.Instance;
+                    i2.Item.MultipleCount = args2;
                     i2.Placement = nextid;
                     client.Character.Inventory.Add(i2);
                     client.Character.WriteInventoryToSql();
@@ -496,7 +495,7 @@ namespace ZoneEngine.PacketHandlers
 
                 case 0x35:
                     var j1 = client.Character.GetInventoryAt(m_ident.Instance);
-                    var j2 = client.Character.GetInventoryAt(args.Instance);
+                    var j2 = client.Character.GetInventoryAt(args2);
                     j1.Item.MultipleCount += j2.Item.MultipleCount;
                     client.Character.Inventory.Remove(j2);
                     client.Character.WriteInventoryToSql();
@@ -516,29 +515,29 @@ namespace ZoneEngine.PacketHandlers
                     // Sneak Packet Received
                 case 163:
                     {
-                        var Sneak = new PacketWriter();
-
                         // TODO: IF SNEAKING IS ALLOWED RUN THIS CODE.
                         // Send Action 162 : Enable Sneak
-                        Sneak.PushByte(0xDF);
-                        Sneak.PushByte(0xDF);
-                        Sneak.PushShort(0xA);
-                        Sneak.PushShort(1);
-                        Sneak.PushShort(0);
-                        Sneak.PushInt(3086); // Send 
-                        Sneak.PushInt(client.Character.Id); // Reciever
-                        Sneak.PushInt(0x5e477770); // Packet ID
-                        Sneak.PushIdentity(50000, client.Character.Id); // TYPE / ID
-                        Sneak.PushInt(0);
-                        Sneak.PushByte(0xA2); // Action ID
-                        Sneak.PushInt(0);
-                        Sneak.PushInt(0);
-                        Sneak.PushInt(0);
-                        Sneak.PushInt(0);
-                        Sneak.PushInt(0);
-                        Sneak.PushShort(0);
-                        var sneakpacket = Sneak.Finish();
-                        client.SendCompressed(sneakpacket);
+                        var sneak = new CharacterActionMessage
+                                        {
+                                            Identity =
+                                                new SmokeLounge.AOtomation.Messaging.GameData.
+                                                Identity
+                                                    {
+                                                        Type = IdentityType.CanbeAffected, 
+                                                        Instance = client.Character.Id
+                                                    }, 
+                                            Unknown = 0x00, 
+                                            Action = CharacterActionType.StartedSneaking, 
+                                            Unknown1 = 0x00000000, 
+                                            Target =
+                                                SmokeLounge.AOtomation.Messaging.GameData
+                                                           .Identity.None, 
+                                            Parameter1 = 0, 
+                                            Parameter2 = 0, 
+                                            Unknown2 = 0x0000
+                                        };
+
+                        client.SendCompressed(sneak);
 
                         // End of Enable sneak
                         // TODO: IF SNEAKING IS NOT ALLOWED SEND REJECTION PACKET
@@ -558,8 +557,8 @@ namespace ZoneEngine.PacketHandlers
                         item1.Type = m_ident.Type;
                         item1.Instance = m_ident.Instance;
 
-                        item2.Type = args.Type;
-                        item2.Instance = args.Instance;
+                        item2.Type = args1;
+                        item2.Instance = args2;
 
                         var cts = new Tradeskill(client, item1.Instance, item2.Instance);
                         cts.ClickBuild();
@@ -572,7 +571,7 @@ namespace ZoneEngine.PacketHandlers
 
                 case 166:
                     {
-                        client.Character.Stats.VisualFlags.Set(args.Instance);
+                        client.Character.Stats.VisualFlags.Set(args2);
 
                         // client.SendChatText("Setting Visual Flag to "+unknown3.ToString());
                         AppearanceUpdate.AnnounceAppearanceUpdate(client.Character);
@@ -584,7 +583,7 @@ namespace ZoneEngine.PacketHandlers
                     #region Tradeskill Source Changed
 
                 case 0xdc:
-                    TradeSkillReceiver.TradeSkillSourceChanged(client, args.Type, args.Instance);
+                    TradeSkillReceiver.TradeSkillSourceChanged(client, args1, args2);
                     break;
 
                     #endregion
@@ -592,7 +591,7 @@ namespace ZoneEngine.PacketHandlers
                     #region Tradeskill Target Changed
 
                 case 0xdd:
-                    TradeSkillReceiver.TradeSkillTargetChanged(client, args.Type, args.Instance);
+                    TradeSkillReceiver.TradeSkillTargetChanged(client, args1, args2);
                     break;
 
                     #endregion
