@@ -333,11 +333,6 @@
       <Project>{42F497A4-0347-491D-8FA8-50E4D8AD19EB}</Project>
       <Name>WCell.Constants</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WCell.Intercommunication\WCell.Intercommunication.csproj">
-      <Project>{5997613F-D2A5-4B86-BEE2-C823BC07D5AF}</Project>
-      <Name>WCell.Intercommunication</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -88,12 +88,13 @@ namespace ZoneEngine
         #region Public Properties
 
         public int Id { get; set; }
+        public List<IClient> Clients = new List<IClient>();
 
         #endregion
 
         #region Public Methods and Operators
 
-        public override void Start()
+        public override void Start(bool useTcp, bool useUdp)
         {
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
 
@@ -104,7 +105,24 @@ namespace ZoneEngine
             this.Walker.AutoReset = false;
             this.Walker.Elapsed += this.Walker_Elapsed;
             this.Walker.Start();
-            base.Start();
+            ClientConnected += ClientConnect;
+            ClientDisconnected += ClientDisconnect;
+
+
+            base.Start(useTcp,useUdp);
+        }
+
+        private void ClientDisconnect(IClient client, bool forced)
+        {
+            log.Info("Client disconnected. "+client.ClientAddress);
+            client.Dispose();
+            Clients.Remove(client);
+        }
+
+        private void ClientConnect(IClient client)
+        {
+            log.Info(client.ClientAddress+" has connected");
+            Clients.Add(client);
         }
 
         /// <summary>
@@ -144,17 +162,17 @@ namespace ZoneEngine
 
         #region Methods
 
-        protected override ClientBase CreateClient()
+        protected override IClient CreateClient()
         {
             return this.clientFactory.Create(this);
         }
 
-        protected override bool OnClientConnected(ClientBase client)
+        protected override bool OnClientConnected(IClient client)
         {
             return true;
         }
 
-        protected override void OnClientDisconnected(ClientBase clientBase, bool forced)
+        protected override void OnClientDisconnected(IClient clientBase, bool forced)
         {
             var client = (Client)clientBase;
 

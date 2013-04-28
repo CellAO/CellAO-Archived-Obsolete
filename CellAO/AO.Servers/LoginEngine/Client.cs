@@ -114,7 +114,12 @@ namespace LoginEngine
 
         #region Public Methods and Operators
 
-        public override void Send(byte[] packet)
+        protected override bool OnReceive(BufferSegment buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Send(byte[] packet)
         {
             // 18.1 Fix - Dont ask why its not in network byte order like ZoneEngine packets, its too early in the morning
             var pn = BitConverter.GetBytes(this.packetNumber++);
@@ -124,8 +129,10 @@ namespace LoginEngine
             {
                 Array.Resize(ref packet, packet.Length + (4 - (packet.Length % 4)));
             }
+            BufferSegment toSend = BufferManager.GetSegment(packet.Length);
 
-            base.Send(packet);
+            toSend.CopyFrom(packet, 0);
+            base.Send(toSend);
         }
 
         public void Send(int receiver, MessageBody messageBody)

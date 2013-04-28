@@ -65,36 +65,41 @@ namespace ChatEngine
         /// </summary>
         /// <param name="numBytes">
         /// </param>
-        protected override void OnReceive(int numBytes)
+        protected override bool OnReceive(BufferSegment segment)
         {
-            if (numBytes >= 4)
+            if (segment.Length>=4)
             {
-                byte[] packet = new byte[numBytes];
-                Array.Copy(this.m_readBuffer.Array, this.m_readBuffer.Offset, packet, 0, numBytes);
+                byte[] packet = new byte[segment.Length];
+                Array.Copy(segment.SegmentData, 0, packet, 0, segment.Length);
                 ushort messageNumber = this.GetMessageNumber(packet);
                 Parser m_parser = new Parser();
                 m_parser.Parse(this, packet, messageNumber);
+                return true;
             }
+            return false;
         }
         #endregion
 
         #region Misc overrides
+
         /// <summary>
         /// The send.
         /// </summary>
         /// <param name="packet">
         /// </param>
-        public override void Send(byte[] packet)
+        public void Send(byte[] packet)
         {
-            base.Send(packet);
+            BufferSegment toSend = BufferManager.GetSegment(packet.Length);
+            toSend.CopyFrom(packet, 0);
+            base.Send(toSend);
         }
 
         /// <summary>
         /// The cleanup.
         /// </summary>
-        public override void Cleanup()
+        public void Cleanup()
         {
-            base.Cleanup();
+            base.Dispose(true);
         }
         #endregion
 

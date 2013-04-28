@@ -143,9 +143,8 @@ namespace ZoneEngine
             this.SendCompressed(message);
         }
 
-        public override void Cleanup()
+        public void Cleanup()
         {
-            base.Cleanup();
 
             // AH FINALLY, Man, get some NORMAL names (OnDisconnect maybe?).
             var foundnextclient = false;
@@ -171,6 +170,7 @@ namespace ZoneEngine
                 var charS = new CharStatus();
                 charS.SetOffline(this.Character.Id);
             }
+            base.Dispose(true);
         }
 
         public void PurgeCoreTimer(int strain)
@@ -207,15 +207,6 @@ namespace ZoneEngine
             this.Send(buffer);
         }
 
-        public override void Send(byte[] packet)
-        {
-            // 18.1 Fix
-            var pn = BitConverter.GetBytes(this.packetNumber++);
-            packet[0] = pn[1];
-            packet[1] = pn[0];
-
-            base.Send(packet);
-        }
 
         public bool SendChatText(string text)
         {
@@ -751,10 +742,11 @@ namespace ZoneEngine
             return reply;
         }
 
-        protected override void OnReceive(int numBytes)
+        protected override bool OnReceive(BufferSegment segment)
         {
-            var packet = new byte[numBytes];
-            Array.Copy(this.m_readBuffer.Array, this.m_readBuffer.Offset, packet, 0, numBytes);
+
+            var packet = new byte[segment.Length];
+            Array.Copy(segment.SegmentData, 0, packet, 0, segment.Length);
 
             Message message = null;
             try
@@ -766,6 +758,7 @@ namespace ZoneEngine
                 var messageNumber = this.GetMessageNumber(packet);
                 this.Server.Warning(
                     this, "Client sent malformed message {0}", messageNumber.ToString(CultureInfo.InvariantCulture));
+                return false;
             }
 
             if (message == null)
@@ -773,10 +766,11 @@ namespace ZoneEngine
                 var messageNumber = this.GetMessageNumber(packet);
                 this.Server.Warning(
                     this, "Client sent unknown message {0}", messageNumber.ToString(CultureInfo.InvariantCulture));
-                return;
+                return false;
             }
 
             this.bus.Publish(new MessageReceivedEvent(this, message));
+            return true;
         }
 
         // Called after 30 second timer elapses

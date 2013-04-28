@@ -59,10 +59,10 @@ namespace LoginEngine
 
         #region Public Methods and Operators
 
-        public override void Start()
+        public void Start(bool useTcp, bool useUdp)
         {
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
-            base.Start();
+            base.Start(useTcp,useUdp);
         }
 
         #endregion
