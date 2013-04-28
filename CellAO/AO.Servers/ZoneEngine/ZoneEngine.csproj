@@ -504,7 +504,7 @@
     <None Include="nanos.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="NBug.config">
+    <None Include="NBug.ZoneEngine.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

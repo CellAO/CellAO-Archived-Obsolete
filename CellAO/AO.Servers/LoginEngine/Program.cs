@@ -1,15 +1,15 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Program.cs" company="CellAO Team">
 //   Copyright © 2005-2013 CellAO Team.
-//   
+// 
 //   All rights reserved.
-//   
+// 
 //   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-//   
+// 
 //       * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 //       * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 //       * Neither the name of the CellAO Team nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-//   
+// 
 //   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 //   "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 //   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -93,7 +93,7 @@ namespace LoginEngine
         private static void Main(string[] args)
         {
             Console.Title = "CellAO " + AssemblyInfoclass.Title + " Console. Version: " + AssemblyInfoclass.Description
-                            + " " + AssemblyInfoclass.AssemblyVersion + " " + AssemblyInfoclass.Trademark;
+                + " " + AssemblyInfoclass.AssemblyVersion + " " + AssemblyInfoclass.Trademark;
 
             var ct = new ConsoleText();
             ct.TextRead("main.txt");
@@ -134,9 +134,8 @@ namespace LoginEngine
             config.LoggingRules.Add(rule2);
             LogManager.Configuration = config;
 
-
-            SettingsOverride.LoadCustomSettings("NBug.Config");
-            Settings.WriteLogToDisk = true;
+            SettingsOverride.LoadCustomSettings("NBug.LoginEngine.Config");
+            NBug.Settings.WriteLogToDisk = true;
             AppDomain.CurrentDomain.UnhandledException += Handler.UnhandledException;
             TaskScheduler.UnobservedTaskException += Handler.UnobservedTaskException;
 
@@ -347,14 +346,14 @@ namespace LoginEngine
                             var hashedPassword = le.GeneratePasswordHash(password);
 
                             var sql = string.Format(
-                                FormatString, 
-                                username, 
-                                hashedPassword, 
-                                numChars, 
-                                expansions, 
-                                gm, 
-                                email, 
-                                firstname, 
+                                FormatString,
+                                username,
+                                hashedPassword,
+                                numChars,
+                                expansions,
+                                gm,
+                                email,
+                                firstname,
                                 lastname);
                             var sqlWrapper = new SqlWrapper();
                             try
