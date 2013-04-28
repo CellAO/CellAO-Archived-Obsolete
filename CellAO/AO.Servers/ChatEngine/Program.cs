@@ -75,6 +75,7 @@ namespace ChatEngine
 
             Console.WriteLine("[ISComm] Waiting for link...");
 
+            #region NLog
             LoggingConfiguration config = new LoggingConfiguration();
             ColoredConsoleTarget consoleTarget = new ColoredConsoleTarget();
             consoleTarget.Layout = "${date:format=HH\\:MM\\:ss} ${logger} ${message}";
@@ -87,10 +88,11 @@ namespace ChatEngine
             LoggingRule rule2 = new LoggingRule("*", LogLevel.Trace, fileTarget);
             config.LoggingRules.Add(rule2);
             LogManager.Configuration = config;
+            #endregion
 
             #region NBug
 
-            SettingsOverride.LoadCustomSettings("NBug.Config");
+            SettingsOverride.LoadCustomSettings("NBug.ChatEngine.Config");
             Settings.WriteLogToDisk = true;
             AppDomain.CurrentDomain.UnhandledException += Handler.UnhandledException;
             TaskScheduler.UnobservedTaskException += Handler.UnobservedTaskException;

@@ -145,7 +145,7 @@ namespace ZoneEngine
             #endregion
 
             #region NBug
-            SettingsOverride.LoadCustomSettings("NBug.Config");
+            SettingsOverride.LoadCustomSettings("NBug.ZoneEngine.Config");
             NBug.Settings.WriteLogToDisk = true;
             AppDomain.CurrentDomain.UnhandledException += Handler.UnhandledException;
             TaskScheduler.UnobservedTaskException += Handler.UnobservedTaskException;

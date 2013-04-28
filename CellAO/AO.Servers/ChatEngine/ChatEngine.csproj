@@ -159,6 +159,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="NBug.ChatEngine.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="SQLTables\buddylist.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
