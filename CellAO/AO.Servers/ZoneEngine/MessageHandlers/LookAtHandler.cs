@@ -55,7 +55,7 @@ namespace ZoneEngine.MessageHandlers
                 return;
             }
 
-            ((Character)dynel).SetTarget((int)lookAtMessage.Target.Type, lookAtMessage.Identity.Instance);
+            ((Character)dynel).SetTarget((int)lookAtMessage.Target.Type, lookAtMessage.Target.Instance);
         }
 
         #endregion

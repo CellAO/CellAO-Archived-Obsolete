@@ -62,7 +62,7 @@ namespace ZoneEngine.PacketHandlers
 
         public static void Read(ChatCmdMessage message, Client client)
         {
-            var target = new Identity { Instance = message.Identity.Instance, Type = (int)message.Identity.Type };
+            var target = new Identity { Instance = message.Target.Instance, Type = (int)message.Target.Type };
             var fullArgs = message.Command.TrimEnd(char.MinValue);
             var temp = string.Empty;
             do
