@@ -148,8 +148,8 @@
       <Project>{0B1CCA26-DD9C-400A-9EF0-1D9423905F4D}</Project>
       <Name>AO.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libraries\Source\CellCore\Cell.Core.csproj">
-      <Project>{71AB07AD-4D94-4693-8560-47862E5B6E61}</Project>
+    <ProjectReference Include="..\..\Libraries\Source\Cell.Core\Cell.Core.csproj">
+      <Project>{71ab07ad-4d94-4693-8560-47862e5b6e61}</Project>
       <Name>Cell.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Source\ISComm\ISComm.csproj">

@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using NLog;
 using NLog.Config;
-using NLog.Win32.Targets;
+using NLog.Targets;
 
 namespace WCell.Util.NLog
 {
@@ -44,6 +44,8 @@ namespace WCell.Util.NLog
 			LogManager.EnableLogging();
 		}
 
+        /* Disabled StreamLogging
+
 		/// <summary>
 		/// Will enable logging to the console and (if not null) the specified file
 		/// </summary>
@@ -64,6 +66,7 @@ namespace WCell.Util.NLog
 			LogManager.Configuration = config;
 			LogManager.EnableLogging();
 		}
+         */
 		#endregion
 
 		#region Exceptions
