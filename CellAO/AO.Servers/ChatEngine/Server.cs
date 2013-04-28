@@ -31,10 +31,12 @@ namespace ChatEngine
 
     using Cell.Core;
 
+    using WCell.Core;
+
     /// <summary>
     /// The server.
     /// </summary>
-    public class ChatServer : ServerBase
+    public sealed class ChatServer : ServerApp<ChatServer>
     {
         #region Needed overrides
         /// <summary>

@@ -156,6 +156,14 @@
       <Project>{0107D780-AC28-4EAB-A0B9-CB782F4AAFA5}</Project>
       <Name>ISComm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Source\WCell.Core\WCell.Core.csproj">
+      <Project>{eea9deb6-8ea6-46f1-b1b7-ab38d8bbca6c}</Project>
+      <Name>WCell.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Source\WCell.Util\WCell.Util.csproj">
+      <Project>{f753af28-a251-4c12-9335-07e8236184f2}</Project>
+      <Name>WCell.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
