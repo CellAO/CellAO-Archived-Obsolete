@@ -26,12 +26,24 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+    using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
+
+    using Identity = SmokeLounge.AOtomation.Messaging.GameData.Identity;
+
     public static class KnuBotRejectedItems
     {
         public static void Send(Client cli, NonPlayerCharacterClass knubotTarget, AOItem[] items)
         {
             PacketWriter packetWriter = new PacketWriter();
+            var message = new KnuBotStartTradeMessage()
+                              {
+                                  Identity = new Identity{Type = (IdentityType)cli.Character.Type, Instance = cli.Character.Id},
+                                  Unknown = 0x00,
+                                  Unknown1 = 0x00002,
+                                  Target = new Identity{Type = (IdentityType)knubotTarget.Type, Instance = knubotTarget.Id},
 
+                              };
             packetWriter.PushByte(0xdf);
             packetWriter.PushByte(0xdf);
             packetWriter.PushShort(0xa);
