@@ -29,8 +29,6 @@
 
 namespace ZoneEngine.PacketHandlers
 {
-    using AO.Core;
-
     using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
@@ -310,49 +308,71 @@ namespace ZoneEngine.PacketHandlers
         // Team Reply Packet 28784248 : TeamMemberInfo + health and nano?????
         public void TeamReplyPacketTeamMemberInfo(int destinationClient, Client sendingPlayer, Identity recievingPlayer)
         {
-            var packetWriter = new PacketWriter();
-            packetWriter.PushByte(0xDF);
-            packetWriter.PushByte(0xDF); // Header
-            packetWriter.PushShort(0xA); // Packet Type
-            packetWriter.PushShort(1); // Unknown 1
-            packetWriter.PushShort(0); // Legnth
-            packetWriter.PushInt(3086); // Sender
-
             switch (destinationClient)
             {
                 case 0:
-                    packetWriter.PushInt(sendingPlayer.Character.Id); // Reciever
-                    packetWriter.PushInt(0x46312D2E); // Packet ID
-                    packetWriter.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
-                    packetWriter.PushInt(0);
-                    packetWriter.PushIdentity(50000, sendingPlayer.Character.Id); // Team Member Information
-                    packetWriter.PushInt(0x05F4); // HP/NANO?? Actual/MAX???
-                    packetWriter.PushInt(0x05F4); // HP/NANO?? Actual/MAX???
-                    packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
-                    packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
-                    packetWriter.PushShort(0);
-                    var packet = packetWriter.Finish();
+                    var toReceiver = new TeamMemberInfoMessage
+                                         {
+                                             Identity =
+                                                 new SmokeLounge.AOtomation.Messaging.GameData.
+                                                 Identity
+                                                     {
+                                                         Type = IdentityType.CanbeAffected, 
+                                                         Instance = sendingPlayer.Character.Id
+                                                     }, 
+                                             Unknown = 0x00, 
+                                             Unknown1 = 0x00, 
+                                             Unknown2 = 0x0000, 
+                                             Character =
+                                                 new SmokeLounge.AOtomation.Messaging.GameData.
+                                                 Identity
+                                                     {
+                                                         Type = IdentityType.CanbeAffected, 
+                                                         Instance = sendingPlayer.Character.Id
+                                                     }, 
+                                             Unknown3 = 0x000005F4, // HP/NANO?? Actual/MAX???
+                                             Unknown4 = 0x000005F4, // HP/NANO?? Actual/MAX???
+                                             Unknown5 = 0x000002F4, // HP/NANO?? Actual/MAX???
+                                             Unknown6 = 0x000002F4, // HP/NANO?? Actual/MAX???
+                                             Unknown7 = 0x0000
+                                         };
+
                     var receiver = FindClient.FindClientById(recievingPlayer.Instance);
                     if (receiver != null)
                     {
-                        receiver.SendCompressed(packet);
+                        receiver.SendCompressed(toReceiver);
                     }
 
                     break;
 
                 case 1:
-                    packetWriter.PushInt(recievingPlayer.Instance); // Reciever
-                    packetWriter.PushInt(0x46312D2E); // Packet ID
-                    packetWriter.PushIdentity(50000, recievingPlayer.Instance); // TYPE / ID
-                    packetWriter.PushInt(0);
-                    packetWriter.PushIdentity(50000, recievingPlayer.Instance); // Team Member Information
-                    packetWriter.PushInt(0x05F4); // HP/NANO?? Actual/MAX???
-                    packetWriter.PushInt(0x05F4); // HP/NANO?? Actual/MAX???
-                    packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
-                    packetWriter.PushInt(0x02F4); // HP/NANO?? Actual/MAX???
-                    packetWriter.PushShort(0);
-                    var packet2 = packetWriter.Finish();
-                    sendingPlayer.SendCompressed(packet2);
+                    var toSender = new TeamMemberInfoMessage
+                                       {
+                                           Identity =
+                                               new SmokeLounge.AOtomation.Messaging.GameData.
+                                               Identity
+                                                   {
+                                                       Type = IdentityType.CanbeAffected, 
+                                                       Instance = recievingPlayer.Instance
+                                                   }, 
+                                           Unknown = 0x00, 
+                                           Unknown1 = 0x00, 
+                                           Unknown2 = 0x0000, 
+                                           Character =
+                                               new SmokeLounge.AOtomation.Messaging.GameData.
+                                               Identity
+                                                   {
+                                                       Type = IdentityType.CanbeAffected, 
+                                                       Instance = recievingPlayer.Instance
+                                                   }, 
+                                           Unknown3 = 0x000005F4, // HP/NANO?? Actual/MAX???
+                                           Unknown4 = 0x000005F4, // HP/NANO?? Actual/MAX???
+                                           Unknown5 = 0x000002F4, // HP/NANO?? Actual/MAX???
+                                           Unknown6 = 0x000002F4, // HP/NANO?? Actual/MAX???
+                                           Unknown7 = 0x0000
+                                       };
+
+                    sendingPlayer.SendCompressed(toSender);
                     break;
             }
         }
