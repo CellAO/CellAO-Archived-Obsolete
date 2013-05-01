@@ -210,75 +210,99 @@ namespace ZoneEngine.PacketHandlers
         public void TeamReplyPacketTeamMember(
             int destinationClient, Client sendingPlayer, Identity recievingPlayer, string charName)
         {
-            var packetWriter = new PacketWriter();
-            packetWriter.PushByte(0xDF);
-            packetWriter.PushByte(0xDF); // Header
-            packetWriter.PushShort(0xA); // Packet Type
-            packetWriter.PushShort(1); // Unknown 1
-            packetWriter.PushShort(0); // Legnth
-            packetWriter.PushInt(3086); // Sender
-
             switch (destinationClient)
             {
                 case 0:
-                    packetWriter.PushInt(sendingPlayer.Character.Id); // Reciever
-                    packetWriter.PushInt(0x46312D2E); // Packet ID
-                    packetWriter.PushIdentity(50000, sendingPlayer.Character.Id); // TYPE / ID
-                    packetWriter.PushInt(0);
-                    packetWriter.PushIdentity(50000, sendingPlayer.Character.Id);
-                    packetWriter.PushInt(0xDEA9); // Team Window Information ??
-                    packetWriter.PushInt(0x7); // team ID??????
-                    packetWriter.PushByte(0xFF);
-                    packetWriter.PushByte(0xFF);
-                    packetWriter.PushByte(0xFF);
-                    packetWriter.PushByte(0xFF);
-                    packetWriter.PushInt(0x48); // ??
-                    packetWriter.PushShort(0x5); // ???
-                    packetWriter.PushInt(0x8); // Length of Team name?
-                    packetWriter.PushByte(0x4B);
-                    packetWriter.PushByte(0x61);
-                    packetWriter.PushByte(0x6C);
-                    packetWriter.PushByte(0x69); // name?
-                    packetWriter.PushByte(0x6E);
-                    packetWriter.PushByte(0x61);
-                    packetWriter.PushByte(0x6D);
-                    packetWriter.PushByte(0x61); // Name continued?
-                    packetWriter.PushShort(0);
-                    var packet = packetWriter.Finish();
+                    var toReceiver = new TeamMemberMessage
+                                         {
+                                             Identity =
+                                                 new SmokeLounge.AOtomation.Messaging.GameData.
+                                                 Identity
+                                                     {
+                                                         Type = IdentityType.CanbeAffected, 
+                                                         Instance = sendingPlayer.Character.Id
+                                                     }, 
+                                             Unknown = 0x00, 
+                                             Unknown1 = 0x00, 
+                                             Unknown2 = 0x0000, 
+                                             Character =
+                                                 new SmokeLounge.AOtomation.Messaging.GameData.
+                                                 Identity
+                                                     {
+                                                         Type = IdentityType.CanbeAffected, 
+                                                         Instance = sendingPlayer.Character.Id
+                                                     }, 
+                                             Team =
+                                                 new SmokeLounge.AOtomation.Messaging.GameData.
+                                                 Identity
+                                                     {
+                                                         Type = IdentityType.TeamWindow, 
+                                                         Instance = 0x00000007
+                                                     }, 
+                                             Unknown3 = 0xFFFFFFFF, 
+                                             Unknown4 = 0x00000048, 
+                                             Unknown5 = 0x0005, 
+                                             Name = "Kalinama", 
+                                             Unknown6 = 0x0000
+                                         };
+
                     var receiver = FindClient.FindClientById(recievingPlayer.Instance);
                     if (receiver != null)
                     {
-                        receiver.SendCompressed(packet);
+                        receiver.SendCompressed(toReceiver);
                     }
 
                     break;
 
                 case 1:
-                    packetWriter.PushInt(recievingPlayer.Instance); // Reciever
-                    packetWriter.PushInt(0x46312D2E); // Packet ID
-                    packetWriter.PushIdentity(50000, recievingPlayer.Instance); // TYPE / ID
-                    packetWriter.PushInt(0);
-                    packetWriter.PushIdentity(50000, recievingPlayer.Instance);
-                    packetWriter.PushInt(0xDEA9); // Team Window Information ??
-                    packetWriter.PushInt(0x7); // team ID??????
-                    packetWriter.PushByte(0xFF);
-                    packetWriter.PushByte(0xFF);
-                    packetWriter.PushByte(0xFF);
-                    packetWriter.PushByte(0xFF);
-                    packetWriter.PushInt(0x48); // ??
-                    packetWriter.PushShort(0x5); // ??
-                    packetWriter.PushInt(0x8); // Length of Team name?
-                    packetWriter.PushByte(0x4B);
-                    packetWriter.PushByte(0x61);
-                    packetWriter.PushByte(0x6C);
-                    packetWriter.PushByte(0x69); // name?
-                    packetWriter.PushByte(0x6E);
-                    packetWriter.PushByte(0x61);
-                    packetWriter.PushByte(0x6D);
-                    packetWriter.PushByte(0x61); // Name continued?
-                    packetWriter.PushShort(0);
-                    var packet2 = packetWriter.Finish();
-                    sendingPlayer.SendCompressed(packet2);
+                    var toSender = new TeamMemberMessage
+                                       {
+                                           Identity =
+                                               new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                                   {
+                                                       Type
+                                                           =
+                                                           IdentityType
+                                                           .CanbeAffected, 
+                                                       Instance
+                                                           =
+                                                           recievingPlayer
+                                                           .Instance
+                                                   }, 
+                                           Unknown = 0x00, 
+                                           Unknown1 = 0x00, 
+                                           Unknown2 = 0x0000, 
+                                           Character =
+                                               new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                                   {
+                                                       Type
+                                                           =
+                                                           IdentityType
+                                                           .CanbeAffected, 
+                                                       Instance
+                                                           =
+                                                           recievingPlayer
+                                                           .Instance
+                                                   }, 
+                                           Team =
+                                               new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                                   {
+                                                       Type
+                                                           =
+                                                           IdentityType
+                                                           .TeamWindow, 
+                                                       Instance
+                                                           =
+                                                           0x00000007
+                                                   }, 
+                                           Unknown3 = 0xFFFFFFFF, 
+                                           Unknown4 = 0x00000048, 
+                                           Unknown5 = 0x0005, 
+                                           Name = "Kalinama", 
+                                           Unknown6 = 0x0000
+                                       };
+
+                    sendingPlayer.SendCompressed(toSender);
                     break;
             }
         }
