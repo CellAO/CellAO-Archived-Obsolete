@@ -28,6 +28,7 @@ namespace ZoneEngine.Packets
 
     using AO.Core;
 
+    [Obsolete]
     public static class FormatFeedbackMessage
     {
         public static void Send(Client client, int category, int instance, object[] args)
