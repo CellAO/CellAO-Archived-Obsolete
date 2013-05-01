@@ -63,23 +63,29 @@ namespace ZoneEngine.PacketHandlers
                     {
                         // Cast nano
                         // CastNanoSpell
-                        var castNanoSpell = new PacketWriter();
-                        castNanoSpell.PushByte(0xDF);
-                        castNanoSpell.PushByte(0xDF);
-                        castNanoSpell.PushShort(10);
-                        castNanoSpell.PushShort(1);
-                        castNanoSpell.PushShort(0);
-                        castNanoSpell.PushInt(3086);
-                        castNanoSpell.PushInt(client.Character.Id);
-                        castNanoSpell.PushInt(0x25314D6D);
-                        castNanoSpell.PushIdentity(50000, client.Character.Id);
-                        castNanoSpell.PushByte(0);
-                        castNanoSpell.PushInt(args2); // Nano ID
-                        castNanoSpell.PushIdentity(m_ident); // Target
-                        castNanoSpell.PushInt(0);
-                        castNanoSpell.PushIdentity(50000, client.Character.Id); // Caster
-                        var castNanoSpellA = castNanoSpell.Finish();
-                        Announce.Playfield(client.Character.PlayField, castNanoSpellA);
+                        var msg = new CastNanoSpellMessage
+                                      {
+                                          Identity =
+                                              new SmokeLounge.AOtomation.Messaging.GameData.
+                                              Identity
+                                                  {
+                                                      Type = IdentityType.CanbeAffected, 
+                                                      Instance = client.Character.Id
+                                                  }, 
+                                          Unknown = 0x00, 
+                                          NanoId = args2, 
+                                          Target = packet.Target, 
+                                          Unknown1 = 0x00000000, 
+                                          Caster =
+                                              new SmokeLounge.AOtomation.Messaging.GameData.
+                                              Identity
+                                                  {
+                                                      Type = IdentityType.CanbeAffected, 
+                                                      Instance = client.Character.Id
+                                                  }
+                                      };
+
+                        Announce.Playfield(client.Character.PlayField, msg);
 
                         // CharacterAction 107
                         var characterAction107 = new CharacterActionMessage
@@ -385,8 +391,6 @@ namespace ZoneEngine.PacketHandlers
 
                     break;
 
-                    
-
                 case 22:
                     {
                         // Kick Team Member
@@ -462,8 +466,6 @@ namespace ZoneEngine.PacketHandlers
 
                     
 
-                    #region Delete Item
-
                 case 0x70:
                     mys.SqlDelete(
                         "DELETE FROM " + client.Character.GetSqlTablefromDynelType() + "inventory WHERE placement="
@@ -473,7 +475,7 @@ namespace ZoneEngine.PacketHandlers
                     client.SendCompressed(packet);
                     break;
 
-                    #endregion
+                    
 
                     #region Split item
 
