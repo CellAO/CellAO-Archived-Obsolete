@@ -229,7 +229,8 @@ namespace ZoneEngine.PacketHandlers
                                                       Objective = orgObjective, 
                                                       GoverningForm = textGovForm, 
                                                       LeaderName = orgLeaderName, 
-                                                      Rank = orgRank
+                                                      Rank = orgRank,
+                                                      Unknown3 = new object[0]
                                                   };
 
                             client.SendCompressed(infoMessage);
