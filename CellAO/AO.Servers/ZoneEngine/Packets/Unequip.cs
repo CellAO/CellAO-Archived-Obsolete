@@ -43,8 +43,6 @@ namespace ZoneEngine.Packets
         public static void Send(Client client, AOItem item, int page, int placement)
         {
             // tell the client to remove (07) the item modifiers (AC, skills and so on)
-            var unequipPacketWriter = new PacketWriter();
-            var action97PacketWriter = new PacketWriter();
 
             // if (placement == 6)
             switch (placement)

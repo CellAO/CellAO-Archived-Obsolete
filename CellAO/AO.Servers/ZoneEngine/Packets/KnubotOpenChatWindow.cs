@@ -29,32 +29,12 @@
 
 namespace ZoneEngine.Packets
 {
-    using AO.Core;
-
     using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
-
-    using ZoneEngine.Misc;
-
-    using Identity = SmokeLounge.AOtomation.Messaging.GameData.Identity;
 
     public static class KnuBotOpenChatWindow
     {
         #region Public Methods and Operators
-
-        public static void Read(byte[] packet)
-        {
-            var packetReader = new PacketReader(packet);
-
-            var header = packetReader.PopHeader();
-            packetReader.PopByte();
-            packetReader.PopShort();
-            var type = packetReader.PopInt();
-            var instance = packetReader.PopInt();
-            var npc = (NonPlayerCharacterClass)FindDynel.FindDynelById(type, instance);
-            var character = FindClient.FindClientById(header.Sender).Character;
-            character.KnuBotTarget = npc;
-        }
 
         public static void Send(Client client, NonPlayerCharacterClass knubotTarget)
         {

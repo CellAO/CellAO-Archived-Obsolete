@@ -365,32 +365,26 @@ namespace ZoneEngine
 
         public void StandCancelLogout()
         {
-            var standUp = new PacketWriter();
+            var message = new CharacterActionMessage()
+                              {
+                                  Identity =
+                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity()
+                                          {
+                                              Type
+                                                  =
+                                                  IdentityType
+                                                  .CanbeAffected,
+                                              Instance
+                                                  =
+                                                  this
+                                                  .Character
+                                                  .Id
+                                          },
+                                  Unknown = 0x00,
+                                  Action = CharacterActionType.StandUp
+                              };
 
-            // start packet header
-            standUp.PushByte(0xDF);
-            standUp.PushByte(0xDF);
-            standUp.PushShort(10);
-            standUp.PushShort(1);
-            standUp.PushShort(0);
-            standUp.PushInt(3086); // Sender (server ID)
-            standUp.PushInt(this.Character.Id); // Receiver
-            standUp.PushInt(0x5E477770); // CharacterAction packet ID
-            standUp.PushIdentity(50000, this.Character.Id); // affected identity
-            standUp.PushByte(0);
-
-            // end packet header
-            standUp.PushByte(0);
-            standUp.PushShort(0);
-            standUp.PushByte(0x57); // stand packet flag
-            standUp.PushInt(0);
-            standUp.PushInt(0);
-            standUp.PushInt(0);
-            standUp.PushInt(0);
-            standUp.PushInt(0);
-            standUp.PushShort(0);
-            var standUpPacket = standUp.Finish();
-            Announce.Playfield(this.Character.PlayField, standUpPacket);
+            Announce.Playfield(this.Character.PlayField, message);
 
             // SendCompressed(standUpPacket);
             if (LogoutTimer.Enabled)
