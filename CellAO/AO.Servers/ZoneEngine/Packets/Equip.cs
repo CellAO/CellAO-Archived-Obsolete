@@ -73,12 +73,7 @@ namespace ZoneEngine.Packets
                     // Action 167 Reply
                     var action167 = new CharacterActionMessage
                                         {
-                                            Identity =
-                                                new Identity
-                                                    {
-                                                        Type = IdentityType.CanbeAffected, 
-                                                        Instance = cli.Character.Id
-                                                    }, 
+                                            Identity = cli.Character.Id, 
                                             Unknown = 0x00, 
                                             Action = CharacterActionType.ChangeAnimationAndStance, 
                                             Unknown1 = 0x00000000, 
@@ -92,12 +87,7 @@ namespace ZoneEngine.Packets
                     // Action 131 Reply
                     var action131 = new CharacterActionMessage
                                         {
-                                            Identity =
-                                                new Identity
-                                                    {
-                                                        Type = IdentityType.CanbeAffected, 
-                                                        Instance = cli.Character.Id
-                                                    }, 
+                                            Identity = cli.Character.Id, 
                                             Unknown = 0x00, 
                                             Action = CharacterActionType.Equip, 
                                             Unknown1 = 0x00000000, 
@@ -118,12 +108,7 @@ namespace ZoneEngine.Packets
                 default:
                     var message = new TemplateActionMessage
                                       {
-                                          Identity =
-                                              new Identity
-                                                  {
-                                                      Type = IdentityType.CanbeAffected, 
-                                                      Instance = cli.Character.Id
-                                                  }, 
+                                          Identity = cli.Character.Id, 
                                           Unknown = 0x00, 
                                           ItemLowId = it.LowID, 
                                           ItemHighId = it.HighID, 

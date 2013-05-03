@@ -40,22 +40,10 @@ namespace ZoneEngine.Packets
         {
             var message = new KnuBotOpenChatWindowMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type =
-                                                  (IdentityType)
-                                                  client.Character.Type, 
-                                              Instance = client.Character.Id
-                                          }, 
+                                  Identity = client.Character.Id, 
                                   Unknown = 0x00, 
-                                  Unknown1 = 0x0002, 
-                                  Target =
-                                      new Identity
-                                          {
-                                              Type = (IdentityType)knubotTarget.Type, 
-                                              Instance = knubotTarget.Id
-                                          }, 
+                                  Unknown1 = 0x0002,
+                                  Target = knubotTarget.Id, 
                                   Unknown2 = 0x00000001, 
                                   Unknown3 = 0x00000000
                               };

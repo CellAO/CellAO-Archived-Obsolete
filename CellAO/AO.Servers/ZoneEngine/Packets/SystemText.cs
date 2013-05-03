@@ -29,8 +29,6 @@
 
 namespace ZoneEngine.Packets
 {
-    using SmokeLounge.AOtomation.Messaging.GameData;
-
     public static class SystemText
     {
         #region Public Methods and Operators
@@ -40,18 +38,9 @@ namespace ZoneEngine.Packets
             var message = new SmokeLounge.AOtomation.Messaging.Messages.N3Messages.FormatFeedbackMessage
                               {
                                   Identity =
-                                      new Identity
-                                          {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  client
-                                                  .Character
-                                                  .Id
-                                          }, 
+                                      client
+                                      .Character
+                                      .Id, 
                                   Unknown =
                                       0x01, 
                                   Unknown1 =

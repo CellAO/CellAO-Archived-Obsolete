@@ -40,12 +40,7 @@ namespace ZoneEngine.Packets
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.DeleteItem, 
                                   Unknown1 = 0x00000000, 

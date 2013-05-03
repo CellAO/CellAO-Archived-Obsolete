@@ -27,13 +27,15 @@
 
 namespace ZoneEngine
 {
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Misc;
 
     public class DynelItem : Dynel
     {
         public CharacterStats Stats;
 
-        public DynelItem(int _id, int _playfield)
+        public DynelItem(Identity _id, int _playfield)
             : base(_id, _playfield)
         {
             lock (this)

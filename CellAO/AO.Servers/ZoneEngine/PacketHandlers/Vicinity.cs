@@ -72,12 +72,12 @@ namespace ZoneEngine.PacketHandlers
 
             foreach (var child in clients)
             {
-                recvers[index] = (uint)child.Character.Id;
+                recvers[index] = (uint)child.Character.Id.Instance;
                 index++;
             }
 
             ChatCom.SendVicinity(
-                (uint)client.Character.Id, (byte)textMessage.Message.Type, recvers, textMessage.Message.Text);
+                (uint)client.Character.Id.Instance, (byte)textMessage.Message.Type, recvers, textMessage.Message.Text);
         }
 
         #endregion

@@ -118,12 +118,7 @@ namespace ZoneEngine.PacketHandlers
             /* start of packet */
             var reply = new CharDCMoveMessage
                             {
-                                Identity =
-                                    new Identity
-                                        {
-                                            Type = IdentityType.CanbeAffected, 
-                                            Instance = client.Character.Id
-                                        }, 
+                                Identity = client.Character.Id, 
                                 Unknown = 0x00, 
                                 MoveType = moveType, 
                                 Heading =

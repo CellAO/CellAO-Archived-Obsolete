@@ -30,45 +30,45 @@ namespace ZoneEngine
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Misc;
     using ZoneEngine.Packets;
+
+    using Quaternion = AO.Core.Quaternion;
 
     public class VendingMachine : NonPlayerCharacterClass
     {
         public int TemplateId { get; set; }
 
-        public VendingMachine(int id, int playfield, string hash)
+        public VendingMachine(Identity id, int playfield, string hash)
         {
             this.Id = id;
             this.PlayField = playfield;
-            // Vending machines = type 51035
-            this.Type = 51035;
             this.OurType = 3;
             this.RawCoord = new AOCoord();
             this.RawHeading = new Quaternion(0, 0, 0, 0);
             this.Hash = hash;
             this.DoNotDoTimers = true;
             this.Stats = new CharacterStats(this);
-            if (this.Id != 0)
+            if (this.Id.Instance != 0)
             {
                 LoadTemplate(hash); // All shops will have level 1
             }
             this.DoNotDoTimers = false;
         }
 
-        public VendingMachine(int id, int playfield, int templateId)
+        public VendingMachine(Identity id, int playfield, int templateId)
         {
             this.Id = id;
             this.PlayField = playfield;
-            // Vending machines = type 51035
-            this.Type = 51035;
             this.OurType = 3;
             this.RawCoord = new AOCoord();
             this.RawHeading = new Quaternion(0, 0, 0, 0);
             this.TemplateId = templateId;
             this.DoNotDoTimers = true;
             this.Stats = new CharacterStats(this);
-            if (this.Id != 0)
+            if (this.Id.Instance != 0)
             {
                 this.LoadTemplate(this.TemplateId); // All shops will have level 1
             }
@@ -160,15 +160,15 @@ namespace ZoneEngine
         #endregion
 
         #region getfreshID
-        public static int NextFreeId()
+        public static Identity NextFreeId()
         {
             int freeID = 100000; // minimum ID for mobs
             foreach (VendingMachine vm in Program.zoneServer.Vendors)
             {
-                freeID = Math.Max(freeID, vm.Id);
+                freeID = Math.Max(freeID, vm.Id.Instance);
             }
             freeID++;
-            return freeID;
+            return new Identity { Type = IdentityType.VendingMachine, Instance = freeID };
         }
         #endregion
 
@@ -250,7 +250,7 @@ namespace ZoneEngine
         /// </summary>
         public new void Purge()
         {
-            if ((this.Id != 0) && (this.NeedPurge))
+            if ((this.Id.Instance != 0) && (this.NeedPurge))
             {
                 this.NeedPurge = false;
 

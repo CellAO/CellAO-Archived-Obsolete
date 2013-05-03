@@ -62,22 +62,12 @@ namespace ZoneEngine.PacketHandlers
                         // CastNanoSpell
                         var msg = new CastNanoSpellMessage
                                       {
-                                          Identity =
-                                              new Identity
-                                                  {
-                                                      Type = IdentityType.CanbeAffected, 
-                                                      Instance = client.Character.Id
-                                                  }, 
+                                          Identity = client.Character.Id, 
                                           Unknown = 0x00, 
                                           NanoId = args2, 
                                           Target = packet.Target, 
-                                          Unknown1 = 0x00000000, 
-                                          Caster =
-                                              new Identity
-                                                  {
-                                                      Type = IdentityType.CanbeAffected, 
-                                                      Instance = client.Character.Id
-                                                  }
+                                          Unknown1 = 0x00000000,
+                                          Caster = client.Character.Id
                                       };
 
                         Announce.Playfield(client.Character.PlayField, msg);
@@ -85,16 +75,7 @@ namespace ZoneEngine.PacketHandlers
                         // CharacterAction 107
                         var characterAction107 = new CharacterActionMessage
                                                      {
-                                                         Identity =
-                                                             new Identity
-                                                                 {
-                                                                     Type =
-                                                                         IdentityType
-                                                                         .CanbeAffected, 
-                                                                     Instance =
-                                                                         client
-                                                                         .Character.Id
-                                                                 }, 
+                                                         Identity = client.Character.Id, 
                                                          Unknown = 0x00, 
                                                          Action = CharacterActionType.Unknown1, 
                                                          Unknown1 = 0x00000000, 
@@ -120,7 +101,7 @@ namespace ZoneEngine.PacketHandlers
                                                                         .NanoProgram, 
                                                                     Instance = args2
                                                                 }, 
-                                                        Parameter1 = client.Character.Id, 
+                                                        Parameter1 = client.Character.Id.Instance, 
                                                         Parameter2 = 0x249F0, // duration?
                                                         Unknown2 = 0x0000
                                                     };
@@ -229,9 +210,9 @@ namespace ZoneEngine.PacketHandlers
                             infoPacket.PushShort(1);
                             infoPacket.PushShort(0);
                             infoPacket.PushInt(3086); // sender (server ID)
-                            infoPacket.PushInt(client.Character.Id); // receiver 
+                            infoPacket.PushInt(client.Character.Id.Instance); // receiver 
                             infoPacket.PushInt(0x4D38242E); // packet ID
-                            infoPacket.PushIdentity(50000, tPlayer.Character.Id); // affected identity
+                            infoPacket.PushIdentity(tPlayer.Character.Id); // affected identity
                             infoPacket.PushByte(0); // ?
 
                             // End packet header
@@ -287,7 +268,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             var npc =
                                 (NonPlayerCharacterClass)
-                                FindDynel.FindDynelById(packet.Target.Type, packet.Target.Instance);
+                                FindDynel.FindDynelById(packet.Target);
                             if (npc != null)
                             {
                                 var infoPacket = new PacketWriter();
@@ -299,9 +280,9 @@ namespace ZoneEngine.PacketHandlers
                                 infoPacket.PushShort(1);
                                 infoPacket.PushShort(0);
                                 infoPacket.PushInt(3086); // sender (server ID)
-                                infoPacket.PushInt(client.Character.Id); // receiver 
+                                infoPacket.PushInt(client.Character.Id.Instance); // receiver 
                                 infoPacket.PushInt(0x4D38242E); // packet ID
-                                infoPacket.PushIdentity(50000, npc.Id); // affected identity
+                                infoPacket.PushIdentity(npc.Id); // affected identity
                                 infoPacket.PushByte(0); // ?
 
                                 // End packet header
@@ -495,12 +476,7 @@ namespace ZoneEngine.PacketHandlers
                         // Send Action 162 : Enable Sneak
                         var sneak = new CharacterActionMessage
                                         {
-                                            Identity =
-                                                new Identity
-                                                    {
-                                                        Type = IdentityType.CanbeAffected, 
-                                                        Instance = client.Character.Id
-                                                    }, 
+                                            Identity = client.Character.Id, 
                                             Unknown = 0x00, 
                                             Action = CharacterActionType.StartedSneaking, 
                                             Unknown1 = 0x00000000, 

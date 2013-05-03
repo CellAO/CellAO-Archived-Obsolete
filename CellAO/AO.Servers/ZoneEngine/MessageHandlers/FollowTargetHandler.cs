@@ -51,12 +51,7 @@ namespace ZoneEngine.MessageHandlers
 
             var announce = new FollowTargetMessage
                                {
-                                   Identity =
-                                       new Identity
-                                           {
-                                               Type = IdentityType.CanbeAffected, 
-                                               Instance = client.Character.Id
-                                           }, 
+                                   Identity = client.Character.Id, 
                                    Unknown = 0, 
                                    Unknown1 = followTargetMessage.Unknown1,
                                    Unknown2 = followTargetMessage.Unknown2,

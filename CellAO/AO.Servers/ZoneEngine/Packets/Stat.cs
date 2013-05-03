@@ -54,12 +54,7 @@ namespace ZoneEngine.Packets
         {
             var message = new StatMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = client.Character.Id
-                                          }, 
+                                  Identity = client.Character.Id, 
                                   Stats =
                                       new[]
                                           {
@@ -119,12 +114,7 @@ namespace ZoneEngine.Packets
 
             var message = new StatMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = (IdentityType)ch.Type, 
-                                              Instance = ch.Id
-                                          }, 
+                                  Identity = ch.Id, 
                                   Stats = stats.ToArray()
                               };
 
@@ -167,12 +157,7 @@ namespace ZoneEngine.Packets
 
             var message = new StatMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = client.Character.Id
-                                          }, 
+                                  Identity = client.Character.Id, 
                                   Stats = toClient.ToArray()
                               };
 

@@ -175,14 +175,14 @@ namespace ZoneEngine.Misc
             aof.TickCount = 1;
             aof.TickInterval = 0;
             aof.FunctionType = 2; // KnuBotActionTimer
-            aof.Target = this.Parent.Id;
+            aof.Target = this.Parent.Id.Instance;
             return aof;
         }
 
         public void Teleport(int x, int z, int y, int pf, uint delay)
         {
             AOFunctions aof = new AOFunctions();
-            aof.Target = this.TalkingTo.Id;
+            aof.Target = this.TalkingTo.Id.Instance;
             aof.TickCount = 0;
             aof.TickInterval = 1;
             aof.FunctionType = Constants.FunctiontypeTeleport;

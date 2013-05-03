@@ -47,7 +47,7 @@ namespace ZoneEngine.ChatCommands
             NonPlayerCharacterClass targetMonster = null;
             foreach (NonPlayerCharacterClass mMonster in Program.zoneServer.Monsters)
             {
-                if (mMonster.Id != target.Instance)
+                if (mMonster.Id != target)
                 {
                     continue;
                 }
@@ -58,7 +58,7 @@ namespace ZoneEngine.ChatCommands
             {
                 foreach (VendingMachine vm in Program.zoneServer.Vendors)
                 {
-                    if (vm.Id != target.Instance)
+                    if (vm.Id != target)
                     {
                         continue;
                     }

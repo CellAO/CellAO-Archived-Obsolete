@@ -40,14 +40,7 @@ namespace ZoneEngine.Packets
         {
             var message = new VendingMachineFullUpdateMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type =
-                                                  (IdentityType)
-                                                  vendingMachine.Type, 
-                                              Instance = vendingMachine.Id
-                                          }, 
+                                  Identity = vendingMachine.Id, 
                                   Unknown = 0x00, 
                                   Unknown1 = 0x0000000B, 
                                   Unknown2 = 0x00000000, 

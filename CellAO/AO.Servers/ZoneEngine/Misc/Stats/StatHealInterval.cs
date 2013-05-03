@@ -74,7 +74,7 @@ namespace ZoneEngine.Misc
                 at.Strain = 0;
                 at.Timestamp = DateTime.Now
                                + TimeSpan.FromMilliseconds(character.Stats.HealInterval.Value * 1000 - sitBonusInterval);
-                at.Function.Target = this.Parent.Id; // changed from ItemHandler.itemtarget_self;
+                at.Function.Target = this.Parent.Id.Instance; // changed from ItemHandler.itemtarget_self;
                 at.Function.TickCount = -2;
                 at.Function.TickInterval = (uint)(character.Stats.HealInterval.Value * 1000 - sitBonusInterval);
                 at.Function.FunctionType = Constants.FunctiontypeHit;

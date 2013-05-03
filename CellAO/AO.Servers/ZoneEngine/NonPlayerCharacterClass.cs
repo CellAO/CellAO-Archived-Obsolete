@@ -36,6 +36,8 @@ namespace ZoneEngine
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Misc;
     using ZoneEngine.Packets;
 
@@ -70,12 +72,11 @@ namespace ZoneEngine
         /// </summary>
         /// <param name="_id">Unique ID</param>
         /// <param name="_playfield">Plafield number</param>
-        public NonPlayerCharacterClass(int _id, int _playfield)
+        public NonPlayerCharacterClass(Identity _id, int _playfield)
             : base(_id, _playfield)
         {
             this.Id = _id;
             this.PlayField = _playfield;
-            this.Type = 50000;
             this.OurType = 1;
             this.Meshs = new List<AOMeshs>();
             this.AdditionalMeshs = new List<AOAddMeshs>();
@@ -515,11 +516,11 @@ namespace ZoneEngine
 
             foreach (Character child in Clients)
             {
-                recvers[index] = (UInt32)child.Id;
+                recvers[index] = (UInt32)child.Id.Instance;
                 index++;
             }
 
-            ChatCom.SendVicinity((UInt32)this.Id, 0, recvers, message);
+            ChatCom.SendVicinity((UInt32)this.Id.Instance, 0, recvers, message);
         }
         #endregion
 
@@ -533,7 +534,7 @@ namespace ZoneEngine
         public int ReadStatsfast(DataTable dt, int startcount)
         {
             int count = startcount;
-            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.Id))
+            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.Id.Instance))
             {
                 this.Stats.SetStatValueByName((Int32)dt.Rows[count][2], (UInt32)(Int32)dt.Rows[count][3]);
                 count++;
@@ -553,7 +554,7 @@ namespace ZoneEngine
         public int readInventoryfromSqlfast(DataTable dt, int startcount)
         {
             int count = startcount;
-            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.Id))
+            while ((count < dt.Rows.Count) && ((Int32)dt.Rows[count][0] == this.Id.Instance))
             {
                 count++;
             }

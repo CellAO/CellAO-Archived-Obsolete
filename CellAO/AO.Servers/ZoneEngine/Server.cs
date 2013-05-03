@@ -161,11 +161,7 @@ namespace ZoneEngine
             // client.Server.ConnectedClients.Remove(client.CharacterID);
             var message = new DespawnMessage
                               {
-                                  Identity =
-                                      new Identity {
-                                              Type = IdentityType.CanbeAffected,
-                                              Instance = client.Character.Id
-                                          },
+                                  Identity = client.Character.Id,
                                   Unknown = 0x01
                               };
 

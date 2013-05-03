@@ -50,12 +50,7 @@ namespace ZoneEngine.PacketHandlers
                     // Send CharacterInPlay packet 
                     var message = new CharInPlayMessage
                                       {
-                                          Identity =
-                                              new Identity
-                                                  {
-                                                      Type = IdentityType.CanbeAffected, 
-                                                      Instance = clients.Character.Id
-                                                  }, 
+                                          Identity = clients.Character.Id, 
                                           Unknown = 0x00
                                       };
                     client.SendCompressed(message);

@@ -50,8 +50,7 @@ namespace ZoneEngine.MessageHandlers
 
             var npc =
                 (NonPlayerCharacterClass)
-                FindDynel.FindDynelById(
-                    knuBotAnswerMessage.Target.Type, knuBotAnswerMessage.Target.Instance);
+                FindDynel.FindDynelById(knuBotAnswerMessage.Target);
             if (npc != null)
             {
                 npc.KnuBotCloseChatWindow(client.Character);

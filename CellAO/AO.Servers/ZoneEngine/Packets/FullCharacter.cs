@@ -42,9 +42,7 @@ namespace ZoneEngine.Packets
 
         public static void Send(Client client)
         {
-            var fc = new FullCharacterMessage();
-            fc.Identity = new Identity { Type = IdentityType.CanbeAffected, Instance = client.Character.Id };
-            fc.Unknown1 = 25;
+            var fc = new FullCharacterMessage { Identity = client.Character.Id, Unknown1 = 25 };
 
             /* part 1 of data */
             var inventory = from ie in client.Character.Inventory

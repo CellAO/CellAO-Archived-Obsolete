@@ -48,8 +48,7 @@ namespace ZoneEngine.MessageHandlers
             var client = (Client)sender;
             var lookAtMessage = (LookAtMessage)message.Body;
 
-            var dynel = FindDynel.FindDynelById(
-                lookAtMessage.Identity.Type, lookAtMessage.Identity.Instance);
+            var dynel = FindDynel.FindDynelById(lookAtMessage.Identity);
             if (dynel == null)
             {
                 return;

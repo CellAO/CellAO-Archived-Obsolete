@@ -34,6 +34,8 @@ using System.Net;
 
 namespace AO.Core
 {
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     /// <summary>
     /// Class for writing packets
     /// </summary>
@@ -117,10 +119,10 @@ namespace AO.Core
             return true;
         }
 
-        public bool PushIdentity(int _type, int _instance)
+        public bool PushIdentity(Identity id)
         {
-            PushInt(_type);
-            PushInt(_instance);
+            PushInt((int)id.Type);
+            PushInt(id.Instance);
             return true;
         }
 

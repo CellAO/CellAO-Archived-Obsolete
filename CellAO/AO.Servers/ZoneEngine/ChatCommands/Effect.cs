@@ -82,13 +82,8 @@ namespace ZoneEngine.ChatCommands
                           {
                               Identity = target, 
                               Unknown = 0x00, 
-                              NanoEffects = new[] { nanoEffect }, 
-                              Character =
-                                  new Identity
-                                      {
-                                          Type = IdentityType.CanbeAffected, 
-                                          Instance = client.Character.Id
-                                      }, 
+                              NanoEffects = new[] { nanoEffect },
+                              Character = client.Character.Id 
                           };
 
             Announce.Playfield(client.Character.PlayField, msg);

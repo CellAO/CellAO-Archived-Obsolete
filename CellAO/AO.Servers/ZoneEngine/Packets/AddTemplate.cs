@@ -44,12 +44,7 @@ namespace ZoneEngine.Packets
         {
             var message = new AddTemplateMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = (IdentityType)client.Character.Type, 
-                                              Instance = client.Character.Id
-                                          }, 
+                                  Identity = client.Character.Id, 
                                   Unknown = 0x00, 
                                   LowId = inventoryEntry.Item.LowID, 
                                   HighId = inventoryEntry.Item.HighID, 

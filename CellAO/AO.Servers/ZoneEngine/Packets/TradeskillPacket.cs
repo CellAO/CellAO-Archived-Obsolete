@@ -40,12 +40,7 @@ namespace ZoneEngine.Packets
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.TradeskillNotValid, 
                                   Unknown1 = 0x00000000, 
@@ -62,12 +57,7 @@ namespace ZoneEngine.Packets
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.TradeskillOutOfRange, 
                                   Unknown1 = 0x00000000, 
@@ -84,12 +74,7 @@ namespace ZoneEngine.Packets
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.TradeskillRequirement, 
                                   Unknown1 = 0x00000000, 
@@ -106,12 +91,7 @@ namespace ZoneEngine.Packets
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.TradeskillResult, 
                                   Unknown1 = 0x00000000, 
@@ -129,12 +109,7 @@ namespace ZoneEngine.Packets
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.TradeskillSource, 
                                   Unknown1 = 0x00000000, 
@@ -151,12 +126,7 @@ namespace ZoneEngine.Packets
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.TradeskillTarget, 
                                   Unknown1 = 0x00000000, 

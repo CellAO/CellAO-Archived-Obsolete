@@ -269,7 +269,7 @@ namespace ZoneEngine.Misc
             {
                 return;
             }
-            int id = this.parent.Id;
+            int id = this.parent.Id.Instance;
             SqlWrapper sql = new SqlWrapper();
             if (this.Changed)
             {
@@ -300,7 +300,7 @@ namespace ZoneEngine.Misc
             {
                 return;
             }
-            int id = this.parent.Id;
+            int id = this.parent.Id.Instance;
             SqlWrapper sql = new SqlWrapper();
             if (doit)
             {
@@ -332,7 +332,7 @@ namespace ZoneEngine.Misc
                 return;
             }
             SqlWrapper sql = new SqlWrapper();
-            int id = this.parent.Id;
+            int id = this.parent.Id.Instance;
             DataTable dt =
                 sql.ReadDatatable(
                     "SELECT Value FROM " + this.parent.GetSqlTablefromDynelType() + " WHERE ID=" + id + " AND Stat="

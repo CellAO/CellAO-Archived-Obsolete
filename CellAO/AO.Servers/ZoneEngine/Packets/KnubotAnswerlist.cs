@@ -42,20 +42,10 @@ namespace ZoneEngine.Packets
         {
             var message = new KnuBotAnswerListMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = (IdentityType)cli.Character.Type, 
-                                              Instance = cli.Character.Id
-                                          }, 
+                                  Identity = cli.Character.Id, 
                                   Unknown = 0x00, 
-                                  Unknown1 = 0x0002, 
-                                  Target =
-                                      new Identity
-                                          {
-                                              Type = (IdentityType)knubotTarget.Type, 
-                                              Instance = knubotTarget.Id
-                                          }, 
+                                  Unknown1 = 0x0002,
+                                  Target = knubotTarget.Id, 
                                   DialogOptions =
                                       choices.Select(c => new KnuBotDialogOption { Text = c })
                                              .ToArray()

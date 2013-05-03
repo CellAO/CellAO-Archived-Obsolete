@@ -153,17 +153,16 @@ namespace ZoneEngine
         /// </summary>
         /// <param name="id">ID of player</param>
         /// <param name="playfield">initial Playfield number</param>
-        public Character(int id, int playfield)
+        public Character(Identity id, int playfield)
             : base(id, playfield)
         {
             lock (this)
             {
                 this.Id = id;
                 this.PlayField = playfield;
-                // We're in the character class, so set Identifier 50000
-                this.Type = 50000;
+
                 this.OurType = 0;
-                if (this.Id != 0)
+                if (this.Id.Instance != 0)
                 {
                     this.doNotDoTimers = true;
                     this.stats = new CharacterStats(this);
@@ -1844,7 +1843,7 @@ namespace ZoneEngine
         {
             lock (this)
             {
-                if ((this.Id != 0) && (this.needPurge))
+                if ((this.Id.Instance != 0) && (this.needPurge))
                 {
                     this.needPurge = false;
 
@@ -2046,7 +2045,7 @@ namespace ZoneEngine
                 AOTimers at = new AOTimers();
                 at.Strain = -1;
                 at.Timestamp = DateTime.Now + TimeSpan.FromMilliseconds(100);
-                at.Function.Target = this.Id;
+                at.Function.Target = this.Id.Instance;
                 at.Function.TickCount = -2;
                 at.Function.TickInterval = 100;
                 at.Function.FunctionType = 1; // MAIN stat send timer
@@ -2362,14 +2361,14 @@ namespace ZoneEngine
         #region Get Characters Target
         public Character TargetCharacter()
         {
-            return (Character)FindDynel.FindDynelById(this.Target.Type, this.Target.Instance);
+            return (Character)FindDynel.FindDynelById(this.Target);
         }
         #endregion
 
         #region Get Characters fighting target
         public Character FightingCharacter()
         {
-            return (Character)FindDynel.FindDynelById(this.FightingTarget.Type, this.FightingTarget.Instance);
+            return (Character)FindDynel.FindDynelById(this.FightingTarget);
         }
         #endregion
 
@@ -2547,7 +2546,7 @@ namespace ZoneEngine
             int location,
             CheckReqs doreqs)
         {
-            Character chartarget = (Character)FindDynel.FindDynelById(ch.Target.Type, ch.Target.Instance);
+            Character chartarget = (Character)FindDynel.FindDynelById(ch.Target);
             Boolean reqs_met;
             if (ch != null)
             {

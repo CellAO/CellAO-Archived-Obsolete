@@ -63,7 +63,7 @@ namespace ZoneEngine
                 int charid = BitConverter.ToInt32(e.Data, 0);
                 foreach (Client c in Program.zoneServer.Clients)
                 {
-                    if (c.Character.Id == charid)
+                    if (c.Character.Id.Instance == charid)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Unauthorized access detected: \r\nCharacterID: " + charid);

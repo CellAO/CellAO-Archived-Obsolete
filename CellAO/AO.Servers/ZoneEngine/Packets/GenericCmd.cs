@@ -44,23 +44,13 @@ namespace ZoneEngine.Packets
         {
             var msg = new GenericCmdMessage
                           {
-                              Identity =
-                                  new Identity
-                                      {
-                                          Type = IdentityType.CanbeAffected, 
-                                          Instance = character.Id
-                                      }, 
+                              Identity = character.Id, 
                               Unknown = 0x00, 
                               Temp1 = 0x00000001, 
                               Count = 0x00000003, 
                               Action = GenericCmdAction.Use, 
-                              Temp4 = 0x00000000, 
-                              User =
-                                  new Identity
-                                      {
-                                          Type = IdentityType.CanbeAffected, 
-                                          Instance = character.Id
-                                      }, 
+                              Temp4 = 0x00000000,
+                              User = character.Id, 
                               Target =
                                   new Identity
                                       {

@@ -30,24 +30,26 @@ namespace ZoneEngine.NonPlayerCharacter
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Packets;
 
     public static class VendorHandler
     {
         #region get next free vendor ID
         // TODO: Move this function somewhere else, where it can be static without being inside a non-static object class 
-        public static int GetNextFreeId(int playfield)
+        public static Identity GetNextFreeId(int playfield)
         {
             int freeId = 0x0; // Vendors reign in their own numberspace
             foreach (VendingMachine vm in Program.zoneServer.Vendors)
             {
                 if (vm.PlayField == playfield)
                 {
-                    freeId = Math.Max(freeId, vm.Id & 0xffff);
+                    freeId = Math.Max(freeId, vm.Id.Instance & 0xffff);
                 }
             }
             freeId++;
-            return (freeId + (playfield << 16));
+            return new Identity { Type = IdentityType.VendingMachine, Instance = freeId + (playfield << 16) };
         }
         #endregion
 
@@ -70,7 +72,8 @@ namespace ZoneEngine.NonPlayerCharacter
 
             foreach (DataRow row in dt.Rows)
             {
-                mVendor = new VendingMachine((Int32)row["ID"], (Int32)row["Playfield"], (Int32)row["TemplateID"]);
+                Identity id = new Identity { Type = IdentityType.VendingMachine, Instance = (Int32)row["ID"] };
+                mVendor = new VendingMachine(id, (Int32)row["Playfield"], (Int32)row["TemplateID"]);
                 mVendor.Coordinates.x = (Single)row["X"];
                 mVendor.Coordinates.y = (Single)row["Y"];
                 mVendor.Coordinates.z = (Single)row["Z"];
@@ -141,11 +144,11 @@ namespace ZoneEngine.NonPlayerCharacter
                 {
                     if (retid == 0)
                     {
-                        retid = vm.Id;
+                        retid = vm.Id.Instance;
                     }
                     else
                     {
-                        retid = Math.Min(retid, vm.Id);
+                        retid = Math.Min(retid, vm.Id.Instance);
                     }
                 }
             }
@@ -173,7 +176,7 @@ namespace ZoneEngine.NonPlayerCharacter
         {
             foreach (VendingMachine vm in Program.zoneServer.Vendors)
             {
-                if (vm.Id == id)
+                if (vm.Id.Instance == id)
                 {
                     return vm;
                 }

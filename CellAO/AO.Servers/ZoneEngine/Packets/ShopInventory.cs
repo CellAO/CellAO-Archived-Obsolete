@@ -42,12 +42,7 @@ namespace ZoneEngine.Packets
         {
             var message = new ShopUpdateMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = (IdentityType)vendingMachine.Type, 
-                                              Instance = vendingMachine.Id
-                                          }, 
+                                  Identity = vendingMachine.Id, 
                                   Unknown = 0x01, 
                                   VendingMachineSlots =
                                       vendingMachine.Inventory.Select(

@@ -54,7 +54,7 @@ namespace ZoneEngine.PacketHandlers
         {
             // Don't edit anything in this region
             // unless you are 300% sure you know what you're doing
-            client.Character = new Character(charID, 0);
+            client.Character = new Character(new Identity { Type = IdentityType.CanbeAffected, Instance = charID }, 0);
             client.Character.Client = client;
             client.Character.ReadNames();
 

@@ -31,12 +31,13 @@ namespace ZoneEngine
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     internal class Pet : NonPlayerCharacterClass
     {
-        public Pet(int _id, int _playfield)
+        public Pet(Identity _id, int _playfield)
             : base(_id, _playfield)
         {
-            this.Type = 50000;
         }
 
         public Character Owner;

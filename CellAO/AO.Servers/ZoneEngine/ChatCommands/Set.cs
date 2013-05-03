@@ -44,8 +44,7 @@ namespace ZoneEngine.ChatCommands
             // Fallback to self if no target is selected
             if (target.Instance == 0)
             {
-                target.Type = (IdentityType)client.Character.Type;
-                target.Instance = client.Character.Id;
+                target = client.Character.Id;
             }
 
             int statId = StatsList.GetStatId(args[1]);
@@ -73,7 +72,7 @@ namespace ZoneEngine.ChatCommands
                 {
                 }
             }
-            Character tempch = (Character)FindDynel.FindDynelById(target.Type, target.Instance);
+            Character tempch = (Character)FindDynel.FindDynelById(target);
             uint statOldValue;
             try
             {

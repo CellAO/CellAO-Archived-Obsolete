@@ -41,7 +41,7 @@ namespace ZoneEngine.ChatCommands
     {
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
-            Dynel _target = FindDynel.FindDynelById(target.Type, target.Instance);
+            Dynel _target = FindDynel.FindDynelById(target);
             if (_target == null)
             {
                 this.CommandHelp(client);

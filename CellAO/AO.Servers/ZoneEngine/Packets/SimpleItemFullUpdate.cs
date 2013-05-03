@@ -26,6 +26,8 @@ namespace ZoneEngine.Packets
 {
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     public static class SimpleItemFullUpdate
     {
         public static void SendPlayField(Client client, VendingMachine vendingMachine, int itemNumber)
@@ -38,12 +40,12 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.Id);
+            packetWriter.PushInt(client.Character.Id.Instance);
             packetWriter.PushInt(0x3b11256f);
-            packetWriter.PushIdentity(0xc76e, 0x021fa86f); // whats this one???
+            packetWriter.PushIdentity(new Identity { Type = (IdentityType)0xc76e, Instance = 0x021fa86f }); // whats this one???
             packetWriter.PushByte(0);
             packetWriter.PushInt(11);
-            packetWriter.PushIdentity(client.Character.Type, client.Character.Id);
+            packetWriter.PushIdentity(client.Character.Id);
             packetWriter.PushInt(client.Character.PlayField);
             packetWriter.PushInt(0x0f424f);
             packetWriter.PushInt(0);
@@ -78,12 +80,12 @@ namespace ZoneEngine.Packets
             packetWriter.PushShort(1);
             packetWriter.PushShort(0);
             packetWriter.PushInt(3086);
-            packetWriter.PushInt(client.Character.Id);
+            packetWriter.PushInt(client.Character.Id.Instance);
             packetWriter.PushInt(0x3b11256f);
-            packetWriter.PushIdentity(0xc76e, 0x021fa86f); // whats this one???
+            packetWriter.PushIdentity(new Identity { Type = (IdentityType)0xc76e, Instance = 0x021fa86f }); // whats this one???
             packetWriter.PushByte(0);
             packetWriter.PushInt(11);
-            packetWriter.PushIdentity(client.Character.Type, client.Character.Id);
+            packetWriter.PushIdentity(client.Character.Id);
             packetWriter.PushInt(client.Character.PlayField);
             packetWriter.PushInt(0x0f424f);
             packetWriter.PushInt(0);

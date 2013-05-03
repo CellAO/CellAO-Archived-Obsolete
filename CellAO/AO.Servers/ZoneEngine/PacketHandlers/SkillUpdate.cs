@@ -234,12 +234,7 @@ namespace ZoneEngine.PacketHandlers
         {
             var message = new StatMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = client.Character.Id
-                                          }, 
+                                  Identity = client.Character.Id, 
                                   Unknown = 0x01, 
                                   Stats =
                                       new[]

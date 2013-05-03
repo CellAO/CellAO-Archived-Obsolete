@@ -57,7 +57,7 @@ namespace ZoneEngine.Packets
 
             int charPlayfield;
             AOCoord charCoord;
-            int charId;
+            Identity charId;
             Quaternion charHeading;
 
             uint sideValue;
@@ -193,7 +193,7 @@ namespace ZoneEngine.Packets
             var scfu = new SimpleCharFullUpdateMessage();
 
             // affected identity
-            scfu.Identity = new Identity { Type = IdentityType.CanbeAffected, Instance = charId };
+            scfu.Identity = charId;
 
             scfu.Version = 57; // SCFU packet version (57/0x39)
             scfu.Flags = SimpleCharFullUpdateFlags.None; // Try setting to 0x042062C8 if you have problems (old value)

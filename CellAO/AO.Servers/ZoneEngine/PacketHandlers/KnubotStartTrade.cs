@@ -55,7 +55,7 @@ namespace ZoneEngine.PacketHandlers
         public static void Read(KnuBotStartTradeMessage message, Client client)
         {
             var npc =
-                (NonPlayerCharacterClass)FindDynel.FindDynelById(message.Target.Type, message.Target.Instance);
+                (NonPlayerCharacterClass)FindDynel.FindDynelById(message.Target);
             if (npc != null)
             {
                 npc.KnuBotStartTrade(client.Character);
@@ -81,14 +81,8 @@ namespace ZoneEngine.PacketHandlers
         {
             var knuBotStartTradeMessage = new KnuBotStartTradeMessage
                                               {
-                                                  Identity = new Identity {
-                                                      Type = IdentityType.CanbeAffected,
-                                                      Instance = client.Character.Id
-                                                  },
-                                                  Target = new Identity {
-                                                          Type = IdentityType.CanbeAffected,
-                                                          Instance = knubotTarget.Id
-                                                      },
+                                                  Identity = client.Character.Id,
+                                                  Target = knubotTarget.Id,
                                                   NumberOfItemSlotsInTradeWindow = numberOfItemSlots,
                                                   Message = message,
                                                   Unknown1 = 2

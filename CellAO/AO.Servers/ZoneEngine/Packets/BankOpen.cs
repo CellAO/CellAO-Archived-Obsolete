@@ -42,12 +42,7 @@ namespace ZoneEngine.Packets
         {
             var message = new BankMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = client.Character.Id
-                                          }, 
+                                  Identity = client.Character.Id, 
                                   Unknown = 0x01, 
                                   Unknown1 = 0, 
                                   Unknown2 = 0, 

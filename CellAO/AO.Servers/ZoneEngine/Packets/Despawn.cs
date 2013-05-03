@@ -38,20 +38,15 @@ namespace ZoneEngine.Packets
     {
         #region Public Methods and Operators
 
-        public static void DespawnPacket(int targetId)
+        public static void DespawnPacket(Identity targetId)
         {
             var message = new DespawnMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = targetId
-                                          }, 
+                                  Identity = targetId, 
                                   Unknown = 0x01
                               };
 
-            var dyn = FindDynel.FindDynelById(IdentityType.CanbeAffected, targetId);
+            var dyn = FindDynel.FindDynelById(targetId);
             if (dyn != null)
             {
                 var npc = dyn as NonPlayerCharacterClass;

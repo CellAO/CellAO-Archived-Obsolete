@@ -61,7 +61,7 @@ namespace ZoneEngine.Misc
         {
             foreach (Client tempClient in Program.zoneServer.Clients)
             {
-                var mID = BitConverter.GetBytes(tempClient.Character.Id);
+                var mID = BitConverter.GetBytes(tempClient.Character.Id.Instance);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
@@ -80,7 +80,7 @@ namespace ZoneEngine.Misc
                     continue;
                 }
 
-                var mID = BitConverter.GetBytes(tempClient.Character.Id);
+                var mID = BitConverter.GetBytes(tempClient.Character.Id.Instance);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
@@ -103,7 +103,7 @@ namespace ZoneEngine.Misc
                         continue;
                     }
 
-                    var mID = BitConverter.GetBytes(tempClient.Character.Id);
+                    var mID = BitConverter.GetBytes(tempClient.Character.Id.Instance);
                     data[12] = mID[3];
                     data[13] = mID[2];
                     data[14] = mID[1];
@@ -141,7 +141,7 @@ namespace ZoneEngine.Misc
                     continue;
                 }
 
-                var mID = BitConverter.GetBytes(tempClient.Character.Id);
+                var mID = BitConverter.GetBytes(tempClient.Character.Id.Instance);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];
@@ -167,7 +167,7 @@ namespace ZoneEngine.Misc
                     continue;
                 }
 
-                var mID = BitConverter.GetBytes(tempClient.Character.Id);
+                var mID = BitConverter.GetBytes(tempClient.Character.Id.Instance);
                 Array.Reverse(mID);
                 data[12] = mID[0];
                 data[13] = mID[1];

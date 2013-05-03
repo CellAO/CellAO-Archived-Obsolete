@@ -55,10 +55,10 @@ namespace ZoneEngine.MessageHandlers
             var tradeMessage = (TradeMessage)message.Body;
 
             var character =
-                (Character)FindDynel.FindDynelById(tradeMessage.Target.Type, tradeMessage.Target.Instance);
+                (Character)FindDynel.FindDynelById(tradeMessage.Target);
             var chaffected =
                 (Character)
-                FindDynel.FindDynelById(tradeMessage.Identity.Type, tradeMessage.Identity.Instance);
+                FindDynel.FindDynelById(tradeMessage.Identity);
 
             // If target is a NPC, call its Action 0
             if ((character is NonPlayerCharacterClass) && (tradeMessage.Action == TradeAction.None))

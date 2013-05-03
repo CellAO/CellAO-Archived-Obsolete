@@ -206,14 +206,7 @@ namespace ZoneEngine.PacketHandlers
 
                             var infoMessage = new OrgInfoMessage
                                                   {
-                                                      Identity =
-                                                          new Identity
-                                                              {
-                                                                  Type =
-                                                                      IdentityType.CanbeAffected, 
-                                                                  Instance =
-                                                                      tPlayer.Character.Id
-                                                              }, 
+                                                      Identity = tPlayer.Character.Id, 
                                                       Unknown = 0x00, 
                                                       Unknown1 = 0x00000000, 
                                                       Unknown2 = 0x00000000, 
@@ -525,15 +518,7 @@ namespace ZoneEngine.PacketHandlers
                         {
                             var inviteMessage = new OrgInviteMessage
                                                     {
-                                                        Identity =
-                                                            new Identity
-                                                                {
-                                                                    Type =
-                                                                        IdentityType
-                                                                        .CanbeAffected, 
-                                                                    Instance =
-                                                                        tPlayer.Character.Id
-                                                                }, 
+                                                        Identity = tPlayer.Character.Id, 
                                                         Unknown = 0x00, 
                                                         Unknown1 = 0x00000000, 
                                                         Unknown2 = 0x00000000, 

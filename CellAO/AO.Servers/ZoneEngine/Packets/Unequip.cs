@@ -52,12 +52,7 @@ namespace ZoneEngine.Packets
                     // Action 97
                     var action97 = new CharacterActionMessage
                                        {
-                                           Identity =
-                                               new Identity
-                                                   {
-                                                       Type = IdentityType.CanbeAffected, 
-                                                       Instance = client.Character.Id
-                                                   }, 
+                                           Identity = client.Character.Id, 
                                            Unknown = 0x00, 
                                            Action = CharacterActionType.Unknown3, 
                                            Unknown1 = 0x00000000, 
@@ -73,12 +68,7 @@ namespace ZoneEngine.Packets
                 default:
                     var message = new TemplateActionMessage
                                       {
-                                          Identity =
-                                              new Identity
-                                                  {
-                                                      Type = IdentityType.CanbeAffected, 
-                                                      Instance = client.Character.Id
-                                                  }, 
+                                          Identity = client.Character.Id, 
                                           Unknown = 0x00, 
                                           ItemLowId = item.LowID, 
                                           ItemHighId = item.HighID, 

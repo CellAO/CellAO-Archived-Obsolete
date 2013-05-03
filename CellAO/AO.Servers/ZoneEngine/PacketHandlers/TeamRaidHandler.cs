@@ -111,20 +111,10 @@ namespace ZoneEngine.PacketHandlers
             // Send Team Request To Other Player
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = sendingPlayer.Character.Id
-                                          }, 
+                                  Identity = sendingPlayer.Character.Id, 
                                   Unknown = 0x00, 
-                                  Action = CharacterActionType.LeaveTeam, 
-                                  Target =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = sendingPlayer.Character.Id
-                                          }, 
+                                  Action = CharacterActionType.LeaveTeam,
+                                  Target = sendingPlayer.Character.Id, 
                                   Parameter1 = 0x02EA0022, // Team ID Variable Goes Here
                                   Parameter2 = -1, 
                                   Unknown2 = 0
@@ -135,20 +125,15 @@ namespace ZoneEngine.PacketHandlers
 
         public void SendTeamRequest(Client sendingPlayer, Identity recievingPlayer)
         {
-            if (sendingPlayer.Character.Id != recievingPlayer.Instance)
+            if (sendingPlayer.Character.Id != recievingPlayer)
             {
                 // Send Team Request To Other Player
                 var message = new CharacterActionMessage
                                   {
                                       Identity = recievingPlayer, 
                                       Unknown = 0x00, 
-                                      Action = CharacterActionType.TeamRequest, 
-                                      Target =
-                                          new Identity
-                                              {
-                                                  Type = recievingPlayer.Type, 
-                                                  Instance = sendingPlayer.Character.Id
-                                              }, 
+                                      Action = CharacterActionType.TeamRequest,
+                                      Target = sendingPlayer.Character.Id, 
                                       Parameter1 = 0, 
                                       Parameter2 = 1, 
                                       Unknown2 = 0
@@ -173,21 +158,11 @@ namespace ZoneEngine.PacketHandlers
                 case 0:
                     var toReceiver = new TeamMemberMessage
                                          {
-                                             Identity =
-                                                 new Identity
-                                                     {
-                                                         Type = IdentityType.CanbeAffected, 
-                                                         Instance = sendingPlayer.Character.Id
-                                                     }, 
+                                             Identity = sendingPlayer.Character.Id, 
                                              Unknown = 0x00, 
                                              Unknown1 = 0x00, 
-                                             Unknown2 = 0x0000, 
-                                             Character =
-                                                 new Identity
-                                                     {
-                                                         Type = IdentityType.CanbeAffected, 
-                                                         Instance = sendingPlayer.Character.Id
-                                                     }, 
+                                             Unknown2 = 0x0000,
+                                             Character = sendingPlayer.Character.Id, 
                                              Team =
                                                  new Identity
                                                      {
@@ -253,23 +228,11 @@ namespace ZoneEngine.PacketHandlers
                 case 0:
                     var toReceiver = new TeamMemberInfoMessage
                                          {
-                                             Identity =
-                                                 new Identity
-                                                     {
-                                                         Type = IdentityType.CanbeAffected, 
-                                                         Instance =
-                                                             sendingPlayer.Character.Id
-                                                     }, 
+                                             Identity = sendingPlayer.Character.Id, 
                                              Unknown = 0x00, 
                                              Unknown1 = 0x00, 
-                                             Unknown2 = 0x0000, 
-                                             Character =
-                                                 new Identity
-                                                     {
-                                                         Type = IdentityType.CanbeAffected, 
-                                                         Instance =
-                                                             sendingPlayer.Character.Id
-                                                     }, 
+                                             Unknown2 = 0x0000,
+                                             Character = sendingPlayer.Character.Id, 
                                              Unknown3 = 0x000005F4, // HP/NANO?? Actual/MAX???
                                              Unknown4 = 0x000005F4, // HP/NANO?? Actual/MAX???
                                              Unknown5 = 0x000002F4, // HP/NANO?? Actual/MAX???
@@ -319,12 +282,7 @@ namespace ZoneEngine.PacketHandlers
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = sendingPlayer.Character.Id
-                                          }, 
+                                  Identity = sendingPlayer.Character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.TeamRequestReply, 
                                   Target = Identity.None, 
@@ -334,7 +292,7 @@ namespace ZoneEngine.PacketHandlers
                               };
 
             // IF Statement Determining Destination Client to Send Packet To
-            var receiver = FindClient.FindClientById(sendingPlayer.Character.Id);
+            var receiver = FindClient.FindClientById(sendingPlayer.Character.Id.Instance);
             if (receiver != null)
             {
                 receiver.SendCompressed(message);
@@ -347,27 +305,17 @@ namespace ZoneEngine.PacketHandlers
             // Accept Team Request CharAction Hex:23
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = sendingPlayer.Character.Id
-                                          }, 
+                                  Identity = sendingPlayer.Character.Id, 
                                   Unknown = 0x00, 
-                                  Action = CharacterActionType.AcceptTeamRequest, 
-                                  Target =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = sendingPlayer.Character.Id
-                                          }, 
+                                  Action = CharacterActionType.AcceptTeamRequest,
+                                  Target = sendingPlayer.Character.Id, 
                                   Parameter1 = (int)IdentityType.TeamWindow, 
                                   Parameter2 = 0x2EA0022, // Team ID Variable Goes Here
                                   Unknown2 = 0
                               };
 
             // IF Statement Determining Destination Client to Send Packet To
-            var receiver = FindClient.FindClientById(sendingPlayer.Character.Id);
+            var receiver = FindClient.FindClientById(sendingPlayer.Character.Id.Instance);
             if (receiver != null)
             {
                 receiver.SendCompressed(message);

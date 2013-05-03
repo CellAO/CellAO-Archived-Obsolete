@@ -40,21 +40,11 @@ namespace ZoneEngine.Packets
         {
             var message = new TradeMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = (IdentityType)dynel1.Type, 
-                                              Instance = dynel1.Id
-                                          }, 
+                                  Identity = dynel1.Id, 
                                   Unknown = 0x00, 
                                   Unknown1 = 0x00000001, 
-                                  Action = TradeAction.None, 
-                                  Target =
-                                      new Identity
-                                          {
-                                              Type = (IdentityType)dynel2.Type, 
-                                              Instance = dynel2.Id
-                                          }, 
+                                  Action = TradeAction.None,
+                                  Target = dynel2.Id, 
                                   Container =
                                       new Identity { Type = IdentityType.TempBag, Instance = 0x39da2458 }
                               };

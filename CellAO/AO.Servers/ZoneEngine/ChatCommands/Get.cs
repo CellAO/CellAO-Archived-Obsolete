@@ -41,15 +41,14 @@ namespace ZoneEngine.ChatCommands
             // Fallback to self if no target is selected
             if (target.Instance == 0)
             {
-                target.Type = (IdentityType)client.Character.Type;
-                target.Instance = client.Character.Id;
+                target = client.Character.Id;
             }
             if (target.Type != IdentityType.CanbeAffected)
             {
                 client.SendChatText("Target must be player/monster/NPC");
                 return;
             }
-            Dynel targetDynel = FindDynel.FindDynelById(target.Type, target.Instance);
+            Dynel targetDynel = FindDynel.FindDynelById(target);
             if (targetDynel != null)
             {
                 Character targetCharacter = (Character)targetDynel;

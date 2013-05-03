@@ -42,12 +42,7 @@ namespace ZoneEngine.Packets
         {
             var message = new OrgInfoPacketMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   Name = character.OrgName
                               };

@@ -41,20 +41,10 @@ namespace ZoneEngine.PacketHandlers
             var client = talkingTo.Client;
             var message = new KnuBotCloseChatWindowMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = talkingTo.Id
-                                          }, 
+                                  Identity = talkingTo.Id, 
                                   Unknown = 0x00, 
-                                  Unknown1 = 2, 
-                                  Target =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = talker.Id
-                                          }, 
+                                  Unknown1 = 2,
+                                  Target = talker.Id, 
                                   Unknown2 = 5, 
                                   Unknown3 = 0
                               };

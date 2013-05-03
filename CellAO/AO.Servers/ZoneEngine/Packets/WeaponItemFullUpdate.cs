@@ -56,18 +56,9 @@ namespace ZoneEngine.Packets
                                                      Instance = 0x45AEE789
                                                  }, 
                                   Unknown = 0x00, 
-                                  Unknown1 = 0x0000000B, 
-                                  Character = new Identity
-                                                  {
-                                                      // Reciever
-                                                      Type =
-                                                          (IdentityType)
-                                                          character.Type, 
-                                                      Instance = character.Id
-                                                  }, 
+                                  Unknown1 = 0x0000000B,
+                                  Character = character.Id, 
                                   Unknown2 = 0x00000C0A, 
-                                  
-                                  
                                   
                                   // constant
                                   Unknown3 = 0x000F424F, 
@@ -82,8 +73,6 @@ namespace ZoneEngine.Packets
                                   // constant Flags
                                   Flags = 0x00000000, 
                                   
-                                  
-                                  
                                   // Item Flag
                                   ItemFlags = 0x00000403, 
 
@@ -92,8 +81,6 @@ namespace ZoneEngine.Packets
 
                                   // Weapon ITEM ID
                                   WeaponItemId = 0x0001E6D0, 
-                                  
-                                  
                                   
                                   // constant ACG Item Level
                                   AcgItemLevel = 0x000002BD, 
@@ -152,18 +139,10 @@ namespace ZoneEngine.Packets
                                                      Instance = 0x45AEE789
                                                  }, 
                                   Unknown = 0x00, 
-                                  Unknown1 = 0x0000000B, 
-                                  Character = new Identity
-                                                  {
-                                                      // Reciever
-                                                      Type =
-                                                          (IdentityType)
-                                                          character.Type, 
-                                                      Instance = character.Id
-                                                  }, 
+                                  Unknown1 = 0x0000000B,
+                                  Character = character.Id, 
                                   Unknown2 = 0x00000C0A, 
-
-
+                                  
                                   // constant
                                   Unknown3 = 0x000F424F, 
                                   Unknown4 = 0x0000, 
@@ -176,8 +155,7 @@ namespace ZoneEngine.Packets
 
                                   // constant Flags
                                   Flags = 0x00000000, 
-
-
+                                  
                                   // Item Flag
                                   ItemFlags = 0x00000403, 
 
@@ -186,8 +164,7 @@ namespace ZoneEngine.Packets
 
                                   // Weapon ITEM ID
                                   WeaponItemId = 0x0001E6D0, 
-
-
+                                  
                                   // constant ACG Item Level
                                   AcgItemLevel = 0x000002BD, 
 

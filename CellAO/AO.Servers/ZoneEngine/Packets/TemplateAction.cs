@@ -44,12 +44,7 @@ namespace ZoneEngine.Packets
         {
             var message = new TemplateActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   ItemLowId = inventoryEntry.Item.LowID, 
                                   ItemHighId = inventoryEntry.Item.HighID, 

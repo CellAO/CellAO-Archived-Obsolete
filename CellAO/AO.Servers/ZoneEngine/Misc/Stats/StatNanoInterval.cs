@@ -67,7 +67,7 @@ namespace ZoneEngine.Misc
                 }
 
                 at.Timestamp = DateTime.Now + TimeSpan.FromSeconds(character.Stats.NanoInterval.Value);
-                at.Function.Target = this.Parent.Id; // changed from ItemHandler.itemtarget_self;
+                at.Function.Target = this.Parent.Id.Instance; // changed from ItemHandler.itemtarget_self;
                 at.Function.TickCount = -2;
                 at.Function.TickInterval = (uint)(character.Stats.NanoInterval.Value * 1000);
                 at.Function.FunctionType = Constants.FunctiontypeHit;

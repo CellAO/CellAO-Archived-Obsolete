@@ -42,7 +42,7 @@ namespace ZoneEngine.NonPlayerCharacter
         /// <returns></returns>
         public static void SpawnMonster(Client cli, string hash, uint level)
         {
-            NonPlayerCharacterClass mMonster = new NonPlayerCharacterClass(0, 0); //(cli, hash, level);
+            NonPlayerCharacterClass mMonster = new NonPlayerCharacterClass(Identity.None, 0); //(cli, hash, level);
             mMonster.LoadTemplate(hash, level);
             mMonster.PurgeTimer(-1);
             mMonster.PurgeTimer(0);
@@ -79,15 +79,15 @@ namespace ZoneEngine.NonPlayerCharacter
             }
         }
 
-        public static int FindNextFreeId()
+        public static Identity FindNextFreeId()
         {
             int freeID = 100000; // minimum ID for mobs
             foreach (NonPlayerCharacterClass mob in Program.zoneServer.Monsters)
             {
-                freeID = Math.Max(freeID, mob.Id);
+                freeID = Math.Max(freeID, mob.Id.Instance);
             }
             freeID++;
-            return freeID;
+            return new Identity { Type = IdentityType.CanbeAffected, Instance = freeID };
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace ZoneEngine.NonPlayerCharacter
             }
             foreach (NonPlayerCharacterClass mMonster in Program.zoneServer.Monsters)
             {
-                if (mMonster.Id != monster.Instance)
+                if (mMonster.Id != monster)
                 {
                     continue;
                 }
@@ -139,8 +139,8 @@ namespace ZoneEngine.NonPlayerCharacter
             int invcount = 0;
             foreach (DataRow row in dt.Rows)
             {
-                NonPlayerCharacterClass monster = new NonPlayerCharacterClass(0, 0)
-                    { Starting = true, Id = (Int32)row["ID"], PlayField = (Int32)row["Playfield"] };
+                var id = new Identity { Type = IdentityType.CanbeAffected, Instance = (Int32)row["ID"] };
+                NonPlayerCharacterClass monster = new NonPlayerCharacterClass(id, 0) { Starting = true, PlayField = (Int32)row["Playfield"] };
 
                 monster.Name = (string)row["Name"]
 #if DEBUG

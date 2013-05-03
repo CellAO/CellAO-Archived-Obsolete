@@ -35,7 +35,11 @@ namespace ZoneEngine
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Misc;
+
+    using Quaternion = AO.Core.Quaternion;
 
     /// <summary>
     /// Main Dynamic Element Class
@@ -45,12 +49,7 @@ namespace ZoneEngine
         /// <summary>
         /// Unique Dynel ID
         /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Dynel Type (AO Type)
-        /// </summary>
-        public int Type { get; set; }
+        public Identity Id { get; set; }
 
         /// <summary>
         /// Playfield 
@@ -129,12 +128,11 @@ namespace ZoneEngine
         /// </summary>
         /// <param name="id">Unique ID</param>
         /// <param name="playfield">on Playfield</param>
-        public Dynel(int id, int playfield)
+        public Dynel(Identity id, int playfield)
         {
             lock (this)
             {
                 this.Id = id;
-                this.Type = 0; // empty Dynel has no type, subclasses are setting it
                 this.OurType = 0; // our type to identify the subclasses
                 this.PlayField = playfield;
                 this.RawCoord = new AOCoord();
@@ -263,7 +261,7 @@ namespace ZoneEngine
         {
             SqlWrapper ms = new SqlWrapper();
 
-            if (this.Type == 0)
+            if (this.Id.Type == IdentityType.None)
             {
                 return;
             }
@@ -305,7 +303,7 @@ namespace ZoneEngine
         {
             SqlWrapper sqlWrapper = new SqlWrapper();
 
-            if (this.Type == 0)
+            if (this.Id.Type == IdentityType.None)
             {
                 return;
             }
@@ -409,11 +407,11 @@ namespace ZoneEngine
 
             foreach (Character child in clients)
             {
-                recvers[index] = (UInt32)child.Id;
+                recvers[index] = (UInt32)child.Id.Instance;
                 index++;
             }
 
-            ChatCom.SendVicinity((UInt32)this.Id, 0, recvers, message);
+            ChatCom.SendVicinity((UInt32)this.Id.Instance, 0, recvers, message);
         }
         #endregion
     }

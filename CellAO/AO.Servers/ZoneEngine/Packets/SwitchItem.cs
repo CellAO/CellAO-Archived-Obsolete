@@ -40,12 +40,7 @@ namespace ZoneEngine.Packets
         {
             var message = new ContainerAddItemMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = client.Character.Id
-                                          }, 
+                                  Identity = client.Character.Id, 
                                   Unknown = 0x00, 
                                   SourceContainer =
                                       new Identity

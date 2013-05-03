@@ -43,7 +43,7 @@ namespace ZoneEngine.Misc
         {
             foreach (Client client in Program.zoneServer.Clients)
             {
-                if (client.Character.Id != id)
+                if (client.Character.Id.Instance != id)
                 {
                     continue;
                 }

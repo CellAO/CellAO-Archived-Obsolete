@@ -69,7 +69,7 @@ namespace ZoneEngine
 
         #region Fields
 
-        public Character Character = new Character(0, 0);
+        public Character Character = new Character(Identity.None, 0);
 
         public List<AOTimers> CoreTimers = new List<AOTimers>();
 
@@ -120,12 +120,7 @@ namespace ZoneEngine
             LogoutTimer.Enabled = false;
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = this.Character.Id
-                                          }, 
+                                  Identity = this.Character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.StopLogout, 
                                   Target = Identity.None
@@ -159,7 +154,7 @@ namespace ZoneEngine
             if (!foundnextclient)
             {
                 var charS = new CharStatus();
-                charS.SetOffline(this.Character.Id);
+                charS.SetOffline(this.Character.Id.Instance);
             }
         }
 
@@ -211,12 +206,7 @@ namespace ZoneEngine
         {
             var message = new ChatTextMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = this.Character.Id
-                                          }, 
+                                  Identity = this.Character.Id, 
                                   Unknown = 0x00, 
                                   Text = text, 
                                   Unknown1 = 0x1000, 
@@ -238,7 +228,7 @@ namespace ZoneEngine
                                               PacketType = messageBody.PacketType, 
                                               Unknown = 0x0001, 
                                               Sender = this.serverId, 
-                                              Receiver = this.Character.Id
+                                              Receiver = this.Character.Id.Instance
                                           }
                               };
 
@@ -326,12 +316,7 @@ namespace ZoneEngine
         {
             var message = new FeedbackMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = this.Character.Id
-                                          }, 
+                                  Identity = this.Character.Id, 
                                   Unknown = 0x01, 
                                   Unknown1 = 0x00000000, 
                                   CategoryId = MsgCategory, 
@@ -345,12 +330,7 @@ namespace ZoneEngine
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = this.Character.Id
-                                          }, 
+                                  Identity = this.Character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.StandUp
                               };
@@ -370,12 +350,7 @@ namespace ZoneEngine
         {
             var message = new N3TeleportMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = this.Character.Id
-                                          }, 
+                                  Identity = this.Character.Id, 
                                   Unknown = 0x00, 
                                   Destination =
                                       new Vector3
@@ -476,12 +451,7 @@ namespace ZoneEngine
         {
             var message = new N3TeleportMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = this.Character.Id
-                                          }, 
+                                  Identity = this.Character.Id, 
                                   Unknown = 0x00, 
                                   Destination =
                                       new Vector3

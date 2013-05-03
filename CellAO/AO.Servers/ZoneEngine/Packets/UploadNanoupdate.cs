@@ -44,21 +44,11 @@ namespace ZoneEngine.Packets
         {
             var message = new CharacterActionMessage
                               {
-                                  Identity =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Identity = character.Id, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.UploadNano, 
-                                  Unknown1 = 0x00000000, 
-                                  Target =
-                                      new Identity
-                                          {
-                                              Type = IdentityType.CanbeAffected, 
-                                              Instance = character.Id
-                                          }, 
+                                  Unknown1 = 0x00000000,
+                                  Target = character.Id, 
                                   Parameter1 = type, 
                                   Parameter2 = id, 
                                   Unknown2 = 0x0000
