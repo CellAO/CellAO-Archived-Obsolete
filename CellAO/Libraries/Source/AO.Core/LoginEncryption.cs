@@ -37,15 +37,19 @@ using AO.Core.Config;
 
 namespace AO.Core
 {
+    using System.Globalization;
+    using System.Numerics;
+
     /// <summary>
     /// Anarchy Online Encrypted Login Validator
     /// </summary>
     public class LoginEncryption
     {
-        /// <summary>
-        /// 
-        /// </summary>
         public bool i_Enable = Convert.ToBoolean(ConfigReadWrite.Instance.CurrentConfig.UsePassword);
+
+        private static readonly string ServerPrivateKey = "7ad852c6494f664e8df21446285ecd6f400cf20e1d872ee96136d7744887424b";
+
+        private const string Prime = "eca2e8c85d863dcdc26a429a71a9815ad052f6139669dd659f98ae159d313d13c6bf2838e10a69b6478b64a24bd054ba8248e8fa778703b418408249440b2c1edd28853e240d8a7e49540b76d120d3b1ad2878b1b99490eb4a2a5e84caa8a91cecbdb1aa7c816e8be343246f80c637abc653b893fd91686cf8d32d6cfe5f2a6f";
 
         /// <summary>
         /// Verifies if given login is valid
@@ -131,54 +135,50 @@ namespace AO.Core
         /// <summary>
         /// Decrypts Login Key from Client
         /// </summary>
-        /// <param name="LoginKey">Login Key from Client</param>
-        /// <param name="UserName">Username stored in Login Key</param>
-        /// <param name="ServerSalt">Server Salt stored in Login Key</param>
-        /// <param name="Password">Password stored in Login Key</param>
-        public void DecryptLoginKey(string LoginKey, out string UserName, out string ServerSalt, out string Password)
+        /// <param name="loginKey">Login Key from Client</param>
+        /// <param name="userName">Username stored in Login Key</param>
+        /// <param name="serverSalt">Server Salt stored in Login Key</param>
+        /// <param name="password">Password stored in Login Key</param>
+        public void DecryptLoginKey(string loginKey, out string userName, out string serverSalt, out string password)
         {
-            string[] LoginKeySplit = LoginKey.Split('-');
+            var loginKeySplit = loginKey.Split('-');
 
-            BigInteger ClientPublicKey = new BigInteger(LoginKeySplit[0], 16);
-            string EncryptedBlock = LoginKeySplit[1];
+            var clientPublicKey = BigInteger.Parse("00" + loginKeySplit[0], NumberStyles.HexNumber);
+            var encryptedBlock = loginKeySplit[1];
 
             // These should really be in a config file, but for now hardcoded
-            BigInteger ServerPrivateKey =
-                new BigInteger("7ad852c6494f664e8df21446285ecd6f400cf20e1d872ee96136d7744887424b", 16);
-            BigInteger Prime =
-                new BigInteger(
-                    "eca2e8c85d863dcdc26a429a71a9815ad052f6139669dd659f98ae159d313d13c6bf2838e10a69b6478b64a24bd054ba8248e8fa778703b418408249440b2c1edd28853e240d8a7e49540b76d120d3b1ad2878b1b99490eb4a2a5e84caa8a91cecbdb1aa7c816e8be343246f80c637abc653b893fd91686cf8d32d6cfe5f2a6f",
-                    16);
+            var serverPrivateKey = BigInteger.Parse("00" + ServerPrivateKey, NumberStyles.HexNumber);
+            var prime = BigInteger.Parse("00" + Prime, NumberStyles.HexNumber);
 
-            string TeaKey = ClientPublicKey.modPow(ServerPrivateKey, Prime).ToString(16).ToLower();
+            var teaKey = BigInteger.ModPow(clientPublicKey, serverPrivateKey, prime).ToString("x");
 
-            if (TeaKey.Length < 32) // If TeaKey is not at least 128bits, pad to the left with 0x00
+            if (teaKey.Length < 32) // If TeaKey is not at least 128bits, pad to the left with 0x00
             {
-                TeaKey.PadLeft(32, '0');
+                teaKey.PadLeft(32, '0');
             }
             else // If TeaKey is more than 128bits, truncate
             {
-                TeaKey = TeaKey.Substring(0, 32);
+                teaKey = teaKey.Substring(0, 32);
             }
 
-            string DecryptedBlock = DecryptTea(EncryptedBlock, TeaKey);
+            var decryptedBlock = DecryptTea(encryptedBlock, teaKey);
 
-            DecryptedBlock = DecryptedBlock.Substring(8); // Strip first 8 bytes of padding
+            decryptedBlock = decryptedBlock.Substring(8); // Strip first 8 bytes of padding
 
-            int DataLength = ConvertStringToIntSwapEndian(DecryptedBlock.Substring(0, 4));
+            var dataLength = ConvertStringToIntSwapEndian(decryptedBlock.Substring(0, 4));
 
-            DecryptedBlock = DecryptedBlock.Substring(4);
+            decryptedBlock = decryptedBlock.Substring(4);
 
-            string[] BlockParts = DecryptedBlock.Split(new[] {'|'}, 2);
+            var blockParts = decryptedBlock.Split(new[] {'|'}, 2);
 
-            UserName = BlockParts[0];
+            userName = blockParts[0];
 
-            ServerSalt = String.Empty;
+            serverSalt = string.Empty;
 
             for (int i = 0; i < 32; i += 4)
-                ServerSalt += String.Format("{0:x8}", ConvertStringToIntSwapEndian(BlockParts[1].Substring(i, 4)));
+                serverSalt += string.Format("{0:x8}", ConvertStringToIntSwapEndian(blockParts[1].Substring(i, 4)));
 
-            Password = BlockParts[1].Substring(33, DataLength - 34 - UserName.Length);
+            password = blockParts[1].Substring(33, dataLength - 34 - userName.Length);
         }
 
         private string GetLoginPassword(string RecvLogin)

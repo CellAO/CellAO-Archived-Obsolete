@@ -122,7 +122,6 @@
     <Compile Include="AOTimers.cs" />
     <Compile Include="AOUploadedNanos.cs" />
     <Compile Include="AOWeaponpairs.cs" />
-    <Compile Include="BigInteger.cs" />
     <Compile Include="CharacterBase.cs" />
     <Compile Include="Components\IBus.cs" />
     <Compile Include="Components\IContainer.cs" />
