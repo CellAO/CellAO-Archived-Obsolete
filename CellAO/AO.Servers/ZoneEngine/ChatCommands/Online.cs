@@ -32,6 +32,8 @@ namespace ZoneEngine.ChatCommands
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Script;
 
     public class ChatCommandOnline : AOChatCommand

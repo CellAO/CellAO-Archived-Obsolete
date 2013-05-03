@@ -34,8 +34,6 @@ namespace ZoneEngine.PacketHandlers
 
     using ZoneEngine.Misc;
 
-    using Identity = AO.Core.Identity;
-
     public class RaidClass
     {
         #region Fields
@@ -114,32 +112,18 @@ namespace ZoneEngine.PacketHandlers
             var message = new CharacterActionMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  sendingPlayer
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = sendingPlayer.Character.Id
                                           }, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.LeaveTeam, 
                                   Target =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  sendingPlayer
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = sendingPlayer.Character.Id
                                           }, 
                                   Parameter1 = 0x02EA0022, // Team ID Variable Goes Here
                                   Parameter2 = -1, 
@@ -156,38 +140,14 @@ namespace ZoneEngine.PacketHandlers
                 // Send Team Request To Other Player
                 var message = new CharacterActionMessage
                                   {
-                                      Identity =
-                                          new SmokeLounge.AOtomation.Messaging.GameData.Identity
-                                              {
-                                                  Type
-                                                      =
-                                                      (
-                                                      IdentityType
-                                                      )
-                                                      recievingPlayer
-                                                          .Type, 
-                                                  Instance
-                                                      =
-                                                      recievingPlayer
-                                                      .Instance
-                                              }, 
+                                      Identity = recievingPlayer, 
                                       Unknown = 0x00, 
                                       Action = CharacterActionType.TeamRequest, 
                                       Target =
-                                          new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          new Identity
                                               {
-                                                  Type
-                                                      =
-                                                      (
-                                                      IdentityType
-                                                      )
-                                                      recievingPlayer
-                                                          .Type, 
-                                                  Instance
-                                                      =
-                                                      sendingPlayer
-                                                      .Character
-                                                      .Id
+                                                  Type = recievingPlayer.Type, 
+                                                  Instance = sendingPlayer.Character.Id
                                               }, 
                                       Parameter1 = 0, 
                                       Parameter2 = 1, 
@@ -214,8 +174,7 @@ namespace ZoneEngine.PacketHandlers
                     var toReceiver = new TeamMemberMessage
                                          {
                                              Identity =
-                                                 new SmokeLounge.AOtomation.Messaging.GameData.
-                                                 Identity
+                                                 new Identity
                                                      {
                                                          Type = IdentityType.CanbeAffected, 
                                                          Instance = sendingPlayer.Character.Id
@@ -224,15 +183,13 @@ namespace ZoneEngine.PacketHandlers
                                              Unknown1 = 0x00, 
                                              Unknown2 = 0x0000, 
                                              Character =
-                                                 new SmokeLounge.AOtomation.Messaging.GameData.
-                                                 Identity
+                                                 new Identity
                                                      {
                                                          Type = IdentityType.CanbeAffected, 
                                                          Instance = sendingPlayer.Character.Id
                                                      }, 
                                              Team =
-                                                 new SmokeLounge.AOtomation.Messaging.GameData.
-                                                 Identity
+                                                 new Identity
                                                      {
                                                          Type = IdentityType.TeamWindow, 
                                                          Instance = 0x00000007
@@ -256,42 +213,25 @@ namespace ZoneEngine.PacketHandlers
                     var toSender = new TeamMemberMessage
                                        {
                                            Identity =
-                                               new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                               new Identity
                                                    {
-                                                       Type
-                                                           =
-                                                           IdentityType
-                                                           .CanbeAffected, 
-                                                       Instance
-                                                           =
-                                                           recievingPlayer
-                                                           .Instance
+                                                       Type = IdentityType.CanbeAffected, 
+                                                       Instance = recievingPlayer.Instance
                                                    }, 
                                            Unknown = 0x00, 
                                            Unknown1 = 0x00, 
                                            Unknown2 = 0x0000, 
                                            Character =
-                                               new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                               new Identity
                                                    {
-                                                       Type
-                                                           =
-                                                           IdentityType
-                                                           .CanbeAffected, 
-                                                       Instance
-                                                           =
-                                                           recievingPlayer
-                                                           .Instance
+                                                       Type = IdentityType.CanbeAffected, 
+                                                       Instance = recievingPlayer.Instance
                                                    }, 
                                            Team =
-                                               new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                               new Identity
                                                    {
-                                                       Type
-                                                           =
-                                                           IdentityType
-                                                           .TeamWindow, 
-                                                       Instance
-                                                           =
-                                                           0x00000007
+                                                       Type = IdentityType.TeamWindow, 
+                                                       Instance = 0x00000007
                                                    }, 
                                            Unknown3 = 0xFFFFFFFF, 
                                            Unknown4 = 0x00000048, 
@@ -314,21 +254,21 @@ namespace ZoneEngine.PacketHandlers
                     var toReceiver = new TeamMemberInfoMessage
                                          {
                                              Identity =
-                                                 new SmokeLounge.AOtomation.Messaging.GameData.
-                                                 Identity
+                                                 new Identity
                                                      {
                                                          Type = IdentityType.CanbeAffected, 
-                                                         Instance = sendingPlayer.Character.Id
+                                                         Instance =
+                                                             sendingPlayer.Character.Id
                                                      }, 
                                              Unknown = 0x00, 
                                              Unknown1 = 0x00, 
                                              Unknown2 = 0x0000, 
                                              Character =
-                                                 new SmokeLounge.AOtomation.Messaging.GameData.
-                                                 Identity
+                                                 new Identity
                                                      {
                                                          Type = IdentityType.CanbeAffected, 
-                                                         Instance = sendingPlayer.Character.Id
+                                                         Instance =
+                                                             sendingPlayer.Character.Id
                                                      }, 
                                              Unknown3 = 0x000005F4, // HP/NANO?? Actual/MAX???
                                              Unknown4 = 0x000005F4, // HP/NANO?? Actual/MAX???
@@ -349,8 +289,7 @@ namespace ZoneEngine.PacketHandlers
                     var toSender = new TeamMemberInfoMessage
                                        {
                                            Identity =
-                                               new SmokeLounge.AOtomation.Messaging.GameData.
-                                               Identity
+                                               new Identity
                                                    {
                                                        Type = IdentityType.CanbeAffected, 
                                                        Instance = recievingPlayer.Instance
@@ -359,8 +298,7 @@ namespace ZoneEngine.PacketHandlers
                                            Unknown1 = 0x00, 
                                            Unknown2 = 0x0000, 
                                            Character =
-                                               new SmokeLounge.AOtomation.Messaging.GameData.
-                                               Identity
+                                               new Identity
                                                    {
                                                        Type = IdentityType.CanbeAffected, 
                                                        Instance = recievingPlayer.Instance
@@ -382,22 +320,14 @@ namespace ZoneEngine.PacketHandlers
             var message = new CharacterActionMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  sendingPlayer
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = sendingPlayer.Character.Id
                                           }, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.TeamRequestReply, 
-                                  Target =
-                                      SmokeLounge.AOtomation.Messaging.GameData.Identity.None, 
+                                  Target = Identity.None, 
                                   Parameter1 = 0, 
                                   Parameter2 = 0x11, // ??
                                   Unknown2 = 0
@@ -418,32 +348,18 @@ namespace ZoneEngine.PacketHandlers
             var message = new CharacterActionMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  sendingPlayer
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = sendingPlayer.Character.Id
                                           }, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.AcceptTeamRequest, 
                                   Target =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  sendingPlayer
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = sendingPlayer.Character.Id
                                           }, 
                                   Parameter1 = (int)IdentityType.TeamWindow, 
                                   Parameter2 = 0x2EA0022, // Team ID Variable Goes Here

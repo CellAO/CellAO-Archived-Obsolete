@@ -35,6 +35,8 @@ namespace ZoneEngine.Script
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     #region Class AOChatCommand
     /// <summary>
     /// The Class in charge of printing information to our consoles

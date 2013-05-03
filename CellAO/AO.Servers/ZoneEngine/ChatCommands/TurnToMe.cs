@@ -30,10 +30,12 @@ namespace ZoneEngine.ChatCommands
     using System;
     using System.Collections.Generic;
 
-    using AO.Core;
+    using SmokeLounge.AOtomation.Messaging.GameData;
 
     using ZoneEngine.Misc;
     using ZoneEngine.Script;
+
+    using Vector3 = AO.Core.Vector3;
 
     public class ChatCommandTurnToMe : AOChatCommand
     {

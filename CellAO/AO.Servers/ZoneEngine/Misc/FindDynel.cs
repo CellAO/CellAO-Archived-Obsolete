@@ -27,13 +27,15 @@
 
 namespace ZoneEngine.Misc
 {
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     public static class FindDynel
     {
-        public static Dynel FindDynelById(int findType, int findId)
+        public static Dynel FindDynelById(IdentityType findType, int findId)
         {
             switch (findType)
             {
-                case 50000:
+                case IdentityType.CanbeAffected:
                     lock (Program.zoneServer.Clients)
                     {
                         foreach (Client cli in Program.zoneServer.Clients)
@@ -55,7 +57,7 @@ namespace ZoneEngine.Misc
                         }
                     }
                     break;
-                case 51035:
+                case IdentityType.VendingMachine:
                     foreach (VendingMachine vm in Program.zoneServer.Vendors)
                     {
                         if (vm.Id == findId)

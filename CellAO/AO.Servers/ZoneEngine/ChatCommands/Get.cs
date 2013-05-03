@@ -29,6 +29,8 @@ namespace ZoneEngine.ChatCommands
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Misc;
     using ZoneEngine.Script;
 
@@ -39,10 +41,10 @@ namespace ZoneEngine.ChatCommands
             // Fallback to self if no target is selected
             if (target.Instance == 0)
             {
-                target.Type = client.Character.Type;
+                target.Type = (IdentityType)client.Character.Type;
                 target.Instance = client.Character.Id;
             }
-            if (target.Type != 50000)
+            if (target.Type != IdentityType.CanbeAffected)
             {
                 client.SendChatText("Target must be player/monster/NPC");
                 return;

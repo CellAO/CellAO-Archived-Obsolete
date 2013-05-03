@@ -41,6 +41,8 @@ namespace ZoneEngine.Script
 
     using Microsoft.CSharp;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     #region Class ScriptCompiler
     /// <summary>
     /// Controls Compilation and loading

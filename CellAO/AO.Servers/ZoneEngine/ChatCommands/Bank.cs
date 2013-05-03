@@ -31,6 +31,8 @@ namespace ZoneEngine.ChatCommands
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Packets;
     using ZoneEngine.Script;
 

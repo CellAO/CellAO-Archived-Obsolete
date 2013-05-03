@@ -49,13 +49,13 @@ namespace ZoneEngine.MessageHandlers
             var lookAtMessage = (LookAtMessage)message.Body;
 
             var dynel = FindDynel.FindDynelById(
-                (int)lookAtMessage.Identity.Type, lookAtMessage.Identity.Instance);
+                lookAtMessage.Identity.Type, lookAtMessage.Identity.Instance);
             if (dynel == null)
             {
                 return;
             }
 
-            ((Character)dynel).SetTarget((int)lookAtMessage.Target.Type, lookAtMessage.Target.Instance);
+            ((Character)dynel).SetTarget(lookAtMessage.Target);
         }
 
         #endregion

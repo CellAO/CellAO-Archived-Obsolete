@@ -29,6 +29,8 @@ namespace ZoneEngine.NonPlayerCharacter
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     public static class NonPlayerCharacterHandler
     {
         /// <summary>
@@ -95,7 +97,7 @@ namespace ZoneEngine.NonPlayerCharacter
         /// <returns></returns>
         public static void DespawnMonster(Identity monster)
         {
-            if (monster.Type != 50000)
+            if (monster.Type != IdentityType.CanbeAffected)
             {
                 return;
             }

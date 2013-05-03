@@ -124,11 +124,6 @@ namespace AO.Core
             return true;
         }
 
-        public bool PushIdentity(Identity _ident)
-        {
-            return PushIdentity(_ident.Type, _ident.Instance);
-        }
-
         public bool PushBytes(byte[] _bytes)
         {
             _writer.Write(_bytes);
@@ -152,11 +147,6 @@ namespace AO.Core
             PushInt(_HID);
             PushInt(_QL);
             return true;
-        }
-
-        public bool PushACGItem(ACGItem _acgitem)
-        {
-            return PushACGItem((int) _acgitem.LID, (int) _acgitem.HID, (int) _acgitem.QL);
         }
 
         public byte[] Finish()

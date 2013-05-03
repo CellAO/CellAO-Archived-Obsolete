@@ -51,7 +51,7 @@ namespace ZoneEngine.Packets
                                   Unknown = 0x01
                               };
 
-            var dyn = FindDynel.FindDynelById(50000, targetId);
+            var dyn = FindDynel.FindDynelById(IdentityType.CanbeAffected, targetId);
             if (dyn != null)
             {
                 var npc = dyn as NonPlayerCharacterClass;

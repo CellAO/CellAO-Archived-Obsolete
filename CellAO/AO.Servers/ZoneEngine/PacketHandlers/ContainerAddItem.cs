@@ -38,8 +38,6 @@ namespace ZoneEngine.PacketHandlers
 
     using ZoneEngine.Packets;
 
-    using Identity = AO.Core.Identity;
-
     public static class ContainerAddItem
     {
         #region Public Methods and Operators
@@ -344,7 +342,7 @@ namespace ZoneEngine.PacketHandlers
                 cli, 
                 fromContainerID, 
                 fromPlacement, 
-                new Identity { Type = (int)toIdentity.Type, Instance = toIdentity.Instance }, 
+                new Identity { Type = toIdentity.Type, Instance = toIdentity.Instance }, 
                 toPlacement);
             cli.Character.Stats.ClearChangedFlags();
             if (!noAppearanceUpdate)

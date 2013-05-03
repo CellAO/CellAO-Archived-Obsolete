@@ -32,8 +32,6 @@ namespace ZoneEngine.Packets
     using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
-    using Identity = AO.Core.Identity;
-
     public static class SwitchItem
     {
         #region Public Methods and Operators
@@ -43,47 +41,19 @@ namespace ZoneEngine.Packets
             var message = new ContainerAddItemMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  client
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = client.Character.Id
                                           }, 
                                   Unknown = 0x00, 
                                   SourceContainer =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  (
-                                                  IdentityType
-                                                  )
-                                                  fromPage, 
-                                              Instance
-                                                  =
-                                                  fromPlacement
+                                              Type = (IdentityType)fromPage, 
+                                              Instance = fromPlacement
                                           }, 
-                                  Target =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
-                                          {
-                                              Type
-                                                  =
-                                                  (
-                                                  IdentityType
-                                                  )
-                                                  toIdentity
-                                                      .Type, 
-                                              Instance
-                                                  =
-                                                  toIdentity
-                                                  .Instance
-                                          }, 
+                                  Target = toIdentity, 
                                   TargetPlacement = toPlacement
                               };
 

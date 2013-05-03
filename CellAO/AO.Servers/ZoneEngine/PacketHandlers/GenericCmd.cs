@@ -33,6 +33,7 @@ namespace ZoneEngine.PacketHandlers
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
     using SmokeLounge.AOtomation.Messaging.Messages.N3Messages;
 
     using ZoneEngine.NonPlayerCharacter;
@@ -45,7 +46,6 @@ namespace ZoneEngine.PacketHandlers
         public static void Read(GenericCmdMessage message, Client client)
         {
             var sender = client;
-            var target = new Identity { Type = (int)message.Target.Type, Instance = message.Target.Instance };
             var feedback = true;
             switch (message.Action)
             {
@@ -67,7 +67,7 @@ namespace ZoneEngine.PacketHandlers
                     {
                         foreach (var s in Statels.StatelppfonUse[client.Character.PlayField])
                         {
-                            if (s.onUse(client, target))
+                            if (s.onUse(client, message.Target))
                             {
                                 return;
                             }
@@ -76,7 +76,7 @@ namespace ZoneEngine.PacketHandlers
 
                     var teleport = false;
                     var playfield = 152;
-                    switch (target.Instance)
+                    switch (message.Target.Instance)
                     {
                             // Need to add feedback to the character 
                             // Are the Newer Grid points in this list???
@@ -264,9 +264,9 @@ namespace ZoneEngine.PacketHandlers
                     }
 
                     // Use item in inventory
-                    if (target.Type == 104)
+                    if (message.Target.Type == IdentityType.Inventory)
                     {
-                        var ie = client.Character.GetInventoryAt(target.Instance);
+                        var ie = client.Character.GetInventoryAt(message.Target.Instance);
                         var mi = ItemHandler.GetItemTemplate(ie.Item.LowID);
 
                         // TODO mi.applyon(client.Character, ItemHandler.eventtype_onuse, true, false, ie.Placement);
@@ -314,10 +314,10 @@ namespace ZoneEngine.PacketHandlers
                         // Social Status
                         return;
                     }
-                    else if (target.Type == 51035)
+                    else if (message.Target.Type == IdentityType.VendingMachine)
                     {
                         // Shops
-                        var vm = VendorHandler.GetVendorById(target.Instance);
+                        var vm = VendorHandler.GetVendorById(message.Target.Instance);
                         ShopInventory.Send(client, vm);
                         Trade.Send(client, client.Character, vm);
                         Trade.Send(client, vm, client.Character);
@@ -335,10 +335,10 @@ namespace ZoneEngine.PacketHandlers
                                                 User = message.User
                                             };
 
-                        client.Character.LastTrade = target;
+                        client.Character.LastTrade = message.Target;
                         client.SendCompressed(shopReply);
                     }
-                    else if (target.Type == 51050)
+                    else if (message.Target.Type == IdentityType.Corpse)
                     {
                         // Open corpse
                     }
@@ -378,17 +378,17 @@ namespace ZoneEngine.PacketHandlers
                 var Feedback2 = string.Format(
                     "User {0}:{1}, Target {2}:{3} ({4}:{5})",
                     message.User.Type, 
-                    message.User.Instance, 
-                    target.Type, 
-                    (uint)target.Instance, 
-                    target.Type.ToString("X4"), 
-                    ((uint)target.Instance).ToString("X8"));
+                    message.User.Instance,
+                    message.Target.Type,
+                    (uint)message.Target.Instance,
+                    ((int)message.Target.Type).ToString("X4"),
+                    ((uint)message.Target.Instance).ToString("X8"));
                 Statels.Statel b = null;
                 if (Statels.Statelppf.ContainsKey(client.Character.PlayField))
                 {
                     foreach (var z in Statels.Statelppf[client.Character.PlayField])
                     {
-                        if ((z.Type == target.Type) && ((Int32)z.Instance == target.Instance))
+                        if ((z.Type == (int)message.Target.Type) && ((Int32)z.Instance == message.Target.Instance))
                         {
                             b = z;
                             break;
@@ -408,8 +408,8 @@ namespace ZoneEngine.PacketHandlers
                 else
                 {
                     Console.WriteLine(
-                        "No Statel defined in database for #" + target.Type + ":" + (UInt32)target.Instance + " ("
-                        + target.Type.ToString("X4") + ":" + target.Instance.ToString("X8") + ")");
+                        "No Statel defined in database for #" + message.Target.Type + ":" + (UInt32)message.Target.Instance + " ("
+                        + ((int)message.Target.Type).ToString("X4") + ":" + message.Target.Instance.ToString("X8") + ")");
                 }
 
                 client.SendChatText(Feedback1);

@@ -31,7 +31,12 @@ namespace ZoneEngine.Functions
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Collision;
+
+    using Quaternion = AO.Core.Quaternion;
+    using Vector3 = AO.Core.Vector3;
 
     internal class Function_teleportproxy2 : FunctionPrototype
     {
@@ -66,28 +71,22 @@ namespace ZoneEngine.Functions
         public bool FunctionExecute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
         {
             Client cli = ((Character)Self).Client;
-            Identity pfinstance = new Identity();
-            Identity R = new Identity();
-            Identity dest = new Identity();
+            Identity pfinstance;
+            Identity R;
+            Identity dest;
             int gs = 1;
             int sg = 0;
             if (Target is Statels.Statel)
             {
-                pfinstance.Type = Int32.Parse((string)Arguments[0]);
-                pfinstance.Instance = Int32.Parse((string)Arguments[1]);
-                R.Type = Int32.Parse((string)Arguments[2]);
-                R.Instance = Int32.Parse((string)Arguments[3]);
-                dest.Type = Int32.Parse((string)Arguments[4]);
-                dest.Instance = Int32.Parse((string)Arguments[5]);
+                pfinstance = new Identity { Type = (IdentityType)int.Parse((string)Arguments[0]), Instance = int.Parse((string)Arguments[1]) };
+                R = new Identity { Type = (IdentityType)int.Parse((string)Arguments[2]), Instance = int.Parse((string)Arguments[3]) };
+                dest = new Identity { Type = (IdentityType)int.Parse((string)Arguments[4]), Instance = int.Parse((string)Arguments[5]) };
             }
             else
             {
-                pfinstance.Type = (Int32)Arguments[0];
-                pfinstance.Instance = (Int32)Arguments[1];
-                R.Type = (Int32)Arguments[2];
-                R.Instance = (Int32)Arguments[3];
-                dest.Type = (Int32)Arguments[4];
-                dest.Instance = (Int32)Arguments[5];
+                pfinstance = new Identity { Type = (IdentityType)Arguments[0], Instance = (int)Arguments[1] };
+                R = new Identity { Type = (IdentityType)Arguments[2], Instance = (int)Arguments[3] };
+                dest = new Identity { Type = (IdentityType)Arguments[4], Instance = (int)Arguments[5] };
             }
 
             int to_pf = (Int32)((UInt32)(dest.Instance & 0xffff));

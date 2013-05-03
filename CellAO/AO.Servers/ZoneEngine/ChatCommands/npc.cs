@@ -31,13 +31,15 @@ namespace ZoneEngine.ChatCommands
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Script;
 
     public class ChatCommandNonPlayerCharacter : AOChatCommand
     {
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
-            if ((target.Type != 50000) && (target.Type != 51035))
+            if ((target.Type != IdentityType.CanbeAffected) && (target.Type != IdentityType.VendingMachine))
             {
                 this.CommandHelp(client);
                 return;

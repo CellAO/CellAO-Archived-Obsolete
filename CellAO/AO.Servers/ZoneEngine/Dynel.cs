@@ -255,14 +255,6 @@ namespace ZoneEngine
         #endregion
 
         #region Coordinates (read/write)
-        /// <summary>
-        /// Read Coordinates from a packet reader
-        /// </summary>
-        /// <param name="packet">Packet reader</param>
-        public void ReadCoordsFromPacket(PacketReader packet)
-        {
-            this.RawCoord = packet.PopCoord();
-        }
 
         /// <summary>
         /// Read Coordinates from Sql Table
@@ -289,15 +281,6 @@ namespace ZoneEngine
         }
 
         /// <summary>
-        /// Write Coordinates to packet
-        /// </summary>
-        /// <param name="packet">Packet writer</param>
-        public void WriteCoordinatesToPacket(PacketWriter packet)
-        {
-            packet.PushCoord(this.Coordinates);
-        }
-
-        /// <summary>
         /// Write Coordinates to Sql Table
         /// </summary>
         public virtual void WriteCoordinatesToSql()
@@ -314,17 +297,6 @@ namespace ZoneEngine
         #endregion
 
         #region Heading (read/write)
-        /// <summary>
-        /// Read Heading from packet
-        /// </summary>
-        /// <param name="packet">Packet reader</param>
-        public void ReadHeadingFromPacket(PacketReader packet)
-        {
-            this.Heading.x = packet.PopFloat();
-            this.Heading.y = packet.PopFloat();
-            this.Heading.z = packet.PopFloat();
-            this.Heading.w = packet.PopFloat();
-        }
 
         /// <summary>
         /// Read Heading from Sql Table
@@ -353,18 +325,6 @@ namespace ZoneEngine
         }
 
         /// <summary>
-        /// Write Heading to packetwriter
-        /// </summary>
-        /// <param name="packet">Packet writer</param>
-        public void WriteHeadingToPacket(PacketWriter packet)
-        {
-            packet.PushFloat((float)this.Heading.x);
-            packet.PushFloat((float)this.Heading.y);
-            packet.PushFloat((float)this.Heading.z);
-            packet.PushFloat((float)this.Heading.w);
-        }
-
-        /// <summary>
         /// Write Heading to Sql Table
         /// </summary>
         public void WriteHeadingToSql()
@@ -381,20 +341,6 @@ namespace ZoneEngine
         #endregion
 
         #region Textures (read/write)
-        /// <summary>
-        /// Read Textures from Packetreader
-        /// </summary>
-        /// <param name="packet">Packet reader</param>
-        public void ReadTexturesfromPacket(PacketReader packet)
-        {
-            int count = packet.Pop3F1Count();
-            AOTextures textures;
-            while (count > 0)
-            {
-                textures = new AOTextures(packet.PopInt(), packet.PopInt());
-                count--;
-            }
-        }
 
         /// <summary>
         /// Read Textures from Sql Table
@@ -424,22 +370,6 @@ namespace ZoneEngine
 
                 textures = new AOTextures(4, (Int32)dt.Rows[0][4]);
                 this.Textures.Add(textures);
-            }
-        }
-
-        /// <summary>
-        /// Write Textures to PacketWriter
-        /// </summary>
-        /// <param name="packet">Packet Writer</param>
-        public void WriteTexturesToPacket(PacketWriter packet)
-        {
-            packet.Push3F1Count(this.Textures.Count);
-            int count;
-            for (count = 0; count < this.Textures.Count; count++)
-            {
-                packet.PushInt(this.Textures[count].place);
-                packet.PushInt(this.Textures[count].Texture);
-                packet.PushInt(0);
             }
         }
 

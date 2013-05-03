@@ -33,8 +33,13 @@ namespace ZoneEngine
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Collision;
     using ZoneEngine.Misc;
+
+    using Quaternion = AO.Core.Quaternion;
+    using Vector3 = AO.Core.Vector3;
 
     /// <summary>
     /// Class for static game objects (bank terminals, static shops etc)
@@ -706,7 +711,7 @@ namespace ZoneEngine
                     {
                         continue;
                     }
-                    if (((UInt32)target.Instance != this.Instance) || (target.Type != this.Type))
+                    if (((UInt32)target.Instance != this.Instance) || (target.Type != (IdentityType)this.Type))
                     {
                         continue;
                     }

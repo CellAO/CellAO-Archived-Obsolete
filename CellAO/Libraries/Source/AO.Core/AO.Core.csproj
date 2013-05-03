@@ -158,10 +158,8 @@
     <Compile Include="Scripting\GACHelper.cs" />
     <None Include="InventoryHandler.cs" />
     <Compile Include="SqlWrapper.cs" />
-    <Compile Include="PacketReader.cs" />
     <Compile Include="PacketWriter.cs" />
     <Compile Include="Quaternion.cs" />
-    <Compile Include="Types.cs" />
     <Compile Include="Vector3.cs" />
     <Content Include="locale\ee\ee_autostart.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -38,8 +38,6 @@ namespace ZoneEngine.ChatCommands
     using ZoneEngine.Misc;
     using ZoneEngine.Script;
 
-    using Identity = AO.Core.Identity;
-
     public class ChatCommandEffect : AOChatCommand
     {
         #region Public Methods and Operators
@@ -65,15 +63,7 @@ namespace ZoneEngine.ChatCommands
 
             var nanoEffect = new NanoEffect
                                  {
-                                     Effect =
-                                         new SmokeLounge.AOtomation.Messaging.GameData.Identity
-                                             {
-                                                 Type =
-                                                     IdentityType
-                                                     .GfxEffect, 
-                                                 Instance
-                                                     = 0
-                                             }, 
+                                     Effect = new Identity { Type = IdentityType.GfxEffect, Instance = 0 }, 
                                      Unknown1 = 0x00000004, 
                                      CriterionCount = 0x00000000, 
                                      Hits = 0x00000001, 
@@ -90,31 +80,14 @@ namespace ZoneEngine.ChatCommands
                                  };
             var msg = new SpellListMessage
                           {
-                              Identity =
-                                  new SmokeLounge.AOtomation.Messaging.GameData.Identity
-                                      {
-                                          Type =
-                                              (
-                                              IdentityType
-                                              )
-                                              target
-                                                  .Type, 
-                                          Instance =
-                                              target
-                                              .Instance
-                                      }, 
+                              Identity = target, 
                               Unknown = 0x00, 
                               NanoEffects = new[] { nanoEffect }, 
                               Character =
-                                  new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                  new Identity
                                       {
-                                          Type =
-                                              IdentityType
-                                              .CanbeAffected, 
-                                          Instance =
-                                              client
-                                              .Character
-                                              .Id
+                                          Type = IdentityType.CanbeAffected, 
+                                          Instance = client.Character.Id
                                       }, 
                           };
 

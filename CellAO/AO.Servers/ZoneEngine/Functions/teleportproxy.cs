@@ -32,6 +32,10 @@ namespace ZoneEngine.Functions
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
+    using Quaternion = AO.Core.Quaternion;
+
     internal class Function_teleportproxy : FunctionPrototype
     {
         public new int FunctionNumber = 53082;
@@ -64,28 +68,22 @@ namespace ZoneEngine.Functions
 
         public bool FunctionExecute(Dynel Self, Dynel Caller, object Target, object[] Arguments)
         {
-            Identity pfinstance = new Identity();
-            Identity id2 = new Identity();
-            Identity id3 = new Identity();
+            Identity pfinstance;
+            Identity id2;
+            Identity id3;
             Client cli = ((Character)Self).Client;
             if (Target is Statels.Statel)
             {
-                pfinstance.Type = Int32.Parse((string)Arguments[0]);
-                pfinstance.Instance = Int32.Parse((string)Arguments[1]);
-                id2.Type = Int32.Parse((string)Arguments[2]);
-                id2.Instance = Int32.Parse((string)Arguments[3]);
-                id3.Type = Int32.Parse((string)Arguments[4]);
-                id3.Instance = Int32.Parse((string)Arguments[5]);
+                pfinstance = new Identity { Type = (IdentityType)int.Parse((string)Arguments[0]), Instance = int.Parse((string)Arguments[1]) };
+                id2 = new Identity { Type = (IdentityType)int.Parse((string)Arguments[2]), Instance = int.Parse((string)Arguments[3]) };
+                id3 = new Identity { Type = (IdentityType)int.Parse((string)Arguments[4]), Instance = int.Parse((string)Arguments[5]) };
             }
             else
             {
                 // Shouldnt happen ever, as far as i know only Statels do ProxyTeleports (perhaps GM's can too tho)
-                pfinstance.Type = (Int32)Arguments[0];
-                pfinstance.Instance = (Int32)Arguments[1];
-                id2.Type = (Int32)Arguments[2];
-                id2.Instance = (Int32)Arguments[3];
-                id3.Type = (Int32)Arguments[4];
-                id3.Instance = (Int32)Arguments[5];
+                pfinstance = new Identity { Type = (IdentityType)Arguments[0], Instance = (int)Arguments[1] };
+                id2 = new Identity { Type = (IdentityType)Arguments[2], Instance = (int)Arguments[3] };
+                id3 = new Identity { Type = (IdentityType)Arguments[4], Instance = (int)Arguments[5] };
             }
             SqlWrapper ms = new SqlWrapper();
             DataTable dt = ms.ReadDatatable("SELECT * from proxydestinations WHERE playfield=" + pfinstance.Instance);

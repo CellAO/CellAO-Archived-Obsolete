@@ -40,8 +40,6 @@ namespace ZoneEngine.PacketHandlers
     using ZoneEngine.Misc;
     using ZoneEngine.Packets;
 
-    using Identity = AO.Core.Identity;
-
     public static class CharacterAction
     {
         #region Public Methods and Operators
@@ -52,7 +50,6 @@ namespace ZoneEngine.PacketHandlers
 
             var actionNum = (int)packet.Action;
             var unknown1 = packet.Unknown1;
-            var m_ident = new Identity { Type = (int)packet.Target.Type, Instance = packet.Target.Instance };
             var args1 = packet.Parameter1;
             var args2 = packet.Parameter2;
             var unknown2 = packet.Unknown2;
@@ -66,8 +63,7 @@ namespace ZoneEngine.PacketHandlers
                         var msg = new CastNanoSpellMessage
                                       {
                                           Identity =
-                                              new SmokeLounge.AOtomation.Messaging.GameData.
-                                              Identity
+                                              new Identity
                                                   {
                                                       Type = IdentityType.CanbeAffected, 
                                                       Instance = client.Character.Id
@@ -77,8 +73,7 @@ namespace ZoneEngine.PacketHandlers
                                           Target = packet.Target, 
                                           Unknown1 = 0x00000000, 
                                           Caster =
-                                              new SmokeLounge.AOtomation.Messaging.GameData.
-                                              Identity
+                                              new Identity
                                                   {
                                                       Type = IdentityType.CanbeAffected, 
                                                       Instance = client.Character.Id
@@ -91,23 +86,19 @@ namespace ZoneEngine.PacketHandlers
                         var characterAction107 = new CharacterActionMessage
                                                      {
                                                          Identity =
-                                                             new SmokeLounge.AOtomation.Messaging
-                                                             .GameData.Identity
+                                                             new Identity
                                                                  {
                                                                      Type =
                                                                          IdentityType
                                                                          .CanbeAffected, 
                                                                      Instance =
                                                                          client
-                                                                         .Character
-                                                                         .Id
+                                                                         .Character.Id
                                                                  }, 
                                                          Unknown = 0x00, 
                                                          Action = CharacterActionType.Unknown1, 
                                                          Unknown1 = 0x00000000, 
-                                                         Target =
-                                                             SmokeLounge.AOtomation.Messaging
-                                                                        .GameData.Identity.None, 
+                                                         Target = Identity.None, 
                                                          Parameter1 = 1, 
                                                          Parameter2 = args2, 
                                                          Unknown2 = 0x0000
@@ -117,32 +108,17 @@ namespace ZoneEngine.PacketHandlers
                         // CharacterAction 98
                         var characterAction98 = new CharacterActionMessage
                                                     {
-                                                        Identity =
-                                                            new SmokeLounge.AOtomation.Messaging.
-                                                            GameData.Identity
-                                                                {
-                                                                    Type =
-                                                                        (
-                                                                        IdentityType
-                                                                        )
-                                                                        m_ident
-                                                                            .Type, 
-                                                                    Instance =
-                                                                        m_ident
-                                                                        .Instance
-                                                                }, 
+                                                        Identity = packet.Target, 
                                                         Unknown = 0x00, 
                                                         Action = CharacterActionType.Unknown2, 
                                                         Unknown1 = 0x00000000, 
                                                         Target =
-                                                            new SmokeLounge.AOtomation.Messaging.
-                                                            GameData.Identity
+                                                            new Identity
                                                                 {
                                                                     Type =
                                                                         IdentityType
                                                                         .NanoProgram, 
-                                                                    Instance =
-                                                                        args2
+                                                                    Instance = args2
                                                                 }, 
                                                         Parameter1 = client.Character.Id, 
                                                         Parameter2 = 0x249F0, // duration?
@@ -169,7 +145,7 @@ namespace ZoneEngine.PacketHandlers
                     {
                         // If action == Info Request
                         Client tPlayer = null;
-                        if ((tPlayer = FindClient.FindClientById(m_ident.Instance)) != null)
+                        if ((tPlayer = FindClient.FindClientById(packet.Target.Instance)) != null)
                         {
                             var LegacyScore = tPlayer.Character.Stats.PvpRating.StatBaseValue;
                             string LegacyTitle = null;
@@ -309,7 +285,9 @@ namespace ZoneEngine.PacketHandlers
                         }
                         else
                         {
-                            var npc = (NonPlayerCharacterClass)FindDynel.FindDynelById(m_ident.Type, m_ident.Instance);
+                            var npc =
+                                (NonPlayerCharacterClass)
+                                FindDynel.FindDynelById(packet.Target.Type, packet.Target.Instance);
                             if (npc != null)
                             {
                                 var infoPacket = new PacketWriter();
@@ -416,7 +394,7 @@ namespace ZoneEngine.PacketHandlers
                         // Team Join Request
                         // Send Team Invite Request To Target Player
                         var team = new TeamClass();
-                        team.SendTeamRequest(client, m_ident);
+                        team.SendTeamRequest(client, packet.Target);
                     }
 
                     break;
@@ -427,7 +405,7 @@ namespace ZoneEngine.PacketHandlers
 
                         // if positive
                         var team = new TeamClass();
-                        var teamID = TeamClass.GenerateNewTeamId(client, m_ident);
+                        var teamID = TeamClass.GenerateNewTeamId(client, packet.Target);
 
                         // Destination Client 0 = Sender, 1 = Reciever
 
@@ -435,53 +413,49 @@ namespace ZoneEngine.PacketHandlers
                         ///////////////////
 
                         // CharAction 15
-                        team.TeamRequestReply(client, m_ident);
+                        team.TeamRequestReply(client, packet.Target);
 
                         // CharAction 23
-                        team.TeamRequestReplyCharacterAction23(client, m_ident);
+                        team.TeamRequestReplyCharacterAction23(client, packet.Target);
 
                         // TeamMember Packet
-                        team.TeamReplyPacketTeamMember(1, client, m_ident, "Member1");
+                        team.TeamReplyPacketTeamMember(1, client, packet.Target, "Member1");
 
                         // TeamMemberInfo Packet
-                        team.TeamReplyPacketTeamMemberInfo(1, client, m_ident);
+                        team.TeamReplyPacketTeamMemberInfo(1, client, packet.Target);
 
                         // TeamMember Packet
-                        team.TeamReplyPacketTeamMember(1, client, m_ident, "Member2");
+                        team.TeamReplyPacketTeamMember(1, client, packet.Target, "Member2");
 
                         // Sender Packets
                         /////////////////
 
                         // TeamMember Packet
-                        team.TeamReplyPacketTeamMember(0, client, m_ident, "Member1");
+                        team.TeamReplyPacketTeamMember(0, client, packet.Target, "Member1");
 
                         // TeamMemberInfo Packet
-                        team.TeamReplyPacketTeamMemberInfo(0, client, m_ident);
+                        team.TeamReplyPacketTeamMemberInfo(0, client, packet.Target);
 
                         // TeamMember Packet
-                        team.TeamReplyPacketTeamMember(0, client, m_ident, "Member2");
+                        team.TeamReplyPacketTeamMember(0, client, packet.Target, "Member2");
                     }
 
                     break;
 
-                    
-
                 case 0x70:
                     mys.SqlDelete(
                         "DELETE FROM " + client.Character.GetSqlTablefromDynelType() + "inventory WHERE placement="
-                        + m_ident.Instance.ToString() + " AND container=" + m_ident.Type.ToString());
-                    var i_del = client.Character.GetInventoryAt(m_ident.Instance);
+                        + packet.Target.Instance + " AND container=" + (int)packet.Target.Type);
+                    var i_del = client.Character.GetInventoryAt(packet.Target.Instance);
                     client.Character.Inventory.Remove(i_del);
                     client.SendCompressed(packet);
                     break;
 
                     
 
-                    #region Split item
-
                 case 0x34:
-                    var nextid = client.Character.GetNextFreeInventory(m_ident.Type);
-                    var i = client.Character.GetInventoryAt(m_ident.Instance);
+                    var nextid = client.Character.GetNextFreeInventory((int)packet.Target.Type);
+                    var i = client.Character.GetInventoryAt(packet.Target.Instance);
                     i.Item.MultipleCount -= args2;
                     var i2 = new InventoryEntries();
                     i2.Item = i.Item.ShallowCopy();
@@ -491,12 +465,12 @@ namespace ZoneEngine.PacketHandlers
                     client.Character.WriteInventoryToSql();
                     break;
 
-                    #endregion
+                    
 
                     #region Join item
 
                 case 0x35:
-                    var j1 = client.Character.GetInventoryAt(m_ident.Instance);
+                    var j1 = client.Character.GetInventoryAt(packet.Target.Instance);
                     var j2 = client.Character.GetInventoryAt(args2);
                     j1.Item.MultipleCount += j2.Item.MultipleCount;
                     client.Character.Inventory.Remove(j2);
@@ -522,8 +496,7 @@ namespace ZoneEngine.PacketHandlers
                         var sneak = new CharacterActionMessage
                                         {
                                             Identity =
-                                                new SmokeLounge.AOtomation.Messaging.GameData.
-                                                Identity
+                                                new Identity
                                                     {
                                                         Type = IdentityType.CanbeAffected, 
                                                         Instance = client.Character.Id
@@ -531,9 +504,7 @@ namespace ZoneEngine.PacketHandlers
                                             Unknown = 0x00, 
                                             Action = CharacterActionType.StartedSneaking, 
                                             Unknown1 = 0x00000000, 
-                                            Target =
-                                                SmokeLounge.AOtomation.Messaging.GameData
-                                                           .Identity.None, 
+                                            Target = Identity.None, 
                                             Parameter1 = 0, 
                                             Parameter2 = 0, 
                                             Unknown2 = 0x0000
@@ -553,14 +524,8 @@ namespace ZoneEngine.PacketHandlers
 
                 case 81:
                     {
-                        var item1 = new Identity();
-                        var item2 = new Identity();
-
-                        item1.Type = m_ident.Type;
-                        item1.Instance = m_ident.Instance;
-
-                        item2.Type = args1;
-                        item2.Instance = args2;
+                        var item1 = packet.Target;
+                        var item2 = new Identity { Type = (IdentityType)args1, Instance = args2 };
 
                         var cts = new Tradeskill(client, item1.Instance, item2.Instance);
                         cts.ClickBuild();
@@ -601,7 +566,7 @@ namespace ZoneEngine.PacketHandlers
                     #region Tradeskill Build Pressed
 
                 case 0xde:
-                    TradeSkillReceiver.TradeSkillBuildPressed(client, m_ident.Instance);
+                    TradeSkillReceiver.TradeSkillBuildPressed(client, packet.Target.Instance);
                     break;
 
                     #endregion

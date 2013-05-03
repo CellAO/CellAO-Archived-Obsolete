@@ -50,7 +50,7 @@ namespace ZoneEngine.MessageHandlers
 
             var target = knuBotFinishTradeMessage.Target;
 
-            var npc = (NonPlayerCharacterClass)FindDynel.FindDynelById((int)target.Type, target.Instance);
+            var npc = (NonPlayerCharacterClass)FindDynel.FindDynelById(target.Type, target.Instance);
             var ch = FindClient.FindClientById(message.Header.Sender).Character;
             if (npc != null)
             {

@@ -33,8 +33,13 @@ namespace ZoneEngine
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Misc;
     using ZoneEngine.Packets;
+
+    using Quaternion = AO.Core.Quaternion;
+    using Vector3 = AO.Core.Vector3;
 
     public class Character : Dynel
     {
@@ -1216,29 +1221,6 @@ namespace ZoneEngine
             }
         }
 
-        /// <summary>
-        /// Write inventory data into packetwriter
-        /// </summary>
-        /// <param name="packetWriter">packet writer</param>
-        public void WriteInventoryToPacket(PacketWriter packetWriter)
-        {
-            lock (this.inventory)
-            {
-                packetWriter.Push3F1Count(this.inventory.Count);
-                int count;
-                for (count = 0; count < this.inventory.Count; count++)
-                {
-                    packetWriter.PushInt(this.inventory[count].Placement);
-                    packetWriter.PushShort((short)this.inventory[count].Item.Flags);
-                    packetWriter.PushShort((short)this.inventory[count].Item.MultipleCount);
-                    packetWriter.PushIdentity(this.inventory[count].Item.Type, this.inventory[count].Item.Instance);
-                    packetWriter.PushInt(this.inventory[count].Item.LowID);
-                    packetWriter.PushInt(this.inventory[count].Item.HighID);
-                    packetWriter.PushInt(this.inventory[count].Item.Quality);
-                    packetWriter.PushInt(this.inventory[count].Item.Nothing);
-                }
-            }
-        }
         #endregion
 
         #region Timers (read/write)
@@ -2097,11 +2079,11 @@ namespace ZoneEngine
 
         #region setTarget
 
-        public void SetTarget(int identityType, int instance)
+        public void SetTarget(Identity target)
         {
             lock (this)
             {
-                this.Target = new Identity { Type = identityType, Instance = instance };
+                this.Target = target;
             }
         }
         #endregion

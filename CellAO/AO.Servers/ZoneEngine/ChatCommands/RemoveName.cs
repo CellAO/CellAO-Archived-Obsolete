@@ -31,6 +31,8 @@ namespace ZoneEngine.ChatCommands
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Misc;
     using ZoneEngine.Script;
 
@@ -40,7 +42,7 @@ namespace ZoneEngine.ChatCommands
         {
             Client mClient = null;
 
-            if (target.Type != 50000)
+            if (target.Type != IdentityType.CanbeAffected)
             {
                 client.SendChatText("Target must be player");
                 return;

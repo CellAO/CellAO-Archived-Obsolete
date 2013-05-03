@@ -55,8 +55,6 @@ namespace ZoneEngine
     using ZoneEngine.Packets;
 
     using Config = AO.Core.Config.ConfigReadWrite;
-    using Header = SmokeLounge.AOtomation.Messaging.Messages.Header;
-    using Identity = AO.Core.Identity;
     using Quaternion = AO.Core.Quaternion;
     using Timer = System.Timers.Timer;
     using Vector3 = SmokeLounge.AOtomation.Messaging.GameData.Vector3;
@@ -123,22 +121,14 @@ namespace ZoneEngine
             var message = new CharacterActionMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  this
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = this.Character.Id
                                           }, 
                                   Unknown = 0x00, 
                                   Action = CharacterActionType.StopLogout, 
-                                  Target =
-                                      SmokeLounge.AOtomation.Messaging.GameData.Identity.None
+                                  Target = Identity.None
                               };
             this.SendCompressed(message);
         }
@@ -222,16 +212,10 @@ namespace ZoneEngine
             var message = new ChatTextMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  this
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = this.Character.Id
                                           }, 
                                   Unknown = 0x00, 
                                   Text = text, 
@@ -343,16 +327,10 @@ namespace ZoneEngine
             var message = new FeedbackMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  this
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = this.Character.Id
                                           }, 
                                   Unknown = 0x01, 
                                   Unknown1 = 0x00000000, 
@@ -365,22 +343,15 @@ namespace ZoneEngine
 
         public void StandCancelLogout()
         {
-            var message = new CharacterActionMessage()
+            var message = new CharacterActionMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity()
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected,
-                                              Instance
-                                                  =
-                                                  this
-                                                  .Character
-                                                  .Id
-                                          },
-                                  Unknown = 0x00,
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = this.Character.Id
+                                          }, 
+                                  Unknown = 0x00, 
                                   Action = CharacterActionType.StandUp
                               };
 
@@ -400,17 +371,10 @@ namespace ZoneEngine
             var message = new N3TeleportMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  this
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = this.Character.Id
                                           }, 
                                   Unknown = 0x00, 
                                   Destination =
@@ -438,39 +402,24 @@ namespace ZoneEngine
                                           }, 
                                   Unknown1 = 0x61, 
                                   Playfield =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .Playfield1, 
-                                              Instance
-                                                  =
-                                                  playfield
+                                              Type = IdentityType.Playfield1, 
+                                              Instance = playfield
                                           }, 
                                   ChangePlayfield =
                                       playfield != this.Character.PlayField
-                                          ? new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                          ? new Identity
                                                 {
-                                                    Type
-                                                        =
-                                                        IdentityType
-                                                        .Playfield2, 
-                                                    Instance
-                                                        =
-                                                        playfield
+                                                    Type = IdentityType.Playfield2, 
+                                                    Instance = playfield
                                                 }
-                                          : SmokeLounge.AOtomation.Messaging.GameData.Identity.None, 
+                                          : Identity.None, 
                                   Playfield2 =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .Playfield3, 
-                                              Instance
-                                                  =
-                                                  playfield
+                                              Type = IdentityType.Playfield3, 
+                                              Instance = playfield
                                           }, 
                               };
 
@@ -528,17 +477,10 @@ namespace ZoneEngine
             var message = new N3TeleportMessage
                               {
                                   Identity =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .CanbeAffected, 
-                                              Instance
-                                                  =
-                                                  this
-                                                  .Character
-                                                  .Id
+                                              Type = IdentityType.CanbeAffected, 
+                                              Instance = this.Character.Id
                                           }, 
                                   Unknown = 0x00, 
                                   Destination =
@@ -574,48 +516,21 @@ namespace ZoneEngine
                                           }, 
                                   Unknown1 = 0x61, 
                                   Playfield =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  (
-                                                  IdentityType
-                                                  )
-                                                  pfinstance
-                                                      .Type, 
-                                              Instance
-                                                  =
-                                                  pfinstance
-                                                  .Instance
+                                              Type = pfinstance.Type, 
+                                              Instance = pfinstance.Instance
                                           }, 
                                   GameServerId = GS, 
                                   SgId = SG, 
                                   ChangePlayfield =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
+                                      new Identity
                                           {
-                                              Type
-                                                  =
-                                                  IdentityType
-                                                  .Playfield2, 
-                                              Instance
-                                                  =
-                                                  playfield
+                                              Type = IdentityType.Playfield2, 
+                                              Instance = playfield
                                           }, 
                                   Playfield2 =
-                                      new SmokeLounge.AOtomation.Messaging.GameData.Identity
-                                          {
-                                              Type
-                                                  =
-                                                  (
-                                                  IdentityType
-                                                  )
-                                                  dest
-                                                      .Type, 
-                                              Instance
-                                                  =
-                                                  dest
-                                                  .Instance
-                                          }, 
+                                      new Identity { Type = dest.Type, Instance = dest.Instance }, 
                               };
 
             this.Character.DoNotDoTimers = true;

@@ -55,10 +55,10 @@ namespace ZoneEngine.MessageHandlers
             var tradeMessage = (TradeMessage)message.Body;
 
             var character =
-                (Character)FindDynel.FindDynelById((int)tradeMessage.Target.Type, tradeMessage.Target.Instance);
+                (Character)FindDynel.FindDynelById(tradeMessage.Target.Type, tradeMessage.Target.Instance);
             var chaffected =
                 (Character)
-                FindDynel.FindDynelById((int)tradeMessage.Identity.Type, tradeMessage.Identity.Instance);
+                FindDynel.FindDynelById(tradeMessage.Identity.Type, tradeMessage.Identity.Instance);
 
             // If target is a NPC, call its Action 0
             if ((character is NonPlayerCharacterClass) && (tradeMessage.Action == TradeAction.None))
@@ -158,7 +158,7 @@ namespace ZoneEngine.MessageHandlers
                     // Packets.Stat.Set(client, 61, client.Character.Stats.Cash.StatValue - cashdeduct, false);
                     var lastTrade = new Identity
                                         {
-                                            Type = (IdentityType)client.Character.LastTrade.Type, 
+                                            Type = client.Character.LastTrade.Type, 
                                             Instance = client.Character.LastTrade.Instance
                                         };
 
@@ -170,7 +170,7 @@ namespace ZoneEngine.MessageHandlers
                                            Target = lastTrade, 
                                            Container = lastTrade
                                        };
-                    client.Character.LastTrade = new AO.Core.Identity { Instance = 0, Type = 0 };
+                    client.Character.LastTrade = Identity.None;
 
                     client.SendCompressed(endReply);
                     break;

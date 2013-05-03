@@ -32,6 +32,8 @@ namespace ZoneEngine.ChatCommands
 
     using AO.Core;
 
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
     using ZoneEngine.Misc;
     using ZoneEngine.Script;
 
@@ -40,7 +42,7 @@ namespace ZoneEngine.ChatCommands
         public override void ExecuteCommand(Client client, Identity target, string[] args)
         {
             int id = int.Parse(args[1]);
-            Dynel d = FindDynel.FindDynelById(50000, id);
+            Dynel d = FindDynel.FindDynelById(IdentityType.CanbeAffected, id);
             if (d == null)
             {
                 client.SendChatText("Couldn't find Dynel " + id);

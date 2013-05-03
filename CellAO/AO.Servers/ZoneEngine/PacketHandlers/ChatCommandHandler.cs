@@ -62,7 +62,6 @@ namespace ZoneEngine.PacketHandlers
 
         public static void Read(ChatCmdMessage message, Client client)
         {
-            var target = new Identity { Instance = message.Target.Instance, Type = (int)message.Target.Type };
             var fullArgs = message.Command.TrimEnd(char.MinValue);
             var temp = string.Empty;
             do
@@ -74,7 +73,7 @@ namespace ZoneEngine.PacketHandlers
 
             var cmdArgs = fullArgs.Trim().Split(' ');
 
-            Program.csc.CallChatCommand(cmdArgs[0].ToLower(), client, target, cmdArgs);
+            Program.csc.CallChatCommand(cmdArgs[0].ToLower(), client, message.Target, cmdArgs);
         }
 
         #endregion
