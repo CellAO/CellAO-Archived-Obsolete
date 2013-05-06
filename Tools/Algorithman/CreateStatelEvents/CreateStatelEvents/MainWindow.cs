@@ -39,6 +39,8 @@ using System.Collections;
 
 namespace CreateStatelEvents
 {
+    using MS.Internal.Xml.XPath;
+
     public partial class MainWindow : Form
     {
         public static string strBefore(string s, string before)
@@ -85,7 +87,7 @@ namespace CreateStatelEvents
             toolTip1.SetToolTip(StatelBox, "Select Statel");
             toolTip1.SetToolTip(ArgumentBox, "Double-Click argument to edit");
             toolTip1.SetToolTip(FunctionBox, "Double-Click argument to edit");
-            
+
             DirectoryInfo di = new DirectoryInfo(cfg.statel_dir);
             SortedList sl = new SortedList();
             foreach (FileInfo fi in di.GetFiles())
@@ -93,10 +95,10 @@ namespace CreateStatelEvents
                 string sho = fi.Name;
                 sho = sho.Substring(0, sho.LastIndexOf('.'));
                 int sel = Int32.Parse(sho);
-                sl.Add(sel.ToString().PadLeft(4,' '),sel.ToString());
+                sl.Add(sel.ToString().PadLeft(4, ' '), sel.ToString());
             }
 
-            for (int i = 0; i < sl.Count;i++ )
+            for (int i = 0; i < sl.Count; i++)
             {
                 PlayfieldBox.Items.Add(sl.GetByIndex(i));
             }
@@ -118,69 +120,151 @@ namespace CreateStatelEvents
 
         }
 
-        public Dictionary<int,List<string>> Argstext = new Dictionary<int,List<string>>();
+        public Dictionary<int, List<string>> Argstext = new Dictionary<int, List<string>>();
 
+
+        private List<Int32> ReadOffsets(FileStream fs)
+        {
+            BinaryReader br = new BinaryReader(fs);
+            br.ReadInt32();
+            List<Int32> temp = new List<Int32>();
+            int lastoffset = 0;
+            int offset = 0;
+            while (lastoffset >= offset)
+            {
+                lastoffset = offset;
+                offset = br.ReadInt32();
+                temp.Add(offset);
+            }
+            return temp;
+        }
 
         private void PlayfieldBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
             string s1 = PlayfieldBox.SelectedItem.ToString().TrimStart(' ');
 
-            FileStream fs = new FileStream(cfg.statel_dir + @"\" + s1 + ".rdbdata", FileMode.Open);
-            BinaryReader b = new BinaryReader(fs);
-            int count = b.ReadInt32();
+            FileStream fs;
             StatelBox.Items.Clear();
             EventBox.Items.Clear();
             FunctionBox.Items.Clear();
-            while (count > 0)
+            /*if (File.Exists(cfg.ao_dir + "\\cd_image\\data\\statels\\" + s1.Trim() + ".pf"))
             {
-                long fseek = fs.Position;
-                int len = b.ReadInt32();
-                int type = b.ReadInt32();
-                uint instance = b.ReadUInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                b.ReadInt32();
-                int template = b.ReadInt32();
-                string itemname = "";
-                try
+                fs = new FileStream(cfg.ao_dir + "\\cd_image\\data\\statels\\" + s1.Trim() + ".pf", FileMode.Open);
+                List<Int32> offsets = ReadOffsets(fs);
+                BinaryReader b = new BinaryReader(fs);
+                foreach (Int32 ofs in offsets)
                 {
-                    FileStream fs2 = new FileStream(cfg.item_dir + @"\" + template.ToString() + ".rdbdata", FileMode.Open);
-                    BinaryReader r = new BinaryReader(fs2);
-                    fs2.Seek(0x18, SeekOrigin.Begin);
-                    while (r.ReadInt32() != 0x21)
+                    long fseek = ofs;
+                    fs.Seek(ofs + 3, SeekOrigin.Begin);
+
+                    int len = b.ReadInt32();
+                    int type = b.ReadInt32();
+                    uint instance = b.ReadUInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    int template = b.ReadInt32();
+                    string itemname = "";
+                    try
                     {
-                        r.ReadInt32();
+                        FileStream fs2 = new FileStream(cfg.item_dir + @"\" + template.ToString() + ".rdbdata", FileMode.Open);
+                        BinaryReader r = new BinaryReader(fs2);
+                        fs2.Seek(0x18, SeekOrigin.Begin);
+                        while (r.ReadInt32() != 0x21)
+                        {
+                            r.ReadInt32();
+                        }
+                        int sho1 = r.ReadInt16();
+                        r.ReadInt16();
+                        itemname = Encoding.ASCII.GetString(r.ReadBytes(sho1));
+                        r.Close();
+                        fs2.Close();
                     }
-                    int sho1 = r.ReadInt16();
-                    r.ReadInt16();
-                    itemname = Encoding.ASCII.GetString(r.ReadBytes(sho1));
-                    r.Close();
-                    fs2.Close();
-                }
-                catch
-                {
-                    itemname = "";
+                    catch
+                    {
+                        itemname = "";
+                    }
+
+                    fs.Seek(fseek + len + 4, SeekOrigin.Begin);
+                    
+                    if (itemname != "")
+                    {
+                        StatelBox.Items.Add(type.ToString() + ":" + instance.ToString().PadLeft(12, '0') + " " + itemname);
+                    }
                 }
 
-                fs.Seek(fseek + len + 4, SeekOrigin.Begin);
-                count--;
-                if (itemname != "")
-                {
-                    StatelBox.Items.Add(type.ToString() + ":" + instance.ToString().PadLeft(12, '0') + " " + itemname);
-                }
             }
-            b.Close();
+            else*/
+            {
+                fs = new FileStream(cfg.statel_dir + @"\" + s1 + ".rdbdata", FileMode.Open);
+                BinaryReader b = new BinaryReader(fs);
+                int count = b.ReadInt32();
+                while (count > 0)
+                {
+                    long fseek = fs.Position;
+                    int len = b.ReadInt32();
+                    int type = b.ReadInt32();
+                    uint instance = b.ReadUInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    b.ReadInt32();
+                    int template = b.ReadInt32();
+                    string itemname = "";
+                    try
+                    {
+                        FileStream fs2 = new FileStream(cfg.item_dir + @"\" + template.ToString() + ".rdbdata", FileMode.Open);
+                        BinaryReader r = new BinaryReader(fs2);
+                        fs2.Seek(0x18, SeekOrigin.Begin);
+                        while (r.ReadInt32() != 0x21)
+                        {
+                            r.ReadInt32();
+                        }
+                        int sho1 = r.ReadInt16();
+                        r.ReadInt16();
+                        itemname = Encoding.ASCII.GetString(r.ReadBytes(sho1));
+                        r.Close();
+                        fs2.Close();
+                    }
+                    catch
+                    {
+                        itemname = "";
+                    }
+
+                    fs.Seek(fseek + len + 4, SeekOrigin.Begin);
+                    count--;
+                    if (itemname != "")
+                    {
+                        StatelBox.Items.Add(type.ToString() + ":" + instance.ToString().PadLeft(12, '0') + " " + itemname);
+                    }
+                }
+                b.Close();
+            }
+
+
             fs.Close();
+
+
+
+
             this.Cursor = Cursors.Default;
         }
 
@@ -399,7 +483,7 @@ namespace CreateStatelEvents
             }
             Point p = new Point(e.X, e.Y);
             p = ((ListBox)sender).PointToClient(p);
-            
+
             int indexOfItem = EventBox.IndexFromPoint(p.X, p.Y);
             if ((indexOfItem >= 0) && (indexOfItem < EventBox.Items.Count))
             {
@@ -445,7 +529,7 @@ namespace CreateStatelEvents
             int x2 = target.Width;
             int ih = target.ItemHeight;
 
-            int y1 = (int)Math.Min(Math.Round((double)(y / ih)),target.Items.Count) * ih + target.Top;
+            int y1 = (int)Math.Min(Math.Round((double)(y / ih)), target.Items.Count) * ih + target.Top;
             panel1.Left = x1;
             panel1.Top = y1;
             panel1.Width = x2;
@@ -580,21 +664,34 @@ namespace CreateStatelEvents
                 return;
             }
 
-            RDBTree r = new RDBTree(cfg.ao_dir + "\\cd_image\\data\\db\\", cfg.item_dir);
-            progressBar1.Maximum = 120000;
+            Extractor extractor = new Extractor(cfg.ao_dir + "\\cd_image\\data\\db\\");
+
             progressBar1.Step = 1;
             panel2.Visible = true;
             panel2.Update();
 
-            foreach (RDBIndex idx in r.IDX.keys)
+            foreach (int recType in extractor.GetRecordTypes())
             {
-                if (int.Parse(idx.key) == 1000020)
+                if ((recType == 1000026) || (recType==1000020))
                 {
-                    r.Export(int.Parse(idx.key), false, cfg.item_dir, progressBar1);
-                }
-                if (int.Parse(idx.key) == 1000026)
-                {
-                    r.Export(int.Parse(idx.key), false, cfg.statel_dir, progressBar1);
+                    progressBar1.Maximum = extractor.GetRecordInstances(recType).Length;
+                    progressBar1.Value = 0;
+                    foreach (int recInstance in extractor.GetRecordInstances(recType))
+                    {
+                        byte[] temp = extractor.GetRecordData(recType, recInstance);
+                        if (!Directory.Exists(cfg.item_dir + "\\" + recType))
+                        {
+                            Directory.CreateDirectory(cfg.item_dir + "\\" + recType);
+                        }
+                        FileStream fs =
+                            new FileStream(
+                                cfg.item_dir + "\\" + recType.ToString() + "\\" + recInstance.ToString() + ".rdbdata",
+                                FileMode.Create,
+                                FileAccess.Write);
+                        fs.Write(temp, 0, temp.Length);
+                        fs.Close();
+                        progressBar1.PerformStep();
+                    }
                 }
             }
             panel2.Visible = false;
@@ -635,7 +732,7 @@ namespace CreateStatelEvents
 
         private void ArgumentBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            
+
             int funcnum = Int32.Parse(strBefore(strAfter(FunctionBox.SelectedItem.ToString(), "("), ")"));
             if (NamesandNumbers.Functiontemplates.ContainsKey(funcnum))
             {
@@ -652,7 +749,7 @@ namespace CreateStatelEvents
                     }
                 }
                 de.createDynels(ft);
-                de.Controls["button_cancel"].Enabled=sender!=null;
+                de.Controls["button_cancel"].Enabled = sender != null;
                 de.ShowDialog();
 
                 if (de.DialogResult == DialogResult.OK)
