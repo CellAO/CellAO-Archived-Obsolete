@@ -144,7 +144,7 @@ namespace ZoneEngine.NonPlayerCharacter
 
                 monster.Name = (string)row["Name"]
 #if DEBUG
-                               + " " + monster.Id.ToString() // ID is for debug purpose only
+                    + " " + monster.Id.Instance.ToString() // ID is for debug purpose only
 #endif
                     ;
                 monster.readcoordsheadingfast(row);

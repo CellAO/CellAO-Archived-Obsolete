@@ -77,7 +77,7 @@ namespace ZoneEngine.PacketHandlers
                             var currentDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                             var sqlQuery2 =
                                 "INSERT INTO organizations (Name, creation, LeaderID, GovernmentForm) VALUES ('"
-                                + message.CommandArgs + "', '" + currentDate + "', '" + client.Character.Id + "', '0')";
+                                + message.CommandArgs + "', '" + currentDate + "', '" + client.Character.Id.Instance + "', '0')";
                             ms.SqlInsert(sqlQuery2);
                             var sqlQuery3 = "SELECT * FROM organizations WHERE Name='" + message.CommandArgs + "'";
                             dt = ms.ReadDatatable(sqlQuery3);
@@ -334,7 +334,7 @@ namespace ZoneEngine.PacketHandlers
                                     client.Character.Stats.ClanLevel.Set(newPresRank);
 
                                     // Change the leader id in Sql
-                                    var newLeadSql = "UPDATE organizations SET LeaderID = " + toPromote.Character.Id
+                                    var newLeadSql = "UPDATE organizations SET LeaderID = " + toPromote.Character.Id.Instance
                                                      + " WHERE ID = " + toPromote.Character.OrgId;
                                     ms.SqlUpdate(newLeadSql);
                                     client.SendChatText(
@@ -475,7 +475,7 @@ namespace ZoneEngine.PacketHandlers
 
                         // They are part of the org, so begin the processing...
                         // First we check if the player is online...
-                        var onlineSql = "SELECT online FROM characters WHERE ID = " + client.Character.Id;
+                        var onlineSql = "SELECT online FROM characters WHERE ID = " + client.Character.Id.Instance;
                         dt = ms.ReadDatatable(onlineSql);
                         var onlineStatus = 0;
                         if (dt.Rows.Count > 0)

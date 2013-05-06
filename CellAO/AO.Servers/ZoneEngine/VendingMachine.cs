@@ -237,7 +237,7 @@ namespace ZoneEngine
             // Fix from Moin, thx
             sqlWrapper.SqlInsert(
                 "INSERT INTO " + this.GetSqlTablefromDynelType() + " (ID, Playfield, TemplateID, Hash) VALUES ("
-                + this.Id.ToString() + "," + this.PlayField.ToString() + "," + this.TemplateId.ToString() + ",'"
+                + this.Id.Instance.ToString() + "," + this.PlayField.ToString() + "," + this.TemplateId.ToString() + ",'"
                 + this.Hash + "')");
             this.WriteCoordinatesToSql();
             this.WriteHeadingToSql();

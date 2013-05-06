@@ -1097,7 +1097,7 @@ namespace ZoneEngine
                 DataTable dt =
                     Sql.ReadDatatable(
                         "SELECT `Name`, `FirstName`, `LastName` FROM " + this.GetSqlTablefromDynelType()
-                        + " WHERE ID = '" + this.Id + "' LIMIT 1");
+                        + " WHERE ID = '" + this.Id.Instance + "' LIMIT 1");
                 if (dt.Rows.Count == 1)
                 {
                     this.Name = (string)dt.Rows[0][0];
@@ -1108,7 +1108,7 @@ namespace ZoneEngine
                 // Read stat# 5 (Clan) - OrgID from character stats table
                 dt =
                     Sql.ReadDatatable(
-                        "SELECT `Value` FROM " + this.GetSqlTablefromDynelType() + "_stats WHERE ID = " + this.Id
+                        "SELECT `Value` FROM " + this.GetSqlTablefromDynelType() + "_stats WHERE ID = " + this.Id.Instance
                         + " AND Stat = 5 LIMIT 1");
                 if (dt.Rows.Count == 1)
                 {
@@ -1142,7 +1142,7 @@ namespace ZoneEngine
             {
                 Sql.SqlUpdate(
                     "UPDATE " + this.GetSqlTablefromDynelType() + " SET `Name` = '" + this.Name + "', `FirstName` = '"
-                    + this.FirstName + "', `LastName` = '" + this.LastName + "' WHERE `ID` = " + "'" + this.Id + "'");
+                    + this.FirstName + "', `LastName` = '" + this.LastName + "' WHERE `ID` = " + "'" + this.Id.Instance + "'");
             }
             catch
             {
@@ -1168,7 +1168,7 @@ namespace ZoneEngine
                     DataTable dt =
                         ms.ReadDatatable(
                             "SELECT * FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID="
-                            + this.Id.ToString() + " AND container=104 ORDER BY placement ASC;");
+                            + this.Id.Instance.ToString() + " AND container=104 ORDER BY placement ASC;");
                     if (dt.Rows.Count > 0)
                     {
                         foreach (DataRow row in dt.Rows)
@@ -1201,7 +1201,7 @@ namespace ZoneEngine
                 SqlWrapper ms = new SqlWrapper();
                 int count;
                 ms.SqlDelete(
-                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID=" + this.Id.ToString()
+                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "inventory WHERE ID=" + this.Id.Instance.ToString()
                     + " AND container=104;");
                 for (count = 0; count < this.inventory.Count; count++)
                 {
@@ -1210,7 +1210,7 @@ namespace ZoneEngine
                         ms.SqlInsert(
                             "INSERT INTO " + this.GetSqlTablefromDynelType()
                             + "inventory (ID,placement,flags,multiplecount,lowid,highid,quality,container) values ("
-                            + this.Id.ToString() + "," + this.inventory[count].Placement.ToString() + ",1,"
+                            + this.Id.Instance.ToString() + "," + this.inventory[count].Placement.ToString() + ",1,"
                             + this.inventory[count].Item.MultipleCount.ToString() + ","
                             + this.inventory[count].Item.LowID.ToString() + ","
                             + this.inventory[count].Item.HighID.ToString() + ","
@@ -1245,7 +1245,7 @@ namespace ZoneEngine
                     }
                 }
 
-                ms.SqlDelete("DELETE FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.ToString());
+                ms.SqlDelete("DELETE FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.Instance.ToString());
                 TimeSpan ts;
                 DateTime n = DateTime.Now;
 
@@ -1253,7 +1253,7 @@ namespace ZoneEngine
                 {
                     ts = this.timers[count].Timestamp - n;
                     ms.SqlInsert(
-                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "timers VALUES (" + this.Id.ToString() + ","
+                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "timers VALUES (" + this.Id.Instance.ToString() + ","
                         + this.timers[count].Strain + "," + this.timers[count].Timestamp.Second.ToString() + ",X'"
                         + this.timers[count].Function.Serialize() + "');");
                 }
@@ -1275,10 +1275,10 @@ namespace ZoneEngine
                 this.timers.Clear();
 
                 ms.SqlRead(
-                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.ToString() + ";");
+                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.Instance.ToString() + ";");
                 DataTable dt =
                     ms.ReadDatatable(
-                        "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.ToString()
+                        "SELECT * FROM " + this.GetSqlTablefromDynelType() + "timers WHERE ID=" + this.Id.Instance.ToString()
                         + ";");
                 if (dt.Rows.Count > 0)
                 {
@@ -1316,7 +1316,7 @@ namespace ZoneEngine
                     DataTable dt =
                         sqlWrapper.ReadDatatable(
                             "SELECT * FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID="
-                            + this.Id.ToString());
+                            + this.Id.Instance.ToString());
                     if (dt.Rows.Count > 0)
                     {
                         foreach (DataRow row in dt.Rows)
@@ -1343,11 +1343,11 @@ namespace ZoneEngine
                 int count;
 
                 sqlWrapper.SqlDelete(
-                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID=" + this.Id.ToString());
+                    "DELETE FROM " + this.GetSqlTablefromDynelType() + "activenanos WHERE ID=" + this.Id.Instance.ToString());
                 for (count = 0; count < this.activeNanos.Count; count++)
                 {
                     sqlWrapper.SqlInsert(
-                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "activenanos VALUES (" + this.Id.ToString()
+                        "INSERT INTO " + this.GetSqlTablefromDynelType() + "activenanos VALUES (" + this.Id.Instance.ToString()
                         + "," + this.activeNanos[count].ID.ToString() + ","
                         + this.activeNanos[count].NanoStrain.ToString() + ")");
                 }
@@ -1645,13 +1645,13 @@ namespace ZoneEngine
 
                 mySql.SqlUpdate(
                     "UPDATE " + this.GetSqlTablefromDynelType() + "inventory SET placement=255 where (ID="
-                    + this.Id.ToString() + ") AND (placement=" + fromPlacement.ToString() + ")");
+                    + this.Id.Instance.ToString() + ") AND (placement=" + fromPlacement.ToString() + ")");
                 mySql.SqlUpdate(
                     "UPDATE " + this.GetSqlTablefromDynelType() + "inventory SET placement=" + fromPlacement.ToString()
-                    + " where (ID=" + this.Id.ToString() + ") AND (placement=" + toPlacement.ToString() + ")");
+                    + " where (ID=" + this.Id.Instance.ToString() + ") AND (placement=" + toPlacement.ToString() + ")");
                 mySql.SqlUpdate(
                     "UPDATE " + this.GetSqlTablefromDynelType() + "inventory SET placement=" + toPlacement.ToString()
-                    + " where (ID=" + this.Id.ToString() + ") AND (placement=255)");
+                    + " where (ID=" + this.Id.Instance.ToString() + ") AND (placement=255)");
             }
 
             // If its a switch from or to equipment pages then recalculate the skill modifiers
@@ -2001,7 +2001,7 @@ namespace ZoneEngine
                     SqlWrapper sqlWrapper = new SqlWrapper();
                     sqlWrapper.SqlInsert(
                         "REPLACE INTO " + this.GetSqlTablefromDynelType() + "uploadednanos VALUES ("
-                        + this.Id.ToString() + "," + au.Nano.ToString() + ")");
+                        + this.Id.Instance.ToString() + "," + au.Nano.ToString() + ")");
                 }
             }
         }
@@ -2019,7 +2019,7 @@ namespace ZoneEngine
                 DataTable dt =
                     Sql.ReadDatatable(
                         "SELECT nano FROM " + this.GetSqlTablefromDynelType() + "uploadednanos WHERE ID="
-                        + this.Id.ToString());
+                        + this.Id.Instance.ToString());
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
@@ -2131,7 +2131,7 @@ namespace ZoneEngine
                 this.bank.Clear();
                 DataTable dt =
                     ms.ReadDatatable(
-                        "SELECT * FROM bank WHERE charID=" + this.Id.ToString() + " ORDER BY InventoryID ASC");
+                        "SELECT * FROM bank WHERE charID=" + this.Id.Instance.ToString() + " ORDER BY InventoryID ASC");
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
@@ -2185,10 +2185,10 @@ namespace ZoneEngine
             lock (this.bank)
             {
                 SqlWrapper sqlWrapper = new SqlWrapper();
-                sqlWrapper.SqlDelete("DELETE FROM bank WHERE charID=" + this.Id.ToString());
+                sqlWrapper.SqlDelete("DELETE FROM bank WHERE charID=" + this.Id.Instance.ToString());
                 foreach (AOItem item in this.bank)
                 {
-                    string insert = "INSERT INTO bank VALUES(" + this.Id.ToString() + "," + item.Flags.ToString() + ","
+                    string insert = "INSERT INTO bank VALUES(" + this.Id.Instance.ToString() + "," + item.Flags.ToString() + ","
                                     + item.LowID.ToString() + "," + item.HighID.ToString() + ","
                                     + item.MultipleCount.ToString() + "," + item.Quality.ToString() + ","
                                     + item.Type.ToString() + "," + item.Instance.ToString() + ",X'";
@@ -2217,7 +2217,7 @@ namespace ZoneEngine
                 DataTable dt =
                     sqlWrapper.ReadDatatable(
                         "SELECT `ID`, `Expansions`, `AccountFlags`, `GM` FROM `login` WHERE `Username` = (SELECT `Username` FROM `characters` WHERE `ID` = "
-                        + this.Id + ");");
+                        + this.Id.Instance + ");");
                 if (dt.Rows.Count > 0)
                 {
                     // Stat 607 is PlayerID
@@ -2268,7 +2268,7 @@ namespace ZoneEngine
                 // Note: Shouldermeshs still are same for left and right, subject to change in the future (as well as weaponmesh)
                 SqlWrapper ms = new SqlWrapper();
                 ms.SqlInsert(
-                    "REPLACE INTO socialtab VALUES (" + this.Id + ", "
+                    "REPLACE INTO socialtab VALUES (" + this.Id.Instance + ", "
                     + (this.SocialTab.ContainsKey(0) ? this.SocialTab[0] : 0) + ", "
                     + (this.SocialTab.ContainsKey(1) ? this.SocialTab[1] : 0) + ", "
                     + (this.SocialTab.ContainsKey(2) ? this.SocialTab[2] : 0) + ", "
@@ -2295,7 +2295,7 @@ namespace ZoneEngine
             lock (this.SocialTab)
             {
                 SqlWrapper ms = new SqlWrapper();
-                DataTable dt = ms.ReadDatatable("SELECT * FROM socialtab WHERE charid=" + this.Id);
+                DataTable dt = ms.ReadDatatable("SELECT * FROM socialtab WHERE charid=" + this.Id.Instance);
                 if (dt.Rows.Count > 0)
                 {
                     this.SocialTab.Clear();

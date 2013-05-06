@@ -186,83 +186,84 @@ namespace ZoneEngine.PacketHandlers
                                 orgGoverningForm = (Int32)dt.Rows[0][0];
                             }
 
-                            var orgRank = OrgClient.GetRank(
-                                orgGoverningForm, tPlayer.Character.Stats.ClanLevel.StatBaseValue);
-
                             // Uses methods in ZoneEngine\PacketHandlers\OrgClient.cs
                             /* Known packetFlags--
                              * 0x40 - No org | 0x41 - Org | 0x43 - Org and towers | 0x47 - Org, towers, player has personal towers | 0x50 - No pvp data shown
                              * Bitflags--
                              * Bit0 = hasOrg, Bit1 = orgTowers, Bit2 = personalTowers, Bit3 = (Int32) time until supression changes (Byte) type of supression level?, Bit4 = noPvpDataShown, Bit5 = hasFaction, Bit6 = ?, Bit 7 = null.
                             */
-                            byte packetFlags = 0x40; // Player has no Org
-                            if (tPlayer.Character.OrgId != 0)
+
+                            int? orgId;
+                            string orgRank;
+                            InfoPacketType type;
+                            if (tPlayer.Character.OrgId == 0)
                             {
-                                packetFlags = 0x41; // Player has Org, no towers
+                                type = InfoPacketType.Character;
+                                orgId = null;
+                                orgRank = null;
+                            }
+                            else
+                            {
+                                type = InfoPacketType.CharacterOrg;
+                                orgId = (int?)tPlayer.Character.OrgId;
+                                if (client.Character.OrgId == tPlayer.Character.OrgId)
+                                {
+                                    orgRank = OrgClient.GetRank(
+                                        orgGoverningForm, tPlayer.Character.Stats.ClanLevel.StatBaseValue);
+                                }
+                                else
+                                {
+                                    orgRank = string.Empty;
+                                }
                             }
 
-                            var infoPacket = new PacketWriter();
-
-                            // Start packet header
-                            infoPacket.PushByte(0xDF);
-                            infoPacket.PushByte(0xDF);
-                            infoPacket.PushShort(10);
-                            infoPacket.PushShort(1);
-                            infoPacket.PushShort(0);
-                            infoPacket.PushInt(3086); // sender (server ID)
-                            infoPacket.PushInt(client.Character.Id.Instance); // receiver 
-                            infoPacket.PushInt(0x4D38242E); // packet ID
-                            infoPacket.PushIdentity(tPlayer.Character.Id); // affected identity
-                            infoPacket.PushByte(0); // ?
-
-                            // End packet header
-                            infoPacket.PushByte(packetFlags); // Based on flags above
-                            infoPacket.PushByte(1); // esi_001?
-                            infoPacket.PushByte((byte)tPlayer.Character.Stats.Profession.Value); // Profession
-                            infoPacket.PushByte((byte)tPlayer.Character.Stats.Level.Value); // Level
-                            infoPacket.PushByte((byte)tPlayer.Character.Stats.TitleLevel.Value); // Titlelevel
-                            infoPacket.PushByte((byte)tPlayer.Character.Stats.VisualProfession.Value);
-
-                            // Visual Profession
-                            infoPacket.PushShort(0); // Side XP Bonus
-                            infoPacket.PushUInt(tPlayer.Character.Stats.Health.Value); // Current Health (Health)
-                            infoPacket.PushUInt(tPlayer.Character.Stats.Life.Value); // Max Health (Life)
-                            infoPacket.PushInt(0); // BreedHostility?
-                            infoPacket.PushUInt(tPlayer.Character.OrgId); // org ID
-                            infoPacket.PushShort((short)tPlayer.Character.FirstName.Length);
-                            infoPacket.PushBytes(Encoding.ASCII.GetBytes(tPlayer.Character.FirstName));
-                            infoPacket.PushShort((short)tPlayer.Character.LastName.Length);
-                            infoPacket.PushBytes(Encoding.ASCII.GetBytes(tPlayer.Character.LastName));
-                            infoPacket.PushShort((short)LegacyTitle.Length);
-                            infoPacket.PushBytes(Encoding.ASCII.GetBytes(LegacyTitle));
-                            infoPacket.PushShort(0); // Title 2
-
-                            // If receiver is in the same org as affected identity, whom is not orgless, send org rank and city playfield
-                            if ((client.Character.OrgId == tPlayer.Character.OrgId) && (tPlayer.Character.OrgId != 0))
+                            var info = new CharacterInfoPacket
                             {
-                                infoPacket.PushShort((short)orgRank.Length);
-                                infoPacket.PushBytes(Encoding.ASCII.GetBytes(orgRank));
-                                infoPacket.PushInt(0);
+                                Unknown1 = 0x01,
+                                Profession =
+                                    (Profession)
+                                    tPlayer.Character.Stats.Profession.Value,
+                                Level = (byte)tPlayer.Character.Stats.Level.Value,
+                                TitleLevel =
+                                    (byte)tPlayer.Character.Stats.TitleLevel.Value,
+                                VisualProfession =
+                                    (Profession)
+                                    tPlayer.Character.Stats.VisualProfession.Value,
+                                SideXp = 0,
+                                Health = tPlayer.Character.Stats.Health.Value,
+                                MaxHealth = tPlayer.Character.Stats.Life.Value,
+                                BreedHostility = 0x00000000,
+                                OrganizationId = orgId,
+                                FirstName = tPlayer.Character.FirstName,
+                                LastName = tPlayer.Character.LastName,
+                                LegacyTitle = LegacyTitle,
+                                Unknown2 = 0x0000,
+                                OrganizationRank = orgRank,
+                                TowerFields = null,
+                                CityPlayfieldId = 0x00000000,
+                                Towers = null,
+                                InvadersKilled = tPlayer.Character.Stats.InvadersKilled.Value,
+                                KilledByInvaders = tPlayer.Character.Stats.KilledByInvaders.Value,
+                                AiLevel = tPlayer.Character.Stats.AlienLevel.Value,
+                                PvpDuelWins = tPlayer.Character.Stats.PvpDuelKills.Value,
+                                PvpDuelLoses = tPlayer.Character.Stats.PvpDuelDeaths.Value,
+                                PvpProfessionDuelLoses = tPlayer.Character.Stats.PvpProfessionDuelDeaths.Value,
+                                PvpSoloKills = tPlayer.Character.Stats.PvpRankedSoloKills.Value,
+                                PvpTeamKills = tPlayer.Character.Stats.PvpRankedTeamKills.Value,
+                                PvpSoloScore = tPlayer.Character.Stats.PvpSoloScore.Value,
+                                PvpTeamScore = tPlayer.Character.Stats.PvpTeamScore.Value,
+                                PvpDuelScore = tPlayer.Character.Stats.PvpDuelScore.Value
+                            };
 
-                                // infoPacket.PushIdentity(0, 0); // City (50201, Playfield) // Pushed 1 zero to much and screwed info for characters in orgs, but I´ll leave it for later just incase.
-                            }
+                            var infoPacketMessage = new InfoPacketMessage
+                                                        {
+                                                            Identity = tPlayer.Character.Id,
+                                                            Unknown = 0x00,
+                                                            Type = type,
+                                                            Info = info
+                                                        };
 
-                            infoPacket.PushUInt(tPlayer.Character.Stats.InvadersKilled.Value); // Invaders Killed
-                            infoPacket.PushUInt(tPlayer.Character.Stats.KilledByInvaders.Value); // Killed by Invaders
-                            infoPacket.PushUInt(tPlayer.Character.Stats.AlienLevel.Value); // Alien Level
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpDuelKills.Value); // Pvp Duel Kills 
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpDuelDeaths.Value); // Pvp Duel Deaths
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpProfessionDuelDeaths.Value);
-
-                            // Pvp Profession Duel Kills 
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpRankedSoloKills.Value); // Pvp Solo Kills
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpRankedSoloDeaths.Value); // Pvp Team Kills
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpSoloScore.Value); // Pvp Solo Score
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpTeamScore.Value); // Pvp Team Score
-                            infoPacket.PushUInt(tPlayer.Character.Stats.PvpDuelScore.Value); // Pvp Duel Score
-
-                            var infoPacketA = infoPacket.Finish();
-                            client.SendCompressed(infoPacketA);
+                            client.SendCompressed(infoPacketMessage);
                         }
                         else
                         {

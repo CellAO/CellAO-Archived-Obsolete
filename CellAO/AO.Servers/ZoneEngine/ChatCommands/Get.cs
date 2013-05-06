@@ -80,7 +80,7 @@ namespace ZoneEngine.ChatCommands
                     return;
                 }
 
-                string response = "Character " + targetCharacter.Name + " (" + targetCharacter.Id + "): Stat "
+                string response = "Character " + targetCharacter.Name + " (" + targetCharacter.Id.Instance + "): Stat "
                                   + StatsList.GetStatName(statId) + " (" + statId + ") = " + statValue;
 
                 client.SendChatText(response);

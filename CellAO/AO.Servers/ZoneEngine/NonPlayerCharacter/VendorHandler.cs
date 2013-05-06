@@ -84,7 +84,7 @@ namespace ZoneEngine.NonPlayerCharacter
                 mVendor.Hash = (string)row["Hash"];
                 mVendor.Name = (string)row["Name"]
 #if DEBUG
-                               + " " + mVendor.Id.ToString(); // ID is for debug purpose only
+ + " " + mVendor.Id.Instance.ToString(); // ID is for debug purpose only
 #endif
                 ;
                 mVendor.FillInventory();

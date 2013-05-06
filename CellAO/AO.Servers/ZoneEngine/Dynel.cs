@@ -267,7 +267,7 @@ namespace ZoneEngine
             }
             string SqlTable = this.GetSqlTablefromDynelType();
             DataTable dt =
-                ms.ReadDatatable("SELECT Playfield, X,Y,Z from " + SqlTable + " WHERE ID=" + this.Id.ToString() + ";");
+                ms.ReadDatatable("SELECT Playfield, X,Y,Z from " + SqlTable + " WHERE ID=" + this.Id.Instance.ToString() + ";");
 
             if (dt.Rows.Count > 0)
             {
@@ -290,7 +290,7 @@ namespace ZoneEngine
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.x) + ", Y="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.y) + ", Z="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Coordinates.z) + " WHERE ID="
-                + this.Id.ToString() + ";");
+                + this.Id.Instance.ToString() + ";");
         }
         #endregion
 
@@ -310,7 +310,7 @@ namespace ZoneEngine
             string sqlTable = this.GetSqlTablefromDynelType();
             DataTable dataTable =
                 sqlWrapper.ReadDatatable(
-                    "SELECT HeadingX,HeadingY,HeadingZ,HeadingW from " + sqlTable + " WHERE ID=" + this.Id.ToString()
+                    "SELECT HeadingX,HeadingY,HeadingZ,HeadingW from " + sqlTable + " WHERE ID=" + this.Id.Instance.ToString()
                     + ";");
 
             if (dataTable.Rows.Count > 0)
@@ -334,7 +334,7 @@ namespace ZoneEngine
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.y) + ", HeadingZ="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.z) + ", HeadingW="
                 + String.Format(CultureInfo.InvariantCulture, "'{0}'", this.Heading.w) + " WHERE ID="
-                + this.Id.ToString() + ";");
+                + this.Id.Instance.ToString() + ";");
         }
         #endregion
 
@@ -351,7 +351,7 @@ namespace ZoneEngine
             DataTable dt =
                 ms.ReadDatatable(
                     "SELECT textures0, textures1, textures2, textures3, textures4 from "
-                    + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.Id.ToString() + ";");
+                    + this.GetSqlTablefromDynelType() + " WHERE ID=" + this.Id.Instance.ToString() + ";");
             if (dt.Rows.Count > 0)
             {
                 AOTextures textures = new AOTextures(0, (Int32)dt.Rows[0][0]);
@@ -389,7 +389,7 @@ namespace ZoneEngine
                 }
             }
             sqlWrapper.SqlUpdate(
-                "UPDATE " + this.GetSqlTablefromDynelType() + " SET " + upd + " WHERE ID=" + this.Id.ToString() + ";");
+                "UPDATE " + this.GetSqlTablefromDynelType() + " SET " + upd + " WHERE ID=" + this.Id.Instance.ToString() + ";");
         }
         #endregion
 

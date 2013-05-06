@@ -49,7 +49,7 @@ namespace ZoneEngine
 
             DataTable dt =
                 ms.ReadDatatable(
-                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "owner WHERE ID=" + this.Id.ToString());
+                    "SELECT * FROM " + this.GetSqlTablefromDynelType() + "owner WHERE ID=" + this.Id.Instance.ToString());
             if (dt.Rows.Count > 0)
             {
                 //TODO: Add Pet code here
@@ -62,7 +62,7 @@ namespace ZoneEngine
             SqlWrapper ms = new SqlWrapper();
 
             ms.SqlInsert(
-                "INSERT INTO " + this.GetSqlTablefromDynelType() + "owner VALUES (" + this.Id.ToString() + ","
+                "INSERT INTO " + this.GetSqlTablefromDynelType() + "owner VALUES (" + this.Id.Instance.ToString() + ","
                 + this.Owner.Id.ToString() + ")");
         }
         #endregion
