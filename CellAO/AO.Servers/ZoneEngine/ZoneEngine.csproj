@@ -408,10 +408,6 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
-      <Project>{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}</Project>
-      <Name>SmokeLounge.AOtomation.Messaging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Helpers\RevisionGetter\RevisionGetter.csproj">
       <Project>{a4ac6b9e-4e0e-4143-accf-fbca2fc1bad2}</Project>
       <Name>RevisionGetter</Name>
@@ -427,6 +423,10 @@
     <ProjectReference Include="..\..\Libraries\Source\ISComm\ISComm.csproj">
       <Project>{0107D780-AC28-4EAB-A0B9-CB782F4AAFA5}</Project>
       <Name>ISComm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Source\SmokeLounge.AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
+      <Project>{3ceac898-bfca-45ea-bf34-c4bbb85d2da4}</Project>
+      <Name>SmokeLounge.AOtomation.Messaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Source\zlib\source\zlib.net.csproj">
       <Project>{0C89B7A2-A218-49E4-B545-5B044A45F977}</Project>

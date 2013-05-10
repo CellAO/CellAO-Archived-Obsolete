@@ -215,13 +215,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
-      <Project>{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}</Project>
-      <Name>SmokeLounge.AOtomation.Messaging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CellCore\Cell.Core.csproj">
       <Project>{71AB07AD-4D94-4693-8560-47862E5B6E61}</Project>
       <Name>Cell.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmokeLounge.AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
+      <Project>{3ceac898-bfca-45ea-bf34-c4bbb85d2da4}</Project>
+      <Name>SmokeLounge.AOtomation.Messaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\zlib\source\zlib.net.csproj">
       <Project>{0C89B7A2-A218-49E4-B545-5B044A45F977}</Project>

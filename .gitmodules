@@ -1,0 +1,3 @@
+[submodule "CellAO/Libraries/Source/SmokeLounge.AOtomation.Messaging"]
+	path = CellAO/Libraries/Source/SmokeLounge.AOtomation.Messaging
+	url = https://github.com/SmokeLounge/AOtomation.Messaging.git
