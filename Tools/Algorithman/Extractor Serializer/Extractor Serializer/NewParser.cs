@@ -676,7 +676,18 @@ namespace Extractor_Serializer
                                 }
                                 else
                                 {
-                                    R = true;
+                                    if (left == "t")
+                                    {
+                                        int skipper = br.ReadInt32();
+                                        while (skipper > 0)
+                                        {
+                                            br.ReadByte();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        R = true;
+                                    }
                                 }
                             }
                         }
@@ -722,20 +733,27 @@ namespace Extractor_Serializer
                         {
                             break;
                         }
-
-                        AOItemAttribute attack = new AOItemAttribute();
-                        attack.Stat = this.br.ReadInt32();
-                        attack.Value = this.br.ReadInt32();
-
-                        if (value == 12)
+                        try
                         {
-                            list.Add(attack);
-                            num7++;
+                            AOItemAttribute attack = new AOItemAttribute();
+                            attack.Stat = this.br.ReadInt32();
+                            attack.Value = this.br.ReadInt32();
+
+                            if (value == 12)
+                            {
+                                list.Add(attack);
+                                num7++;
+                            }
+
+                            if (value == 13)
+                            {
+                                list2.Add(attack);
+                                num7++;
+                            }
+
                         }
-
-                        if (value == 13)
+                        catch (Exception)
                         {
-                            list2.Add(attack);
                             num7++;
                         }
                     }
